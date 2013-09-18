@@ -796,4 +796,7 @@ return array(
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('getObjectManager', 'Mage'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
+    array('printException', 'Mage', 'magePrintException'),
+    array('_getIndexer', 'Magento_Index_Model_Shell'),
+    array('_getApi', 'Magento_Ogone_Block_Placeform'),
 );

@@ -63,12 +63,13 @@ class Magento_Media_Model_File_Image extends Magento_Core_Model_Resource_Abstrac
      * Create image resource for operation from file
      *
      * @param Magento_Media_Model_Image $object
+     * @throws Magento_Core_Exception
      * @return Magento_Media_Model_File_Image
      */
     public function getImage(Magento_Media_Model_Image $object)
     {
         $resource = false;
-        switch(strtolower($object->getExtension())) {
+        switch (strtolower($object->getExtension())) {
             case 'jpg':
             case 'jpeg':
                 $resource = imagecreatefromjpeg($object->getFilePath());
@@ -82,12 +83,9 @@ class Magento_Media_Model_File_Image extends Magento_Core_Model_Resource_Abstrac
                 $resource = imagecreatefrompng($object->getFilePath());
                 break;
         }
-
-        if(!$resource) {
-            Mage::throwException(__('The image does not exist or is invalid.'));
+        if (!$resource) {
+            throw new Magento_Core_Exception(__('The image does not exist or is invalid.'));
         }
-
-
         return $resource;
     }
 
@@ -143,11 +141,12 @@ class Magento_Media_Model_File_Image extends Magento_Core_Model_Resource_Abstrac
      *
      * @param Magento_Media_Model_Image $object
      * @param string|null $extension
+     * @throws Magento_Core_Exception
      * @return Magento_Media_Model_File_Image
      */
     public function saveAs(Magento_Media_Model_Image $object, $extension=null)
     {
-        if(is_null($extension)) {
+        if (is_null($extension)) {
             $extension = $object->getExtension();
         }
 
@@ -164,11 +163,9 @@ class Magento_Media_Model_File_Image extends Magento_Core_Model_Resource_Abstrac
                 $result = imagepng($object->getTmpImage(), $object->getFilePath(true));
                 break;
         }
-
-        if(!$result) {
-            Mage::throwException(__('Something went wrong while creating the image.'));
+        if (!$result) {
+            throw new Magento_Core_Exception(__('Something went wrong while creating the image.'));
         }
-
         return $this;
     }
 
@@ -176,15 +173,15 @@ class Magento_Media_Model_File_Image extends Magento_Core_Model_Resource_Abstrac
      * Retrive image dimensions
      *
      * @param Magento_Media_Model_Image $object
+     * @throws Magento_Core_Exception
      * @return Magento_Object
      */
     public function getDimensions(Magento_Media_Model_Image $object)
     {
         $info = @getimagesize($object->getFilePath());
-        if(!$info) {
-            Mage::throwException(__('The image does not exist or is invalid.'));
+        if (!$info) {
+            throw new Magento_Core_Exception(__('The image does not exist or is invalid.'));
         }
-
         $info = array('width'=>$info[0], 'height'=>$info[1], 'type'=>$info[2]);
         return new Magento_Object($info);
     }

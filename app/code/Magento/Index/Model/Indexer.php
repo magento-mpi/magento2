@@ -21,6 +21,11 @@ class Magento_Index_Model_Indexer
     protected $_processesCollection;
 
     /**
+     * @var Magento_Index_Model_Resource_Process
+     */
+    protected $_resourceProcess;
+
+    /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
@@ -28,14 +33,31 @@ class Magento_Index_Model_Indexer
     protected $_eventManager = null;
 
     /**
-     * Class constructor. Initialize index processes based on configuration
-     *
+     * @var Magento_Index_Model_EventFactory
+     */
+    protected $_indexEventFactory;
+
+    /**
+     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     */
+    protected $_resProcColFactory;
+
+    /**
+     * @param Magento_Index_Model_Resource_Process_CollectionFactory $resProcColFactory
+     * @param Magento_Index_Model_Resource_Process $resourceProcess
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Index_Model_EventFactory $indexEventFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Index_Model_Resource_Process_CollectionFactory $resProcColFactory,
+        Magento_Index_Model_Resource_Process $resourceProcess,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Index_Model_EventFactory $indexEventFactory
     ) {
+        $this->_resProcColFactory = $resProcColFactory;
+        $this->_resourceProcess = $resourceProcess;
         $this->_eventManager = $eventManager;
+        $this->_indexEventFactory = $indexEventFactory;
         $this->_processesCollection = $this->_createCollection();
     }
 
@@ -44,7 +66,7 @@ class Magento_Index_Model_Indexer
      */
     private function _createCollection()
     {
-        return Mage::getResourceModel('Magento_Index_Model_Resource_Process_Collection');
+        return $this->_resProcColFactory->create();
     }
 
     /**
@@ -97,18 +119,17 @@ class Magento_Index_Model_Indexer
      * @param   null | string $entity
      * @param   null | string $type
      * @return  Magento_Index_Model_Indexer
+     * @throws Exception
      */
     public function indexEvents($entity=null, $type=null)
     {
         $this->_eventManager->dispatch('start_index_events' . $this->_getEventTypeName($entity, $type));
-        /** @var $resourceModel Magento_Index_Model_Resource_Process */
-        $resourceModel = Mage::getResourceSingleton('Magento_Index_Model_Resource_Process');
-        $resourceModel->beginTransaction();
+        $this->_resourceProcess->beginTransaction();
         try {
             $this->_runAll('indexEvents', array($entity, $type));
-            $resourceModel->commit();
+            $this->_resourceProcess->commit();
         } catch (Exception $e) {
-            $resourceModel->rollBack();
+            $this->_resourceProcess->rollBack();
             throw $e;
         }
         $this->_eventManager->dispatch('end_index_events' . $this->_getEventTypeName($entity, $type));
@@ -131,6 +152,7 @@ class Magento_Index_Model_Indexer
      * Register event in each indexing process process
      *
      * @param Magento_Index_Model_Event $event
+     * @return $this
      */
     public function registerEvent(Magento_Index_Model_Event $event)
     {
@@ -149,7 +171,7 @@ class Magento_Index_Model_Indexer
      */
     public function logEvent(Magento_Object $entity, $entityType, $eventType, $doSave=true)
     {
-        $event = Mage::getModel('Magento_Index_Model_Event')
+        $event = $this->_indexEventFactory->create()
             ->setEntity($entityType)
             ->setType($eventType)
             ->setDataObject($entity)
@@ -170,6 +192,7 @@ class Magento_Index_Model_Indexer
      * @param   string $entityType
      * @param   string $eventType
      * @return  Magento_Index_Model_Indexer
+     * @throws Exception
      */
     public function processEntityAction(Magento_Object $entity, $entityType, $eventType)
     {
@@ -179,14 +202,12 @@ class Magento_Index_Model_Indexer
          */
         if ($event->getProcessIds()) {
             $this->_eventManager->dispatch('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
-            /** @var $resourceModel Magento_Index_Model_Resource_Process */
-            $resourceModel = Mage::getResourceSingleton('Magento_Index_Model_Resource_Process');
-            $resourceModel->beginTransaction();
+            $this->_resourceProcess->beginTransaction();
             try {
                 $this->indexEvent($event);
-                $resourceModel->commit();
+                $this->_resourceProcess->commit();
             } catch (Exception $e) {
-                $resourceModel->rollBack();
+                $this->_resourceProcess->rollBack();
                 throw $e;
             }
             $event->save();
