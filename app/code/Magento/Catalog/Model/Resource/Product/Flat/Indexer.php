@@ -106,20 +106,28 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Core_Model_Resource $resource
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_productType = $productType;
         parent::__construct($resource);
     }
 
@@ -1000,7 +1008,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             $this->_productTypes = array();
             $productEmulator     = new Magento_Object();
 
-            foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+            foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
                 $this->_productTypes[$typeId] = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
                     ->factory($productEmulator);

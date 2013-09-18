@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Generic
+class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Generic implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Magento_Usa_Model_Shipping_Carrier_Dhl

@@ -11,7 +11,7 @@
 /**
  * Cybersource Payment Action Dropdown source
  */
-class Magento_Pbridge_Model_Source_Cybersource_PaymentAction
+class Magento_Pbridge_Model_Source_Cybersource_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

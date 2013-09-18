@@ -19,17 +19,17 @@ class Magento_Directory_Model_Currency_Import_Factory
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Core_Model_ConfigInterface
      */
     protected $_coreConfig;
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_ConfigInterface $coreConfig
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_ConfigInterface $coreConfig
     ) {
         $this->_objectManager = $objectManager;
         $this->_coreConfig = $coreConfig;
@@ -45,7 +45,8 @@ class Magento_Directory_Model_Currency_Import_Factory
      */
     public function create($service, array $data = array())
     {
-        $serviceClass = $this->_coreConfig->getValue('global/currency/import/services/' . $service . '/model');
+        $serviceClass = $this->_coreConfig->getNode('global/currency/import/services/' . $service . '/model')
+            ->asArray();
         $service = $this->_objectManager->create($serviceClass, $data);
         if (false == ($service instanceof Magento_Directory_Model_Currency_Import_Interface)) {
             throw new InvalidArgumentException(

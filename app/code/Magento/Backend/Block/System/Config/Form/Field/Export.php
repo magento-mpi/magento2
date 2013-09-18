@@ -37,7 +37,6 @@ class Magento_Backend_Block_System_Config_Form_Field_Export extends Magento_Data
         array $attributes = array()
     ) {
         $this->_helperFactory = $helperFactory;
-
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 

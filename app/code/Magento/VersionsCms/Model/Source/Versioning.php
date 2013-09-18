@@ -15,7 +15,7 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Source_Versioning
+class Magento_VersionsCms_Model_Source_Versioning implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve options array

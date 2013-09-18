@@ -16,6 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Dropoff
+    extends Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Generic
 {
     /**
      * Carrier code
