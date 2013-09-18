@@ -6,7 +6,8 @@
  * @license   {license_link}
  */
 
-class Magento_TestFramework_ObjectManager_Configurator implements \Magento\Core\Model\ObjectManager\DynamicConfigInterface
+class Magento_TestFramework_ObjectManager_Configurator
+    implements \Magento\Core\Model\ObjectManager\DynamicConfigInterface
 {
     /**
      * Map application initialization params to Object Manager configuration format
