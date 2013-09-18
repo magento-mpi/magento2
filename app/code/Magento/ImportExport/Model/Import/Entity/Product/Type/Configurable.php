@@ -113,6 +113,24 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     protected $_superAttrValuesCombs = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     */
+    protected $_productTypesConfig;
+
+    /**
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig
+     * @param array $params
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig,
+        array $params
+    ) {
+        $this->_productTypesConfig = $productTypesConfig;
+        parent::__construct($params);
+    }
+
+
+    /**
      * Add attribute parameters to appropriate attribute set.
      *
      * @param string $attrParams Name of attribute set.
@@ -209,9 +227,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
         if ($this->_superAttributes) {
             $attrSetIdToName   = $this->_entityModel->getAttrSetIdToName();
 
-            /** @var Magento_Catalog_Model_ProductTypes_ConfigInterface $config */
-            $config = Mage::getObjectManager()->get('Magento_Catalog_Model_ProductTypes_ConfigInterface');
-            $configData = $config->getType('configurable');
+            $configData = $this->_productTypesConfig->getType('configurable');
             $allowProductTypes = isset($configData['allow_product_types']) ? $configData['allow_product_types'] : array();
             foreach (Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
                         ->addFieldToFilter('type_id', $allowProductTypes)

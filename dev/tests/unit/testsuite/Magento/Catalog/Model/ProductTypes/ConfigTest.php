@@ -43,6 +43,9 @@ class Magento_Catalog_Model_ProductTypes_ConfigTest extends PHPUnit_Framework_Te
 
     /**
      * @dataProvider getTypeDataProvider
+     *
+     * @param array $value
+     * @param mixed $expected
      */
     public function testGetType($value, $expected)
     {
