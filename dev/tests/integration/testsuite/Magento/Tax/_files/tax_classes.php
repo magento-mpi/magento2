@@ -40,7 +40,7 @@ $rate = Mage::getModel('Magento\Tax\Model\Calculation\Rate')->setData($taxRate)-
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/Magento\Tax\Model\Calculation\Rate', $rate);
+$objectManager->get('Magento\Core\Model\Registry')->register('_fixture/\Magento\Tax\Model\Calculation\Rate', $rate);
 
 $ruleData = array(
     'code' => 'Test Rule',
