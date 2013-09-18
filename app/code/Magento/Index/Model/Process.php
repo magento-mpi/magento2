@@ -113,6 +113,8 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Index_Model_Resource_Event $resourceEvent,
