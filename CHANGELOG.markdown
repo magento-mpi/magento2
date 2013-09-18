@@ -1,6 +1,15 @@
-* Install segment was moved from config.xml to di.xml for next configuration nodes:
-  * config/install/databases
-  * config/install/eula_file
+* Configuration improvements:
+  * Removed "translate" node from configuration XML files
+  * Improved Install, Category, Product, Customer, Wishlist configuration segments:
+     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+     * New configuration files are validated with XSD
+     * Format of the configuration changed to make possible its validation
+     * Appropriate loaders are implemented for the segments
+  * Improved configuration in `widget.xml`, `fieldset.xml` and `install.xml` files:
+     * `install.xml` was renamed to `install_wizard.xml`
+     * The configuration is validated with XSD
+     * Format of the configuration changed to make possible its validation
+  * Newsletter configuration segment was eliminated and replaced by DI configuration for Newsletter Template Filter
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -44,13 +53,6 @@
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
-* XML Validation
-  * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
-  * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
-  * Altered format of `install.xml`
-    * Renamed to `install_wizard.xml`
-    * Added `install_wizard.xsd` to allow for validation of XML files.
-* Removed "translate" node from configuration XML files
 * Added I18n tools for translation dictionary generation and language package generation
 * Eliminated Mage::helper and Mage::dispatchEvent in code
 * Layout improvements:
