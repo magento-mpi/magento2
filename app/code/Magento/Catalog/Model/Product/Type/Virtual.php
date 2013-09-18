@@ -18,8 +18,9 @@
 class Magento_Catalog_Model_Product_Type_Virtual extends Magento_Catalog_Model_Product_Type_Abstract
 {
     /**
-     * Initialize data
-     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Logger $logger

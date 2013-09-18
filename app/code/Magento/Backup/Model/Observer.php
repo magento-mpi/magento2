@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Backup Observer
  *
@@ -56,21 +55,33 @@ class Magento_Backup_Model_Observer
     protected $_coreStoreConfig;
 
     /**
+     * Directory model
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Backup_Helper_Data $backupData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Backup_Helper_Data $backupData,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Dir $dir
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;
         $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_dir = $dir;
     }
 
     /**
@@ -100,7 +111,7 @@ class Magento_Backup_Model_Observer
             $this->_coreRegistry->register('backup_manager', $backupManager);
 
             if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
-                $backupManager->setRootDir(Mage::getBaseDir())
+                $backupManager->setRootDir($this->_dir->getDir())
                     ->addIgnorePaths($this->_backupData->getBackupIgnorePaths());
             }
 
