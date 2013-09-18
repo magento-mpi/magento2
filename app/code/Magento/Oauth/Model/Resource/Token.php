@@ -82,7 +82,7 @@ class Magento_Oauth_Model_Resource_Token extends Magento_Core_Model_Resource_Db_
      *
      * @param int $consumerId - The consumer id
      * @param string $type - The token type (e.g. 'verifier')
-     * @return array
+     * @return array|boolean
      */
     public function selectTokenByType($consumerId, $type)
     {

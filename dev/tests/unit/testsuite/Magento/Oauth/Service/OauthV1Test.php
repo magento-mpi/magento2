@@ -124,14 +124,30 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
 
     public function testPostToConsumer()
     {
+        $consumerId = 1;
+        $requestData = array('consumer_id' => $consumerId);
+
         $key = $this->_generateRandomString(Magento_Oauth_Model_Consumer::KEY_LENGTH);
         $secret = $this->_generateRandomString(Magento_Oauth_Model_Consumer::SECRET_LENGTH);
-
-        $consumerData =
-            array('entity_id' => 1, 'key' => $key, 'secret' => $secret, 'http_post_url' => 'http://www.magento.com');
-
         $oauthVerifier = $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_VERIFIER);
 
+        $consumerData = array(
+            'entity_id' => $consumerId,
+            'key' => $key,
+            'secret' => $secret,
+            'http_post_url' => 'http://www.magento.com'
+        );
+
+        $this->_consumerMock->expects($this->once())
+            ->method('load')
+            ->with($this->equalTo($consumerId))
+            ->will($this->returnSelf());
+        $this->_consumerMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($consumerId));
+        $this->_consumerMock->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($consumerData));
         $this->_storeMock->expects($this->once())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://www.my-store.com/'));
@@ -144,13 +160,13 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->_tokenMock->expects($this->once())
             ->method('createVerifierToken')
-            ->with($this->equalTo(1))
+            ->with($this->equalTo($consumerId))
             ->will($this->returnSelf());
         $this->_tokenMock->expects($this->once())
             ->method('getVerifier')
             ->will($this->returnValue($oauthVerifier));
 
-        $responseData = $this->_service->postToConsumer($consumerData);
+        $responseData = $this->_service->postToConsumer($requestData);
 
         $this->assertEquals($oauthVerifier, $responseData['oauth_verifier']);
     }

@@ -125,44 +125,9 @@
             <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap"/>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="entity_id" type="xsd:integer">
+            <xsd:element name="consumer_id" type="xsd:integer">
                 <xsd:annotation>
                     <xsd:documentation>Consumer Id</xsd:documentation>
-                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:callInfo>
-                            <inf:callName>PostToConsumer</inf:callName>
-                            <inf:requiredInput>Yes</inf:requiredInput>
-                        </inf:callInfo>
-                    </xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="key" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>OAuth Consumer Key</xsd:documentation>
-                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:length>32</inf:length>
-                        <inf:callInfo>
-                            <inf:callName>PostToConsumer</inf:callName>
-                            <inf:requiredInput>Yes</inf:requiredInput>
-                        </inf:callInfo>
-                    </xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="secret" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>OAuth Consumer Secret</xsd:documentation>
-                    <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
-                        <inf:length>32</inf:length>
-                        <inf:callInfo>
-                            <inf:callName>PostToConsumer</inf:callName>
-                            <inf:requiredInput>Yes</inf:requiredInput>
-                        </inf:callInfo>
-                    </xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="http_post_url" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>Add-On HTTP POST Url</xsd:documentation>
                     <xsd:appinfo xmlns:inf="http://magento.ll/webapi/soap">
                         <inf:callInfo>
                             <inf:callName>PostToConsumer</inf:callName>

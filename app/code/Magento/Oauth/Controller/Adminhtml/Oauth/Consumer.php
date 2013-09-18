@@ -17,6 +17,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
     const PARAM_CONSUMER_ID = 'id';
 
     /** Data keys for extracting information from Consumer data array */
+    const DATA_CONSUMER_ID = 'consumer_id';
     const DATA_ENTITY_ID = 'entity_id';
     const DATA_KEY = 'key';
     const DATA_SECRET = 'secret';
@@ -234,7 +235,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
         try {
             $consumerData = $this->_oauthService->createConsumer($data);
             $consumerId = $consumerData[self::DATA_ENTITY_ID];
-            $verifier = $this->_oauthService->postToConsumer($consumerData);
+            $verifier = $this->_oauthService->postToConsumer(array(self::DATA_CONSUMER_ID => $consumerId));
             $this->_getSession()->addSuccess(__('The add-on has been saved.'));
             $this->_setFormData(null);
         } catch (Magento_Core_Exception $e) {
@@ -251,7 +252,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
         } else if ($verifier[self::DATA_VERIFIER]) {
             /** TODO: Complete when we have the Add-On website URL */
             //$this->_redirect('<Add-On Website URL>', array(
-                    //'oauth_consumer_key' => $data[self::DATA_KEY],
+                    //'oauth_consumer_key' => $consumerData[self::DATA_KEY],
                     //'oauth_verifier' => $verifier[self::DATA_VERIFIER],
                     //'callback_url' => $this->getUrl('*/*/index')
                 //));

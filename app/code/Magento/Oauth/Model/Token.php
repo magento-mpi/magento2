@@ -125,7 +125,9 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      */
     public function createVerifierToken($consumerId)
     {
-        $this->setData($this->getResource()->selectTokenByType($consumerId, Magento_Oauth_Model_Token::TYPE_VERIFIER));
+        $tokenData = $this->getResource()
+            ->selectTokenByType($consumerId, Magento_Oauth_Model_Token::TYPE_VERIFIER);
+        $this->setData($tokenData ? $tokenData : array());
         if (!$this->getId()) {
             $this->setData(array(
                 'consumer_id' => $consumerId,
@@ -232,9 +234,11 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     /**
      * Get string representation of token
      *
+     * @param string $format
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function toString()
+    public function toString($format = '')
     {
         return http_build_query(array('oauth_token' => $this->getToken(), 'oauth_token_secret' => $this->getSecret()));
     }

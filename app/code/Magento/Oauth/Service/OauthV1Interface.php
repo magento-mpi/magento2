@@ -69,20 +69,15 @@ interface Magento_Oauth_Service_OauthV1Interface
     /**
      * Execute post to Add-On (consumer) HTTP Post URL. Generate and return oauth_verifier.
      *
-     * @param array $consumerData - The Add-On (consumer) data.
+     * @param array $request - The request data that includes the consumer Id.
      * <pre>
-     * array(
-     *  'entity_id' => 1
-     *  'key' => 'a6aa81cc3e65e2960a4879392445e718',
-     *  'secret' => 'b7bb92dd4f76f3a71b598a4a3556f829',
-     *  'http_post_url' => 'http://www.my-add-on.com'
-     *  )
+     * array('consumer_id' => 1)
      * </pre>
      * @return array - The oauth_verifier.
      * @throws Magento_Core_Exception
      * @throws Magento_Oauth_Exception
      */
-    public function postToConsumer($consumerData);
+    public function postToConsumer($request);
 
     /**
      * Issue a pre-authorization request token to the caller

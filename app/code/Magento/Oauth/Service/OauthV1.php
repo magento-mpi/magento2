@@ -179,14 +179,15 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     /**
      * Perform post to Add-On (consumer) HTTP Post URL. Generate and return oauth_verifier.
      *
-     * @param array $consumerData - The Add-On (consumer) data.
+     * @param array $request - The request data that includes the consumer Id.
      * @return array - The oauth_verifier.
      * @throws Magento_Core_Exception
      * @throws Magento_Oauth_Exception
      */
-    public function postToConsumer($consumerData)
+    public function postToConsumer($request)
     {
         try {
+            $consumerData = $this->_getConsumer($request['consumer_id'])->getData();
             $storeUrl = $this->_store->getBaseUrl();
             $this->_httpClient->setUri($consumerData['http_post_url']);
             $this->_httpClient->setParameterPost(array(
@@ -197,7 +198,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             // TODO: Uncomment this when there is a live http_post_url that we can actually post to.
             //$this->_httpClient->request(Magento_HTTP_ZendClient::POST);
 
-            $verifier = $this->_tokenFactory->create()->createVerifierToken($consumerData['entity_id']);
+            $verifier = $this->_tokenFactory->create()->createVerifierToken($request['consumer_id']);
             return array('oauth_verifier' => $verifier->getVerifier());
         } catch (Magento_Core_Exception $exception) {
             throw $exception;
