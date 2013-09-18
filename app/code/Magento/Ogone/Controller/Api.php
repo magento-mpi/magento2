@@ -50,7 +50,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -60,7 +60,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
      */
     protected function _getApi()
     {
-        return Mage::getSingleton('Magento_Ogone_Model_Api');
+        return $this->_objectManager->get('Magento_Ogone_Model_Api');
     }
 
     /**
@@ -109,7 +109,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
         }
 
         $order = $this->_getOrder();
-        if (!$order->getId()){
+        if (!$order->getId()) {
             $this->_getCheckout()->addError(__('The order is not valid.'));
             return false;
         }
@@ -177,7 +177,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     public function offlineProcessAction()
     {
         if (!$this->_validateOgoneData()) {
-            $this->getResponse()->setHeader("Status","404 Not Found");
+            $this->getResponse()->setHeader("Status", "404 Not Found");
             return false;
         }
         $this->_ogoneProcess();
@@ -254,7 +254,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                     break;
                 default:
                     throw new Exception (__('Can\'t detect Ogone payment action'));
-             }
+            }
         } catch(Exception $e) {
             $this->_getCheckout()->addError(__('The order cannot be saved.'));
             $this->_redirect('checkout/cart');
@@ -400,7 +400,6 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
             return;
         }
 
-        $exception = '';
         switch($params['STATUS']) {
             case Magento_Ogone_Model_Api::OGONE_PAYMENT_UNCERTAIN_STATUS :
                 $exception = __('Something went wrong during the payment process, and so the result is unpredictable.');
@@ -500,6 +499,8 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     /**
      * Cancel action, used for decline and cancel processes
      *
+     * @param $status
+     * @param string $comment
      * @return Magento_Ogone_Controller_Api
      */
     protected function _cancelOrder($status, $comment='')
