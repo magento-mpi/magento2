@@ -18,7 +18,9 @@ class Magento_Test_RequestTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new Magento_TestFramework_Request;
+        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
+            'Magento_Backend_Helper_DataProxy', false);
+        $this->_model = new Magento_TestFramework_Request($helperMock);
     }
 
     public function testGetHttpHost()

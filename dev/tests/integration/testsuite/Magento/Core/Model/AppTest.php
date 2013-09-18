@@ -212,7 +212,10 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Magento_Core_Controller_Request_Http', $this->_model->getRequest());
-        $request = new Magento_TestFramework_Request();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
         $this->_model->setRequest($request);
         $this->assertSame($request, $this->_model->getRequest());
     }

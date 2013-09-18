@@ -13,11 +13,11 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
      */
     public function testRunSchedule()
     {
-        $productModel = Mage::getModel('Magento_Catalog_Model_Product');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $productModel = $objectManager->create('Magento_Catalog_Model_Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
-        $objectManager = Mage::getObjectManager();
         $importExportData = $objectManager->get('Magento_ImportExport_Helper_Data');
 
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
@@ -31,7 +31,7 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
             ->method('reindexAll')
             ->will($this->returnSelf());
 
-        $operation = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $operation = $objectManager->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
         $operation->setFileInfo(array(
             'file_name' => __DIR__ . '/../_files/product.csv',
             'server_type' => 'file',

@@ -45,9 +45,11 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
 
     public function testProcessPreDispatchCanProcessRequest()
     {
-        $request = new Magento_TestFramework_Request();
-        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_TestFramework_Response');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
+        $response = $objectManager->get('Magento_TestFramework_Response');
 
         $request->setRouteName('catalog');
         $request->setControllerName('product');
@@ -90,10 +92,13 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         /** @var $restriction Magento_FullPageCache_Model_Processor_RestrictionInterface */
         $restriction = Mage::getSingleton('Magento_FullPageCache_Model_Processor_RestrictionInterface');
         $restriction->setIsDenied();
-
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
         $observerData = new Magento_Event_Observer();
         $arguments = array(
-            'request' => new Magento_TestFramework_Request(),
+            'request' => $request,
             'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
                 ->get('Magento_TestFramework_Response')
         );
