@@ -15,9 +15,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="instances" type="instancesType" />
-            </xs:sequence>
+            <xs:all>
+                <xs:element name="instances" type="instancesType" minOccurs="1" />
+            </xs:all>
         </xs:complexType>
     </xs:element>
 
@@ -27,20 +27,20 @@
                 The definition of the current instances.
             </xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="blocks" type="blocksType" />
-        </xs:sequence>
+        <xs:all>
+            <xs:element minOccurs="1" name="blocks" type="blocksType" />
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="blocksType">
         <xs:annotation>
             <xs:documentation>
-                The set of blocks
+                Contains the set of block references
             </xs:documentation>
         </xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element minOccurs="1" maxOccurs="unbounded" name="reference" type="referenceType" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <xs:complexType name="referenceType">
@@ -49,12 +49,12 @@
                 The definition of the block references
             </xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="name_in_layout" type="xs:NMTOKEN" />
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="class" type="xs:NMTOKEN" />
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="method" type="xs:NMTOKEN" />
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="block_type" type="xs:NMTOKEN" />
-        </xs:sequence>
+        <xs:all>
+            <xs:element name="name_in_layout" type="xs:NMTOKEN" />
+            <xs:element name="class" type="xs:NMTOKEN" />
+            <xs:element name="method" type="xs:NMTOKEN" />
+            <xs:element name="block_type" type="xs:NMTOKEN" />
+        </xs:all>
         <xs:attribute name="id" type="xs:ID" use="required" />
     </xs:complexType>
 
