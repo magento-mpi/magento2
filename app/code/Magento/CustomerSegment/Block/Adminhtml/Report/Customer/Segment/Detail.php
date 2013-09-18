@@ -21,6 +21,29 @@ class Detail
     extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Constructor
      *
      */
@@ -80,7 +103,7 @@ class Detail
      */
     public function getCustomerSegment()
     {
-        return \Mage::registry('current_customer_segment');
+        return $this->_coreRegistry->registry('current_customer_segment');
     }
 
     /**
@@ -92,5 +115,4 @@ class Detail
     {
         return \Mage::app()->getWebsites();
     }
-
 }

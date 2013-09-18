@@ -74,7 +74,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
                 'id'        => 'publish_button',
                 'label'     => __('Publish'),
                 'onclick'   => "publishAction('" . $this->getPublishUrl() . "')",
-                'class'     => 'publish' . (\Mage::registry('cms_page')->getId()? '' : ' no-display'),
+                'class'     => 'publish' . ($this->_coreRegistry->registry('cms_page')->getId()? '' : ' no-display'),
             ), 1);
 
             if ($config->canCurrentUserSaveRevision()) {
@@ -110,7 +110,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
                 )
             );
 
-            $page = \Mage::registry('cms_page');
+            $page = $this->_coreRegistry->registry('cms_page');
             // Adding button to create new version
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',
@@ -163,8 +163,8 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
      */
     public function getHeaderText()
     {
-        $revisionNumber = \Mage::registry('cms_page')->getRevisionNumber();
-        $title = $this->escapeHtml(\Mage::registry('cms_page')->getTitle());
+        $revisionNumber = $this->_coreRegistry->registry('cms_page')->getRevisionNumber();
+        $title = $this->escapeHtml($this->_coreRegistry->registry('cms_page')->getTitle());
 
         if ($revisionNumber) {
             return __("Edit Page '%1' Revision #%2", $title, $this->escapeHtml($revisionNumber));
@@ -195,7 +195,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
      */
     public function getBackUrl()
     {
-        $page = \Mage::registry('cms_page');
+        $page = $this->_coreRegistry->registry('cms_page');
         return $this->getUrl('*/cms_page_version/edit',
              array(
                 'page_id' => $page ? $page->getPageId() : null,

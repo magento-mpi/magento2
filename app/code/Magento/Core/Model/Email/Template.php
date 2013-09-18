@@ -94,6 +94,7 @@ class Template extends \Magento\Core\Model\Template
 
     /**
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
@@ -102,6 +103,7 @@ class Template extends \Magento\Core\Model\Template
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
@@ -111,7 +113,7 @@ class Template extends \Magento\Core\Model\Template
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
-        parent::__construct($design, $context, $data);
+        parent::__construct($design, $context, $registry, $data);
     }
 
     /**

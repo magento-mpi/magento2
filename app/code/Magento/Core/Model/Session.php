@@ -23,10 +23,28 @@ namespace Magento\Core\Model;
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param array $data
      * @param string $sessionName
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Http $coreHttp,
+        array $data = array(),
+        $sessionName = null
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('core', $sessionName);
     }
 
@@ -38,7 +56,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function getFormKey()
     {
         if (!$this->getData('_form_key')) {
-            $this->setData('_form_key', \Mage::helper('Magento\Core\Helper\Data')->getRandomString(16));
+            $this->setData('_form_key', $this->_coreData->getRandomString(16));
         }
         return $this->getData('_form_key');
     }

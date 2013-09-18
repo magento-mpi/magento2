@@ -44,6 +44,33 @@ class Poll extends \Magento\Core\Model\AbstractModel
     protected $_answersCollection   = array();
     protected $_storeCollection     = array();
 
+    /**
+     * Core http
+     *
+     * @var \Magento\Core\Helper\Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreHttp = $coreHttp;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento\Poll\Model\Resource\Poll');
@@ -136,7 +163,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
         }
 
         // check by ip
-        if (count($this->_getResource()->getVotedPollIdsByIp(\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(), $pollId))) {
+        if (count($this->_getResource()->getVotedPollIdsByIp($this->_coreHttp->getRemoteAddr(), $pollId))) {
             return true;
         }
 
@@ -166,6 +193,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
     /**
      * Add vote to poll
      *
+     * @param Magento_Poll_Model_Poll_Vote $vote
      * @return unknown
      */
     public function addVote(\Magento\Poll\Model\Poll\Vote $vote)
@@ -189,8 +217,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
         $answerId = false;
         if (is_numeric($answer)) {
             $answerId = $answer;
-        }
-        elseif ($answer instanceof \Magento\Poll\Model\Poll\Answer) {
+        } elseif ($answer instanceof \Magento\Poll\Model\Poll\Answer) {
             $answerId = $answer->getId();
         }
 
@@ -222,7 +249,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
         }
 
         // load from db for this ip
-        foreach ($this->_getResource()->getVotedPollIdsByIp(\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr()) as $pollId) {
+        foreach ($this->_getResource()->getVotedPollIdsByIp($this->_coreHttp->getRemoteAddr()) as $pollId) {
             $idsArray[$pollId] = $pollId;
         }
 
@@ -269,5 +296,4 @@ class Poll extends \Magento\Core\Model\AbstractModel
     {
         return $this->_getData('votes_count');
     }
-
 }

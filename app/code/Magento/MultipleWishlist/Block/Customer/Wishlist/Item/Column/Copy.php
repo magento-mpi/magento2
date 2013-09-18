@@ -37,7 +37,7 @@ class Copy
      */
     public function isMultipleEnabled()
     {
-        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled();
+        return $this->_wishlistData->isMultipleEnabled();
     }
 
     /**

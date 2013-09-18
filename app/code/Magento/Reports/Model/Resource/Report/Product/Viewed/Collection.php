@@ -32,15 +32,17 @@ class Collection
     protected $_selectedColumns    = array();
 
     /**
-     * Initialize custom resource model
-     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Sales_Model_Resource_Report $resource
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init(\Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_DAILY);
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
         $this->setModel('Magento\Adminhtml\Model\Report\Item');
     }
 

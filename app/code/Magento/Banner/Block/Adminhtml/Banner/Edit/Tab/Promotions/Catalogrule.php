@@ -14,20 +14,32 @@ class Catalogrule
   extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->setCollection($ruleCollection);
     }
 
@@ -171,6 +183,6 @@ class Catalogrule
      */
     protected function _getBanner()
     {
-        return \Mage::registry('current_banner');
+        return $this->_coreRegistry->registry('current_banner');
     }
 }

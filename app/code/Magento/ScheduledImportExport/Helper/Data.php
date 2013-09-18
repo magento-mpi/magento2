@@ -20,6 +20,41 @@ namespace Magento\ScheduledImportExport\Helper;
 class Data extends \Magento\ImportExport\Helper\Data
 {
     /**
+     * Reward data
+     *
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * Customer balance data
+     *
+     * @var \Magento\CustomerBalance\Helper\Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     */
+    public function __construct(
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        $this->_rewardData = $rewardData;
+        parent::__construct($eventManager, $coreHttp, $context, $config);
+    }
+
+    /**
      * Get operation header text
      *
      * @param string $type   operation type
@@ -135,9 +170,7 @@ class Data extends \Magento\ImportExport\Helper\Data
     public function isRewardPointsEnabled()
     {
         if ($this->isModuleEnabled('Magento_Reward')) {
-            /** @var $rewardPointsHelper \Magento\Reward\Helper\Data */
-            $rewardPointsHelper = \Mage::helper('Magento\Reward\Helper\Data');
-            return $rewardPointsHelper->isEnabled();
+            return $this->_rewardData->isEnabled();
         }
         return false;
     }
@@ -150,9 +183,7 @@ class Data extends \Magento\ImportExport\Helper\Data
     public function isCustomerBalanceEnabled()
     {
         if ($this->isModuleEnabled('Magento_CustomerBalance')) {
-            /** @var $customerBalanceHelper \Magento\CustomerBalance\Helper\Data */
-            $customerBalanceHelper = \Mage::helper('Magento\CustomerBalance\Helper\Data');
-            return $customerBalanceHelper->isEnabled();
+            return $this->_customerBalanceData->isEnabled();
         }
         return false;
     }

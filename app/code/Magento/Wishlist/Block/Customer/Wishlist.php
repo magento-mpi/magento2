@@ -20,10 +20,34 @@ namespace Magento\Wishlist\Block\Customer;
 
 class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
-    /*
-     * List of product options rendering configurations by product type
+    /**
+     * @var \Magento\Catalog\Helper\Product\ConfigurationPool
      */
-    protected $_optionsCfg = array();
+    protected $_helperPool;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_helperPool = $helperPool;
+        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+    }
 
     /**
      * Add wishlist conditions to collection
@@ -132,12 +156,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             return '';
         }
 
-        $helper = \Mage::helper($cfg['helper']);
-        if (!($helper instanceof \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface)) {
-            \Mage::throwException(__("Helper for wish list options rendering doesn't implement required interface."));
-        }
-
-        $block = $this->getChildBlock('item_options');
+        $block  = $this->getChildBlock('item_options');
         if (!$block) {
             return '';
         }
@@ -153,7 +172,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         }
 
         return $block->setTemplate($template)
-            ->setOptionList($helper->getOptions($item))
+            ->setOptionList($this->_helperPool($cfg['helper'])->getOptions($item))
             ->toHtml();
     }
 

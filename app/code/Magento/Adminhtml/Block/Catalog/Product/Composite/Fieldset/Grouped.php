@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml block for fieldset of grouped product
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
 
@@ -31,8 +27,8 @@ class Grouped extends \Magento\Catalog\Block\Product\View\Type\Grouped
         $this->_useLinkForAsLowAs = false;
 
         $taxCalculation = \Mage::getSingleton('Magento\Tax\Model\Calculation');
-        if (!$taxCalculation->getCustomer() && \Mage::registry('current_customer')) {
-            $taxCalculation->setCustomer(\Mage::registry('current_customer'));
+        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }
     }
 
@@ -44,7 +40,7 @@ class Grouped extends \Magento\Catalog\Block\Product\View\Type\Grouped
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', \Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         $product = $this->getData('product');
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {

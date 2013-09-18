@@ -83,7 +83,7 @@ class Finance
      *
      * @var \Magento\ScheduledImportExport\Helper\Data
      */
-    protected $_moduleHelper;
+    protected $_importExportData;
 
     /**
      * Admin user object
@@ -115,14 +115,18 @@ class Finance
     protected $_rewardFactory;
 
     /**
-     * @param \Magento\ScheduledImportExport\Helper\Data $helper
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\ScheduledImportExport\Helper\Data $helper,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
@@ -131,12 +135,12 @@ class Finance
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($data);
+        parent::__construct($coreData, $coreString, $data);
 
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;
         $this->_balanceFactory = $balanceFactory;
-        $this->_moduleHelper = $helper;
+        $this->_importExportData = $importExportData;
 
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
             : \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
@@ -179,7 +183,8 @@ class Finance
      */
     protected function _importData()
     {
-        if (!$this->_moduleHelper->isRewardPointsEnabled() && !$this->_moduleHelper->isCustomerBalanceEnabled()) {
+        if (!$this->_importExportData->isRewardPointsEnabled()
+            && !$this->_importExportData->isCustomerBalanceEnabled()) {
             return false;
         }
 

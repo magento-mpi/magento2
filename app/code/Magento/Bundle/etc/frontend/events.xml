@@ -11,9 +11,6 @@
     <event name="catalog_product_upsell">
         <observer name="bundle_observer" instance="Magento\Bundle\Model\Observer" method="appendUpsellProducts" />
     </event>
-    <event name="sales_convert_quote_item_to_order_item">
-        <observer name="bundle_observer" instance="Magento\Bundle\Model\Observer" method="appendBundleSelectionData" />
-    </event>
     <event name="catalog_product_collection_load_after">
         <observer name="bundle_observer" instance="Magento\Bundle\Model\Observer" method="loadProductOptions" />
     </event>

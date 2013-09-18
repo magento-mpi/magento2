@@ -21,6 +21,33 @@ namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons;
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Constructor
      */
     protected function _construct()
@@ -37,7 +64,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $priceRule = \Mage::registry('current_promo_quote_rule');
+        $priceRule = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         /**
          * @var \Magento\SalesRule\Model\Resource\Coupon\Collection $collection

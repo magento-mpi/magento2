@@ -22,6 +22,27 @@ class Action
 {
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Context $context,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Renders column
      *
      * @param \Magento\Object $row
@@ -69,7 +90,7 @@ class Action
         $actionCaption = '';
         $this->_transformActionData($action, $actionCaption, $row);
 
-        $htmlAttibutes = array('value'=>$this->escapeHtml(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($action)));
+        $htmlAttibutes = array('value'=>$this->escapeHtml($this->_coreData->jsonEncode($action)));
         $actionAttributes->setData($htmlAttibutes);
         return '<option ' . $actionAttributes->serialize() . '>' . $actionCaption . '</option>';
     }

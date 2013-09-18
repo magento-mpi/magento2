@@ -65,12 +65,23 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_roundingDeltas = array();
 
     /**
-     * Class constructor
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
      */
-    public function __construct()
-    {
+    protected $_taxData = null;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Tax\Helper\Data $taxData
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData
+    ) {
+        $this->_taxData = $taxData;
         $this->setCode('tax_subtotal');
-        $this->_helper      = \Mage::helper('Magento\Tax\Helper\Data');
+        $this->_helper      = $this->_taxData;
         $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculation');
         $this->_config      = \Mage::getSingleton('Magento\Tax\Model\Config');
     }

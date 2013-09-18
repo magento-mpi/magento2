@@ -21,6 +21,33 @@ class Rma
     extends \Magento\Rma\Block\Adminhtml\Rma\Grid
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
@@ -39,7 +66,7 @@ class Rma
 
         if ($this->getOrder() && $this->getOrder()->getId()) {
             $orderId = $this->getOrder()->getId();
-        } elseif ($this->getOrderId())  {
+        } elseif ($this->getOrderId()) {
             $orderId = $this->getOrderId();
         }
         if ($orderId) {
@@ -91,7 +118,7 @@ class Rma
      */
     public function getOrder()
     {
-        return \Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**

@@ -16,6 +16,7 @@ class Magento_TestFramework_ObjectManager extends \Magento\Core\Model\ObjectMana
      */
     protected $_classesToDestruct = array(
         'Magento\Core\Model\Layout',
+        'Magento\Core\Model\Registry'
     );
 
     /**
@@ -73,5 +74,16 @@ class Magento_TestFramework_ObjectManager extends \Magento\Core\Model\ObjectMana
         if ($configData) {
             $this->configure($configData);
         }
+    }
+
+    /**
+     * Set objectManager
+     *
+     * @param \Magento\ObjectManager $objectManager
+     * @return \Magento\ObjectManager
+     */
+    public static function setInstance(\Magento\ObjectManager $objectManager)
+    {
+        return self::$_instance = $objectManager;
     }
 }

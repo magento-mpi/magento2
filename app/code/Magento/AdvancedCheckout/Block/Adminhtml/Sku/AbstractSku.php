@@ -11,7 +11,6 @@
 /**
  * Admin Checkout main form container
  *
- * @method string                                           getAdditionalJavascript()
  * @method string                                           getListType()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku setListType()
  * @method string                                           getDataContainerId()
@@ -23,7 +22,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku;
 
-abstract class AbstractSku extends \Magento\Adminhtml\Block\Template
+abstract class AbstractSku extends \Magento\Backend\Block\Template
 {
     /**
      * List type of current block
@@ -120,7 +119,7 @@ abstract class AbstractSku extends \Magento\Adminhtml\Block\Template
             'fileUploadUrl'    => $this->getFileUploadUrl(),
         );
 
-        $json = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
+        $json = $this->_coreData->jsonEncode($data);
         return $json;
     }
 

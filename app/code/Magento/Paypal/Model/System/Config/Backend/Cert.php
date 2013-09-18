@@ -16,6 +16,33 @@ namespace Magento\Paypal\Model\System\Config\Backend;
 class Cert extends \Magento\Core\Model\Config\Value
 {
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Process additional data before save config
      *
      * @return \Magento\Paypal\Model\System\Config\Backend\Cert
@@ -37,7 +64,7 @@ class Cert extends \Magento\Core\Model\Config\Value
                 \Mage::throwException(__('The PayPal certificate file is empty.'));
             }
             $this->setValue($_FILES['groups']['name'][$this->getGroupId()]['fields'][$this->getField()]['value']);
-            $content = \Mage::helper('Magento\Core\Helper\Data')->encrypt(file_get_contents($tmpPath));
+            $content = $this->_coreData->encrypt(file_get_contents($tmpPath));
             \Mage::getModel('Magento\Paypal\Model\Cert')->loadByWebsite($this->getScopeId())
                 ->setContent($content)
                 ->save();

@@ -20,7 +20,6 @@ namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab;
 class Downloadable
     extends \Magento\Adminhtml\Block\Widget implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
-
     /**
      * Reference to product objects that is being edited
      *
@@ -33,24 +32,27 @@ class Downloadable
     protected $_template = 'product/edit/downloadable.phtml';
 
     /**
-     * Get tab URL
+     * Core registry
      *
-     * @return string
+     * @var \Magento\Core\Model\Registry
      */
-//    public function getTabUrl()
-//    {
-//        return $this->getUrl('downloadable/product_edit/form', array('_current' => true));
-//    }
+    protected $_coreRegistry = null;
 
     /**
-     * Get tab class
-     *
-     * @return string
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
      */
-//    public function getTabClass()
-//    {
-//        return 'ajax';
-//    }
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Check is readonly block
@@ -69,7 +71,7 @@ class Downloadable
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -150,5 +152,4 @@ class Downloadable
 
         return parent::_toHtml();
     }
-
 }

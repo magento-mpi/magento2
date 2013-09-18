@@ -17,7 +17,7 @@
 
 namespace Magento\License\Block\Adminhtml;
 
-class Checker extends \Magento\Adminhtml\Block\Template
+class Checker extends \Magento\Backend\Block\Template
 {
     /**
      * Number of days until the expiration of license.
@@ -25,6 +25,29 @@ class Checker extends \Magento\Adminhtml\Block\Template
      * @var int
      */
     protected $_daysLeftBeforeExpired;
+
+    /**
+     * License data
+     *
+     * @var \Magento\License\Helper\Data
+     */
+    protected $_licenseData = null;
+
+    /**
+     * @param \Magento\License\Helper\Data $licenseData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\License\Helper\Data $licenseData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_licenseData = $licenseData;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Сounts the number of days remaining until the expiration of license.
@@ -45,8 +68,7 @@ class Checker extends \Magento\Adminhtml\Block\Template
      */
     public function shouldDispalyNotification()
     {
-        $magento_license=\Mage::helper('Magento\License\Helper\Data');
-        if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
+        if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
             return ($this->_daysLeftBeforeExpired < 31);
         } else {
             return false;
@@ -72,17 +94,18 @@ class Checker extends \Magento\Adminhtml\Block\Template
     public function getMessage()
     {
         $message = "";
-
         $days = $this->getDaysLeftBeforeExpired();
-
-        if($days < 0) {
-            $message = __('Act now! Your Magento Enteprise Edition license expired. Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.');
-        } elseif(0 == $days) {
-            $message = __('It\'s not too late! Your Magento Enteprise Edition expires today. Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.');
-        } elseif($days < 31) {
-            $message = __('Act soon! Your Magento Enteprise Edition will expire in %1 days. Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.', $days);
+        if ($days < 0) {
+            $message = __('Act now! Your Magento Enteprise Edition license expired. '
+                . 'Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.');
+        } elseif (0 == $days) {
+            $message = __('It\'s not too late! Your Magento Enteprise Edition expires today. '
+                . 'Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.');
+        } elseif ($days < 31) {
+            $message = __('Act soon! Your Magento Enteprise Edition will expire in %1 days. '
+                . 'Please contact <a href="mailto:sales@magento.com">sales@magento.com</a> to renew the license.',
+                    $days);
         }
-
         return $message;
     }
 }

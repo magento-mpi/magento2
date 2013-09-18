@@ -10,16 +10,59 @@
 
 /**
  * Adminhtml Google Content types mapping form block
- *
- * @category   Magento
- * @package    Magento_GoogleShopping
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\GoogleShopping\Block\Adminhtml\Types\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form
 {
+    /**
+     * @var \Magento\GoogleShopping\Helper\Category|null
+     */
+    protected $_googleShoppingCategory = null;
+
+    /**
+     * @var \Magento\Data\Form\Element\Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @var \Magento\Data\FormFactory
+     */
+    protected $_formFactory;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\GoogleShopping\Helper\Category $googleShoppingCategory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\GoogleShopping\Helper\Category $googleShoppingCategory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_googleShoppingCategory = $googleShoppingCategory;
+        $this->_elementFactory = $elementFactory;
+        $this->_formFactory = $formFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Prepare form before rendering HTML
      *
@@ -27,7 +70,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        $form = $this->_formFactory->create();
 
         $itemType = $this->getItemType();
 
@@ -64,7 +107,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'text'      => '<div id="attribute_set_select">' . $attributeSetsSelect->toHtml() . '</div>',
         ));
 
-        $categories = \Mage::helper('Magento\GoogleShopping\Helper\Category')->getCategories();
+        $categories = $this->_googleShoppingCategory->getCategories();
         $fieldset->addField('category', 'select', array(
             'label'     => __('Google Product Category'),
             'title'     => __('Google Product Category'),
@@ -82,7 +125,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 ->setAttributeSetSelected(true);
         }
 
-        $attributes = \Mage::registry('attributes');
+        $attributes = $this->_coreRegistry->registry('attributes');
         if (is_array($attributes) && count($attributes) > 0) {
             $attributesBlock->setAttributesData($attributes);
         }
@@ -110,10 +153,10 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getAttributeSetsSelectElement($targetCountry)
     {
-        $field = new \Magento\Data\Form\Element\Select();
+        $field = $this->_elementFactory->create('select');
         $field->setName('attribute_set_id')
             ->setId('select_attribute_set')
-            ->setForm(new \Magento\Data\Form())
+            ->setForm($this->_formFactory->create())
             ->addClass('required-entry')
             ->setValues($this->_getAttributeSetsArray($targetCountry));
         return $field;
@@ -148,7 +191,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
         $ids = array();
         $itemType = $this->getItemType();
-        if ( !($itemType instanceof \Magento\Object && $itemType->getId()) ) {
+        if (!($itemType instanceof \Magento\Object && $itemType->getId())) {
             $typesCollection = \Mage::getResourceModel('Magento\GoogleShopping\Model\Resource\Type\Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
@@ -173,7 +216,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getItemType()
     {
-        return \Mage::registry('current_item_type');
+        return $this->_coreRegistry->registry('current_item_type');
     }
 
     /**

@@ -21,12 +21,18 @@ namespace Magento\Newsletter\Model;
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * Class constructor. Initialize session namespace
-     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param array $data
      * @param string $sessionName
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        array $data = array(),
+        $sessionName = null
+    ) {
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('newsletter', $sessionName);
     }
 

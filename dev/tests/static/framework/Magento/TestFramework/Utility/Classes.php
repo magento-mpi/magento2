@@ -256,9 +256,6 @@ class Magento_TestFramework_Utility_Classes
             # addBlock createBlock getBlockSingleton
             | (?:addBlock | createBlock | getBlockSingleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
 
-            # Mage::helper ->helper
-            | (?:Mage\:\:|\->)helper\(\s*[\'"]([^\'"]+)[\'"]\s*\)
-
             # various methods, first argument
             | \->(?:initReport | setDataHelperName | setEntityModelClass | _?initLayoutMessages
                 | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel

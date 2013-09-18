@@ -93,6 +93,29 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     protected $_storesRootCategories;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Resource initializations
      *
      */
@@ -190,7 +213,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     protected function _initInactiveCategoryIds()
     {
         $this->_inactiveCategoryIds = array();
-        \Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
+        $this->_eventManager->dispatch('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
         return $this;
     }
 
@@ -270,7 +293,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
         }
 
         // Allow extensions to modify select (e.g. add custom category attributes to select)
-        \Mage::dispatchEvent('catalog_category_flat_loadnodes_before', array('select' => $select));
+        $this->_eventManager->dispatch('catalog_category_flat_loadnodes_before', array('select' => $select));
 
         $arrNodes = $_conn->fetchAll($select);
         $nodes = array();

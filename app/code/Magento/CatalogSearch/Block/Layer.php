@@ -17,12 +17,45 @@ namespace Magento\CatalogSearch\Block;
 class Layer extends \Magento\Catalog\Block\Layer\View
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog search data
+     *
+     * @var \Magento\CatalogSearch\Helper\Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Internal constructor
      */
     protected function _construct()
     {
         parent::_construct();
-        \Mage::register('current_layer', $this->getLayer(), true);
+        $this->_coreRegistry->register('current_layer', $this->getLayer(), true);
     }
 
     /**
@@ -52,15 +85,14 @@ class Layer extends \Magento\Catalog\Block\Layer\View
      */
     public function canShowBlock()
     {
-        $_isLNAllowedByEngine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine()->isLayeredNavigationAllowed();
+        $_isLNAllowedByEngine = $this->_catalogSearchData->getEngine()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
         }
-        $availableResCount = (int) \Mage::app()->getStore()
+        $availableResCount = (int)\Mage::app()->getStore()
             ->getConfig(\Magento\CatalogSearch\Model\Layer::XML_PATH_DISPLAY_LAYER_COUNT);
 
-        if (!$availableResCount
-            || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {
+        if (!$availableResCount || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {
             return parent::canShowBlock();
         }
         return false;

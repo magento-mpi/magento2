@@ -132,6 +132,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      *
      * @param string $paymentAction
      * @param \Magento\Object $stateObject
+     * @return \Magento_Payment_Model_Abstract|void
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -461,14 +462,14 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         }
     }
 
-    /**
+     /**
       * Return unique value for secure token id
       *
       * @return string
       */
     protected function _generateSecureTokenId()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**
@@ -483,7 +484,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         return sprintf($format, $string);
     }
 
-    /**
+     /**
       * If response is failed throw exception
       * Set token data in payment object
       *
@@ -522,7 +523,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     protected function _generateSecureSilentPostHash($payment)
     {
-        $secureHash = md5(\Mage::helper('Magento\Core\Helper\Data')->getRandomString(10));
+        $secureHash = md5($this->_coreData->getRandomString(10));
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
     }

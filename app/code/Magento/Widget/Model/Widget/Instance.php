@@ -43,8 +43,10 @@ class Instance extends \Magento\Core\Model\AbstractModel
 
     const XML_NODE_RELATED_CACHE = 'global/widget/related_cache_types';
 
+    /** @var array  */
     protected $_layoutHandles = array();
 
+    /** @var array */
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
@@ -64,22 +66,64 @@ class Instance extends \Magento\Core\Model\AbstractModel
      */
     protected $_viewFileSystem;
 
+    /** @var  \Magento\Widget\Model\Widget */
+    protected $_widgetModel;
+
+    /** @var  \Magento\Core\Model\Config */
+    protected $_coreConfig;
+
     /**
+     * @var \Magento\Widget\Model\Config\Reader
+     */
+    protected $_reader;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Widget data
+     *
+     * @var \Magento\Widget\Helper\Data
+     */
+    protected $_widgetData = null;
+
+    /**
+     * @param \Magento\Widget\Helper\Data $widgetData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Widget\Model\Config\Reader $reader,
+     * @param \Magento\Widget\Model\Widget $widgetModel,
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Widget\Helper\Data $widgetData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Widget\Model\Config\Reader $reader,
+        \Magento\Widget\Model\Widget $widgetModel,
+        \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_widgetData = $widgetData;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_reader = $reader;
+        $this->_widgetModel = $widgetModel;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -267,7 +311,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     public function getWidgetsOptionArray()
     {
         $widgets = array();
-        $widgetsArr = \Mage::getSingleton('Magento\Widget\Model\Widget')->getWidgetsArray();
+        $widgetsArr = $this->_widgetModel->getWidgetsArray();
         foreach ($widgetsArr as $widget) {
             $widgets[] = array(
                 'value' => $widget['type'],
@@ -280,28 +324,35 @@ class Instance extends \Magento\Core\Model\AbstractModel
     /**
      * Load widget XML config and merge with theme widget config
      *
-     * @return \Magento\Simplexml\Element|null
+     * @return array|null
      */
-    public function getWidgetConfig()
+    public function getWidgetConfigAsArray()
     {
         if ($this->_widgetConfigXml === null) {
-            $this->_widgetConfigXml = \Mage::getSingleton('Magento\Widget\Model\Widget')
-                ->getXmlElementByType($this->getType());
+            $this->_widgetConfigXml = $this->_widgetModel->getWidgetByClassType($this->getType());
             if ($this->_widgetConfigXml) {
                 $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),
                     'theme'  => $this->getThemeId(),
-                    'module' => \Mage::getConfig()->determineOmittedNamespace(
+                    'module' => $this->_coreConfig->determineOmittedNamespace(
                         preg_replace('/^(.+?)\/.+$/', '\\1', $this->getType()), true
                     ),
                 ));
 
                 if (is_readable($configFile)) {
-                    $themeWidgetsConfig = new \Magento\Simplexml\Config();
-                    $themeWidgetsConfig->loadFile($configFile);
-                    $themeWidgetConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
+                    $config = $this->_reader->readFile($configFile);
+                    $widgetName = isset($this->_widgetConfigXml['name']) ? $this->_widgetConfigXml['name'] : null;
+                    $themeWidgetConfig = null;
+                    if (!is_null($widgetName)) {
+                        foreach ($config as $widget) {
+                            if (isset($widget['name']) && ($widgetName === $widget['name'])) {
+                                $themeWidgetConfig = $widget;
+                                break;
+                            }
+                        }
+                    }
                     if ($themeWidgetConfig) {
-                        $this->_widgetConfigXml->extend($themeWidgetConfig);
+                        $this->_widgetConfigXml = array_replace_recursive($this->_widgetConfigXml, $themeWidgetConfig);
                     }
                 }
             }
@@ -317,19 +368,17 @@ class Instance extends \Magento\Core\Model\AbstractModel
     public function getWidgetTemplates()
     {
         $templates = array();
-        if ($this->getWidgetConfig() && ($configTemplates = $this->getWidgetConfig()->parameters->template)) {
-            if ($configTemplates->values && $configTemplates->values->children()) {
-                foreach ($configTemplates->values->children() as $name => $template) {
+        $widgetConfig = $this->getWidgetConfigAsArray();
+        if ($widgetConfig && isset($widgetConfig['parameters'])
+            && isset($widgetConfig['parameters']['template'])) {
+            $configTemplates = $widgetConfig['parameters']['template'];
+            if (isset($configTemplates['values'])) {
+                foreach ($configTemplates['values'] as $name => $template) {
                     $templates[(string)$name] = array(
-                        'value' => (string)$template->value,
-                        'label' => __((string)$template->label),
+                        'value' => (string)$template['value'],
+                        'label' => __((string)$template['label'])->render()
                     );
                 }
-            } elseif ($configTemplates->value) {
-                $templates['default'] = array(
-                    'value' => (string)$configTemplates->value,
-                    'label' => __('Default Template')
-                );
             }
         }
         return $templates;
@@ -343,9 +392,13 @@ class Instance extends \Magento\Core\Model\AbstractModel
     public function getWidgetSupportedContainers()
     {
         $containers = array();
-        if ($this->getWidgetConfig() && ($configNodes = $this->getWidgetConfig()->supported_containers)) {
-            foreach ($configNodes->children() as $node) {
-                $containers[] = (string)$node->container_name;
+        $widgetConfig = $this->getWidgetConfigAsArray();
+        if (isset($widgetConfig) && isset($widgetConfig['supported_containers'])) {
+            $configNodes = $widgetConfig['supported_containers'];
+            foreach ($configNodes as $node) {
+                if (isset($node['container_name'])) {
+                    $containers[] = (string)$node['container_name'];
+                }
             }
         }
         return $containers;
@@ -361,20 +414,21 @@ class Instance extends \Magento\Core\Model\AbstractModel
     {
         $templates = array();
         $widgetTemplates = $this->getWidgetTemplates();
-        if ($this->getWidgetConfig()) {
-            if (!($configNodes = $this->getWidgetConfig()->supported_containers)) {
+        $widgetConfig = $this->getWidgetConfigAsArray();
+        if (isset($widgetConfig)) {
+            if (!isset($widgetConfig['supported_containers'])) {
                 return $widgetTemplates;
             }
-            foreach ($configNodes->children() as $node) {
-                if ((string)$node->container_name == $containerName) {
-                    if ($node->template && $node->template->children()) {
-                        foreach ($node->template->children() as $template) {
+            $configNodes = $widgetConfig['supported_containers'];
+            foreach ($configNodes as $node) {
+                if (isset($node['container_name']) && ((string)$node['container_name'] == $containerName)) {
+                    if (isset($node['template'])) {
+                        $templateChildren = $node['template'];
+                        foreach ($templateChildren as $template) {
                             if (isset($widgetTemplates[(string)$template])) {
                                 $templates[] = $widgetTemplates[(string)$template];
                             }
                         }
-                    } else {
-                        $templates[] = $widgetTemplates[(string)$template];
                     }
                 }
             }
@@ -411,7 +465,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        $hash = $this->_coreData->uniqHash();
         $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
@@ -421,7 +475,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
                 $xml .= '<action method="setData">'
                     . '<argument name="name" xsi:type="string">' . $name . '</argument>'
                     . '<argument name="value" xsi:type="string">'
-                    . \Mage::helper('Magento\Widget\Helper\Data')->escapeHtml($value) . '</argument>'
+                    . $this->_widgetData->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }

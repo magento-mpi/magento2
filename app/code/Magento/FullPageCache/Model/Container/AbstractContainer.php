@@ -33,15 +33,35 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     protected $_fpcCache;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\FullPageCache\Model\Cache $fpcCache,
-        \Magento\FullPageCache\Model\Container\Placeholder $placeholder
+        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_placeholder = $placeholder;
         $this->_fpcCache = $fpcCache;
+        $this->_eventManager = $eventManager;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**

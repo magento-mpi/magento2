@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml newsletter queue edit block
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Newsletter\Queue;
@@ -21,6 +17,29 @@ namespace Magento\Adminhtml\Block\Newsletter\Queue;
 class Edit extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'newsletter/queue/edit.phtml';
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -38,17 +57,14 @@ class Edit extends \Magento\Adminhtml\Block\Template
      */
     public function getQueue()
     {
-        return \Mage::registry('current_queue');
+        return $this->_coreRegistry->registry('current_queue');
     }
 
-    protected  function _beforeToHtml() {
-
-
-
+    protected  function _beforeToHtml()
+    {
         $this->setChild('form',
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form','form')
         );
-
         return parent::_beforeToHtml();
     }
 

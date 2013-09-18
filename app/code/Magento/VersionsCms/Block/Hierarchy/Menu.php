@@ -63,6 +63,28 @@ class Menu extends \Magento\Core\Block\Template
      */
     protected $_node;
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -71,7 +93,7 @@ class Menu extends \Magento\Core\Block\Template
             $this->_node = \Mage::getModel('Magento\VersionsCms\Model\Hierarchy\Node')
                 ->load($this->getNodeId());
         } else {
-            $this->_node = \Mage::registry('current_cms_hierarchy_node');
+            $this->_node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         }
 
         $this->_loadNodeMenuParams();

@@ -47,18 +47,20 @@ abstract class AbstractTab
     protected $_tab = null;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Builder $formBuilder
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Builder $formBuilder,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_formBuilder = $formBuilder;
         $this->_themeContext = $themeContext;
     }

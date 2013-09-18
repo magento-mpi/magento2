@@ -34,6 +34,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_eventRepository;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
@@ -41,13 +42,14 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Index\Model\EventRepository $eventRepository,
         array $data = array()
     ) {
-        parent::__construct($context, $storeManager, $urlModel, $data);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_eventRepository = $eventRepository;
     }
 

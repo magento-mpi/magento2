@@ -16,6 +16,33 @@ namespace Magento\Paypal\Model\System\Config\Backend;
 class MerchantCountry extends \Magento\Core\Model\Config\Value
 {
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Substitute empty value with Default country.
      */
     protected function _afterLoad()
@@ -26,7 +53,7 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
                 $defaultCountry = \Mage::app()->getWebsite($this->getWebsite())
                     ->getConfig(\Magento\Core\Helper\Data::XML_PATH_DEFAULT_COUNTRY);
             } else {
-                $defaultCountry = \Mage::helper('Magento\Core\Helper\Data')->getDefaultCountry($this->getStore());
+                $defaultCountry = $this->_coreData->getDefaultCountry($this->getStore());
             }
             $this->setValue($defaultCountry);
         }

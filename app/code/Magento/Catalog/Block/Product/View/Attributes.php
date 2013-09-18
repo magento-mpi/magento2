@@ -22,10 +22,33 @@ class Attributes extends \Magento\Core\Block\Template
 {
     protected $_product = null;
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = \Mage::registry('product');
+            $this->_product = $this->_coreRegistry->registry('product');
         }
         return $this->_product;
     }
@@ -43,7 +66,6 @@ class Attributes extends \Magento\Core\Block\Template
         $product = $this->getProduct();
         $attributes = $product->getAttributes();
         foreach ($attributes as $attribute) {
-//            if ($attribute->getIsVisibleOnFront() && $attribute->getIsUserDefined() && !in_array($attribute->getAttributeCode(), $excludeAttr)) {
             if ($attribute->getIsVisibleOnFront() && !in_array($attribute->getAttributeCode(), $excludeAttr)) {
                 $value = $attribute->getFrontend()->getValue($product);
 

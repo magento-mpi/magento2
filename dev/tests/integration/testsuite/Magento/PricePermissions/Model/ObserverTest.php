@@ -22,7 +22,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
         parent::setUp();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
     }
 
     public function testAdminhtmlBlockHtmlBeforeProductOpt()

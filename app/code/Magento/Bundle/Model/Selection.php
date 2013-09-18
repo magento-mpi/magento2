@@ -41,6 +41,33 @@ namespace Magento\Bundle\Model;
 class Selection extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Bundle\Model\Resource\Selection $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Bundle\Model\Resource\Selection $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -56,7 +83,7 @@ class Selection extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        if (!\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal() && $this->getWebsiteId()) {
+        if (!$this->_catalogData->isPriceGlobal() && $this->getWebsiteId()) {
             $this->getResource()->saveSelectionPrice($this);
 
             if (!$this->getDefaultPriceScope()) {

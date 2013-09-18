@@ -16,6 +16,25 @@ namespace Magento\Widget\Controller\Adminhtml\Widget;
 class Instance extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Load layout, set active menu and breadcrumbs
      *
      * @return \Magento\Widget\Controller\Adminhtml\Widget\Instance
@@ -58,7 +77,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         } else {
             $widgetInstance->setType($type)->setThemeId($themeId);
         }
-        \Mage::register('current_widget_instance', $widgetInstance);
+        $this->_coreRegistry->register('current_widget_instance', $widgetInstance);
         return $widgetInstance;
     }
 
@@ -204,7 +223,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $chooser = $this->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser')
             ->setUseMassaction(true)
-            ->setId(\Mage::helper('Magento\Core\Helper\Data')->uniqHash('categories'))
+            ->setId($this->_objectManager->get('Magento\Core\Helper\Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->setBody($chooser->toHtml());
@@ -220,7 +239,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser')
-            ->setName(\Mage::helper('Magento\Core\Helper\Data')->uniqHash('products_grid_'))
+            ->setName($this->_objectManager->get('Magento\Core\Helper\Data')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));

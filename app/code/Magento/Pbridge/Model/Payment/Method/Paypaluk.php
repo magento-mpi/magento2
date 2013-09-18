@@ -49,13 +49,29 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     protected $_proType = 'Magento\Pbridge\Model\Payment\Method\Paypaluk\Pro';
 
     /**
+     * Pbridge data
+     *
+     * @var \Magento\Pbridge\Helper\Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
      * Constructor
      *
-     * @param array $params
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param array $data
      */
-    public function __construct($params = array())
-    {
-        parent::__construct($params);
+    public function __construct(
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
         $this->_pro->setPaymentMethod($this);
     }
 
@@ -77,7 +93,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -276,7 +292,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     public function setStore($store)
     {
         $this->setData('store', $store);
-        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         parent::setStore($store);
 
         return $this;

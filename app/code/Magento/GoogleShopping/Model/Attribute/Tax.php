@@ -23,6 +23,38 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * Maximum number of tax rates per product supported by google shopping api
      */
     const RATES_MAX = 100;
+
+    /**
+     * @var \Magento\Tax\Helper\Data|null
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $resource, $resource, $resourceCollection, $data);
+    }
+
     /**
      * Set current attribute to entry (for specified product)
      *
@@ -33,14 +65,15 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     public function convertAttribute($product, $entry)
     {
         $entry->cleanTaxes();
-        if (\Mage::helper('Magento\Tax\Helper\Data')->getConfig()->priceIncludesTax()) {
+        if ($this->_taxData->getConfig()->priceIncludesTax()) {
             return $entry;
         }
 
-        $calc = \Mage::helper('Magento\Tax\Helper\Data')->getCalculator();
+        $calc = $this->_taxData->getCalculator();
         $customerTaxClass = $calc->getDefaultCustomerTaxClass($product->getStoreId());
         $rates = $calc->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
-        $targetCountry = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getTargetCountry($product->getStoreId());
+        $targetCountry = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')
+            ->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
             if ($targetCountry == $rate['country']) {
@@ -85,7 +118,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         if (strpos($zip, '-') == -1) {
             return array($zip);
         } else {
-            return \Mage::helper('Magento\GoogleCheckout\Helper\Data')->zipRangeToZipPattern($zip);
+            return $this->_gsData->zipRangeToZipPattern($zip);
         }
     }
 }

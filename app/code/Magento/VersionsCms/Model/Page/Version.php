@@ -100,12 +100,6 @@ class Version extends \Magento\Core\Model\AbstractModel
                         __('Cannot change version access level because it is the last public version for its page.')
                     );
                 }
-
-//                if ($resource->isVersionHasPublishedRevision($this)) {
-//                    \Mage::throwException(
-//                        __('Cannot change version access level because its revision is published.')
-//                    );
-//                }
             }
         }
 

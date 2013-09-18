@@ -19,6 +19,29 @@ namespace Magento\Invitation\Block;
 class Link extends \Magento\Core\Block\Template
 {
     /**
+     * Invitation data
+     *
+     * @var \Magento\Invitation\Helper\Data
+     */
+    protected $_invitationData = null;
+
+    /**
+     * @param \Magento\Invitation\Helper\Data $invitationData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Invitation\Helper\Data $invitationData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_invitationData = $invitationData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Adding link to account links block link params if invitation
      * is allowed globally and for current website
      *
@@ -34,7 +57,7 @@ class Link extends \Magento\Core\Block\Template
             if ($blockInstance) {
                 $blockInstance->addLink(
                     __('Send Invitations'),
-                    \Mage::helper('Magento\Invitation\Helper\Data')->getCustomerInvitationFormUrl(),
+                    $this->_invitationData->getCustomerInvitationFormUrl(),
                     __('Send Invitations'),
                     true,
                     array(),

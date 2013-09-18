@@ -27,6 +27,22 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     protected $_validatorNotProtectedExtensions;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Extract data from request and return value
      *
      * @param \Zend_Controller_Request_Http $request
@@ -255,7 +271,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
                 case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_JSON:
                     $output = array(
                         'value'     => $value,
-                        'url_key'   => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($value)
+                        'url_key'   => $this->_coreData->urlEncode($value)
                     );
                     break;
             }

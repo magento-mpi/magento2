@@ -18,7 +18,9 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
         /** @var $product \Magento\Catalog\Model\Product */
         $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(9);
-        Mage::register('current_product', $product);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
         /** @var \Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection $collection */
         $collection = Mage::getResourceModel(

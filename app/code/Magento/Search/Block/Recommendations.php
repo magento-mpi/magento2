@@ -20,13 +20,36 @@ namespace Magento\Search\Block;
 class Recommendations extends \Magento\Core\Block\Template
 {
     /**
+     * Search data
+     *
+     * @var \Magento\Search\Helper\Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_searchData = $searchData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve search recommendations
      *
      * @return array
      */
     public function getRecommendations()
     {
-        $searchRecommendationsEnabled = (boolean)\Mage::helper('Magento\Search\Helper\Data')
+        $searchRecommendationsEnabled = (boolean)$this->_searchData
             ->getSearchConfigData('search_recommendations_enabled');
 
         if (!$searchRecommendationsEnabled) {
@@ -42,7 +65,7 @@ class Recommendations extends \Magento\Core\Block\Template
         $result = array();
 
         /** @var $coreHelper \Magento\Core\Helper\Data */
-        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
+        $coreHelper = $this->_coreData;
         foreach ($recommendations as $recommendation) {
             $result[] = array(
                 'word'        => $coreHelper->escapeHtml($recommendation['query_text']),
@@ -60,7 +83,7 @@ class Recommendations extends \Magento\Core\Block\Template
      */
     public function isCountResultsEnabled()
     {
-        return (boolean)\Mage::helper('Magento\Search\Helper\Data')
+        return (boolean)$this->_searchData
             ->getSearchConfigData('search_recommendations_count_results_enabled');
     }
 }

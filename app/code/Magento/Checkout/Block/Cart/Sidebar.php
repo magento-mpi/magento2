@@ -23,6 +23,31 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT   = 'checkout/sidebar/count';
 
     /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Class constructor
      */
     protected function _construct()
@@ -187,7 +212,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getIncExcTax($flag)
     {
-        $text = \Mage::helper('Magento\Tax\Helper\Data')->getIncExcText($flag);
+        $text = $this->_taxData->getIncExcText($flag);
         return $text ? ' ('.$text.')' : '';
     }
 

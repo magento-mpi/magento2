@@ -148,8 +148,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
-        }
-        else {
+        } else {
             \Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
@@ -411,7 +410,8 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param array|\Magento\Object $buyRequest
      * @return \Magento\Wishlist\Model\Item
      */
-    public function mergeBuyRequest($buyRequest) {
+    public function mergeBuyRequest($buyRequest)
+    {
         if ($buyRequest instanceof \Magento\Object) {
             $buyRequest = $buyRequest->getData();
         }
@@ -471,7 +471,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return false;
         }
         if (empty($selfOptions) && !empty($buyRequest)) {
-            if (!$product->isComposite()){
+            if (!$product->isComposite()) {
                 return true;
             } else {
                 return false;
@@ -480,10 +480,10 @@ class Item extends \Magento\Core\Model\AbstractModel
 
         $requestArray = $buyRequest->getData();
 
-        if(!$this->_compareOptions($requestArray, $selfOptions)){
+        if (!$this->_compareOptions($requestArray, $selfOptions)) {
             return false;
         }
-        if(!$this->_compareOptions($selfOptions, $requestArray)){
+        if (!$this->_compareOptions($selfOptions, $requestArray)) {
             return false;
         }
         return true;
@@ -532,7 +532,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             }
             if ( !isset($options2[$code])
                 || ($options2[$code]->getValue() === null)
-                || $options2[$code]->getValue() != $option->getValue()) {
+                || $options2[$code]->getValue() != $option->getValue()
+            ) {
                 return false;
             }
         }

@@ -20,6 +20,25 @@ namespace Magento\Adminhtml\Controller\Sales\Order;
 class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstract
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Get requested items qty's from request
      */
     protected function _getItemQtys()
@@ -36,6 +55,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
     /**
      * Initialize invoice model instance
      *
+     * @param bool $update
      * @return \Magento\Sales\Model\Order\Invoice
      */
     protected function _initInvoice($update = false)
@@ -43,7 +63,6 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
         $this->_title(__('Invoices'));
 
         $invoice = false;
-        $itemsToInvoice = 0;
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($invoiceId) {
@@ -76,7 +95,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
             }
         }
 
-        \Mage::register('current_invoice', $invoice);
+        $this->_coreRegistry->register('current_invoice', $invoice);
         return $invoice;
     }
 
@@ -89,7 +108,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
     protected function _saveInvoice($invoice)
     {
         $invoice->getOrder()->setIsInProcess(true);
-        $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
+        \Mage::getModel('Magento\Core\Model\Resource\Transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder())
             ->save();
@@ -139,8 +158,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
             $this->getLayout()->getBlock('sales_invoice_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->renderLayout();
-        }
-        else {
+        } else {
             $this->_forward('noRoute');
         }
     }
@@ -154,7 +172,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
          * Clear old values for invoice qty's
          */
         $this->_getSession()->getInvoiceItemQtys(true);
-        $this->_redirect('*/*/new', array('order_id'=>$this->getRequest()->getParam('order_id')));
+        $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
 
     /**
@@ -166,7 +184,8 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
         if ($invoice) {
             $this->_title(__('New Invoice'));
 
-            if ($comment = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCommentText(true)) {
+            $comment = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCommentText(true);
+            if ($comment) {
                 $invoice->setCommentText($comment);
             }
 
@@ -197,13 +216,13 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot update item quantity.')
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -260,7 +279,8 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
                 $transactionSave->save();
 
                 if (isset($shippingResponse) && $shippingResponse->hasErrors()) {
-                    $this->_getSession()->addError(__('The invoice and the shipment  have been created. The shipping label cannot be created now.'));
+                    $this->_getSession()->addError(__('The invoice and the shipment  have been created. '
+                        . 'The shipping label cannot be created now.'));
                 } elseif (!empty($data['do_shipment'])) {
                     $this->_getSession()->addSuccess(__('You created the invoice and shipment.'));
                 } else {
@@ -307,7 +327,8 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
      */
     public function captureAction()
     {
-        if ($invoice = $this->_initInvoice()) {
+        $invoice = $this->_initInvoice();
+        if ($invoice) {
             try {
                 $invoice->capture();
                 $this->_saveInvoice($invoice);
@@ -328,7 +349,8 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
      */
     public function cancelAction()
     {
-        if ($invoice = $this->_initInvoice()) {
+        $invoice = $this->_initInvoice();
+        if ($invoice) {
             try {
                 $invoice->cancel();
                 $this->_saveInvoice($invoice);
@@ -338,7 +360,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('Invoice canceling error'));
             }
-            $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
+            $this->_redirect('*/*/view', array('invoice_id' => $invoice->getId()));
         } else {
             $this->_forward('noRoute');
         }
@@ -349,7 +371,8 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
      */
     public function voidAction()
     {
-        if ($invoice = $this->_initInvoice()) {
+        $invoice = $this->_initInvoice();
+        if ($invoice) {
             try {
                 $invoice->void();
                 $this->_saveInvoice($invoice);
@@ -359,7 +382,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('Invoice voiding error'));
             }
-            $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
+            $this->_redirect('*/*/view', array('invoice_id' => $invoice->getId()));
         } else {
             $this->_forward('noRoute');
         }
@@ -389,13 +412,13 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot add new comment.')
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -408,5 +431,4 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
         $this->_initInvoice();
         parent::printAction();
     }
-
 }

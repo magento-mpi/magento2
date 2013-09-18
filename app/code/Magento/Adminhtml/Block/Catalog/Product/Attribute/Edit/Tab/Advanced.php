@@ -21,6 +21,47 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
 class Advanced extends \Magento\Backend\Block\Widget\Form
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Eav data
+     *
+     * @var \Magento\Eav\Helper\Data
+     */
+    protected $_eavData = null;
+
+    /**
+     * @var \Magento\Data\Form\Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_formFactory = $formFactory;
+        $this->_eavData = $eavData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Adding product form elements for editing attribute
      *
      * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Advanced
@@ -29,11 +70,11 @@ class Advanced extends \Magento\Backend\Block\Widget\Form
     {
         $attributeObject = $this->getAttributeObject();
 
-        $form = new \Magento\Data\Form(array(
+        $form = $this->_formFactory->create(array('attributes' => array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
             'method' => 'post'
-        ));
+        )));
 
         $fieldset = $form->addFieldset(
             'advanced_fieldset',
@@ -131,7 +172,7 @@ class Advanced extends \Magento\Backend\Block\Widget\Form
                 'name' => 'frontend_class',
                 'label' => __('Input Validation for Store Owner'),
                 'title' => __('Input Validation for Store Owner'),
-                'values' => \Mage::helper('Magento\Eav\Helper\Data')->getFrontendClasses(
+                'values' => $this->_eavData->getFrontendClasses(
                     $attributeObject->getEntityType()->getEntityTypeCode()
                 )
             )
@@ -192,6 +233,6 @@ class Advanced extends \Magento\Backend\Block\Widget\Form
      */
     private function getAttributeObject()
     {
-        return \Mage::registry('entity_attribute');
+        return $this->_coreRegistry->registry('entity_attribute');
     }
 }

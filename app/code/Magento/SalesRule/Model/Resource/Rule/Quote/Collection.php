@@ -14,7 +14,7 @@ class Collection extends \Magento\SalesRule\Model\Resource\Rule\Collection
     /**
      * Add websites for load
      *
-     * @return Magento_SalesRule_Model_Resource_Rule_Quote_GridCollection
+     * @return \Magento\SalesRule\Model\Resource\Rule_Quote_GridCollection
      */
 
     public function _initSelect()

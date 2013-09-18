@@ -20,13 +20,32 @@ namespace Magento\Adminhtml\Controller\System;
 class Backup extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Backup list action
      */
     public function indexAction()
     {
         $this->_title(__('Backups'));
 
-        if($this->getRequest()->getParam('ajax')) {
+        if ($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');
             return;
         }
@@ -65,7 +84,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
         /**
          * @var \Magento\Backup\Helper\Data $helper
          */
-        $helper = \Mage::helper('Magento\Backup\Helper\Data');
+        $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
 
         try {
             $type = $this->getRequest()->getParam('type');
@@ -83,7 +102,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
 
             $backupManager->setName($this->getRequest()->getParam('backup_name'));
 
-            \Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             if ($this->getRequest()->getParam('maintenance_mode')) {
                 $turnedOn = $helper->turnOnMaintenanceMode();
@@ -91,9 +110,10 @@ class Backup extends \Magento\Adminhtml\Controller\Action
                 if (!$turnedOn) {
                     $response->setError(
                         __('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . __('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
-                    );
-                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
+                        . ' ' . __('To continue with the backup, you need to either deselect '
+                        . '"Put store on the maintenance mode" or update your permissions.'));
+                    $backupManager->setErrorMessage(__("Something went wrong '
+                        . 'putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -149,7 +169,8 @@ class Backup extends \Magento\Adminhtml\Controller\Action
             return $this->_redirect('*/*');
         }
 
-        $fileName = \Mage::helper('Magento\Backup\Helper\Data')->generateBackupDownloadName($backup);
+        $fileName = $this->_objectManager->get('Magento\Backup\Helper\Data')
+            ->generateBackupDownloadName($backup);
 
         $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $backup->getSize());
 
@@ -166,7 +187,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
      */
     public function rollbackAction()
     {
-        if (!\Mage::helper('Magento\Backup\Helper\Data')->isRollbackAllowed()){
+        if (!$this->_objectManager->get('Magento\Backup\Helper\Data')->isRollbackAllowed()) {
             return $this->_forward('denied');
         }
 
@@ -174,7 +195,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
             return $this->getUrl('*/*/index');
         }
 
-        $helper = \Mage::helper('Magento\Backup\Helper\Data');
+        $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
         $response = new \Magento\Object();
 
         try {
@@ -201,7 +222,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
                 ->setName($backup->getName(), false)
                 ->setResourceModel(\Mage::getResourceModel('Magento\Backup\Model\Resource\Db'));
 
-            \Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             $passwordValid = \Mage::getModel('Magento\Backup\Model\Backup')->validateUserPassword(
                 $this->getRequest()->getParam('password')
@@ -219,9 +240,10 @@ class Backup extends \Magento\Adminhtml\Controller\Action
                 if (!$turnedOn) {
                     $response->setError(
                         __('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . __('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
-                    );
-                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
+                        . ' ' . __('To continue with the rollback, you need to either deselect '
+                        . '"Put store on the maintenance mode" or update your permissions.'));
+                    $backupManager->setErrorMessage(__("Something went wrong '
+                        . 'putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -294,7 +316,7 @@ class Backup extends \Magento\Adminhtml\Controller\Action
         $resultData = new \Magento\Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
-        \Mage::register('backup_manager', $resultData);
+        $this->_coreRegistry->register('backup_manager', $resultData);
 
         $deleteFailMessage = __('We couldn\'t delete one or more backups.');
 
@@ -324,6 +346,8 @@ class Backup extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addSuccess(
                     __('The selected backup(s) has been deleted.')
                 );
+            } else {
+                throw new Exception($deleteFailMessage);
             }
             else {
                 throw new \Exception($deleteFailMessage);

@@ -23,6 +23,29 @@ class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
     protected $_totalRenderers;
     protected $_defaultRenderer = 'Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals';
 
+    /**
+     * Sales data
+     *
+     * @var \Magento\Sales\Helper\Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_salesData = $salesData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -76,7 +99,7 @@ class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
     public function renderTotals($area = null, $colspan = 1)
     {
         $html = '';
-        foreach($this->getTotals() as $total) {
+        foreach ($this->getTotals() as $total) {
             if ($total->getArea() != $area && $area != -1) {
                 continue;
             }
@@ -87,6 +110,6 @@ class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 
     public function canSendNewOrderConfirmationEmail()
     {
-        return \Mage::helper('Magento\Sales\Helper\Data')->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
+        return $this->_salesData->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
     }
 }

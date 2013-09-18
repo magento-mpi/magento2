@@ -25,14 +25,29 @@ class Observer
     const EXPIRED_DATE_KEY = 'expiredOn';
 
     /**
+     * License data
+     *
+     * @var \Magento\License\Helper\Data
+     */
+    protected $_licenseData = null;
+
+    /**
+     * @param \Magento\License\Helper\Data $licenseData
+     */
+    public function __construct(
+        \Magento\License\Helper\Data $licenseData
+    ) {
+        $this->_licenseData = $licenseData;
+    }
+
+    /**
      * Calculates the balance period of the license after (in days) admin authenticate in the backend.
      * 
      * @return void
      */
     public function adminUserAuthenticateAfter()
     {
-        $magento_license=\Mage::helper('Magento\License\Helper\Data');
-        if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
+        if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
             $this->_calculateDaysLeftToExpired();
         }
     }
@@ -46,8 +61,7 @@ class Observer
      */
     public function preDispatch()
     {
-        $magento_license=\Mage::helper('Magento\License\Helper\Data');
-        if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
+        if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
             $lastCalculation = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getDaysLeftBeforeExpired();
 
             $dayOfLastCalculation = date('d', $lastCalculation['updatedAt']);
@@ -56,7 +70,8 @@ class Observer
 
             $isComeNewDay = ($currentDay != $dayOfLastCalculation);
 
-            if(!\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->hasDaysLeftBeforeExpired() or $isComeNewDay) {
+            if (!\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->hasDaysLeftBeforeExpired()
+                || $isComeNewDay) {
                 $this->_calculateDaysLeftToExpired();
             }
         }
@@ -70,9 +85,8 @@ class Observer
      */
     protected function _calculateDaysLeftToExpired()
     {
-        $magento_license=\Mage::helper('Magento\License\Helper\Data');
-        if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
-            $licenseProperties = \Mage::helper('Magento\License\Helper\Data')->getIoncubeLicenseProperties();
+        if ($this->_licenseData->isIoncubeLoaded() && $this->_licenseData->isIoncubeEncoded()) {
+            $licenseProperties = $this->_licenseData->getIoncubeLicenseProperties();
             $expiredDate = (string)$licenseProperties[self::EXPIRED_DATE_KEY]['value'];
 
             $expiredYear = (int)(substr($expiredDate, 0, 4));

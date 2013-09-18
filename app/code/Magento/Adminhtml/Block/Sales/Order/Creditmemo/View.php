@@ -19,6 +19,28 @@ namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo;
 
 class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Add & remove control buttons
@@ -93,7 +115,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getCreditmemo()
     {
-        return \Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     /**
@@ -105,8 +127,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
     {
         if ($this->getCreditmemo()->getEmailSent()) {
             $emailSent = __('The credit memo email was sent');
-        }
-        else {
+        } else {
             $emailSent = __('the credit memo email is not sent');
         }
         return __('Credit Memo #%1 | %3 | %2 (%4)', $this->getCreditmemo()->getIncrementId(), $this->formatDate($this->getCreditmemo()->getCreatedAtDate(), 'medium', true), $this->getCreditmemo()->getStateName(), $emailSent);
@@ -119,12 +140,10 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getBackUrl()
     {
-        return $this->getUrl(
-            '*/sales_order/view',
-            array(
-                'order_id'  => $this->getCreditmemo() ? $this->getCreditmemo()->getOrderId() : null,
-                'active_tab'=> 'order_creditmemos'
-            ));
+        return $this->getUrl('*/sales_order/view', array(
+            'order_id'  => $this->getCreditmemo() ? $this->getCreditmemo()->getOrderId() : null,
+            'active_tab'=> 'order_creditmemos'
+        ));
     }
 
     /**

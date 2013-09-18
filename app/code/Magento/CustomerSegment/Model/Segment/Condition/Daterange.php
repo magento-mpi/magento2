@@ -34,13 +34,23 @@ class Daterange
     private $_valueElement = null;
 
     /**
-     * Initialize model
+     * Adminhtml data
      *
+     * @var \Magento\Adminhtml\Helper\Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
+    public function __construct(
+        \Magento\Adminhtml\Helper\Data $adminhtmlData,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($context, $data);
 
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Daterange');
@@ -110,7 +120,7 @@ class Daterange
      */
     public function getValueElementChooserUrl()
     {
-        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/customersegment/chooserDaterange', array(
+        return $this->_adminhtmlData->getUrl('adminhtml/customersegment/chooserDaterange', array(
             'value_element_id' => $this->_valueElement->getId(),
         ));
     }

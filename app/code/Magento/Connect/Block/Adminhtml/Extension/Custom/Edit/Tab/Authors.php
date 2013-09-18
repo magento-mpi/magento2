@@ -73,7 +73,7 @@ class Authors
                 }
             }
             foreach ($temp as $key => $value) {
-                $authors[$key] = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($value);
+                $authors[$key] = $this->_coreData->jsonEncode($value);
             }
         }
         return $authors;

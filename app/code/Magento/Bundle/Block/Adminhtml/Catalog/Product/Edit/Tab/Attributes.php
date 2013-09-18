@@ -158,7 +158,7 @@ class Attributes
     public function getProduct()
     {
         if (!$this->getData('product')){
-            $this->setData('product', \Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');
     }

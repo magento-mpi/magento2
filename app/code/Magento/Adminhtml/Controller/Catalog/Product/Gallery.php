@@ -51,11 +51,11 @@ class Gallery extends \Magento\Adminhtml\Controller\Action
             );
         }
 
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Catalog::products');
     }
-} // Class \Magento\Adminhtml\Controller\Catalog\Product\Gallery End
+}

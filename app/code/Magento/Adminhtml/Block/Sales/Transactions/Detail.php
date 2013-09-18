@@ -27,6 +27,29 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Container
     protected $_txn;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Add control buttons
      *
      */
@@ -34,7 +57,7 @@ class Detail extends \Magento\Adminhtml\Block\Widget\Container
     {
         parent::_construct();
 
-        $this->_txn = \Mage::registry('current_transaction');
+        $this->_txn = $this->_coreRegistry->registry('current_transaction');
         if (!$this->_txn) {
             return;
         }

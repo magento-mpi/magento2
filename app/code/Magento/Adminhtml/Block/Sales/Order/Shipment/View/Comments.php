@@ -21,13 +21,34 @@ namespace Magento\Adminhtml\Block\Sales\Order\Shipment\View;
 class Comments extends \Magento\Adminhtml\Block\Text\ListText
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve shipment model instance
      *
      * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**

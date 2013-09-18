@@ -31,16 +31,18 @@ class Edit extends \Magento\Backend\Block\Widget\Form
     protected $_rootResource;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_rootResource = $rootResource;
     }
 

@@ -74,8 +74,10 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      */
     public function testResponseHeaders()
     {
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+
         $request = new \Magento\Core\Controller\Request\Http();
-        $response = new \Magento\Core\Controller\Response\Http();
+        $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
         $action = new \Magento\Core\Controller\Varien\Action\Forward($request, $response);
 

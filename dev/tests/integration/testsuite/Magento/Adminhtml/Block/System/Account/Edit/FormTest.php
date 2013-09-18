@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Frame
         $session->setUser($user);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
 
         /** @var \Magento\Adminhtml\Block\System\Account\Edit\Form */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Account\Edit\Form');

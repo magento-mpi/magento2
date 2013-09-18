@@ -27,7 +27,7 @@ class Profile extends \Magento\Core\Controller\Front\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::helper('Magento\Pbridge\Helper\Data')->arePaymentProfilesEnables()) {
+        if (!$this->_objectManager->get('Magento\Pbridge\Helper\Data')->arePaymentProfilesEnables()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }

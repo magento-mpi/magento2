@@ -24,7 +24,7 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
      */
     protected function _construct()
     {
-        $this->_blockGroup = 'Magento_CurrencySymbol_System';
+        $this->_blockGroup = 'Magento\CurrencySymbol\System';
         $this->_controller = 'adminhtml_system_currencysymbol';
         parent::_construct();
     }

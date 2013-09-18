@@ -20,6 +20,22 @@ namespace Magento\CurrencySymbol\Model;
 class Observer
 {
     /**
+     * Currency symbol data
+     *
+     * @var \Magento\CurrencySymbol\Helper\Data
+     */
+    protected $_currencySymbolData = null;
+
+    /**
+     * @param \Magento\CurrencySymbol\Helper\Data $currencySymbolData
+     */
+    public function __construct(
+        \Magento\CurrencySymbol\Helper\Data $currencySymbolData
+    ) {
+        $this->_currencySymbolData = $currencySymbolData;
+    }
+
+    /**
      * Generate options for currency displaying with custom currency symbol
      *
      * @param \Magento\Event\Observer $observer
@@ -29,7 +45,7 @@ class Observer
     {
         $baseCode = $observer->getEvent()->getBaseCode();
         $currencyOptions = $observer->getEvent()->getCurrencyOptions();
-        $currencyOptions->setData(\Mage::helper('Magento\CurrencySymbol\Helper\Data')->getCurrencyOptions($baseCode));
+        $currencyOptions->setData($this->_currencySymbolData->getCurrencyOptions($baseCode));
 
         return $this;
     }

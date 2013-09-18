@@ -61,13 +61,8 @@ class Accountlinks extends \Magento\FullPageCache\Model\Container\Customer
                     );
                 }
             }
-        } else {
-            \Mage::dispatchEvent('render_block_accountlinks', array(
-                'block' => $block,
-                'placeholder' => $this->_placeholder,
-            ));
         }
-        \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

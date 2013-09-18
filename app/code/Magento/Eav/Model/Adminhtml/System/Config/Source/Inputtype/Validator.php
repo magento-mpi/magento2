@@ -21,14 +21,21 @@ class Validator extends \Zend_Validate_InArray
 {
 
     /**
-     * Construct
+     * Eav data
+     *
+     * @var \Magento\Eav\Helper\Data
      */
-    public function __construct()
-    {
+    protected $_eavData = null;
+
+    /**
+     * @param \Magento\Eav\Helper\Data $eavData
+     */
+    public function __construct(
+        \Magento\Eav\Helper\Data $eavData
+    ) {
+        $this->_eavData = $eavData;
         //set data haystack
-        /** @var $helper \Magento\Eav\Helper\Data */
-        $helper = \Mage::helper('Magento\Eav\Helper\Data');
-        $haystack = $helper->getInputTypesValidatorData();
+        $haystack = $this->_eavData->getInputTypesValidatorData();
 
         //reset message template and set custom
         $this->_messageTemplates = null;

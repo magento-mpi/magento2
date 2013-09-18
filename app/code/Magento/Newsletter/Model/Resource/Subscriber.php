@@ -49,6 +49,25 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_messagesScope          = 'newsletter/session';
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize resource model
      * Get tablename from config
      *
@@ -130,7 +149,7 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _generateRandomCode()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**

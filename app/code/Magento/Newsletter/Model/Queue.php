@@ -81,6 +81,31 @@ class Queue extends \Magento\Core\Model\Template
     const STATUS_PAUSE = 4;
 
     /**
+     * Newsletter data
+     *
+     * @var \Magento\Newsletter\Helper\Data
+     */
+    protected $_newsletterData = null;
+
+    /**
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Newsletter\Helper\Data $newsletterData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Newsletter\Helper\Data $newsletterData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_newsletterData = $newsletterData;
+        parent::__construct($design, $context, $registry, $data);
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -132,7 +157,7 @@ class Queue extends \Magento\Core\Model\Template
      */
     public function setQueueStartAtByString($startAt)
     {
-        if(is_null($startAt) || $startAt == '') {
+        if (is_null($startAt) || $startAt == '') {
             $this->setQueueStartAt(null);
         } else {
             $locale = \Mage::app()->getLocale();
@@ -141,7 +166,7 @@ class Queue extends \Magento\Core\Model\Template
             $this->setQueueStartAt(\Mage::getModel('Magento\Core\Model\Date')->gmtDate(null, $time));
         }
         return $this;
-     }
+    }
 
     /**
      * Send messages to subscribers for this queue
@@ -178,7 +203,7 @@ class Queue extends \Magento\Core\Model\Template
             ->setTemplateSubject($this->getNewsletterSubject())
             ->setTemplateText($this->getNewsletterText())
             ->setTemplateStyles($this->getNewsletterStyles())
-            ->setTemplateFilter(\Mage::helper('Magento\Newsletter\Helper\Data')->getTemplateProcessor());
+            ->setTemplateFilter($this->_newsletterData->getTemplateProcessor());
 
         /** @var \Magento\Newsletter\Model\Subscriber $item */
         foreach ($collection->getItems() as $item) {
@@ -295,7 +320,7 @@ class Queue extends \Magento\Core\Model\Template
      */
     public function getStores()
     {
-        if(!$this->_stores) {
+        if (!$this->_stores) {
             $this->_stores = $this->_getResource()->getStores($this);
         }
 

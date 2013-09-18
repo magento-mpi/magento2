@@ -42,15 +42,26 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_errors = array();
 
     /**
-     * Class construct
-     *
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
      * @param string $connectionName
      */
-    public function __construct($connectionName = null)
-    {
+    public function __construct(
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\File\Storage\Database $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array(),
+        $connectionName = null
+    ) {
         $this->_init('Magento\Core\Model\Resource\File\Storage\Database');
 
-        parent::__construct($connectionName);
+        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -300,7 +311,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function getDirectoryFiles($directory)
     {
-        $directory = \Mage::helper('Magento\Core\Helper\File\Storage\Database')->getMediaRelativePath($directory);
+        $directory = $this->_coreFileStorageDb->getMediaRelativePath($directory);
         return $this->_getResource()->getDirectoryFiles($directory);
     }
 

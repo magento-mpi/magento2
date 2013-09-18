@@ -27,18 +27,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_timeoutIdling;
 
     /**
-     * Collection constructor
-     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      * @param int $timeoutIdling
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $timeoutIdling = null
     ) {
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
         $this->_timeoutIdling = is_null($timeoutIdling) ?
             self::DEFAULT_TIMEOUT_IDLING_EVENTS : $timeoutIdling;
     }

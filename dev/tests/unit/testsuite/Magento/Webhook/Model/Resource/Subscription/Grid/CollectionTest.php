@@ -13,6 +13,8 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 {
     public function testConstructor()
     {
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+
         $fetchStrategyMock = $this->_makeMock('Magento\Data\Collection\Db\FetchStrategyInterface');
         $endpointResMock = $this->_makeMock('Magento\Webhook\Model\Resource\Endpoint');
 
@@ -34,7 +36,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             ->will($this->returnValue($connectionMock));
 
         new \Magento\Webhook\Model\Resource\Subscription\Grid\Collection(
-            $configMock, $fetchStrategyMock, $endpointResMock, $resourceMock);
+            $configMock, $endpointResMock, $eventManager, $fetchStrategyMock, $resourceMock);
     }
 
     /**

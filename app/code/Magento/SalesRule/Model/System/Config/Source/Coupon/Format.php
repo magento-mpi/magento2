@@ -20,13 +20,29 @@ namespace Magento\SalesRule\Model\System\Config\Source\Coupon;
 class Format
 {
     /**
+     * Sales rule coupon
+     *
+     * @var \Magento\SalesRule\Helper\Coupon
+     */
+    protected $_salesRuleCoupon = null;
+
+    /**
+     * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
+     */
+    public function __construct(
+        \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
+    ) {
+        $this->_salesRuleCoupon = $salesRuleCoupon;
+    }
+
+    /**
      * Options getter
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $formatsList = \Mage::helper('Magento\SalesRule\Helper\Coupon')->getFormatsList();
+        $formatsList = $this->_salesRuleCoupon->getFormatsList();
         $result = array();
         foreach ($formatsList as $formatId => $formatTitle) {
             $result[] = array(

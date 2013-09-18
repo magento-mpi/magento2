@@ -25,7 +25,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUn
         /** @var $customer \Magento\Customer\Model\Customer */
         $customer = Mage::getModel('Magento\Customer\Model\Customer');
         $customer->load(1);
-        Mage::register('current_customer', $customer);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_customer', $customer);
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
             'Magento\Core\Model\Layout',

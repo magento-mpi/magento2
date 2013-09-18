@@ -19,10 +19,6 @@
  * @method \Magento\Core\Model\Store\Group setName(string $value)
  * @method \Magento\Core\Model\Store\Group setRootCategoryId(int $value)
  * @method \Magento\Core\Model\Store\Group setDefaultStoreId(int $value)
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Core\Model\Store;
@@ -91,6 +87,7 @@ class Group extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -98,13 +95,14 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configDataResource = $configDataResource;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
 

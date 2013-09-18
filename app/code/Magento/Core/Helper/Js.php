@@ -59,17 +59,27 @@ class Js extends \Magento\Core\Helper\AbstractHelper
     protected $_viewUrl;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config\Modules\Reader $configReader
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\View\Url $viewUrl
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Config\Modules\Reader $configReader,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\View\Url $viewUrl
     ) {
+        $this->_coreData = $coreData;
         parent::__construct($context);
         $this->_configReader = $configReader;
         $this->_configCacheType = $configCacheType;
@@ -83,7 +93,7 @@ class Js extends \Magento\Core\Helper\AbstractHelper
      */
     public function getTranslateJson()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->_getTranslateData());
+        return $this->_coreData->jsonEncode($this->_getTranslateData());
     }
 
     /**

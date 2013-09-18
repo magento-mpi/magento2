@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Sales\Order\Create;
 
-abstract class AbstractCreate extends \Magento\Adminhtml\Block\Widget
+abstract class AbstractCreate extends \Magento\Backend\Block\Widget
 {
     /**
      * Retrieve create order model object

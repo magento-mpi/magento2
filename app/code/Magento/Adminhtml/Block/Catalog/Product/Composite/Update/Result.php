@@ -22,15 +22,48 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Update;
 class Result extends \Magento\Core\Block\Template
 {
     /**
+     * Adminhtml js
+     *
+     * @var \Magento\Adminhtml\Helper\Js
+     */
+    protected $_adminhtmlJs = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Helper\Js $adminhtmlJs,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_adminhtmlJs = $adminhtmlJs;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Forms script response
      *
      * @return string
      */
     public function _toHtml()
     {
-        $updateResult = \Mage::registry('composite_update_result');
-        $resultJson = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($updateResult);
+        $updateResult = $this->_coreRegistry->registry('composite_update_result');
+        $resultJson = $this->_coreData->jsonEncode($updateResult);
         $jsVarname = $updateResult->getJsVarName();
-        return \Mage::helper('Magento\Adminhtml\Helper\Js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
+        return $this->_adminhtmlJs->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
     }
 }

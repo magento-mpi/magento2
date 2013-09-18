@@ -81,15 +81,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Retreive payment method form html
      *
-     * @param   Magento_Payment_Model_Abstract $method
-     * @return  \Magento\Payment\Block\Form
+     * @param   \Magento\Payment\Model\Method\AbstractMethod $method
+     * @return  Magento_Payment_Block_Form
      */
     public function getMethodFormBlock(\Magento\Payment\Model\Method\AbstractMethod $method)
     {
         $block = false;
         $blockType = $method->getFormBlockType();
-        if ($this->getLayout()) {
-            $block = $this->getLayout()->createBlock($blockType, $method->getCode());
+        if (\Mage::app()->getLayout()) {
+            $block = \Mage::app()->getLayout()->createBlock($blockType, $method->getCode());
             $block->setMethod($method);
         }
         return $block;
@@ -104,7 +104,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getInfoBlock(\Magento\Payment\Model\Info $info)
     {
         $blockType = $info->getMethodInstance()->getInfoBlockType();
-        $layout = $this->getLayout() ?: \Mage::app()->getLayout();
+        $layout = \Mage::app()->getLayout();
         $block = $layout->createBlock($blockType);
         $block->setInfo($info);
         return $block;

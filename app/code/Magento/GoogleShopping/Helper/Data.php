@@ -19,6 +19,22 @@ namespace Magento\GoogleShopping\Helper;
 
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
+    /**
+     * @var \Magento\Core\Helper\String|null
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context);
+    }
 
     /**
      * Get Google Content Product ID
@@ -43,7 +59,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function cleanAtomAttribute($string)
     {
-        return \Mage::helper('Magento\Core\Helper\String')
+        return $this->_coreString
             ->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
     }
 

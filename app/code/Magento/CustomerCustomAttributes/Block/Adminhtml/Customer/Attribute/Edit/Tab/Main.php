@@ -20,8 +20,37 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Ed
 
 class Main
     extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Customer data
+     *
+     * @var \Magento\CustomerCustomAttributes\Helper\Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\CustomerCustomAttributes\Helper\Data $customerData
+     * @param \Magento\Eav\Helper\Data $eavData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\CustomerCustomAttributes\Helper\Data $customerData,
+        \Magento\Eav\Helper\Data $eavData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_customerData = $customerData;
+        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $data);
+    }
+
     /**
      * Preparing global layout
      *
@@ -50,7 +79,7 @@ class Main
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
         /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
-        $helper     = \Mage::helper('Magento\CustomerCustomAttributes\Helper\Data');
+        $helper     = $this->_customerData;
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
@@ -232,7 +261,7 @@ class Main
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        \Mage::dispatchEvent('magento_customercustomattributes_attribute_edit_tab_general_prepare_form', array(
+        $this->_eventManager->dispatch('magento_customercustomattributes_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));

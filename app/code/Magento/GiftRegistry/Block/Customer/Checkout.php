@@ -16,6 +16,29 @@ namespace Magento\GiftRegistry\Block\Customer;
 class Checkout extends \Magento\Core\Block\Template
 {
     /**
+     * Gift registry data
+     *
+     * @var \Magento\GiftRegistry\Helper\Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get current checkout session
      *
      * @return \Magento\Checkout\Model\Session
@@ -32,7 +55,7 @@ class Checkout extends \Magento\Core\Block\Template
      */
     public function getEnabled()
     {
-        return  \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled();
+        return  $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -103,7 +126,7 @@ class Checkout extends \Magento\Core\Block\Template
      */
     public function getAddressIdPrefix()
     {
-        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->getAddressIdPrefix();
+        return $this->_giftRegistryData->getAddressIdPrefix();
     }
 
     /**

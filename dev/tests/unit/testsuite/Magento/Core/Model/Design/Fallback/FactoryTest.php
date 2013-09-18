@@ -59,8 +59,8 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
     public function testCreateLocaleFileRuleGetPatternDirs()
     {
         $expectedResult = array(
-            'themes/area/current_theme_path/locale/en_US',
-            'themes/area/parent_theme_path/locale/en_US',
+            'themes/area/current_theme_path/i18n/en_US',
+            'themes/area/parent_theme_path/i18n/en_US',
         );
         $this->assertSame(
             $expectedResult, $this->_model->createLocaleFileRule()->getPatternDirs($this->_defaultParams)
@@ -170,11 +170,11 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
             'modular localized' => array(
                 array(),
                 array(
-                    'themes/area/current_theme_path/locale/en_US/namespace_module',
+                    'themes/area/current_theme_path/i18n/en_US/namespace_module',
                     'themes/area/current_theme_path/namespace_module',
-                    'themes/area/parent_theme_path/locale/en_US/namespace_module',
+                    'themes/area/parent_theme_path/i18n/en_US/namespace_module',
                     'themes/area/parent_theme_path/namespace_module',
-                    'modules/namespace/module/view/area/locale/en_US',
+                    'modules/namespace/module/view/area/i18n/en_US',
                     'modules/namespace/module/view/area',
                 ),
             ),
@@ -189,9 +189,9 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
             'non-modular localized' => array(
                 array('module' => null, 'namespace' => null),
                 array(
-                    'themes/area/current_theme_path/locale/en_US',
+                    'themes/area/current_theme_path/i18n/en_US',
                     'themes/area/current_theme_path',
-                    'themes/area/parent_theme_path/locale/en_US',
+                    'themes/area/parent_theme_path/i18n/en_US',
                     'themes/area/parent_theme_path',
                     'pub_lib',
                 ),

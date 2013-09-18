@@ -13,6 +13,25 @@ namespace Magento\CustomerBalance\Model\Total\Invoice;
 class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
+     * Customer balance data
+     *
+     * @var \Magento\CustomerBalance\Helper\Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        array $data = array()
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        parent::__construct($data);
+    }
+
+    /**
      * Collect customer balance totals for invoice
      *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
@@ -20,7 +39,7 @@ class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
      */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         $order = $invoice->getOrder();

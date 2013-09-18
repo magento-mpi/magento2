@@ -27,20 +27,57 @@ class Info extends \Magento\Core\Model\AbstractModel
     protected $_additionalInformation = -1;
 
     /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve data
      *
      * @param   string $key
      * @param   mixed $index
      * @return  mixed
      */
-    public function getData($key='', $index=null)
+    public function getData($key = '', $index = null)
     {
-        if ('cc_number'===$key) {
+        if ('cc_number' === $key) {
             if (empty($this->_data['cc_number']) && !empty($this->_data['cc_number_enc'])) {
                 $this->_data['cc_number'] = $this->decrypt($this->getCcNumberEnc());
             }
         }
-        if ('cc_cid'===$key) {
+        if ('cc_cid' === $key) {
             if (empty($this->_data['cc_cid']) && !empty($this->_data['cc_cid_enc'])) {
                 $this->_data['cc_cid'] = $this->decrypt($this->getCcCidEnc());
             }
@@ -58,7 +95,7 @@ class Info extends \Magento\Core\Model\AbstractModel
     {
         if (!$this->hasMethodInstance()) {
             if ($this->getMethod()) {
-                $instance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($this->getMethod());
+                $instance = $this->_paymentData->getMethodInstance($this->getMethod());
                 if ($instance) {
                     $instance->setInfoInstance($this);
                     $this->setMethodInstance($instance);
@@ -80,7 +117,7 @@ class Info extends \Magento\Core\Model\AbstractModel
     public function encrypt($data)
     {
         if ($data) {
-            return \Mage::helper('Magento\Core\Helper\Data')->encrypt($data);
+            return $this->_coreData->encrypt($data);
         }
         return $data;
     }
@@ -94,7 +131,7 @@ class Info extends \Magento\Core\Model\AbstractModel
     public function decrypt($data)
     {
         if ($data) {
-            return \Mage::helper('Magento\Core\Helper\Data')->decrypt($data);
+            return $this->_coreData->decrypt($data);
         }
         return $data;
     }

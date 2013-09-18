@@ -27,6 +27,23 @@ class Config extends \Magento\Object
     protected $_config = array();
 
     /**
+     * @var \Magento\Core\Helper\Data|null
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($data);
+    }
+
+    /**
      *  Return config var
      *
      *  @param    string $key Var path key
@@ -72,7 +89,7 @@ class Config extends \Magento\Object
      */
     public function getAccountPassword($storeId = null)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->decrypt($this->getConfigData('password', $storeId));
+        return $this->_coreData->decrypt($this->getConfigData('password', $storeId));
     }
 
     /**

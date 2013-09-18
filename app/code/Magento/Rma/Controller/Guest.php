@@ -13,17 +13,36 @@ namespace Magento\Rma\Controller;
 class Guest extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * View all returns
      */
     public function returnsAction()
     {
-        if (!\Mage::helper('Magento\Rma\Helper\Data')->isEnabled()
-            || !\Mage::helper('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+        if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled()
+            || !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
             $this->_forward('noRoute');
             return;
         }
         $this->loadLayout();
-        \Mage::helper('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -35,7 +54,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
      */
     protected function _canViewRma($rma)
     {
-        $currentOrder = \Mage::registry('current_order');
+        $currentOrder = $this->_coreRegistry->registry('current_order');
         if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
             return true;
         }
@@ -53,10 +72,10 @@ class Guest extends \Magento\Core\Controller\Front\Action
         }
 
         $this->loadLayout();
-        \Mage::helper('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
         $this->getLayout()
             ->getBlock('head')
-            ->setTitle(__('Return #%1', \Mage::registry('current_rma')->getIncrementId()));
+            ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
         $this->renderLayout();
     }
 
@@ -68,8 +87,8 @@ class Guest extends \Magento\Core\Controller\Front\Action
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!\Mage::helper('Magento\Rma\Helper\Data')->isEnabled() ||
-            !\Mage::helper('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+        if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled() ||
+            !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
             return;
         }
 
@@ -85,7 +104,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
         $rma = \Mage::getModel('Magento\Rma\Model\Rma')->load($entityId);
 
         if ($this->_canViewRma($rma)) {
-            \Mage::register('current_rma', $rma);
+            $this->_coreRegistry->register('current_rma', $rma);
             return true;
         } else {
             $this->_redirect('*/*/returns');
@@ -98,10 +117,10 @@ class Guest extends \Magento\Core\Controller\Front\Action
      */
     public function createAction()
     {
-        if (!\Mage::helper('Magento\Sales\Helper\Guest')->loadValidOrder()) {
+        if (!$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
             return;
         }
-        $order      = \Mage::registry('current_order');
+        $order      = $this->_coreRegistry->registry('current_order');
         $orderId    = $order->getId();
         if (!$this->_loadOrderItems($orderId)) {
             return;
@@ -166,11 +185,11 @@ class Guest extends \Magento\Core\Controller\Front\Action
      */
     protected function _loadOrderItems($orderId)
     {
-        if (\Mage::helper('Magento\Rma\Helper\Data')->canCreateRma($orderId)) {
+        if ($this->_objectManager->get('Magento\Rma\Helper\Data')->canCreateRma($orderId)) {
             return true;
         }
 
-        $incrementId = \Mage::registry('current_order')->getIncrementId();
+        $incrementId = $this->_coreRegistry->registry('current_order')->getIncrementId();
         $message = __('We cannot create a return transaction for order #%1.', $incrementId);
         \Mage::getSingleton('Magento\Core\Model\Session')->addError($message);
         $this->_redirect('sales/order/history');
@@ -190,13 +209,13 @@ class Guest extends \Magento\Core\Controller\Front\Action
 
                 if (!empty($comment)) {
                     $result = \Mage::getModel('Magento\Rma\Model\Rma\Status\History')
-                        ->setRmaEntityId(\Mage::registry('current_rma')->getEntityId())
+                        ->setRmaEntityId($this->_coreRegistry->registry('current_rma')->getEntityId())
                         ->setComment($comment)
                         ->setIsVisibleOnFront(true)
-                        ->setStatus(\Mage::registry('current_rma')->getStatus())
+                        ->setStatus($this->_coreRegistry->registry('current_rma')->getStatus())
                         ->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate())
                         ->save();
-                    $result->setStoreId(\Mage::registry('current_rma')->getStoreId());
+                    $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
                 } else {
                     \Mage::throwException(__('Please enter a valid message.'));
@@ -227,7 +246,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
     {
         if ($this->_loadValidRma()) {
             try {
-                $rma = \Mage::registry('current_rma');
+                $rma = $this->_coreRegistry->registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
                     \Mage::throwException(__('Shipping Labels are not allowed.'));
@@ -237,7 +256,8 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 $number    = $this->getRequest()->getPost('number');
                 $number    = trim(strip_tags($number));
                 $carrier   = $this->getRequest()->getPost('carrier');
-                $carriers  = \Mage::helper('Magento\Rma\Helper\Data')->getShippingCarriers($rma->getStoreId());
+                $carriers  = $this->_objectManager->get('Magento\Rma\Helper\Data')
+                    ->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {
                     \Mage::throwException(__('Please select a valid carrier.'));
@@ -287,7 +307,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
     {
         if ($this->_loadValidRma()) {
             try {
-                $rma = \Mage::registry('current_rma');
+                $rma = $this->_coreRegistry->registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
                     \Mage::throwException(__('Shipping Labels are not allowed.'));

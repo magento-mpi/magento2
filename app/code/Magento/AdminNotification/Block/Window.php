@@ -45,18 +45,20 @@ class Window extends \Magento\Backend\Block\Template
     protected $_latestItem;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical $criticalCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical $criticalCollection,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_authSession = $authSession;
         $this->_criticalCollection = $criticalCollection;
     }

@@ -47,10 +47,37 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      *
      * @return bool
      */
+    /**
+     * Catalog product flat
+     *
+     * @var \Magento\Catalog\Helper\Product\Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     public function isVisible()
     {
         /** @var $productFlatHelper \Magento\Catalog\Helper\Product\Flat */
-        $productFlatHelper = \Mage::helper('Magento\Catalog\Helper\Product\Flat');
+        $productFlatHelper = $this->_catalogProductFlat;
         return $productFlatHelper->isEnabled() || !$productFlatHelper->isBuilt();
     }
 
@@ -95,7 +122,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     public function matchEvent(\Magento\Index\Model\Event $event)
     {
         /** @var $productFlatHelper \Magento\Catalog\Helper\Product\Flat */
-        $productFlatHelper = $event->getFlatHelper() ?: \Mage::helper('Magento\Catalog\Helper\Product\Flat');
+        $productFlatHelper = $event->getFlatHelper() ?: $this->_catalogProductFlat;
         if (!$productFlatHelper->isAvailable() || !$productFlatHelper->isBuilt()) {
             return false;
         }

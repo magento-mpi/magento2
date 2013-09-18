@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_ObjectManager_Test
+ * Test class for \Magento\ObjectManager_Test
  */
 class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
 {

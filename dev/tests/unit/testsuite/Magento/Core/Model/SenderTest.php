@@ -24,6 +24,9 @@ class Magento_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Store|PHPUnit_Framework_MockObject_MockObject */
     protected $_storeMock;
 
+    /** @var \Magento\Core\Model\StoreManagerInterface|PHPUnit_Framework_MockObject_MockObject */
+    protected $_storeManagerMock;
+
     /** @var \Magento\Core\Model\Email\Info|PHPUnit_Framework_MockObject_MockObject */
     protected $_emailInfoMock;
 
@@ -38,14 +41,22 @@ class Magento_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $this->_storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
-            ->setMethods(array('load', 'getConfig'))
+            ->setMethods(array('load', 'getConfig', '__sleep', '__wakeup'))
             ->getMock();
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStore'))
+            ->getMockForAbstractClass();
+        $this->_storeManagerMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->_storeMock));
         $this->_emailInfoMock = $this->getMockBuilder('Magento\Core\Model\Email\Info')
             ->disableOriginalConstructor()
             ->setMethods(array('addTo'))
             ->getMock();
 
-        $this->_model = new \Magento\Core\Model\Sender($this->_mailerMock, $this->_emailInfoMock, $this->_storeMock);
+        $this->_model = new \Magento\Core\Model\Sender($this->_mailerMock, $this->_emailInfoMock,
+            $this->_storeManagerMock);
     }
 
     public function testSend()

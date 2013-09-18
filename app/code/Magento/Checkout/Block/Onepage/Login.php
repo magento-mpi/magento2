@@ -20,6 +20,31 @@ namespace Magento\Checkout\Block\Onepage;
 
 class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
+    /**
+     * Checkout data
+     *
+     * @var \Magento\Checkout\Helper\Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($configCacheType, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         if (!$this->isCustomerLoggedIn()) {
@@ -75,6 +100,6 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function isAllowedGuestCheckout()
     {
-        return \Mage::helper('Magento\Checkout\Helper\Data')->isAllowedGuestCheckout($this->getQuote());
+        return $this->_checkoutData->isAllowedGuestCheckout($this->getQuote());
     }
 }

@@ -73,10 +73,10 @@ class Rating extends \Magento\Core\Model\AbstractModel
      */
     public function getOptions()
     {
-        if ($options = $this->getData('options')) {
+        $options = $this->getData('options');
+        if ($options) {
             return $options;
-        }
-        elseif ($id = $this->getId()) {
+        } elseif ($id = $this->getId()) {
             return \Mage::getResourceModel('Magento\Rating\Model\Resource\Rating\Option\Collection')
                ->addRatingFilter($id)
                ->setPositionOrder()
@@ -91,7 +91,6 @@ class Rating extends \Magento\Core\Model\AbstractModel
      *
      * @return \Magento\Data\Collection\Db
      */
-
     public function getEntitySummary($entityPkValue,  $onlyForCurrentStore = true)
     {
         $this->setEntityPkValue($entityPkValue);

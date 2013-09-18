@@ -43,11 +43,13 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array(
-                 'objectManager'   => $this->_objectManager,
-                 'dirs'            => new \Magento\Core\Model\Dir(__DIR__),
-                 'uploaderService' => $this->getMock('Magento\Theme\Model\Uploader\Service', array(), array(), '',
-                    false),
-                 'urlBuilder'      => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
+                'formFactory'      => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
+                'objectManager'   => $this->_objectManager,
+                'dirs'            => new \Magento\Core\Model\Dir(__DIR__),
+                'uploaderService' => $this->getMock(
+                    'Magento\Theme\Model\Uploader\Service', array(), array(), '', false
+                ),
+                'urlBuilder'      => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
             )
         );
         return $constructArguments;

@@ -24,13 +24,48 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
     protected $_template = 'catalog/product/edit/websites.phtml';
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct(
+            $coreData, $context, $application, $websiteFactory, $storeGroupFactory, $storeFactory, $data
+        );
+    }
+
+    /**
      * Retrieve edited product model instance
      *
      * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**

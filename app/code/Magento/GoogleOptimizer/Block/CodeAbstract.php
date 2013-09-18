@@ -32,6 +32,7 @@ abstract class CodeAbstract extends \Magento\Core\Block\Template
     protected $_codeHelper;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
      * @param \Magento\Core\Model\Registry $registry
@@ -39,6 +40,7 @@ abstract class CodeAbstract extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helper,
         \Magento\Core\Model\Registry $registry,
@@ -48,7 +50,7 @@ abstract class CodeAbstract extends \Magento\Core\Block\Template
         $this->_helper = $helper;
         $this->_registry = $registry;
         $this->_codeHelper = $codeHelper;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

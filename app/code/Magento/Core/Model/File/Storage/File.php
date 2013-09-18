@@ -44,8 +44,15 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
     /**
      * Class construct
      */
-    public function __construct()
-    {
+    public function __construct(
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\File\Storage\File $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
         $this->_setResourceModel('Magento\Core\Model\Resource\File\Storage\File');
     }
 

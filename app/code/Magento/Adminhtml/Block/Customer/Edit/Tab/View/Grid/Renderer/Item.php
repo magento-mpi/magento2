@@ -21,6 +21,27 @@ class Item
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
+     * Catalog product configuration
+     *
+     * @var \Magento\Catalog\Helper\Product\Configuration
+     */
+    protected $_productConfig = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
+     * @param \Magento\Backend\Block\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product\Configuration $productConfig,
+        \Magento\Backend\Block\Context $context,
+        array $data = array()
+    ) {
+        $this->_productConfig = $productConfig;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Returns helper for product type
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -51,11 +72,10 @@ class Item
             $helperName = 'Magento\Catalog\Helper\Product\Configuration';
         }
 
-        $helper = \Mage::helper($helperName);
+        $helper = $this->_helperFactory->get($helperName);
         if (!($helper instanceof \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface)) {
             \Mage::throwException(__("Helper for options rendering doesn't implement required interface."));
         }
-
         return $helper;
     }
 
@@ -94,7 +114,7 @@ class Item
         $params = array(
             'max_length' => 55
         );
-        return \Mage::helper('Magento\Catalog\Helper\Product\Configuration')->getFormattedOptionValue($option, $params);
+        return $this->_productConfig->getFormattedOptionValue($option, $params);
     }
 
     /*

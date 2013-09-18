@@ -28,6 +28,25 @@ class Customersegment
     protected $_adminSession = null;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init layout and adding breadcrumbs
      *
      * @return \Magento\CustomerSegment\Controller\Adminhtml\Report\Customer\Customersegment
@@ -82,7 +101,7 @@ class Customersegment
             }
             return false;
         }
-        \Mage::register('current_customer_segment', $segment);
+        $this->_coreRegistry->register('current_customer_segment', $segment);
 
         $websiteIds = $this->getRequest()->getParam('website_ids');
         if (!is_null($websiteIds) && empty($websiteIds)) {
@@ -90,7 +109,7 @@ class Customersegment
         } elseif (!is_null($websiteIds) && !empty($websiteIds)) {
             $websiteIds = explode(',', $websiteIds);
         }
-        \Mage::register('filter_website_ids', $websiteIds);
+        $this->_coreRegistry->register('filter_website_ids', $websiteIds);
 
         return $segment;
     }
@@ -141,7 +160,7 @@ class Customersegment
                 }
                 /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
-                    $viewModeLabel = \Mage::helper('Magento\CustomerSegment\Helper\Data')->getViewModeLabel(
+                    $viewModeLabel = $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->getViewModeLabel(
                         $this->_getAdminSession()->getViewMode()
                     );
                     \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addNotice(
@@ -252,6 +271,6 @@ class Customersegment
     protected function _isAllowed()
     {
         return  $this->_authorization->isAllowed('Magento_CustomerSegment::customersegment')
-                && \Mage::helper('Magento\CustomerSegment\Helper\Data')->isEnabled();
+                && $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->isEnabled();
     }
 }

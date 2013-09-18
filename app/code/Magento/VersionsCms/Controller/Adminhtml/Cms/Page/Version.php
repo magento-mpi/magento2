@@ -59,7 +59,7 @@ class Version extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
             $version->loadWithRestrictions($accessLevel, $userId, $versionId);
         }
 
-        \Mage::register('cms_page_version', $version);
+        $this->_coreRegistry->register('cms_page_version', $version);
         return $version;
     }
 

@@ -12,6 +12,25 @@ namespace Magento\Index\Controller\Adminhtml;
 class Process extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize process object by request
      *
      * @return \Magento\Index\Model\Process|false
@@ -56,7 +75,7 @@ class Process extends \Magento\Adminhtml\Controller\Action
                  ->_title(__('Index Management'))
                  ->_title(__($process->getIndexer()->getName()));
 
-            \Mage::register('current_index_process', $process);
+            $this->_coreRegistry->register('current_index_process', $process);
             $this->loadLayout();
             $this->renderLayout();
         } else {

@@ -15,6 +15,40 @@ namespace Magento\GiftRegistry\Block;
 
 class Items extends \Magento\Checkout\Block\Cart
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($catalogData, $coreData, $context, $data);
+    }
 
     /**
      * Return list of gift registry items
@@ -48,11 +82,11 @@ class Items extends \Magento\Checkout\Block\Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)) {
+                if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         \Mage::app()->getStore()->formatPrice(\Mage::app()->getStore()->convertPrice(
-                            \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $product->getFinalPrice(), true)
+                            $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
                     $product->setAddToCartUrl($this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product));
@@ -77,7 +111,7 @@ class Items extends \Magento\Checkout\Block\Cart
     public function getEntity()
     {
          if (!$this->hasEntity()) {
-            $this->setData('entity', \Mage::registry('current_entity'));
+            $this->setData('entity', $this->_coreRegistry->registry('current_entity'));
         }
         return $this->_getData('entity');
     }
@@ -85,7 +119,6 @@ class Items extends \Magento\Checkout\Block\Cart
     /**
      * Return "add to cart" url
      *
-     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getActionUrl()
@@ -112,5 +145,4 @@ class Items extends \Magento\Checkout\Block\Cart
     {
         return $this->getUrl('giftregistry');
     }
-
 }

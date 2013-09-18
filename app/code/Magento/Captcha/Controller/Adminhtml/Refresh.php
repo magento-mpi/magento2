@@ -28,7 +28,7 @@ class Refresh extends \Magento\Adminhtml\Controller\Action
     public function refreshAction()
     {
         $formId = $this->getRequest()->getPost('formId');
-        $captchaModel = \Mage::helper('Magento\Captcha\Helper\Data')->getCaptcha($formId);
+        $captchaModel = $this->_objectManager->get('Magento\Captcha\Helper\Data')->getCaptcha($formId);
         $this->getLayout()->createBlock($captchaModel->getBlockName())->setFormId($formId)->setIsAjax(true)->toHtml();
         $this->getResponse()->setBody(json_encode(array('imgSrc' => $captchaModel->getImgSrc())));
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);

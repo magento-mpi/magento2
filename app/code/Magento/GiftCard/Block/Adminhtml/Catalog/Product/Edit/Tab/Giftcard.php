@@ -19,21 +19,33 @@ class Giftcard
      */
     protected $_storeManager;
 
+    protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
+
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
-
-    protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
 
     /**
      * Get tab label
@@ -82,7 +94,7 @@ class Giftcard
      */
     public function isNew()
     {
-        if (\Mage::registry('product')->getId()) {
+        if ($this->_coreRegistry->registry('product')->getId()) {
             return false;
         }
         return true;
@@ -107,7 +119,7 @@ class Giftcard
     public function getFieldValue($field)
     {
         if (!$this->isNew()) {
-            return \Mage::registry('product')->getDataUsingMethod($field);
+            return $this->_coreRegistry->registry('product')->getDataUsingMethod($field);
         }
 
         return \Mage::getStoreConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
@@ -155,7 +167,7 @@ class Giftcard
      */
     public function isReadonly()
     {
-        return \Mage::registry('product')->getGiftCardReadonly();
+        return $this->_coreRegistry->registry('product')->getGiftCardReadonly();
     }
 
     /**

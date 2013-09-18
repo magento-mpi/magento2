@@ -80,8 +80,9 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $_configData = $_configDataObject->setSection($group)->setWebsite('base')
                 ->load();
             if (array_key_exists('payment/payflow_link/pwd', $_configData)) {
-                $_configData['payment/payflow_link/pwd'] = Mage::helper('Magento\Core\Helper\Data')
-                    ->decrypt($_configData['payment/payflow_link/pwd']);
+                $_configData['payment/payflow_link/pwd'] =
+                    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
+                        ->decrypt($_configData['payment/payflow_link/pwd']);
             }
             $this->assertEquals($expectedData, $_configData);
         }

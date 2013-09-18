@@ -19,11 +19,12 @@ class Magento_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework
             ->will($this->returnValue($resource));
         $resourceCollection = $this->getMock('Magento\Data\Collection\Db', array(), array(), '', false);
         $mergeService = $this->getMock('Magento\Core\Model\Page\Asset\MergeService', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $model = $this->getMock(
             'Magento\Backend\Model\Config\Backend\Baseurl',
             array('getOldValue'),
-            array($context, $mergeService, $resource, $resourceCollection)
+            array($context, $coreRegistry, $mergeService, $resource, $resourceCollection)
         );
         $mergeService->expects($this->once())
             ->method('cleanMergedJsCss');

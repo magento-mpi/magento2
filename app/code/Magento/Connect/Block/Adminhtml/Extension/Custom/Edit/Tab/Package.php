@@ -29,7 +29,8 @@ class Package
     {
         parent::_prepareForm();
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_package');
 
         $fieldset = $form->addFieldset('package_fieldset', array(

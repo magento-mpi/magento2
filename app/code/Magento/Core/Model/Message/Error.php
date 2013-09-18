@@ -13,6 +13,9 @@ namespace Magento\Core\Model\Message;
 
 class Error extends \Magento\Core\Model\Message\AbstractMessage
 {
+    /**
+     * @param string $code
+     */
     public function __construct($code)
     {
         parent::__construct(\Magento\Core\Model\Message::ERROR, $code);

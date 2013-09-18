@@ -15,21 +15,11 @@
             <googleshopping_setup>
                 <setup>
                     <module>Magento_GoogleShopping</module>
+                    <class>\Magento\GoogleShopping\Model\Resource\Setup</class>
                 </setup>
             </googleshopping_setup>
         </resources>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GoogleShopping>
-                    <files>
-                        <default>Magento_GoogleShopping.csv</default>
-                    </files>
-                </Magento_GoogleShopping>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <google>
             <googleshopping>
@@ -309,4 +299,4 @@
             </googleshopping>
         </google>
     </default>
-</config>
+</config>

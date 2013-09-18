@@ -11,30 +11,10 @@
 -->
 <config>
     <frontend>
-        <translate>
-            <modules>
-                <Magento_Centinel>
-                    <files>
-                        <default>Magento_Centinel.csv</default>
-                    </files>
-                </Magento_Centinel>
-            </modules>
-        </translate>
         <secure_url>
             <centinel>/centinel/</centinel>
         </secure_url>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Centinel>
-                    <files>
-                        <default>Magento_Centinel.csv</default>
-                    </files>
-                </Magento_Centinel>
-            </modules>
-        </translate>
-    </adminhtml>
     <global>
         <payment>
             <cc>

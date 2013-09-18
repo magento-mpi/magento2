@@ -104,6 +104,30 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     protected $_useSession;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($data);
+    }
+
+    /**
      * Initialize object
      */
     protected function _construct()
@@ -742,7 +766,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
             $session = \Mage::getSingleton('Magento\Core\Model\Session');
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    $helper = \Mage::helper('Magento\Core\Helper\Data');
+                    $helper = $this->_coreData;
                     if (!$helper) {
                         return $this;
                     }
@@ -764,7 +788,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
         $session = \Mage::getSingleton('Magento\Core\Model\Session');
 
         if (!self::$_encryptedSessionId) {
-            $helper = \Mage::helper('Magento\Core\Helper\Data');
+            $helper = $this->_coreData;
             if (!$helper) {
                 return $this;
             }

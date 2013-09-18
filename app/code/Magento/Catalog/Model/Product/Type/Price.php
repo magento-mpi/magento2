@@ -24,6 +24,22 @@ class Price
     static $attributeCache = array();
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
+    }
+
+    /**
      * Default action to get price of product
      *
      * @return decimal
@@ -66,7 +82,7 @@ class Price
         $finalPrice = $this->getBasePrice($product, $qty);
         $product->setFinalPrice($finalPrice);
 
-        \Mage::dispatchEvent('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
+        $this->_eventManager->dispatch('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
 
         $finalPrice = $product->getData('final_price');
         $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);

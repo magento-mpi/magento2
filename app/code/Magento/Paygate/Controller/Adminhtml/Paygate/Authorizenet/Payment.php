@@ -19,7 +19,6 @@ namespace Magento\Paygate\Controller\Adminhtml\Paygate\Authorizenet;
 
 class Payment extends \Magento\Adminhtml\Controller\Action
 {
-
     /**
      * Cancel active partail authorizations
      */
@@ -27,11 +26,16 @@ class Payment extends \Magento\Adminhtml\Controller\Action
     {
         $result['success'] = false;
         try {
-            $paymentMethod = \Mage::helper('Magento\Payment\Helper\Data')
+            $paymentMethod = $this->_objectManager->get('Magento\Payment\Helper\Data')
                 ->getMethodInstance(\Magento\Paygate\Model\Authorizenet::METHOD_CODE);
+
             if ($paymentMethod) {
-                $paymentMethod->setStore(\Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote()->getStoreId());
-                $paymentMethod->cancelPartialAuthorization(\Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote()->getPayment());
+                $paymentMethod->setStore(
+                    \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote()->getStoreId()
+                );
+                $paymentMethod->cancelPartialAuthorization(
+                    \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote()->getPayment()
+                );
             }
 
             $result['success']  = true;
@@ -45,7 +49,7 @@ class Payment extends \Magento\Adminhtml\Controller\Action
         }
 
         \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote()->getPayment()->save();
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
@@ -56,10 +60,13 @@ class Payment extends \Magento\Adminhtml\Controller\Action
     protected function _getPaymentMethodsHtml()
     {
         $layout = $this->getLayout();
+
         $update = $layout->getUpdate();
         $update->load('checkout_onepage_paymentmethod');
+
         $layout->generateXml();
         $layout->generateElements();
+
         $output = $layout->getOutput();
         return $output;
     }

@@ -18,7 +18,7 @@
 namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
 class Samples
-    extends \Magento\Adminhtml\Block\Widget
+    extends \Magento\Backend\Block\Widget
 {
     /**
      * Block config data
@@ -30,22 +30,54 @@ class Samples
     protected $_template = 'product/edit/downloadable/samples.phtml';
 
     /**
+     * Downloadable file
+     *
+     * @var \Magento\Downloadable\Helper\File
+     */
+    protected $_downloadableFile = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+     * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
+        \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_coreFileStorageDb = $coreFileStorageDatabase;
+        $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -55,7 +87,7 @@ class Samples
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -81,7 +113,7 @@ class Samples
                 'label' => __('Add New Row'),
                 'id' => 'add_sample_item',
                 'class' => 'add',
-            ));
+        ));
         return $addButton->toHtml();
     }
 
@@ -97,7 +129,7 @@ class Samples
             return $samplesArr;
         }
         $samples = $this->getProduct()->getTypeInstance()->getSamples($this->getProduct());
-        $fileHelper = \Mage::helper('Magento\Downloadable\Helper\File');
+        $fileHelper = $this->_downloadableFile;
         foreach ($samples as $item) {
             $tmpSampleItem = array(
                 'sample_id' => $item->getId(),
@@ -110,7 +142,7 @@ class Samples
                 \Magento\Downloadable\Model\Sample::getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
-                \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($file);
+                $this->_coreFileStorageDb->saveFileToFilesystem($file);
             }
             if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
@@ -197,7 +229,7 @@ class Samples
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getConfig()->getData());
+        return $this->_coreData->jsonEncode($this->getConfig()->getData());
     }
 
     /**

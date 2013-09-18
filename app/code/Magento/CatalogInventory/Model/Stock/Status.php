@@ -50,6 +50,33 @@ class Status extends \Magento\Core\Model\AbstractModel
     protected $_websites;
 
     /**
+     * Catalog inventory data
+     *
+     * @var \Magento\CatalogInventory\Helper\Data
+     */
+    protected $_catalogInventoryData = null;
+
+    /**
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogInventoryData = $catalogInventoryData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      *
      */
@@ -502,7 +529,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      */
     public function prepareCatalogProductIndexSelect(\Magento\DB\Select $select, $entityField, $websiteField)
     {
-        if (\Mage::helper('Magento\CatalogInventory\Helper\Data')->isShowOutOfStock()) {
+        if ($this->_catalogInventoryData->isShowOutOfStock()) {
             return $this;
         }
 

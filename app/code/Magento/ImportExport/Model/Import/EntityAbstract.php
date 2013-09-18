@@ -227,48 +227,27 @@ abstract class EntityAbstract
     protected $_bunchSize;
 
     /**
-     * Array of data helpers
-     *
-     * @var array
-     */
-    protected $_helpers;
-
-    /**
-     * Constructor
-     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        if (isset($data['helpers'])) {
-            $this->_helpers = $data['helpers'];
-        }
-
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        array $data = array()
+    ) {
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
             : \Magento\ImportExport\Model\Import::getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
             : \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
-        $this->_jsonHelper          = isset($data['json_helper']) ? $data['json_helper']
-            : \Mage::helper('Magento\Core\Helper\Data');
-        $this->_stringHelper        = isset($data['string_helper']) ? $data['string_helper']
-            : \Mage::helper('Magento\Core\Helper\String');
+        $this->_jsonHelper          =  $coreData;
+        $this->_stringHelper        =  $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int) \Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
             : \Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
         $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
             : (static::XML_PATH_BUNCH_SIZE ? (int) \Mage::getStoreConfig(static::XML_PATH_BUNCH_SIZE) : 0);
-    }
-
-    /**
-     * Helper getter
-     *
-     * @param string $helperName
-     * @return \Magento\Core\Helper\AbstractHelper
-     */
-    protected function _helper($helperName)
-    {
-        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : \Mage::helper($helperName);
     }
 
     /**

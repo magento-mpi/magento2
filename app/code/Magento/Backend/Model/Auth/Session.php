@@ -39,11 +39,19 @@ class Session
     protected $_aclBuilder;
 
     /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param array $data
      */
-    public function __construct(\Magento\Acl\Builder $aclBuilder)
-    {
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Core\Helper\Http $coreHttp,
+        array $data = array()
+    ) {
         $this->_aclBuilder = $aclBuilder;
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('admin');
     }
 

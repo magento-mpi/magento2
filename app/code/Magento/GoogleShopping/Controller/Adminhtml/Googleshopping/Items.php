@@ -53,10 +53,12 @@ class Items extends \Magento\Adminhtml\Controller\Action
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGcontentCaptchaToken(
-                \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('captcha_token'))
+                $this->_objectManager->get('Magento\Core\Helper\Data')
+                    ->urlDecode($this->getRequest()->getParam('captcha_token'))
             );
             $contentBlock->setGcontentCaptchaUrl(
-                \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('captcha_url'))
+                $this->_objectManager->get('Magento\Core\Helper\Data')
+                    ->urlDecode($this->getRequest()->getParam('captcha_url'))
             );
         }
 
@@ -228,7 +230,8 @@ class Items extends \Magento\Adminhtml\Controller\Action
         try {
             \Mage::getModel('Magento\GoogleShopping\Model\Service')->getClient(
                 $storeId,
-                \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('captcha_token')),
+                $this->_objectManager->get('Magento\Core\Helper\Data')
+                    ->urlDecode($this->getRequest()->getParam('captcha_token')),
                 $this->getRequest()->getParam('user_confirm')
             );
             $this->_getSession()->addSuccess(__('Captcha has been confirmed.'));
@@ -239,7 +242,8 @@ class Items extends \Magento\Adminhtml\Controller\Action
             return;
         } catch (\Zend_Gdata_App_Exception $e) {
             $this->_getSession()->addError(
-                \Mage::helper('Magento\GoogleShopping\Helper\Data')->parseGdataExceptionMessage($e->getMessage())
+                $this->_objectManager->get('Magento\GoogleShopping\Helper\Data')
+                    ->parseGdataExceptionMessage($e->getMessage())
             );
         } catch (\Exception $e) {
             \Mage::logException($e);
@@ -261,7 +265,9 @@ class Items extends \Magento\Adminhtml\Controller\Action
             $params = array(
                 'is_running' => $this->_getFlag()->isLocked()
             );
-            return $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($params));
+            return $this->getResponse()->setBody(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($params)
+            );
         }
     }
 
@@ -276,13 +282,19 @@ class Items extends \Magento\Adminhtml\Controller\Action
             '*/*/index',
             array(
                 'store' => $this->_getStore()->getId(),
-                'captcha_token' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($e->getCaptchaToken()),
-                'captcha_url' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($e->getCaptchaUrl())
+                'captcha_token' => $this->_objectManager->get('Magento\Core\Helper\Data')
+                    ->urlEncode($e->getCaptchaToken()),
+                'captcha_url' => $this->_objectManager->get('Magento\Core\Helper\Data')
+                    ->urlEncode($e->getCaptchaUrl())
             )
         );
         if ($this->getRequest()->isAjax()) {
             $this->getResponse()->setHeader('Content-Type', 'application/json')
-                ->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array('redirect' => $redirectUrl)));
+                ->setBody(
+                    $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
+                        array('redirect' => $redirectUrl)
+                    )
+                );
         } else {
             $this->_redirect($redirectUrl);
         }

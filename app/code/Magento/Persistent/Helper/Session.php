@@ -42,6 +42,31 @@ class Session extends \Magento\Core\Helper\Data
     protected $_isRememberMeChecked;
 
     /**
+     * Persistent data
+     *
+     * @var \Magento\Persistent\Helper\Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Persistent\Helper\Data $persistentData,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
+    ) {
+        $this->_persistentData = $persistentData;
+        parent::__construct($eventManager, $coreHttp, $context, $config);
+    }
+
+    /**
      * Get Session model
      *
      * @return \Magento\Persistent\Model\Session
@@ -74,7 +99,7 @@ class Session extends \Magento\Core\Helper\Data
      */
     public function isPersistent()
     {
-        return $this->getSession()->getId() && \Mage::helper('Magento\Persistent\Helper\Data')->isEnabled();
+        return $this->getSession()->getId() && $this->_persistentData->isEnabled();
     }
 
     /**
@@ -93,9 +118,9 @@ class Session extends \Magento\Core\Helper\Data
                 return $isRememberMeChecked;
             }
 
-            /** @var $helper \Magento\Persistent\Helper\Data */
-            $helper = \Mage::helper('Magento\Persistent\Helper\Data');
-            return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
+            return $this->_persistentData->isEnabled()
+                && $this->_persistentData->isRememberMeEnabled()
+                && $this->_persistentData->isRememberMeCheckedDefault();
         }
 
         return (bool)$this->_isRememberMeChecked;

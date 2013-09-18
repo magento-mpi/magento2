@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog product related items block
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Catalog\Block\Product\ProductList;
@@ -42,7 +37,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function _prepareData()
     {
-        $product = \Mage::registry('product');
+        $product = $this->_coreRegistry->registry('product');
         /* @var $product \Magento\Catalog\Model\Product */
 
         $this->_itemCollection = $product->getCrossSellProductCollection()

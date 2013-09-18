@@ -238,4 +238,28 @@ abstract class AbstractResource
     {
         return null;
     }
+
+    /**
+     * Prepare the list of entity fields that should be selected from DB. Apply filtration based on active fieldset.
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @param string $tableName
+     * @return array|string
+     */
+    protected function _getColumnsForEntityLoad(Mage_Core_Model_Abstract $object, $tableName)
+    {
+        $fieldsetColumns = $object->getFieldset();
+        if (!empty($fieldsetColumns)) {
+            $readAdapter = $this->_getReadAdapter();
+            if ($readAdapter instanceof Varien_Db_Adapter_Interface) {
+                $entityTableColumns = $readAdapter->describeTable($tableName);
+                $columns = array_intersect($fieldsetColumns, array_keys($entityTableColumns));
+            }
+        }
+        if (empty($columns)) {
+            /** In case when fieldset was specified but no columns were matched with it, ID column is returned. */
+            $columns = empty($fieldsetColumns) ? '*' : array($object->getIdFieldName());
+        }
+        return $columns;
+    }
 }

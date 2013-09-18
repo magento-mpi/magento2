@@ -21,6 +21,29 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Grid\Ren
 class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Checkbox
 {
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $converter, $data);
+    }
+
+    /**
      * Renders grid column
      *
      * @param   \Magento\Object $row
@@ -53,6 +76,6 @@ class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Chec
             $result[] = $item;
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 }// Class \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Grid\Renderer\Checkbox END

@@ -11,7 +11,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab;
 
 class General
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Return current gift registry type instance
@@ -20,7 +20,7 @@ class General
      */
     public function getType()
     {
-        return \Mage::registry('current_giftregistry_type');
+        return $this->_coreRegistry->registry('current_giftregistry_type');
     }
 
     /**
@@ -50,7 +50,8 @@ class General
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setFieldNameSuffix('type');
 
         $fieldset = $form->addFieldset('base_fieldset', array(

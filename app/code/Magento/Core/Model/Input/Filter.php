@@ -1,15 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Core
- * @copyright  {copyright}
- * @license    {license_link}
- */
-
-/**
  * Filter data collector
+ *
+ * {license_notice}
  *
  * Model for multi-filtering all data which set to models
  * Example:
@@ -84,14 +77,27 @@
  * </code>
  *
  * @see Magento_Core_Model_Input_FilterTest    See this class for manual
- * @category   Magento
- * @package    Magento_Core
- * @author     Magento Api Team <api-team@magento.com>
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 namespace Magento\Core\Model\Input;
 
 class Filter implements \Zend_Filter_Interface
 {
+    /**
+     * @var \Magento\Core\Model\Factory\Helper
+     */
+    protected $_helperFactory;
+
+    /**
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     */
+    function __construct(
+        \Magento\Core\Model\Factory\Helper $helperFactory
+    ) {
+        $this->_helperFactory = $helperFactory;
+    }
+
     /**
      * Filters data collectors
      *
@@ -271,10 +277,9 @@ class Filter implements \Zend_Filter_Interface
         if (isset($filterData['helper'])) {
             $helper = $filterData['helper'];
             if (is_string($helper)) {
-                $helper = \Mage::helper($helper);
-            }
-            if (!($helper instanceof \Magento\Core\Helper\AbstractHelper)) {
-                throw new \Exception("Filter '{$filterData['helper']}' not found");
+                $helper = $this->_helperFactory->get($helper);
+            } elseif (!($helper instanceof \Magento\Core\Helper\AbstractHelper)) {
+                throw new \Exception("Filter '{$helper}' not found");
             }
         }
         return $helper;

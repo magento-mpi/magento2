@@ -136,7 +136,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
             $categoryById[$category->getParentId()]['children'][] = &$categoryById[$category->getId()];
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(
+        return $this->_coreData->jsonEncode(
             $categoryById[\Magento\Catalog\Model\Category::TREE_ROOT_ID]['children']
         );
     }
@@ -210,7 +210,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     public function getTreeJson($parenNodeCategory=null)
     {
         $rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
-        $json = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(
+        $json = $this->_coreData->jsonEncode(
             isset($rootArray['children']) ? $rootArray['children'] : array()
         );
         return $json;
@@ -239,7 +239,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         }
         return
             '<script type="text/javascript">'
-            . $javascriptVarName . ' = ' . \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($categories) . ';'
+            . $javascriptVarName . ' = ' . $this->_coreData->jsonEncode($categories) . ';'
             . ($this->canAddSubCategory()
                 ? '$("add_subcategory_button").show();'
                 : '$("add_subcategory_button").hide();')
@@ -323,7 +323,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
             'category' => $node
         ));
 
-        \Mage::dispatchEvent('adminhtml_catalog_category_tree_is_moveable',
+        $this->_eventManager->dispatch('adminhtml_catalog_category_tree_is_moveable',
             array('options'=>$options)
         );
 
@@ -360,7 +360,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     public function canAddRootCategory()
     {
         $options = new \Magento\Object(array('is_allow'=>true));
-        \Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'adminhtml_catalog_category_tree_can_add_root_category',
             array(
                 'category' => $this->getCategory(),
@@ -380,7 +380,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     public function canAddSubCategory()
     {
         $options = new \Magento\Object(array('is_allow'=>true));
-        \Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'adminhtml_catalog_category_tree_can_add_sub_category',
             array(
                 'category' => $this->getCategory(),

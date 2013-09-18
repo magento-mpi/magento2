@@ -47,8 +47,22 @@ class Locale implements \Magento\Core\Model\LocaleInterface
 
     protected static $_currencyCache = array();
 
-    public function __construct($locale = null)
-    {
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param  $locale
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        $locale = null
+    ) {
+        $this->_eventManager = $eventManager;
         $this->setLocale($locale);
     }
 
@@ -514,7 +528,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
             }
 
             $options = new \Magento\Object($options);
-            \Mage::dispatchEvent('currency_display_options_forming', array(
+            $this->_eventManager->dispatch('currency_display_options_forming', array(
                 'currency_options' => $options,
                 'base_code' => $currency
             ));

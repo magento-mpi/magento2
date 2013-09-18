@@ -21,6 +21,22 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Retrieve all options array
      *
      * @return array
@@ -87,7 +103,7 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             'extra'     => null
         );
 
-        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {

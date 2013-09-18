@@ -21,6 +21,29 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action;
 class Attribute extends \Magento\Adminhtml\Block\Widget
 {
 
+    /**
+     * Adminhtml catalog product edit action attribute
+     *
+     * @var \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
+     */
+    protected $_helperActionAttribute = null;
+
+    /**
+     * @param \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $helperActionAttribute
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $helperActionAttribute,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_helperActionAttribute = $helperActionAttribute;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
@@ -102,7 +125,7 @@ class Attribute extends \Magento\Adminhtml\Block\Widget
      */
     public function getSaveUrl()
     {
-        $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
+        $helper = $this->_helperActionAttribute;
         return $this->getUrl(
             '*/*/save',
             array(

@@ -14,11 +14,23 @@ namespace Magento\SalesRule\Model\Rule\Condition;
 class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($context, $data);
         $this->setType('Magento\SalesRule\Model\Rule\Condition\Combine');
     }
@@ -52,7 +64,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         ));
 
         $additional = new \Magento\Object();
-        \Mage::dispatchEvent('salesrule_rule_condition_combine', array('additional' => $additional));
+        $this->_eventManager->dispatch('salesrule_rule_condition_combine', array('additional' => $additional));
         $additionalConditions = $additional->getConditions();
         if ($additionalConditions) {
             $conditions = array_merge_recursive($conditions, $additionalConditions);

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Tax\Helper\Data">
+        <param name="taxConfig">
+            <instance type="Magento\Tax\Model\ConfigProxy" />
+        </param>
+    </type>
+    <type name="Magento\Tax\Model\Calculation\Rate">
+        <param name="eventManager">
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Tax\Model\Calculation\Rule">
+        <param name="eventManager">
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+    </type>
+</config>

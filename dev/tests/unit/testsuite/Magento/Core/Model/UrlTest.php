@@ -21,7 +21,9 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = new \Magento\Core\Model\Url();
+        $this->_model = new \Magento\Core\Model\Url(
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)
+        );
     }
 
     public function testSetRoutePath()
@@ -52,7 +54,10 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $controllerName = 'controllerName';
         $actionName = 'actionName';
 
-        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http');
+        $backendData = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $requestMock = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
+            array($backendData), '', false, false, true,
+            array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'));
 
         $requestMock->expects($this->once())->method('getRequestedRouteName')
             ->will($this->returnValue($moduleFrontName));

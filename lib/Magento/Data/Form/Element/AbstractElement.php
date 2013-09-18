@@ -34,9 +34,25 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      */
     protected $_advanced = false;
 
-    public function __construct($attributes = array())
-    {
-        parent::__construct($attributes);
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param array $attributes
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        $attributes = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->_renderer = \Magento\Data\Form::getElementRenderer();
     }
 
@@ -321,14 +337,14 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
             return $this;
         }
         if (!is_array($values)) {
-            $values = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml(trim($values));
+            $values = $this->_coreData->escapeHtml(trim($values));
             $values = array($values => $values);
         }
         $elementValues = $this->getValues();
         if (!empty($elementValues)) {
             foreach ($values as $key => $value) {
                 if ((isset($elementValues[$key]) && $overwrite) || !isset($elementValues[$key])) {
-                    $elementValues[$key] = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($value);
+                    $elementValues[$key] = $this->_coreData->escapeHtml($value);
                 }
             }
             $values = $elementValues;

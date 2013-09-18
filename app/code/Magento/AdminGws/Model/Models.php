@@ -17,6 +17,27 @@ namespace Magento\AdminGws\Model;
 class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
+     * Admin gws data
+     *
+     * @var \Magento\AdminGws\Helper\Data
+     */
+    protected $_adminGwsData = null;
+
+    /**
+     * Initialize helper
+     * 
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
+     * @param \Magento\AdminGws\Model\Role $role
+     */
+    public function __construct(
+        \Magento\AdminGws\Helper\Data $adminGwsData,
+        \Magento\AdminGws\Model\Role $role
+    ) {
+        $this->_adminGwsData = $adminGwsData;
+        parent::__construct($role);
+    }
+
+    /**
      * Limit CMS page save
      *
      * @param \Magento\Cms\Model\Page $model
@@ -305,7 +326,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $this->_throwSave();
         }
 
-        $websiteIds     = \Mage::helper('Magento\AdminGws\Helper\Data')->explodeIds($model->getWebsiteIds());
+        $websiteIds     = $this->_adminGwsData->explodeIds($model->getWebsiteIds());
         $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
 
         if ($this->_role->getIsWebsiteLevel()) {
@@ -318,26 +339,6 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // must not assign to wrong website
         if ($model->getId() && !$this->_role->hasWebsiteAccess($model->getWebsiteIds())) {
             $this->_throwSave();
-        }
-    }
-
-    /**
-     * Catalog product validate after add|remove to|from websites on mass update attributes
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function catalogProductActionWithWebsitesAfter(\Magento\Event\Observer $observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return ;
-        }
-        if (in_array($observer->getEvent()->getAction(), array('remove', 'add'))) {
-            if (!$this->_role->getIsWebsiteLevel()) {
-                $this->_throwSave();
-            }
-            if (!$this->_role->hasWebsiteAccess($observer->getWebsiteIds(), true)) {
-                $this->_throwSave();
-            }
         }
     }
 

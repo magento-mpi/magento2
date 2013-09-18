@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Report\Filter;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Report type options
@@ -103,9 +103,16 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
     protected function _prepareForm()
     {
         $actionUrl = $this->getUrl('*/*/sales');
-        $form = new \Magento\Data\Form(
-            array('id' => 'filter_form', 'action' => $actionUrl, 'method' => 'get')
+
+        /** @var \Magento\Data\Form $form */
+        $form   = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'filter_form',
+                'action' => $actionUrl,
+                'method' => 'get',
+            ))
         );
+
         $htmlIdPrefix = 'sales_report_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Filter')));

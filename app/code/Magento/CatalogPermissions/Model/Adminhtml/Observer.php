@@ -29,29 +29,22 @@ class Observer
     protected $_authorization;
 
     /**
-     * @param \Magento\AuthorizationInterface $authorization
+     * Catalog permissions data
+     *
+     * @var \Magento\CatalogPermissions\Helper\Data
      */
-    public function __construct(\Magento\AuthorizationInterface $authorization)
-    {
-        $this->_authorization = $authorization;
-    }
+    protected $_catalogPermData = null;
 
     /**
-     * Check permissions availability for current category
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
+     * @param \Magento\AuthorizationInterface $authorization
      */
-    public function checkCategoryPermissions(\Magento\Event\Observer $observer)
-    {
-        $category = $observer->getEvent()->getCategory();
-        /* @var $category \Magento\Catalog\Model\Category */
-        $helper = \Mage::helper('Magento\CatalogPermissions\Helper\Data');
-        if (!$helper->isAllowedCategory($category) && $category->hasData('permissions')) {
-            $category->unsetData('permissions');
-        }
-
-        return $this;
+    public function __construct(
+        \Magento\CatalogPermissions\Helper\Data $catalogPermData,
+        \Magento\AuthorizationInterface $authorization
+    ) {
+        $this->_catalogPermData = $catalogPermData;
+        $this->_authorization = $authorization;
     }
 
     /**
@@ -62,7 +55,7 @@ class Observer
      */
     public function saveCategoryPermissions(\Magento\Event\Observer $observer)
     {
-        if (!\Mage::helper('Magento\CatalogPermissions\Helper\Data')->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
 
@@ -247,7 +240,7 @@ class Observer
      */
     public function addCategoryPermissionTab(\Magento\Event\Observer $observer)
     {
-        if (!\Mage::helper('Magento\CatalogPermissions\Helper\Data')->isEnabled()) {
+        if (!$this->_catalogPermData->isEnabled()) {
             return $this;
         }
         if (!$this->_authorization->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')) {
@@ -257,7 +250,7 @@ class Observer
         $tabs = $observer->getEvent()->getTabs();
         /* @var $tabs \Magento\Adminhtml\Block\Catalog\Category\Tabs */
 
-        //if (\Mage::helper('Magento\CatalogPermissions\Helper\Data')->isAllowedCategory($tabs->getCategory())) {
+        //if ($this->_catalogPermissionsData->isAllowedCategory($tabs->getCategory())) {
             $tabs->addTab(
                 'permissions',
                 'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions'

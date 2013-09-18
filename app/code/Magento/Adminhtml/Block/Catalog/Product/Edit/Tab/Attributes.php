@@ -20,12 +20,39 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
 class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 {
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Load Wysiwyg on demand and prepare layout
      */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Cms')
+        if ($this->_catalogData->isModuleEnabled('Magento_Cms')
             && \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()
         ) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
@@ -42,9 +69,10 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
         /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
         $group = $this->getGroup();
         if ($group) {
-            $form = new \Magento\Data\Form();
-            $product = \Mage::registry('product');
-            $isWrapped = \Mage::registry('use_wrapper');
+            /** @var \Magento\Data\Form $form */
+            $form = $this->_formFactory->create();
+            $product = $this->_coreRegistry->registry('product');
+            $isWrapped = $this->_coreRegistry->registry('use_wrapper');
             if (!isset($isWrapped)) {
                 $isWrapped = true;
             }
@@ -143,7 +171,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
             $form->addValues($values);
             $form->setFieldNameSuffix('product');
 
-            \Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form' => $form));
+            $this->_eventManager->dispatch('adminhtml_catalog_product_edit_prepare_form', array('form' => $form));
 
             $this->setForm($form);
         }
@@ -167,7 +195,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 
         $response = new \Magento\Object();
         $response->setTypes(array());
-        \Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response' => $response));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
 
         foreach ($response->getTypes() as $typeName => $typeClass) {
             $result[$typeName] = $typeClass;

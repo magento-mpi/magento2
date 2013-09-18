@@ -22,6 +22,22 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     const MIN_PASSWORD_LENGTH = 6;
 
     /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString
+    ) {
+        $this->_coreString = $coreString;
+    }
+
+    /**
      * Special processing before attribute save:
      * a) check some rules for password
      * b) transform temporary attribute 'password' into real attribute 'password_hash'
@@ -32,7 +48,7 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     {
         $password = $object->getPassword();
         /** @var \Magento\Core\Helper\String $stringHelper */
-        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
+        $stringHelper = $this->_coreString;
 
         $length = $stringHelper->strlen($password);
         if ($length > 0) {

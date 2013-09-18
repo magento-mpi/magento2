@@ -78,17 +78,19 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_design = $design;
         $this->_area = isset($data['area']) ? $data['area'] : null;
         $this->_store = isset($data['store']) ? $data['store'] : null;
-        parent::__construct($context, null, null, $data);
+        parent::__construct($context, $registry, null, null, $data);
     }
 
     /**

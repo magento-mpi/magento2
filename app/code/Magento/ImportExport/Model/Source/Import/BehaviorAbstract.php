@@ -37,18 +37,6 @@ abstract class BehaviorAbstract
             $this->_helpers = $data['helpers'];
         }
     }
-
-    /**
-     * Helper getter
-     *
-     * @param string $helperName
-     * @return \Magento\Core\Helper\AbstractHelper
-     */
-    protected function _helper($helperName)
-    {
-        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : \Mage::helper($helperName);
-    }
-
     /**
      * Get array of possible values
      *

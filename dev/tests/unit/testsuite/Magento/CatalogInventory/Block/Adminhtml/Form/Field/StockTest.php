@@ -23,13 +23,40 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
      */
     protected $_qty;
 
+    /**
+     * @var \Magento\Data\Form\Element\Factory
+     */
+    protected $_factory;
+
+    /**
+     * @var \Magento\Data\Form\Element\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreHelper;
+
     protected function setUp()
     {
-        $this->_qty = $this->getMock('Magento\Data\Form\Element\Text',
-            array('getElementHtml', 'setForm', 'setValue', 'setName')
+        $this->_coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $this->_factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $this->_collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
+            array(), '', false);
+        $this->_qty = $this->getMock('\Magento\Data\Form\Element\Text',
+            array('getElementHtml', 'setForm', 'setValue', 'setName'),
+            array($this->_coreHelper, $this->_factory, $this->_collectionFactory)
         );
         $this->_model = $this->getMock('Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock',
-            array('getElementHtml'), array(array('qty' => $this->_qty, 'name' => self::ATTRIBUTE_NAME)));
+            array('getElementHtml'),
+            array(
+                $this->_coreHelper,
+                $this->_factory,
+                $this->_collectionFactory,
+                array('qty' => $this->_qty, 'name' => self::ATTRIBUTE_NAME)
+            )
+        );
     }
 
     public function testGetElementHtml()
@@ -44,7 +71,9 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     {
         $this->_qty->expects($this->once())->method('setForm')
             ->with($this->isInstanceOf('Magento\Data\Form\Element\AbstractElement'));
-        $this->_model->setForm(new \Magento\Data\Form\Element\Text());
+        $this->_model->setForm(
+            new \Magento\Data\Form\Element\Text($this->_coreHelper, $this->_factory, $this->_collectionFactory)
+        );
     }
 
     public function testSetValue()

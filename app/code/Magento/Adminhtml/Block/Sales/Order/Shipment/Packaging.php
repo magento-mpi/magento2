@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml shipment packaging
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Sales\Order\Shipment;
@@ -26,17 +22,29 @@ class Packaging extends \Magento\Adminhtml\Block\Template
     protected $_sourceSizeModel;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_sourceSizeModel = $sourceSizeModel;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -46,7 +54,7 @@ class Packaging extends \Magento\Adminhtml\Block\Template
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**
@@ -106,7 +114,7 @@ class Packaging extends \Magento\Adminhtml\Block\Template
             'shipmentItemsOrderItemId'  => $itemsOrderItemId,
             'customizable'              => $this->_getCustomizableContainers(),
         );
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**

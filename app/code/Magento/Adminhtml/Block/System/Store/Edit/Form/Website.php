@@ -14,6 +14,8 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
 
@@ -27,8 +29,9 @@ class Website
      */
     protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {
-        $websiteModel = \Mage::registry('store_data');
-        if ($postData = \Mage::registry('store_post_data')) {
+        $websiteModel = $this->_coreRegistry->registry('store_data');
+        $postData = $this->_coreRegistry->registry('store_post_data');
+        if ($postData) {
             $websiteModel->setData($postData['website']);
         }
         $fieldset = $form->addFieldset('website_fieldset', array(
@@ -60,7 +63,7 @@ class Website
             'disabled'  => $websiteModel->isReadOnly(),
         ));
 
-        if (\Mage::registry('store_action') == 'edit') {
+        if ($this->_coreRegistry->registry('store_action') == 'edit') {
             $groups = \Mage::getModel('Magento\Core\Model\Store\Group')->getCollection()
                 ->addWebsiteFilter($websiteModel->getId())
                 ->setWithoutStoreViewFilter()

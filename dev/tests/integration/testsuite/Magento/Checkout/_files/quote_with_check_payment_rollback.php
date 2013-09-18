@@ -8,4 +8,6 @@
  * @license     {license_link}
  */
 
-Mage::unregister('quote');
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister('quote');

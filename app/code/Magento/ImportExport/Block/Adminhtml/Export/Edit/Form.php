@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
 
-class Form extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form before rendering HTML.
@@ -26,11 +26,14 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-            'id'     => 'edit_form',
-            'action' => $this->getUrl('*/*/getFilter'),
-            'method' => 'post'
-        ));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'     => 'edit_form',
+                'action' => $this->getUrl('*/*/getFilter'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Export Settings')));
         /** @var $entitySourceModel \Magento\ImportExport\Model\Source\Export\Entity */

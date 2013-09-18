@@ -74,6 +74,33 @@ class Email extends \Magento\Core\Model\AbstractModel
     protected $_stockBlock;
 
     /**
+     * Product alert data
+     *
+     * @var \Magento\ProductAlert\Helper\Data
+     */
+    protected $_productAlertData = null;
+
+    /**
+     * @param \Magento\ProductAlert\Helper\Data $productAlertData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\ProductAlert\Helper\Data $productAlertData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productAlertData = $productAlertData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set model type
      *
      * @param string $type
@@ -187,7 +214,7 @@ class Email extends \Magento\Core\Model\AbstractModel
     protected function _getPriceBlock()
     {
         if (is_null($this->_priceBlock)) {
-            $this->_priceBlock = \Mage::helper('Magento\ProductAlert\Helper\Data')
+            $this->_priceBlock = $this->_productAlertData
                 ->createBlock('Magento\ProductAlert\Block\Email\Price');
         }
         return $this->_priceBlock;
@@ -201,7 +228,7 @@ class Email extends \Magento\Core\Model\AbstractModel
     protected function _getStockBlock()
     {
         if (is_null($this->_stockBlock)) {
-            $this->_stockBlock = \Mage::helper('Magento\ProductAlert\Helper\Data')
+            $this->_stockBlock = $this->_productAlertData
                 ->createBlock('Magento\ProductAlert\Block\Email\Stock');
         }
         return $this->_stockBlock;

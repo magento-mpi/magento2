@@ -17,8 +17,41 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-class Grid extends \Magento\Adminhtml\Block\Template
+class Grid extends \Magento\Backend\Block\Template
 {
+    /**
+     * Rma data
+     *
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Return collection of shipment items
      *
@@ -26,7 +59,7 @@ class Grid extends \Magento\Adminhtml\Block\Template
      */
     public function getCollection()
     {
-        return \Mage::registry('current_rma')->getShippingMethods(true);
+        return $this->_coreRegistry->registry('current_rma')->getShippingMethods(true);
     }
 
     /**
@@ -36,12 +69,12 @@ class Grid extends \Magento\Adminhtml\Block\Template
      */
     public function displayCustomsValue()
     {
-        $storeId = \Mage::registry('current_rma')->getStoreId();
-        $order = \Mage::registry('current_rma')->getOrder();
+        $storeId = $this->_coreRegistry->registry('current_rma')->getStoreId();
+        $order = $this->_coreRegistry->registry('current_rma')->getOrder();
         $address = $order->getShippingAddress();
         $shippingSourceCountryCode = $address->getCountryId();
 
-        $shippingDestinationInfo = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId);
+        $shippingDestinationInfo = $this->_rmaData->getReturnAddressModel($storeId);
         $shippingDestinationCountryCode = $shippingDestinationInfo->getCountryId();
 
         if ($shippingSourceCountryCode != $shippingDestinationCountryCode) {

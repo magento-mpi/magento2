@@ -10,10 +10,12 @@
 
 /**
  * Theme Edit Form
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
 
-class Form extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Initialize theme form
@@ -22,12 +24,15 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-              'id'      => 'edit_form',
-              'action'  => $this->getUrl('*/*/save'),
-              'enctype' => 'multipart/form-data',
-              'method'  => 'post'
-         ));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'      => 'edit_form',
+                'action'  => $this->getUrl('*/*/save'),
+                'enctype' => 'multipart/form-data',
+                'method'  => 'post',
+            ))
+        );
 
         $form->setUseContainer(true);
         $this->setForm($form);

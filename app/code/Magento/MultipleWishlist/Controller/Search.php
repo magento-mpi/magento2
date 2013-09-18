@@ -27,6 +27,25 @@ class Search extends \Magento\Core\Controller\Front\Action
     protected $_localFilter;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Processes localized qty (entered by user at frontend) into internal php format
      *
      * @param string $qty
@@ -54,7 +73,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isModuleEnabled()) {
+        if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isModuleEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -116,7 +135,7 @@ class Search extends \Magento\Core\Controller\Front\Action
 
             $strategy->setSearchParams($params);
             $search = \Mage::getModel('Magento\MultipleWishlist\Model\Search');
-            \Mage::register('search_results', $search->getResults($strategy));
+            $this->_coreRegistry->register('search_results', $search->getResults($strategy));
             $this->_getSession()->setLastWishlistSearchParams($params);
         } catch (\InvalidArgumentException $e) {
             $this->_getSession()->addNotice($e->getMessage());
@@ -149,7 +168,7 @@ class Search extends \Magento\Core\Controller\Front\Action
             || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_getSession()->getCustomerId())) {
             return $this->norouteAction();
         }
-        \Mage::register('wishlist', $wishlist);
+        $this->_coreRegistry->register('wishlist', $wishlist);
         $this->loadLayout();
         $block = $this->getLayout()->getBlock('customer.wishlist.info');
         if ($block) {
@@ -203,8 +222,8 @@ class Search extends \Magento\Core\Controller\Front\Action
             }
         }
 
-        if (\Mage::helper('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
-            $redirectUrl = \Mage::helper('Magento\Checkout\Helper\Cart')->getCartUrl();
+        if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
+            $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
         } else if ($this->_getRefererUrl()) {
             $redirectUrl = $this->_getRefererUrl();
         }

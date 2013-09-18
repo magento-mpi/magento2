@@ -9,11 +9,7 @@
  */
 
 /**
- * customers defined options
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Customers defined options
  */
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options;
@@ -29,6 +25,29 @@ class Option extends \Magento\Adminhtml\Block\Widget
     protected $_itemCount = 1;
 
     protected $_template = 'catalog/product/edit/options/option.phtml';
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Class constructor
@@ -60,7 +79,8 @@ class Option extends \Magento\Adminhtml\Block\Widget
     public function getProduct()
     {
         if (!$this->_productInstance) {
-            if ($product = \Mage::registry('product')) {
+            $product = $this->_coreRegistry->registry('product');
+            if ($product) {
                 $this->_productInstance = $product;
             } else {
                 $this->_productInstance = \Mage::getSingleton('Magento\Catalog\Model\Product');

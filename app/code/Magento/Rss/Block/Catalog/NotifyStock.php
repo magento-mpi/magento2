@@ -20,6 +20,37 @@ namespace Magento\Rss\Block\Catalog;
 class NotifyStock extends \Magento\Core\Block\AbstractBlock
 {
     /**
+     * Rss data
+     *
+     * @var \Magento\Rss\Helper\Data
+     */
+    protected $_rssData = null;
+
+    /**
+     * Adminhtml data
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Rss\Helper\Data $rssData
+     * @param \Magento\Core\Block\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Rss\Helper\Data $rssData,
+        \Magento\Core\Block\Context $context,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        $this->_rssData = $rssData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render RSS
      *
      * @return string
@@ -40,7 +71,7 @@ class NotifyStock extends \Magento\Core\Block\AbstractBlock
 
         $globalNotifyStockQty = (float) \Mage::getStoreConfig(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY);
-        \Mage::helper('Magento\Rss\Helper\Data')->disableFlat();
+        $this->_rssData->disableFlat();
         /* @var $product \Magento\Catalog\Model\Product */
         $product = \Mage::getModel('Magento\Catalog\Model\Product');
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
@@ -57,7 +88,9 @@ class NotifyStock extends \Magento\Core\Block\AbstractBlock
                 array('in' => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getVisibleStatusIds())
             )
             ->setOrder('low_stock_date');
-        \Mage::dispatchEvent('rss_catalog_notify_stock_collection_select', array('collection' => $collection));
+        $this->_eventManager->dispatch('rss_catalog_notify_stock_collection_select', array(
+            'collection' => $collection,
+        ));
 
         /*
         using resource iterator to load the data one by one
@@ -82,7 +115,7 @@ class NotifyStock extends \Magento\Core\Block\AbstractBlock
     {
         $product = $args['product'];
         $product->setData($args['row']);
-        $url = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/catalog_product/edit/',
+        $url = $this->_adminhtmlData->getUrl('adminhtml/catalog_product/edit/',
             array('id' => $product->getId(), '_secure' => true, '_nosecret' => true));
         $qty = 1 * $product->getQty();
         $description = __('%1 has reached a quantity of %2.', $product->getName(), $qty);

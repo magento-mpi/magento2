@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Authorizenet\Model\Directpost\Observer">
+        <param name="authorizenetData">
+            <instance type="Magento\Authorizenet\Helper\Data\Proxy" />
+        </param>
+        <param name="coreData">
+            <instance type="Magento\Core\Helper\Data\Proxy" />
+        </param>
+    </type>
+</config>

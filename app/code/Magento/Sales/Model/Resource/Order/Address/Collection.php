@@ -52,7 +52,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     {
         parent::_afterLoad();
 
-        \Mage::dispatchEvent($this->_eventPrefix . '_load_after', array(
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array(
             $this->_eventObject => $this
         ));
 

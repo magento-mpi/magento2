@@ -15,8 +15,8 @@ class Pool extends \Magento\Core\Model\Config\Value
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
-            if (!\Mage::registry('giftcardaccount_code_length_check')) {
-                \Mage::register('giftcardaccount_code_length_check', 1);
+            if (!$this->_coreRegistry->registry('giftcardaccount_code_length_check')) {
+                $this->_coreRegistry->register('giftcardaccount_code_length_check', 1);
                 $this->_checkMaxLength();
             }
         }
@@ -51,10 +51,10 @@ class Pool extends \Magento\Core\Model\Config\Value
             $len += strlen($fields['code_prefix']['value']);
         }
         if (isset($fields['code_split']['value'])) {
-            $v = (int) $fields['code_split']['value'];
+            $v = (int)$fields['code_split']['value'];
             if ($v > 0 && $v < $codeLen) {
                 $sep = \Mage::getModel('Magento\GiftCardAccount\Model\Pool')->getCodeSeparator();
-                $len += (ceil($codeLen/$v) * strlen($sep))-1;
+                $len += (ceil($codeLen / $v) * strlen($sep)) - 1;
             }
         }
 

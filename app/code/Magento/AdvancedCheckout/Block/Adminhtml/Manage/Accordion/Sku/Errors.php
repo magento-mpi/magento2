@@ -21,14 +21,37 @@ class Errors
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Returns url to configure item
      *
      * @return string
      */
     public function getConfigureUrl()
     {
-        $customer = \Mage::registry('checkout_current_customer');
-        $store = \Mage::registry('checkout_current_store');
+        $customer = $this->_coreRegistry->registry('checkout_current_customer');
+        $store = $this->_coreRegistry->registry('checkout_current_store');
         $params = array(
             'customer'   => $customer->getId(),
             'store'    => $store->getId()
@@ -53,7 +76,7 @@ class Errors
      */
     public function getStore()
     {
-        return \Mage::registry('checkout_current_store');
+        return $this->_coreRegistry->registry('checkout_current_store');
     }
 
     /**

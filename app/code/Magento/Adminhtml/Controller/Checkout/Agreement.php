@@ -19,6 +19,25 @@ namespace Magento\Adminhtml\Controller\Checkout;
 
 class Agreement extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
         $this->_title(__('Terms and Conditions'));
@@ -59,14 +78,12 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
             $agreementModel->setData($data);
         }
 
-        \Mage::register('checkout_agreement', $agreementModel);
+        $this->_coreRegistry->register('checkout_agreement', $agreementModel);
 
         $this->_initAction()
             ->_addBreadcrumb(
-                $id ? __('Edit Condition')
-                    :  __('New Condition'),
-                $id ?  __('Edit Condition')
-                    :  __('New Condition')
+                $id ? __('Edit Condition') :  __('New Condition'),
+                $id ?  __('Edit Condition') :  __('New Condition')
             )
             ->_addContent(
                 $this->getLayout()
@@ -78,7 +95,8 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
 
     public function saveAction()
     {
-        if ($postData = $this->getRequest()->getPost()) {
+        $postData = $this->getRequest()->getPost();
+        if ($postData) {
             $model = \Mage::getSingleton('Magento\Checkout\Model\Agreement');
             $model->setData($postData);
 
@@ -89,9 +107,10 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/');
 
                 return;
-            }
-            catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while saving this condition.'));
             }
             catch (\Exception $e) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while saving this condition.'));
@@ -115,16 +134,13 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
 
         try {
             $model->delete();
-
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The condition has been deleted.'));
             $this->_redirect('*/*/');
-
             return;
-        }
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong  while deleting this condition.'));
         }
 
@@ -141,8 +157,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout()
             ->_setActiveMenu('Magento_Checkout::sales_checkoutagreement')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('Checkout Conditions'), __('Checkout Terms and Conditions'))
-        ;
+            ->_addBreadcrumb(__('Checkout Conditions'), __('Checkout Terms and Conditions'));
         return $this;
     }
 

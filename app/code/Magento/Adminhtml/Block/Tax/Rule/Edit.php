@@ -10,16 +10,35 @@
 
 /**
  * Adminhtml tax rule Edit Container
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Tax\Rule;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Init class
      *
@@ -52,10 +71,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if (\Mage::registry('tax_rule')->getId()) {
+        if ($this->_coreRegistry->registry('tax_rule')->getId()) {
             return __("Edit Rule");
-        }
-        else {
+        } else {
             return __('New Rule');
         }
     }

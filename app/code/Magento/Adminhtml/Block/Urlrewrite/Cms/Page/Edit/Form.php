@@ -17,6 +17,8 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit;
 
@@ -32,7 +34,7 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
     {
         $cmsPage = $this->_getCmsPage();
         $form->setAction(
-            \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('*/*/save', array(
+            $this->_adminhtmlData->getUrl('*/*/save', array(
                 'id'       => $this->_getModel()->getId(),
                 'cms_page' => $cmsPage->getId()
             ))

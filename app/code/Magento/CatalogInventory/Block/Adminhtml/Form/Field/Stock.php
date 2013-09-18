@@ -36,12 +36,22 @@ class Stock extends \Magento\Data\Form\Element\Select
      */
     protected $_isProductComposite;
 
-    public function __construct(array $data = array())
-    {
-        $this->_qty = isset($data['qty']) ? $data['qty'] : $this->_createQtyElement();
-        unset($data['qty']);
-        parent::__construct($data);
-        $this->setName($data['name']);
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param array $attributes
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        array $attributes = array()
+    ) {
+        $this->_qty = isset($attributes['qty']) ? $attributes['qty'] : $this->_createQtyElement();
+        unset($attributes['qty']);
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
+        $this->setName($attributes['name']);
     }
 
     /**

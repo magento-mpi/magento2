@@ -20,6 +20,25 @@ namespace Magento\Search\Controller\Adminhtml\Catalog;
 class Search extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Ajax grid action
      */
     public function relatedGridAction()
@@ -42,7 +61,7 @@ class Search extends \Magento\Adminhtml\Controller\Action
             $model->addData($data);
         }
 
-        \Mage::register('current_catalog_search', $model);
+        $this->_coreRegistry->register('current_catalog_search', $model);
 
         $this->loadLayout(false);
         $this->renderLayout();

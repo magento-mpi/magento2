@@ -57,6 +57,33 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     protected $_visitedUrls = array();
 
     /**
+     * Website restriction data
+     *
+     * @var \Magento\WebsiteRestriction\Helper\Data
+     */
+    protected $_websiteRestricData = null;
+
+    /**
+     * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestricData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\WebsiteRestriction\Helper\Data $websiteRestricData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_websiteRestricData = $websiteRestricData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set resource model
      */
     protected function _construct()
@@ -82,7 +109,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
         $baseUrls = array();
         foreach (\Mage::app()->getStores() as $store) {
             $website               = \Mage::app()->getWebsite($store->getWebsiteId());
-            if (\Mage::helper('Magento\WebsiteRestriction\Helper\Data')->getIsRestrictionEnabled($store)) {
+            if ($this->_websiteRestricData->getIsRestrictionEnabled($store)) {
                 continue;
             }
             $baseUrl               = \Mage::app()->getStore($store)->getBaseUrl();

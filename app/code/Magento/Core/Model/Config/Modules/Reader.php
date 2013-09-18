@@ -136,7 +136,7 @@ class Reader
             case 'controllers':
             case 'sql':
             case 'data':
-            case 'locale':
+            case 'i18n':
             case 'view':
                 $dir .= DS . $type;
                 break;

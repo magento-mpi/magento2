@@ -23,7 +23,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load');
     }
 
@@ -48,6 +48,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_LoadTest extends PHPUnit_F
             $containerName   => $containerContent,
             $blockNameOne    => $contentOne
         );
-        $this->assertEquals($expectedDecoded, Mage::helper('Magento\Core\Helper\Data')->jsonDecode($result));
+        $this->assertEquals($expectedDecoded,
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
+                ->jsonDecode($result)
+        );
     }
 }

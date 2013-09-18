@@ -28,6 +28,52 @@ class Observer
     protected $_setQuotePersistent = true;
 
     /**
+     * Persistent data
+     *
+     * @var \Magento\Persistent\Helper\Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Persistent session
+     *
+     * @var \Magento\Persistent\Helper\Session
+     */
+    protected $_persistentSession = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Persistent\Helper\Data $persistentData
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Persistent\Helper\Data $persistentData
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_persistentSession = $persistentSession;
+        $this->_coreData = $coreData;
+        $this->_persistentData = $persistentData;
+    }
+
+    /**
      * Apply persistent data
      *
      * @param \Magento\Event\Observer $observer
@@ -35,15 +81,14 @@ class Observer
      */
     public function applyPersistentData($observer)
     {
-        $helper = \Mage::helper('Magento\Persistent\Helper\Data');
-        if (!$helper->canProcess($observer)
-            || !$this->_getPersistentHelper()->isPersistent()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentSession->isPersistent()
             || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
         ) {
             return $this;
         }
         \Mage::getModel('Magento\Persistent\Model\Persistent\Config')
-            ->setConfigFilePath($helper->getPersistentConfigFilePath())
+            ->setConfigFilePath($this->_persistentData->getPersistentConfigFilePath())
             ->fire();
         return $this;
     }
@@ -56,7 +101,7 @@ class Observer
      */
     public function applyBlockPersistentData($observer)
     {
-        if (!$this->_getPersistentHelper()->isPersistent() || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if (!$this->_persistentSession->isPersistent() || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             return $this;
         }
 
@@ -70,7 +115,7 @@ class Observer
         $xPath = '//instances/blocks/*[block_type="' . get_class($block) . '"]';
         $configFilePath = $observer->getEvent()->getConfigFilePath();
         if (!$configFilePath) {
-            $configFilePath = \Mage::helper('Magento\Persistent\Helper\Data')->getPersistentConfigFilePath();
+            $configFilePath = $this->_persistentData->getPersistentConfigFilePath();
         }
 
         /** @var $persistentConfig \Magento\Persistent\Model\Persistent\Config */
@@ -92,10 +137,8 @@ class Observer
      */
     public function emulateWelcomeBlock($block)
     {
-        $escapedName = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml(
-            $this->_getPersistentCustomer()->getName(),
-            null
-        );
+        $escapedName = $this->_coreData
+            ->escapeHtml($this->_getPersistentCustomer()->getName(), null);
 
         $this->_applyAccountLinksPersistentData();
         $welcomeMessage = __('Welcome, %1!', $escapedName)
@@ -137,8 +180,8 @@ class Observer
             'customer_account_createpost'
         );
 
-        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer)
-            || !$this->_getPersistentHelper()->isPersistent()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentSession->isPersistent()
             || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
         ) {
             return;
@@ -278,11 +321,11 @@ class Observer
      */
     public function removePersistentCookie($observer)
     {
-        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer) || !$this->_isPersistent()) {
+        if (!$this->_persistentData->canProcess($observer) || !$this->_isPersistent()) {
             return;
         }
 
-        $this->_getPersistentHelper()->getSession()->removePersistentCookie();
+        $this->_persistentSession->getSession()->removePersistentCookie();
         /** @var $customerSession \Magento\Customer\Model\Session */
         $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
         if (!$customerSession->isLoggedIn()) {
@@ -299,7 +342,7 @@ class Observer
      */
     public function disableGuestCheckout($observer)
     {
-        if ($this->_getPersistentHelper()->isPersistent()) {
+        if ($this->_persistentSession->isPersistent()) {
             $observer->getEvent()->getResult()->setIsAllowed(false);
         }
     }
@@ -338,19 +381,9 @@ class Observer
      */
     protected function _getPersistentCustomer()
     {
-        return \Mage::getModel('Magento\Customer\Model\Customer')->load(
-            $this->_getPersistentHelper()->getSession()->getCustomerId()
+        return \Mage::getModel('Magento\Customer\Model\Session')->load(
+            $this->_persistentSession->getSession()->getCustomerId()
         );
-    }
-
-    /**
-     * Retrieve persistent helper
-     *
-     * @return \Magento\Persistent\Helper\Session
-     */
-    protected function _getPersistentHelper()
-    {
-        return \Mage::helper('Magento\Persistent\Helper\Session');
     }
 
     /**
@@ -372,7 +405,7 @@ class Observer
      */
     protected function _isShoppingCartPersist()
     {
-        return \Mage::helper('Magento\Persistent\Helper\Data')->isShoppingCartPersist();
+        return $this->_persistentData->isShoppingCartPersist();
     }
 
     /**
@@ -382,7 +415,7 @@ class Observer
      */
     protected function _isPersistent()
     {
-        return $this->_getPersistentHelper()->isPersistent();
+        return $this->_persistentSession->isPersistent();
     }
 
     /**
@@ -402,7 +435,7 @@ class Observer
      */
     protected function _isGuestShoppingCart()
     {
-        return $this->_isLoggedOut() && !\Mage::helper('Magento\Persistent\Helper\Data')->isShoppingCartPersist();
+        return $this->_isLoggedOut() && !$this->_persistentData->isShoppingCartPersist();
     }
 
     /**
@@ -416,7 +449,7 @@ class Observer
         $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
         if ($quote && $quote->getId()) {
             if ($checkQuote
-                && !\Mage::helper('Magento\Persistent\Helper\Data')->isShoppingCartPersist()
+                && !$this->_persistentData->isShoppingCartPersist()
                 && !$quote->getIsPersistent()
             ) {
                 \Mage::getSingleton('Magento\Checkout\Model\Session')->unsetAll();
@@ -441,7 +474,7 @@ class Observer
             $quote->collectTotals()->save();
         }
 
-        $this->_getPersistentHelper()->getSession()->removePersistentCookie();
+        $this->_persistentSession->getSession()->removePersistentCookie();
     }
 
     /**
@@ -451,21 +484,21 @@ class Observer
      */
     public function checkExpirePersistentQuote(\Magento\Event\Observer $observer)
     {
-        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer)) {
+        if (!$this->_persistentData->canProcess($observer)) {
             return;
         }
 
         /** @var $customerSession \Magento\Customer\Model\Session */
         $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
 
-        if (\Mage::helper('Magento\Persistent\Helper\Data')->isEnabled()
+        if ($this->_persistentData->isEnabled()
             && !$this->_isPersistent()
             && !$customerSession->isLoggedIn()
             && \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
             && !($observer->getControllerAction() instanceof \Magento\Checkout\Controller\Onepage)
             // persistent session does not expire on onepage checkout page to not spoil customer group id
         ) {
-            \Mage::dispatchEvent('persistent_session_expired');
+            $this->_eventManager->dispatch('persistent_session_expired');
             $this->_expirePersistentSession();
             $customerSession->setCustomerId(null)->setCustomerGroupId(null);
         }
@@ -492,7 +525,7 @@ class Observer
      * Clear expired persistent sessions
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return Magento_Persistent_Model_Observer_Cron
+     * @return \Magento\Persistent\Model\Observer\Cron
      */
     public function clearExpiredCronJob(\Magento\Cron\Model\Schedule $schedule)
     {
@@ -535,16 +568,16 @@ class Observer
      */
     public function emulateCustomer($observer)
     {
-        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer)
+        if (!$this->_persistentData->canProcess($observer)
             || !$this->_isShoppingCartPersist()
         ) {
             return $this;
         }
 
         if ($this->_isLoggedOut()) {
-            /** @var $customer \Magento\Customer\Model\Customer */
-            $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(
-                $this->_getPersistentHelper()->getSession()->getCustomerId()
+            /** @var $customer \Magento\Customer\Model\Session */
+            $customer = \Mage::getModel('Magento\Customer\Model\Session')->load(
+                $this->_persistentSession->getSession()->getCustomerId()
             );
             \Mage::getSingleton('Magento\Customer\Model\Session')
                 ->setCustomerId($customer->getId())

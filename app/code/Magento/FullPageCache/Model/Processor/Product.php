@@ -35,13 +35,23 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     protected $_processor;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Processor $processor
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\FullPageCache\Model\Cache $fpcCache,
-        \Magento\FullPageCache\Model\Processor $processor
+        \Magento\FullPageCache\Model\Processor $processor,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_fpcCache = $fpcCache;
         $this->_processor = $processor;
     }
@@ -61,7 +71,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
             $this->_fpcCache->save($countLimit, $cacheId, array(\Magento\FullPageCache\Model\Processor::CACHE_TAG));
         }
         // save current product id
-        $product = \Mage::registry('current_product');
+        $product = $this->_coreRegistry->registry('current_product');
         if ($product) {
             $cacheId = $this->_processor->getRequestCacheId() . '_current_product_id';
             $this->_fpcCache->save($product->getId(), $cacheId, array(\Magento\FullPageCache\Model\Processor::CACHE_TAG));

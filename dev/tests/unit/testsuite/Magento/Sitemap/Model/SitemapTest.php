@@ -12,19 +12,33 @@
 class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sitemap\Model\Resource\Sitemap
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_helperMockCore;
+
+    /**
+     * @var \Magento\Sitemap\Helper\Data
+     */
+    protected $_helperMockSitemap;
+
+    /**
+     * @var Magento_Sitemap_Model_Resource_Sitemap
      */
     protected $_resourceMock;
+
+    /**
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistryMock;
 
     /**
      * Set helper mocks, create resource model mock
      */
     protected function setUp()
     {
-        $helperMockCore = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
-        Mage::register('_helper/Magento\Core\Helper\Data', $helperMockCore, true);
+        $this->_helperMockCore = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
 
-        $helperMockSitemap = $this->getMock('Magento\Sitemap\Helper\Data', array(
+        $this->_helperMockSitemap = $this->getMock('Magento\Sitemap\Helper\Data', array(
             'getCategoryChangefreq',
             'getProductChangefreq',
             'getPageChangefreq',
@@ -36,25 +50,24 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             'getEnableSubmissionRobots'
          ), array(), '', false, false
         );
-        $helperMockSitemap->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getCategoryChangefreq')
             ->will($this->returnValue('daily'));
-        $helperMockSitemap->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getProductChangefreq')
             ->will($this->returnValue('monthly'));
-        $helperMockSitemap->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getPageChangefreq')
             ->will($this->returnValue('daily'));
-        $helperMockSitemap->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getCategoryPriority')
             ->will($this->returnValue('1'));
-        $helperMockSitemap->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getProductPriority')
             ->will($this->returnValue('0.5'));
-        $helperMockSitemap->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getPagePriority')
             ->will($this->returnValue('0.25'));
-        Mage::register('_helper/Magento\Sitemap\Helper\Data', $helperMockSitemap, true);
 
         $this->_resourceMock = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Sitemap')
             ->setMethods(array('_construct', 'beginTransaction', 'rollBack', 'save', 'addCommitCallback', 'commit'))
@@ -63,16 +76,28 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $this->_resourceMock->expects($this->any())
             ->method('addCommitCallback')
             ->will($this->returnSelf());
-    }
 
-    /**
-     * Unset helpers from registry
-     */
-    protected function tearDown()
-    {
-        Mage::unregister('_helper/Magento\Core\Helper\Data');
-        Mage::unregister('_helper/Magento\Sitemap\Helper\Data');
-        unset($this->_resourceMock);
+        $dateMock = $this->getMockBuilder('Magento\Core\Model\Date')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_coreRegistryMock = $this->getMock('Magento\Core\Model\Registry');
+        $this->_coreRegistryMock->expects($this->any())
+            ->method('registry')
+            ->will($this->returnValueMap(array(
+                array('_helper/Magento\Core\Helper\Data', $this->_helperMockCore),
+                array('_helper/Magento\Sitemap\Helper\Data', $this->_helperMockSitemap),
+                array('_singleton/Magento\Core\Model\Date', $dateMock)
+        )));
+
+        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
+        $objectManagerMock->expects($this->any())
+            ->method('get')
+            ->with('Magento\Core\Model\Registry')
+            ->will($this->returnValue($this->_coreRegistryMock));
+
+        Mage::reset();
+        Mage::setObjectManager($objectManagerMock);
     }
 
     /**
@@ -301,8 +326,9 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     public function testAddSitemapToRobotsTxt($maxLines, $maxFileSize, $expectedFile, $expectedWrites, $robotsInfo)
     {
         $actualData = array();
-        $model = $this->_prepareSitemapModelMock($actualData, $maxLines, $maxFileSize, $expectedFile, $expectedWrites,
-            $robotsInfo);
+        $model = $this->_prepareSitemapModelMock(
+            $actualData, $maxLines, $maxFileSize, $expectedFile, $expectedWrites, $robotsInfo
+        );
         $model->generateXml();
     }
 
@@ -320,11 +346,6 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected function _prepareSitemapModelMock(&$actualData, $maxLines, $maxFileSize,
         $expectedFile, $expectedWrites, $robotsInfo
     ) {
-        $dateMock = $this->getMockBuilder('Magento\Core\Model\Date')
-            ->disableOriginalConstructor()
-            ->getMock();
-        Mage::register('_singleton/Magento\Core\Model\Date', $dateMock, true);
-
         $fileMock = $this->getMockBuilder('Magento\Io\File')
             ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',
                 'allowedPath', 'getCleanPath', 'fileExists', 'isWriteable', 'mv', 'read', 'write'))
@@ -390,16 +411,15 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         // Mock helper methods
         $pushToRobots = 0;
         if (isset($robotsInfo['pushToRobots'])) {
-            $pushToRobots = (int) $robotsInfo['pushToRobots'];
+            $pushToRobots = (int)$robotsInfo['pushToRobots'];
         }
-        $helperMock = Mage::registry('_helper/Magento\Sitemap\Helper\Data');
-        $helperMock->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getMaximumLinesNumber')
             ->will($this->returnValue($maxLines));
-        $helperMock->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getMaximumFileSize')
             ->will($this->returnValue($maxFileSize));
-        $helperMock->expects($this->any())
+        $this->_helperMockSitemap->expects($this->any())
             ->method('getEnableSubmissionRobots')
             ->will($this->returnValue($pushToRobots));
 
@@ -440,7 +460,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     {
         $methods = array('_construct', '_getResource', '_getBaseDir', '_getFileObject', '_afterSave',
             '_getStoreBaseUrl', '_getCurrentDateTime', '_getCategoryItemsCollection', '_getProductItemsCollection',
-            '_getPageItemsCollection', '_getDocumentRoot', '_getFilesystem');
+            '_getPageItemsCollection', '_getDocumentRoot');
         if ($mockBeforeSave) {
             $methods[] = '_beforeSave';
         }
@@ -448,16 +468,15 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         /** @var $model \Magento\Sitemap\Model\Sitemap */
         $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
             ->setMethods($methods)
-            ->disableOriginalConstructor()
+            ->setConstructorArgs(array(
+                $this->_helperMockCore,
+                $this->_helperMockSitemap,
+                $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+                $this->getMock('Magento\Filesystem', array(), array(), '', false),
+                $this->_coreRegistryMock,
+            ))
             ->getMock();
 
-        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
-            ->getMock();
-        $filesystem = new \Magento\Filesystem($adapterMock);
-
-        $model->expects($this->any())
-            ->method('_getFilesystem')
-            ->will($this->returnValue($filesystem));
         $model->expects($this->any())
             ->method('_getResource')
             ->will($this->returnValue($this->_resourceMock));
@@ -540,13 +559,20 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSitemapUrl($storeBaseUrl, $documentRoot, $baseDir, $sitemapPath, $sitemapFileName, $result)
     {
+        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
+            ->getMock();
+        $filesystem = new \Magento\Filesystem($adapterMock);
+
         /** @var $model \Magento\Sitemap\Model\Sitemap */
         $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
-            ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir', '_getFilesystem'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
+            ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir', '_construct'))
+            ->setConstructorArgs(array(
+                $this->_helperMockCore,
+                $this->_helperMockSitemap,
+                $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+                $filesystem,
+                $this->_coreRegistryMock,
+            ))
             ->getMock();
 
         $filesystem = new \Magento\Filesystem($adapterMock);

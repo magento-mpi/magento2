@@ -10,7 +10,7 @@
  */
 -->
 <config>
-    <service class="Magento\Webhook\Service\SubscriptionV1" baseUrl="/V1/subscriptions">
+    <service class="Magento\Webhook\Service\SubscriptionV1Interface" baseUrl="/V1/subscriptions">
         <rest-route httpMethod="GET" method="getAll" secure="true"/>
         <rest-route httpMethod="POST" method="create" secure="true"/>
         <rest-route httpMethod="PUT" method="update" secure="true">/:subscriptionId</rest-route>

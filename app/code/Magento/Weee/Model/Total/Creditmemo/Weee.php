@@ -13,6 +13,30 @@ namespace Magento\Weee\Model\Total\Creditmemo;
 
 class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
+    /**
+     * Weee data
+     *
+     * @var \Magento\Weee\Helper\Data
+     */
+    protected $_weeeData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\Weee\Helper\Data $weeeData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Weee\Helper\Data $weeeData,
+        array $data = array()
+    ) {
+        $this->_weeeData = $weeeData;
+        parent::__construct($data);
+    }
+
     public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $store = $creditmemo->getStore();
@@ -30,7 +54,7 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
             $baseTotalTax += $item->getBaseWeeeTaxAppliedAmount()*$item->getQty();
 
             $newApplied = array();
-            $applied = \Mage::helper('Magento\Weee\Helper\Data')->getApplied($item);
+            $applied = $this->_weeeData->getApplied($item);
             foreach ($applied as $one) {
                 $one['base_row_amount'] = $one['base_amount']*$item->getQty();
                 $one['row_amount'] = $one['amount']*$item->getQty();
@@ -39,13 +63,13 @@ class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 
                 $newApplied[] = $one;
             }
-            \Mage::helper('Magento\Weee\Helper\Data')->setApplied($item, $newApplied);
+            $this->_weeeData->setApplied($item, $newApplied);
 
             $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition()*$item->getQty());
             $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition()*$item->getQty());
         }
 
-        if (\Mage::helper('Magento\Weee\Helper\Data')->includeInSubtotal($store)) {
+        if ($this->_weeeData->includeInSubtotal($store)) {
             $creditmemo->setSubtotal($creditmemo->getSubtotal() + $totalTax);
             $creditmemo->setBaseSubtotal($creditmemo->getBaseSubtotal() + $baseTotalTax);
         } else {

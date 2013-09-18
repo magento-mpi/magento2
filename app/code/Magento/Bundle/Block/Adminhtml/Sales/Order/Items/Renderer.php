@@ -165,7 +165,7 @@ class Renderer extends \Magento\Adminhtml\Block\Sales\Items\Renderer\DefaultRend
 
     public function getOrderItem()
     {
-        if ($this->getItem() instanceof Magento_Sales_Order_Item) {
+        if ($this->getItem() instanceof \Magento\Sales\Order\Item) {
             return $this->getItem();
         } else {
             return $this->getItem()->getOrderItem();

@@ -23,6 +23,29 @@ class Profile extends \Magento\Core\Block\Template
     protected $_profile = false;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Getter for schedule info
      * array(
      *     <title> => array('blah-blah', 'bla-bla-blah', ...)
@@ -67,7 +90,7 @@ class Profile extends \Magento\Core\Block\Template
      */
     protected function _prepareLayout()
     {
-        $product = \Mage::registry('current_product');
+        $product = $this->_coreRegistry->registry('current_product');
         if ($product) {
             $this->_profile = \Mage::getModel('Magento\Payment\Model\Recurring\Profile')->importProduct($product);
         }

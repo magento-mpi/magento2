@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../../../../../../../../../app/code/Magento/Logging/etc/logging.xsd">
+    <actions>
+        <action id="apply_coupon">
+            <label translate="true">Apply Coupon</label>
+        </action>
+        <action id="add_to_cart">
+            <label translate="true">Add to Cart</label>
+        </action>
+    </actions>
+    <groups>
+        <group name="enterprise_checkout">
+            <label translate="true">Shopping Cart Management</label>
+            <events>
+                <event controller_action="adminhtml_checkout_index" action_alias="view">
+                    <expected_models>
+                        <expected_model class="Magento\Sales\Model\Quote" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_checkout_applyCoupon"
+                       action_alias="apply_coupon"
+                       post_dispatch="postDispatchAdminCheckoutApplyCoupon">
+                    <expected_models>
+                        <expected_model class="Magento\Sales\Model\Quote" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_checkout_updateItems" action_alias="save">
+                    <expected_models>
+                        <expected_model class="Magento\Sales\Model\Quote\Item" />
+                    </expected_models>
+                </event>
+                <event controller_action="adminhtml_checkout_addToCart"
+                       action_alias="add_to_cart">
+                    <expected_models>
+                        <expected_model class="Magento\Sales\Model\Quote\Item">
+                            <additional_fields>
+                                <field name="item_id" />
+                                <field name="quote_id" />
+                            </additional_fields>
+                        </expected_model>
+                    </expected_models>
+                </event>
+            </events>
+        </group>
+    </groups>
+</logging>

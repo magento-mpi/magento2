@@ -21,6 +21,29 @@ class Regexceptions
     extends \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     /**
+     * @var \Magento\Data\Form\Element\Factory
+     */
+    protected $_elementFactory;
+
+    /**
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        array $data = array()
+    ) {
+        $this->_elementFactory = $elementFactory;
+        parent::__construct($coreData, $context, $application, $data);
+    }
+
+    /**
      * Initialise form fields
      */
     protected function _construct()
@@ -50,7 +73,7 @@ class Regexceptions
             /** @var $label \Magento\Core\Model\Theme\Label */
             $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
             $options = $label->getLabelsCollection(__('-- No Theme --'));
-            $element = new \Magento\Data\Form\Element\Select();
+            $element = $this->_elementFactory->create('select');
             $element
                 ->setForm($this->getForm())
                 ->setName($this->_getCellInputElementName($columnName))

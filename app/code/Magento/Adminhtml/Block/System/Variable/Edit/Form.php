@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\System\Variable\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Getter
@@ -26,7 +26,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getVariable()
     {
-        return \Mage::registry('current_variable');
+        return $this->_coreRegistry->registry('current_variable');
     }
 
     /**
@@ -36,11 +36,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getData('action'),
-            'method' => 'post'
-        ));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
 
         $fieldset = $form->addFieldset('base', array(
             'legend'=>__('Variable'),

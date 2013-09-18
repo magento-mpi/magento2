@@ -20,6 +20,29 @@ namespace Magento\Adminhtml\Block\Sales\Order;
 class AbstractOrder extends \Magento\Adminhtml\Block\Widget
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve available order
      *
      * @return \Magento\Sales\Model\Order
@@ -29,11 +52,11 @@ class AbstractOrder extends \Magento\Adminhtml\Block\Widget
         if ($this->hasOrder()) {
             return $this->getData('order');
         }
-        if (\Mage::registry('current_order')) {
-            return \Mage::registry('current_order');
+        if ($this->_coreRegistry->registry('current_order')) {
+            return $this->_coreRegistry->registry('current_order');
         }
-        if (\Mage::registry('order')) {
-            return \Mage::registry('order');
+        if ($this->_coreRegistry->registry('order')) {
+            return $this->_coreRegistry->registry('order');
         }
         \Mage::throwException(__('We cannot get the order instance.'));
     }

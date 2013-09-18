@@ -25,6 +25,35 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeDisplayConfig   = array();
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_taxData = $taxData;
+        parent::__construct($context);
+    }
+
+    /**
      * Get weee amount display type on product view page
      *
      * @param   mixed $store
@@ -148,7 +177,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                 $type = $this->getEmailPriceDisplayType($store);
                 break;
             default:
-                if (\Mage::registry('current_product')) {
+                if ($this->_coreRegistry->registry('current_product')) {
                     $type = $this->getPriceDisplayType($store);
                 } else {
                     $type = $this->getListPriceDisplayType($store);
@@ -310,10 +339,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $store = \Mage::app()->getStore();
         foreach ($tierPrices as $index => &$tier) {
             $html = $store->formatPrice($store->convertPrice(
-                \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $tier['website_price'], true)+$weeeAmount), false);
+                $this->_taxData->getPrice($product, $tier['website_price'], true)+$weeeAmount), false);
             $tier['formated_price_incl_weee'] = '<span class="price tier-' . $index . '-incl-tax">' . $html . '</span>';
             $html = $store->formatPrice($store->convertPrice(
-                \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $tier['website_price'])+$weeeAmount), false);
+                $this->_taxData->getPrice($product, $tier['website_price'])+$weeeAmount), false);
             $tier['formated_price_incl_weee_only'] = '<span class="price tier-' . $index . '">' . $html . '</span>';
             $tier['formated_weee'] = $store->formatPrice($store->convertPrice($weeeAmount));
         }

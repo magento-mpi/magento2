@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml creditmemo create form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\Create;
@@ -47,7 +43,7 @@ class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
      */
     public function getCreditmemo()
     {
-        return \Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     public function getSaveUrl()

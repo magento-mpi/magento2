@@ -27,13 +27,36 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
     protected $_entity;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve order model instance
      *
      * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return \Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**
@@ -131,11 +154,11 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
      */
     public function getDefaultRecipient()
     {
-        if(!$this->getEntity()) {
+        if (!$this->getEntity()) {
             return '';
         }
 
-        if($this->getEntity()->getOrder()) {
+        if ($this->getEntity()->getOrder()) {
             if ($this->getEntity()->getOrder()->getShippingAddress()) {
                 return $this->getEntity()->getOrder()->getShippingAddress()->getName();
             } else if ($this->getEntity()->getOrder()->getBillingAddress()) {
@@ -196,10 +219,10 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
                               );
 
         // init default values for giftmessage form
-        if(!$this->getMessage()->getSender()) {
+        if (!$this->getMessage()->getSender()) {
             $this->getMessage()->setSender($this->getDefaultSender());
         }
-        if(!$this->getMessage()->getRecipient()) {
+        if (!$this->getMessage()->getRecipient()) {
             $this->getMessage()->setRecipient($this->getDefaultRecipient());
         }
 
@@ -213,7 +236,7 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
      */
     public function getMessage()
     {
-        if(is_null($this->_giftMessage)) {
+        if (is_null($this->_giftMessage)) {
             $this->_initMessage();
         }
 
@@ -252,5 +275,4 @@ class Giftmessage extends \Magento\Adminhtml\Block\Widget
             'order', $this->getEntity(), $this->getEntity()->getStoreId()
         );
     }
-
 }

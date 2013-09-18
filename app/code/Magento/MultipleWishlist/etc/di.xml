@@ -8,6 +8,8 @@
  */
 -->
 <config>
+    <!-- TODO: this prefence should be check -->
+    <preference for="Magento\Wishlist\Helper\Data" type="Magento\MultipleWishlist\Helper\Data"/>
     <type name="Magento\MultipleWishlist\Model\Item\Collection">
         <param name="resource">
             <instance type="Magento\MultipleWishlist\Model\Resource\Item" />

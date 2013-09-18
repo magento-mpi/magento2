@@ -14,18 +14,22 @@ class Code extends \Magento\Core\Block\Template
     /**
      * @var \Magento\GoogleAdwords\Helper\Data
      */
-    protected $_helper;
+    protected $_googleAdwordsData;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\GoogleAdwords\Helper\Data $googleAdwordsData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\GoogleAdwords\Helper\Data $helper
+     * @param array $data
      */
-    public function __construct(\Magento\Core\Block\Template\Context $context, \Magento\GoogleAdwords\Helper\Data $helper)
-    {
-        parent::__construct($context);
-        $this->_helper = $helper;
+    public function __construct(
+        \Magento\GoogleAdwords\Helper\Data $googleAdwordsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_googleAdwordsData = $googleAdwordsData;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -35,7 +39,7 @@ class Code extends \Magento\Core\Block\Template
      */
     protected function _toHtml()
     {
-        return $this->_helper->isGoogleAdwordsActive() ? parent::_toHtml() : '';
+        return $this->_googleAdwordsData->isGoogleAdwordsActive() ? parent::_toHtml() : '';
     }
 
     /**
@@ -43,6 +47,6 @@ class Code extends \Magento\Core\Block\Template
      */
     public function getHelper()
     {
-        return $this->_helper;
+        return $this->_googleAdwordsData;
     }
 }

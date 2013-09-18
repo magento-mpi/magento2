@@ -21,15 +21,4 @@
         </resources>
     </global>
     <frontend />
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CustomerCustomAttributes>
-                    <files>
-                        <default>Magento_CustomerCustomAttributes.csv</default>
-                    </files>
-                </Magento_CustomerCustomAttributes>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

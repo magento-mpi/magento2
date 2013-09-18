@@ -43,6 +43,33 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
     protected $_canFetchTransactionInfo = false;
 
     /**
+     * Pbridge data
+     *
+     * @var \Magento\Pbridge\Helper\Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($eventManager, $coreData, $moduleList, $paymentData, $data);
+    }
+
+    /**
      * Return that current payment method is dummy
      *
      * @return boolean
@@ -60,7 +87,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -231,7 +258,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
     public function setStore($store)
     {
         $this->setData('store', $store);
-        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 }

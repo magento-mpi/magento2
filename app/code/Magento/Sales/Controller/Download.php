@@ -20,7 +20,6 @@ namespace Magento\Sales\Controller;
 
 class Download extends \Magento\Core\Controller\Front\Action
 {
-
     /**
      * Custom options downloader
      *
@@ -59,11 +58,12 @@ class Download extends \Magento\Core\Controller\Front\Action
      */
     protected function _processDatabaseFile($filePath)
     {
-        if (!\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
+        if (!$this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
             return false;
         }
 
-        $relativePath = \Mage::helper('Magento\Core\Helper\File\Storage\Database')->getMediaRelativePath($filePath);
+        $relativePath = $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')
+            ->getMediaRelativePath($filePath);
         $file = \Mage::getModel('Magento\Core\Model\File\Storage\Database')->loadByFilename($relativePath);
 
         if (!$file->getId()) {
@@ -90,7 +90,8 @@ class Download extends \Magento\Core\Controller\Front\Action
      */
     public function downloadProfileCustomOptionAction()
     {
-        $recurringProfile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('id'));
+        $recurringProfile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')
+            ->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {
             $this->_forward('noRoute');

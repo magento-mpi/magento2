@@ -35,6 +35,25 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_priceTable;
 
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Inititalize connection and define tables
      *
      */
@@ -52,7 +71,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCatalogHelper()
     {
-        return \Mage::helper('Magento\Catalog\Helper\Data');
+        return $this->_catalogData;
     }
 
     /**

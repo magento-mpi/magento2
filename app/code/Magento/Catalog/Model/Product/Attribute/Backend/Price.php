@@ -28,28 +28,14 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_helper;
 
     /**
-     * Constructor to inject dependencies
-     *
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
      */
-    public function __construct($data = array())
-    {
-        if (isset($data['helper'])) {
-            $this->_helper = $data['helper'];
-        }
-    }
-
-    /**
-     * Get catalog helper
-     *
-     * @return \Magento\Catalog\Helper\Data
-     */
-    protected function _getHelper()
-    {
-        if (empty($this->_helper)) {
-            $this->_helper = \Mage::helper('Magento\Catalog\Helper\Data');
-        }
-        return $this->_helper;
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        $data = array()
+    ) {
+        $this->_helper = $catalogData;
     }
 
     /**
@@ -74,7 +60,7 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     public function setScope($attribute)
     {
-        if ($this->_getHelper()->isPriceGlobal()) {
+        if ($this->_helper->isPriceGlobal()) {
             $attribute->setIsGlobal(\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL);
         } else {
             $attribute->setIsGlobal(\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE);

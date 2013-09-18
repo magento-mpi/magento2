@@ -10,12 +10,37 @@
 
 /**
  * Customer balance observer
- *
  */
 namespace Magento\CustomerBalance\Model;
 
 class Observer
 {
+    /**
+     * Customer balance data
+     *
+     * @var \Magento\CustomerBalance\Helper\Data
+     */
+    protected $_customerBalanceData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
+        $this->_coreRegistry = $coreRegistry;
+    }
+
     /**
      * Prepare customer balance POST data
      *
@@ -23,7 +48,7 @@ class Observer
      */
     public function prepareCustomerBalanceSave($observer)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
         /* @var $customer \Magento\Customer\Model\Customer */
@@ -43,7 +68,7 @@ class Observer
      */
     public function customerSaveAfter($observer)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
         $data = $observer->getCustomer()->getCustomerBalanceData();
@@ -77,7 +102,7 @@ class Observer
      */
     public function paymentDataImport(\Magento\Event\Observer $observer)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
 
@@ -124,7 +149,7 @@ class Observer
      */
     public function processBeforeOrderPlace(\Magento\Event\Observer $observer)
     {
-        if (\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if ($this->_customerBalanceData->isEnabled()) {
             $order = $observer->getEvent()->getOrder();
             $this->_checkStoreCreditBalance($order);
         }
@@ -140,7 +165,7 @@ class Observer
      */
     public function processOrderPlace(\Magento\Event\Observer $observer)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
 
@@ -226,7 +251,7 @@ class Observer
      */
     public function processOrderCreationData(\Magento\Event\Observer $observer)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
@@ -278,7 +303,7 @@ class Observer
      */
     public function togglePaymentMethods($observer)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
 
@@ -372,7 +397,7 @@ class Observer
         $order = $creditmemo->getOrder();
 
         if ($creditmemo->getAutomaticallyCreated()) {
-            if (\Mage::helper('Magento\CustomerBalance\Helper\Data')->isAutoRefundEnabled()) {
+            if ($this->_customerBalanceData->isAutoRefundEnabled()) {
                 $creditmemo->setCustomerBalanceRefundFlag(true)
                     ->setCustomerBalTotalRefunded($creditmemo->getCustomerBalanceAmount())
                     ->setBsCustomerBalTotalRefunded($creditmemo->getBaseCustomerBalanceAmount());
@@ -542,13 +567,13 @@ class Observer
         $request = \Mage::app()->getRequest();
         $data = $request->getParam('customerbalance');
         if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
-            $actions = \Mage::registry('magento_logged_actions');
+            $actions = $this->_coreRegistry->registry('magento_logged_actions');
             if (!is_array($actions)) {
                 $actions = array($actions);
             }
             $actions[] = 'adminhtml_customerbalance_save';
-            \Mage::unregister('magento_logged_actions');
-            \Mage::register('magento_logged_actions', $actions);
+            $this->_coreRegistry->unregister('magento_logged_actions');
+            $this->_coreRegistry->register('magento_logged_actions', $actions);
         }
     }
 

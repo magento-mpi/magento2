@@ -10,15 +10,36 @@
 
 /**
  * Product attribute source input types
- *
- * @category   Magento
- * @package    Magento_Eav
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Product\Attribute\Source;
-
 class Inputtype extends \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreRegistry = $coreRegistry;
+    }
+
     /**
      * Get product input types as option array
      *
@@ -39,7 +60,7 @@ class Inputtype extends \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputt
 
         $response = new \Magento\Object();
         $response->setTypes(array());
-        \Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
+        $this->_eventManager->dispatch('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();
         $_hiddenFields = array();
         foreach ($response->getTypes() as $type) {
@@ -52,11 +73,11 @@ class Inputtype extends \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputt
             }
         }
 
-        if (\Mage::registry('attribute_type_hidden_fields') === null) {
-            \Mage::register('attribute_type_hidden_fields', $_hiddenFields);
+        if ($this->_coreRegistry->registry('attribute_type_hidden_fields') === null) {
+            $this->_coreRegistry->register('attribute_type_hidden_fields', $_hiddenFields);
         }
-        if (\Mage::registry('attribute_type_disabled_types') === null) {
-            \Mage::register('attribute_type_disabled_types', $_disabledTypes);
+        if ($this->_coreRegistry->registry('attribute_type_disabled_types') === null) {
+            $this->_coreRegistry->register('attribute_type_disabled_types', $_disabledTypes);
         }
 
         return array_merge(parent::toOptionArray(), $inputTypes);

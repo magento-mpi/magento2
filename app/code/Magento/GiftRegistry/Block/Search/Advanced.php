@@ -19,6 +19,31 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     protected $_formData = null;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $configCacheType, $data);
+    }
+
+    /**
      * Get config
      *
      * @param string $path
@@ -64,7 +89,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $type = \Mage::registry('current_giftregistry_type');
+            $type = $this->_coreRegistry->registry('current_giftregistry_type');
             $config = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
             $staticTypes = $config->getStaticTypesCodes();
 
@@ -116,7 +141,8 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
                 $regionAttribute['code'] = $region;
                 $regionAttribute['type'] = 'region';
 
-                if ($formValue = $this->getFormData($isCountry)) {
+                $formValue = $this->getFormData($isCountry);
+                if ($formValue) {
                     $regionAttribute['country'] = $formValue;
                 }
                 $attributes[$region] = $regionAttribute;

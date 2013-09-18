@@ -20,6 +20,25 @@ namespace Magento\Adminhtml\Controller\Sales\Order;
 class Status extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize status model based on status code in request
      *
      * @return \Magento\Sales\Model\Order\Status | false
@@ -53,7 +72,7 @@ class Status extends \Magento\Adminhtml\Controller\Action
         if ($data) {
             $status = \Mage::getModel('Magento\Sales\Model\Order\Status')
                 ->setData($data);
-            \Mage::register('current_status', $status);
+            $this->_coreRegistry->register('current_status', $status);
         }
         $this->_title(__('Order Status'))->_title(__('Create New Order Status'));
         $this->loadLayout()
@@ -68,7 +87,7 @@ class Status extends \Magento\Adminhtml\Controller\Action
     {
         $status = $this->_initStatus();
         if ($status) {
-            \Mage::register('current_status', $status);
+            $this->_coreRegistry->register('current_status', $status);
             $this->_title(__('Order Status'))->_title(__('Edit Order Status'));
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::system_order_statuses')
@@ -94,7 +113,7 @@ class Status extends \Magento\Adminhtml\Controller\Action
 
             //filter tags in labels/status
             /** @var $helper \Magento\Adminhtml\Helper\Data */
-            $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
+            $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Data');
             if ($isNew) {
                 $statusCode = $data['status'] = $helper->stripTags($data['status']);
             }
@@ -115,8 +134,8 @@ class Status extends \Magento\Adminhtml\Controller\Action
                 return;
             }
 
-            $status->setData($data)
-                    ->setStatus($statusCode);
+            $status->setData($data) ->setStatus($statusCode);
+
             try {
                 $status->save();
                 $this->_getSession()->addSuccess(__('You have saved the order status.'));

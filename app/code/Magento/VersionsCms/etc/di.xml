@@ -10,12 +10,12 @@
 <config>
     <type name="Magento\VersionsCms\Model\Config">
         <param name="authorization">
-            <instance type="Magento\Authorization" />
+            <instance type="Magento\Authorization\Proxy" />
         </param>
     </type>
     <type name="Magento\VersionsCms\Model\Observer">
         <param name="authorization">
-            <instance type="Magento\Authorization" />
+            <instance type="Magento\Authorization\Proxy" />
         </param>
     </type>
 </config>

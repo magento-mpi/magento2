@@ -29,12 +29,22 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $_resource;
 
     /**
-     * Construct attribute filter
+     * Core string
      *
+     * @var \Magento\Core\Helper\String
      */
-    public function __construct()
-    {
-        parent::__construct();
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($data);
         $this->_requestVar = 'attribute';
     }
 
@@ -112,7 +122,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
             if (is_array($option['value'])) {
                 continue;
             }
-            if (\Mage::helper('Magento\Core\Helper\String')->strlen($option['value'])) {
+            if ($this->_coreString->strlen($option['value'])) {
                 // Check filter type
                 if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($optionsCount[$option['value']])) {

@@ -18,7 +18,7 @@
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab;
 
 class Conditions
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare conditions form
@@ -27,9 +27,10 @@ class Conditions
      */
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_customer_segment');
+        $model = $this->_coreRegistry->registry('current_customer_segment');
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('segment_');
         $params = array('apply_to' => $model->getApplyTo());

@@ -39,13 +39,36 @@ class Management extends \Magento\Core\Block\Template
     protected $_current = null;
 
     /**
+     * Wishlist data
+     *
+     * @var \Magento\MultipleWishlist\Helper\Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\MultipleWishlist\Helper\Data $wishlistData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Render block
      *
      * @return string
      */
     protected function _toHtml()
     {
-        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()) {
+        if ($this->_wishlistData->isMultipleEnabled()) {
             return parent::_toHtml();
         }
         return '';
@@ -71,7 +94,7 @@ class Management extends \Magento\Core\Block\Template
      */
     public function getWishlists()
     {
-        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getCustomerWishlists($this->_getCustomerId());
+        return $this->_wishlistData->getCustomerWishlists($this->_getCustomerId());
     }
 
     /**
@@ -81,7 +104,7 @@ class Management extends \Magento\Core\Block\Template
      */
     public function getDefaultWishlist()
     {
-        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getDefaultWishlist();
+        return $this->_wishlistData->getDefaultWishlist();
     }
 
     /**
@@ -110,7 +133,7 @@ class Management extends \Magento\Core\Block\Template
      */
     public function getItemCount(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
-        $count = \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getWishlistItemCount($wishlist);
+        $count = $this->_wishlistData->getWishlistItemCount($wishlist);
         if ($count == 1) {
             return __('1 item');
         } else {
@@ -198,6 +221,6 @@ class Management extends \Magento\Core\Block\Template
      */
     public function canCreateWishlists($wishlists)
     {
-        return !\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isWishlistLimitReached($wishlists);
+        return !$this->_wishlistData->isWishlistLimitReached($wishlists);
     }
 }

@@ -52,13 +52,26 @@ class Collection extends \Magento\Data\Collection\Db
     protected $_orderStateCondition = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
      * Set sales order entity and establish read connection
      *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Sales_Model_Resource_Order $resource
+     * @todo: incorrect constructor
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Sales\Model\Resource\Order $resource
     ) {
+        $this->_eventManager = $eventManager;
         parent::__construct($fetchStrategy, $resource->getReadConnection());
     }
 
@@ -138,7 +151,7 @@ class Collection extends \Magento\Data\Collection\Db
             $this->addFieldToFilter('state', array($condition => $this->_orderStateValue));
         }
 
-        \Mage::dispatchEvent('sales_sale_collection_query_before', array('collection' => $this));
+        $this->_eventManager->dispatch('sales_sale_collection_query_before', array('collection' => $this));
         return $this;
     }
 

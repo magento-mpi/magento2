@@ -42,13 +42,23 @@ class Index
     protected $_skipAuthentication = false;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_wishlistConfig = $wishlistConfig;
     }
@@ -89,7 +99,7 @@ class Index
      */
     protected function _getWishlist($wishlistId = null)
     {
-        $wishlist = \Mage::registry('wishlist');
+        $wishlist = $this->_coreRegistry->registry('wishlist');
         if ($wishlist) {
             return $wishlist;
         }
@@ -114,7 +124,7 @@ class Index
                 );
             }
 
-            \Mage::register('wishlist', $wishlist);
+            $this->_coreRegistry->register('wishlist', $wishlist);
         } catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Wishlist\Model\Session')->addError($e->getMessage());
             return false;
@@ -217,8 +227,8 @@ class Index
             $session->setAddActionReferer($referer);
 
             /** @var $helper \Magento\Wishlist\Helper\Data */
-            $helper = \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
-            $message = __('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), \Mage::helper('Magento\Core\Helper\Data')->escapeUrl($referer));
+            $helper = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
+            $message = __('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), $this->_objectManager->get('Magento\Core\Helper\Data')->escapeUrl($referer));
             $session->addSuccess($message);
         }
         catch (\Magento\Core\Exception $e) {
@@ -250,7 +260,7 @@ class Index
                 return $this->norouteAction();
             }
 
-            \Mage::register('wishlist_item', $item);
+            $this->_coreRegistry->register('wishlist_item', $item);
 
             $params = new \Magento\Object();
             $params->setCategoryId(false);
@@ -261,10 +271,10 @@ class Index
             }
             if ($buyRequest->getQty() && !$item->getQty()) {
                 $item->setQty($buyRequest->getQty());
-                \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
+                $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             }
             $params->setBuyRequest($buyRequest);
-            \Mage::helper('Magento\Catalog\Helper\Product\View')->prepareAndRender($item->getProductId(), $this, $params);
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->prepareAndRender($item->getProductId(), $this, $params);
         } catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Customer\Model\Session')->addError($e->getMessage());
             $this->_redirect('*');
@@ -312,12 +322,12 @@ class Index
             $wishlist->updateItem($id, $buyRequest)
                 ->save();
 
-            \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $this->_eventManager->dispatch('wishlist_update_item', array(
                 'wishlist' => $wishlist, 'product' => $product, 'item' => $wishlist->getItem($id))
             );
 
-            \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
             $message = __('%1 has been updated in your wish list.', $product->getName());
             $session->addSuccess($message);
@@ -344,7 +354,7 @@ class Index
         }
 
         $post = $this->getRequest()->getPost();
-        if($post && isset($post['description']) && is_array($post['description'])) {
+        if ($post && isset($post['description']) && is_array($post['description'])) {
             $updatedItems = 0;
 
             foreach ($post['description'] as $itemId => $description) {
@@ -356,7 +366,7 @@ class Index
                 // Extract new values
                 $description = (string) $description;
 
-                if ($description == \Mage::helper('Magento\Wishlist\Helper\Data')->defaultCommentString()) {
+                if ($description == $this->_objectManager->get('Magento\Wishlist\Helper\Data')->defaultCommentString()) {
                     $description = '';
                 } elseif (!strlen($description)) {
                     $description = $item->getDescription();
@@ -393,7 +403,7 @@ class Index
                     $updatedItems++;
                 } catch (\Exception $e) {
                     \Mage::getSingleton('Magento\Customer\Model\Session')->addError(
-                        __('Can\'t save description %1', \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($description))
+                        __('Can\'t save description %1', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($description))
                     );
                 }
             }
@@ -402,7 +412,7 @@ class Index
             if ($updatedItems) {
                 try {
                     $wishlist->save();
-                    \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
+                    $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
                 }
                 catch (\Exception $e) {
                     \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('Can\'t update wish list'));
@@ -444,7 +454,7 @@ class Index
             );
         }
 
-        \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
+        $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
         $this->_redirectReferer(\Mage::getUrl('*/*'));
     }
@@ -494,7 +504,7 @@ class Index
                     ->addItemFilter(array($itemId));
             $item->setOptions($options->getOptionsByItem($itemId));
 
-            $buyRequest = \Mage::helper('Magento\Catalog\Helper\Product')->addParamsToBuyRequest(
+            $buyRequest = $this->_objectManager->get('Magento\Catalog\Helper\Product')->addParamsToBuyRequest(
                 $this->getRequest()->getParams(),
                 array('current_config' => $item->getBuyRequest())
             );
@@ -504,14 +514,14 @@ class Index
             $cart->save()->getQuote()->collectTotals();
             $wishlist->save();
 
-            \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
-            if (\Mage::helper('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
-                $redirectUrl = \Mage::helper('Magento\Checkout\Helper\Cart')->getCartUrl();
+            if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
+                $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
             } else if ($this->_getRefererUrl()) {
                 $redirectUrl = $this->_getRefererUrl();
             }
-            \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
         } catch (\Magento\Core\Exception $e) {
             if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(__('This product(s) is out of stock.'));
@@ -526,7 +536,7 @@ class Index
             $session->addException($e, __('Cannot add item to shopping cart'));
         }
 
-        \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
+        $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
         return $this->_redirectUrl($redirectUrl);
     }
@@ -562,9 +572,9 @@ class Index
             $productIds[] = $productId;
             $cart->getQuote()->removeItem($itemId);
             $cart->save();
-            \Mage::helper('Magento\Wishlist\Helper\Data')->calculate();
-            $productName = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($item->getProduct()->getName());
-            $wishlistName = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
+            $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
+            $productName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($item->getProduct()->getName());
+            $wishlistName = $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($wishlist->getName());
             $session->addSuccess(
                 __("%1 has been moved to wish list %2", $productName, $wishlistName)
             );
@@ -575,7 +585,7 @@ class Index
             $session->addException($e, __('We can\'t move the item to the wish list.'));
         }
 
-        return $this->_redirectUrl(\Mage::helper('Magento\Checkout\Helper\Cart')->getCartUrl());
+        return $this->_redirectUrl($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl());
     }
 
     /**
@@ -664,7 +674,7 @@ class Index
             $sharingCode = $wishlist->getSharingCode();
 
             try {
-                foreach($emails as $email) {
+                foreach ($emails as $email) {
                     $emailModel->sendTransactional(
                         \Mage::getStoreConfig('wishlist/email/email_template'),
                         \Mage::getStoreConfig('wishlist/email/email_identity'),

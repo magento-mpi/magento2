@@ -21,6 +21,31 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
     /**
+     * Usa data
+     *
+     * @var \Magento\Usa\Helper\Data
+     */
+    protected $_usaData = null;
+
+    /**
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        array $data = array()
+    ) {
+        $this->_usaData = $usaData;
+        parent::__construct($coreData, $context, $application, $data);
+    }
+
+    /**
      * Define params and variables
      *
      * @return void
@@ -45,7 +70,7 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
         );
 
         $weight = round(
-            \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
+            $this->_usaData->convertMeasureWeight(
                 $kgWeight, \Zend_Measure_Weight::KILOGRAM, \Zend_Measure_Weight::POUND), 3);
 
         $this->setDivideOrderWeightNoteLbp(

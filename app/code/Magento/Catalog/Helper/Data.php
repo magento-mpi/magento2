@@ -54,11 +54,60 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_mapApplyToProductType = null;
 
     /**
-     * Currenty selected store ID if applicable
+     * Currently selected store ID if applicable
      *
      * @var int
      */
     protected $_storeId = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Catalog category
+     *
+     * @var \Magento\Catalog\Helper\Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreString = $coreString;
+        $this->_catalogCategory = $catalogCategory;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     /**
      * Set a specified store ID value
@@ -83,7 +132,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if (!$this->_categoryPath) {
 
             $path = array();
-            if ($category = $this->getCategory()) {
+            $category = $this->getCategory();
+            if ($category) {
                 $pathInStore = $category->getPathInStore();
                 $pathIds = array_reverse(explode(',', $pathInStore));
 
@@ -133,7 +183,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCategory()
     {
-        return \Mage::registry('current_category');
+        return $this->_coreRegistry->registry('current_category');
     }
 
     /**
@@ -143,7 +193,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -153,17 +203,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getLastViewedUrl()
     {
-        if ($productId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId()) {
+        $productId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();
+        if ($productId) {
             $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($productId);
-            /* @var $product \Magento\Catalog\Model\Product */
-            if (\Mage::helper('Magento\Catalog\Helper\Product')->canShow($product, 'catalog')) {
+            /* @var $product Magento\Catalog\Model\Product */
+            if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        if ($categoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId()) {
+        $categoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId();
+        if ($categoryId) {
             $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($categoryId);
-            /* @var $category \Magento\Catalog\Model\Category */
-            if (!\Mage::helper('Magento\Catalog\Helper\Category')->canShow($category)) {
+            /* @var $category Magento\Catalog\Model\Category */
+            if (!$this->_catalogCategory->canShow($category)) {
                 return '';
             }
             return $category->getCategoryUrl();
@@ -181,7 +233,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function splitSku($sku, $length = 30)
     {
-        return \Mage::helper('Magento\Core\Helper\String')->str_split($sku, $length, true, false, '[\-\s]');
+        return $this->_coreString->str_split($sku, $length, true, false, '[\-\s]');
     }
 
     /**
@@ -191,8 +243,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getAttributeHiddenFields()
     {
-        if (\Mage::registry('attribute_type_hidden_fields')) {
-            return \Mage::registry('attribute_type_hidden_fields');
+        if ($this->_coreRegistry->registry('attribute_type_hidden_fields')) {
+            return $this->_coreRegistry->registry('attribute_type_hidden_fields');
         } else {
             return array();
         }
@@ -205,8 +257,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getAttributeDisabledTypes()
     {
-        if (\Mage::registry('attribute_type_disabled_types')) {
-            return \Mage::registry('attribute_type_disabled_types');
+        if ($this->_coreRegistry->registry('attribute_type_disabled_types')) {
+            return $this->_coreRegistry->registry('attribute_type_disabled_types');
         } else {
             return array();
         }

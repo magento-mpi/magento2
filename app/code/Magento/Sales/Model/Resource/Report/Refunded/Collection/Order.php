@@ -36,15 +36,17 @@ class Order
     protected $_selectedColumns    = array();
 
     /**
-     * Initialize custom resource model
-     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Sales_Model_Resource_Report $resource
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init('sales_refunded_aggregated_order');
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

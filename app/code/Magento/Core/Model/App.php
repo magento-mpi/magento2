@@ -254,6 +254,9 @@ class App implements \Magento\Core\Model\AppInterface
                 ) {
                     $this->_configScope->setCurrentScope($areaCode);
                     $frontControllerClass = $areaInfo['front_controller'];
+                    /** Remove area from path info */
+                    array_shift($pathParts);
+                    $this->getRequest()->setPathInfo('/' . implode('/', $pathParts));
                     break;
                 }
             }
@@ -347,17 +350,6 @@ class App implements \Magento\Core\Model\AppInterface
     public function getLayout()
     {
         return $this->_objectManager->get('Magento\Core\Model\Layout');
-    }
-
-    /**
-     * Retrieve helper object
-     *
-     * @param string $name
-     * @return \Magento\Core\Helper\AbstractHelper
-     */
-    public function getHelper($name)
-    {
-        return \Mage::helper($name);
     }
 
     /**
@@ -461,7 +453,6 @@ class App implements \Magento\Core\Model\AppInterface
     public function cleanCache($tags = array())
     {
         $this->_cache->clean($tags);
-        $this->_eventManager->dispatch('application_clean_cache', array('tags' => $tags));
         return $this;
     }
 

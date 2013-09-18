@@ -10,8 +10,6 @@
 
 /**
  * System / Cache Management / Cache type "Web Services Configuration"
- *
- * @todo utilize the class for all manipulations with the cache type
  */
 namespace Magento\Webapi\Model\Cache;
 

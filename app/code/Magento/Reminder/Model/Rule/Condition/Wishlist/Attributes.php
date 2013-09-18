@@ -17,12 +17,16 @@ class Attributes
     extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($backendData, $context, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes');
         $this->setValue(null);
     }

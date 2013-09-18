@@ -13,8 +13,31 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Recurring\Profile;
 
-class View extends \Magento\Adminhtml\Block\Widget\Container
+class View extends \Magento\Backend\Block\Widget\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Create buttons
      * TODO: implement ACL restrictions
@@ -28,7 +51,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Container
             'class'     => 'back',
         ));
 
-        $profile = \Mage::registry('current_recurring_profile');
+        $profile = $this->_coreRegistry->registry('current_recurring_profile');
         $comfirmationMessage = __('Are you sure you want to do this?');
 
         // cancel
@@ -81,7 +104,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Container
      */
     protected function _beforeToHtml()
     {
-        $profile = \Mage::registry('current_recurring_profile');
+        $profile = $this->_coreRegistry->registry('current_recurring_profile');
         $this->_headerText = __('Recurring Profile # %1', $profile->getReferenceId());
         $this->setViewHtml('<div id="' . $this->getDestElementId() . '"></div>');
         return parent::_beforeToHtml();

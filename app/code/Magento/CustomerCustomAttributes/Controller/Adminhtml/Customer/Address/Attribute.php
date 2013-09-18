@@ -29,6 +29,25 @@ class Attribute
     protected $_entityType;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Return Customer Address Entity Type instance
      *
      * @return \Magento\Eav\Model\Entity\Type
@@ -137,7 +156,7 @@ class Attribute
         }
 
         // register attribute object
-        \Mage::register('entity_attribute', $attributeObject);
+        $this->_coreRegistry->register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
             ? __('Edit Customer Address Attribute')
@@ -182,7 +201,7 @@ class Attribute
      */
     protected function _filterPostData($data)
     {
-        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Address')->filterPostData($data);
+        return $this->_objectManager->get('Magento\CustomerCustomAttributes\Helper\Address')->filterPostData($data);
     }
 
     /**
@@ -196,7 +215,7 @@ class Attribute
             /* @var $attributeObject \Magento\Customer\Model\Attribute */
             $attributeObject = $this->_initAttribute();
             /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
-            $helper = \Mage::helper('Magento\CustomerCustomAttributes\Helper\Data');
+            $helper = $this->_objectManager->get('Magento\CustomerCustomAttributes\Helper\Data');
 
             //filtering
             try {
@@ -260,7 +279,8 @@ class Attribute
             /**
              * Check "Use Default Value" checkboxes values
              */
-            if ($useDefaults = $this->getRequest()->getPost('use_default')) {
+            $useDefaults = $this->getRequest()->getPost('use_default');
+            if ($useDefaults) {
                 foreach ($useDefaults as $key) {
                     $attributeObject->setData('scope_' . $key, null);
                 }

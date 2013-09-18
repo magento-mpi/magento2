@@ -38,15 +38,17 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     protected $_selectedColumns    = array();
 
     /**
-     * Initialize custom resource model
-     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Sales_Model_Resource_Report $resource
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init($this->_aggregationTable);
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

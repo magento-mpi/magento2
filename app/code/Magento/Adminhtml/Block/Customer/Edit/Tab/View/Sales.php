@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
 
-class Sales extends \Magento\Adminhtml\Block\Template
+class Sales extends \Magento\Backend\Block\Template
 {
 
     /**
@@ -43,16 +43,29 @@ class Sales extends \Magento\Adminhtml\Block\Template
     protected $_storeManager;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
+        $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
     }
 
@@ -65,14 +78,12 @@ class Sales extends \Magento\Adminhtml\Block\Template
     public function _beforeToHtml()
     {
         $this->_currency = \Mage::getModel('Magento\Directory\Model\Currency')
-            ->load(\Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE))
-        ;
+            ->load(\Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE));
 
         $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Sale\Collection')
-            ->setCustomerFilter(\Mage::registry('current_customer'))
+            ->setCustomerFilter($this->_coreRegistry->registry('current_customer'))
             ->setOrderStateFilter(\Magento\Sales\Model\Order::STATE_CANCELED, true)
-            ->load()
-        ;
+            ->load();
 
         $this->_groupedCollection = array();
 
@@ -87,8 +98,7 @@ class Sales extends \Magento\Adminhtml\Block\Template
                 $sale->setWebsiteName($store->getWebsite()->getName());
                 $sale->setGroupId($store->getGroupId());
                 $sale->setGroupName($store->getGroup()->getName());
-            }
-            else {
+            } else {
                 $websiteId  = 0;
                 $groupId    = 0;
                 $storeId    = 0;
@@ -97,7 +107,9 @@ class Sales extends \Magento\Adminhtml\Block\Template
             }
 
             $this->_groupedCollection[$websiteId][$groupId][$storeId] = $sale;
-            $this->_websiteCounts[$websiteId] = isset($this->_websiteCounts[$websiteId]) ? $this->_websiteCounts[$websiteId] + 1 : 1;
+            $this->_websiteCounts[$websiteId] = isset($this->_websiteCounts[$websiteId])
+                ? $this->_websiteCounts[$websiteId] + 1
+                : 1;
         }
 
         return parent::_beforeToHtml();

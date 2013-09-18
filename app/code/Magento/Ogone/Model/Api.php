@@ -166,15 +166,29 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     const HASH_SHA512 = 'sha512';
 
     /**
-     * Init Ogone Api instance, detup default values
+     * Core string
      *
-     * @var \Magento\Ogone\Model\Config $config
-     * @return \Magento\Ogone\Model\Api
+     * @var \Magento\Core\Helper\String
      */
-    public function __construct(\Magento\Ogone\Model\Config $config)
-    {
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Ogone\Model\Config $config
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Ogone\Model\Config $config,
+        \Magento\Payment\Helper\Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
         $this->_config = $config;
-        return $this;
+        parent::__construct($eventManager, $paymentData, $data);
     }
 
     /**
@@ -394,18 +408,17 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected function _getOrderDescription($order)
     {
         $invoiceDesc = '';
-        $lengs = 0;
         foreach ($order->getAllItems() as $item) {
             if ($item->getParentItem()) {
                 continue;
             }
             //COM filed can only handle max 100
-            if (\Mage::helper('Magento\Core\Helper\String')->strlen($invoiceDesc.$item->getName()) > 100) {
+            if ($this->_coreString->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        return \Mage::helper('Magento\Core\Helper\String')->substr($invoiceDesc, 0, -2);
+        return $this->_coreString->substr($invoiceDesc, 0, -2);
     }
 
     /**

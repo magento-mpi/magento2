@@ -10,8 +10,6 @@
 
 /** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
-/** @var \Magento\Core\Helper\Data $converter */
-$converter = \Mage::helper('Magento\Core\Helper\Data');
 
 $installer->startSetup();
 $itemsPerPage = 1000;
@@ -36,9 +34,9 @@ do {
             ->update(
                 $installer->getTable('sales_flat_order_payment'),
                 array(
-                    'cc_exp_month' => $converter->encrypt($order['cc_exp_month']),
-                    'cc_exp_year' => $converter->encrypt($order['cc_exp_year']),
-                    'cc_owner' => $converter->encrypt($order['cc_owner']),
+                    'cc_exp_month' => $installer->getCoreData()->encrypt($order['cc_exp_month']),
+                    'cc_exp_year' => $installer->getCoreData()->encrypt($order['cc_exp_year']),
+                    'cc_owner' => $installer->getCoreData()->encrypt($order['cc_owner']),
                 ),
                 array('entity_id = ?' => $order['entity_id'])
         );
@@ -66,9 +64,9 @@ do {
             ->update(
                 $installer->getTable('sales_flat_quote_payment'),
                 array(
-                    'cc_exp_month' => $converter->encrypt($quote['cc_exp_month']),
-                    'cc_exp_year' => $converter->encrypt($quote['cc_exp_year']),
-                    'cc_owner' => $converter->encrypt($quote['cc_owner']),
+                    'cc_exp_month' => $installer->getCoreData()->encrypt($quote['cc_exp_month']),
+                    'cc_exp_year' => $installer->getCoreData()->encrypt($quote['cc_exp_year']),
+                    'cc_owner' => $installer->getCoreData()->encrypt($quote['cc_owner']),
                 ),
                 array('payment_id = ?' => $quote['payment_id'])
         );

@@ -10,16 +10,37 @@
 
 /**
  * Adminhtml shipment items grid
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Create;
 
 class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
+    /**
+     * Sales data
+     *
+     * @var \Magento\Sales\Helper\Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_salesData = $salesData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
     /**
      * Retrieve invoice order
      *
@@ -47,7 +68,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**
@@ -102,7 +123,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function canSendShipmentEmail()
     {
-        return \Mage::helper('Magento\Sales\Helper\Data')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
+        return $this->_salesData->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
     }
 
     /**

@@ -65,18 +65,19 @@ class Observer
      * Promotion Permissions Observer class constructor
      *
      * Sets necessary data
+     *
+     * @param \Magento\PromotionPermissions\Helper\Data $promoPermData
      */
-    public function __construct()
-    {
+    public function __construct(
+        \Magento\PromotionPermissions\Helper\Data $promoPermData
+    ) {
         $this->_request = \Mage::app()->getRequest();
-        // Set necessary flags
-        $helper = \Mage::helper('Magento\PromotionPermissions\Helper\Data');
-        $this->_canEditCatalogRules = $helper->getCanAdminEditCatalogRules();
-        $this->_canEditSalesRules = $helper->getCanAdminEditSalesRules();
-        $this->_canEditReminderRules = $helper->getCanAdminEditReminderRules();
+        $this->_canEditCatalogRules = $promoPermData->getCanAdminEditCatalogRules();
+        $this->_canEditSalesRules = $promoPermData->getCanAdminEditSalesRules();
+        $this->_canEditReminderRules = $promoPermData->getCanAdminEditReminderRules();
 
-        $this->_isEnterpriseBannerEnabled = $helper->isModuleEnabled('Magento_Banner');
-        $this->_isEnterpriseReminderEnabled = $helper->isModuleEnabled('Magento_Reminder');
+        $this->_isEnterpriseBannerEnabled = $promoPermData->isModuleEnabled('Magento_Banner');
+        $this->_isEnterpriseReminderEnabled = $promoPermData->isModuleEnabled('Magento_Reminder');
     }
 
     /**

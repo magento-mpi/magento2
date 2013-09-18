@@ -38,6 +38,35 @@ class DefaultPrice
     protected $_isComposite    = false;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main price index table
      *
      */
@@ -216,7 +245,7 @@ class DefaultPrice
         // add enable products limitation
         $statusCond = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
-        if (\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_Tax')) {
+        if ($this->_coreData->isModuleEnabled('Magento_Tax')) {
             $taxClassId = $this->_addAttributeToSelect($select, 'tax_class_id', 'e.entity_id', 'cs.store_id');
         } else {
             $taxClassId = new \Zend_Db_Expr('0');
@@ -259,7 +288,7 @@ class DefaultPrice
         /**
          * Add additional external limitation
          */
-        \Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_index_select', array(
             'select'        => $select,
             'entity_field'  => new \Zend_Db_Expr('e.entity_id'),
             'website_field' => new \Zend_Db_Expr('cw.website_id'),
@@ -276,7 +305,7 @@ class DefaultPrice
             ->join(array('wd' => $this->_getWebsiteDateTable()),
                 'i.website_id = wd.website_id',
                 array());
-        \Mage::dispatchEvent('prepare_catalog_product_price_index_table', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_price_index_table', array(
             'index_table'       => array('i' => $this->_getDefaultFinalPriceTable()),
             'select'            => $select,
             'entity_id'         => 'i.entity_id',

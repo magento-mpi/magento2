@@ -19,7 +19,7 @@
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
 class Grid
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -36,6 +36,43 @@ class Grid
      * @var int
      */
     protected $_defaultLimit = 0;
+
+    /**
+     * Rma data
+     *
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Block constructor
@@ -56,7 +93,7 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $orderId = \Mage::registry('current_order')->getId();
+        $orderId = $this->_coreRegistry->registry('current_order')->getId();
 
         /** @var $collection \Magento\Rma\Model\Resource\Item */
 
@@ -78,7 +115,7 @@ class Grid
      */
     protected function _afterLoadCollection()
     {
-        $orderId = \Mage::registry('current_order')->getId();
+        $orderId = $this->_coreRegistry->registry('current_order')->getId();
         $itemsInActiveRmaArray = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
             ->getItemsIdsByOrder($orderId);
 
@@ -105,7 +142,7 @@ class Grid
                 $product->setStoreId($item->getStoreId());
                 $product->load($item->getProductId());
 
-                if (!\Mage::helper('Magento\Rma\Helper\Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                     $allowed = false;
                 }
             }
@@ -141,13 +178,13 @@ class Grid
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!\Mage::helper('Magento\Rma\Helper\Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                     $this->getCollection()->removeItemByKey($item->getId());
                     continue;
                 }
             }
 
-            $item->setName(\Mage::helper('Magento\Rma\Helper\Data')->getAdminProductName($item));
+            $item->setName($this->_rmaData->getAdminProductName($item));
         }
 
         return $this;
@@ -289,7 +326,7 @@ class Grid
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('item_id', array('in'=>$productIds));
             } else {
-                if($productIds) {
+                if ($productIds) {
                     $this->getCollection()->addFieldToFilter('item_id', array('nin'=>$productIds));
                 }
             }

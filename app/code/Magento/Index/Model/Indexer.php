@@ -23,10 +23,21 @@ class Indexer
     protected $_processesCollection;
 
     /**
-     * Class constructor. Initialize index processes based on configuration
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
      */
-    public function __construct()
-    {
+    protected $_eventManager = null;
+
+    /**
+     * Class constructor. Initialize index processes based on configuration
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
         $this->_processesCollection = $this->_createCollection();
     }
 
@@ -91,7 +102,7 @@ class Indexer
      */
     public function indexEvents($entity=null, $type=null)
     {
-        \Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
+        $this->_eventManager->dispatch('start_index_events' . $this->_getEventTypeName($entity, $type));
         /** @var $resourceModel \Magento\Index\Model\Resource\Process */
         $resourceModel = \Mage::getResourceSingleton('Magento\Index\Model\Resource\Process');
         $resourceModel->beginTransaction();
@@ -102,7 +113,7 @@ class Indexer
             $resourceModel->rollBack();
             throw $e;
         }
-        \Mage::dispatchEvent('end_index_events' . $this->_getEventTypeName($entity, $type));
+        $this->_eventManager->dispatch('end_index_events' . $this->_getEventTypeName($entity, $type));
         return $this;
     }
 
@@ -169,7 +180,7 @@ class Indexer
          * Index and save event just in case if some process matched it
          */
         if ($event->getProcessIds()) {
-            \Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
+            $this->_eventManager->dispatch('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
             /** @var $resourceModel \Magento\Index\Model\Resource\Process */
             $resourceModel = \Mage::getResourceSingleton('Magento\Index\Model\Resource\Process');
             $resourceModel->beginTransaction();
@@ -181,7 +192,7 @@ class Indexer
                 throw $e;
             }
             $event->save();
-            \Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
+            $this->_eventManager->dispatch('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
         }
         return $this;
     }

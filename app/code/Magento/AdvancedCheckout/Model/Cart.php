@@ -99,6 +99,42 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_currentStore = null;
 
     /**
+     * Customer data
+     *
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Checkout data
+     *
+     * @var \Magento\AdvancedCheckout\Helper\Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Customer\Helper\Data $customerData
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        \Magento\Customer\Helper\Data $customerData
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_checkoutData = $checkoutData;
+        $this->_customerData = $customerData;
+    }
+
+    /**
      * Set context of the cart
      *
      * @param string $context
@@ -190,7 +226,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
         } else {
             if (!$this->getCustomer()) {
-                $customer = \Mage::helper('Magento\Customer\Helper\Data')->getCustomer();
+                $customer = $this->_customerData->getCustomer();
                 if ($customer) {
                     $this->setCustomer($customer);
                 }
@@ -389,9 +425,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 ));
             }
 
-            \Mage::dispatchEvent('sales_convert_order_item_to_quote_item', array(
+            $this->_eventManager->dispatch('sales_convert_order_item_to_quote_item', array(
                 'order_item' => $orderItem,
-                'quote_item' => $item
+                'quote_item' => $item,
             ));
 
             return $item;
@@ -1537,7 +1573,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     protected function _getHelper()
     {
-        return \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
+        return $this->_checkoutData;
     }
 
     /**

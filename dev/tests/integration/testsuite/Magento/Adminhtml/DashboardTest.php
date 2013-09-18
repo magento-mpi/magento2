@@ -42,7 +42,8 @@ class Magento_Adminhtml_DashboardTest extends Magento_Backend_Utility_Controller
         $gaFixture = urlencode(base64_encode(json_encode($gaData)));
 
         /** @var $helper \Magento\Adminhtml\Helper\Dashboard\Data */
-        $helper = Mage::helper('Magento\Adminhtml\Helper\Dashboard\Data') ;
+        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\Adminhtml\Helper\Dashboard\Data');
         $hash = $helper->getChartDataHash($gaFixture);
         $this->getRequest()->setParam('ga', $gaFixture)->setParam('h', $hash);
         $this->dispatch('backend/admin/dashboard/tunnel');

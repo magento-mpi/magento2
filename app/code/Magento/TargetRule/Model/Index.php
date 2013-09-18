@@ -12,7 +12,6 @@
 /**
  * TargetRule Product Index by Rule Product List Type Model
  *
- * @method \Magento\TargetRule\Model\Resource\Index _getResource()
  * @method \Magento\TargetRule\Model\Resource\Index getResource()
  * @method \Magento\TargetRule\Model\Index setEntityId(int $value)
  * @method int getTypeId()
@@ -64,6 +63,33 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @var bool
      */
     protected $_isVisible = false;
+
+    /**
+     * Target rule data
+     *
+     * @var \Magento\TargetRule\Helper\Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\TargetRule\Model\Resource\Index $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\TargetRule\Model\Resource\Index $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize resource model
@@ -182,7 +208,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         $limit = $this->getData('limit');
         if (is_null($limit)) {
-            $limit = \Mage::helper('Magento\TargetRule\Helper\Data')->getMaximumNumberOfProduct($this->getType());
+            $limit = $this->_targetRuleData->getMaximumNumberOfProduct($this->getType());
         }
         return $limit;
     }

@@ -19,6 +19,25 @@ namespace Magento\Adminhtml\Controller\System\Email;
 
 class Template extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
         $this->_title(__('Email Templates'));
@@ -39,7 +58,6 @@ class Template extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout(false);
         $this->renderLayout();
     }
-
 
     /**
      * New transactional email action
@@ -83,7 +101,8 @@ class Template extends \Magento\Adminhtml\Controller\Action
 
         $template = $this->_initTemplate('id');
         if (!$template->getId() && $id) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This email template no longer exists.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->addError(__('This email template no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -91,10 +110,6 @@ class Template extends \Magento\Adminhtml\Controller\Action
         try {
             $template->setTemplateSubject($request->getParam('template_subject'))
                 ->setTemplateCode($request->getParam('template_code'))
-/*
-                ->setTemplateSenderEmail($request->getParam('sender_email'))
-                ->setTemplateSenderName($request->getParam('sender_name'))
-*/
                 ->setTemplateText($request->getParam('template_text'))
                 ->setTemplateStyles($request->getParam('template_styles'))
                 ->setModifiedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate())
@@ -105,46 +120,49 @@ class Template extends \Magento\Adminhtml\Controller\Action
                 $template->setTemplateType(\Magento\Core\Model\Email\Template::TYPE_HTML);
             }
 
-            if($request->getParam('_change_type_flag')) {
+            if ($request->getParam('_change_type_flag')) {
                 $template->setTemplateType(\Magento\Core\Model\Email\Template::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }
 
             $template->save();
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData(false);
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The email template has been saved.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->addSuccess(__('The email template has been saved.'));
             $this->_redirect('*/*');
-        }
-        catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setData('email_template_form_data', $this->getRequest()->getParams());
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->setData('email_template_form_data', $request->getParams());
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_forward('new');
         }
 
     }
 
-    public function deleteAction() {
-
+    public function deleteAction()
+    {
         $template = $this->_initTemplate('id');
-        if($template->getId()) {
+        if ($template->getId()) {
             try {
                 $template->delete();
                  // display success message
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The email template has been deleted.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                    ->addSuccess(__('The email template has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
-            }
-            catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            }
-            catch (\Exception $e) {
-                $this->_getSession()->addError(__('An error occurred while deleting email template data. Please review log and try again.'));
+            } catch (\Exception $e) {
+                $this->_getSession()
+                    ->addError(__('An error occurred while deleting email template data. '
+                        . 'Please review log and try again.'));
                 \Mage::logException($e);
                 // save data in session
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData($data);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                    ->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('id' => $id));
+                $this->_redirect('*/*/edit', array('id' => $template->getId()));
                 return;
             }
         }
@@ -176,7 +194,9 @@ class Template extends \Magento\Adminhtml\Controller\Action
             $templateBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\System\Email\Template\Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
-            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($template->getData()));
+            $this->getResponse()->setBody(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($template->getData())
+            );
         } catch (\Exception $e) {
             \Mage::logException($e);
         }
@@ -197,11 +217,11 @@ class Template extends \Magento\Adminhtml\Controller\Action
         if ($id) {
             $model->load($id);
         }
-        if (!\Mage::registry('email_template')) {
-            \Mage::register('email_template', $model);
+        if (!$this->_coreRegistry->registry('email_template')) {
+            $this->_coreRegistry->register('email_template', $model);
         }
-        if (!\Mage::registry('current_email_template')) {
-            \Mage::register('current_email_template', $model);
+        if (!$this->_coreRegistry->registry('current_email_template')) {
+            $this->_coreRegistry->register('current_email_template', $model);
         }
         return $model;
     }

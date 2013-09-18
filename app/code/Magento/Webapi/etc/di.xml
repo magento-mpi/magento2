@@ -51,11 +51,11 @@
             <value>Magento_Webapi</value>
         </param>
     </type>
-    <type name="Magento\Webapi\Controller\Router\Route" shared="false" />
+    <type name="Magento\Webapi\Controller\Rest\Router\Route" shared="false" />
     <type name="Magento\Xml\Generator" shared="false" />
     <type name="Magento\Xml\Parser" shared="false" />
-    <type name="Magento_Code_Scanner_DirectoryScanner" shared="false" />
-    <type name="Magento_Server_Reflection" shared="false" />
+    <type name="Magento\Code\Scanner\DirectoryScanner" shared="false" />
+    <type name="Magento\Server\Reflection" shared="false" />
     <type name="Magento\Webapi\Model\Authorization\Loader\Resource">
         <param name="resourceProvider">
             <instance type="Magento\Webapi\Model\Acl\Resource\Provider" />

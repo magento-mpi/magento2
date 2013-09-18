@@ -26,15 +26,31 @@ class File extends \Magento\Data\Form\Element\AbstractElement
     protected $_viewUrl;
 
     /**
-     * Initialize Form Element
+     * Adminhtml data
      *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $attributes
      */
-    public  function __construct(\Magento\Core\Model\View\Url $viewUrl, $attributes = array())
-    {
+    public  function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Model\View\Url $viewUrl,
+        $attributes = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
         $this->_viewUrl = $viewUrl;
-        parent::__construct($attributes);
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
         $this->setType('file');
     }
 
@@ -161,8 +177,8 @@ class File extends \Magento\Data\Form\Element\AbstractElement
      */
     protected function _getPreviewUrl()
     {
-        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/customer/viewfile', array(
-            'file' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getValue()),
+        return $this->_adminhtmlData->getUrl('adminhtml/customer/viewfile', array(
+            'file' => $this->_coreData->urlEncode($this->getValue()),
         ));
     }
 

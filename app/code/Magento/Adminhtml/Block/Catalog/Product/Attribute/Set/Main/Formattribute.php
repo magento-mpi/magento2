@@ -16,11 +16,12 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
 
-class Formattribute extends \Magento\Adminhtml\Block\Widget\Form
+class Formattribute extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Attribute')));
 

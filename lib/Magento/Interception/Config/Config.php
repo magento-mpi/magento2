@@ -167,7 +167,7 @@ class Config implements \Magento\Interception\Config
      */
     public function getInterceptorClassName($type)
     {
-        $className = $this->_omConfig->getInstanceType($type) . '_Interceptor';
+        $className = $this->_omConfig->getInstanceType($type) . '\Interceptor';
         if ($this->_codeGenerator && !class_exists($className)) {
             $this->_codeGenerator->generate($className);
         }

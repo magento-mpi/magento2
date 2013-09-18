@@ -18,8 +18,35 @@
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
 
 class Grid
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * Bundle data
+     *
+     * @var \Magento\Bundle\Helper\Data
+     */
+    protected $_bundleData = null;
+
+    /**
+     * @param \Magento\Bundle\Helper\Data $bundleData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Bundle\Helper\Data $bundleData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_bundleData = $bundleData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -171,6 +198,6 @@ class Grid
      */
     public function getAllowedSelectionTypes()
     {
-        return \Mage::helper('Magento\Bundle\Helper\Data')->getAllowedSelectionTypes();
+        return $this->_bundleData->getAllowedSelectionTypes();
     }
 }

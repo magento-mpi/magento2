@@ -21,6 +21,22 @@ namespace Magento\Bundle\Model\Product\Attribute\Source\Price;
 class View extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Get all options
      *
      * @return array
@@ -73,7 +89,7 @@ class View extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             'extra'     => null
         );
 
-        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {

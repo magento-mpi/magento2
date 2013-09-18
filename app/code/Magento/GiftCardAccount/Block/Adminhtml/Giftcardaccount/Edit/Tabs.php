@@ -12,6 +12,28 @@ namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit;
 
 class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -38,7 +60,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
             )->initForm()->toHtml(),
         ));
 
-        $model = \Mage::registry('current_giftcardaccount');
+        $model = $this->_coreRegistry->registry('current_giftcardaccount');
         if ($model->getId()) {
             $this->addTab('history', array(
                 'label'     => __('History'),

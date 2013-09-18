@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
     protected function _getFormInstance($args = array())
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form */
         $block = $layout->createBlock(
             'Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form', 'block', array('data' => $args)
@@ -47,12 +47,15 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
      * @param string $requestPath
      * @param string $targetPath
      * @magentoConfigFixture current_store general/single_store_mode/enabled 1
+     * @magentoAppIsolation enabled
      */
     public function testFormPostInit($cmsPageData, $action, $idPath, $requestPath, $targetPath)
     {
         $args = array();
         if ($cmsPageData) {
-            $args['cms_page'] = new \Magento\Object($cmsPageData);
+            $args['cms_page'] = Mage::getObjectManager()->create(
+                'Magento\Cms\Model\Page', array('data' => $cmsPageData)
+            );
         }
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());
@@ -124,7 +127,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
     {
         return array(
             array(
-                array('id' => 3, 'identifier' => 'cms-page'),
+                array('page_id' => 3, 'identifier' => 'cms-page'),
                 'cms_page/3', 'cms_page/3', 'cms-page', 'cms/page/view/page_id/3'
             )
         );

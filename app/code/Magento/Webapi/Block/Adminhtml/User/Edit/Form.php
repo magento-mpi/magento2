@@ -9,10 +9,12 @@
  *
  * @method \Magento\Webapi\Block\Adminhtml\User\Edit setApiUser() setApiUser(\Magento\Webapi\Model\Acl\User $user)
  * @method \Magento\Webapi\Model\Acl\User getApiUser() getApiUser()
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Webapi\Block\Adminhtml\User\Edit;
 
-class Form extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare Form.
@@ -21,7 +23,8 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setId('edit_form');
         $form->setAction($this->getUrl('*/*/save'));
         $form->setMethod('post');

@@ -1,5 +1,5 @@
 <layout>
-   <block name="root" type="Magento_Core_Block_Template" template="template.phtml">
+   <block name="root" type="Magento\Core\Block\Template" template="template.phtml">
       <block name="head" type="Magento_Page_Block_Html_Head">
          <action method="safeMethod">
             <arg>1</arg>
@@ -7,7 +7,7 @@
       </block>
       <block name="custom.safe" type="Namespace_Module_Block_Safe"/>
       <container name="content">
-         <block name="custom.not_safe" type="Magento_Core_Block_Template" template="Magento_DesignEditor::stub.phtml">%A</block>
+         <block name="custom.not_safe" type="Magento\Core\Block\Template" template="Magento_DesignEditor::stub.phtml">%A</block>
          <block class="Magento_Page_Block_Safe"/>
       </container>
    </block>

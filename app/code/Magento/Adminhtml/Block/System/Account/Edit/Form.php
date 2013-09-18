@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Block\System\Account\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
@@ -27,7 +27,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ->load($userId);
         $user->unsetData('password');
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Account Information')));
 

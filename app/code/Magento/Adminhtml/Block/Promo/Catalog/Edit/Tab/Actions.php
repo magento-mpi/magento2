@@ -8,17 +8,10 @@
  * @license     {license_link}
  */
 
-/**
- * description
- *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
 
 class Actions
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -63,10 +56,10 @@ class Actions
 
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_promo_catalog_rule');
+        $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
-        $form = new \Magento\Data\Form();
-
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('action_fieldset', array(

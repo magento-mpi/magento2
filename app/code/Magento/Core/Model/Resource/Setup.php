@@ -95,14 +95,21 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected $_config;
 
     /**
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param string $resourceName
+     * @param $resourceName
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\ModuleListInterface $moduleList,
@@ -112,6 +119,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     ) {
         $this->_config = $config;
         $resourcesConfig->setConfig($config);
+        $this->_eventManager = $eventManager;
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
         $this->_modulesReader = $modulesReader;
@@ -814,5 +822,13 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     public function afterApplyAllUpdates()
     {
         return $this;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Event\Manager
+     */
+    public function getEventManager()
+    {
+        return $this->_eventManager;
     }
 }

@@ -21,6 +21,25 @@ namespace Magento\CatalogSearch\Model\Resource;
 class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define catalog product table as main table
      *
      */
@@ -50,7 +69,7 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
             'response_object' => $response
         );
 
-        \Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
+        $this->_eventManager->dispatch('catalog_prepare_price_select', $eventArgs);
 
         return $response;
     }

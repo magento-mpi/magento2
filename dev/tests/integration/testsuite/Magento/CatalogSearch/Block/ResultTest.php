@@ -14,7 +14,7 @@ class Magento_CatalogSearch_Block_ResultTest extends PHPUnit_Framework_TestCase
     public function testSetListOrders()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $layout->addBlock('Magento\Core\Block\Text', 'head'); // The tested block is using head block
         /** @var $block \Magento\CatalogSearch\Block\Result */
         $block = $layout->addBlock('Magento\CatalogSearch\Block\Result', 'block');

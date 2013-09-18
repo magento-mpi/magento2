@@ -21,17 +21,23 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     protected $_registryManager;
 
     /**
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource
+        \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_registryManager = $registry;
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $resource);
     }
 
     /**

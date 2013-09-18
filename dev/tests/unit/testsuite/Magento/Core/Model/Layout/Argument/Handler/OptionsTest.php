@@ -20,52 +20,122 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new \Magento\Core\Model\Layout\Argument\Handler\Options($this->_objectManagerMock);
-    }
+        include_once(__DIR__ . DIRECTORY_SEPARATOR . 'TestOptions.php');
 
-    protected function tearDown()
-    {
-        unset($this->_objectManagerMock);
-        unset($this->_model);
+        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_model = $helperObjectManager->getObject(
+            'Magento\Core\Model\Layout\Argument\Handler\Options',
+            array('objectManager' => $this->_objectManagerMock)
+        );
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @dataProvider parseDataProvider()
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @param array $expectedResult
      */
-    public function testProcessIfOptionModelIncorrect()
+    public function testParse($argument, $expectedResult)
     {
-        $this->_objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with('StdClass')
-            ->will($this->returnValue(new StdClass()));
-        $this->_model->process('StdClass');
+        $result = $this->_model->parse($argument);
+        $this->assertEquals($result, $expectedResult);
     }
 
-    public function testProcess()
+    /**
+     * @return array
+     */
+    public function parseDataProvider()
     {
-        $optionArray = array('value' => 'LABEL');
-        $expectedOptionArray = array(
-            0 => array('value' => 'value',
-                       'label' => 'LABEL',
-            ));
-        $optionsModel = $this->getMock(
-            'Magento\Core\Model\Option\ArrayInterface',
-            array(),
-            array(),
-            'Option_Array_Model',
-            false);
-        $optionsModel->expects($this->once())->method('toOptionArray')->will($this->returnValue($optionArray));
+        $layout = simplexml_load_file(
+            __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
+            'Magento\Core\Model\Layout\Element'
+        );
+        $optionsArguments = $layout->xpath('//argument[@name="testOptions"]');
+        return array(
+            array(
+                reset($optionsArguments),
+                array(
+                    'type' => 'options',
+                    'value' => array(
+                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_TestOptions',
+                    )
+                )
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider processDataProvider
+     * @param array $argument
+     * @param boolean $expectedResult
+     */
+    public function testProcess($argument, $expectedResult)
+    {
+        $optionsMock = $this->getMock(
+            'Magento_Core_Model_Layout_Argument_Handler_TestOptions', array(), array(), '', false, false
+        );
+        $optionsMock->expects($this->once())
+            ->method('toOptionArray')
+            ->will($this->returnValue(array('value' => 'label')));
+
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Option_Array_Model')
-            ->will($this->returnValue($optionsModel));
-        $this->assertEquals($expectedOptionArray, $this->_model->process('Option_Array_Model'));
+            ->with('Magento_Core_Model_Layout_Argument_Handler_TestOptions')
+            ->will($this->returnValue($optionsMock));
+
+        $this->assertEquals($this->_model->process($argument), $expectedResult);
+    }
+
+    /**
+     * @return array
+     */
+    public function processDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'value' => array(
+                        'model' => 'Magento_Core_Model_Layout_Argument_Handler_TestOptions',
+                    )
+                ),
+                array(
+                    array(
+                        'value' => 'value',
+                        'label' => 'label',
+                    )
+                )
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider processExceptionDataProvider
+     * @param array $argument
+     * @param string $message
+     */
+    public function testProcessException($argument, $message)
+    {
+        $this->setExpectedException(
+            'InvalidArgumentException', $message
+        );
+        $this->_model->process($argument);
+    }
+
+    /**
+     * @return array
+     */
+    public function processExceptionDataProvider()
+    {
+        return array(
+            array(array(), 'Value is required for argument'),
+            array(array('value' => array()), 'Passed value has incorrect format'),
+            array(array('value' => array('model' => 'Magento_Dummy_Model')), 'Incorrect options model'),
+        );
     }
 }

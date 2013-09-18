@@ -38,6 +38,43 @@ class Session extends \Magento\Core\Model\AbstractModel
     protected $_loadExpired = false;
 
     /**
+     * Persistent data
+     *
+     * @var \Magento\Persistent\Helper\Data
+     */
+    protected $_persistentData = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Persistent\Helper\Data $persistentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Persistent\Helper\Data $persistentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_persistentData = $persistentData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Define resource model
      */
     protected function _construct()
@@ -75,7 +112,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      */
     public function getExpiredBefore($store = null)
     {
-        return gmdate('Y-m-d H:i:s', time() - \Mage::helper('Magento\Persistent\Helper\Data')->getLifeTime($store));
+        return gmdate('Y-m-d H:i:s', time() - $this->_persistentData->getLifeTime($store));
     }
 
     /**
@@ -95,13 +132,13 @@ class Session extends \Magento\Core\Model\AbstractModel
                 $info[$index] = $value;
             }
         }
-        $this->setInfo(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($info));
+        $this->setInfo($this->_coreData->jsonEncode($info));
 
         if ($this->isObjectNew()) {
             $this->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
             // Setting cookie key
             do {
-                $this->setKey(\Mage::helper('Magento\Core\Helper\Data')->getRandomString(self::KEY_LENGTH));
+                $this->setKey($this->_coreData->getRandomString(self::KEY_LENGTH));
             } while (!$this->getResource()->isKeyAllowed($this->getKey()));
         }
 
@@ -116,7 +153,7 @@ class Session extends \Magento\Core\Model\AbstractModel
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        $info = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($this->getInfo());
+        $info = $this->_coreData->jsonDecode($this->getInfo());
         if (is_array($info)) {
             foreach ($info as $key => $value) {
                 $this->setData($key, $value);

@@ -33,6 +33,7 @@ abstract class TabAbstract
     protected $_formHelper;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helperData
      * @param \Magento\Core\Model\Registry $registry
@@ -42,6 +43,7 @@ abstract class TabAbstract
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helperData,
         \Magento\Core\Model\Registry $registry,
@@ -50,7 +52,7 @@ abstract class TabAbstract
         \Magento\Data\Form $form,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
 
         $this->_helperData = $helperData;
         $this->_registry = $registry;

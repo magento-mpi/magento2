@@ -70,6 +70,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_regionFactory;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -77,12 +85,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory
     ) {
+        $this->_coreData = $coreData;
         $this->_app = $app;
         $this->_storeConfig = $storeConfig;
         $this->_countryFactory = $countryFactory;
@@ -388,7 +398,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $key    = 'rma_id';
         $method = 'getId';
         $param = array(
-             'hash' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
         );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -422,7 +432,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
          $param = array(
-             'hash' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
          );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -438,7 +448,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', \Mage::helper('Magento\Core\Helper\Data')->urlDecode($hash));
+        $hash = explode(':', $this->_coreData->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -480,7 +490,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $storeDate = \Mage::app()->getLocale()
             ->storeDate(\Mage::app()->getStore(), \Magento\Date::toTimestamp($date), true);
 
-        return \Mage::helper('Magento\Core\Helper\Data')
+        return $this->_coreData
             ->formatDate($storeDate, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 

@@ -22,6 +22,31 @@ class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
     const CREATE_RMA_BUTTON_DEFAULT_SORT_ORDER = 35;
 
     /**
+     * Rma data
+     *
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_rmaData = $rmaData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
+    /**
      * Add button to Shopping Cart Management etc.
      *
      * @return \Magento\Rma\Block\Adminhtml\Order\View\Buttons
@@ -49,7 +74,7 @@ class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
         $parentBlock = $this->getParentBlock();
         return $parentBlock instanceof \Magento\Backend\Block\Template
             && $parentBlock->getOrderId()
-            && \Mage::helper('Magento\Rma\Helper\Data')->canCreateRma($parentBlock->getOrder(), true);
+            && $this->_rmaData->canCreateRma($parentBlock->getOrder(), true);
     }
 
     /**

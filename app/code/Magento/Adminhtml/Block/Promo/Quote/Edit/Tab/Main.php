@@ -18,8 +18,8 @@
 namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
 
 class Main
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare content for tab
@@ -63,9 +63,10 @@ class Main
 
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('base_fieldset',
@@ -134,7 +135,7 @@ class Main
         $found = false;
 
         foreach ($customerGroups as $group) {
-            if ($group['value']==0) {
+            if ($group['value'] == 0) {
                 $found = true;
             }
         }
@@ -261,7 +262,7 @@ class Main
                 \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
         );
 
-        \Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_main_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_promo_quote_edit_tab_main_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();
     }

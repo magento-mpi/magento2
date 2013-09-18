@@ -20,13 +20,29 @@ namespace Magento\Oauth\Model;
 class Observer
 {
     /**
+     * Oauth data
+     *
+     * @var \Magento\Oauth\Helper\Data
+     */
+    protected $_oauthData = null;
+
+    /**
+     * @param \Magento\Oauth\Helper\Data $oauthData
+     */
+    public function __construct(
+        \Magento\Oauth\Helper\Data $oauthData
+    ) {
+        $this->_oauthData = $oauthData;
+    }
+
+    /**
      * Retrieve oauth_token param from request
      *
      * @return string|null
      */
     protected function _getOauthToken()
     {
-        return \Mage::helper('Magento\Oauth\Helper\Data')->getOauthToken();
+        return $this->_oauthData->getOauthToken();
     }
 
     /**
@@ -38,7 +54,7 @@ class Observer
     {
         if (null !== $this->_getOauthToken()) {
             $userType = \Magento\Oauth\Model\Token::USER_TYPE_CUSTOMER;
-            $url = \Mage::helper('Magento\Oauth\Helper\Data')->getAuthorizeUrl($userType);
+            $url = $this->_oauthData->getAuthorizeUrl($userType);
             \Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()
@@ -56,7 +72,7 @@ class Observer
     {
         if (null !== $this->_getOauthToken()) {
             $userType = \Magento\Oauth\Model\Token::USER_TYPE_ADMIN;
-            $url = \Mage::helper('Magento\Oauth\Helper\Data')->getAuthorizeUrl($userType);
+            $url = $this->_oauthData->getAuthorizeUrl($userType);
             \Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()
@@ -78,7 +94,7 @@ class Observer
             $session->addError($observer->getException()->getMessage());
 
             $userType = \Magento\Oauth\Model\Token::USER_TYPE_ADMIN;
-            $url = \Mage::helper('Magento\Oauth\Helper\Data')->getAuthorizeUrl($userType);
+            $url = $this->_oauthData->getAuthorizeUrl($userType);
             \Mage::app()->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()

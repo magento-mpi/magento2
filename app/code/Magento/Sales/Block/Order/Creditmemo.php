@@ -45,7 +45,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
      */
     public function getOrder()
     {
-        return \Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**

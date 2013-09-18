@@ -32,6 +32,32 @@ class Observer
     protected $_errors = array();
 
     /**
+     * Backup data
+     *
+     * @var \Magento\Backup\Helper\Data
+     */
+    protected $_backupData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backup\Helper\Data $backupData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backup\Helper\Data $backupData,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_backupData = $backupData;
+        $this->_coreRegistry = $coreRegistry;
+    }
+
+    /**
      * Create Backup
      *
      * @return \Magento\Log\Model\Cron
@@ -43,7 +69,7 @@ class Observer
         }
 
         if (\Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
-            \Mage::helper('Magento\Backup\Helper\Data')->turnOnMaintenanceMode();
+            $this->_backupData->turnOnMaintenanceMode();
         }
 
         $type = \Mage::getStoreConfig(self::XML_PATH_BACKUP_TYPE);
@@ -51,19 +77,19 @@ class Observer
         $this->_errors = array();
         try {
             $backupManager = \Magento\Backup::getBackupInstance($type)
-                ->setBackupExtension(\Mage::helper('Magento\Backup\Helper\Data')->getExtensionByType($type))
+                ->setBackupExtension($this->_backupData->getExtensionByType($type))
                 ->setTime(time())
-                ->setBackupsDir(\Mage::helper('Magento\Backup\Helper\Data')->getBackupsDir());
+                ->setBackupsDir($this->_backupData->getBackupsDir());
 
-            \Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
                 $backupManager->setRootDir(\Mage::getBaseDir())
-                    ->addIgnorePaths(\Mage::helper('Magento\Backup\Helper\Data')->getBackupIgnorePaths());
+                    ->addIgnorePaths($this->_backupData->getBackupIgnorePaths());
             }
 
             $backupManager->create();
-            \Mage::log(\Mage::helper('Magento\Backup\Helper\Data')->getCreateSuccessMessageByType($type));
+            \Mage::log($this->_backupData->getCreateSuccessMessageByType($type));
         }
         catch (\Exception $e) {
             $this->_errors[] = $e->getMessage();
@@ -73,7 +99,7 @@ class Observer
         }
 
         if (\Mage::getStoreConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {
-            \Mage::helper('Magento\Backup\Helper\Data')->turnOffMaintenanceMode();
+            $this->_backupData->turnOffMaintenanceMode();
         }
 
         return $this;

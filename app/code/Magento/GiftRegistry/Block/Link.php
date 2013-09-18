@@ -16,6 +16,29 @@ namespace Magento\GiftRegistry\Block;
 class Link extends \Magento\Core\Block\Template
 {
     /**
+     * Gift registry data
+     *
+     * @var \Magento\GiftRegistry\Helper\Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Adding link to dashboard links block
      *
      * @param string $block
@@ -27,7 +50,7 @@ class Link extends \Magento\Core\Block\Template
      */
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
-        if (\Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
+        if ($this->_giftRegistryData->isEnabled()) {
             /** @var $blockInstance \Magento\Customer\Block\Account\Navigation */
             $blockInstance = $this->getLayout()->getBlock($block);
             if ($blockInstance) {

@@ -53,6 +53,48 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      */
     protected $_ignoredAttributeTypes = array('hidden', 'media_image', 'image', 'gallery');
 
+    /**
+     * @var \Magento\GoogleShopping\Helper\Data|null
+     */
+    protected $_gsData = null;
+
+    /**
+     * @var \Magento\GoogleShopping\Helper\Product|null
+     */
+    protected $_gsProduct = null;
+
+    /**
+     * @var \Magento\GoogleShopping\Helper\Price|null
+     */
+    protected $_gsPrice = null;
+
+    /**
+     * @param \Magento\GoogleShopping\Helper\Data $gsData
+     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
+     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_gsData = $gsData;
+        $this->_gsProduct = $gsProduct;
+        $this->_gsPrice = $gsPrice;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
+    }
+
     protected function _construct()
     {
         $this->_init('Magento\GoogleShopping\Model\Resource\Attribute');

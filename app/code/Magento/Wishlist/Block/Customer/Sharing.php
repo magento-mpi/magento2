@@ -35,17 +35,19 @@ class Sharing extends \Magento\Core\Block\Template
     protected $_wishlistConfig;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         array $data = array()
     ) {
         $this->_wishlistConfig = $wishlistConfig;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

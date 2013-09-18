@@ -18,6 +18,33 @@ class Orders
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize basic parameters
      */
     protected function _construct()
@@ -25,8 +52,7 @@ class Orders
         parent::_construct();
         $this->setId('recurring_profile_orders')
             ->setUseAjax(true)
-            ->setSkipGenerateContent(true)
-        ;
+            ->setSkipGenerateContent(true);
     }
 
     /**
@@ -37,8 +63,7 @@ class Orders
     protected function _prepareCollection()
     {
         $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection')
-            ->addRecurringProfilesFilter(\Mage::registry('current_recurring_profile')->getId())
-        ;
+            ->addRecurringProfilesFilter($this->_coreRegistry->registry('current_recurring_profile')->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -160,7 +185,8 @@ class Orders
      */
     public function getTabUrl()
     {
-        return $this->getUrl('*/*/orders', array('profile' => \Mage::registry('current_recurring_profile')->getId()));
+        $recurringProfile = $this->_coreRegistry->registry('current_recurring_profile');
+        return $this->getUrl('*/*/orders', array('profile' => $recurringProfile->getId()));
     }
 
     /**

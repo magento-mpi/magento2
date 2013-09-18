@@ -25,18 +25,22 @@ class Export extends \Magento\Data\Form\Element\AbstractElement
     protected $_helperFactory;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
-    {
-        if (isset($attributes['helperFactory'])) {
-            $this->_helperFactory = $attributes['helperFactory'];
-            unset($attributes['helperFactory']);
-        } else {
-            $this->_helperFactory = \Mage::getSingleton('Magento\Core\Model\Factory\Helper');
-        }
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Core\Model\Factory\Helper $helperFactory,
+        array $attributes = array()
+    ) {
+        $this->_helperFactory = $helperFactory;
 
-        parent::__construct($attributes);
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 
     public function getElementHtml()

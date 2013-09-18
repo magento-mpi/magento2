@@ -28,7 +28,7 @@ class Info
      */
     public function getOrder()
     {
-        return \Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**

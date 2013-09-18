@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml sales order edit address block
  *
@@ -24,13 +23,40 @@ class Form
     protected $_template = 'sales/order/address/form.phtml';
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($adminhtmlAddresses, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Order address getter
      *
      * @return \Magento\Sales\Model\Order\Address
      */
     protected function _getAddress()
     {
-        return \Mage::registry('order_address');
+        return $this->_coreRegistry->registry('order_address');
     }
 
     /**

@@ -27,7 +27,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
     {
         parent::preDispatch();
         $action = $this->getRequest()->getActionName();
-        $loginUrl = \Mage::helper('Magento\Customer\Helper\Data')->getLoginUrl();
+        $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
 
         if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);

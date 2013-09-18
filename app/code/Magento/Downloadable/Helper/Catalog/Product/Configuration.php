@@ -21,6 +21,25 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
+     * Catalog product configuration
+     *
+     * @var \Magento\Catalog\Helper\Product\Configuration
+     */
+    protected $_productConfigur = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product\Configuration $productConfigur,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_productConfigur = $productConfigur;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieves item links options
      *
      * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
@@ -66,7 +85,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
      */
     public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
-        $options = \Mage::helper('Magento\Catalog\Helper\Product\Configuration')->getOptions($item);
+        $options = $this->_productConfigur->getOptions($item);
 
         $links = $this->getLinks($item);
         if ($links) {

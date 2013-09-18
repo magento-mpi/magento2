@@ -10,16 +10,34 @@
 
 /**
  * Product attribute edit page
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute;
 
-class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -28,7 +46,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         parent::_construct();
 
-        if($this->getRequest()->getParam('popup')) {
+        if ($this->getRequest()->getParam('popup')) {
             $this->_removeButton('back');
             if ($this->getRequest()->getParam('product_tab') != 'variations') {
                 $this->_addButton(
@@ -66,7 +84,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
             ),
         ));
 
-        if (!\Mage::registry('entity_attribute') || !\Mage::registry('entity_attribute')->getIsUserDefined()) {
+        $entityAttribute = $this->_coreRegistry->registry('entity_attribute');
+        if (!$entityAttribute || !$entityAttribute->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
             $this->_updateButton('delete', 'label', __('Delete Attribute'));
@@ -80,8 +99,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if (\Mage::registry('entity_attribute')->getId()) {
-            $frontendLabel = \Mage::registry('entity_attribute')->getFrontendLabel();
+        if ($this->_coreRegistry->registry('entity_attribute')->getId()) {
+            $frontendLabel = $this->_coreRegistry->registry('entity_attribute')->getFrontendLabel();
             if (is_array($frontendLabel)) {
                 $frontendLabel = $frontendLabel[0];
             }
@@ -107,13 +126,10 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getSaveUrl()
     {
-        return $this->getUrl(
-            '*/'.$this->_controller.'/save',
-            array(
-                '_current' => true,
-                'back' => null,
-                'product_tab' => $this->getRequest()->getParam('product_tab')
-            )
-        );
+        return $this->getUrl('*/' . $this->_controller . '/save', array(
+            '_current' => true,
+            'back' => null,
+            'product_tab' => $this->getRequest()->getParam('product_tab')
+        ));
     }
 }

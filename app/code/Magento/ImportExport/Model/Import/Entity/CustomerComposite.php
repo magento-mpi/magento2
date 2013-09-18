@@ -125,13 +125,16 @@ class CustomerComposite
     protected $_dataSourceModels;
 
     /**
-     * Class constructor
-     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $coreString, $data);
 
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
             __('Orphan rows that will be skipped due default row errors')

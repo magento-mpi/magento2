@@ -91,23 +91,21 @@ class Config
      *
      * @see self::setXml
      * @param string|\Magento\Simplexml\Element $sourceData
-     * @param string $sourceType
      */
-    public function __construct($sourceData=null) {
+    public function __construct($sourceData = null)
+    {
         if (is_null($sourceData)) {
             return;
         }
         if ($sourceData instanceof \Magento\Simplexml\Element) {
-           $this->setXml($sourceData);
+            $this->setXml($sourceData);
         } elseif (is_string($sourceData) && !empty($sourceData)) {
-            if (strlen($sourceData)<1000 && is_readable($sourceData)) {
+            if (strlen($sourceData) < 1000 && is_readable($sourceData)) {
                 $this->loadFile($sourceData);
             } else {
                 $this->loadString($sourceData);
             }
         }
-        #$this->setCache(new \Magento\Simplexml\Config\Cache\File());
-        #$this->getCache()->setConfig($this);
     }
 
     /**

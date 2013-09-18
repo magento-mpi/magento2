@@ -18,7 +18,7 @@
 
 namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form for newsletter queue editing.
@@ -33,7 +33,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         /* @var $queue \Magento\Newsletter\Model\Queue */
         $queue = \Mage::getSingleton('Magento\Newsletter\Model\Queue');
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'    =>  __('Queue Information'),
@@ -43,8 +44,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
         $timeFormat = \Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
 
-        if($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_NEVER) {
-            $fieldset->addField('date', 'date',array(
+        if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_NEVER) {
+            $fieldset->addField('date', 'date', array(
                 'name'      =>    'start_at',
                 'date_format' => $dateFormat,
                 'time_format' => $timeFormat,
@@ -53,7 +54,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ));
 
             if (!\Mage::app()->hasSingleStore()) {
-                $fieldset->addField('stores','multiselect',array(
+                $fieldset->addField('stores', 'multiselect', array(
                     'name'          => 'stores[]',
                     'label'         => __('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
@@ -79,7 +80,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ));
 
             if (!\Mage::app()->hasSingleStore()) {
-                $fieldset->addField('stores','multiselect',array(
+                $fieldset->addField('stores', 'multiselect', array(
                     'name'          => 'stores[]',
                     'label'         => __('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
@@ -87,8 +88,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                     'values'        => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
-            }
-            else {
+            } else {
                 $fieldset->addField('stores', 'hidden', array(
                     'name'      => 'stores[]',
                     'value'     => \Mage::app()->getStore(true)->getId()
@@ -137,7 +137,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ->getConfig(array('widget_filters' => $widgetFilters));
 
         if ($queue->isNew()) {
-            $fieldset->addField('text','editor', array(
+            $fieldset->addField('text', 'editor', array(
                 'name'      => 'text',
                 'label'     => __('Message'),
                 'state'     => 'html',
@@ -154,7 +154,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'value'         => $queue->getTemplate()->getTemplateStyles()
             ));
         } elseif (\Magento\Newsletter\Model\Queue::STATUS_NEVER != $queue->getQueueStatus()) {
-            $fieldset->addField('text','textarea', array(
+            $fieldset->addField('text', 'textarea', array(
                 'name'      =>    'text',
                 'label'     =>    __('Message'),
                 'value'     =>    $queue->getNewsletterText(),
@@ -173,7 +173,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             $form->getElement('sender_email')->setDisabled('true')->setRequired(false);
             $form->getElement('stores')->setDisabled('true');
         } else {
-            $fieldset->addField('text','editor', array(
+            $fieldset->addField('text', 'editor', array(
                 'name'      =>    'text',
                 'label'     =>    __('Message'),
                 'state'     => 'html',

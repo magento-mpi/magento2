@@ -190,6 +190,6 @@ class Result extends \Magento\Adminhtml\Block\Template
         if (!isset($this->_actions['import_validation_messages'])) {
             $this->addAction('innerHTML', 'import_validation_messages', $this->getMessagesHtml());
         }
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->_actions);
+        return $this->_coreData->jsonEncode($this->_actions);
     }
 }

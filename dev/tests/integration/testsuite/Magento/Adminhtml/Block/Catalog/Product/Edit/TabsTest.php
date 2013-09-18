@@ -20,19 +20,19 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Fram
      */
     public function testPrepareLayout()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Config\Scope')
+        $objectManager->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         /** @var $product \Magento\Catalog\Model\Product */
         $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
-        Mage::register('product', $product);
+        $objectManager->get('Magento\Core\Model\Registry')->register('product', $product);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $layout->addBlock('Magento\Core\Block\Text', 'head');
         $layout->setArea('nonexisting'); // prevent block templates rendering
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs */

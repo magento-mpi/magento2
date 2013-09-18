@@ -9,16 +9,34 @@
  */
 
 /**
- * admin customer left menu
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Admin customer left menu
  */
 namespace Magento\Adminhtml\Block\Customer\Edit;
 
 class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -32,21 +50,11 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     {
         \Magento\Profiler::start('customer/tabs');
 
-        /*
-                if (\Mage::registry('current_customer')->getId()) {
-                    $this->addTab('view', array(
-                        'label'     => __('Customer View'),
-                        'content'   => $this->getLayout()
-                        ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\View')->toHtml(),
-                        'active'    => true
-                    ));
-                }
-        */
         $this->addTab('account', array(
             'label'     => __('Account Information'),
             'content'   => $this->getLayout()
                 ->createBlock('Magento\Adminhtml\Block\Customer\Edit\Tab\Account')->initForm()->toHtml(),
-            'active'    => \Mage::registry('current_customer')->getId() ? false : true
+            'active'    => $this->_coreRegistry->registry('current_customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(
@@ -58,7 +66,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 
         // load: Orders, Shopping Cart, Wishlist, Product Reviews, Product Tags - with ajax
 
-        if (\Mage::registry('current_customer')->getId()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId()) {
 
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->addTab('orders', array(

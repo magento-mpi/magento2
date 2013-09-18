@@ -23,7 +23,8 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->_segmentHelper = $this->getMock(
             'Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
-        $this->_model = new \Magento\CustomerSegment\Model\Observer($this->_segmentHelper);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $this->_model = new \Magento\CustomerSegment\Model\Observer($this->_segmentHelper, $coreRegistry);
     }
 
     protected function tearDown()
@@ -48,7 +49,10 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue($formDependency))
         ;
 
-        $form = new \Magento\Data\Form();
+        $factoryElement = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
+            array(), '', false);
+        $form = new \Magento\Data\Form($factoryElement, $collectionFactory);
         $model = new \Magento\Object();
         $block = new \Magento\Object(array('layout' => $layout));
 
@@ -67,7 +71,10 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $layout = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $form = new \Magento\Data\Form();
+        $factoryElement = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
+            array(), '', false);
+        $form = new \Magento\Data\Form($factoryElement, $collectionFactory);
         $model = new \Magento\Object();
         $block = new \Magento\Object(array('layout' => $layout));
 

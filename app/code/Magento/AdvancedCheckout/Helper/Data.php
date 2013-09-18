@@ -88,6 +88,45 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     );
 
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * Checkout cart
+     *
+     * @var \Magento\Checkout\Helper\Cart
+     */
+    protected $_checkoutCart = null;
+
+    /**
+     * @param \Magento\Checkout\Helper\Cart $checkoutCart
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Checkout\Helper\Cart $checkoutCart,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_checkoutCart = $checkoutCart;
+        $this->_taxData = $taxData;
+        $this->_catalogData = $catalogData;
+        parent::__construct($context);
+    }
+
+    /**
      * Return session for affected items
      *
      * @return \Magento\Core\Model\Session\AbstractSession
@@ -286,14 +325,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($itemProduct)) {
+                        if ($this->_catalogData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 \Mage::app()->getStore()->formatPrice(\Mage::app()->getStore()->convertPrice(
-                                    \Mage::helper('Magento\Tax\Helper\Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                    $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
-                            $itemProduct->setAddToCartUrl(\Mage::helper('Magento\Checkout\Helper\Cart')->getAddUrl($itemProduct));
+                            $itemProduct->setAddToCartUrl($this->_checkoutCart->getAddUrl($itemProduct));
                         } else {
                             $quoteItem->setCanApplyMsrp(false);
                         }

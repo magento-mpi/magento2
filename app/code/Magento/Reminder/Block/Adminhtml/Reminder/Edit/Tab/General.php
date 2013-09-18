@@ -14,7 +14,7 @@
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 
 class General
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare general properties form
@@ -24,8 +24,9 @@ class General
     protected function _prepareForm()
     {
         $isEditable = ($this->getCanEditReminderRule() !== false) ? true : false;
-        $form = new \Magento\Data\Form();
-        $model = \Mage::registry('current_reminder_rule');
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
+        $model = $this->_coreRegistry->registry('current_reminder_rule');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'  => __('General Information'),

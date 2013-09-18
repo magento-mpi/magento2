@@ -15,6 +15,27 @@ class Layer extends \Magento\Catalog\Model\Layer
     const XML_PATH_DISPLAY_LAYER_COUNT = 'catalog/search/use_layered_navigation_count';
 
     /**
+     * Catalog search data
+     *
+     * @var \Magento\CatalogSearch\Helper\Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        array $data = array()
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($coreRegistry, $data);
+    }
+
+    /**
      * Get current layer product collection
      *
      * @return Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection
@@ -41,7 +62,7 @@ class Layer extends \Magento\Catalog\Model\Layer
     {
         $collection
             ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
-            ->addSearchFilter(\Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getQueryText())
+            ->addSearchFilter($this->_catalogSearchData->getQuery()->getQueryText())
             ->setStore(\Mage::app()->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
@@ -61,7 +82,7 @@ class Layer extends \Magento\Catalog\Model\Layer
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'Q_' . \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getId()
+            $this->_stateKey = 'Q_' . $this->_catalogSearchData->getQuery()->getId()
                 . '_'. parent::getStateKey();
         }
         return $this->_stateKey;
@@ -83,8 +104,8 @@ class Layer extends \Magento\Catalog\Model\Layer
     /**
      * Add filters to attribute collection
      *
-     * @param   Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection $collection
-     * @return  Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection
+     * @param   \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection $collection
+     * @return  \Magento\Catalog\Model\Resource\Eav\Resource\Product\Attribute\Collection
      */
     protected function _prepareAttributeCollection($collection)
     {

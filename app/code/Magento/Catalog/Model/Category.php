@@ -82,7 +82,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      *
      * @var array
      */
-    private $_designAttributes  = array(
+    protected $_designAttributes  = array(
         'custom_design',
         'custom_design_from',
         'custom_design_to',
@@ -99,6 +99,53 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $_treeModel = null;
 
     /**
+     * Catalog category flat
+     *
+     * @var \Magento\Catalog\Helper\Category\Flat
+     */
+    protected $_catalogCategoryFlat = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource mode
      *
      * @return void
@@ -106,7 +153,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected function _construct()
     {
         // If Flat Data enabled then use it but only on frontend
-        if (\Mage::helper('Magento\Catalog\Helper\Category\Flat')->isAvailable() && !\Mage::app()->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable() && !\Mage::app()->getStore()->isAdmin()) {
             $this->_init('Magento\Catalog\Model\Resource\Category\Flat');
             $this->_useFlatResource = true;
         } else {
@@ -212,17 +259,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
 
         $this->_getResource()->beginTransaction();
         try {
-            /**
-             * catalog_category_tree_move_before and catalog_category_tree_move_after
-             * events declared for backward compatibility
-             */
-            \Mage::dispatchEvent('catalog_category_tree_move_before', $eventParams);
-            \Mage::dispatchEvent($this->_eventPrefix.'_move_before', $eventParams);
-
+            $this->_eventManager->dispatch($this->_eventPrefix . '_move_before', $eventParams);
             $this->getResource()->changeParent($this, $parent, $afterCategoryId);
-
-            \Mage::dispatchEvent($this->_eventPrefix.'_move_after', $eventParams);
-            \Mage::dispatchEvent('catalog_category_tree_move_after', $eventParams);
+            $this->_eventManager->dispatch($this->_eventPrefix . '_move_after', $eventParams);
             $this->_getResource()->commit();
 
             // Set data for indexer
@@ -234,7 +273,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             throw $e;
         }
         if ($moveComplete) {
-            \Mage::dispatchEvent('category_move', $eventParams);
+            $this->_eventManager->dispatch('category_move', $eventParams);
             \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
                 $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
             );
@@ -322,7 +361,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             return array();
         }
 
-        if ($storeIds = $this->getData('store_ids')) {
+        $storeIds = $this->getData('store_ids');
+        if ($storeIds) {
             return $storeIds;
         }
 
@@ -429,13 +469,13 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function getCategoryIdUrl()
     {
-        \Magento\Profiler::start('REGULAR: '.__METHOD__, array('group' => 'REGULAR', 'method' => __METHOD__));
+        \Magento\Profiler::start('REGULAR: ' . __METHOD__, array('group' => 'REGULAR', 'method' => __METHOD__));
         $urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
         $url = $this->getUrlInstance()->getUrl('catalog/category/view', array(
-            's'=>$urlKey,
-            'id'=>$this->getId(),
+            's' => $urlKey,
+            'id' => $this->getId(),
         ));
-        \Magento\Profiler::stop('REGULAR: '.__METHOD__);
+        \Magento\Profiler::stop('REGULAR: ' . __METHOD__);
         return $url;
     }
 
@@ -447,7 +487,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function formatUrlKey($str)
     {
-        $str = \Mage::helper('Magento\Core\Helper\Data')->removeAccents($str);
+        $str = $this->_coreData->removeAccents($str);
         $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');
@@ -462,8 +502,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     public function getImageUrl()
     {
         $url = false;
-        if ($image = $this->getImage()) {
-            $url = \Mage::getBaseUrl('media').'catalog/category/'.$image;
+        $image = $this->getImage();
+        if ($image) {
+            $url = \Mage::getBaseUrl('media') . 'catalog/category/' . $image;
         }
         return $url;
     }
@@ -483,8 +524,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $path = $this->getUrlKey();
 
         if ($this->getParentId()) {
-            $parentPath = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getParentId())->getCategoryPath();
-            $path = $parentPath.'/'.$path;
+            $parentPath = \Mage::getModel('Magento\Catalog\Model\Category')
+                ->load($this->getParentId())->getCategoryPath();
+            $path = $parentPath . '/' . $path;
         }
 
         $this->setUrlPath($path);
@@ -564,8 +606,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     {
         if (!$this->_useFlatResource) {
             $attribute = $this->getResource()->getAttribute($attributeCode);
-        }
-        else {
+        } else {
             $attribute = \Mage::getSingleton('Magento\Catalog\Model\Config')
                 ->getAttribute(self::ENTITY, $attributeCode);
         }
@@ -583,27 +624,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $children = $this->getResource()->getAllChildren($this);
         if ($asArray) {
             return $children;
-        }
-        else {
+        } else {
             return implode(',', $children);
         }
-
-//        $this->getTreeModelInstance()->load();
-//        $children = $this->getTreeModelInstance()->getChildren($this->getId());
-//
-//        $myId = array($this->getId());
-//        if (is_array($children)) {
-//            $children = array_merge($myId, $children);
-//        }
-//        else {
-//            $children = $myId;
-//        }
-//        if ($asArray) {
-//            return $children;
-//        }
-//        else {
-//            return implode(',', $children);
-//        }
     }
 
     /**
@@ -625,7 +648,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     public function getPathInStore()
     {
         $result = array();
-        //$path = $this->getTreeModelInstance()->getPath($this->getId());
         $path = array_reverse($this->getPathIds());
         foreach ($path as $itemId) {
             if ($itemId == \Mage::app()->getStore()->getRootCategoryId()) {
@@ -637,7 +659,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Check category id exising
+     * Check category id existing
      *
      * @param   int $id
      * @return  bool
@@ -747,14 +769,14 @@ class Category extends \Magento\Catalog\Model\AbstractModel
 
         if ($this->_useFlatResource) {
             $anchors = $this->_getResource()->getAnchorsAbove($path, $this->getStoreId());
-        }
-        else {
-            if (!\Mage::registry('_category_is_anchor_attribute')) {
+        } else {
+            if (!$this->_coreRegistry->registry('_category_is_anchor_attribute')) {
                 $model = $this->_getAttribute('is_anchor');
-                \Mage::register('_category_is_anchor_attribute', $model);
+                $this->_coreRegistry->register('_category_is_anchor_attribute', $model);
             }
 
-            if ($isAnchorAttribute = \Mage::registry('_category_is_anchor_attribute')) {
+            $isAnchorAttribute = $this->_coreRegistry->registry('_category_is_anchor_attribute');
+            if ($isAnchorAttribute) {
                 $anchors = $this->getResource()->findWhereAttributeIs($path, $isAnchorAttribute, 1);
             }
         }
@@ -785,7 +807,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param bool $toLoad
      * @return mixed
      */
-    public function getCategories($parent, $recursionLevel = 0, $sorted=false, $asCollection=false, $toLoad=true)
+    public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
         $categories = $this->getResource()
             ->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
@@ -829,6 +851,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function isInRootCategoryList()
     {
+        // TODO there are bugs in resource models' methods, store_id set to model o/andr to resource model are ignored
         return $this->getResource()->isInRootCategoryList($this);
     }
 
@@ -855,7 +878,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      *
      * @return array
      */
-    public function getAvailableSortByOptions() {
+    public function getAvailableSortByOptions()
+    {
         $availableSortBy = array();
         $defaultSortBy   = \Mage::getSingleton('Magento\Catalog\Model\Config')
             ->getAttributeUsedForSortByArray();
@@ -879,7 +903,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      *
      * @return string
      */
-    public function getDefaultSortBy() {
+    public function getDefaultSortBy()
+    {
         if (!$sortBy = $this->getData('default_sort_by')) {
             $sortBy = \Mage::getSingleton('Magento\Catalog\Model\Config')
                 ->getProductListDefaultSortBy($this->getStoreId());

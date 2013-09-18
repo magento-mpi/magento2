@@ -34,13 +34,23 @@ class Index extends \Magento\Core\Controller\Front\Action
     protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Cache\Type\Config $configCacheType
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
     }
@@ -66,7 +76,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             $page = \Mage::getModel('Magento\Cms\Model\Page')
                 ->load(\Mage::getStoreConfig($this->_stubPageIdentifier), 'identifier');
 
-            \Mage::register('restriction_landing_page', $page);
+            $this->_coreRegistry->register('restriction_landing_page', $page);
 
             if ($page->getCustomTheme()) {
                 if (\Mage::app()->getLocale()
@@ -80,7 +90,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             $this->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
-                $this->getLayout()->helper('Magento\Page\Helper\Layout')
+                $this->_objectManager->get('Magento\Page\Helper\Layout')
                     ->applyHandle($page->getRootTemplate());
             }
 
@@ -90,7 +100,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             $this->generateLayoutXml()->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
-                $this->getLayout()->helper('Magento\Page\Helper\Layout')
+                $this->_objectManager->get('Magento\Page\Helper\Layout')
                     ->applyTemplate($page->getRootTemplate());
             }
 

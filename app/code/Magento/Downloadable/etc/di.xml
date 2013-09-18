@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Downloadable\Helper\Download">
+        <param name="coreFileStorageDb">
+            <instance type="Magento\Core\Helper\File\Storage\DatabaseProxy" />
+        </param>
+    </type>
+    <type name="Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo">
+        <param name="helper">
+            <instance type="Magento\Core\Helper\StringProxy" />
+        </param>
+    </type>
+</config>

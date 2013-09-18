@@ -70,11 +70,33 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_config;
 
     /**
+     * Core http
+     *
+     * @var \Magento\Core\Helper\Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\Config $config)
-    {
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreHttp = $coreHttp;
         parent::__construct($context);
         $this->_config = $config;
     }
@@ -364,11 +386,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $allow = true;
 
         $allowedIps = \Mage::getStoreConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
-        $remoteAddr = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
+        $remoteAddr = $this->_coreHttp->getRemoteAddr();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
             if (array_search($remoteAddr, $allowedIps) === false
-                && array_search(\Mage::helper('Magento\Core\Helper\Http')->getHttpHost(), $allowedIps) === false) {
+                && array_search($this->_coreHttp->getHttpHost(), $allowedIps) === false) {
                 $allow = false;
             }
         }
@@ -397,43 +419,34 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * from fieldset matching an aspect.
      *
      * Contents of $aspect are a field name in target object or array.
-     * If '*' - will be used the same name as in the source object or array.
+     * If targetField attribute is not provided - will be used the same name as in the source object or array.
      *
      * @param string $fieldset
      * @param string $aspect
      * @param array|\Magento\Object $source
      * @param array|\Magento\Object $target
      * @param string $root
-     * @return boolean
+     * @return array|\Magento\Object|null the value of $target
      */
-    public function copyFieldset($fieldset, $aspect, $source, $target, $root='global')
+    public function copyFieldsetToTarget($fieldset, $aspect, $source, $target, $root='global')
     {
-        if (!(is_array($source) || $source instanceof \Magento\Object)
-            || !(is_array($target) || $target instanceof \Magento\Object)) {
-
-            return false;
+        if (!$this->_isFieldsetInputValid($source, $target)) {
+            return null;
         }
-        $fields = \Mage::getConfig()->getFieldset($fieldset, $root);
-        if (!$fields) {
-            return false;
+        $fields = \Mage::getObjectManager()->get('Magento\Core\Model\Fieldset\Config')->getFieldset($fieldset, $root);
+        if (is_null($fields)) {
+            return $target;
         }
-
-        $sourceIsArray = is_array($source);
         $targetIsArray = is_array($target);
 
-        $result = false;
-        foreach ($fields as $code=>$node) {
-            if (empty($node->$aspect)) {
+        foreach ($fields as $code => $node) {
+            if (empty($node[$aspect])) {
                 continue;
             }
 
-            if ($sourceIsArray) {
-                $value = isset($source[$code]) ? $source[$code] : null;
-            } else {
-                $value = $source->getDataUsingMethod($code);
-            }
+            $value = $this->_getFieldsetFieldValue($source, $code);
 
-            $targetCode = (string)$node->$aspect;
+            $targetCode = (string)$node[$aspect];
             $targetCode = $targetCode == '*' ? $code : $targetCode;
 
             if ($targetIsArray) {
@@ -441,18 +454,46 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             } else {
                 $target->setDataUsingMethod($targetCode, $value);
             }
-
-            $result = true;
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        \Mage::dispatchEvent($eventName, array(
+        $this->_eventManager->dispatch($eventName, array(
             'target' => $target,
             'source' => $source,
             'root'   => $root
         ));
 
-        return $result;
+        return $target;
+    }
+
+    /**
+     * Check if source and target are valid input for converting using fieldset
+     *
+     * @param array|\Magento\Object $source
+     * @param array|\Magento\Object $target
+     * @return bool
+     */
+    private function _isFieldsetInputValid($source, $target)
+    {
+        return (is_array($source) || $source instanceof \Magento\Object)
+        && (is_array($target) || $target instanceof \Magento\Object);
+    }
+
+    /**
+     * Get value of source by code
+     *
+     * @param $source
+     * @param $code
+     * @return null
+     */
+    private function _getFieldsetFieldValue($source, $code)
+    {
+        if (is_array($source)) {
+            $value = isset($source[$code]) ? $source[$code] : null;
+        } else {
+            $value = $source->getDataUsingMethod($code);
+        }
+        return $value;
     }
 
     /**

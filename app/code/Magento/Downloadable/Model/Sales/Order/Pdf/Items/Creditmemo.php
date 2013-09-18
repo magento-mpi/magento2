@@ -27,26 +27,25 @@ class Creditmemo
     protected $_stringHelper;
 
     /**
-     * Retrieve string helper instance
-     *
-     * @return \Magento\Core\Helper\String
+     * @param \Magento\Core\Helper\String $helper
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
      */
-    protected function _getStringHelper()
-    {
-        if (!$this->_stringHelper) {
-            $this->_stringHelper = \Mage::helper('Magento\Core\Helper\String');
-        }
-        return $this->_stringHelper;
-    }
-
-    /**
-     * Assign string helper instance
-     * 
-     * @param \Magento\Core\Helper\String $helperInstance
-     */
-    public function setStringHelper(\Magento\Core\Helper\String $helperInstance)
-    {
-        $this->_stringHelper = $helperInstance;
+    public function __construct(
+        \Magento\Core\Helper\String $helper,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_stringHelper = $helper;
+        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -63,13 +62,13 @@ class Creditmemo
 
         // draw Product name
         $lines[0] = array(array(
-            'text' => $this->_getStringHelper()->str_split($item->getName(), 35, true, true),
+            'text' => $this->_stringHelper->str_split($item->getName(), 35, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => $this->_getStringHelper()->str_split($this->getSku($item), 17),
+            'text'  => $this->_stringHelper->str_split($this->getSku($item), 17),
             'feed'  => 255,
             'align' => 'right'
         );
@@ -122,7 +121,7 @@ class Creditmemo
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $this->_getStringHelper()->str_split(strip_tags($option['label']), 40, true, true),
+                    'text' => $this->_stringHelper->str_split(strip_tags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -130,7 +129,7 @@ class Creditmemo
                 // draw options value
                 $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                 $lines[][] = array(
-                    'text' => $this->_getStringHelper()->str_split($_printValue, 30, true, true),
+                    'text' => $this->_stringHelper->str_split($_printValue, 30, true, true),
                     'feed' => 40
                 );
             }
@@ -141,7 +140,7 @@ class Creditmemo
 
         // draw Links title
         $lines[][] = array(
-            'text' => $this->_getStringHelper()->str_split($this->getLinksTitle(), 70, true, true),
+            'text' => $this->_stringHelper->str_split($this->getLinksTitle(), 70, true, true),
             'font' => 'italic',
             'feed' => 35
         );
@@ -149,7 +148,7 @@ class Creditmemo
         // draw Links
         foreach ($_purchasedItems as $_link) {
             $lines[][] = array(
-                'text' => $this->_getStringHelper()->str_split($_link->getLinkTitle(), 50, true, true),
+                'text' => $this->_stringHelper->str_split($_link->getLinkTitle(), 50, true, true),
                 'feed' => 40
             );
         }

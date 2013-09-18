@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block;
 
-class Page extends \Magento\Adminhtml\Block\Template
+class Page extends \Magento\Backend\Block\Template
 {
 
     protected $_template = 'admin/page.phtml';
@@ -28,16 +28,18 @@ class Page extends \Magento\Adminhtml\Block\Template
     protected $_storeManager;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
 

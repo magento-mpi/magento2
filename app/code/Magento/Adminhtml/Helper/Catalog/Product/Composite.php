@@ -19,7 +19,36 @@ namespace Magento\Adminhtml\Helper\Catalog\Product;
 
 class Composite extends \Magento\Core\Helper\AbstractHelper
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
      /**
+      * Catalog product
+      *
+      * @var \Magento\Catalog\Helper\Product
+      */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($context);
+    }
+
+    /**
      * Init layout of product configuration update result
      *
      * @param \Magento\Adminhtml\Controller\Action $controller
@@ -43,23 +72,23 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      */
     public function renderUpdateResult($controller, \Magento\Object $updateResult)
     {
-        \Mage::register('composite_update_result', $updateResult);
+        $this->_coreRegistry->register('composite_update_result', $updateResult);
 
         $this->_initUpdateResultLayout($controller);
         $controller->renderLayout();
     }
 
      /**
-     * Init composite product configuration layout
-     *
-     * $isOk - true or false, whether action was completed nicely or with some error
-     * If $isOk is FALSE (some error during configuration), so $productType must be null
-     *
-     * @param \Magento\Adminhtml\Controller\Action $controller
-     * @param bool $isOk
-     * @param string $productType
-     * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
-     */
+      * Init composite product configuration layout
+      *
+      * $isOk - true or false, whether action was completed nicely or with some error
+      * If $isOk is FALSE (some error during configuration), so $productType must be null
+      *
+      * @param \Magento\Adminhtml\Controller\Action  $controller
+      * @param bool $isOk
+      * @param string $productType
+      * @return \Magento\Adminhtml\Helper\Catalog\Product\Composite
+      */
     protected function _initConfigureResultLayout($controller, $isOk, $productType)
     {
         $update = $controller->getLayout()->getUpdate();
@@ -102,8 +131,8 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
             if (!$product->getId()) {
                 \Mage::throwException(__('The product is not loaded.'));
             }
-            \Mage::register('current_product', $product);
-            \Mage::register('product', $product);
+            $this->_coreRegistry->register('current_product', $product);
+            $this->_coreRegistry->register('product', $product);
 
             // Register customer we're working with
             $currentCustomer = $configureResult->getCurrentCustomer();
@@ -115,13 +144,13 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
                 }
             }
             if ($currentCustomer) {
-                \Mage::register('current_customer', $currentCustomer);
+                $this->_coreRegistry->register('current_customer', $currentCustomer);
             }
 
             // Prepare buy request values
             $buyRequest = $configureResult->getBuyRequest();
             if ($buyRequest) {
-                \Mage::helper('Magento\Catalog\Helper\Product')->prepareProductOptions($product, $buyRequest);
+                $this->_catalogProduct->prepareProductOptions($product, $buyRequest);
             }
 
             $isOk = true;
@@ -129,7 +158,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
         } catch (\Exception $e) {
             $isOk = false;
             $productType = null;
-            \Mage::register('composite_configure_result_error_message', $e->getMessage());
+            $this->_coreRegistry->register('composite_configure_result_error_message', $e->getMessage());
         }
 
         $this->_initConfigureResultLayout($controller, $isOk, $productType);

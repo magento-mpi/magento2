@@ -39,9 +39,10 @@ class Converter
      */
     protected $_encryptor;
 
-    public function __construct(array $data = array())
-    {
-        $this->_encryptor = isset($data['encryptor']) ? $data['encryptor'] : \Mage::helper('Magento\Core\Helper\Data');
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData
+    ) {
+        $this->_encryptor = $coreData;
     }
 
     /**

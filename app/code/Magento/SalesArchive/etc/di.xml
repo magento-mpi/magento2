@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\SalesArchive\Model\Archive">
+        <param name="eventManager">
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+    </type>
+</config>

@@ -50,18 +50,11 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 $tableAdmins     = $installer->getTable('admin_user');
-$tableApiUsers   = $installer->getTable('api_user');
 
 $installer->getConnection()->changeColumn($tableAdmins, 'password', 'password', array(
     'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
     'length'    => 100,
     'comment'   => 'User Password'
-));
-
-$installer->getConnection()->changeColumn($tableApiUsers, 'api_key', 'api_key', array(
-    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
-    'length'    => 100,
-    'comment'   => 'Api key'
 ));
 
 $installer->getConnection()->addColumn($tableAdmins, 'failures_num', array(

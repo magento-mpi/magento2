@@ -34,9 +34,9 @@ class Observer
     /**
      * Page Cache Config
      *
-     * @var \Magento\FullPageCache\Model\Config
+     * @var \Magento\FullPageCache\Model\Placeholder\Mapper
      */
-    protected $_config;
+    protected $_mapper;
 
     /**
      * Is Enabled Full Page Cache
@@ -84,27 +84,67 @@ class Observer
     protected $_designRules;
 
     /**
+     * Catalog product compare
+     *
+     * @var \Magento\Catalog\Helper\Product\Compare
+     */
+    protected $_ctlgProdCompare = null;
+
+    /**
+     * Wishlist data
+     *
+     * @var \Magento\Wishlist\Helper\Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Core url
+     *
+     * @var \Magento\Core\Helper\Url
+     */
+    protected $_coreUrl = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Catalog\Helper\Product\Compare $ctlgProdCompare
      * @param \Magento\FullPageCache\Model\Processor $processor
      * @param \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier
-     * @param \Magento\FullPageCache\Model\Config $config
+     * @param \Magento\FullPageCache\Model\Placeholder\Mapper $mapper
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Cookie $cookie
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\DesignPackage\Rules $designRules
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Catalog\Helper\Product\Compare $ctlgProdCompare,
         \Magento\FullPageCache\Model\Processor $processor,
         \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier,
-        \Magento\FullPageCache\Model\Config $config,
+        \Magento\FullPageCache\Model\Placeholder\Mapper $mapper,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Cookie $cookie,
         \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
-        \Magento\FullPageCache\Model\DesignPackage\Rules $designRules
+        \Magento\FullPageCache\Model\DesignPackage\Rules $designRules,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_coreUrl = $coreUrl;
+        $this->_wishlistData = $wishlistData;
+        $this->_ctlgProdCompare = $ctlgProdCompare;
         $this->_processor = $processor;
-        $this->_config    = $config;
+        $this->_mapper    = $mapper;
         $this->_cacheState = $cacheState;
         $this->_fpcCache = $fpcCache;
         $this->_cookie = $cookie;
@@ -223,7 +263,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $category = \Mage::registry('current_category');
+        $category = $this->_coreRegistry->registry('current_category');
         /**
          * Categories with category event can't be cached
          */
@@ -244,7 +284,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $product = \Mage::registry('current_product');
+        $product = $this->_coreRegistry->registry('current_product');
         /**
          * Categories with category event can't be cached
          */
@@ -330,7 +370,7 @@ class Observer
         }
         $block = $layout->getBlock($name);
         $transport = $event->getData('transport');
-        $placeholder = $this->_config->getBlockPlaceholder($block);
+        $placeholder = $this->_mapper->map($block);
         if ($transport && $placeholder && !$block->getSkipRenderTag()) {
             $blockHtml = $transport->getData('output');
             $blockHtml = $placeholder->getStartTag() . $blockHtml . $placeholder->getEndTag();
@@ -373,7 +413,7 @@ class Observer
             return $this;
         }
 
-        $listItems = \Mage::helper('Magento\Catalog\Helper\Product\Compare')->getItemCollection();
+        $listItems = $this->_ctlgProdCompare->getItemCollection();
         $previousList = $this->_cookie->get(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST);
         $previousList = (empty($previousList)) ? array() : explode(',', $previousList);
 
@@ -384,7 +424,7 @@ class Observer
         sort($ids);
         $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST, implode(',', $ids));
 
-        //Recenlty compared products processing
+        //Recently compared products processing
         $recentlyComparedProducts = $this->_cookie
             ->get(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED);
         $recentlyComparedProducts = (empty($recentlyComparedProducts)) ? array()
@@ -506,7 +546,7 @@ class Observer
         }
 
         $cookieValue = '';
-        foreach (\Mage::helper('Magento\Wishlist\Helper\Data')->getWishlistItemCollection() as $item) {
+        foreach ($this->_wishlistData->getWishlistItemCollection() as $item) {
             $cookieValue .= ($cookieValue ? '_' : '') . $item->getId();
         }
 
@@ -515,7 +555,7 @@ class Observer
 
         // Wishlist items count hash for top link
         $this->_cookie->setObscure(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS,
-            'wishlist_item_count_' . \Mage::helper('Magento\Wishlist\Helper\Data')->getItemCount());
+            'wishlist_item_count_' . $this->_wishlistData->getItemCount());
 
         return $this;
     }
@@ -644,10 +684,11 @@ class Observer
         $httpHost = \Mage::app()->getFrontController()->getRequest()->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
         if ($httpHost != $urlHost && \Mage::getSingleton('Magento\Core\Model\Session')->getMessages()->count() > 0) {
-            $transport->setUrl(\Mage::helper('Magento\Core\Helper\Url')->addRequestParam(
-                $url,
-                array(\Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM => null)
-            ));
+            $transport->setUrl(
+                $this->_coreUrl->addRequestParam($url, array(
+                    \Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM => null
+                ))
+            );
         }
         return $this;
     }

@@ -25,7 +25,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
 
     public function testSetForm()
     {
-        $this->_virtual = new \Magento\Object();
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
+            array(), '', false);
+
+        $form = new \Magento\Data\Form($factory, $collectionFactory);
 
         $helper = $this->getMock('Magento\Catalog\Helper\Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
@@ -33,24 +38,30 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
         $helper->expects($this->any())->method('getTypeSwitcherControlLabel')
             ->will($this->returnValue('Virtual / Downloadable'));
 
-        $this->assertNull($this->_virtual->getId());
-        $this->assertNull($this->_virtual->getName());
-        $this->assertNull($this->_virtual->getLabel());
-        $this->assertNull($this->_virtual->getForm());
+        $this->_virtual = $this->getMock('Magento\Data\Form\Element\Checkbox',
+            array('setId', 'setName', 'setLabel', 'setForm'),
+            array(), '', false, false);
+        $this->_virtual->expects($this->any())
+            ->method('setId')
+            ->will($this->returnSelf());
+        $this->_virtual->expects($this->any())
+            ->method('setName')
+            ->will($this->returnSelf());
+        $this->_virtual->expects($this->any())
+            ->method('setLabel')
+            ->will($this->returnSelf());
+        $this->_virtual->expects($this->any())
+            ->method('setForm')
+            ->with($this->equalTo($form))
+            ->will($this->returnSelf());
 
-        $this->_model = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight(
-            array('element' => $this->_virtual, 'helper' => $helper)
-        );
+        $factory->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo('checkbox'))
+            ->will($this->returnValue($this->_virtual));
 
-        $form = new \Magento\Data\Form();
+        $this->_model = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight($coreHelper, $factory,
+            $collectionFactory, $helper);
         $this->_model->setForm($form);
-
-        $this->assertEquals(
-            \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight::VIRTUAL_FIELD_HTML_ID,
-            $this->_virtual->getId()
-        );
-        $this->assertEquals('is_virtual', $this->_virtual->getName());
-        $this->assertEquals('Virtual / Downloadable', $this->_virtual->getLabel());
-        $this->assertSame($form, $this->_virtual->getForm());
     }
 }

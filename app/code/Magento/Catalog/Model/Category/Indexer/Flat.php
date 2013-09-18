@@ -48,11 +48,36 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      *
      * @return bool
      */
+    /**
+     * Catalog category flat
+     *
+     * @var \Magento\Catalog\Helper\Category\Flat
+     */
+    protected $_catalogCategoryFlat = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     public function isVisible()
     {
-        /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
-        $categoryFlatHelper = \Mage::helper('Magento\Catalog\Helper\Category\Flat');
-        return $categoryFlatHelper->isEnabled() || !$categoryFlatHelper->isBuilt();
+        return $this->_catalogCategoryFlat->isEnabled() || !$this->_catalogCategoryFlat->isBuilt();
     }
 
     /**
@@ -95,9 +120,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function matchEvent(\Magento\Index\Model\Event $event)
     {
-        /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
-        $categoryFlatHelper = \Mage::helper('Magento\Catalog\Helper\Category\Flat');
-        if (!$categoryFlatHelper->isAvailable() || !$categoryFlatHelper->isBuilt()) {
+        if (!$this->_catalogCategoryFlat->isAvailable() || !$this->_catalogCategoryFlat->isBuilt()) {
             return false;
         }
 

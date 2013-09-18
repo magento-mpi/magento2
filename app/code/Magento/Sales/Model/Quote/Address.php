@@ -168,7 +168,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Total models collector
      *
-     * @var Magento_Sales_Model_Quote_Address_Totla_Collector
+     * @var \Magento\Sales\Model\Quote\Address\Total\Collector
      */
     protected $_totalCollector = null;
 
@@ -195,6 +195,37 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @var bool
      */
     protected $_nominalOnly = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($eventManager, $directoryData, $context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize resource
@@ -283,7 +314,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function importCustomerAddress(\Magento\Customer\Model\Address $address)
     {
-        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
+        $this->_coreData->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
         $email = null;
         if ($address->hasEmail()) {
             $email =  $address->getEmail();
@@ -304,8 +335,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function exportCustomerAddress()
     {
         $address = \Mage::getModel('Magento\Customer\Model\Address');
-        \Mage::helper('Magento\Core\Helper\Data')
-            ->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
+        $this->_coreData
+            ->copyFieldsetToTarget('sales_convert_quote_address', 'to_customer_address', $this, $address);
         return $address;
     }
 
@@ -322,8 +353,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             ->setCustomerAddressId($address->getCustomerAddressId())
             ->setEmail($address->getEmail());
 
-        \Mage::helper('Magento\Core\Helper\Data')
-            ->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $this);
+        $this->_coreData
+            ->copyFieldsetToTarget('sales_convert_order_address', 'to_quote_address', $address, $this);
 
         return $this;
     }
@@ -919,11 +950,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function collectTotals()
     {
-        \Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
         foreach ($this->getTotalCollector()->getCollectors() as $model) {
             $model->collect($this);
         }
-        \Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
         return $this;
     }
 
@@ -943,14 +974,14 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Add total data or model
      *
-     * @param Magento_Sales_Model_Quote_Total|array $total
+     * @param \Magento\Sales\Model\Quote\Total|array $total
      * @return \Magento\Sales\Model\Quote\Address
      */
     public function addTotal($total)
     {
         if (is_array($total)) {
             $totalInstance = \Mage::getModel('Magento\Sales\Model\Quote\Address\Total')->setData($total);
-        } elseif ($total instanceof Magento_Sales_Model_Quote_Total) {
+        } elseif ($total instanceof \Magento\Sales\Model\Quote\Total) {
             $totalInstance = $total;
         }
         $totalInstance->setAddress($this);

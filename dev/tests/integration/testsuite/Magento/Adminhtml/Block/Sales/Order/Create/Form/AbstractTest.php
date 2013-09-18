@@ -24,7 +24,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $arguments = array($objectManager->get('Magento\Backend\Block\Template\Context'));
+        $arguments = array(
+            $objectManager->get('Magento\Data\Form\Factory'),
+            $objectManager->get('Magento\Core\Helper\Data'),
+            $objectManager->get('Magento\Backend\Block\Template\Context'),
+        );
         /** @var $block \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm */
         $block = $this->getMockForAbstractClass(
             'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
@@ -34,7 +38,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 
-        $form = new \Magento\Data\Form();
+        $form = Mage::getObjectManager()->create('Magento\Data\Form');
         $fieldset = $form->addFieldset('test_fieldset', array());
         $arguments = array(
             'data' => array(

@@ -22,7 +22,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Webapi\Model\Resource\Acl\User|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_userResource;
+    protected $_userService;
 
     protected function setUp()
     {
@@ -33,17 +33,17 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
 
-        $this->_userResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\User')
+        $this->_userService = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\User')
             ->disableOriginalConstructor()
             ->setMethods(array('getIdFieldName', 'getRoleUsers', 'load', 'getReadConnection'))
             ->getMock();
 
-        $this->_userResource->expects($this->any())
+        $this->_userService->expects($this->any())
             ->method('getIdFieldName')
             ->withAnyParameters()
             ->will($this->returnValue('id'));
 
-        $this->_userResource->expects($this->any())
+        $this->_userService->expects($this->any())
             ->method('getReadConnection')
             ->withAnyParameters()
             ->will($this->returnValue($this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false)));
@@ -52,17 +52,17 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Create User model.
      *
-     * @param \Magento\Webapi\Model\Resource\Acl\User $userResource
-     * @param \Magento\Webapi\Model\Resource\Acl\User\Collection $resourceCollection
+     * @param \Magento\Webapi\Model\Resource\Acl\User $userService
+     * @param \Magento\Webapi\Model\Resource\Acl\User_Collection $serviceCollection
      * @return \Magento\Webapi\Model\Acl\User
      */
-    protected function _createModel($userResource, $resourceCollection = null)
+    protected function _createModel($userService, $serviceCollection = null)
     {
         return $this->_helper->getObject('Magento\Webapi\Model\Acl\User', array(
             'eventDispatcher' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
-            'resource' => $userResource,
-            'resourceCollection' => $resourceCollection
+            'resource' => $userService,
+            'resourceCollection' => $serviceCollection
         ));
     }
 
@@ -71,7 +71,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
-        $model = $this->_createModel($this->_userResource);
+        $model = $this->_createModel($this->_userService);
 
         $this->assertAttributeEquals('Magento\Webapi\Model\Resource\Acl\User', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
@@ -82,12 +82,12 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRoleUsers()
     {
-        $this->_userResource->expects($this->once())
+        $this->_userService->expects($this->once())
             ->method('getRoleUsers')
             ->with(1)
             ->will($this->returnValue(array(1)));
 
-        $model = $this->_createModel($this->_userResource);
+        $model = $this->_createModel($this->_userService);
 
         $result = $model->getRoleUsers(1);
 
@@ -99,12 +99,12 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadByKey()
     {
-        $this->_userResource->expects($this->once())
+        $this->_userService->expects($this->once())
             ->method('load')
             ->with($this->anything(), 'key', 'api_key')
             ->will($this->returnSelf());
 
-        $model = $this->_createModel($this->_userResource);
+        $model = $this->_createModel($this->_userService);
 
         $result = $model->loadByKey('key');
         $this->assertInstanceOf('Magento\Webapi\Model\Acl\User', $result);
@@ -115,7 +115,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testPublicGetters()
     {
-        $model = $this->_createModel($this->_userResource);
+        $model = $this->_createModel($this->_userService);
 
         $model->setData('secret', 'secretKey');
 
@@ -128,18 +128,19 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
             'Magento\Webapi\Model\Resource\Acl\User\Collection',
             array('_initSelect', 'setModel'),
-            array($fetchStrategy, $this->_userResource)
+            array($eventManager, $fetchStrategy, $this->_userService)
         );
 
         $collection->expects($this->any())->method('setModel')->with('Magento\Webapi\Model\Acl\User');
 
-        $model = $this->_createModel($this->_userResource, $collection);
+        $model = $this->_createModel($this->_userService, $collection);
         $result = $model->getCollection();
 
         $this->assertAttributeEquals('Magento\Webapi\Model\Resource\Acl\User', '_resourceModel', $result);

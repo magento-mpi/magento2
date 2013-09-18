@@ -8,26 +8,39 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog product price block
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Product\View;
 
- class Price extends \Magento\Core\Block\Template
- {
+class Price extends \Magento\Core\Block\Template
+{
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getPrice()
     {
-        $product = \Mage::registry('product');
-        /*if($product->isConfigurable()) {
-            $price = $product->getCalculatedPrice((array)$this->getRequest()->getParam('super_attribute', array()));
-            return \Mage::app()->getStore()->formatPrice($price);
-        }*/
-
+        $product = $this->_coreRegistry->registry('product');
         return $product->getFormatedPrice();
     }
- }
+}

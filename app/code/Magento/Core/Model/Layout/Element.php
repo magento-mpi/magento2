@@ -44,7 +44,6 @@ class Element extends \Magento\Simplexml\Element
                 $this->prepareActionArgument($args);
                 break;
         }
-        $children = $this->children();
         foreach ($this as $child) {
             $child->prepare($args);
         }
@@ -95,13 +94,6 @@ class Element extends \Magento\Simplexml\Element
 
     public function prepareBlock($args)
     {
-        $type = (string)$this['type'];
-
-        $className = (string)$this['class'];
-        if (!$className) {
-            $this->addAttribute('class', $type);
-        }
-
         $parent = $this->getParent();
         if (isset($parent['name']) && !isset($this['parent'])) {
             $this->addAttribute('parent', (string)$parent['name']);

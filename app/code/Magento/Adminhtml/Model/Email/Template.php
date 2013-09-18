@@ -27,6 +27,7 @@ class Template extends \Magento\Core\Model\Email\Template
 
     /**
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
@@ -36,6 +37,7 @@ class Template extends \Magento\Core\Model\Email\Template
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
@@ -44,7 +46,7 @@ class Template extends \Magento\Core\Model\Email\Template
         array $data = array()
     ) {
         $this->_config = $config;
-        parent::__construct($context, $filesystem, $viewUrl, $viewFileSystem, $design, $data);
+        parent::__construct($context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $data);
     }
 
     /**
@@ -90,7 +92,6 @@ class Template extends \Magento\Core\Model\Email\Template
         }
         return $output;
     }
-
 
     /**
      * Collect all system config paths where current template is currently used

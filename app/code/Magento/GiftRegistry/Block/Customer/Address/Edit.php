@@ -28,7 +28,7 @@ namespace Magento\GiftRegistry\Block\Customer\Address;
      */
     public function getEntity()
     {
-        return \Mage::registry('magento_giftregistry_entity');
+        return $this->_coreRegistry->registry('magento_giftregistry_entity');
     }
 
     /**
@@ -38,7 +38,7 @@ namespace Magento\GiftRegistry\Block\Customer\Address;
      */
     public function getAddress()
     {
-        return \Mage::registry('magento_giftregistry_address');
+        return $this->_coreRegistry->registry('magento_giftregistry_address');
     }
 
     /**

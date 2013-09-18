@@ -27,15 +27,29 @@ class Button extends \Magento\Core\Block\Template
     protected $_wishlistConfig;
 
     /**
+     * Wishlist data
+     *
+     * @var \Magento\Wishlist\Helper\Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context, \Magento\Wishlist\Model\Config $wishlistConfig, array $data = array()
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Wishlist\Model\Config $wishlistConfig,
+        array $data = array()
     ) {
+        $this->_wishlistData = $wishlistData;
         $this->_wishlistConfig = $wishlistConfig;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -45,7 +59,7 @@ class Button extends \Magento\Core\Block\Template
      */
     public function getWishlist()
     {
-        return \Mage::helper('Magento\Wishlist\Helper\Data')->getWishlist();
+        return $this->_wishlistData->getWishlist();
     }
 
     /**

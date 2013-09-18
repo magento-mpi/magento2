@@ -64,16 +64,16 @@ class Account extends \Magento\Customer\Controller\Account
      */
     protected function _initInvitation()
     {
-        if (!\Mage::registry('current_invitation')) {
+        if (!$this->_coreRegistry->registry('current_invitation')) {
             $invitation = \Mage::getModel('Magento\Invitation\Model\Invitation');
             $invitation
-                ->loadByInvitationCode(\Mage::helper('Magento\Core\Helper\Data')->urlDecode(
+                ->loadByInvitationCode($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
                 ))
                 ->makeSureCanBeAccepted();
-            \Mage::register('current_invitation', $invitation);
+            $this->_coreRegistry->register('current_invitation', $invitation);
         }
-        return \Mage::registry('current_invitation');
+        return $this->_coreRegistry->registry('current_invitation');
     }
 
     /**
@@ -82,12 +82,12 @@ class Account extends \Magento\Customer\Controller\Account
     public function createAction()
     {
         try {
-            $invitation = $this->_initInvitation();
+            $this->_initInvitation();
             $this->loadLayout();
             $this->_initLayoutMessages('Magento\Customer\Model\Session');
             $this->renderLayout();
             return;
-        }
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -104,24 +104,21 @@ class Account extends \Magento\Customer\Controller\Account
 
             $customer = \Mage::getModel('Magento\Customer\Model\Customer')
                 ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
-            \Mage::register('current_customer', $customer);
+            $this->_coreRegistry->register('current_customer', $customer);
 
-            if ($groupId = $invitation->getGroupId()) {
+            $groupId = $invitation->getGroupId();
+            if ($groupId) {
                 $customer->setGroupId($groupId);
             }
 
             parent::createPostAction();
 
-            if ($customerId = $customer->getId()) {
+            $customerId = $customer->getId();
+            if ($customerId) {
                 $invitation->accept(\Mage::app()->getWebsite()->getId(), $customerId);
-
-                $this->_eventManager->dispatch('magento_invitation_customer_accepted', array(
-                   'customer' => $customer,
-                   'invitation' => $invitation
-                ));
             }
             return;
-        }
+        } catch (\Magento\Core\Exception $e) {
         catch (\Magento\Core\Exception $e) {
             $_definedErrorCodes = array(
                 \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,
@@ -131,22 +128,21 @@ class Account extends \Magento\Customer\Controller\Account
                 $this->_getSession()->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             } else {
-                if (\Mage::helper('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
+                if ($this->_objectManager->get('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
                     $this->_getSession()->addError(
                         __('Your invitation is not valid. Please create an account.')
                     );
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
-                    $this->_getSession()->addError(
-                        __('Your invitation is not valid. Please contact us at %1.', \Mage::getStoreConfig('trans_email/ident_support/email'))
+                    $this->_getSession()->addError(__('Your invitation is not valid. Please contact us at %1.',
+                            \Mage::getStoreConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');
                     return;
                 }
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
                 ->addException($e, __('Unable to save the customer.'));
         }

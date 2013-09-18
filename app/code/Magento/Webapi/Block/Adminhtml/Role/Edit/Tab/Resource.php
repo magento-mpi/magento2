@@ -17,7 +17,12 @@ namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
 class Resource extends \Magento\Backend\Block\Widget\Form
 {
     /**
-     * @var \Magento\Acl\Resource\ProviderInterface
+     * Web API ACL resources tree root ID.
+     */
+    const RESOURCES_TREE_ROOT_ID = '__root__';
+
+    /**
+     * @var Magento_Acl_Resource_ProviderInterface
      */
     protected $_resourceProvider;
 
@@ -44,6 +49,7 @@ class Resource extends \Magento\Backend\Block\Widget\Form
     protected $_rootResource;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Acl\Resource\ProviderInterface $resourceProvider
      * @param \Magento\Webapi\Model\Resource\Acl\Rule $ruleResource
@@ -51,13 +57,14 @@ class Resource extends \Magento\Backend\Block\Widget\Form
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Acl\Resource\ProviderInterface $resourceProvider,
         \Magento\Webapi\Model\Resource\Acl\Rule $ruleResource,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_resourceProvider = $resourceProvider;
         $this->_ruleResource = $ruleResource;
         $this->_rootResource = $rootResource;
@@ -70,13 +77,8 @@ class Resource extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var $translator \Magento\Webapi\Helper\Data */
-        $translator = $this->helper('Magento\Webapi\Helper\Data');
         $resources = $this->_resourceProvider->getAclResources();
-        $this->_aclResourcesTree = $this->_mapResources(
-            $resources[1]['children'],
-            $translator
-        );
+        $this->_aclResourcesTree = $this->_mapResources($resources[1]['children']);
         return parent::_prepareForm();
     }
 
@@ -84,22 +86,21 @@ class Resource extends \Magento\Backend\Block\Widget\Form
      * Map resources
      *
      * @param array $resources
-     * @param \Magento\Webapi\Helper\Data $translator
      * @return array
      */
-    protected function _mapResources(array $resources, \Magento\Webapi\Helper\Data $translator)
+    protected function _mapResources(array $resources)
     {
         $output = array();
         foreach ($resources as $resource) {
             $item = array();
             $item['id'] = $resource['id'];
-            $item['text'] = __($resource['title']);
+            $item['text'] = __($resource['title'])->__toString();
             if (in_array($item['id'], $this->_getSelectedResourcesIds())) {
                 $item['checked'] = true;
             }
             $item['children'] = array();
             if (isset($resource['children'])) {
-                $item['children'] = $this->_mapResources($resource['children'], $translator);
+                $item['children'] = $this->_mapResources($resource['children']);
             }
             $output[] = $item;
         }

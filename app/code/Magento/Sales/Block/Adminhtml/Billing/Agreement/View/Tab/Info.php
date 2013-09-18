@@ -21,6 +21,29 @@ class Info extends \Magento\Backend\Block\Template
     protected $_template = 'billing/agreement/view/tab/info.phtml';
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Return Tab label
      *
      * @return string
@@ -67,7 +90,7 @@ class Info extends \Magento\Backend\Block\Template
      */
     protected function _getBillingAgreement()
     {
-        return \Mage::registry('current_billing_agreement');
+        return $this->_coreRegistry->registry('current_billing_agreement');
     }
 
     /**

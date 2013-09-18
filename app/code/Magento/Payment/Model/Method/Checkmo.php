@@ -13,7 +13,6 @@ namespace Magento\Payment\Model\Method;
 
 class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
 {
-
     protected $_code  = 'checkmo';
     protected $_formBlockType = 'Magento\Payment\Block\Form\Checkmo';
     protected $_infoBlockType = 'Magento\Payment\Block\Info\Checkmo';

@@ -14,22 +14,21 @@ namespace Magento\Webhook\Model\Resource\Subscription\Grid;
 class Collection
     extends \Magento\Webhook\Model\Resource\Subscription\Collection
 {
-
     /**
-     * Collection constructor
-     *
-     * @param \Magento\Webhook\Model\Subscription\Config $subscriptionConfig
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Webhook_Model_Subscription_Config $subscriptionConfig
      * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Webhook\Model\Subscription\Config $subscriptionConfig,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        parent::__construct($fetchStrategy, $endpointResource, $resource);
+        parent::__construct($endpointResource, $eventManager, $fetchStrategy, $resource);
         $subscriptionConfig->updateSubscriptionCollection();
     }
 }

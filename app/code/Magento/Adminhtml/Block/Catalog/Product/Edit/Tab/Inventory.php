@@ -20,27 +20,51 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     protected $_template = 'catalog/product/tab/inventory.phtml';
 
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_catalogData = $catalogData;
+        $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
     }
 
     public function getBackordersOption()
     {
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Backorders')->toOptionArray();
         }
 
@@ -54,7 +78,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
      */
     public function getStockOption()
     {
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Stock')->toOptionArray();
         }
 
@@ -68,7 +92,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
      */
     public function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**

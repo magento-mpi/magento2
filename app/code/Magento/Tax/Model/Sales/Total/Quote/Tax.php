@@ -20,7 +20,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @var \Magento\Tax\Helper\Data
      */
-    protected $_helper;
+    protected $_taxData;
 
     /**
      * Tax calculation model
@@ -60,10 +60,11 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Class constructor
      */
-    public function __construct()
-    {
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData
+    ) {
         $this->setCode('tax');
-        $this->_helper      = \Mage::helper('Magento\Tax\Helper\Data');
+        $this->_taxData = $taxData;
         $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculation');
         $this->_config      = \Mage::getSingleton('Magento\Tax\Model\Config');
     }
@@ -203,7 +204,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $hiddenTax      = null;
         $baseHiddenTax  = null;
-        switch ($this->_helper->getCalculationSequence($this->_store)) {
+        switch ($this->_taxData->getCalculationSequence($this->_store)) {
             case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
             case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $tax        = $this->_calculator->calcTaxAmount($shipping, $rate, $inclTax, false);
@@ -473,7 +474,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $hiddenTax      = null;
         $baseHiddenTax  = null;
-        switch ($this->_helper->getCalculationSequence($this->_store)) {
+        switch ($this->_taxData->getCalculationSequence($this->_store)) {
             case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
             case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax     = $this->_calculator->calcTaxAmount($subtotal, $rate, $inclTax);
@@ -608,7 +609,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $hiddenTax      = null;
         $baseHiddenTax  = null;
-        switch ($this->_helper->getCalculationSequence($this->_store)) {
+        switch ($this->_taxData->getCalculationSequence($this->_store)) {
             case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
             case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, $inclTax, false);
@@ -616,7 +617,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 break;
             case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
             case \Magento\Tax\Model\Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
-                if ($this->_helper->applyTaxOnOriginalPrice($this->_store)) {
+                if ($this->_taxData->applyTaxOnOriginalPrice($this->_store)) {
                     $discount           = $item->getOriginalDiscountAmount();
                     $baseDiscount       = $item->getBaseOriginalDiscountAmount();
                 } else {
@@ -841,7 +842,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     public function processConfigArray($config, $store)
     {
-        $calculationSequence = $this->_helper->getCalculationSequence($store);
+        $calculationSequence = $this->_taxData->getCalculationSequence($store);
          switch ($calculationSequence) {
             case \Magento\Tax\Model\Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $config['before'][] = 'discount';

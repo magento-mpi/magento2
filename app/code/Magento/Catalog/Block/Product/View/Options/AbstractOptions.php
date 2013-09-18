@@ -35,6 +35,29 @@ abstract class AbstractOptions extends \Magento\Core\Block\Template
     protected $_option;
 
     /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set Product object
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -101,7 +124,6 @@ abstract class AbstractOptions extends \Magento\Core\Block\Template
             return '';
         }
 
-        $taxHelper = \Mage::helper('Magento\Tax\Helper\Data');
         $store = $this->getProduct()->getStore();
 
         $sign = '+';
@@ -113,11 +135,11 @@ abstract class AbstractOptions extends \Magento\Core\Block\Template
         $priceStr = $sign;
         $_priceInclTax = $this->getPrice($value['pricing_value'], true);
         $_priceExclTax = $this->getPrice($value['pricing_value']);
-        if ($taxHelper->displayPriceIncludingTax()) {
+        if ($this->_taxData->displayPriceIncludingTax()) {
             $priceStr .= $this->helper('Magento\Core\Helper\Data')->currencyByStore($_priceInclTax, $store, true, $flag);
-        } elseif ($taxHelper->displayPriceExcludingTax()) {
+        } elseif ($this->_taxData->displayPriceExcludingTax()) {
             $priceStr .= $this->helper('Magento\Core\Helper\Data')->currencyByStore($_priceExclTax, $store, true, $flag);
-        } elseif ($taxHelper->displayBothPrices()) {
+        } elseif ($this->_taxData->displayBothPrices()) {
             $priceStr .= $this->helper('Magento\Core\Helper\Data')->currencyByStore($_priceExclTax, $store, true, $flag);
             if ($_priceInclTax != $_priceExclTax) {
                 $priceStr .= ' ('.$sign.$this->helper('Magento\Core\Helper\Data')
@@ -142,9 +164,9 @@ abstract class AbstractOptions extends \Magento\Core\Block\Template
     public function getPrice($price, $includingTax = null)
     {
         if (!is_null($includingTax)) {
-            $price = \Mage::helper('Magento\Tax\Helper\Data')->getPrice($this->getProduct(), $price, true);
+            $price = $this->_taxData->getPrice($this->getProduct(), $price, true);
         } else {
-            $price = \Mage::helper('Magento\Tax\Helper\Data')->getPrice($this->getProduct(), $price);
+            $price = $this->_taxData->getPrice($this->getProduct(), $price);
         }
         return $price;
     }

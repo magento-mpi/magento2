@@ -54,14 +54,29 @@ class Indexer
 
 
     /**
+     * Search data
+     *
+     * @var \Magento\Search\Helper\Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * @param \Magento\Search\Helper\Data $searchData
+     */
+    public function __construct(
+        \Magento\Search\Helper\Data $searchData
+    ) {
+        $this->_searchData = $searchData;
+    }
+
+    /**
      * Reindex of catalog search fulltext index using search engine
      *
      * @return \Magento\Search\Model\Indexer\Indexer
      */
     public function reindexAll()
     {
-        $helper = \Mage::helper('Magento\Search\Helper\Data');
-        if ($helper->isThirdPartyEngineAvailable()) {
+        if ($this->_searchData->isThirdPartyEngineAvailable()) {
             /* Change index status to running */
             $indexProcess = \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalogsearch_fulltext');
             if ($indexProcess) {

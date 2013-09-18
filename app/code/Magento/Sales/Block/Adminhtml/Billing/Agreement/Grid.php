@@ -18,6 +18,33 @@ namespace Magento\Sales\Block\Adminhtml\Billing\Agreement;
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set grid params
      */
     protected function _construct()
@@ -108,7 +135,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header'            => __('Payment Method'),
             'index'             => 'method_code',
             'type'              => 'options',
-            'options'           => \Mage::helper('Magento\Payment\Helper\Data')->getAllBillingAgreementMethods(),
+            'options'           => $this->_paymentData->getAllBillingAgreementMethods(),
             'header_css_class'  => 'col-payment',
             'column_css_class'  => 'col-payment'
         ));

@@ -20,7 +20,7 @@ class Design extends \Magento\Adminhtml\Block\Catalog\Form
     public function getCategory()
     {
         if (!$this->_category) {
-            $this->_category = \Mage::registry('category');
+            $this->_category = $this->_coreRegistry->registry('category');
         }
         return $this->_category;
     }
@@ -28,7 +28,8 @@ class Design extends \Magento\Adminhtml\Block\Catalog\Form
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Custom Design')));

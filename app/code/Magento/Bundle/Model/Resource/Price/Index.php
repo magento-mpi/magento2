@@ -42,6 +42,27 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_customerGroups;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Class constructor
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define main table
      *
      */
@@ -357,7 +378,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
             'store_id'     => $store->getId()
         );
 
-        \Mage::dispatchEvent('catalog_product_prepare_index_select', array(
+        $this->_eventManager->dispatch('catalog_product_prepare_index_select', array(
             'website'   => $website,
             'select'    => $select,
             'bind'      => $bind

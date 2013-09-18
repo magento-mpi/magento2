@@ -65,7 +65,9 @@ class Creditmemo
 
     /**
      * Initialize requested invoice instance
+     *
      * @param unknown_type $order
+     * @return bool
      */
     protected function _initInvoice($order)
     {
@@ -84,6 +86,7 @@ class Creditmemo
     /**
      * Initialize creditmemo model instance
      *
+     * @param bool $update
      * @return \Magento\Sales\Model\Order\Creditmemo
      */
     protected function _initCreditmemo($update = false)
@@ -94,7 +97,8 @@ class Creditmemo
         $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
         $orderId = $this->getRequest()->getParam('order_id');
         if ($creditmemoId) {
-            $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
+            $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')
+                ->load($creditmemoId);
         } elseif ($orderId) {
             $data   = $this->getRequest()->getParam('creditmemo');
             $order  = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
@@ -145,8 +149,10 @@ class Creditmemo
             }
         }
 
-        $args = array('creditmemo' => $creditmemo, 'request' => $this->getRequest());
-        $this->_eventManager->dispatch('adminhtml_sales_order_creditmemo_register_before', $args);
+        $this->_eventManager->dispatch('adminhtml_sales_order_creditmemo_register_before', array(
+            'creditmemo' => $creditmemo,
+            'request' => $this->getRequest(),
+        ));
 
         $this->_objectManager->get('Magento\Core\Model\Registry')->register('current_creditmemo', $creditmemo);
         return $creditmemo;
@@ -154,7 +160,9 @@ class Creditmemo
 
     /**
      * Save creditmemo and related order, invoice in one transaction
+     *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return $this
      */
     protected function _saveCreditmemo($creditmemo)
     {
@@ -241,13 +249,13 @@ class Creditmemo
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot update the item\'s quantity.')
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -396,13 +404,13 @@ class Creditmemo
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot add new comment.')
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

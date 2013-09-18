@@ -45,6 +45,27 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
+     * Adminhtml data
+     *
+     * @var \Magento\Adminhtml\Helper\Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_backendData = $backendData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Customize default operator input by type mapper for some types
      *
      * @return array
@@ -366,7 +387,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
             default:
                 break;
         }
-        return $url !== false ? \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl($url) : '';
+        return $url !== false ? $this->_backendData->getUrl($url) : '';
     }
 
     /**

@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Theme;
 class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
 {
     /**
-     * @var Magento_Core_Model_Resource_Theme_File_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\File\CollectionFactory
      */
     protected $_fileFactory;
 

@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml invoice items grid
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Sales\Order\Invoice\Create;
@@ -21,6 +17,31 @@ namespace Magento\Adminhtml\Block\Sales\Order\Invoice\Create;
 class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     protected $_disableSubmitButton = false;
+
+    /**
+     * Sales data
+     *
+     * @var \Magento\Sales\Helper\Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_salesData = $salesData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
 
     /**
      * Prepare child blocks
@@ -99,7 +120,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function getInvoice()
     {
-        return \Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     /**
@@ -119,14 +140,14 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function getOrderTotalbarData()
     {
-        $totalbarData = array();
         $this->setPriceDataObject($this->getInvoice()->getOrder());
+
+        $totalbarData = array();
         $totalbarData[] = array(__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false);
         $totalbarData[] = array(__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false);
         $totalbarData[] = array(__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false);
         $totalbarData[] = array(__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
         $totalbarData[] = array(__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
-
         return $totalbarData;
     }
 
@@ -197,6 +218,6 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 
     public function canSendInvoiceEmail()
     {
-        return \Mage::helper('Magento\Sales\Helper\Data')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
+        return $this->_salesData->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
     }
 }

@@ -23,10 +23,14 @@ class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework
     {
         parent::setUp();
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = $this->getMock('Magento\Catalog\Model\Product', array('getAttributes'), array(), '', false);
+        $product = $this->getMock(
+            'Magento\Catalog\Model\Product', array('getAttributes', '__wakeup'), array(), '', false
+        );
         $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
         $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
-        Mage::register('current_product', $product);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
         $this->_block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit');
     }
 

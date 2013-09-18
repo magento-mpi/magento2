@@ -44,16 +44,18 @@ class Edit extends \Magento\Backend\Block\Widget
     protected $_configStructure;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_configStructure = $configStructure;
     }
 

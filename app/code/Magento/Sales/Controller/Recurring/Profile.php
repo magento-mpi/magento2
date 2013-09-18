@@ -22,6 +22,25 @@ class Profile extends \Magento\Core\Controller\Front\Action
     protected $_session = null;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Make sure customer is logged in and put it into registry
      */
     public function preDispatch()
@@ -34,7 +53,7 @@ class Profile extends \Magento\Core\Controller\Front\Action
         if (!$this->_session->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
-        \Mage::register('current_customer', $this->_session->getCustomer());
+        $this->_coreRegistry->register('current_customer', $this->_session->getCustomer());
     }
 
     /**
@@ -57,32 +76,6 @@ class Profile extends \Magento\Core\Controller\Front\Action
     }
 
     /**
-     * Profile history view
-     */
-// TODO: implement
-//    public function historyAction()
-//    {
-//        $this->_viewAction();
-//    }
-
-    /**
-     * Profile related orders view
-     */
-    public function ordersAction()
-    {
-        $this->_viewAction();
-    }
-
-    /**
-     * Profile payment gateway info view
-     */
-// TODO: implement
-//    public function vendorAction()
-//    {
-//        $this->_viewAction();
-//    }
-
-    /**
      * Attempt to set profile state
      */
     public function updateStateAction()
@@ -100,6 +93,8 @@ class Profile extends \Magento\Core\Controller\Front\Action
                     break;
                 case 'activate':
                     $profile->activate();
+                    break;
+                default:
                     break;
             }
             $this->_session->addSuccess(__('The profile state has been updated.'));
@@ -176,11 +171,12 @@ class Profile extends \Magento\Core\Controller\Front\Action
      */
     protected function _initProfile()
     {
-        $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
+        $profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')
+            ->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
             \Mage::throwException(__('We can\'t find the profile you specified.'));
         }
-        \Mage::register('current_recurring_profile', $profile);
+        $this->_coreRegistry->register('current_recurring_profile', $profile);
         return $profile;
     }
 }

@@ -27,6 +27,29 @@ class Info extends \Magento\Core\Block\Template
     protected $_rewardInstance = null;
 
     /**
+     * Reward data
+     *
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Render if all there is a customer and a balance
      *
      * @return string
@@ -52,7 +75,7 @@ class Info extends \Magento\Core\Block\Template
      */
     protected function _prepareTemplateData()
     {
-        $helper = \Mage::helper('Magento\Reward\Helper\Data');
+        $helper = $this->_rewardData;
         $maxBalance = (int)$helper->getGeneralConfig('max_points_balance');
         $minBalance = (int)$helper->getGeneralConfig('min_points_balance');
         $balance = $this->_rewardInstance->getPointsBalance();

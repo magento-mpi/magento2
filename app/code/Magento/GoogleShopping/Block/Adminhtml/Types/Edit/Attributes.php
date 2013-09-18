@@ -167,7 +167,7 @@ class Attributes
      */
     public function jsonFormat($data)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**

@@ -16,13 +16,42 @@ namespace Magento\Core\Model\Factory;
 class Helper
 {
     /**
-     * Get helper object
-     *
-     * @param  string $className
-     * @return \Magento\Core\Helper\AbstractHelper
+     * @var \Magento\ObjectManager
      */
-    public function get($className)
+    protected $_objectManager;
+
+    /**
+     * @param \Magento\ObjectManager $objectManager
+     */
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
-        return \Mage::helper($className);
+        $this->_objectManager = $objectManager;
+    }
+
+    /**
+     * Get helper singleton
+     *
+     * @param string $className
+     * @param array $arguments
+     * @return \Magento\Core\Helper\AbstractHelper
+     * @throws \LogicException
+     */
+    public function get($className, array $arguments = array())
+    {
+        $className = str_replace('_', '\\', $className);
+        /* Default helper class for a module */
+        if (strpos($className, '\Helper\\') === false) {
+            $className .= '\Helper\Data';
+        }
+
+        $helper = $this->_objectManager->get($className, $arguments);
+
+        if (false === ($helper instanceof \Magento\Core\Helper\AbstractHelper)) {
+            throw new \LogicException(
+                $className . ' doesn\'t extends Magento\Core\Helper\AbstractHelper'
+            );
+        }
+
+        return $helper;
     }
 }

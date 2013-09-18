@@ -21,10 +21,12 @@ class Magento_Adminhtml_Block_Widget_TabsTest extends PHPUnit_Framework_TestCase
     {
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         $widgetInstance = Mage::getModel('Magento\Widget\Model\Widget\Instance');
-        Mage::register('current_widget_instance', $widgetInstance);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Widget\Tabs */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Widget\Tabs', 'block');
         $layout->addBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main', 'child_tab', 'block');

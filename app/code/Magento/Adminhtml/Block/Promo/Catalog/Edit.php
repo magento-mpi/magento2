@@ -17,6 +17,29 @@ namespace Magento\Adminhtml\Block\Promo\Catalog;
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Initialize form
      * Add standard buttons
      * Add "Save and Apply" button
@@ -65,11 +88,10 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        $rule = \Mage::registry('current_promo_catalog_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_catalog_rule');
         if ($rule->getRuleId()) {
             return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
-        }
-        else {
+        } else {
             return __('New Rule');
         }
     }

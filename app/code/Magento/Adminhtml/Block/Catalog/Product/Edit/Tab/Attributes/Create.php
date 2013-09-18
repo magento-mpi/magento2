@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes;
 
-class Create extends \Magento\Adminhtml\Block\Widget\Button
+class Create extends \Magento\Backend\Block\Widget\Button
 {
     /**
      * Config of create new attribute
@@ -81,7 +81,9 @@ class Create extends \Magento\Adminhtml\Block\Widget\Button
     protected function _toHtml()
     {
         $this->setCanShow(true);
-        \Mage::dispatchEvent('adminhtml_catalog_product_edit_tab_attributes_create_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_tab_attributes_create_html_before', array(
+            'block' => $this,
+        ));
         if (!$this->getCanShow()) {
             return '';
         }

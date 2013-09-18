@@ -20,13 +20,31 @@ namespace Magento\Catalog\Controller;
 class Category extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize requested category object
      *
      * @return \Magento\Catalog\Model\Category
      */
     protected function _initCategory()
     {
-        $this->_eventManager->dispatch('catalog_controller_category_init_before', array('controller_action' => $this));
         $categoryId = (int) $this->getRequest()->getParam('id', false);
         if (!$categoryId) {
             return false;
@@ -36,11 +54,11 @@ class Category extends \Magento\Core\Controller\Front\Action
             ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($categoryId);
 
-        if (!\Mage::helper('Magento\Catalog\Helper\Category')->canShow($category)) {
+        if (!$this->_objectManager->get('Magento\Catalog\Helper\Category')->canShow($category)) {
             return false;
         }
         \Mage::getSingleton('Magento\Catalog\Model\Session')->setLastVisitedCategoryId($category->getId());
-        \Mage::register('current_category', $category);
+        $this->_coreRegistry->register('current_category', $category);
         try {
             $this->_eventManager->dispatch(
                 'catalog_controller_category_init_after',
@@ -94,7 +112,7 @@ class Category extends \Magento\Core\Controller\Front\Action
             $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $this->getLayout()->helper('Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
+                $this->_objectManager->get('Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
             }
 
             $root = $this->getLayout()->getBlock('root');

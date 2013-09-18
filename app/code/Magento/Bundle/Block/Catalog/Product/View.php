@@ -37,7 +37,7 @@ class View extends \Magento\Catalog\Block\Product\View
         $prices = $product->getFormatedTierPrice();
         if (is_array($prices)) {
             $store = \Mage::app()->getStore();
-            $helper = \Mage::helper('Magento\Tax\Helper\Data');
+            $helper = $this->_taxData;
             $specialPrice = $product->getSpecialPrice();
             $defaultDiscount = max($product->getGroupPrice(), $specialPrice ? 100 - $specialPrice : 0);
             foreach ($prices as $price) {

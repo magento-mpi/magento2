@@ -122,7 +122,7 @@ class Register extends \Magento\Directory\Block\Data
      */
     public function isNewsletterEnabled()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->isModuleOutputEnabled('Magento_Newsletter');
+        return $this->_coreData->isModuleOutputEnabled('Magento_Newsletter');
     }
 
     /**

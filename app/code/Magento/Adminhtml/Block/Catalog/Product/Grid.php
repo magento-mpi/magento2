@@ -17,8 +17,34 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Product;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -47,7 +73,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('type_id');
 
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             $collection->joinField('qty',
                 'cataloginventory_stock_item',
                 'qty',
@@ -206,7 +232,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 'column_css_class'  => 'col-price'
         ));
 
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             $this->addColumn('qty',
                 array(
                     'header'=> __('Quantity'),
@@ -277,7 +303,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
                 'column_css_class'  => 'col-action'
         ));
 
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Rss')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_Rss')) {
             $this->addRssList('rss/catalog/notifystock', __('Notify Low Stock RSS'));
         }
 
@@ -320,7 +346,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             ));
         }
 
-        \Mage::dispatchEvent('adminhtml_catalog_product_grid_prepare_massaction', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_grid_prepare_massaction', array('block' => $this));
         return $this;
     }
 

@@ -180,13 +180,43 @@ abstract class AbstractEntity
     protected $_uniqueAttributes = array();
 
     /**
-     * Constructor.
+     * Import export data
      *
-     * @return void
+     * @var \Magento\ImportExport\Helper\Data
      */
-    public function __construct()
-    {
-        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($this->getEntityTypeCode());
+    protected $_importExportData = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\ImportExport\Helper\Data $importExportData
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\ImportExport\Helper\Data $importExportData
+    ) {
+        $this->_coreString = $coreString;
+        $this->_coreData = $coreData;
+        $this->_importExportData = $importExportData;
+
+        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')
+            ->getEntityType($this->getEntityTypeCode());
+
         $this->_entityTypeId    = $entityType->getEntityTypeId();
         $this->_dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
         $this->_connection      = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('write');
@@ -258,7 +288,7 @@ abstract class AbstractEntity
         $startNewBunch   = false;
         $nextRowBackup   = array();
         $maxDataSize = \Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
-        $bunchSize = \Mage::helper('Magento\ImportExport\Helper\Data')->getBunchSize();
+        $bunchSize = $this->_importExportData->getBunchSize();
 
         $source->rewind();
         $this->_dataSourceModel->cleanBunches();
@@ -282,7 +312,7 @@ abstract class AbstractEntity
 
                 if ($this->validateRow($rowData, $source->key())) { // add row to bunch for save
                     $rowData = $this->_prepareRowForDb($rowData);
-                    $rowSize = strlen(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($rowData));
+                    $rowSize = strlen($this->_coreData->jsonEncode($rowData));
 
                     $isBunchSizeExceeded = ($bunchSize > 0 && count($bunchRows) >= $bunchSize);
 
@@ -339,8 +369,10 @@ abstract class AbstractEntity
      * @param array $indexValAttrs OPTIONAL Additional attributes' codes with index values.
      * @return array
      */
-    public function getAttributeOptions(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute, $indexValAttrs = array())
-    {
+    public function getAttributeOptions(
+        \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
+        $indexValAttrs = array()
+    ) {
         $options = array();
 
         if ($attribute->usesSource()) {
@@ -410,9 +442,7 @@ abstract class AbstractEntity
      */
     public function getErrorMessages()
     {
-        $translator = \Mage::helper('Magento\ImportExport\Helper\Data');
         $messages   = array();
-
         foreach ($this->_errors as $errorCode => $errorRows) {
             if (isset($this->_messageTemplates[$errorCode])) {
                 $errorCode = __($this->_messageTemplates[$errorCode]);
@@ -533,8 +563,8 @@ abstract class AbstractEntity
     {
         switch ($attrParams['type']) {
             case 'varchar':
-                $val   = \Mage::helper('Magento\Core\Helper\String')->cleanString($rowData[$attrCode]);
-                $valid = \Mage::helper('Magento\Core\Helper\String')->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
+                $val   = $this->_coreString->cleanString($rowData[$attrCode]);
+                $valid = $this->_coreString->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
                 break;
             case 'decimal':
                 $val   = trim($rowData[$attrCode]);
@@ -553,8 +583,8 @@ abstract class AbstractEntity
                 $valid = strtotime($val) !== false;
                 break;
             case 'text':
-                $val   = \Mage::helper('Magento\Core\Helper\String')->cleanString($rowData[$attrCode]);
-                $valid = \Mage::helper('Magento\Core\Helper\String')->strlen($val) < self::DB_MAX_TEXT_LENGTH;
+                $val   = $this->_coreString->cleanString($rowData[$attrCode]);
+                $valid = $this->_coreString->strlen($val) < self::DB_MAX_TEXT_LENGTH;
                 break;
             default:
                 $valid = true;
@@ -650,9 +680,6 @@ abstract class AbstractEntity
     public function validateData()
     {
         if (!$this->_dataValidated) {
-            /** @var $helper \Magento\ImportExport\Helper\Data */
-            $helper = \Mage::helper('Magento\ImportExport\Helper\Data');
-
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
                 \Mage::throwException(

@@ -35,27 +35,7 @@
             <googlecheckout_beacon>/googlecheckout/api/beacon/</googlecheckout_beacon>
             <googlecheckout_api>/googlecheckout/api/</googlecheckout_api>
         </secure_url>
-        <translate>
-            <modules>
-                <Magento_GoogleCheckout>
-                    <files>
-                        <default>Magento_GoogleCheckout.csv</default>
-                    </files>
-                </Magento_GoogleCheckout>
-            </modules>
-        </translate>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_GoogleCheckout>
-                    <files>
-                        <default>Magento_GoogleCheckout.csv</default>
-                    </files>
-                </Magento_GoogleCheckout>
-            </modules>
-        </translate>
-    </adminhtml>
     <default>
         <carriers>
             <googlecheckout>

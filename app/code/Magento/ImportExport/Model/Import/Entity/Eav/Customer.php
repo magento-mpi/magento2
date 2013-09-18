@@ -111,12 +111,15 @@ class Customer
     protected $_attributeCollection;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        array $data = array()
+    ) {
         if (isset($data['attribute_collection'])) {
             $this->_attributeCollection = $data['attribute_collection'];
             unset($data['attribute_collection']);
@@ -126,7 +129,7 @@ class Customer
             $data['attribute_collection'] = $this->_attributeCollection;
         }
 
-        parent::__construct($data);
+        parent::__construct($coreData, $coreString, $data);
 
         $this->_specialAttributes[] = self::COLUMN_WEBSITE;
         $this->_specialAttributes[] = self::COLUMN_STORE;

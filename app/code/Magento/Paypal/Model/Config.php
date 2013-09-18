@@ -238,12 +238,21 @@ class Config
     );
 
     /**
-     * Set method and store id, if specified
+     * Core data
      *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $params
      */
-    public function __construct($params = array())
-    {
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        $params = array()
+    ) {
+        $this->_coreData = $coreData;
         if ($params) {
             $method = array_shift($params);
             $this->setMethod($method);
@@ -439,7 +448,7 @@ class Config
     {
         $countryCode = \Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
         if (!$countryCode) {
-            $countryCode = \Mage::helper('Magento\Core\Helper\Data')->getDefaultCountry($this->_storeId);
+            $countryCode = $this->_coreData->getDefaultCountry($this->_storeId);
         }
         return $countryCode;
     }
@@ -828,7 +837,7 @@ class Config
         if ($countryCode) {
             $countryCode = '_' . $countryCode;
         }
-        return sprintf('Magento_Cart_%s%s', $product, $countryCode);
+        return sprintf('Magento\\Cart\\%s%s', $product, $countryCode);
     }
 
     /**

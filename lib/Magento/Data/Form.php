@@ -41,10 +41,18 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetRenderer;
     static protected $_defaultFieldsetElementRenderer;
 
-    public function __construct($attributes = array())
-    {
-        parent::__construct($attributes);
-        $this->_allElements = new \Magento\Data\Form\Element\Collection($this);
+    /**
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param array $attributes
+     */
+    public function __construct(
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        $attributes = array()
+    ) {
+        parent::__construct($factoryElement, $factoryCollection, $attributes);
+        $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
     }
 
     public static function setElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)

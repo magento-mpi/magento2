@@ -36,13 +36,53 @@ class View extends \Magento\Core\Helper\AbstractHelper
     protected $_config;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Page\Helper\Layout
+     */
+    protected $_pageLayout = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_pageLayout = $pageLayout;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
         $this->_config = $config;
     }
@@ -83,10 +123,10 @@ class View extends \Magento\Core\Helper\AbstractHelper
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
-            $controller->getLayout()->helper('Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
+            $this->_pageLayout->applyTemplate($settings->getPageLayout());
         }
 
-        $currentCategory = \Mage::registry('current_category');
+        $currentCategory = $this->_coreRegistry->registry('current_category');
         $root = $controller->getLayout()->getBlock('root');
         if ($root) {
             $controllerClass = $controller->getFullActionName();
@@ -122,7 +162,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
     public function prepareAndRender($productId, $controller, $params = null)
     {
         // Prepare data
-        $productHelper = \Mage::helper('Magento\Catalog\Helper\Product');
+        $productHelper = $this->_catalogProduct;
         if (!$params) {
             $params = new \Magento\Object();
         }
@@ -142,7 +182,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
             $product->setConfigureMode($params->getConfigureMode());
         }
 
-        \Mage::dispatchEvent('catalog_controller_product_view', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_controller_product_view', array('product' => $product));
 
         if ($params->getSpecifyOptions()) {
             $notice = $product->getTypeInstance()->getSpecifyOptionMessage();

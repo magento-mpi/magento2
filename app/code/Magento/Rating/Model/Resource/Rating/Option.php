@@ -62,18 +62,37 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_ratingStoreTable;
 
     /**
-    * Option data
-    *
-    * @var array
-    */
+     * Option data
+     *
+     * @var array
+     */
     protected $_optionData;
 
     /**
-    * Option id
-    *
-    * @var int
-    */
+     * Option id
+     *
+     * @var int
+     */
     protected $_optionId;
+
+    /**
+     * Core http
+     *
+     * @var \Magento\Core\Helper\Http
+     */
+    protected $_coreHttp = null;
+
+    /**
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_coreHttp = $coreHttp;
+        parent::__construct($resource);
+    }
 
     /**
      * Resource initialization. Define other tables name
@@ -109,8 +128,8 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
         );
 
         if (!$option->getDoUpdate()) {
-            $data['remote_ip']       = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
-            $data['remote_ip_long']  = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(true);
+            $data['remote_ip']       = $this->_coreHttp->getRemoteAddr();
+            $data['remote_ip_long']  = $this->_coreHttp->getRemoteAddr(true);
             $data['customer_id']     = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
             $data['entity_pk_value'] = $option->getEntityPkValue();
             $data['rating_id']       = $option->getRatingId();
@@ -203,7 +222,8 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
                 'vote_count'       => $row['vote_count'],
                 'vote_value_sum'   => $row['vote_value_sum'],
                 'percent'          => (($row['vote_value_sum']/$row['vote_count'])/5) * 100,
-                'percent_approved' => ($row['app_vote_count'] ? ((($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100) : 0),
+                'percent_approved' => ($row['app_vote_count']
+                    ? ((($row['app_vote_value_sum']/$row['app_vote_count'])/5) * 100) : 0),
                 'store_id'         => $row['store_id'],
             );
 
@@ -249,5 +269,4 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         return $this->_optionData;
     }
-
 }

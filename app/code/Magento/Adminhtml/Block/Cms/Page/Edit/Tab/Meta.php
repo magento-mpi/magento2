@@ -18,10 +18,9 @@
 namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
 
 class Meta
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
-
     protected function _prepareForm()
     {
         /*
@@ -33,11 +32,12 @@ class Meta
             $isElementDisabled = true;
         }
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form   = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('page_');
 
-        $model = \Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
 
         $fieldset = $form->addFieldset('meta_fieldset', array('legend' => __('Meta Data'), 'class' => 'fieldset-wide'));
 
@@ -55,7 +55,7 @@ class Meta
             'disabled'  => $isElementDisabled
         ));
 
-        \Mage::dispatchEvent('adminhtml_cms_page_edit_tab_meta_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_meta_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
 

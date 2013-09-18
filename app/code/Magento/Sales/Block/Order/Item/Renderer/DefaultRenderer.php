@@ -19,6 +19,29 @@ namespace Magento\Sales\Block\Order\Item\Renderer;
 
 class DefaultRenderer extends \Magento\Core\Block\Template
 {
+    /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function setItem(\Magento\Object $item)
     {
         $this->setData('item', $item);
@@ -124,13 +147,13 @@ class DefaultRenderer extends \Magento\Core\Block\Template
             $_truncatedValue = nl2br($_truncatedValue);
             return array('value' => $_truncatedValue);
         } else {
-            $_truncatedValue = \Mage::helper('Magento\Core\Helper\String')->truncate($optionValue, 55, '');
+            $_truncatedValue = $this->_coreString->truncate($optionValue, 55, '');
             $_truncatedValue = nl2br($_truncatedValue);
         }
 
         $result = array('value' => $_truncatedValue);
 
-        if (\Mage::helper('Magento\Core\Helper\String')->strlen($optionValue) > 55) {
+        if ($this->_coreString->strlen($optionValue) > 55) {
             $result['value'] = $result['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
             $optionValue = nl2br($optionValue);
             $result = array_merge($result, array('full_view' => $optionValue));

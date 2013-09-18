@@ -21,18 +21,18 @@ class Collection
     protected $_endpointResource;
 
     /**
-     * Collection constructor
-     *
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
         $this->_endpointResource = $endpointResource;
     }
 

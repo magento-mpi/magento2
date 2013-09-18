@@ -22,7 +22,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     /**
      * API Key for user
      */
-    const API_KEY = 'Magento_Webhook_Model_Resource_Subscription_CollectionTest';
+    const API_KEY = 'Magento\Webhook\Model\Resource\Subscription\CollectionTest';
 
     /** @var int */
     private static $_apiUserId;

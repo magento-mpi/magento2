@@ -73,6 +73,30 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     );
 
     /**
+     * Import export data
+     *
+     * @var \Magento\ImportExport\Helper\Data
+     */
+    protected $_importExportData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\ImportExport\Helper\Data $importExportData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\ImportExport\Helper\Data $importExportData,
+        array $data = array()
+    ) {
+        $this->_importExportData = $importExportData;
+        parent::__construct($data);
+    }
+
+    /**
      * Create instance of entity adapter and return it
      *
      * @throws \Magento\Core\Exception
@@ -418,7 +442,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         if (!$adapter->isValid(self::FIELD_NAME_SOURCE_FILE)) {
             $errors = $adapter->getErrors();
             if ($errors[0] == \Zend_Validate_File_Upload::INI_SIZE) {
-                $errorMessage = \Mage::helper('Magento\ImportExport\Helper\Data')->getMaxUploadSizeMessage();
+                $errorMessage = $this->_importExportData->getMaxUploadSizeMessage();
             } else {
                 $errorMessage = __('File was not uploaded.');
             }
@@ -427,7 +451,8 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
 
         $entity    = $this->getEntity();
         /** @var $uploader \Magento\Core\Model\File\Uploader */
-        $uploader  = \Mage::getModel('Magento\Core\Model\File\Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        $uploader  = \Mage::getModel('Magento\Core\Model\File\Uploader',
+            array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->skipDbProcessing(true);
         $result    = $uploader->save(self::getWorkingDir());
         $extension = pathinfo($result['file'], PATHINFO_EXTENSION);

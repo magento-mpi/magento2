@@ -94,7 +94,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
             } else {
-                if($this->_getCustomer()->getId()) {
+                if ($this->_getCustomer()->getId()) {
                     $this->_wishlist->loadByCustomer($this->_getCustomer());
                 }
             }
@@ -112,10 +112,12 @@ class Index extends \Magento\Core\Controller\Front\Action
         if (is_null($this->_customer)) {
             $this->_customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
-            $params = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('data'));
+            $params = $this->_objectManager->get('Magento\Core\Helper\Data')
+                ->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $customerId    = abs(intval($data[0]));
-            if ($customerId && ($customerId == \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) ) {
+            if ($customerId
+                && ($customerId == \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) ) {
                 $this->_customer->load($customerId);
             }
         }

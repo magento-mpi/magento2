@@ -71,8 +71,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
         $this->_ensureCustomer();
         if ($this->hasWebsiteId()) {
             $websiteId = $this->getWebsiteId();
-        }
-        else {
+        } else {
             if (\Mage::app()->getStore()->isAdmin()) {
                 \Mage::throwException(__('A website ID must be set.'));
             }
@@ -193,16 +192,14 @@ class Balance extends \Magento\Core\Model\AbstractModel
                 if (($result < 0) && (($this->getAmount() + $result) < 0)) {
                     $result = -1 * $this->getAmount();
                 }
-            }
-            elseif ($result <= 0) {
+            } elseif ($result <= 0) {
                 $result = 0;
             }
         }
         $this->setAmountDelta($result);
         if (!$this->getId()) {
             $this->setAmount($result);
-        }
-        else {
+        } else {
             $this->setAmount($this->getAmount() + $result);
         }
         return $result;

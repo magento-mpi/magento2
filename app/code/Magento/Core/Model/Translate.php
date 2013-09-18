@@ -147,14 +147,37 @@ class Translate
      */
     protected $_placeholderRender;
 
-   
+    /**
+     * @var \Magento\Core\Model\ModuleList
+     */
+    protected $_moduleList;
+
+    /**
+     * @var \Magento\Core\Model\Config\Modules\Reader
+     */
+    protected $_modulesReader;
+
+    /**
+     * Initialize translate model
+     *
+     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
+     * @param \Magento\Core\Model\Translate\Factory $translateFactory
+     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
+     * @param \Magento\Core\Model\ModuleList $moduleList
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     */
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Locale\Hierarchy\Config $config,
         \Magento\Core\Model\Translate\Factory $translateFactory,
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Phrase\Renderer\Placeholder $placeholderRender
+        \Magento\Phrase\Renderer\Placeholder $placeholderRender,
+        \Magento\Core\Model\ModuleList $moduleList,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -162,6 +185,8 @@ class Translate
         $this->_cache = $cache;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_placeholderRender = $placeholderRender;
+        $this->_moduleList = $moduleList;
+        $this->_modulesReader = $modulesReader;
     }
 
     /**
@@ -188,9 +213,8 @@ class Translate
 
         $this->_data = array();
 
-        foreach ($this->getModulesConfig() as $moduleName => $info) {
-            $info = $info->asArray();
-            $this->_loadModuleTranslation($moduleName, $info['files']);
+        foreach ($this->_moduleList->getModules() as $module) {
+            $this->_loadModuleTranslation($module['name']);
         }
 
         $this->_loadThemeTranslation($forceReload);
@@ -201,25 +225,6 @@ class Translate
         }
 
         return $this;
-    }
-
-    /**
-     * Retrieve modules configuration by translation
-     *
-     * @return \Magento\Core\Model\Config\Element
-     */
-    public function getModulesConfig()
-    {
-        if (!\Mage::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA) . '/translate/modules')) {
-            return array();
-        }
-
-        $config = \Mage::getConfig()->getNode($this->getConfig(self::CONFIG_KEY_AREA)
-            . '/translate/modules')->children();
-        if (!$config) {
-            return array();
-        }
-        return $config;
     }
 
     /**
@@ -277,11 +282,12 @@ class Translate
      */
     public function processAjaxPost($translate)
     {
-        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
+        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\Core\Model\Cache\TypeListInterface');
         $cacheTypeList->invalidate(\Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER);
-        \Mage::getObjectManager()->get('Magento\Core\Model\Translate\InlineParser')
-            ->processAjaxPost($translate, $this->getInlineObject());
+        /** @var $parser \Magento\Core\Model\Translate\InlineParser */
+        $parser = $this->_translateFactory->create(array(), 'Magento\Core\Model\Translate\InlineParser');
+        $parser->processAjaxPost($translate, $this->getInlineObject());
     }
 
     /**
@@ -301,17 +307,14 @@ class Translate
      * Load data from module translation files
      *
      * @param string $moduleName
-     * @param array $files
      * @return \Magento\Core\Model\Translate
      */
-    protected function _loadModuleTranslation($moduleName, $files)
+    protected function _loadModuleTranslation($moduleName)
     {
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
-        foreach ($files as $file) {
-            foreach ($requiredLocaleList as $locale) {
-                $moduleFilePath = $this->_getModuleFilePath($moduleName, $file, $locale);
-                $this->_addData($this->_getFileData($moduleFilePath));
-            }
+        foreach ($requiredLocaleList as $locale) {
+            $moduleFilePath = $this->_getModuleTranslationFile($moduleName, $locale);
+            $this->_addData($this->_getFileData($moduleFilePath));
         }
         return $this;
     }
@@ -393,7 +396,7 @@ class Translate
 
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $file = $this->_viewFileSystem->getLocaleFileName('translate.csv', array('locale' => $locale));
+            $file = $this->_getThemeTranslationFile($locale);
             $this->_addData(
                 $this->_getFileData($file),
                 self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
@@ -422,16 +425,26 @@ class Translate
     /**
      * Retrieve translation file for module
      *
-     * @param string $module
-     * @param string $fileName
+     * @param string $moduleName
      * @param string $locale
      * @return string
      */
-    protected function _getModuleFilePath($module, $fileName, $locale)
+    protected function _getModuleTranslationFile($moduleName, $locale)
     {
-        $file = \Mage::getModuleDir('locale', $module);
-        $file .= DS . $locale . DS . $fileName;
+        $file = $this->_modulesReader->getModuleDir(\Magento\Core\Model\Dir::LOCALE, $moduleName);
+        $file .= DS . $locale . '.csv';
         return $file;
+    }
+
+    /**
+     * Retrieve translation file for theme
+     *
+     * @param string $locale
+     * @return string
+     */
+    protected function _getThemeTranslationFile($locale)
+    {
+        return $this->_viewFileSystem->getFilename(\Magento\Core\Model\Dir::LOCALE . DS . $locale . '.csv');
     }
 
     /**

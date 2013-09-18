@@ -29,8 +29,6 @@ class Standard extends \Magento\Core\Controller\Front\Action
      */
     public function getOrder()
     {
-        if ($this->_order == null) {
-        }
         return $this->_order;
     }
 

@@ -54,6 +54,7 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
         );
 
         $this->_model = new \Magento\CustomerSegment\Model\Customer(
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             $this->_registry,
             $storeManager,

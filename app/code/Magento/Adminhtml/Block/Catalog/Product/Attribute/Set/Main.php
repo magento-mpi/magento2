@@ -17,9 +17,42 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set;
 
-class Main extends \Magento\Adminhtml\Block\Template
+class Main extends \Magento\Backend\Block\Template
 {
     protected $_template = 'catalog/product/attribute/set/main.phtml';
+
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Prepare Global Layout
@@ -147,7 +180,7 @@ class Main extends \Magento\Adminhtml\Block\Template
         $configurable = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute')
             ->getUsedAttributes($setId);
 
-        $unassignableAttributes = \Mage::helper('Magento\Catalog\Helper\Product')->getUnassignableAttributes();
+        $unassignableAttributes = $this->_catalogProduct->getUnassignableAttributes();
 
         /* @var $node \Magento\Eav\Model\Entity\Attribute\Group */
         foreach ($groups as $node) {
@@ -190,7 +223,7 @@ class Main extends \Magento\Adminhtml\Block\Template
             $items[] = $item;
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($items);
+        return $this->_coreData->jsonEncode($items);
     }
 
     /**
@@ -244,7 +277,7 @@ class Main extends \Magento\Adminhtml\Block\Template
             );
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($items);
+        return $this->_coreData->jsonEncode($items);
     }
 
     /**
@@ -327,7 +360,7 @@ class Main extends \Magento\Adminhtml\Block\Template
      */
     protected function _getAttributeSet()
     {
-        return \Mage::registry('current_attribute_set');
+        return $this->_coreRegistry->registry('current_attribute_set');
     }
 
     /**
@@ -350,7 +383,7 @@ class Main extends \Magento\Adminhtml\Block\Template
         $isDefault = $this->getData('is_current_set_default');
         if (is_null($isDefault)) {
             $defaultSetId = \Mage::getModel('Magento\Eav\Model\Entity\Type')
-                ->load(\Mage::registry('entityType'))
+                ->load($this->_coreRegistry->registry('entityType'))
                 ->getDefaultAttributeSetId();
             $isDefault = $this->_getSetId() == $defaultSetId;
             $this->setData('is_current_set_default', $isDefault);
@@ -365,7 +398,7 @@ class Main extends \Magento\Adminhtml\Block\Template
      */
     protected function _toHtml()
     {
-        \Mage::dispatchEvent('adminhtml_catalog_product_attribute_set_main_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_set_main_html_before', array('block' => $this));
         return parent::_toHtml();
     }
 }

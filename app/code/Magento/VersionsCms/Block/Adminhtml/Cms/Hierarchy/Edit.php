@@ -17,8 +17,31 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 
-class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * Cms data
+     *
+     * @var \Magento\VersionsCms\Helper\Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\VersionsCms\Helper\Data $cmsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Initialize Form Container
      *
@@ -41,7 +64,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         if (!\Mage::app()->hasSingleStore()) {
             $this->_addButton('delete_multiple', array(
-                'label'     => \Mage::helper('Magento\VersionsCms\Helper\Data')->getDeleteMultipleHierarchiesText(),
+                'label'     => $this->_cmsData->getDeleteMultipleHierarchiesText(),
                 'class'     => 'delete',
                 'onclick'   => "openHierarchyDialog('delete')",
             ), -1, 7);

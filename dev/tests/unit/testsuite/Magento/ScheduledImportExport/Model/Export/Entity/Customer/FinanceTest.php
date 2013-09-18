@@ -60,8 +60,10 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
 
     public function setUp()
     {
-        $this->_model
-            = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance($this->_getModelDependencies());
+        $this->_model = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance(
+            $this->getMock('Magento\ScheduledImportExport\Helper\Data', array(), array(), '', false, false),
+            $this->_getModelDependencies()
+        );
     }
 
     public function tearDown()

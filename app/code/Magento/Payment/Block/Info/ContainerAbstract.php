@@ -20,6 +20,29 @@ namespace Magento\Payment\Block\Info;
 abstract class ContainerAbstract extends \Magento\Core\Block\Template
 {
     /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Add payment info block to layout
      *
      * @return \Magento\Payment\Block\Info\ContainerAbstract
@@ -29,7 +52,7 @@ abstract class ContainerAbstract extends \Magento\Core\Block\Template
         if ($info = $this->getPaymentInfo()) {
             $this->setChild(
                 $this->_getInfoBlockName(),
-                \Mage::helper('Magento\Payment\Helper\Data')->getInfoBlock($info)
+                $this->_paymentData->getInfoBlock($info)
             );
         }
         return parent::_prepareLayout();

@@ -42,7 +42,12 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
     protected $_store;
 
     /**
-     * @var \Magento\Sales\Model\Quote\Item\Option
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManagerMock;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\Item_Option
      */
     protected $_quoteItemOption;
 
@@ -51,7 +56,16 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
      */
     protected function setUp()
     {
-        $this->_store = $this->getMock('Magento\Core\Model\Store', array('getCurrentCurrencyRate'), array(), '', false);
+        $this->_store = $this->getMock(
+            'Magento\Core\Model\Store', array('getCurrentCurrencyRate', '__sleep', '__wakeup'), array(), '', false
+        );
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStore'))
+            ->getMockForAbstractClass();
+        $this->_storeManagerMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->_store));
         $this->_mockModel(array('_isStrictProcessMode'));
     }
 
@@ -62,34 +76,28 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
      */
     protected function _mockModel($mockedMethods)
     {
-        $helpers = array(
-            'Magento\GiftCard\Helper\Data'        => $this->getMock(
-                'Magento\GiftCard\Helper\Data', array(), array(), '', false, false
-            ),
-            'Magento\Core\Helper\Data'                  => $this->getMock(
-                'Magento\Core\Helper\Data', array(), array(), '', false, false
-            ),
-            'Magento\Catalog\Helper\Data'               => $this->getMock(
-                'Magento\Catalog\Helper\Data', array(), array(), '', false, false
-            ),
-            'Magento\Core\Helper\File\Storage\Database' => $this->getMock(
-                'Magento\Core\Helper\File\Storage\Database', array(), array(), '', false, false
-            )
-        );
-
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
+        $catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
+
+        $storage = $this->getMockBuilder('Magento\Core\Helper\File\Storage\Database')->disableOriginalConstructor()
+            ->getMock();
         $locale = $this->getMock('Magento\Core\Model\Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $this->_model = $this->getMock(
             'Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
             array(
+                $eventManager,
+                $coreData,
+                $catalogData,
+                $storage,
                 $filesystem,
-                array(
-                    'store'     => $this->_store,
-                    'helpers'   => $helpers,
-                    'locale'    => $locale,
-                )
+                $this->_storeManagerMock,
+                $locale,
+                $coreRegistry,
             )
         );
     }

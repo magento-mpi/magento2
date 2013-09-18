@@ -35,6 +35,30 @@ class Layer extends \Magento\Object
     protected $_stateKey = null;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($data);
+    }
+
+    /**
      * Get layer state key
      *
      * @return string
@@ -42,8 +66,7 @@ class Layer extends \Magento\Object
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'STORE_'
-                . \Mage::app()->getStore()->getId()
+            $this->_stateKey = 'STORE_' . \Mage::app()->getStore()->getId()
                 . '_CAT_' . $this->getCurrentCategory()->getId()
                 . '_CUSTGROUP_' . \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
         }
@@ -135,11 +158,12 @@ class Layer extends \Magento\Object
     {
         $category = $this->getData('current_category');
         if (is_null($category)) {
-            if ($category = \Mage::registry('current_category')) {
+            $category = $this->_coreRegistry->registry('current_category');
+            if ($category) {
                 $this->setData('current_category', $category);
-            }
-            else {
-                $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($this->getCurrentStore()->getRootCategoryId());
+            } else {
+                $category = \Mage::getModel('Magento\Catalog\Model\Category')
+                    ->load($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
         }
@@ -185,13 +209,10 @@ class Layer extends \Magento\Object
     /**
      * Get collection of all filterable attributes for layer products set
      *
-     * @return Magento_Catalog_Model_Resource_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Attribute\Collection
      */
     public function getFilterableAttributes()
     {
-//        $entity = \Mage::getSingleton('Magento\Eav\Model\Config')
-//            ->getEntityType('catalog_product');
-
         $setIds = $this->_getSetIds();
         if (!$setIds) {
             return array();
@@ -224,8 +245,8 @@ class Layer extends \Magento\Object
     /**
      * Add filters to attribute collection
      *
-     * @param   Magento_Catalog_Model_Resource_Attribute_Collection $collection
-     * @return  Magento_Catalog_Model_Resource_Attribute_Collection
+     * @param   \Magento\Catalog\Model\Resource\Attribute\Collection $collection
+     * @return  \Magento\Catalog\Model\Resource\Attribute\Collection
      */
     protected function _prepareAttributeCollection($collection)
     {

@@ -20,6 +20,25 @@ namespace Magento\Adminhtml\Controller\Sales\Order;
 class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbstract
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize shipment items QTY
      */
     protected function _getItemQtys()
@@ -88,7 +107,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             }
         }
 
-        \Mage::register('current_shipment', $shipment);
+        $this->_coreRegistry->register('current_shipment', $shipment);
         return $shipment;
     }
 
@@ -143,7 +162,8 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
      */
     public function newAction()
     {
-        if ($shipment = $this->_initShipment()) {
+        $shipment = $this->_initShipment();
+        if ($shipment) {
             $this->_title(__('New Shipment'));
 
             $comment = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCommentText(true);
@@ -155,7 +175,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
-            $this->_redirect('*/sales_order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
+            $this->_redirect('*/sales_order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -314,7 +334,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             );
         }
         if (is_array($response)) {
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -325,7 +345,6 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     public function removeTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $shipmentId = $this->getRequest()->getParam('shipment_id');
         $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
@@ -353,7 +372,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             );
         }
         if (is_array($response)) {
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -364,7 +383,6 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
     public function viewTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $shipmentId = $this->getRequest()->getParam('shipment_id');
         $track = \Mage::getModel('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
@@ -382,7 +400,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             );
         }
 
-        if ( is_object($response)){
+        if (is_object($response)) {
             $block = $this->_objectManager->create('Magento\Adminhtml\Block\Template');
             $block->setTemplate('sales/order/shipment/tracking/info.phtml');
             $block->setTrackingInfo($response);
@@ -390,7 +408,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             $this->getResponse()->setBody($block->toHtml());
         } else {
             if (is_array($response)) {
-                $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+                $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
             }
 
             $this->getResponse()->setBody($response);
@@ -427,13 +445,13 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Cannot add new comment.')
             );
-            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
+            $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -529,7 +547,9 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                     $pdf = new \Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(__('We don\'t recognize or support the file extension in this shipment: %1.', $shipment->getIncrementId()));
+                        $this->_getSession()
+                            ->addError(__('We don\'t recognize or support the file extension in this shipment: %1.',
+                                $shipment->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -564,12 +584,12 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
 
         if ($shipment) {
             $pdf = \Mage::getModel('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
-            $this->_prepareDownloadResponse('packingslip'
-                    . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s')
-                    . '.pdf', $pdf->render(), 'application/pdf'
+            $this->_prepareDownloadResponse(
+                'packingslip' . \Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
+                $pdf->render(),
+                'application/pdf'
             );
-        }
-        else {
+        } else {
             $this->_forward('noRoute');
         }
     }
@@ -701,6 +721,6 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 ->createBlock('Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging\Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
-           );
+       );
     }
 }

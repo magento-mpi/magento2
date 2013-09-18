@@ -92,7 +92,7 @@ class Row extends \Magento\Core\Model\AbstractModel
             'SUB' => __('Subscription ID'),
             'PAP' => __('Preapproved Payment ID')
         );
-        if($code === null) {
+        if ($code === null) {
             asort($types);
             return $types;
         }
@@ -141,7 +141,7 @@ class Row extends \Magento\Core\Model\AbstractModel
             'CR' => __('Credit'),
             'DR' => __('Debit'),
         );
-        if($code === null) {
+        if ($code === null) {
             return $options;
         }
         if (isset($options[$code])) {

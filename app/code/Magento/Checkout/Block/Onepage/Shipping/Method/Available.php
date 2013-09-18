@@ -23,6 +23,31 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected $_rates;
     protected $_address;
 
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($configCacheType, $coreData, $context, $data);
+    }
+
     public function getShippingRates()
     {
 
@@ -71,7 +96,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(
-            \Mage::helper('Magento\Tax\Helper\Data')->getShippingPrice($price, $flag, $this->getAddress()),
+            $this->_taxData->getShippingPrice($price, $flag, $this->getAddress()),
             true
         );
     }

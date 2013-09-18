@@ -54,11 +54,23 @@ class Backup extends \Magento\Object
     protected $_helper;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backup\Helper\Data $helper
      * @param array $data
      */
-    public function __construct(\Magento\Backup\Helper\Data $helper, $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backup\Helper\Data $helper,
+        $data = array()
+    ) {
+        $this->_coreData = $coreData;
         $adapter = new \Magento\Filesystem\Adapter\Zlib(self::COMPRESS_RATE);
         $this->_filesystem = new \Magento\Filesystem($adapter);
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -340,7 +352,7 @@ class Backup extends \Magento\Object
     public function validateUserPassword($password)
     {
         $userPasswordHash = \Mage::getModel('Magento\Backend\Model\Auth\Session')->getUser()->getPassword();
-        return \Mage::helper('Magento\Core\Helper\Data')->validateHash($password, $userPasswordHash);
+        return $this->_coreData->validateHash($password, $userPasswordHash);
     }
 
     /**

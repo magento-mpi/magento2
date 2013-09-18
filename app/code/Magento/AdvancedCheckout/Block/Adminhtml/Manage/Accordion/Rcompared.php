@@ -26,6 +26,35 @@ class Rcompared
     protected $_listType = 'rcompared';
 
     /**
+     * Adminhtml sales
+     *
+     * @var \Magento\Adminhtml\Helper\Sales
+     */
+    protected $_adminhtmlSales = null;
+
+    /**
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_adminhtmlSales = $adminhtmlSales;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+    }
+
+    /**
      * Initialize Grid
      *
      */
@@ -76,7 +105,7 @@ class Rcompared
                 0,
                 $skipProducts
             );
-            $productCollection = \Mage::helper('Magento\Adminhtml\Helper\Sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = $this->_adminhtmlSales->applySalableProductTypesFilter($productCollection);
             // Remove disabled and out of stock products from the grid
             foreach ($productCollection as $product) {
                 if (!$product->getStockItem()->getIsInStock() || !$product->isInStock()) {

@@ -66,6 +66,49 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     protected $_mapRenderer = 'msrp';
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_taxData = $taxData;
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve url for add product to cart
      * Will return product view page URL if product has required options
      *
@@ -198,7 +241,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
     {
         $type_id = $product->getTypeId();
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)) {
+        if ($this->_catalogData->canApplyMsrp($product)) {
             $realPriceHtml = $this->_preparePriceRenderer($type_id)
                 ->setProduct($product)
                 ->setDisplayMinimalPrice($displayMinimalPrice)
@@ -275,7 +318,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     protected function _initReviewsHelperBlock()
     {
         if (!$this->_reviewsHelperBlock) {
-            if (!\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Review')) {
+            if (!$this->_catalogData->isModuleEnabled('Magento_Review')) {
                 return false;
             } else {
                 $this->_reviewsHelperBlock = $this->getLayout()->createBlock('Magento\Review\Block\Helper');
@@ -293,7 +336,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', \Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');
     }
@@ -357,16 +400,16 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
                     $price['savePercent'] = ceil(100 - ((100 / $_productPrice) * $price['price']));
 
                     $tierPrice = \Mage::app()->getStore()->convertPrice(
-                        \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $price['website_price'])
+                        $this->_taxData->getPrice($product, $price['website_price'])
                     );
                     $price['formated_price'] = \Mage::app()->getStore()->formatPrice($tierPrice);
                     $price['formated_price_incl_tax'] = \Mage::app()->getStore()->formatPrice(
                         \Mage::app()->getStore()->convertPrice(
-                            \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $price['website_price'], true)
+                            $this->_taxData->getPrice($product, $price['website_price'], true)
                         )
                     );
 
-                    if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)) {
+                    if ($this->_catalogData->canApplyMsrp($product)) {
                         $oldPrice = $product->getFinalPrice();
                         $product->setPriceCalculation(false);
                         $product->setPrice($tierPrice);
@@ -413,13 +456,13 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
      *
      * @return string
      */
-    public function getImageLabel($product=null, $mediaAttributeCode='image')
+    public function getImageLabel($product = null, $mediaAttributeCode = 'image')
     {
         if (is_null($product)) {
             $product = $this->getProduct();
         }
 
-        $label = $product->getData($mediaAttributeCode.'_label');
+        $label = $product->getData($mediaAttributeCode . '_label');
         if (empty($label)) {
             $label = $product->getName();
         }
@@ -560,7 +603,7 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     public function displayProductStockStatus()
     {
         $statusInfo = new \Magento\Object(array('display_status' => true));
-        \Mage::dispatchEvent('catalog_block_product_status_display', array('status' => $statusInfo));
+        $this->_eventManager->dispatch('catalog_block_product_status_display', array('status' => $statusInfo));
         return (boolean)$statusInfo->getDisplayStatus();
     }
 

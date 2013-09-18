@@ -9,6 +9,7 @@
 -->
 <config>
     <preference for="Magento\FullPageCache\Model\Processor\RestrictionInterface" type="Magento\FullPageCache\Model\Processor\Restriction" />
+    <preference for="Magento\FullPageCache\Model\Placeholder\ConfigInterface" type="Magento\FullPageCache\Model\Placeholder\Config" />
     <type name="Magento\FullPageCache\Model\Request\Identifier">
         <param name="scopeCode">
             <value type="argument">Mage::PARAM_RUN_CODE</value>

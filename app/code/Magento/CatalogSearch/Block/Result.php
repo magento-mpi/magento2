@@ -28,6 +28,29 @@ class Result extends \Magento\Core\Block\Template
     protected $_productCollection;
 
     /**
+     * Catalog search data
+     *
+     * @var \Magento\CatalogSearch\Helper\Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve query model object
      *
      * @return \Magento\CatalogSearch\Model\Query
@@ -183,7 +206,7 @@ class Result extends \Magento\Core\Block\Template
      */
     public function getNoResultText()
     {
-        if (\Mage::helper('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {
+        if ($this->_catalogSearchData->isMinQueryLength()) {
             return __('Minimum Search query length is %1', $this->_getQuery()->getMinQueryLength());
         }
         return $this->_getData('no_result_text');
@@ -196,6 +219,6 @@ class Result extends \Magento\Core\Block\Template
      */
     public function getNoteMessages()
     {
-        return \Mage::helper('Magento\CatalogSearch\Helper\Data')->getNoteMessages();
+        return $this->_catalogSearchData->getNoteMessages();
     }
 }

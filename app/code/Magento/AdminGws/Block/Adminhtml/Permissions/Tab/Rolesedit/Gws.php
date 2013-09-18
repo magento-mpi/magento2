@@ -21,16 +21,28 @@ class Gws extends \Magento\Backend\Block\Template
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
 
@@ -45,11 +57,11 @@ class Gws extends \Magento\Backend\Block\Template
             return false;
         }
 
-        if (!\Mage::registry('current_role')->getId()) {
+        if (!$this->_coreRegistry->registry('current_role')->getId()) {
             return true;
         }
 
-        return \Mage::registry('current_role')->getGwsIsAll();
+        return $this->_coreRegistry->registry('current_role')->getGwsIsAll();
     }
 
     /**
@@ -59,7 +71,7 @@ class Gws extends \Magento\Backend\Block\Template
      */
     public function getRole()
     {
-        return \Mage::registry('current_role');
+        return $this->_coreRegistry->registry('current_role');
     }
 
     /**
@@ -88,7 +100,7 @@ class Gws extends \Magento\Backend\Block\Template
                 }
             }
         }
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

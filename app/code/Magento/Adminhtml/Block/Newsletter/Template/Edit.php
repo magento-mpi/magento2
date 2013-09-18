@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml Newsletter Template Edit Block
  *
@@ -28,13 +27,36 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     protected $_editMode = false;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve template object
      *
      * @return \Magento\Newsletter\Model\Template
      */
     public function getModel()
     {
-        return \Mage::registry('_current_template');
+        return $this->_coreRegistry->registry('_current_template');
     }
 
     /**

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml group price item abstract renderer
  *
@@ -44,13 +43,46 @@ abstract class AbstractGroup
     protected $_websites;
 
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve current product instance
      *
      * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -130,7 +162,7 @@ abstract class AbstractGroup
     public function getCustomerGroups($groupId = null)
     {
         if ($this->_customerGroups === null) {
-            if (!\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Customer')) {
+            if (!$this->_catalogData->isModuleEnabled('Magento_Customer')) {
                 return array();
             }
             $collection = \Mage::getModel('Magento\Customer\Model\Group')->getCollection();

@@ -33,6 +33,43 @@ class Tax extends \Magento\Core\Model\AbstractModel
     protected $_productDiscounts = array();
 
     /**
+     * Weee data
+     *
+     * @var \Magento\Weee\Helper\Data
+     */
+    protected $_weeeData = null;
+
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Weee\Helper\Data $weeeData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Weee\Model\Resource\Tax $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Weee\Helper\Data $weeeData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Weee\Model\Resource\Tax $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        $this->_weeeData = $weeeData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      */
     protected function _construct()
@@ -77,7 +114,7 @@ class Tax extends \Magento\Core\Model\AbstractModel
      */
     public function getWeeeTaxAttributeCodes($forceEnabled = false)
     {
-        if (!$forceEnabled && !\Mage::helper('Magento\Weee\Helper\Data')->isEnabled()) {
+        if (!$forceEnabled && !$this->_weeeData->isEnabled()) {
             return array();
         }
 
@@ -120,7 +157,7 @@ class Tax extends \Magento\Core\Model\AbstractModel
         $defaultRateRequest = $calculator->getRateRequest(false, false, false, $store);
 
         $discountPercent = 0;
-        if (!$ignoreDiscount && \Mage::helper('Magento\Weee\Helper\Data')->isDiscounted($store)) {
+        if (!$ignoreDiscount && $this->_weeeData->isDiscounted($store)) {
             $discountPercent = $this->_getDiscountPercentForProduct($product);
         }
 
@@ -149,12 +186,12 @@ class Tax extends \Magento\Core\Model\AbstractModel
 
                     $taxAmount = $amount = 0;
                     $amount    = $value;
-                    if ($calculateTax && \Mage::helper('Magento\Weee\Helper\Data')->isTaxable($store)) {
+                    if ($calculateTax && $this->_weeeData->isTaxable($store)) {
                         $defaultPercent = \Mage::getModel('Magento\Tax\Model\Calculation')
                             ->getRate($defaultRateRequest
                             ->setProductClassId($product->getTaxClassId()));
                         $currentPercent = $product->getTaxPercent();
-                        if (\Mage::helper('Magento\Tax\Helper\Data')->priceIncludesTax($store)) {
+                        if ($this->_taxData->priceIncludesTax($store)) {
                             $taxAmount = \Mage::app()->getStore()->roundPrice($value/(100+$defaultPercent)*$currentPercent);
                         } else {
                             $taxAmount = \Mage::app()->getStore()->roundPrice($value*$defaultPercent/100);

@@ -16,12 +16,13 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Main;
 
-class Filter extends \Magento\Adminhtml\Block\Widget\Form
+class Filter extends \Magento\Backend\Block\Widget\Form\Generic
 {
 
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $collection = \Mage::getModel('Magento\Eav\Model\Entity\Attribute\Set')
             ->getResourceCollection()

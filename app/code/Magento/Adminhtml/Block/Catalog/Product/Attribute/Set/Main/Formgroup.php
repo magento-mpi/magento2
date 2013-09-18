@@ -16,12 +16,12 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
 
-class Formgroup extends \Magento\Adminhtml\Block\Widget\Form
+class Formgroup extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('set_fieldset', array('legend'=>__('Add New Group')));
 
@@ -64,7 +64,7 @@ class Formgroup extends \Magento\Adminhtml\Block\Widget\Form
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
                     : \Mage::getModel('Magento\Eav\Model\Entity\Type')
-                        ->load(\Mage::registry('entityType'))
+                        ->load($this->_coreRegistry->registry('entityType'))
                         ->getDefaultAttributeSetId();
     }
 }

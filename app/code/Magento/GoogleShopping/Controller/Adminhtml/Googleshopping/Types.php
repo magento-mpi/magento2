@@ -10,16 +10,30 @@
 
 /**
  * GoogleShopping Admin Item Types Controller
- *
- * @category   Magento
- * @package    Magento_GoogleShopping
- * @name       \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Types
- * @author     Magento Core Team <core@magentocommerce.com>
 */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
 class Types extends \Magento\Adminhtml\Controller\Action
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     /**
      * Dispatches controller_action_postdispatch_adminhtml Event (as not Adminhtml router)
      */
@@ -41,10 +55,10 @@ class Types extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Google Content Attributes'));
 
-        \Mage::register('current_item_type', \Mage::getModel('Magento\GoogleShopping\Model\Type'));
+        $this->_coreRegistry->register('current_item_type', \Mage::getModel('Magento\GoogleShopping\Model\Type'));
         $typeId = $this->getRequest()->getParam('id');
         if (!is_null($typeId)) {
-            \Mage::registry('current_item_type')->load($typeId);
+            $this->_coreRegistry->registry('current_item_type')->load($typeId);
         }
         return $this;
     }
@@ -111,7 +125,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
     public function editAction()
     {
         $this->_initItemType();
-        $typeId = \Mage::registry('current_item_type')->getTypeId();
+        $typeId = $this->_coreRegistry->registry('current_item_type')->getTypeId();
 
         try {
             $result = array();
@@ -125,7 +139,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
             }
 
             $this->_title(__('Google Content Attribute Mapping'));
-            \Mage::register('attributes', $result);
+            $this->_coreRegistry->register('attributes', $result);
 
             $breadcrumbLabel = $typeId ? __('Edit attribute set mapping') : __('New attribute set mapping');
             $this->_initAction()
@@ -186,7 +200,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The attribute mapping has been saved.'));
             if (!empty($requiredAttributes)) {
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')
-                    ->addSuccess(\Mage::helper('Magento\GoogleShopping\Helper\Category')->getMessage());
+                    ->addSuccess($this->_objectManager->get('Magento_\GoogleShopping\Helper\Category')->getMessage());
             }
         } catch (\Exception $e) {
             \Mage::logException($e);
@@ -260,7 +274,7 @@ class Types extends \Magento\Adminhtml\Controller\Action
      */
     public function _getStore()
     {
-        $storeId = (int) $this->getRequest()->getParam('store', 0);
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
         if ($storeId == 0) {
             return \Mage::app()->getDefaultStoreView();
         }

@@ -20,6 +20,33 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
 class Related extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set grid params
      *
      */
@@ -44,7 +71,7 @@ class Related extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -248,7 +275,7 @@ class Related extends \Magento\Adminhtml\Block\Widget\Grid
     public function getSelectedRelatedProducts()
     {
         $products = array();
-        foreach (\Mage::registry('current_product')->getRelatedProducts() as $product) {
+        foreach ($this->_coreRegistry->registry('current_product')->getRelatedProducts() as $product) {
             $products[$product->getId()] = array('position' => $product->getPosition());
         }
         return $products;

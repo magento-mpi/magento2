@@ -21,6 +21,29 @@ namespace Magento\Log\Model\Resource;
 class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init Resource model and connection
      *
      */
@@ -39,17 +62,9 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $cleanTime = $object->getLogCleanTime();
 
-        \Mage::dispatchEvent('log_log_clean_before', array(
-            'log'   => $object
-        ));
-
         $this->_cleanVisitors($cleanTime);
         $this->_cleanCustomers($cleanTime);
         $this->_cleanUrls();
-
-        \Mage::dispatchEvent('log_log_clean_after', array(
-            'log'   => $object
-        ));
 
         return $this;
     }
@@ -86,7 +101,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
 
             $condition = array('visitor_id IN (?)' => $visitorIds);
-            
+
             // remove visitors from log/quote
             $writeAdapter->delete($this->getTable('log_quote'), $condition);
 

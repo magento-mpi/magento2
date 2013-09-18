@@ -20,6 +20,35 @@ namespace Magento\CustomerCustomAttributes\Helper;
 class Data extends \Magento\CustomAttribute\Helper\Data
 {
     /**
+     * Customer customer
+     *
+     * @var \Magento\CustomerCustomAttributes\Helper\Customer
+     */
+    protected $_customerCustomer = null;
+
+    /**
+     * Customer address
+     *
+     * @var \Magento\CustomerCustomAttributes\Helper\Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
+     * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
+        \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_customerAddress = $customerAddress;
+        $this->_customerCustomer = $customerCustomer;
+        parent::__construct($context);
+    }
+
+    /**
      * Return available customer attribute form as select options
      *
      * @throws \Magento\Core\Exception
@@ -46,7 +75,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
      */
     public function getCustomerAttributeFormOptions()
     {
-        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Customer')->getAttributeFormOptions();
+        return $this->_customerCustomer->getAttributeFormOptions();
     }
 
     /**
@@ -56,7 +85,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
      */
     public function getCustomerAddressAttributeFormOptions()
     {
-        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Address')->getAttributeFormOptions();
+        return $this->_customerAddress->getAttributeFormOptions();
     }
 
     /**
@@ -66,7 +95,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
      */
     public function getCustomerUserDefinedAttributeCodes()
     {
-        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Customer')->getUserDefinedAttributeCodes();
+        return $this->_customerCustomer->getUserDefinedAttributeCodes();
     }
 
     /**
@@ -76,6 +105,6 @@ class Data extends \Magento\CustomAttribute\Helper\Data
      */
     public function getCustomerAddressUserDefinedAttributeCodes()
     {
-        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Address')->getUserDefinedAttributeCodes();
+        return $this->_customerAddress->getUserDefinedAttributeCodes();
     }
 }

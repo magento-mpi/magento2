@@ -17,9 +17,36 @@
  */
 namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
 
-class Addresses extends \Magento\Adminhtml\Block\Widget\Form
+class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected $_template = 'customer/tab/addresses.phtml';
+
+    /**
+     * Adminhtml addresses
+     *
+     * @var \Magento\Adminhtml\Helper\Addresses
+     */
+    protected $_adminhtmlAddresses = null;
+
+    /**
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_adminhtmlAddresses = $adminhtmlAddresses;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
 
     public function getRegionsUrl()
     {
@@ -61,7 +88,7 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function isReadonly()
     {
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return $customer->isReadonly();
     }
 
@@ -78,24 +105,25 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
     public function initForm()
     {
         /* @var $customer \Magento\Customer\Model\Customer */
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('address_fieldset', array(
             'legend'    => __("Edit Customer's Address"))
         );
 
         $addressModel = \Mage::getModel('Magento\Customer\Model\Address');
-        $addressModel->setCountryId(\Mage::helper('Magento\Core\Helper\Data')->getDefaultCountry($customer->getStore()));
-        /** @var $addressForm \Magento\Customer\Model\Form */
+        $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
+        /** @var $addressForm Magento_Customer_Model_Form */
         $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)
             ->initDefaultValues();
 
         $attributes = $addressForm->getAttributes();
-        if(isset($attributes['street'])) {
-            \Mage::helper('Magento\Adminhtml\Helper\Addresses')
+        if (isset($attributes['street'])) {
+            $this->_adminhtmlAddresses
                 ->processStreetAttribute($attributes['street']);
         }
         foreach ($attributes as $attribute) {
@@ -206,7 +234,8 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
      *
      * @return string
      */
-    public function getDefaultCountriesJson() {
+    public function getDefaultCountriesJson()
+    {
         $websites = \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(false, true);
         $result = array();
         foreach ($websites as $website) {
@@ -215,7 +244,7 @@ class Addresses extends \Magento\Adminhtml\Block\Widget\Form
             );
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

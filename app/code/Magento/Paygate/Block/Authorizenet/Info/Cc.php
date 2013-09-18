@@ -73,11 +73,11 @@ class Cc extends \Magento\Payment\Block\Info\Cc
             foreach ($cardsData as $cardInfo) {
                 $data = array();
                 if ($cardInfo->getProcessedAmount()) {
-                    $amount = \Mage::helper('Magento\Core\Helper\Data')->currency($cardInfo->getProcessedAmount(), true, false);
+                    $amount = $this->_coreData->currency($cardInfo->getProcessedAmount(), true, false);
                     $data[__('Processed Amount')] = $amount;
                 }
                 if ($cardInfo->getBalanceOnCard() && is_numeric($cardInfo->getBalanceOnCard())) {
-                    $balance = \Mage::helper('Magento\Core\Helper\Data')->currency($cardInfo->getBalanceOnCard(), true, false);
+                    $balance = $this->_coreData->currency($cardInfo->getBalanceOnCard(), true, false);
                     $data[__('Remaining Balance')] = $balance;
                 }
                 $this->setCardInfoObject($cardInfo);

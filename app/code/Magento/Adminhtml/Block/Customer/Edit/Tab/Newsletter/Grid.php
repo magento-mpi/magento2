@@ -19,6 +19,32 @@ namespace Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter;
 
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -35,7 +61,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/newsletter', array('_current'=>true));
+        return $this->getUrl('*/*/newsletter', array('_current' => true));
     }
 
     protected function _prepareCollection()
@@ -43,7 +69,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         /** @var $collection \Magento\Newsletter\Model\Resource\Queue\Collection */
         $collection = \Mage::getResourceModel('Magento\Newsletter\Model\Resource\Queue\Collection')
             ->addTemplateInfo()
-            ->addSubscriberFilter(\Mage::registry('subscriber')->getId());
+            ->addSubscriberFilter($this->_coreRegistry->registry('subscriber')->getId());
 
         $this->setCollection($collection);
 
@@ -109,5 +135,4 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
         return parent::_prepareColumns();
     }
-
 }

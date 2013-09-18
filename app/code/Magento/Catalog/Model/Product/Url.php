@@ -37,6 +37,35 @@ class Url extends \Magento\Object
     protected static $_urlRewrite;
 
     /**
+     * Catalog product url
+     *
+     * @var \Magento\Catalog\Helper\Product\Url
+     */
+    protected $_catalogProductUrl = null;
+
+    /**
+     * Catalog category
+     *
+     * @var \Magento\Catalog\Helper\Category
+     */
+    protected $_catalogCategory = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Category $catalogCategory
+     * @param \Magento\Catalog\Helper\Product\Url $catalogProductUrl
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Product\Url $catalogProductUrl,
+        array $data = array()
+    ) {
+        $this->_catalogCategory = $catalogCategory;
+        $this->_catalogProductUrl = $catalogProductUrl;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve URL Instance
      *
      * @return \Magento\Core\Model\Url
@@ -118,7 +147,7 @@ class Url extends \Magento\Object
      */
     public function formatUrlKey($str)
     {
-        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', \Mage::helper('Magento\Catalog\Helper\Product\Url')->format($str));
+        $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $this->_catalogProductUrl->format($str));
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');
 
@@ -144,7 +173,7 @@ class Url extends \Magento\Object
             \Mage::throwException('Invalid category object supplied');
         }
 
-        return \Mage::helper('Magento\Catalog\Helper\Category')->getCategoryUrlPath($category->getUrlPath())
+        return $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath())
             . '/' . $path;
     }
 

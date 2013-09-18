@@ -35,6 +35,33 @@ class Rate extends \Magento\Core\Model\AbstractModel
     const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;
 
     /**
+     * Reward data
+     *
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Reward\Model\Resource\Reward\Rate $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Rate text getter
      *
      * @param int $direction
@@ -43,13 +70,13 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param string $currencyCode
      * @return string|null
      */
-    public static function getRateText($direction, $points, $amount, $currencyCode = null)
+    public function getRateText($direction, $points, $amount, $currencyCode = null)
     {
         switch ($direction) {
             case self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY:
-                return \Mage::helper('Magento\Reward\Helper\Data')->formatRateToCurrency($points, $amount, $currencyCode);
+                return $this->_rewardData->formatRateToCurrency($points, $amount, $currencyCode);
             case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
-                return \Mage::helper('Magento\Reward\Helper\Data')->formatRateToPoints($points, $amount, $currencyCode);
+                return $this->_rewardData->formatRateToPoints($points, $amount, $currencyCode);
         }
     }
 

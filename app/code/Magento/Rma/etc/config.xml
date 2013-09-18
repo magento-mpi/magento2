@@ -112,26 +112,4 @@
             </magento_rma_customer_comment>
         </sales_email>
     </default>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Rma>
-                    <files>
-                        <default>Magento_Rma.csv</default>
-                    </files>
-                </Magento_Rma>
-            </modules>
-        </translate>
-    </adminhtml>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Rma>
-                    <files>
-                        <default>Magento_Rma.csv</default>
-                    </files>
-                </Magento_Rma>
-            </modules>
-        </translate>
-    </frontend>
 </config>

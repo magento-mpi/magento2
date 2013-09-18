@@ -89,13 +89,16 @@ abstract class EavAbstract
     protected $_attributeCollection;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $coreString, $data);
 
         $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : \Mage::app();
         $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : \Mage::app();

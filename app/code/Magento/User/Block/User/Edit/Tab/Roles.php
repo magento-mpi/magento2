@@ -12,13 +12,39 @@ namespace Magento\User\Block\User\Edit\Tab;
 
 class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
         $this->setId('permissionsUserRolesGrid');
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
-        //$this->setDefaultFilter(array('assigned_user_role'=>1));
         $this->setTitle(__('User Roles Information'));
         $this->setUseAjax(true);
     }
@@ -64,16 +90,9 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
             'index'     => 'role_id'
         ));
 
-        /*$this->addColumn('role_id', array(
-            'header'    =>__('Role ID'),
-            'index'     =>'role_id',
-            'align'     => 'right',
-            'width'    => '50px'
-        ));*/
-
         $this->addColumn('role_name', array(
-            'header'    =>__('Role'),
-            'index'     =>'role_name'
+            'header'    => __('Role'),
+            'index'     => 'role_name'
         ));
 
         return parent::_prepareColumns();
@@ -81,7 +100,8 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/rolesGrid', array('user_id' => \Mage::registry('permissions_user')->getUserId()));
+        $userPermissions = $this->_coreRegistry->registry('permissions_user');
+        return $this->getUrl('*/*/rolesGrid', array('user_id' => $userPermissions->getUserId()));
     }
 
     public function getSelectedRoles($json=false)
@@ -89,8 +109,8 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         if ( $this->getRequest()->getParam('user_roles') != "" ) {
             return $this->getRequest()->getParam('user_roles');
         }
-        /* @var $user \Magento\User\Model\User */
-        $user = \Mage::registry('permissions_user');
+        /* @var $user Magento_User_Model_User */
+        $user = $this->_coreRegistry->registry('permissions_user');
         //checking if we have this data and we
         //don't need load it through resource model
         if ($user->hasData('roles')) {
@@ -104,7 +124,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
             foreach ($uRoles as $urid) {
                 $jsonRoles[$urid] = 0;
             }
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode((object)$jsonRoles);
+            return $this->_coreData->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;
         }

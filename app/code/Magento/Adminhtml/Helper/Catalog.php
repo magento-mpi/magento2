@@ -36,6 +36,25 @@ class Catalog extends \Magento\Core\Helper\AbstractHelper
     protected $_categoryAttributeTabBlock;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve Attribute Tab Block Name for Product Edit
      *
      * @return string
@@ -86,10 +105,7 @@ class Catalog extends \Magento\Core\Helper\AbstractHelper
      */
     public function getSitemapValidPaths()
     {
-        $path = \Mage::getStoreConfig(self::XML_PATH_SITEMAP_VALID_PATHS);
-        /** @var $helper \Magento\Core\Helper\Data */
-        $helper = \Mage::helper('Magento\Core\Helper\Data');
-        $path = array_merge($path, $helper->getPublicFilesValidPath());
-        return $path;
+        return array_merge(\Mage::getStoreConfig(self::XML_PATH_SITEMAP_VALID_PATHS),
+            $this->_coreData->getPublicFilesValidPath());
     }
 }

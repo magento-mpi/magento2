@@ -31,24 +31,60 @@ class Config extends \Magento\Object
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
-    
+
     /**
      * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
+     * @var \Magento\Core\Model\Variable\Config
+     */
+    protected $_variableConfig;
+
+    /**
+     * @var \Magento\Widget\Model\Widget\Config
+     */
+    protected $_widgetConfig;
+
+    /**
+     * Cms data
+     *
+     * @var \Magento\Cms\Helper\Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Cms\Helper\Data $cmsData
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\Variable\Config $variableConfig
+     * @param \Magento\Widget\Model\Widget\Config $widgetConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Cms\Helper\Data $cmsData,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\Variable\Config $variableConfig,
+        \Magento\Widget\Model\Widget\Config $widgetConfig,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_cmsData = $cmsData;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
+        $this->_variableConfig = $variableConfig;
+        $this->_widgetConfig = $widgetConfig;
         parent::__construct($data);
     }
 
@@ -80,7 +116,7 @@ class Config extends \Magento\Object
             'add_variables'                 => true,
             'add_widgets'                   => true,
             'no_display'                    => false,
-            'translator'                    => \Mage::helper('Magento\Cms\Helper\Data'),
+            'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
             'directives_url'                =>
                 \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/cms_wysiwyg/directive'),
@@ -108,7 +144,15 @@ class Config extends \Magento\Object
             $config->addData($data);
         }
 
-        \Mage::dispatchEvent('cms_wysiwyg_config_prepare', array('config' => $config));
+        if ($config->getData('add_variables')) {
+            $settings = $this->_variableConfig->getWysiwygPluginSettings($config);
+            $config->addData($settings);
+        }
+
+        if ($config->getData('add_widgets')) {
+            $settings = $this->_widgetConfig->getPluginSettings($config);
+            $config->addData($settings);
+        }
 
         return $config;
     }

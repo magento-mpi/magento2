@@ -29,6 +29,31 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     protected $_template = 'urlrewrite/categories.phtml';
 
     /**
+     * Adminhtml data
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($coreData, $context, $registry, $data);
+    }
+
+    /**
      * Get categories tree as recursive array
      *
      * @param int $parentId
@@ -59,7 +84,7 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         }
 
         if ($asJson) {
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+            return $this->_coreData->jsonEncode($result);
         }
 
         $this->_allowedCategoryIds = null;
@@ -126,6 +151,6 @@ class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
      */
     public function getLoadTreeUrl()
     {
-        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('*/*/categoriesJson');
+        return $this->_adminhtmlData->getUrl('*/*/categoriesJson');
     }
 }

@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
-class Send extends \Magento\Adminhtml\Block\Widget\Form
+class Send extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Init form fields
@@ -19,13 +19,14 @@ class Send extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function initForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_send');
 
-        $model = \Mage::registry('current_giftcardaccount');
+        $model = $this->_coreRegistry->registry('current_giftcardaccount');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>__('Send Gift Card'))
+            array('legend' => __('Send Gift Card'))
         );
 
         $fieldset->addField('recipient_email', 'text', array(
@@ -80,7 +81,7 @@ class Send extends \Magento\Adminhtml\Block\Widget\Form
             }
         }
 
-        $websiteStores = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($websiteStores);
+        $websiteStores = $this->_coreData->jsonEncode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";

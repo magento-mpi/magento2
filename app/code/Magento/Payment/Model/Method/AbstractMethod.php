@@ -79,9 +79,33 @@ abstract class AbstractMethod extends \Magento\Object
      */
     protected $_debugReplacePrivateDataKeys = array();
 
-    public function __construct()
-    {
+    /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
 
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_paymentData = $paymentData;
+        parent::__construct($data);
     }
 
     /**
@@ -300,15 +324,6 @@ abstract class AbstractMethod extends \Magento\Object
                && ($this instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface);
     }
 
-    /**
-     * Retrieve model helper
-     *
-     * @return \Magento\Payment\Helper\Data
-     */
-    protected function _getHelper()
-    {
-        return \Mage::helper('Magento\Payment\Helper\Data');
-    }
 
     /**
      * Retrieve payment method code
@@ -624,7 +639,7 @@ abstract class AbstractMethod extends \Magento\Object
         $isActive = (bool)(int)$this->getConfigData('active', $quote ? $quote->getStoreId() : null);
         $checkResult->isAvailable = $isActive;
         $checkResult->isDeniedInConfig = !$isActive; // for future use in observers
-        \Mage::dispatchEvent('payment_method_is_active', array(
+        $this->_eventManager->dispatch('payment_method_is_active', array(
             'result'          => $checkResult,
             'method_instance' => $this,
             'quote'           => $quote,

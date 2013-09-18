@@ -57,6 +57,33 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     protected $_orderWebsiteId = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -83,7 +110,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeLoadByTxnId($txnId)
     {
-        \Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             $this->_eventPrefix . '_load_by_txn_id_before',
             $this->_getEventData() + array('txn_id' => $txnId)
         );
@@ -112,7 +139,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterLoadByTxnId()
     {
-        \Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_after', $this->_getEventData());
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_by_txn_id_after', $this->_getEventData());
         return $this;
     }
 

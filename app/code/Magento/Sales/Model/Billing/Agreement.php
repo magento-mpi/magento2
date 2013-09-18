@@ -214,7 +214,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
         $baData = $payment->getBillingAgreementData();
 
         $this->_paymentMethodInstance = (isset($baData['method_code']))
-            ? \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($baData['method_code'])
+            ? $this->_paymentData->getMethodInstance($baData['method_code'])
             : $payment->getMethodInstance();
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($payment->getMethodInstance()->getStore());

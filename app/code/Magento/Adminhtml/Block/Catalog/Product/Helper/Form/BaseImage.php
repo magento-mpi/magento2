@@ -47,24 +47,31 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
     protected $_viewUrl;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\View\UrlFactory $coreViewUrlFactory
+     * @param \Magento\Backend\Model\UrlFactory $backendUrlFactory
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\File\Size $fileConfig
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
-    {
-        parent::__construct($attributes);
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Core\Model\View\UrlFactory $coreViewUrlFactory,
+        \Magento\Backend\Model\UrlFactory $backendUrlFactory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\File\Size $fileConfig,
+        array $attributes = array()
+    ) {
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
 
-        $this->_viewUrl = \Mage::getModel('Magento\Core\Model\View\Url');
-
-        $this->_url = isset($attributes['url']) ? $attributes['url']
-            : \Mage::getModel('Magento\Backend\Model\Url');
-        $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
-            : \Mage::helper('Magento\Core\Helper\Data');
-        $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']
-            : \Mage::helper('Magento\Catalog\Helper\Data');
-        $this->_fileConfig = isset($attributes['fileConfig']) ? $attributes['fileConfig'] :
-            \Mage::getSingleton('Magento\File\Size');
+        $this->_viewUrl = $coreViewUrlFactory->create();
+        $this->_url = $backendUrlFactory->create();
+        $this->_catalogHelperData = $catalogData;
+        $this->_fileConfig = $fileConfig;
         $this->_maxFileSize = $this->_getFileMaxSize();
     }
 
@@ -85,8 +92,8 @@ class BaseImage extends \Magento\Data\Form\Element\AbstractElement
      */
     public function getElementHtml()
     {
-        $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
-        $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
+        $htmlId = $this->_coreData->escapeHtml($this->getHtmlId());
+        $uploadUrl = $this->_coreData->escapeHtml($this->_getUploadUrl());
         $spacerImage = $this->_viewUrl->getViewFileUrl('images/spacer.gif');
         $imagePlaceholderText = __('Click here or drag and drop to add images');
         $deleteImageText = __('Delete image');

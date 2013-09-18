@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\CustomerCustomAttributes\Helper\Data">
+        <param name="customerAddress">
+            <instance type="Magento\CustomerCustomAttributes\Helper\Address\Proxy" />
+        </param>
+        <param name="customerCustomer">
+            <instance type="Magento\CustomerCustomAttributes\Helper\Customer\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\CustomerCustomAttributes\Model\Observer">
+        <param name="customerData">
+            <instance type="Magento\CustomerCustomAttributes\Helper\Data\Proxy" />
+        </param>
+    </type>
+</config>

@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Add fieldsets
@@ -26,12 +26,15 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-            'id'      => 'edit_form',
-            'action'  => $this->getUrl('*/*/validate'),
-            'method'  => 'post',
-            'enctype' => 'multipart/form-data',
-        ));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'      => 'edit_form',
+                'action'  => $this->getUrl('*/*/validate'),
+                'method'  => 'post',
+                'enctype' => 'multipart/form-data',
+            ))
+        );
 
         // base fieldset
         /** @var $importEntity \Magento\ImportExport\Model\Source\Import\Entity */

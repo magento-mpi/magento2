@@ -154,16 +154,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     }
 
     /**
-     * Retrieve TargetRule data helper
-     *
-     * @return \Magento\TargetRule\Helper\Data
-     */
-    public function getTargetRuleHelper()
-    {
-        return \Mage::helper('Magento\TargetRule\Helper\Data');
-    }
-
-    /**
      * Retrieve Target Rule Index instance
      *
      * @return \Magento\TargetRule\Model\Index
@@ -183,7 +173,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     public function getPositionLimit()
     {
-        return $this->getTargetRuleHelper()->getMaximumNumberOfProduct(\Magento\TargetRule\Model\Rule::CROSS_SELLS);
+        return $this->_targetRuleData->getMaximumNumberOfProduct(\Magento\TargetRule\Model\Rule::CROSS_SELLS);
     }
 
     /**
@@ -193,7 +183,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     public function getPositionBehavior()
     {
-        return $this->getTargetRuleHelper()->getShowProducts(\Magento\TargetRule\Model\Rule::CROSS_SELLS);
+        return $this->_targetRuleData->getShowProducts(\Magento\TargetRule\Model\Rule::CROSS_SELLS);
     }
 
     /**

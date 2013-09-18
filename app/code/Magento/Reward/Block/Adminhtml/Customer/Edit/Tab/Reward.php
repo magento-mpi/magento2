@@ -19,9 +19,42 @@
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab;
 
 class Reward
-    extends \Magento\Adminhtml\Block\Template
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Reward data
+     *
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_rewardData = $rewardData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Return tab label
      *
@@ -49,9 +82,9 @@ class Reward
      */
     public function canShowTab()
     {
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return $customer->getId()
-            && \Mage::helper('Magento\Reward\Helper\Data')->isEnabled()
+            && $this->_rewardData->isEnabled()
             && $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_BALANCE);
     }
 

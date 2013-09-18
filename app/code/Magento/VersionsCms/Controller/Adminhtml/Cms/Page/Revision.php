@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Manage revision controller
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
@@ -28,14 +23,16 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 
     /**
      * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Config\Scope $configScope
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_configScope = $configScope;
-        parent::__construct($context);
+        parent::__construct($context, $coreRegistry);
     }
 
     /**
@@ -49,8 +46,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
         $this->loadLayout()
             ->_setActiveMenu('Magento_Cms::cms_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'))
-        ;
+            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
         return $this;
     }
 
@@ -84,7 +80,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
         }
 
         //setting in registry as cms_page to make work CE blocks
-        \Mage::register('cms_page', $revision);
+        $this->_coreRegistry->register('cms_page', $revision);
         return $revision;
     }
 
@@ -127,7 +123,8 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $data = $this->_filterPostData($data);
             // init model and set data
             $revision = $this->_initRevision();
@@ -337,7 +334,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
             // add handles used to render cms page on frontend
             $this->getLayout()->getUpdate()->addHandle('default');
             $this->getLayout()->getUpdate()->addHandle('cms_page_view');
-            \Mage::helper('Magento\Cms\Helper\Page')->renderPageExtended($this);
+            $this->_objectManager->get('Magento\Cms\Helper\Page')->renderPageExtended($this);
             \Mage::app()->getLocale()->revert();
 
         } else {
@@ -353,8 +350,8 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('revision_id')) {
-            $error = false;
+        $id = $this->getRequest()->getParam('revision_id');
+        if ($id) {
             try {
                 // init model and delete
                 $revision = $this->_initRevision();
@@ -398,16 +395,12 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
         switch ($this->getRequest()->getActionName()) {
             case 'save':
                 return \Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserSaveRevision();
-                break;
             case 'publish':
                 return \Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserPublishRevision();
-                break;
             case 'delete':
                 return \Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserDeleteRevision();
-                break;
             default:
                 return $this->_authorization->isAllowed('Magento_Cms::page');
-                break;
         }
     }
 

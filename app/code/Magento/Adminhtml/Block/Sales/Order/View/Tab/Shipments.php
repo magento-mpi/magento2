@@ -10,10 +10,6 @@
 
 /**
  * Order Shipments grid
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Block\Sales\Order\View\Tab;
 
@@ -21,6 +17,33 @@ class Shipments
     extends \Magento\Adminhtml\Block\Widget\Grid
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -94,7 +117,7 @@ class Shipments
      */
     public function getOrder()
     {
-        return \Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     public function getRowUrl($row)
@@ -104,7 +127,7 @@ class Shipments
             array(
                 'shipment_id'=> $row->getId(),
                 'order_id'  => $row->getOrderId()
-             ));
+         ));
     }
 
     public function getGridUrl()

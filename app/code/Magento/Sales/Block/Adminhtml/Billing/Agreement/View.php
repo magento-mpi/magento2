@@ -15,8 +15,31 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Billing\Agreement;
 
-class View extends \Magento\Adminhtml\Block\Widget\Form\Container
+class View extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Initialize view container
      *
@@ -83,7 +106,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     protected function _getBillingAgreement()
     {
-        return \Mage::registry('current_billing_agreement');
+        return $this->_coreRegistry->registry('current_billing_agreement');
     }
 
     /**

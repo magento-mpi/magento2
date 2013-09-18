@@ -20,6 +20,25 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
     protected $_entityType;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Return RMA Item Entity Type instance
      *
      * @return \Magento\Eav\Model\Entity\Type
@@ -123,7 +142,7 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             $attributeObject->setData($attributeData);
         }
         $attributeObject->setCanManageOptionLabels(true);
-        \Mage::register('entity_attribute', $attributeObject);
+        $this->_coreRegistry->register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
             ? __('Edit Return Item Attribute')
@@ -171,19 +190,19 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
         if ($this->getRequest()->isPost() && $data) {
             /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
             $attributeObject = $this->_initAttribute();
-            /* @var $helper \Magento\Rma\Helper\Eav */
-            $helper = \Mage::helper('Magento\Rma\Helper\Eav');
+            /* @var $helper Magento\Rma\Helper\Eav */
+            $helper = $this->_objectManager->get('Magento\Rma\Helper\Eav');
 
             try {
-                $data = \Mage::helper('Magento\Rma\Helper\Eav')->filterPostData($data);
+                $data = $this->_objectManager->get('Magento\Rma\Helper\Eav')->filterPostData($data);
             } catch (\Magento\Core\Exception $e) {
-                    $this->_getSession()->addError($e->getMessage());
-                    if (isset($data['attribute_id'])) {
-                        $this->_redirect('*/*/edit', array('_current' => true));
-                    } else {
-                        $this->_redirect('*/*/new', array('_current' => true));
-                    }
-                    return;
+                $this->_getSession()->addError($e->getMessage());
+                if (isset($data['attribute_id'])) {
+                    $this->_redirect('*/*/edit', array('_current' => true));
+                } else {
+                    $this->_redirect('*/*/new', array('_current' => true));
+                }
+                return;
             }
 
             $attributeId = $this->getRequest()->getParam('attribute_id');
@@ -244,10 +263,6 @@ class Attribute extends \Magento\Adminhtml\Controller\Action
             $attributeObject->setCanManageOptionLabels(true);
 
             try {
-                $this->_eventManager->dispatch('magento_rma_item_attribute_before_save', array(
-                    'attribute' => $attributeObject
-                ));
-
                 $attributeObject->save();
 
                 $this->_getSession()->addSuccess(

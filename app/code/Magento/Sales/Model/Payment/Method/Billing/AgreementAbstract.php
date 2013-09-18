@@ -19,7 +19,6 @@ abstract class AgreementAbstract extends \Magento\Payment\Model\Method\AbstractM
 {
     /**
      * Transport billing agreement id
-     *
      */
     const TRANSPORT_BILLING_AGREEMENT_ID = 'ba_agreement_id';
     const PAYMENT_INFO_REFERENCE_ID      = 'ba_reference_id';
@@ -86,8 +85,6 @@ abstract class AgreementAbstract extends \Magento\Payment\Model\Method\AbstractM
     }
 
     /**
-     *
-     *
      * @param unknown_type $quote
      */
     abstract protected function _isAvailable($quote);

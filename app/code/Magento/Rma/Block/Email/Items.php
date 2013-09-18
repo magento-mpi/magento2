@@ -20,6 +20,29 @@ class Items extends \Magento\Rma\Block\Form
     protected $_attributeOptionValues = null;
 
     /**
+     * Rma eav
+     *
+     * @var \Magento\Rma\Helper\Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get string label of option-type item attributes
      *
      * @param int $attributeValue
@@ -28,7 +51,7 @@ class Items extends \Magento\Rma\Block\Form
     public function getOptionAttributeStringValue($attributeValue)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = $this->_rmaEav->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$attributeValue])) {
             return $this->_attributeOptionValues[$attributeValue];

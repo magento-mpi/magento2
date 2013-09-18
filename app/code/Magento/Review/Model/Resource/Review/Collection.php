@@ -62,6 +62,29 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_addStoreDataFlag   = false;
 
     /**
+     * Review data
+     *
+     * @var \Magento\Review\Helper\Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+    ) {
+        $this->_reviewData = $reviewData;
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+    }
+
+    /**
      * Define module
      *
      */
@@ -169,7 +192,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addStatusFilter($status)
     {
         if (is_string($status)) {
-            $statuses = array_flip(\Mage::helper('Magento\Review\Helper\Data')->getReviewStatuses());
+            $statuses = array_flip($this->_reviewData->getReviewStatuses());
             $status = isset($statuses[$status]) ? $statuses[$status] : 0;
         }
         if (is_numeric($status)) {
@@ -241,7 +264,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if ($this->isLoaded()) {
             return $this;
         }
-        \Mage::dispatchEvent('review_review_collection_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('review_review_collection_load_before', array('collection' => $this));
         parent::load($printQuery, $logQuery);
         if ($this->_addStoreDataFlag) {
             $this->_addStoreData();

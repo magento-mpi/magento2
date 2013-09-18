@@ -21,6 +21,29 @@ namespace Magento\AdminGws\Model\Resource;
 class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Admin gws data
+     *
+     * @var \Magento\AdminGws\Helper\Data
+     */
+    protected $_adminGwsData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\AdminGws\Helper\Data $adminGwsData,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_adminGwsData = $adminGwsData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Class construction & resource initialization
      */
     protected function _construct()
@@ -54,8 +77,8 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
             $roles = $this->_getReadAdapter()->fetchAll($select);
 
             foreach ($roles as $role) {
-                $roleStoreGroups = \Mage::helper('Magento\AdminGws\Helper\Data')->explodeIds($role['gws_store_groups']);
-                $roleWebsites = \Mage::helper('Magento\AdminGws\Helper\Data')->explodeIds($role['gws_websites']);
+                $roleStoreGroups = $this->_adminGwsData->explodeIds($role['gws_store_groups']);
+                $roleWebsites = $this->_adminGwsData->explodeIds($role['gws_websites']);
 
                 $hasAllPermissions = ($role['gws_is_all'] == 1);
 

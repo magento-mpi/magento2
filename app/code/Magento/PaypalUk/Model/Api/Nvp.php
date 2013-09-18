@@ -328,6 +328,30 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     );
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Customer\Helper\Address $customerAddress
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Customer\Helper\Address $customerAddress
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($customerAddress);
+    }
+
+    /**
      * API endpoint getter
      *
      * @return string
@@ -517,11 +541,11 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * Generate Request ID
      *
-     * @return
+     * @return string
      */
     protected function getRequestId()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**

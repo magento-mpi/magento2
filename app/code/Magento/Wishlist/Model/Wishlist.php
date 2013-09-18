@@ -57,18 +57,60 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected $_storeIds = null;
 
     /**
+     * Wishlist data
+     *
+     * @var \Magento\Wishlist\Helper\Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Wishlist\Model\Resource\Wishlist $resource
      * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Wishlist\Model\Resource\Wishlist $resource,
         \Magento\Wishlist\Model\Resource\Wishlist\Collection $resourceCollection,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_eventManager = $eventManager;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_coreData = $coreData;
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -105,7 +147,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     {
         $name = $this->_getData('name');
         if (!strlen($name)) {
-            return \Mage::helper('Magento\Wishlist\Helper\Data')->getDefaultWishlistName();
+            return $this->_wishlistData->getDefaultWishlistName();
         }
         return $name;
     }
@@ -144,7 +186,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      */
     protected function _getSharingRandomCode()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**
@@ -262,7 +304,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         $item->setWishlist($this);
         if (!$item->getId()) {
             $this->getItemCollection()->addItem($item);
-            \Mage::dispatchEvent('wishlist_add_item', array('item' => $item));
+            $this->_eventManager->dispatch('wishlist_add_item', array('item' => $item));
         }
         return $this;
     }
@@ -347,7 +389,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
             }
         }
 
-        \Mage::dispatchEvent('wishlist_product_add_after', array('items' => $items));
+        $this->_eventManager->dispatch('wishlist_product_add_after', array('items' => $items));
 
         return $item;
     }
@@ -526,7 +568,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
                 $params = new \Magento\Object($params);
             }
             $params->setCurrentConfig($item->getBuyRequest());
-            $buyRequest = \Mage::helper('Magento\Catalog\Helper\Product')->addParamsToBuyRequest($buyRequest, $params);
+            $buyRequest = $this->_catalogProduct->addParamsToBuyRequest($buyRequest, $params);
 
             $product->setWishlistStoreId($item->getStoreId());
             $items = $this->getItemCollection();

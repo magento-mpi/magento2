@@ -18,16 +18,59 @@ class View extends \Magento\Rma\Block\Form
      */
     protected $_realValueAttributes = array();
 
+    /**
+     * Rma data
+     *
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Customer data
+     *
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_customerData = $customerData;
+        $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function _construct()
     {
         parent::_construct();
-        if (!\Mage::registry('current_rma')) {
+        if (!$this->_coreRegistry->registry('current_rma')) {
             return;
         }
         $this->setTemplate('return/view.phtml');
 
-        $this->setRma(\Mage::registry('current_rma'));
-        $this->setOrder(\Mage::registry('current_order'));
+        $this->setRma($this->_coreRegistry->registry('current_rma'));
+        $this->setOrder($this->_coreRegistry->registry('current_order'));
 
         /** @var $collection \Magento\Rma\Model\Resource\Item */
         $collection = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item\Collection')
@@ -213,7 +256,7 @@ class View extends \Magento\Rma\Block\Form
 
     public function getAddress()
     {
-        return  \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddress();
+        return  $this->_rmaData->getReturnAddress();
     }
 
     public function getSubmitUrl()
@@ -224,9 +267,9 @@ class View extends \Magento\Rma\Block\Form
     public function getCustomerName()
     {
         if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            return \Mage::helper('Magento\Customer\Helper\Data')->getCustomerName();
+            return $this->_customerData->getCustomerName();
         } else {
-            $billingAddress = \Mage::registry('current_order')->getBillingAddress();
+            $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
             $name = '';
             $config = \Mage::getSingleton('Magento\Eav\Model\Config');
@@ -357,7 +400,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getCarriers()
     {
-        return \Mage::helper('Magento\Rma\Helper\Data')->getShippingCarriers($this->getRma()->getStoreId());
+        return $this->_rmaData->getShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**

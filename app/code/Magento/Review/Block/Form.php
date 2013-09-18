@@ -19,6 +19,29 @@ namespace Magento\Review\Block;
 
 class Form extends \Magento\Core\Block\Template
 {
+    /**
+     * Review data
+     *
+     * @var \Magento\Review\Helper\Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_reviewData = $reviewData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
@@ -37,10 +60,10 @@ class Form extends \Magento\Core\Block\Template
         }
 
         $this->setAllowWriteReviewFlag(
-            $customerSession->isLoggedIn() || \Mage::helper('Magento\Review\Helper\Data')->getIsGuestAllowToWrite()
+            $customerSession->isLoggedIn() || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
-            $queryParam = \Mage::helper('Magento\Core\Helper\Data')->urlEncode(
+            $queryParam = $this->_coreData->urlEncode(
                 \Mage::getUrl('*/*/*', array('_current' => true)) .
                 '#review-form'
             );

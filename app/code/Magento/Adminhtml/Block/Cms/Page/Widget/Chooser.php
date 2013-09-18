@@ -40,7 +40,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
+        $uniqId = $this->_coreData->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_page_widget/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')

@@ -21,6 +21,33 @@ namespace Magento\Catalog\Model\Product;
 class Action extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -49,7 +76,7 @@ class Action extends \Magento\Core\Model\AbstractModel
      */
     public function updateAttributes($productIds, $attrData, $storeId)
     {
-        \Mage::dispatchEvent('catalog_product_attribute_update_before', array(
+        $this->_eventManager->dispatch('catalog_product_attribute_update_before', array(
             'attributes_data' => &$attrData,
             'product_ids'   => &$productIds,
             'store_id'      => &$storeId
@@ -82,12 +109,6 @@ class Action extends \Magento\Core\Model\AbstractModel
      */
     public function updateWebsites($productIds, $websiteIds, $type)
     {
-        \Mage::dispatchEvent('catalog_product_website_update_before', array(
-            'website_ids'   => $websiteIds,
-            'product_ids'   => $productIds,
-            'action'        => $type
-        ));
-
         if ($type == 'add') {
             \Mage::getModel('Magento\Catalog\Model\Product\Website')->addProducts($websiteIds, $productIds);
         } else if ($type == 'remove') {
@@ -104,12 +125,5 @@ class Action extends \Magento\Core\Model\AbstractModel
         \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
             $this, \Magento\Catalog\Model\Product::ENTITY, \Magento\Index\Model\Event::TYPE_MASS_ACTION
         );
-
-        // add back compatibility system event
-        \Mage::dispatchEvent('catalog_product_website_update', array(
-            'website_ids'   => $websiteIds,
-            'product_ids'   => $productIds,
-            'action'        => $type
-        ));
     }
 }

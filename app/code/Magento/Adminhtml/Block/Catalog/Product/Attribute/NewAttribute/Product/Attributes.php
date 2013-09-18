@@ -21,13 +21,13 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 {
     protected function _prepareForm()
     {
-
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         /**
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(\Mage::registry('product'));
+        $form->setDataObject($this->_coreRegistry->registry('product'));
 
         $fieldset = $form->addFieldset('group_fields', array());
 
@@ -35,11 +35,11 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 
         $this->_setFieldset($attributes, $fieldset, array('gallery'));
 
-        $values = \Mage::registry('product')->getData();
+        $values = $this->_coreRegistry->registry('product')->getData();
         /**
          * Set attribute default values for new product
          */
-        if (!\Mage::registry('product')->getId()) {
+        if (!$this->_coreRegistry->registry('product')->getId()) {
             foreach ($attributes as $attribute) {
                 if (!isset($values[$attribute->getAttributeCode()])) {
                     $values[$attribute->getAttributeCode()] = $attribute->getDefaultValue();
@@ -47,7 +47,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
             }
         }
 
-        \Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
         $form->addValues($values);
         $form->setFieldNameSuffix('product');
         $this->setForm($form);
@@ -63,7 +63,7 @@ class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 
         $response = new \Magento\Object();
         $response->setTypes(array());
-        \Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
 
         foreach ($response->getTypes() as $typeName=>$typeClass) {
             $result[$typeName] = $typeClass;

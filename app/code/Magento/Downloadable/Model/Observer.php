@@ -27,11 +27,11 @@ class Observer
     protected $_helper;
 
     /**
-     * @param array $data
+     * @param \Magento\Core\Helper\Data $coreData
      */
-    public function __construct(array $data = array())
+    public function __construct(\Magento\Core\Helper\Data $coreData)
     {
-        $this->_helper = isset($data['helper']) ? $data['helper'] : \Mage::helper('Magento\Core\Helper\Data');
+        $this->_helper = $coreData;
     }
 
     /**
@@ -111,21 +111,22 @@ class Observer
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
                 $linkPurchased = \Mage::getModel('Magento\Downloadable\Model\Link\Purchased');
-                \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
+                $this->_helper->copyFieldsetToTarget(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
+                $this->_helper->copyFieldsetToTarget(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
                     $linkPurchased
                 );
                 $linkSectionTitle = (
-                    $product->getLinksTitle()?
-                    $product->getLinksTitle():Mage::getStoreConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE)
+                    $product->getLinksTitle()
+                        ? $product->getLinksTitle()
+                        : \Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
@@ -135,7 +136,7 @@ class Observer
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
+                        $this->_helper->copyFieldsetToTarget(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],
@@ -172,9 +173,9 @@ class Observer
             foreach ($order->getAllItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
                 if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
-                || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
-                || $item->getProductOptionByCode('is_downloadable'))
-                {
+                    || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getProductOptionByCode('is_downloadable')
+                ) {
                     $session->setHasDownloadableProducts(true);
                     break;
                 }

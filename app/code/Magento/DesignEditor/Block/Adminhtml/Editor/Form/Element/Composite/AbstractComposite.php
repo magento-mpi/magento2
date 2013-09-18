@@ -54,11 +54,17 @@ abstract class AbstractComposite
     protected $_elementsFactory;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory
      * @param array $attributes
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
         $attributes = array()
@@ -66,7 +72,7 @@ abstract class AbstractComposite
         $this->_elementsFactory = $elementsFactory;
         $this->_rendererFactory = $rendererFactory;
 
-        parent::__construct($attributes);
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 
     /**

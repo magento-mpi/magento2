@@ -22,13 +22,36 @@ class Tracking extends \Magento\Core\Block\Template
     protected $_template = 'return/tracking.phtml';
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Class constructor
      */
     protected function _construct()
     {
         parent::_construct();
 
-        $this->setRma(\Mage::registry('current_rma'));
+        $this->setRma($this->_coreRegistry->registry('current_rma'));
     }
 
     /**

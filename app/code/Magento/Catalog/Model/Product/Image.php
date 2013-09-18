@@ -63,7 +63,16 @@ class Image extends \Magento\Core\Model\AbstractModel
     protected $_viewFileSystem;
 
     /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Image\Factory $imageFactory
      * @param \Magento\Core\Model\View\Url $viewUrl
@@ -73,7 +82,9 @@ class Image extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Image\Factory $imageFactory,
         \Magento\Core\Model\View\Url $viewUrl,
@@ -82,7 +93,8 @@ class Image extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $baseDir = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -199,8 +211,9 @@ class Image extends \Magento\Core\Model\AbstractModel
         list($width, $height) = explode('x', strtolower($size), 2);
         foreach (array('width', 'height') as $wh) {
             $$wh  = (int)$$wh;
-            if (empty($$wh))
+            if (empty($$wh)) {
                 $$wh = null;
+            }
         }
 
         // set sizes
@@ -211,11 +224,8 @@ class Image extends \Magento\Core\Model\AbstractModel
 
     protected function _checkMemory($file = null)
     {
-//        print '$this->_getMemoryLimit() = '.$this->_getMemoryLimit();
-//        print '$this->_getMemoryUsage() = '.$this->_getMemoryUsage();
-//        print '$this->_getNeedMemoryForBaseFile() = '.$this->_getNeedMemoryForBaseFile();
-
-        return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file)) || $this->_getMemoryLimit() == -1;
+        return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file))
+            || $this->_getMemoryLimit() == -1;
     }
 
     protected function _getMemoryLimit()
@@ -513,7 +523,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         }
         $filename = $this->getNewFile();
         $this->getImageProcessor()->save($filename);
-        \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFile($filename);
+        $this->_coreFileStorageDatabase->saveFile($filename);
         return $this;
     }
 
@@ -723,7 +733,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         $directory = \Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product' . DS.'cache' . DS;
         $this->_filesystem->delete($directory);
 
-        \Mage::helper('Magento\Core\Helper\File\Storage\Database')->deleteFolder($directory);
+        $this->_coreFileStorageDatabase->deleteFolder($directory);
     }
 
     /**
@@ -738,7 +748,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         if ($this->_filesystem->isFile($filename)) {
             return true;
         } else {
-            return \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($filename);
+            return $this->_coreFileStorageDatabase->saveFileToFilesystem($filename);
         }
     }
 }

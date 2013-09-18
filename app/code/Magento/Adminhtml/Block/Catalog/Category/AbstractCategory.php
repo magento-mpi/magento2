@@ -17,8 +17,31 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Category;
 
-class AbstractCategory extends \Magento\Adminhtml\Block\Template
+class AbstractCategory extends \Magento\Backend\Block\Template
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData,
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve current category instance
      *
@@ -26,7 +49,7 @@ class AbstractCategory extends \Magento\Adminhtml\Block\Template
      */
     public function getCategory()
     {
-        return \Mage::registry('category');
+        return $this->_coreRegistry->registry('category');
     }
 
     public function getCategoryId()
@@ -70,7 +93,7 @@ class AbstractCategory extends \Magento\Adminhtml\Block\Template
         if (!is_null($parentNodeCategory) && $parentNodeCategory->getId()) {
             return $this->getNode($parentNodeCategory, $recursionLevel);
         }
-        $root = \Mage::registry('root');
+        $root = $this->_coreRegistry->registry('root');
         if (is_null($root)) {
             $storeId = (int) $this->getRequest()->getParam('store');
 
@@ -100,7 +123,7 @@ class AbstractCategory extends \Magento\Adminhtml\Block\Template
                 $root->setName(__('Root'));
             }
 
-            \Mage::register('root', $root);
+            $this->_coreRegistry->register('root', $root);
         }
 
         return $root;
@@ -117,7 +140,7 @@ class AbstractCategory extends \Magento\Adminhtml\Block\Template
      */
     public function getRootByIds($ids)
     {
-        $root = \Mage::registry('root');
+        $root = $this->_coreRegistry->registry('root');
         if (null === $root) {
             $categoryTreeResource = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category\Tree');
             $ids    = $categoryTreeResource->getExistingCategoryIdsBySpecifiedIds($ids);
@@ -131,7 +154,7 @@ class AbstractCategory extends \Magento\Adminhtml\Block\Template
             }
 
             $tree->addCollectionData($this->getCategoryCollection());
-            \Mage::register('root', $root);
+            $this->_coreRegistry->register('root', $root);
         }
         return $root;
     }

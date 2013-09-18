@@ -61,6 +61,31 @@ class Firstdata extends \Magento\Payment\Model\Method\Cc
     protected $_pbridgeMethodInstance = null;
 
     /**
+     * Pbridge data
+     *
+     * @var \Magento\Pbridge\Helper\Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+    }
+
+    /**
      * Return that current payment method is dummy
      *
      * @return boolean
@@ -89,7 +114,7 @@ class Firstdata extends \Magento\Payment\Model\Method\Cc
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -143,7 +168,7 @@ class Firstdata extends \Magento\Payment\Model\Method\Cc
      */
     public function isAvailable($quote = null)
     {
-        return \Mage::helper('Magento\Pbridge\Helper\Data')->isEnabled($quote ? $quote->getStoreId() : null)
+        return $this->_pbridgeData->isEnabled($quote ? $quote->getStoreId() : null)
             && \Magento\Payment\Model\Method\AbstractMethod::isAvailable($quote);
     }
 
@@ -234,7 +259,7 @@ class Firstdata extends \Magento\Payment\Model\Method\Cc
     public function setStore($store)
     {
         $this->setData('store', $store);
-        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 

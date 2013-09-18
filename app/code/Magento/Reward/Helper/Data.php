@@ -94,7 +94,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if ($websiteId === null) {
             $websiteId = \Mage::app()->getStore()->getWebsiteId();
         }
-        return $allowed = (bool)(int)\Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig('order', $websiteId);
+        return $allowed = (bool)(int)$this->getPointsConfig('order', $websiteId);
     }
 
     /**

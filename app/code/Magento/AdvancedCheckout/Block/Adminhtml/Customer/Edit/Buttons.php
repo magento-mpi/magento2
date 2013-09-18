@@ -26,9 +26,10 @@ class Buttons extends \Magento\Adminhtml\Block\Customer\Edit
      */
     public function addButtons()
     {
+        $customer = $this->_coreRegistry->registry('current_customer');
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::view')
             && !$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')
-            || \Mage::app()->getStore()->getWebsiteId() == \Mage::registry('current_customer')->getWebsiteId()
+            || \Mage::app()->getStore()->getWebsiteId() == $customer->getWebsiteId()
         ) {
             return $this;
         }

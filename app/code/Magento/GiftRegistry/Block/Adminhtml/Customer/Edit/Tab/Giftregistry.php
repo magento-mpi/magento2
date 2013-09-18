@@ -11,9 +11,42 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
 
 class Giftregistry
-    extends \Magento\Adminhtml\Block\Template
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Gift registry data
+     *
+     * @var \Magento\GiftRegistry\Helper\Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Set identifier and title
      */
@@ -51,9 +84,9 @@ class Giftregistry
      */
     public function canShowTab()
     {
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return $customer->getId()
-           && \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled()
+           && $this->_giftRegistryData->isEnabled()
            && $this->_authorization->isAllowed('Magento_GiftRegistry::customer_magento_giftregistry');
     }
 

@@ -36,14 +36,20 @@ class General
     protected $_fileSize;
 
     /**
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Theme\Image\Path $themeImagePath
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Theme\Image\Path $themeImagePath,
         \Magento\File\Size $fileSize,
@@ -51,7 +57,7 @@ class General
     ) {
         $this->_themeImagePath = $themeImagePath;
         $this->_fileSize = $fileSize;
-        parent::__construct($context, $objectManager, $data);
+        parent::__construct($formFactory, $coreData, $context, $registry, $objectManager, $data);
     }
 
     /**
@@ -73,7 +79,8 @@ class General
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $this->_addThemeFieldset($form, $formData);
 
@@ -224,7 +231,7 @@ class General
      */
     protected function _getAdditionalElementTypes()
     {
-        $element = 
+        $element =
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Image';
         return array('image' => $element);
     }

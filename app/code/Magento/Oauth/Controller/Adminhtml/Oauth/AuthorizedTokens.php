@@ -36,8 +36,9 @@ class AuthorizedTokens extends \Magento\Adminhtml\Controller\Action
      */
     public function indexAction()
     {
-        $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_authorized_tokens');
-        $this->renderLayout();
+        // TODO: Fix during Web API authentication implementation
+        // $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_authorized_tokens');
+        // $this->renderLayout();
     }
 
     /**
@@ -177,9 +178,8 @@ class AuthorizedTokens extends \Magento\Adminhtml\Controller\Action
             $email = $customer->getEmail();
             $name  = $customer->getName();
         }
-        /** @var $helper \Magento\Oauth\Helper\Data */
-        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
-
-        $helper->sendNotificationOnTokenStatusChange($email, $name, $token->getConsumer()->getName(), $newStatus);
+        /** @var $oauthData \Magento\Oauth\Helper\Data */
+        $oauthData = $this->_objectManager->get('Magento\Oauth\Helper\Data');
+        $oauthData->sendNotificationOnTokenStatusChange($email, $name, $token->getConsumer()->getName(), $newStatus);
     }
 }

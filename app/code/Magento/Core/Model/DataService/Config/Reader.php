@@ -17,17 +17,17 @@ class Reader extends \Magento\Config\XmlAbstract
     private $_modulesReader;
 
     /**
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      * @param array $configFiles
      */
     public function __construct(
-        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
         array $configFiles
     ) {
         if (count($configFiles)) {
             parent::__construct($configFiles);
         }
-        $this->_modulesReader = $modulesReader;
+        $this->_modulesReader = $moduleReader;
     }
 
     /**

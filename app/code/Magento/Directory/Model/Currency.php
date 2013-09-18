@@ -149,9 +149,8 @@ class Currency extends \Magento\Core\Model\AbstractModel
     {
         if (is_null($toCurrency)) {
             return $price;
-        }
-        elseif ($rate = $this->getRate($toCurrency)) {
-            return $price*$rate;
+        } elseif ($rate = $this->getRate($toCurrency)) {
+            return $price * $rate;
         }
 
         throw new \Exception(__('Undefined rate from "%1-%2".', $this->getCode(), $toCurrency->getCode()));
@@ -193,8 +192,13 @@ class Currency extends \Magento\Core\Model\AbstractModel
      * @param   bool $addBrackets
      * @return  string
      */
-    public function formatPrecision($price, $precision, $options=array(), $includeContainer = true, $addBrackets = false)
-    {
+    public function formatPrecision(
+        $price,
+        $precision,
+        $options = array(),
+        $includeContainer = true,
+        $addBrackets = false
+    ) {
         if (!isset($options['precision'])) {
             $options['precision'] = $precision;
         }
@@ -204,7 +208,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
         return $this->formatTxt($price, $options);
     }
 
-    public function formatTxt($price, $options=array())
+    public function formatTxt($price, $options = array())
     {
         if (!is_numeric($price)) {
             $price = \Mage::app()->getLocale()->getNumber($price);
@@ -222,7 +226,7 @@ class Currency extends \Magento\Core\Model\AbstractModel
     public function getOutputFormat()
     {
         $formated = $this->formatTxt(0);
-        $number = $this->formatTxt(0, array('display'=>\Zend_Currency::NO_SYMBOL));
+        $number = $this->formatTxt(0, array('display' => \Zend_Currency::NO_SYMBOL));
         return str_replace($number, '%s', $formated);
     }
 

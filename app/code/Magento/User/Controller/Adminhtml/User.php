@@ -12,6 +12,25 @@ namespace Magento\User\Controller\Adminhtml;
 class User extends \Magento\Backend\Controller\ActionAbstract
 {
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     protected function _initAction()
     {
         $this->loadLayout()
@@ -61,7 +80,7 @@ class User extends \Magento\Backend\Controller\ActionAbstract
             $model->setData($data);
         }
 
-        \Mage::register('permissions_user', $model);
+        $this->_coreRegistry->register('permissions_user', $model);
 
         if (isset($userId)) {
             $breadcrumb = __('Edit User');
@@ -168,7 +187,7 @@ class User extends \Magento\Backend\Controller\ActionAbstract
         if ($userId) {
             $model->load($userId);
         }
-        \Mage::register('permissions_user', $model);
+        $this->_coreRegistry->register('permissions_user', $model);
         $this->loadLayout();
         $this->renderLayout();
     }

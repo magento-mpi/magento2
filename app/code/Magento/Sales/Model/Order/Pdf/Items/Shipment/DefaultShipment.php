@@ -20,6 +20,35 @@ namespace Magento\Sales\Model\Order\Pdf\Items\Shipment;
 class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
 {
     /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Draw item line
      */
     public function draw()
@@ -30,9 +59,9 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         $lines  = array();
 
         // draw Product name
-        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
+        $stringHelper = $this->_coreString;
         $lines[0] = array(array(
-            'text' => \Mage::helper('Magento\Core\Helper\String')->str_split($item->getName(), 60, true, true),
+            'text' => $this->_coreString->str_split($item->getName(), 60, true, true),
             'feed' => 100,
         ));
 
@@ -44,7 +73,7 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => \Mage::helper('Magento\Core\Helper\String')->str_split($this->getSku($item), 25),
+            'text'  => $this->_coreString->str_split($this->getSku($item), 25),
             'feed'  => 565,
             'align' => 'right'
         );
@@ -68,7 +97,7 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
                     $values = explode(', ', $_printValue);
                     foreach ($values as $value) {
                         $lines[][] = array(
-                            'text' => \Mage::helper('Magento\Core\Helper\String')->str_split($value, 50, true, true),
+                            'text' => $this->_coreString->str_split($value, 50, true, true),
                             'feed' => 115
                         );
                     }

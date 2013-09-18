@@ -20,6 +20,27 @@ namespace Magento\Reward\Block\Customer;
 class Account extends \Magento\Core\Block\AbstractBlock
 {
     /**
+     * Reward data
+     *
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\Core\Block\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Block\Context $context,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Add RP link to tab if we have all rates
      *
      * @return \Magento\Reward\Block\Customer\Account
@@ -29,7 +50,7 @@ class Account extends \Magento\Core\Block\AbstractBlock
         parent::_prepareLayout();
         /** @var $navigationBlock \Magento\Customer\Block\Account\Navigation */
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
-        if ($navigationBlock && \Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront()) {
+        if ($navigationBlock && $this->_rewardData->isEnabledOnFront()) {
             $navigationBlock->addLink('magento_reward', 'magento_reward/customer/info/',
                 __('Reward Points')
             );

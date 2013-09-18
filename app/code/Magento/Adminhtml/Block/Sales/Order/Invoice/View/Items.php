@@ -47,7 +47,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
      */
     public function getInvoice()
     {
-        return \Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     /**
@@ -59,7 +59,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     }
 
     /**
-     * Retrieve formated price
+     * Retrieve formatted price
      *
      * @param float $price
      * @return string

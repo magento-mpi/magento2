@@ -65,7 +65,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         parent::_afterLoad();
 
-        \Mage::dispatchEvent($this->_eventPrefix.'_load_after', array(
+        $this->_eventManager->dispatch($this->_eventPrefix.'_load_after', array(
             $this->_eventObject => $this
         ));
 

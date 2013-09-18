@@ -85,7 +85,7 @@ class Content extends \Magento\Adminhtml\Block\Widget\Container
             'showBreadcrumbs' => true
         ));
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($setupObject);
+        return $this->_coreData->jsonEncode($setupObject);
     }
 
     /**

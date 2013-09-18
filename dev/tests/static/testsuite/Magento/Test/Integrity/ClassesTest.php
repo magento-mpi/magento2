@@ -231,7 +231,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     protected function _assertClassNamespace($file, $relativePath, $contents, $className)
     {
         $namespacePattern = '/(Maged|Magento|Zend)\/[a-zA-Z]+[^\.]+/';
-        $formalPattern = '/^namespace\s[a-zA-Z]+(\\\\[a-zA-Z]+)*/m';
+        $formalPattern = '/^namespace\s[a-zA-Z]+(\\\\[a-zA-Z0-9]+)*/m';
 
         $namespaceMatch = array();
         $formalNamespaceArray = array();
@@ -241,16 +241,20 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             $namespaceFolders = $namespaceMatch[0];
         }
 
+        $classParts = explode('/', $namespaceFolders);
+        array_pop($classParts);
+        $expectedNamespace = implode('\\', $classParts);
+
         if (preg_match($formalPattern, $contents, $formalNamespaceArray) != 0) {
-            $formalNamespace = substr($formalNamespaceArray[0], 10);
-            $formalNamespace = str_replace('\\', '/', $formalNamespace);
-            $formalNamespace .= '/'. $className;
-            if ($namespaceFolders != null && $formalNamespace != null) {
-                $this->assertEquals($formalNamespace, $namespaceFolders,
-                    "Location of $file does not match formal namespace: $formalNamespace\n");
+            $foundNamespace = substr($formalNamespaceArray[0], 10);
+            $foundNamespace = str_replace('\\', '/', $foundNamespace);
+            $foundNamespace .= '/'. $className;
+            if ($namespaceFolders != null && $foundNamespace != null) {
+                $this->assertEquals($namespaceFolders, $foundNamespace,
+                    "Location of $file does not match formal namespace: $expectedNamespace\n");
             }
         } else {
-            $this->fail("Missing expected namespace \"$namespaceFolders\" for file: $file");
+            $this->fail("Missing expected namespace \"$expectedNamespace\" for file: $file");
         }
     }
 

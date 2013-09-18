@@ -33,10 +33,11 @@ class Notification extends \Magento\Core\Model\AbstractModel
     const STATUS_PROCESSED = 1;
 
     /**
-     * Intialize model
+     * Initialize model
      */
-    function _construct()
+    protected function _construct()
     {
+        parent::_construct();
         $this->_init('Magento\GoogleCheckout\Model\Resource\Notification');
     }
 

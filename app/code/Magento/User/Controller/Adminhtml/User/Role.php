@@ -21,6 +21,25 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
 {
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Preparing layout for output
      *
      * @return \Magento\User\Controller\Adminhtml\User\Role
@@ -50,8 +69,8 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
             $role->unsetData($role->getIdFieldName());
         }
 
-        \Mage::register('current_role', $role);
-        return \Mage::registry('current_role');
+        $this->_coreRegistry->register('current_role', $role);
+        return $this->_coreRegistry->registry('current_role');
     }
 
     /**

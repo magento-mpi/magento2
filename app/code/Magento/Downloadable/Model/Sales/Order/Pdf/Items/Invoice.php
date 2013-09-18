@@ -22,6 +22,35 @@ class Invoice
     extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\AbstractItems
 {
     /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Draw item line
      *
      */
@@ -34,7 +63,7 @@ class Invoice
         $lines  = array();
 
         // draw Product name
-        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
+        $stringHelper = $this->_coreString;
         $lines[0] = array(array(
             'text' => $stringHelper->str_split($item->getName(), 35, true, true),
             'feed' => 35,
@@ -59,7 +88,7 @@ class Invoice
         $prices = $this->getItemPricesForDisplay();
         $feedPrice = 395;
         $feedSubtotal = $feedPrice + 170;
-        foreach ($prices as $priceData){
+        foreach ($prices as $priceData) {
             if (isset($priceData['label'])) {
                 // draw Price label
                 $lines[$i][] = array(

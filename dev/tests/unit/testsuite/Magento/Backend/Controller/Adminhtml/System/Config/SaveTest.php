@@ -75,11 +75,12 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
             array('getUser'), array(), '', false, false
         );
 
-        $this->_sectionMock = $this->getMock(
-            'Magento\Backend\Model\Config\Structure\Element\Section', array(), array(), '', false
-        );
+        $this->_sectionMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Section',
+            array(), array(), '', false);
 
-        $this->_cacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_cacheMock = $this->getMock(
+            'Magento\Core\Model\Cache\Type\Layout', array(), array(), '', false
+        );
 
         $configStructureMock->expects($this->any())->method('getElement')
             ->will($this->returnValue($this->_sectionMock));
@@ -103,8 +104,8 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
             array(
                 $context,
                 $configStructureMock,
-                $this->_configFactoryMock,
                 $this->_authMock,
+                $this->_configFactoryMock,
                 $this->_cacheMock,
                 null,
             )

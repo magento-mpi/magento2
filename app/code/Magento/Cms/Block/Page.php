@@ -21,6 +21,27 @@ namespace Magento\Cms\Block;
 class Page extends \Magento\Core\Block\AbstractBlock
 {
     /**
+     * Cms data
+     *
+     * @var \Magento\Cms\Helper\Data
+     */
+    protected $_cmsData = null;
+
+    /**
+     * @param \Magento\Cms\Helper\Data $cmsData
+     * @param \Magento\Core\Block\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Cms\Helper\Data $cmsData,
+        \Magento\Core\Block\Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsData = $cmsData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve Page instance
      *
      * @return \Magento\Cms\Model\Page
@@ -88,7 +109,7 @@ class Page extends \Magento\Core\Block\AbstractBlock
     protected function _toHtml()
     {
         /* @var $helper \Magento\Cms\Helper\Data */
-        $helper = \Mage::helper('Magento\Cms\Helper\Data');
+        $helper = $this->_cmsData;
         $processor = $helper->getPageTemplateProcessor();
         $html = $processor->filter($this->getPage()->getContent());
         $html = $this->getLayout()->renderElement('messages') . $html;

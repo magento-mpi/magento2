@@ -21,6 +21,33 @@ class DefaultPrice
     extends \Magento\Core\Model\Config\Value
 {
     /**
+     * Price permissions data
+     *
+     * @var \Magento\PricePermissions\Helper\Data
+     */
+    protected $_pricePermData = null;
+
+    /**
+     * @param \Magento\PricePermissions\Helper\Data $pricePermData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\PricePermissions\Helper\Data $pricePermData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_pricePermData = $pricePermData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Check permission to edit product prices before the value is saved
      *
      * @return \Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price\DefaultPrice
@@ -29,7 +56,7 @@ class DefaultPrice
     {
         parent::_beforeSave();
         $defaultProductPriceValue = floatval($this->getValue());
-        if (!\Mage::helper('Magento\PricePermissions\Helper\Data')->getCanAdminEditProductPrice()
+        if (!$this->_pricePermData->getCanAdminEditProductPrice()
             || ($defaultProductPriceValue < 0)
         ) {
             $defaultProductPriceValue = floatval($this->getOldValue());
@@ -46,7 +73,7 @@ class DefaultPrice
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        if (!\Mage::helper('Magento\PricePermissions\Helper\Data')->getCanAdminReadProductPrice()) {
+        if (!$this->_pricePermData->getCanAdminReadProductPrice()) {
             $this->setValue(null);
         }
         return $this;

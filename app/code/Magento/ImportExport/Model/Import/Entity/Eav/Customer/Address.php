@@ -189,12 +189,15 @@ class Address
     protected $_importedRowPks = array();
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        array $data = array()
+    ) {
         if (!isset($data['attribute_collection'])) {
             /** @var $attributeCollection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
             $attributeCollection = \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
@@ -203,7 +206,7 @@ class Address
             $data['attribute_collection'] = $attributeCollection;
         }
 
-        parent::__construct($data);
+        parent::__construct($coreData, $coreString, $data);
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
             : \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');

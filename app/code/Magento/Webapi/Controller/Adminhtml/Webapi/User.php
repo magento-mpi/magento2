@@ -12,6 +12,25 @@ namespace Magento\Webapi\Controller\Adminhtml\Webapi;
 class User extends \Magento\Backend\Controller\ActionAbstract
 {
     /**
+     * @var \Magento\Core\Model\Validator\Factory
+     */
+    protected $_validatorFactory;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Validator\Factory $validatorFactory
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Validator\Factory $validatorFactory
+    ) {
+        parent::__construct($context);
+        $this->_validatorFactory = $validatorFactory;
+    }
+
+    /**
      * Initialize breadcrumbs.
      *
      * @return \Magento\Webapi\Controller\Adminhtml\Webapi\User
@@ -68,7 +87,7 @@ class User extends \Magento\Backend\Controller\ActionAbstract
 
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
-            ? $this->_objectManager->get('Magento\Webapi\Helper\Data')->escapeHtml($user->getApiKey())
+            ? $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($user->getApiKey())
             : __('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
@@ -205,8 +224,7 @@ class User extends \Magento\Backend\Controller\ActionAbstract
     protected function _validateUserData($user)
     {
         $group = $user->isObjectNew() ? 'create' : 'update';
-        $validator = $this->_objectManager->get('Magento\Core\Model\Validator\Factory')
-            ->createValidator('api_user', $group);
+        $validator = $this->_validatorFactory->createValidator('api_user', $group);
         if (!$validator->isValid($user)) {
             throw new \Magento\Validator\ValidatorException($validator->getMessages());
         }

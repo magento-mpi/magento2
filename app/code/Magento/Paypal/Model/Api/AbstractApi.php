@@ -71,12 +71,33 @@ abstract class AbstractApi extends \Magento\Object
      */
     protected $_recurringPaymentProfiles = array();
 
-   /**
+    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
      */
     protected $_debugReplacePrivateDataKeys = array();
+
+    /**
+     * Customer address
+     *
+     * @var \Magento\Customer\Helper\Address
+     */
+    protected $_customerAddress = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\Customer\Helper\Address $customerAddress
+     */
+    public function __construct(
+        \Magento\Customer\Helper\Address $customerAddress
+    ) {
+        $this->_customerAddress = $customerAddress;
+    }
 
     /**
      * Return Paypal Api user name based on config data
@@ -309,7 +330,7 @@ abstract class AbstractApi extends \Magento\Object
     /**
      * Export $this public data to private request array
      *
-     * @param array $internalRequestMap
+     * @param array $privateRequestMap
      * @param array $request
      * @return array
      */
@@ -503,7 +524,7 @@ abstract class AbstractApi extends \Magento\Object
      * (keys should go as 3rd, 4th[...] parameters)
      *
      * @param \Magento\Object $address
-     * @param array $request
+     * @param array $to
      */
     protected function _importStreetFromAddress(\Magento\Object $address, array &$to)
     {
@@ -513,7 +534,7 @@ abstract class AbstractApi extends \Magento\Object
             return;
         }
 
-        $street = \Mage::helper('Magento\Customer\Helper\Address')
+        $street = $this->_customerAddress
             ->convertStreetLines($address->getStreet(), count($keys));
 
         $i = 0;

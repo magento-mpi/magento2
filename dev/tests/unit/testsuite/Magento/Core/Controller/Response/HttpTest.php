@@ -25,7 +25,9 @@ class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCa
      */
     public function testGetHeaderExists($header)
     {
-        $response = new \Magento\Core\Controller\Response\Http();
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+
+        $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
         $response->setHeader($header['name'], $header['value'], $header['replace']);
         $this->assertEquals($header, $response->getHeader($header['name']));
@@ -62,7 +64,9 @@ class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCa
      */
     public function testGetHeaderNotExists()
     {
-        $response = new \Magento\Core\Controller\Response\Http();
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+
+        $response = new Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
         $response->setHeader('Name', 'value', true);
         $this->assertFalse($response->getHeader('Wrong name'));

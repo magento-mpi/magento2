@@ -18,20 +18,21 @@
 
 namespace Magento\Widget\Block\Adminhtml\Widget;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Form with widget to select
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Widget')
         ));
 
-        $select = $fieldset->addField('select_widget_type', 'select', array(
+        $fieldset->addField('select_widget_type', 'select', array(
             'label'                 => __('Widget Type'),
             'title'                 => __('Widget Type'),
             'name'                  => 'widget_type',
@@ -113,6 +114,6 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _getSkippedWidgets()
     {
-        return \Mage::registry('skip_widgets');
+        return $this->_coreRegistry->registry('skip_widgets');
     }
 }

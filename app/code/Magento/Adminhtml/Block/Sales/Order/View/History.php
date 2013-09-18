@@ -19,6 +19,39 @@ namespace Magento\Adminhtml\Block\Sales\Order\View;
 
 class History extends \Magento\Adminhtml\Block\Template
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Sales data
+     *
+     * @var \Magento\Sales\Helper\Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_salesData = $salesData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('order_history_block').parentNode, '".$this->getSubmitUrl()."')";
@@ -41,7 +74,7 @@ class History extends \Magento\Adminhtml\Block\Template
 
     public function canSendCommentEmail()
     {
-        return \Mage::helper('Magento\Sales\Helper\Data')->canSendOrderCommentEmail($this->getOrder()->getStore()->getId());
+        return $this->_salesData->canSendOrderCommentEmail($this->getOrder()->getStore()->getId());
     }
 
     /**
@@ -51,7 +84,7 @@ class History extends \Magento\Adminhtml\Block\Template
      */
     public function getOrder()
     {
-        return \Mage::registry('sales_order');
+        return $this->_coreRegistry->registry('sales_order');
     }
 
     public function canAddComment()

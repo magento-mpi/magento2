@@ -10,16 +10,35 @@
 
 /**
  * Rating edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Rating;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -29,21 +48,19 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_updateButton('save', 'label', __('Save Rating'));
         $this->_updateButton('delete', 'label', __('Delete Rating'));
 
-        if( $this->getRequest()->getParam($this->_objectId) ) {
-
+        if ($this->getRequest()->getParam($this->_objectId)) {
             $ratingData = \Mage::getModel('Magento\Rating\Model\Rating')
                 ->load($this->getRequest()->getParam($this->_objectId));
 
-            \Mage::register('rating_data', $ratingData);
+            $this->_coreRegistry->register('rating_data', $ratingData);
         }
-
-
     }
 
     public function getHeaderText()
     {
-        if( \Mage::registry('rating_data') && \Mage::registry('rating_data')->getId() ) {
-            return __("Edit Rating #%1", $this->escapeHtml(\Mage::registry('rating_data')->getRatingCode()));
+        $ratingData = $this->_coreRegistry->registry('rating_data');
+        if ($ratingData && $ratingData->getId()) {
+            return __("Edit Rating #%1", $this->escapeHtml($ratingData->getRatingCode()));
         } else {
             return __('New Rating');
         }

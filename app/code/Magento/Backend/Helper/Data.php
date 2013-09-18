@@ -24,7 +24,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_pageHelpUrl;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
@@ -50,20 +50,30 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_routerList;
 
     /**
-     * @param \Magento\Core\Model\Config $applicationConfig
-     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\ConfigInterface $applicationConfig
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\Core\Model\RouterList $routerList
      * @param string $dfltAreaFrontName
      */
     public function __construct(
-        \Magento\Core\Model\Config $applicationConfig,
-        \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Helper\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\ConfigInterface $applicationConfig,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\Core\Model\RouterList $routerList,
         $dfltAreaFrontName
     ) {
         parent::__construct($context);
+        $this->_coreData = $coreData;
         $this->_config = $applicationConfig;
         $this->_primaryConfig = $primaryConfig;
         $this->_dfltAreaFrontName = $dfltAreaFrontName;
@@ -158,7 +168,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function generateResetPasswordLinkToken()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
+        return $this->_coreData->uniqHash();
     }
 
     /**

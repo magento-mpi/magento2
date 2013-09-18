@@ -19,9 +19,32 @@ class Amount
 
     protected $_template = 'renderer/amount.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -77,7 +100,8 @@ class Amount
         );
 
         if (!\Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
-            if ($storeId = $this->getProduct()->getStoreId()) {
+            $storeId = $this->getProduct()->getStoreId();
+            if ($storeId) {
                 $website = \Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),

@@ -13,6 +13,31 @@ namespace Magento\GiftCard\Block\Checkout\Cart\Item;
 class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
     /**
+     * Gift card catalog product configuration
+     *
+     * @var \Magento\GiftCard\Helper\Catalog\Product\Configuration
+     */
+    protected $_giftCardCtlgProdConfigur = null;
+
+    /**
+     * @param \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur
+     * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur,
+        \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;
+        parent::__construct($ctlgProdConfigur, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare custom option for display, returns false if there's no value
      *
      * @param string $code
@@ -20,7 +45,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _prepareCustomOption($code)
     {
-        return \Mage::helper('Magento\GiftCard\Helper\Catalog\Product\Configuration')
+        return $this->_giftCardCtlgProdConfigur
             ->prepareCustomOption($this->getItem(), $code);
     }
 
@@ -31,7 +56,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _getGiftcardOptions()
     {
-        return \Mage::helper('Magento\GiftCard\Helper\Catalog\Product\Configuration')
+        return $this->_giftCardCtlgProdConfigur
             ->getGiftcardOptions($this->getItem());
     }
 
@@ -42,7 +67,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function getOptionList()
     {
-        return \Mage::helper('Magento\GiftCard\Helper\Catalog\Product\Configuration')
+        return $this->_giftCardCtlgProdConfigur
             ->getOptions($this->getItem());
     }
 }

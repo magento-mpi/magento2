@@ -13,6 +13,29 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry;
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Intialize form
      *
      * @return void
@@ -24,7 +47,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         parent::_construct();
 
-        if (\Mage::registry('current_giftregistry_type')) {
+        if ($this->_coreRegistry->registry('current_giftregistry_type')) {
             $this->_updateButton('save', 'label', __('Save'));
             $this->_updateButton('save', 'data_attribute', array(
                 'mage-init' => array(
@@ -57,11 +80,10 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        $type = \Mage::registry('current_giftregistry_type');
+        $type = $this->_coreRegistry->registry('current_giftregistry_type');
         if ($type->getId()) {
             return __("Edit '%1' Gift Registry Type", $this->escapeHtml($type->getLabel()));
-        }
-        else {
+        } else {
             return __('New Gift Registry Type');
         }
     }
@@ -73,7 +95,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getSaveUrl()
     {
-        $type = \Mage::registry('current_giftregistry_type');
+        $type = $this->_coreRegistry->registry('current_giftregistry_type');
         return $this->getUrl('*/*/save', array('id' => $type->getId(), 'store' => $type->getStoreId()));
     }
 }

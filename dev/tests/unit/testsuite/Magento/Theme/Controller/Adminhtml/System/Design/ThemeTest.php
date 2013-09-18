@@ -44,10 +44,11 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
 
         );
         $context = $helper->getObject('Magento\Backend\Controller\Context', $arguments);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $this->_model = $this->getMock('Magento\Theme\Controller\Adminhtml\System\Design\Theme',
             array('_forward', '_title', 'loadLayout', 'renderLayout', '_redirect'),
-            array($context, null)
+            array($context, $coreRegistry, null)
         );
         $this->_model->expects($this->any())->method('_title')->will($this->returnValue($this->_model));
         $this->_model->expects($this->any())->method('loadLayout');

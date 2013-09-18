@@ -76,6 +76,33 @@ class Page extends \Magento\Core\Model\AbstractModel
     protected $_eventPrefix = 'cms_page';
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -130,13 +157,9 @@ class Page extends \Magento\Core\Model\AbstractModel
      */
     public function getAvailableStatuses()
     {
-        $statuses = new \Magento\Object(array(
+        return array(
             self::STATUS_ENABLED => __('Enabled'),
             self::STATUS_DISABLED => __('Disabled'),
-        ));
-
-        \Mage::dispatchEvent('cms_page_get_available_statuses', array('statuses' => $statuses));
-
-        return $statuses->getData();
+        );
     }
 }

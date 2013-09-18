@@ -22,11 +22,32 @@ abstract class AbstractForm
     extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
+     * @var \Magento\Data\Form\Factory
+     */
+    protected $_formFactory;
+
+    /**
      * Data Form object
      *
      * @var \Magento\Data\Form
      */
     protected $_form;
+
+    /**
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Prepare global layout
@@ -68,10 +89,9 @@ abstract class AbstractForm
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = new \Magento\Data\Form();
+            $this->_form = $this->_formFactory->create();
             $this->_prepareForm();
         }
-
         return $this->_form;
     }
 
@@ -160,7 +180,8 @@ abstract class AbstractForm
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $element->setValues($attribute->getFrontend()->getSelectOptions());
                 } else if ($inputType == 'date') {
-                    $format = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+                    $format = \Mage::app()->getLocale()
+                        ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                     $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
                     $element->setDateFormat($format);
                 }

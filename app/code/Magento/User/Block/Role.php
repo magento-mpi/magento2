@@ -30,7 +30,6 @@ class Role extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected $_blockGroup = 'Magento_User';
 
-
     protected function _construct()
     {
         $this->_headerText = __('Roles');
@@ -64,7 +63,7 @@ class Role extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected function _toHtml()
     {
-        \Mage::dispatchEvent('permissions_role_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('permissions_role_html_before', array('block' => $this));
         return parent::_toHtml();
     }
 }

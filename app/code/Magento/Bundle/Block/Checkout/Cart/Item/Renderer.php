@@ -21,10 +21,35 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
     protected $_configurationHelper = null;
 
+    /**
+     * Bundle catalog product configuration
+     *
+     * @var \Magento\Bundle\Helper\Catalog\Product\Configuration
+     */
+    protected $_bundleProdConfigur = null;
+
+    /**
+     * @param \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur
+     * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur,
+        \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_bundleProdConfigur = $bundleProdConfigur;
+        parent::__construct($ctlgProdConfigur, $coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
-        $this->_configurationHelper = \Mage::helper('Magento\Bundle\Helper\Catalog\Product\Configuration');
+        $this->_configurationHelper = $this->_bundleProdConfigur;
     }
 
     /**
@@ -48,7 +73,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _getSelectionFinalPrice($selectionProduct)
     {
-        $helper = \Mage::helper('Magento\Bundle\Helper\Catalog\Product\Configuration');
+        $helper = $this->_bundleProdConfigur;
         $result = $helper->getSelectionFinalPrice($this->getItem(), $selectionProduct);
         return $result;
     }

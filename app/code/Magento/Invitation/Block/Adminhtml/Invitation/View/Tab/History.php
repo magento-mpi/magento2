@@ -22,10 +22,34 @@ class History
 {
     protected $_template = 'view/tab/history.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getTabLabel()
     {
         return __('Status History');
     }
+
     public function getTabTitle()
     {
         return __('Status History');
@@ -35,6 +59,7 @@ class History
     {
         return true;
     }
+
     public function isHidden()
     {
         return false;
@@ -47,13 +72,13 @@ class History
      */
     public function getInvitation()
     {
-        return \Mage::registry('current_invitation');
+        return $this->_coreRegistry->registry('current_invitation');
     }
 
     /**
-     * Return invintation status history collection
+     * Return invitation status history collection
      *
-     * @return Magento_Invintation_Model_Resource_Invintation_History_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation_History_Collection
      */
     public function getHistoryCollection()
     {
@@ -71,7 +96,7 @@ class History
      * @param   bool $showTime
      * @return  string
      */
-    public function formatDate($date=null, $format='short', $showTime=false)
+    public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
             $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
@@ -81,14 +106,14 @@ class History
     }
 
     /**
-     * Retrieve formating time
+     * Retrieve formatting time
      *
      * @param   string $date
      * @param   string $format
      * @param   bool $showDate
      * @return  string
      */
-    public function formatTime($date=null, $format='short', $showDate=false)
+    public function formatTime($date = null, $format = 'short', $showDate = false)
     {
         if (is_string($date)) {
             $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);

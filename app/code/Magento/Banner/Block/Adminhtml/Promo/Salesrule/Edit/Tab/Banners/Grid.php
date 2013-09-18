@@ -13,6 +13,32 @@ namespace Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners;
 class Grid
     extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Initialize grid, set promo sales rule grid ID
@@ -24,7 +50,7 @@ class Grid
         $this->setId('related_salesrule_banners_grid');
         $this->setVarNameFilter('related_salesrule_banners_filter');
         if ($this->_getRule() && $this->_getRule()->getId()) {
-            $this->setDefaultFilter(array('in_banners'=>1));
+            $this->setDefaultFilter(array('in_banners' => 1));
         }
     }
 
@@ -59,10 +85,10 @@ class Grid
                 $bannerIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('main_table.banner_id', array('in'=>$bannerIds));
+                $this->getCollection()->addFieldToFilter('main_table.banner_id', array('in' => $bannerIds));
             } else {
                 if ($bannerIds) {
-                    $this->getCollection()->addFieldToFilter('main_table.banner_id', array('nin'=>$bannerIds));
+                    $this->getCollection()->addFieldToFilter('main_table.banner_id', array('nin' => $bannerIds));
                 }
             }
         } else {
@@ -88,7 +114,7 @@ class Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/banner/salesRuleBannersGrid', array('_current'=>true));
+        return $this->getUrl('*/banner/salesRuleBannersGrid', array('_current' => true));
     }
 
     /**
@@ -133,6 +159,6 @@ class Grid
      */
     protected function _getRule()
     {
-        return \Mage::registry('current_promo_quote_rule');
+        return $this->_coreRegistry->registry('current_promo_quote_rule');
     }
 }

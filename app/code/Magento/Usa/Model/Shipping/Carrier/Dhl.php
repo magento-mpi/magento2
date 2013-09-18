@@ -84,7 +84,7 @@ class Dhl
      *
      * @var \Magento\Usa\Model\Simplexml\ElementFactory
      */
-    protected $_simpleXmlElementFactory;
+    protected $_xmlElFactory;
 
     /**
      * Container types that could be customized
@@ -108,13 +108,39 @@ class Dhl
     const ADDITIONAL_PROTECTION_ROUNDING_ROUND = 2;
 
     /**
+     * Usa data
+     *
+     * @var \Magento\Usa\Helper\Data
+     */
+    protected $_usaData = null;
+
+    /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
      * Dhl constructor
      *
-     * @param \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Usa\Helper\Data $usaData
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param array $data
      */
-    public function __construct(\Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory)
-    {
-        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Usa\Helper\Data $usaData,
+        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Directory\Helper\Data $directoryData,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        $this->_usaData = $usaData;
+        $this->_xmlElFactory = $xmlElFactory;
+        parent::__construct($directoryData, $data);
     }
 
     /**
@@ -295,24 +321,24 @@ class Dhl
             $packageParams = $request->getPackageParams();
             $shippingWeight = $request->getPackageWeight();
             if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
-                $shippingWeight = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
+                $shippingWeight = round($this->_usaData->convertMeasureWeight(
                     $request->getPackageWeight(),
                     $packageParams->getWeightUnits(),
                     \Zend_Measure_Weight::POUND
                 ));
             }
             if ($packageParams->getDimensionUnits() != \Zend_Measure_Length::INCH) {
-                $packageParams->setLength(round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
+                $packageParams->setLength(round($this->_usaData->convertMeasureDimension(
                     $packageParams->getLength(),
                     $packageParams->getDimensionUnits(),
                     \Zend_Measure_Length::INCH
                 )));
-                $packageParams->setWidth(round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
+                $packageParams->setWidth(round($this->_usaData->convertMeasureDimension(
                     $packageParams->getWidth(),
                     $packageParams->getDimensionUnits(),
                     \Zend_Measure_Length::INCH
                 )));
-                $packageParams->setHeight(round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
+                $packageParams->setHeight(round($this->_usaData->convertMeasureDimension(
                     $packageParams->getHeight(),
                     $packageParams->getDimensionUnits(),
                     \Zend_Measure_Length::INCH
@@ -334,7 +360,7 @@ class Dhl
         $r->setValueWithDiscount($request->getPackageValueWithDiscount());
         $r->setCustomsValue($request->getPackageCustomsValue());
         $r->setDestStreet(
-            \Mage::helper('Magento\Core\Helper\String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
+            $this->_coreString->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
         );
         $r->setDestStreetLine2($request->getDestStreetLine2());
         $r->setDestCity($request->getDestCity());
@@ -476,7 +502,7 @@ class Dhl
     {
         $r = $this->_rawRequest;
 
-        $xml = $this->_simpleXmlElementFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
+        $xml = $this->_xmlElFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
 
@@ -1046,7 +1072,7 @@ class Dhl
     {
         $r = $this->_rawTrackRequest;
 
-        $xml = $this->_simpleXmlElementFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
+        $xml = $this->_xmlElFactory->create(array('<?xml version = "1.0" encoding = "UTF-8"?><eCommerce/>'));
         $xml->addAttribute('action', 'Request');
         $xml->addAttribute('version', '1.1');
 

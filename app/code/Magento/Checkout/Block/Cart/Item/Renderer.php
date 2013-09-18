@@ -43,10 +43,33 @@ class Renderer extends \Magento\Core\Block\Template
     protected $_ignoreProductUrl = false;
 
     /**
+     * Catalog product configuration
+     *
+     * @var \Magento\Catalog\Helper\Product\Configuration
+     */
+    protected $_productConfigur = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product\Configuration $productConfigur,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_productConfigur = $productConfigur;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set item for render
      *
-     * @param   \Magento\Sales\Model\Quote\Item $item
-     * @return  \Magento\Checkout\Block\Cart\Item\Renderer
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return $this
      */
     public function setItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
@@ -231,7 +254,7 @@ class Renderer extends \Magento\Core\Block\Template
     public function getProductOptions()
     {
         /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
-        $helper = \Mage::helper('Magento\Catalog\Helper\Product\Configuration');
+        $helper = $this->_productConfigur;
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -373,7 +396,7 @@ class Renderer extends \Magento\Core\Block\Template
     public function getFormatedOptionValue($optionValue)
     {
         /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
-        $helper = \Mage::helper('Magento\Catalog\Helper\Product\Configuration');
+        $helper = $this->_productConfigur;
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'

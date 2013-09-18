@@ -32,12 +32,25 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected $_filesystem;
 
     /**
+     * Backup data
+     *
+     * @var \Magento\Backup\Helper\Data
+     */
+    protected $_backupData = null;
+
+    /**
      * Set collection specific parameters and make sure backups folder will exist
      *
+     *
+     *
+     * @param \Magento\Backup\Helper\Data $backupData
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\Filesystem $filesystem)
-    {
+    public function __construct(
+        \Magento\Backup\Helper\Data $backupData,
+        \Magento\Filesystem $filesystem
+    ) {
+        $this->_backupData = $backupData;
         parent::__construct();
 
         $this->_baseDir = \Mage::getBaseDir('var') . DS . 'backups';
@@ -49,7 +62,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
         $this->_hideBackupsForApache();
 
         // set collection specific params
-        $extensions = \Mage::helper('Magento\Backup\Helper\Data')->getExtensions();
+        $extensions = $this->_backupData->getExtensions();
 
         foreach ($extensions as $value) {
             $extensions[] = '(' . preg_quote($value, '/') . ')';

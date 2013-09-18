@@ -77,7 +77,7 @@ class History
 
     public function getComments() {
         return \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Status\History\Collection')
-            ->addFieldToFilter('rma_entity_id', \Mage::registry('current_rma')->getId());
+            ->addFieldToFilter('rma_entity_id', $this->_coreRegistry->registry('current_rma')->getId());
     }
 
 }

@@ -15,6 +15,29 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'Magento_GiftCardAccount::cart/total.phtml';
 
+    /**
+     * @var \Magento\GiftCardAccount\Helper\Data|null
+     */
+    protected $_giftCardAccountData = null;
+
+    /**
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_giftCardAccountData = $giftCardAccountData;
+        parent::__construct($catalogData, $coreData, $context, $data);
+    }
+
     public function getQuote()
     {
         return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
@@ -22,6 +45,6 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 
     public function getQuoteGiftCards()
     {
-        return \Mage::helper('Magento\GiftCardAccount\Helper\Data')->getCards($this->getQuote());
+        return $this->_giftCardAccountData->getCards($this->getQuote());
     }
 }

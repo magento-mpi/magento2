@@ -23,11 +23,37 @@ class View extends \Magento\Core\Block\Template
     protected $_product = null;
 
     /**
-     * Helper instance
+     * Product alert data
      *
-     * @var null|\Magento\ProductAlert\Helper\Data
+     * @var \Magento\ProductAlert\Helper\Data
      */
-    protected $_helper = null;
+    protected $_productAlertData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\ProductAlert\Helper\Data $productAlertData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\ProductAlert\Helper\Data $productAlertData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_productAlertData = $productAlertData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Check whether the stock alert data can be shown and prepare related data
@@ -36,11 +62,12 @@ class View extends \Magento\Core\Block\Template
      */
     public function prepareStockAlertData()
     {
-        if (!$this->_getHelper()->isStockAlertAllowed() || !$this->_product || $this->_product->isAvailable()) {
+        if (!$this->_productAlertData->isStockAlertAllowed()
+            || !$this->_product || $this->_product->isAvailable()) {
             $this->setTemplate('');
             return;
         }
-        $this->setSignupUrl($this->_getHelper()->getSaveUrl('stock'));
+        $this->setSignupUrl($this->_productAlertData->getSaveUrl('stock'));
     }
 
     /**
@@ -50,13 +77,13 @@ class View extends \Magento\Core\Block\Template
      */
     public function preparePriceAlertData()
     {
-        if (!$this->_getHelper()->isPriceAlertAllowed()
+        if (!$this->_productAlertData->isPriceAlertAllowed()
             || !$this->_product || false === $this->_product->getCanShowPrice()
         ) {
             $this->setTemplate('');
             return;
         }
-        $this->setSignupUrl($this->_getHelper()->getSaveUrl('price'));
+        $this->setSignupUrl($this->_productAlertData->getSaveUrl('price'));
     }
 
     /**
@@ -66,24 +93,11 @@ class View extends \Magento\Core\Block\Template
      */
     protected function _prepareLayout()
     {
-        $product = \Mage::registry('current_product');
+        $product = $this->_coreRegistry->registry('current_product');
         if ($product && $product->getId()) {
             $this->_product = $product;
         }
 
         return parent::_prepareLayout();
-    }
-
-    /**
-     * Retrieve helper instance
-     *
-     * @return \Magento\ProductAlert\Helper\Data|null
-     */
-    protected function _getHelper()
-    {
-        if (is_null($this->_helper)) {
-            $this->_helper = \Mage::helper('Magento\ProductAlert\Helper\Data');
-        }
-        return $this->_helper;
     }
 }

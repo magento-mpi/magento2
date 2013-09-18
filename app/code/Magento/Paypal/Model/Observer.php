@@ -19,6 +19,42 @@ namespace Magento\Paypal\Model;
 class Observer
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Paypal hss
+     *
+     * @var \Magento\Paypal\Helper\Hss
+     */
+    protected $_paypalHss = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Paypal\Helper\Hss $paypalHss
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Paypal\Helper\Hss $paypalHss,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreData = $coreData;
+        $this->_paypalHss = $paypalHss;
+        $this->_coreRegistry = $coreRegistry;
+    }
+
+    /**
      * Goes to reports.paypal.com and fetches Settlement reports.
      * @return \Magento\Paypal\Model\Observer
      */
@@ -61,7 +97,7 @@ class Observer
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getData('order');
-        \Mage::register('hss_order', $order, true);
+        $this->_coreRegistry->register('hss_order', $order, true);
 
         return $this;
     }
@@ -75,14 +111,14 @@ class Observer
     public function setResponseAfterSaveOrder(\Magento\Event\Observer $observer)
     {
         /* @var $order \Magento\Sales\Model\Order */
-        $order = \Mage::registry('hss_order');
+        $order = $this->_coreRegistry->registry('hss_order');
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && in_array($payment->getMethod(), \Mage::helper('Magento\Paypal\Helper\Hss')->getHssMethods())) {
-                /* @var $controller \Magento\Core\Controller\Varien\Action */
+            if ($payment && in_array($payment->getMethod(), $this->_paypalHss->getHssMethods())) {
+                /* @var $controller Magento_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
-                $result = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode(
+                $result = $this->_coreData->jsonDecode(
                     $controller->getResponse()->getBody('default'),
                     \Zend_Json::TYPE_ARRAY
                 );
@@ -97,7 +133,7 @@ class Observer
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+                    $controller->getResponse()->setBody($this->_coreData->jsonEncode($result));
                 }
             }
         }

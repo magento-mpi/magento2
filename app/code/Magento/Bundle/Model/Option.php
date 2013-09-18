@@ -81,8 +81,7 @@ class Option extends \Magento\Core\Model\AbstractModel
                 }
             }
             return (bool)$saleable;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -103,22 +102,6 @@ class Option extends \Magento\Core\Model\AbstractModel
             }
         }
         return $this->_defaultSelection;
-        /**
-         *         if (!$this->_defaultSelection && $this->getSelections()) {
-            $_selections = array();
-            foreach ($this->getSelections() as $selection) {
-                if ($selection->getIsDefault()) {
-                    $_selections[] = $selection;
-                }
-            }
-            if (!empty($_selections)) {
-                $this->_defaultSelection = $_selections;
-            } else {
-                return null;
-            }
-        }
-        return $this->_defaultSelection;
-         */
     }
 
     /**

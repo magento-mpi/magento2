@@ -13,7 +13,7 @@
  */
 namespace Magento\Adminhtml\Block\Sales\Order\Status\Assign;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _construct()
     {
@@ -28,10 +28,13 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form   = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'method'    => 'post'
-        ));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Assignment Information')

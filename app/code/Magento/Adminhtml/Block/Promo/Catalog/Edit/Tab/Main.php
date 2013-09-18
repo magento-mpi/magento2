@@ -18,7 +18,7 @@
 namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
 
 class Main
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -63,10 +63,10 @@ class Main
 
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_promo_catalog_rule');
+        $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
-        $form = new \Magento\Data\Form();
-
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('base_fieldset',
@@ -119,7 +119,8 @@ class Main
                 'required' => true,
                 'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -156,8 +157,6 @@ class Main
 
         $form->setValues($model->getData());
 
-        //$form->setUseContainer(true);
-
         if ($model->isReadonly()) {
             foreach ($fieldset->getElements() as $element) {
                 $element->setReadonly(true, true);
@@ -166,7 +165,7 @@ class Main
 
         $this->setForm($form);
 
-        \Mage::dispatchEvent('adminhtml_promo_catalog_edit_tab_main_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_promo_catalog_edit_tab_main_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();
     }

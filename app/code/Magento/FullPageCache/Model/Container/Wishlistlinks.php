@@ -48,7 +48,7 @@ class Wishlistlinks extends \Magento\FullPageCache\Model\Container\AbstractConta
         /** @var $block \Magento\Core\Block\Template */
         $block = \Mage::app()->getLayout()->createBlock($block);
 
-        \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->toHtml();
     }
 }

@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Catalog;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareLayout()
     {

@@ -34,12 +34,25 @@ class Uploader extends \Magento\Core\Model\File\Uploader
      */
     protected $_imageFactory;
 
-    function __construct(\Magento\Core\Model\Image\AdapterFactory $imageFactory, $filePath = null)
-    {
+    /**
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
+     * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
+     * @param null $filePath
+     * @internal param $fileId
+     */
+    public function __construct(
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Helper\File\Storage $coreFileStorage,
+        \Magento\Core\Model\Image\AdapterFactory $imageFactory,
+        $filePath = null
+    ) {
         if (!is_null($filePath)) {
             $this->_setUploadFile($filePath);
         }
         $this->_imageFactory = $imageFactory;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_coreFileStorage = $coreFileStorage;
     }
 
     /**

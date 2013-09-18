@@ -155,6 +155,53 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_eventObject = 'creditmemo';
 
     /**
+     * Sales data
+     *
+     * @var \Magento\Sales\Helper\Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_paymentData = $paymentData;
+        $this->_salesData = $salesData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize creditmemo resource model
      */
     protected function _construct()
@@ -432,7 +479,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
             $order->getPayment()->refund($this);
         }
 
-        \Mage::dispatchEvent('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -479,7 +526,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         );
         $this->getOrder()->setShippingRefunded($this->getOrder()->getShippingRefunded()-$this->getShippingAmount());
 
-        \Mage::dispatchEvent('sales_order_creditmemo_cancel', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_creditmemo_cancel', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -691,7 +738,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!\Mage::helper('Magento\Sales\Helper\Data')->canSendNewCreditmemoEmail($storeId)) {
+        if (!$this->_salesData->canSendNewCreditmemoEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -702,7 +749,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
             return $this;
         }
 
-        $paymentBlockHtml = \Mage::helper('Magento\Payment\Helper\Data')->getInfoBlockHtml($order->getPayment(), $storeId);
+        $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($order->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
@@ -767,7 +814,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!\Mage::helper('Magento\Sales\Helper\Data')->canSendCreditmemoCommentEmail($storeId)) {
+        if (!$this->_salesData->canSendCreditmemoCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to

@@ -10,16 +10,35 @@
 
 /**
  * Adminhtml Tax Rule Edit Form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Checkout\Agreement\Edit;
 
 class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Init class
      *
@@ -38,12 +57,15 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model  = \Mage::registry('checkout_agreement');
-        $form   = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        $model  = $this->_coreRegistry->registry('checkout_agreement');
+        /** @var \Magento\Data\Form $form */
+        $form   = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Terms and Conditions Information'),
@@ -94,8 +116,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ));
             $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
-        }
-        else {
+        } else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'stores[]',
                 'value'     => \Mage::app()->getStore(true)->getId()

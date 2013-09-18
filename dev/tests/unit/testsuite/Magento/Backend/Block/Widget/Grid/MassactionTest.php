@@ -49,6 +49,11 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
      */
     protected $_requestMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Factory\Helper
+     */
+    protected $_helperFactoryMock;
+
     protected function setUp()
     {
         $this->_gridMock = $this->getMock('Magento\Backend\Block\Widget\Grid', array('getId'), array(), '', false);
@@ -79,10 +84,20 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
 
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
+        $this->_helperFactoryMock = $this->getMock(
+            'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
+        );
+        $this->_helperFactoryMock
+            ->expects($this->any())
+            ->method('get')
+            ->with('Magento\Backend\Helper\Data')
+            ->will($this->returnValue($this->_backendHelperMock));
+
         $arguments = array(
             'layout'       => $this->_layoutMock,
             'request'      => $this->_requestMock,
             'urlBuilder'   => $this->_urlModelMock,
+            'helperFactory' => $this->_helperFactoryMock,
             'data'         => array(
                 'massaction_id_field'  => 'test_id',
                 'massaction_id_filter' => 'test_id'

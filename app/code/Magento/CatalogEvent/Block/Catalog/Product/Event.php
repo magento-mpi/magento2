@@ -20,6 +20,39 @@ namespace Magento\CatalogEvent\Block\Catalog\Product;
 class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog event data
+     *
+     * @var \Magento\CatalogEvent\Helper\Data
+     */
+    protected $_catalogEventData = null;
+
+    /**
+     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CatalogEvent\Helper\Data $catalogEventData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_catalogEventData = $catalogEventData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Return current category event
      *
      * @return Magento_CategoryEvent_Model_Event
@@ -40,7 +73,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -50,11 +83,10 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      */
     public function canDisplay()
     {
-        return \Mage::helper('Magento\CatalogEvent\Helper\Data')->isEnabled() &&
-               $this->getProduct() &&
-               $this->getEvent() &&
-               $this->getEvent()->canDisplayProductPage() &&
-               !$this->getProduct()->getEventNoTicker();
+        return $this->_catalogEventData->isEnabled()
+            && $this->getProduct()
+            && $this->getEvent()
+            && $this->getEvent()->canDisplayProductPage()
+            && !$this->getProduct()->getEventNoTicker();
     }
-
 }

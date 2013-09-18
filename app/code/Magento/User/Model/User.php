@@ -97,21 +97,56 @@ class User
     protected $_sender;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * User data
+     *
+     * @var \Magento\User\Helper\Data
+     */
+    protected $_userData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\User\Helper\Data $userData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Sender $sender
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Sender $sender
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\User\Helper\Data $userData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Sender $sender,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_userData = $userData;
+        $this->_coreData = $coreData;
         $this->_sender = $sender;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -120,6 +155,21 @@ class User
     protected function _construct()
     {
         $this->_init('Magento\User\Model\Resource\User');
+    }
+
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_eventManager', '_sender', '_coreData', '_userData'));
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->_eventManager = \Mage::getSingleton('Magento\Core\Model\Event\Manager');
+        $this->_sender       = \Mage::getSingleton('Magento\Core\Model\Sender');
+        $this->_coreData     = \Mage::getSingleton('Magento\Core\Helper\Data');
+        $this->_userData     = \Mage::getSingleton('Magento\User\Helper\Data');
     }
 
     /**
@@ -449,7 +499,7 @@ class User
         $result = false;
 
         try {
-            \Mage::dispatchEvent('admin_user_authenticate_before', array(
+            $this->_eventManager->dispatch('admin_user_authenticate_before', array(
                 'username' => $username,
                 'user'     => $this
             ));
@@ -458,7 +508,7 @@ class User
 
             if ($sensitive
                 && $this->getId()
-                && \Mage::helper('Magento\Core\Helper\Data')->validateHash($password, $this->getPassword())
+                && $this->_coreData->validateHash($password, $this->getPassword())
             ) {
                 if ($this->getIsActive() != '1') {
                     throw new \Magento\Backend\Model\Auth\Exception(
@@ -473,7 +523,7 @@ class User
                 $result = true;
             }
 
-            \Mage::dispatchEvent('admin_user_authenticate_after', array(
+            $this->_eventManager->dispatch('admin_user_authenticate_after', array(
                 'username' => $username,
                 'password' => $password,
                 'user'     => $this,
@@ -552,7 +602,7 @@ class User
      */
     protected function _getEncodedPassword($password)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->getHash($password, 2);
+        return $this->_coreData->getHash($password, 2);
     }
 
     /**
@@ -593,7 +643,7 @@ class User
             return true;
         }
 
-        $expirationPeriod = \Mage::helper('Magento\User\Helper\Data')->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->_userData->getResetPasswordLinkExpirationPeriod();
 
         $currentDate = \Magento\Date::now();
         $currentTimestamp = \Magento\Date::toTimestamp($currentDate);

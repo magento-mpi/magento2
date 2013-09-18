@@ -26,6 +26,53 @@ namespace Magento\Adminhtml\Block\Review;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * Review action pager
+     *
+     * @var \Magento\Review\Helper\Action\Pager
+     */
+    protected $_reviewActionPager = null;
+
+    /**
+     * Review data
+     *
+     * @var \Magento\Review\Helper\Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Review\Helper\Action\Pager $reviewActionPager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Review\Helper\Action\Pager $reviewActionPager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_reviewData = $reviewData;
+        $this->_reviewActionPager = $reviewActionPager;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize grid
      */
     protected function _construct()
@@ -43,7 +90,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _afterLoadCollection()
     {
         /** @var $actionPager \Magento\Review\Helper\Action\Pager */
-        $actionPager = \Mage::helper('Magento\Review\Helper\Action\Pager');
+        $actionPager = $this->_reviewActionPager;
         $actionPager->setStorageId('reviews');
         $actionPager->setItems($this->getCollection()->getResultingIds());
 
@@ -73,14 +120,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         if ($this->getCustomerId() || $this->getRequest()->getParam('customerId', false)) {
             $customerId = $this->getCustomerId();
-            if (!$customerId){
+            if (!$customerId) {
                 $customerId = $this->getRequest()->getParam('customerId');
             }
             $this->setCustomerId($customerId);
             $collection->addCustomerFilter($this->getCustomerId());
         }
 
-        if (\Mage::registry('usePendingFilter') === true) {
+        if ($this->_coreRegistry->registry('usePendingFilter') === true) {
             $collection->addStatusFilter($model->getPendingStatus());
         }
 
@@ -97,8 +144,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        /** @var $helper \Magento\Review\Helper\Data */
-        $helper = \Mage::helper('Magento\Review\Helper\Data');
         $this->addColumn('review_id', array(
             'header'        => __('ID'),
             'align'         => 'right',
@@ -116,12 +161,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'index'         => 'review_created_at',
         ));
 
-        if( !\Mage::registry('usePendingFilter') ) {
+        if (!$this->_coreRegistry->registry('usePendingFilter')) {
             $this->addColumn('status', array(
                 'header'        => __('Status'),
                 'align'         => 'left',
                 'type'          => 'options',
-                'options'       => $helper->getReviewStatuses(),
+                'options'       => $this->_reviewData->getReviewStatuses(),
                 'width'         => '100px',
                 'filter_index'  => 'rt.status_id',
                 'index'         => 'status_id',
@@ -212,7 +257,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                             'params'=> array(
                                 'productId' => $this->getProductId(),
                                 'customerId' => $this->getCustomerId(),
-                                'ret'       => ( \Mage::registry('usePendingFilter') ) ? 'pending' : null
+                                'ret' => $this->_coreRegistry->registry('usePendingFilter') ? 'pending' : null
                             )
                          ),
                          'field'   => 'id'
@@ -234,9 +279,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareMassaction()
     {
-        /** @var $helper \Magento\Review\Helper\Data */
-        $helper = \Mage::helper('Magento\Review\Helper\Data');
-
         $this->setMassactionIdField('review_id');
         $this->setMassactionIdFilter('rt.review_id');
         $this->setMassactionIdFieldOnlyIndexValue(true);
@@ -246,18 +288,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'label'=> __('Delete'),
             'url'  => $this->getUrl(
                 '*/*/massDelete',
-                array('ret' => \Mage::registry('usePendingFilter') ? 'pending' : 'index')
+                array('ret' => $this->_coreRegistry->registry('usePendingFilter') ? 'pending' : 'index')
             ),
             'confirm' => __('Are you sure?')
         ));
 
-        $statuses = $helper->getReviewStatusesOptionArray();
+        $statuses = $this->_reviewData->getReviewStatusesOptionArray();
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('update_status', array(
             'label'         => __('Update Status'),
             'url'           => $this->getUrl(
                 '*/*/massUpdateStatus',
-                array('ret' => \Mage::registry('usePendingFilter') ? 'pending' : 'index')
+                array('ret' => $this->_coreRegistry->registry('usePendingFilter') ? 'pending' : 'index')
             ),
             'additional'    => array(
                 'status'    => array(
@@ -283,7 +325,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),
-            'ret'       => ( \Mage::registry('usePendingFilter') ) ? 'pending' : null,
+            'ret'       => $this->_coreRegistry->registry('usePendingFilter') ? 'pending' : null,
         ));
     }
 
@@ -294,9 +336,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        if( $this->getProductId() || $this->getCustomerId() ) {
+        if ($this->getProductId() || $this->getCustomerId()) {
             return $this->getUrl(
-                '*/catalog_product_review/' . (\Mage::registry('usePendingFilter') ? 'pending' : ''),
+                '*/catalog_product_review/' . ($this->_coreRegistry->registry('usePendingFilter') ? 'pending' : ''),
                 array(
                     'productId' => $this->getProductId(),
                     'customerId' => $this->getCustomerId(),

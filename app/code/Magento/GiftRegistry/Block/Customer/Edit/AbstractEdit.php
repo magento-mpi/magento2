@@ -47,6 +47,31 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     protected $_prefix;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($configCacheType, $coreData, $context, $data);
+    }
+
+    /**
      * Get config
      *
      * @param string $path
@@ -64,7 +89,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function getEntity()
     {
-        return \Mage::registry('magento_giftregistry_entity');
+        return $this->_coreRegistry->registry('magento_giftregistry_entity');
     }
 
     /**
@@ -333,6 +358,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
 
                default :
                    $element = $this->_getInputTextHtml($name, $id, $value, $class);
+                   break;
             }
         }
         return $element;

@@ -20,7 +20,7 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery;
 
-class Content extends \Magento\Adminhtml\Block\Widget
+class Content extends \Magento\Backend\Block\Widget
 {
     protected $_template = 'catalog/product/helper/gallery.phtml';
 
@@ -42,7 +42,7 @@ class Content extends \Magento\Adminhtml\Block\Widget
                 )
             ));
 
-        \Mage::dispatchEvent('catalog_product_gallery_prepare_layout', array('block' => $this));
+        $this->_eventManager->dispatch('catalog_product_gallery_prepare_layout', array('block' => $this));
 
         return parent::_prepareLayout();
     }
@@ -92,7 +92,7 @@ class Content extends \Magento\Adminhtml\Block\Widget
                     $image['url'] = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')
                         ->getMediaUrl($image['file']);
                 }
-                return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($value['images']);
+                return $this->_coreData->jsonEncode($value['images']);
             }
         }
         return '[]';
@@ -107,7 +107,7 @@ class Content extends \Magento\Adminhtml\Block\Widget
                 $attribute->getAttributeCode()
             );
         }
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($values);
+        return $this->_coreData->jsonEncode($values);
     }
 
     /**
@@ -154,7 +154,7 @@ class Content extends \Magento\Adminhtml\Block\Widget
 
     public function getImageTypesJson()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getImageTypes());
+        return $this->_coreData->jsonEncode($this->getImageTypes());
     }
 
 }

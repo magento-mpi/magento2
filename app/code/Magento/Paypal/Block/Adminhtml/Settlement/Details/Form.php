@@ -17,7 +17,7 @@
  */
 namespace Magento\Paypal\Block\Adminhtml\Settlement\Details;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare read-only data and group it by fieldsets
@@ -25,7 +25,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_transaction');
+        $model = $this->_coreRegistry->registry('current_transaction');
         /* @var $model \Magento\Paypal\Model\Report\Settlement\Row */
         $settlement = \Mage::getSingleton('Magento\Paypal\Model\Report\Settlement');
         /* @var $settlement \Magento\Paypal\Model\Report\Settlement */
@@ -102,7 +102,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ),
         );
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         foreach ($fieldsets as $key => $data) {
             $fieldset = $form->addFieldset($key, array('legend' => $data['legend']));
             foreach ($data['fields'] as $id => $info) {

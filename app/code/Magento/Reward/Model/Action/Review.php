@@ -20,6 +20,30 @@ namespace Magento\Reward\Model\Action;
 class Review extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
+     * Reward data
+     *
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Reward\Helper\Data $rewardData,
+        array $data = array()
+    ) {
+        $this->_rewardData = $rewardData;
+        parent::__construct($data);
+    }
+
+    /**
      * Retrieve points delta for action
      *
      * @param int $websiteId
@@ -27,7 +51,7 @@ class Review extends \Magento\Reward\Model\Action\AbstractAction
      */
     public function getPoints($websiteId)
     {
-        return (int)\Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig('review', $websiteId);
+        return (int)$this->_rewardData->getPointsConfig('review', $websiteId);
     }
 
     /**
@@ -37,7 +61,7 @@ class Review extends \Magento\Reward\Model\Action\AbstractAction
      */
     public function getRewardLimit()
     {
-        return \Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig(
+        return $this->_rewardData->getPointsConfig(
             'review_limit',
             $this->getReward()->getWebsiteId()
         );

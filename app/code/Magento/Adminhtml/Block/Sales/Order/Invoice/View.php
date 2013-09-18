@@ -26,6 +26,29 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     protected $_session;
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_objectId    = 'invoice_id';
@@ -67,7 +90,8 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
             if (($orderPayment->canRefundPartialPerInvoice()
                 && $this->getInvoice()->canRefund()
                 && $orderPayment->getAmountPaid() > $orderPayment->getAmountRefunded())
-                || ($orderPayment->canRefund() && !$this->getInvoice()->getIsUsedForRefund())) {
+                || ($orderPayment->canRefund() && !$this->getInvoice()->getIsUsedForRefund())
+            ) {
                 $this->_addButton('capture', array( // capture?
                     'label'     => __('Credit Memo'),
                     'class'     => 'go',
@@ -123,15 +147,14 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getInvoice()
     {
-        return \Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     public function getHeaderText()
     {
         if ($this->getInvoice()->getEmailSent()) {
             $emailSent = __('the invoice email was sent');
-        }
-        else {
+        } else {
             $emailSent = __('the invoice email is not sent');
         }
         return __('Invoice #%1 | %2 | %4 (%3)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStateName(), $emailSent, $this->formatDate($this->getInvoice()->getCreatedAtDate(), 'medium', true));

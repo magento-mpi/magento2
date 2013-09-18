@@ -71,6 +71,35 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     abstract public function getPositionBehavior();
 
     /**
+     * Target rule data
+     *
+     * @var \Magento\TargetRule\Helper\Data
+     */
+    protected $_targetRuleData = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_targetRuleData = $targetRuleData;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Return the behavior positions applicable to products based on the rule(s)
      *
      * @return array
@@ -95,18 +124,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
             \Magento\TargetRule\Model\Rule::SELECTED_ONLY,
         );
     }
-
-    /**
-     * Retrieve TargetRule data helper
-     *
-     * @return \Magento\TargetRule\Helper\Data
-     */
-    public function getTargetRuleHelper()
-    {
-        return \Mage::helper('Magento\TargetRule\Helper\Data');
-    }
-
-    /**
+     /**
      * Get link collection
      *
      * @return \Magento\Catalog\Model\Resource\Product\Collection|null
@@ -119,7 +137,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
             if ($this->_linkCollection) {
                 // Perform rotation mode
                 $select = $this->_linkCollection->getSelect();
-                $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getProductListType());
+                $rotationMode = $this->_targetRuleData->getRotationMode($this->getProductListType());
                 if ($rotationMode == \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE) {
                     \Mage::getResourceSingleton('Magento\TargetRule\Model\Resource\Index')->orderRand($select);
                 } else {
@@ -155,7 +173,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      */
     public function isShuffled()
     {
-        $rotationMode = $this->getTargetRuleHelper()->getRotationMode($this->getProductListType());
+        $rotationMode = $this->_targetRuleData->getRotationMode($this->getProductListType());
         return $rotationMode == \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE;
     }
 

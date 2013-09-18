@@ -23,6 +23,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_allowedHashKeys = array('ship_id', 'order_id', 'track_id');
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Decode url hash
      *
      * @param  string $hash
@@ -30,7 +49,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', \Mage::helper('Magento\Core\Helper\Data')->urlDecode($hash));
+        $hash = explode(':', $this->_coreData->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -47,7 +66,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-        $helper = \Mage::helper('Magento\Core\Helper\Data');
+        $helper = $this->_coreData;
         $urlPart = "{$key}:{$model->$method()}:{$model->getProtectCode()}";
         $param = array('hash' => $helper->urlEncode($urlPart));
 

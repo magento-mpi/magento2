@@ -30,12 +30,34 @@ class Page extends \Zend_Pdf_Page
      * Dhl International Label Creation Class Pdf Page constructor
      * Create/Make a copy of pdf page
      *
-     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page|string $param1
+     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page|string $param1
      * @param null $param2
      * @param null $param3
      */
-    public function __construct($param1, $param2 = null, $param3 = null)
-    {
+    /**
+     * Dhl International Label Creation Class Pdf Page constructor
+     *
+     * Create/Make a copy of pdf page
+     *
+     * @param \Magento\Core\Helper\String $coreString
+     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page|string $param1
+     * @param null $param2
+     * @param null $param3
+     */
+    /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        $param1,
+        $param2 = null,
+        $param3 = null
+    ) {
+        $this->_coreString = $coreString;
         if ($param1 instanceof \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page
             && $param2 === null && $param3 === null
         ) {
@@ -124,7 +146,7 @@ class Page extends \Zend_Pdf_Page
     {
         foreach ($lines as $line) {
             if (strlen($line) > $maxWidth) {
-                $subLines = \Mage::helper('Magento\Core\Helper\String')->str_split($line, $maxWidth, true, true);
+                $subLines = $this->_coreString->str_split($line, $maxWidth, true, true);
                 $y = $this->drawLines(array_filter($subLines), $x, $y, $maxWidth, $align);
                 continue;
             }

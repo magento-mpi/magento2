@@ -49,19 +49,47 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_baseTmpMediaPath;
 
     /**
-     * Constructor to inject dependencies
+     * Core data
      *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_fileStorageDb = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
      * @param \Magento\Core\Model\Dir $dirs
      * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
         \Magento\Core\Model\Dir $dirs,
         \Magento\Filesystem $filesystem,
         $data = array()
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_fileStorageDb = $fileStorageDb;
+        $this->_coreData = $coreData;
         if (isset($data['resourceModel'])) {
             $this->_resourceModel = $data['resourceModel'];
         }
@@ -149,7 +177,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if (!is_array($value['images']) && strlen($value['images']) > 0) {
-            $value['images'] = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($value['images']);
+            $value['images'] = $this->_coreData->jsonDecode($value['images']);
         }
 
         if (!is_array($value['images'])) {
@@ -206,8 +234,6 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                 $object->setData($mediaAttrCode.'_label', $existImages[$attrData]['label']);
             }
         }
-
-        \Mage::dispatchEvent('catalog_product_media_save_before', array('product' => $object, 'images' => $value));
 
         $object->setData($attrCode, $value);
 
@@ -313,8 +339,6 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             \Mage::throwException(__('The image does not exist.'));
         }
 
-        \Mage::dispatchEvent('catalog_product_media_add_image', array('product' => $product, 'image' => $file));
-
         $pathinfo = pathinfo($file);
         $imgExtensions = array('jpg','jpeg','gif','png');
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), $imgExtensions)) {
@@ -331,7 +355,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 
         try {
             /** @var $storageHelper \Magento\Core\Helper\File\Storage\Database */
-            $storageHelper = \Mage::helper('Magento\Core\Helper\File\Storage\Database');
+            $storageHelper = $this->_fileStorageDb;
             if ($move) {
                 $this->_filesystem->rename($file, $destinationFile, $this->_baseTmpMediaPath);
 
@@ -588,7 +612,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $destinationFile = $this->_getUniqueFileName($file);
 
         /** @var $storageHelper \Magento\Core\Helper\File\Storage\Database */
-        $storageHelper = \Mage::helper('Magento\Core\Helper\File\Storage\Database');
+        $storageHelper = $this->_fileStorageDb;
 
         if ($storageHelper->checkDbUsage()) {
             $storageHelper->renameFile(
@@ -618,8 +642,8 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     protected function _getUniqueFileName($file)
     {
-        if (\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
-            $destFile = \Mage::helper('Magento\Core\Helper\File\Storage\Database')
+        if ($this->_fileStorageDb->checkDbUsage()) {
+            $destFile = $this->_fileStorageDb
                 ->getUniqueFilename(
                     \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaUrlAddition(),
                     $file
@@ -647,8 +671,8 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                 throw new \Exception();
             }
 
-            if (\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
-                \Mage::helper('Magento\Core\Helper\File\Storage\Database')
+            if ($this->_fileStorageDb->checkDbUsage()) {
+                $this->_fileStorageDb
                     ->copyFile($this->_mediaConfig->getMediaShortUrl($file),
                                $this->_mediaConfig->getMediaShortUrl($destinationFile));
 

@@ -49,7 +49,7 @@ class Cart
      */
     protected function _getHelper()
     {
-        return \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
+        return $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
     }
 
     /**
@@ -82,7 +82,7 @@ class Cart
     {
         // check empty data
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
-        $helper = \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
+        $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
         $items = $this->getRequest()->getParam('items');
         foreach ($items as $k => $item) {
             if (empty($item['sku'])) {
@@ -138,7 +138,7 @@ class Cart
     public function removeFailedAction()
     {
         $removed = $this->_getFailedItemsCart()->removeAffectedItem(
-            \Mage::helper('Magento\Core\Helper\Url')->urlDecode($this->getRequest()->getParam('sku'))
+            $this->_objectManager->get('Magento\Core\Helper\Url')->urlDecode($this->getRequest()->getParam('sku'))
         );
 
         if ($removed) {
@@ -186,7 +186,7 @@ class Cart
 
             $params->setBuyRequest($buyRequest);
 
-            \Mage::helper('Magento\Catalog\Helper\Product\View')->prepareAndRender($id, $this, $params);
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->prepareAndRender($id, $this, $params);
         } catch (\Magento\Core\Exception $e) {
             $this->_getCustomerSession()->addError($e->getMessage());
             $this->_redirect('*');
@@ -221,8 +221,10 @@ class Cart
             $this->_getFailedItemsCart()->removeAffectedItem($this->getRequest()->getParam('sku'));
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
-                if (!$cart->getQuote()->getHasError()){
-                    $productName = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($product->getName());
+                if (!$cart->getQuote()->getHasError()) {
+                    $productName = $this->_objectManager
+                        ->get('Magento\Core\Helper\Data')
+                        ->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }

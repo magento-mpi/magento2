@@ -28,6 +28,25 @@ class Data extends \Magento\Core\Helper\Url
     protected $_product = null;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Get current product instance
      *
      * @return \Magento\Catalog\Model\Product
@@ -37,7 +56,7 @@ class Data extends \Magento\Core\Helper\Url
         if (!is_null($this->_product)) {
             return $this->_product;
         }
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**

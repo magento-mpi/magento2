@@ -202,7 +202,7 @@ class Form extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
     {
         $products = $this->getCategory()->getProductsPosition();
         if (!empty($products)) {
-            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($products);
+            return $this->_coreData->jsonEncode($products);
         }
         return '{}';
     }

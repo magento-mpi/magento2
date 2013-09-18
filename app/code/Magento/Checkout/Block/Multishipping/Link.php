@@ -19,6 +19,29 @@ namespace Magento\Checkout\Block\Multishipping;
 
 class Link extends \Magento\Core\Block\Template
 {
+    /**
+     * Checkout data
+     *
+     * @var \Magento\Checkout\Helper\Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getCheckoutUrl()
     {
         return $this->getUrl('checkout/multishipping', array('_secure'=>true));
@@ -31,7 +54,7 @@ class Link extends \Magento\Core\Block\Template
 
     public function _toHtml()
     {
-        if (!\Mage::helper('Magento\Checkout\Helper\Data')->isMultishippingCheckoutAvailable()){
+        if (!$this->_checkoutData->isMultishippingCheckoutAvailable()) {
             return '';
         }
 

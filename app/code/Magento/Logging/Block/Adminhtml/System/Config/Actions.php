@@ -36,7 +36,7 @@ class Actions
      */
     public function getIsChecked($key)
     {
-        return \Mage::getSingleton('Magento\Logging\Model\Config')->isActive($key, true);
+        return \Mage::getSingleton('Magento\Logging\Model\Config')->isEventGroupLogged($key);
     }
 
     /**

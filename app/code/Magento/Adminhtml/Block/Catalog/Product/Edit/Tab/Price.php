@@ -10,20 +10,17 @@
 
 /**
  * Adminhtml product edit price block
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
 
-class Price extends \Magento\Adminhtml\Block\Widget\Form
+class Price extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected function _prepareForm()
     {
-        $product = \Mage::registry('product');
+        $product = $this->_coreRegistry->registry('product');
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('tiered_price', array('legend' => __('Tier Pricing')));
 
         $fieldset->addField('default_price', 'label', array(

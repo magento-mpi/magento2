@@ -49,6 +49,36 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     protected $_cachedItemPriceBlocks = array();
 
     /**
+     * Wishlist data
+     *
+     * @var \Magento\Wishlist\Helper\Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Internal constructor, that is called from real constructor
      *
      */
@@ -69,7 +99,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      */
     protected function _getHelper()
     {
-        return \Mage::helper('Magento\Wishlist\Helper\Data');
+        return $this->_wishlistData;
     }
 
     /**
@@ -343,7 +373,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
     {
         $type_id = $product->getTypeId();
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)) {
+        if ($this->_catalogData->canApplyMsrp($product)) {
             $realPriceHtml = $this->_preparePriceRenderer($type_id)
                 ->setProduct($product)
                 ->setDisplayMinimalPrice($displayMinimalPrice)

@@ -31,6 +31,22 @@ class Pro extends \Magento\Paypal\Model\Pro
     protected $_pbridgePaymentMethod = null;
 
     /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param \Magento\Payment\Helper\Data $paymentData
+     */
+    public function __construct(
+        \Magento\Payment\Helper\Data $paymentData
+    ) {
+        $this->_paymentData = $paymentData;
+    }
+
+    /**
      * Pbridge payment method setter
      *
      * @param \Magento\Pbridge\Model\Payment\Method\Paypal $pbridgePaymentMethod
@@ -49,7 +65,7 @@ class Pro extends \Magento\Paypal\Model\Pro
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
         }
         return $this->_pbridgeMethodInstance;

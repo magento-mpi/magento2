@@ -64,7 +64,8 @@ abstract class AbstractReport extends \Magento\Adminhtml\Controller\Action
             $blocks = array($blocks);
         }
 
-        $requestData = \Mage::helper('Magento\Adminhtml\Helper\Data')->prepareFilterString($this->getRequest()->getParam('filter'));
+        $requestData = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')
+            ->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new \Magento\Object();
@@ -104,7 +105,9 @@ abstract class AbstractReport extends \Magento\Adminhtml\Controller\Action
         $refreshStatsLink = $this->getUrl('*/report_statistics');
         $directRefreshLink = $this->getUrl('*/report_statistics/refreshRecent', array('code' => $refreshCode));
 
-        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addNotice(__('Last updated: %1. To refresh last day\'s <a href="%2">statistics</a>, click <a href="%3">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+            ->addNotice(__('Last updated: %1. To refresh last day\'s <a href="%2">statistics</a>, '
+                . 'click <a href="%3">here</a>.', $updatedAt, $refreshStatsLink, $directRefreshLink));
         return $this;
     }
 }

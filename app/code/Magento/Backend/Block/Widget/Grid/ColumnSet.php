@@ -102,13 +102,16 @@ class ColumnSet extends \Magento\Core\Block\Template
     protected $_totals = null;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
+     * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory
+     * $generatorFactory
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
      * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
@@ -129,7 +132,7 @@ class ColumnSet extends \Magento\Core\Block\Template
             array_key_exists('filter_visibility', $data) ? (bool) $data['filter_visibility'] : true
         );
 
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
 
         $this->setEmptyText(__(
             isset($data['empty_text'])? $data['empty_text'] : 'We couldn\'t find any records.'

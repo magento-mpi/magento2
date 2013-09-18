@@ -28,6 +28,33 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
     protected $_mediaBaseDirectory = null;
 
     /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreFileStorageDb = $coreFileStorageDb;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve media base directory path
      *
      * @return string
@@ -36,7 +63,7 @@ abstract class AbstractStorage extends \Magento\Core\Model\AbstractModel
     {
         if (null === $this->_mediaBaseDirectory) {
             /** @var $helper \Magento\Core\Helper\File\Storage\Database */
-            $helper = \Mage::helper('Magento\Core\Helper\File\Storage\Database');
+            $helper = $this->_coreFileStorageDb;
             $this->_mediaBaseDirectory = $helper->getMediaBaseDir();
         }
 

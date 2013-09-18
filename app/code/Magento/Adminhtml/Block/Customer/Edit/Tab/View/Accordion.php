@@ -19,9 +19,32 @@ namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
 
 class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
 
         $this->setId('customerViewAccordion');
 
@@ -32,7 +55,7 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
         ));
 
         // add shopping cart block of each website
-        foreach (\Mage::registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
+        foreach ($this->_coreRegistry->registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
             $website = \Mage::app()->getWebsite($websiteId);
 
             // count cart items

@@ -21,13 +21,34 @@ namespace Magento\Reminder\Model\Resource\Customer;
 class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
+     * Core registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Collection constructor
+     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($eventManager, $fetchStrategy);
+    }
+
+    /**
      * Instantiate select to get matched customers
      *
      * @return \Magento\Reminder\Model\Resource\Customer\Collection
      */
     protected function _initSelect()
     {
-        $rule = \Mage::registry('current_reminder_rule');
+        $rule = $this->_coreRegistry->registry('current_reminder_rule');
         $select = $this->getSelect();
 
         $customerTable = $this->getTable('customer_entity');

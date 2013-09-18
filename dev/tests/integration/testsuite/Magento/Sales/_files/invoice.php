@@ -11,7 +11,8 @@
 require 'order.php';
 /** @var \Magento\Sales\Model\Order $order */
 
-$orderService = new \Magento\Sales\Model\Service\Order($order);
+$orderService = Magento_TestFramework_ObjectManager::getInstance()->create('Magento\Sales\Model\Service\Order',
+    array('order' => $order));
 $invoice = $orderService->prepareInvoice();
 $invoice->register();
 $order->setIsInProcess(true);

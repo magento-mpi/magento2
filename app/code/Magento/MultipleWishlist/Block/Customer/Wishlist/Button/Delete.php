@@ -26,7 +26,7 @@ class Delete extends \Magento\Wishlist\Block\AbstractBlock
      */
     protected function _toHtml()
     {
-        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled() && $this->isWishlistDeleteable()) {
+        if ($this->_wishlistData->isMultipleEnabled() && $this->isWishlistDeleteable()) {
             return parent::_toHtml();
         }
         return '';
@@ -39,7 +39,7 @@ class Delete extends \Magento\Wishlist\Block\AbstractBlock
      */
     protected function isWishlistDeleteable()
     {
-        return !\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isWishlistDefault($this->getWishlistInstance());
+        return !$this->_wishlistData->isWishlistDefault($this->getWishlistInstance());
     }
 
     /**

@@ -28,6 +28,44 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_attributeOptionValues = null;
 
     /**
+     * Rma data
+     *
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Rma eav
+     *
+     * @var \Magento\Rma\Helper\Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     */
+    public function __construct(
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString
+    ) {
+        $this->_rmaEav = $rmaEav;
+        $this->_rmaData = $rmaData;
+        parent::__construct($paymentData, $coreData, $coreString);
+    }
+
+    /**
      * Retrieve PDF
      *
      * @param array $rmaArray
@@ -86,7 +124,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         $page->drawText(
             __('Return Date: ') .
-                \Mage::helper('Magento\Core\Helper\Data')->formatDate($rma->getDateRequested(), 'medium', false),
+                $this->_coreData->formatDate($rma->getDateRequested(), 'medium', false),
             35,
             $this->y - 50,
             'UTF-8'
@@ -100,7 +138,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         );
 
         $text = __('Order Date: ');
-        $text .= \Mage::helper('Magento\Core\Helper\Data')->formatDate(
+        $text .= $this->_coreData->formatDate(
             $rma->getOrder()->getCreatedAtStoreDate(),
             'medium',
             false
@@ -118,7 +156,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         /* add address blocks */
         $shippingAddress = $this->_formatAddress($rma->getOrder()->getShippingAddress()->format('pdf'));
         $returnAddress = $this
-            ->_formatAddress(\Mage::helper('Magento\Rma\Helper\Data')
+            ->_formatAddress($this->_rmaData
             ->getReturnAddress('pdf', array(), $this->getStoreId()));
 
         $page->setFillColor(new \Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
@@ -273,41 +311,41 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     protected function _drawRmaItem($item, $page)
     {
-        $productName = \Mage::helper('Magento\Core\Helper\String')->str_split($item->getProductName(), 60, true, true);
+        $productName = $this->_coreString->str_split($item->getProductName(), 60, true, true);
         $productName = isset($productName[0]) ? $productName[0] : '';
 
         $page->drawText($productName, $this->getProductNameX(), $this->y, 'UTF-8');
 
-        $productSku = \Mage::helper('Magento\Core\Helper\String')->str_split($item->getProductSku(), 25);
+        $productSku = $this->_coreString->str_split($item->getProductSku(), 25);
         $productSku = isset($productSku[0]) ? $productSku[0] : '';
         $page->drawText($productSku, $this->getProductSkuX(),$this->y, 'UTF-8');
 
-        $condition = \Mage::helper('Magento\Core\Helper\String')->str_split(
+        $condition = $this->_coreString->str_split(
             $this->_getOptionAttributeStringValue($item->getCondition()),
             25
         );
         $page->drawText($condition[0], $this->getConditionX(),$this->y, 'UTF-8');
 
-        $resolution = \Mage::helper('Magento\Core\Helper\String')->str_split(
+        $resolution = $this->_coreString->str_split(
             $this->_getOptionAttributeStringValue($item->getResolution()),
             25
         );
         $page->drawText($resolution[0], $this->getResolutionX(),$this->y, 'UTF-8');
         $page->drawText(
-            \Mage::helper('Magento\Rma\Helper\Data')->parseQuantity($item->getQtyRequested(), $item),
+            $this->_rmaData->parseQuantity($item->getQtyRequested(), $item),
             $this->getQtyRequestedX(),
             $this->y,
             'UTF-8'
         );
 
         $page->drawText(
-            \Mage::helper('Magento\Rma\Helper\Data')->getQty($item),
+            $this->_rmaData->getQty($item),
             $this->getQtyX(),
             $this->y,
             'UTF-8'
         );
 
-        $status = \Mage::helper('Magento\Core\Helper\String')->str_split($item->getStatusLabel(), 25);
+        $status = $this->_coreString->str_split($item->getStatusLabel(), 25);
         $page->drawText($status[0], $this->getStatusX(),$this->y, 'UTF-8');
 
         $productOptions = $item->getOptions();
@@ -331,7 +369,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $this->y -= 8;
             $optionRowString = $value['label'] . ': ' .
                 (isset($value['print_value']) ? $value['print_value'] : $value['value']);
-            $productOptions = \Mage::helper('Magento\Core\Helper\String')->str_split($optionRowString, 60, true, true);
+            $productOptions = $this->_coreString->str_split($optionRowString, 60, true, true);
             $productOptions = isset($productOptions[0]) ? $productOptions[0] : '';
             $page->drawText($productOptions, $this->getProductNameX(), $this->y, 'UTF-8');
         }
@@ -347,7 +385,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected function _getOptionAttributeStringValue($attributeValue)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = $this->_rmaEav->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$attributeValue])) {
             return $this->_attributeOptionValues[$attributeValue];

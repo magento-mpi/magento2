@@ -27,12 +27,19 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
     protected $_routerList;
 
     /**
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_backendData;
+
+    /**
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\RouterList $routerList
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\RouterList $routerList,
@@ -40,6 +47,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
     ) {
         parent::__construct($data);
 
+        $this->_backendData = $backendData;
         $this->_rewriteFactory = $rewriteFactory;
         $this->_eventManager = $eventManager;
         $this->_routerList = $routerList;
@@ -159,12 +167,12 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
             \Mage::throwException('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
-        \Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));
+        $this->_eventManager->dispatch('controller_front_send_response_before', array('front' => $this));
         \Magento\Profiler::start('send_response');
-        \Mage::dispatchEvent('http_response_send_before', array('response' => $this));
+        $this->_eventManager->dispatch('http_response_send_before', array('response' => $this));
         $this->getResponse()->sendResponse();
         \Magento\Profiler::stop('send_response');
-        \Mage::dispatchEvent('controller_front_send_response_after', array('front' => $this));
+        $this->_eventManager->dispatch('controller_front_send_response_after', array('front' => $this));
         return $this;
     }
 
@@ -302,7 +310,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
     protected function _isAdminFrontNameMatched($request)
     {
         $pathPrefix = $this->_extractPathPrefixFromUrl($request);
-        return $pathPrefix == \Mage::helper('Magento\Backend\Helper\Data')->getAreaFrontName();
+        return $pathPrefix == $this->_backendData->getAreaFrontName();
     }
 
     /**

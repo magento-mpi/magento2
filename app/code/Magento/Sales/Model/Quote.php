@@ -182,6 +182,63 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_preventSaving = false;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * Sales data
+     *
+     * @var \Magento\Sales\Helper\Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_salesData = $salesData;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_coreData = $coreData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      */
     protected function _construct()
@@ -423,7 +480,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset('customer_account', 'to_quote', $customer, $this);
+        $this->_coreData->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 
@@ -890,7 +947,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
                 $parent->isDeleted(true);
             }
 
-            \Mage::dispatchEvent('sales_quote_remove_item', array('quote_item' => $item));
+            $this->_eventManager->dispatch('sales_quote_remove_item', array('quote_item' => $item));
         }
 
         return $this;
@@ -938,7 +995,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $item->setQuote($this);
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
-            \Mage::dispatchEvent('sales_quote_add_item', array('quote_item' => $item));
+            $this->_eventManager->dispatch('sales_quote_add_item', array('quote_item' => $item));
         }
         return $this;
     }
@@ -1020,7 +1077,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             \Mage::throwException(implode("\n", $errors));
         }
 
-        \Mage::dispatchEvent('sales_quote_product_add_after', array('items' => $items));
+        $this->_eventManager->dispatch('sales_quote_product_add_after', array('items' => $items));
 
         return $item;
     }
@@ -1124,7 +1181,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             $params = new \Magento\Object($params);
         }
         $params->setCurrentConfig($item->getBuyRequest());
-        $buyRequest = \Mage::helper('Magento\Catalog\Helper\Product')->addParamsToBuyRequest($buyRequest, $params);
+        $buyRequest = $this->_catalogProduct->addParamsToBuyRequest($buyRequest, $params);
 
         $buyRequest->setResetCount(true);
         $resultItem = $this->addProduct($product, $buyRequest);
@@ -1332,7 +1389,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         if ($this->getTotalsCollectedFlag()) {
             return $this;
         }
-        \Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
 
         $this->_collectItemsQtys();
 
@@ -1368,13 +1425,13 @@ class Quote extends \Magento\Core\Model\AbstractModel
             $this->setBaseGrandTotal((float)$this->getBaseGrandTotal() + $address->getBaseGrandTotal());
         }
 
-        \Mage::helper('Magento\Sales\Helper\Data')->checkQuoteAmount($this, $this->getGrandTotal());
-        \Mage::helper('Magento\Sales\Helper\Data')->checkQuoteAmount($this, $this->getBaseGrandTotal());
+        $this->_salesData->checkQuoteAmount($this, $this->getGrandTotal());
+        $this->_salesData->checkQuoteAmount($this, $this->getBaseGrandTotal());
 
         $this->setData('trigger_recollect', 0);
         $this->_validateCouponCode();
 
-        \Mage::dispatchEvent($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
 
         $this->setTotalsCollectedFlag(true);
         return $this;
@@ -1788,7 +1845,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function merge(\Magento\Sales\Model\Quote $quote)
     {
-        \Mage::dispatchEvent($this->_eventPrefix . '_merge_before', array(
+        $this->_eventManager->dispatch($this->_eventPrefix . '_merge_before', array(
             $this->_eventObject => $this,
             'source' => $quote
         ));
@@ -1828,7 +1885,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             $this->setCouponCode($quote->getCouponCode());
         }
 
-        \Mage::dispatchEvent($this->_eventPrefix . '_merge_after', array(
+        $this->_eventManager->dispatch($this->_eventPrefix . '_merge_after', array(
             $this->_eventObject => $this,
             'source' => $quote
         ));

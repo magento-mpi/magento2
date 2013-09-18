@@ -17,15 +17,19 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
+        $objectManager = Mage::getObjectManager();
+        $importExportData = $objectManager->get('Magento\ImportExport\Helper\Data');
+
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
-        $model = $this->getMock(
-            'Magento\ScheduledImportExport\Model\Import',
-            array('reindexAll'),
-            array(array('entity' => 'catalog_product', 'behavior' => 'append'))
-        );
+        $model = $this->getMock('Magento\ScheduledImportExport\Model\Import', array('reindexAll'), array(
+            $importExportData, array(
+                'entity'   => 'catalog_product',
+                'behavior' => 'append',
+            )
+        ));
         $model->expects($this->once())
             ->method('reindexAll')
-            ->will($this->returnValue($model));
+            ->will($this->returnSelf());
 
         $operation = Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation');
         $operation->setFileInfo(array(

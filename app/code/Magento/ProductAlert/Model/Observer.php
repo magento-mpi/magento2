@@ -62,6 +62,22 @@ class Observer
     protected $_errors = array();
 
     /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData
+    ) {
+        $this->_taxData = $taxData;
+    }
+
+    /**
      * Retrieve website collection array
      *
      * @return array
@@ -126,8 +142,7 @@ class Observer
                         $previousCustomer = $customer;
                         $email->clean();
                         $email->setCustomer($customer);
-                    }
-                    else {
+                    } else {
                         $customer = $previousCustomer;
                     }
 
@@ -140,8 +155,8 @@ class Observer
                     $product->setCustomerGroupId($customer->getGroupId());
                     if ($alert->getPrice() > $product->getFinalPrice()) {
                         $productPrice = $product->getFinalPrice();
-                        $product->setFinalPrice(\Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $productPrice));
-                        $product->setPrice(\Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $product->getPrice()));
+                        $product->setFinalPrice($this->_taxData->getPrice($product, $productPrice));
+                        $product->setPrice($this->_taxData->getPrice($product, $product->getPrice()));
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($productPrice);
@@ -216,8 +231,7 @@ class Observer
                         $previousCustomer = $customer;
                         $email->clean();
                         $email->setCustomer($customer);
-                    }
-                    else {
+                    } else {
                         $customer = $previousCustomer;
                     }
 

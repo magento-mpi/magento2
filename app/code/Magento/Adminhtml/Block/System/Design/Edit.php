@@ -15,6 +15,29 @@ class Edit extends \Magento\Adminhtml\Block\Widget
 
     protected $_template = 'system/design/edit.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -26,7 +49,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     {
         $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
-            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
+            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/') . '\')',
             'class' => 'back'
         ));
 
@@ -42,7 +65,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
 
         $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete'),
-            'onclick'   => 'confirmSetLocation(\''.__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+            'onclick'   => 'confirmSetLocation(\'' . __('Are you sure?') . '\', \'' . $this->getDeleteUrl() . '\')',
             'class'  => 'delete'
         ));
         return parent::_prepareLayout();
@@ -50,7 +73,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
 
     public function getDesignChangeId()
     {
-        return \Mage::registry('design')->getId();
+        return $this->_coreRegistry->registry('design')->getId();
     }
 
     public function getDeleteUrl()
@@ -70,8 +93,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
 
     public function getHeader()
     {
-        $header = '';
-        if (\Mage::registry('design')->getId()) {
+        if ($this->_coreRegistry->registry('design')->getId()) {
             $header = __('Edit Design Change');
         } else {
             $header = __('New Store Design Change');

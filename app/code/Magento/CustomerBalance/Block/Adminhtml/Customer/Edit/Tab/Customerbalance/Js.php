@@ -12,9 +12,32 @@ namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbala
 
 class Js extends \Magento\Adminhtml\Block\Template
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getCustomerWebsite()
     {
-        return \Mage::registry('current_customer')->getWebsiteId();
+        return $this->_coreRegistry->registry('current_customer')->getWebsiteId();
     }
 
     public function getWebsitesJson()
@@ -42,6 +65,6 @@ class Js extends \Magento\Adminhtml\Block\Template
             }
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 }

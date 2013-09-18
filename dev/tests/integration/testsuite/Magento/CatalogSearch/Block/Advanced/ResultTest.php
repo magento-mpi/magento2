@@ -23,7 +23,7 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\CatalogSearch\Block\Advanced\Result', 'block');
     }
 
@@ -57,6 +57,9 @@ class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_
         $this->assertEquals($expectedOptions, $childBlock->getAvailableOrders());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testSetListModes()
     {
         /** @var $childBlock \Magento\Core\Block\Text */

@@ -58,13 +58,16 @@ abstract class CustomerAbstract
     protected $_customerStorage;
 
     /**
-     * Constructor
-     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $coreString, $data);
 
         $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY,
             __('Website is not specified')

@@ -12,7 +12,6 @@
 /**
  * Catalog Compare Item Model
  *
- * @method \Magento\Catalog\Model\Resource\Product\Compare\Item _getResource()
  * @method \Magento\Catalog\Model\Resource\Product\Compare\Item getResource()
  * @method \Magento\Catalog\Model\Product\Compare\Item setVisitorId(int $value)
  * @method \Magento\Catalog\Model\Product\Compare\Item setCustomerId(int $value)
@@ -45,6 +44,33 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @var string
      */
     protected $_eventObject = 'item';
+
+    /**
+     * Catalog product compare
+     *
+     * @var \Magento\Catalog\Helper\Product\Compare
+     */
+    protected $_catalogProductCompare = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogProductCompare = $catalogProductCompare;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize resourse model
@@ -158,7 +184,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $this->_getResource()->updateCustomerFromVisitor($this);
 
-        \Mage::helper('Magento\Catalog\Helper\Product\Compare')->setCustomerId($this->getCustomerId())->calculate();
+        $this->_catalogProductCompare->setCustomerId($this->getCustomerId())->calculate();
         return $this;
     }
 
@@ -172,7 +198,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $this->_getResource()->purgeVisitorByCustomer($this);
 
-        \Mage::helper('Magento\Catalog\Helper\Product\Compare')->calculate(true);
+        $this->_catalogProductCompare->calculate(true);
         return $this;
     }
 

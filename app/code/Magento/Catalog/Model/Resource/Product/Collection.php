@@ -186,6 +186,37 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $_catalogPreparePriceSelect = null;
 
     /**
+     * Catalog product flat
+     *
+     * @var \Magento\Catalog\Helper\Product\Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_catalogData = $catalogData;
+        $this->_catalogProductFlat = $catalogProductFlat;
+        parent::__construct($eventManager, $fetchStrategy);
+    }
+
+    /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
      *
      * @return \Magento\DB\Select
@@ -221,7 +252,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             'response_object' => $response
         );
 
-        \Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
+        $this->_eventManager->dispatch('catalog_prepare_price_select', $eventArgs);
 
         $additional   = join('', $response->getAdditionalCalculations());
         $this->_priceExpression = $table . '.min_price';
@@ -276,7 +307,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function getFlatHelper()
     {
-        return \Mage::helper('Magento\Catalog\Helper\Product\Flat');
+        return $this->_catalogProductFlat;
     }
 
     /**
@@ -473,18 +504,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     }
 
     /**
-     * Add tax class id attribute to select and join price rules data if needed
-     *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection
-     */
-    protected function _beforeLoad()
-    {
-        \Mage::dispatchEvent('catalog_product_collection_load_before', array('collection' => $this));
-
-        return parent::_beforeLoad();
-    }
-
-    /**
      * Processing collection items after loading
      * Adding url rewrites, minimal prices, final prices, tax percents
      *
@@ -499,7 +518,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $this->_prepareUrlDataObject();
 
         if (count($this)) {
-            \Mage::dispatchEvent('catalog_product_collection_load_after', array('collection' => $this));
+            $this->_eventManager->dispatch('catalog_product_collection_load_after', array('collection' => $this));
         }
 
         foreach ($this as $product) {
@@ -1000,7 +1019,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         if ($isAnchor || $isNotAnchor) {
             $select = $this->getProductCountSelect();
 
-            \Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'catalog_product_collection_before_add_count_to_categories',
                 array('collection' => $this)
             );
@@ -1178,7 +1197,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
 
             return $this;
         }
-        if (!\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogRule')) {
+        if (!$this->_catalogData->isModuleEnabled('Magento_CatalogRule')) {
             return $this;
         }
         $wId = \Mage::app()->getWebsite()->getId();
@@ -1739,7 +1758,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
 
         $this->_productLimitationJoinStore();
-        \Mage::dispatchEvent('catalog_product_collection_apply_limitations_after', array('collection' => $this));
+        $this->_eventManager->dispatch('catalog_product_collection_apply_limitations_after', array('collection' => $this));
         return $this;
     }
 

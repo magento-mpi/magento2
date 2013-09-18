@@ -27,27 +27,30 @@ class Googleoptimizer
      */
     protected $_formHelper;
 
-    /**
-     * @param \Magento\Backend\Block\Template\Context $context
+    /**.
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
-     * @param \Magento\GoogleOptimizer\Helper\Form $formHelper
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
+     * @param Magento_GoogleOptimizer_Helper_Form $formHelper
      * @param \Magento\Data\Form $form
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
         \Magento\Data\Form $form,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
 
         $this->_codeHelper = $codeHelper;
         $this->_formHelper = $formHelper;
-        $this->_registry = $registry;
         $this->setForm($form);
     }
 
@@ -85,7 +88,7 @@ class Googleoptimizer
      */
     protected function _getCategory()
     {
-        $entity = $this->_registry->registry('current_category');
+        $entity = $this->_coreRegistry->registry('current_category');
         if (!$entity) {
             throw new \RuntimeException('Entity is not found in registry.');
         }

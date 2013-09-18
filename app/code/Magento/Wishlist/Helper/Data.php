@@ -59,6 +59,45 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_wishlistItemCollection = null;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_eventManager = $eventManager;
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Retreive customer session
      *
      * @return \Magento\Customer\Model\Session
@@ -119,13 +158,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            if (\Mage::registry('shared_wishlist')) {
-                $this->_wishlist = \Mage::registry('shared_wishlist');
-            }
-            elseif (\Mage::registry('wishlist')) {
-                $this->_wishlist = \Mage::registry('wishlist');
-            }
-            else {
+            if ($this->_coreRegistry->registry('shared_wishlist')) {
+                $this->_wishlist = $this->_coreRegistry->registry('shared_wishlist');
+            } elseif ($this->_coreRegistry->registry('wishlist')) {
+                $this->_wishlist = $this->_coreRegistry->registry('wishlist');
+            } else {
                 $this->_wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
                 if ($this->getCustomer()) {
                     $this->_wishlist->loadByCustomer($this->getCustomer());
@@ -199,8 +236,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if ($product) {
             if ($product->isVisibleInSiteVisibility()) {
                 $storeId = $product->getStoreId();
-            }
-            else if ($product->hasUrlDataObject()) {
+            } else if ($product->hasUrlDataObject()) {
                 $storeId = $product->getUrlDataObject()->getStoreId();
             }
         }
@@ -316,7 +352,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getAddToCartUrl($item)
     {
         $urlParamName = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
-        $continueUrl  = \Mage::helper('Magento\Core\Helper\Data')->urlEncode(
+        $continueUrl  = $this->_coreData->urlEncode(
             \Mage::getUrl('*/*/*', array(
                 '_current'      => true,
                 '_use_rewrite'  => true,
@@ -340,7 +376,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = \Mage::helper('Magento\Core\Helper\Data')->urlEncode(\Mage::getUrl('*/*/*', array(
+        $continueUrl  = $this->_coreData->urlEncode(\Mage::getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
             '_store_to_url' => true,
@@ -417,7 +453,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
             $params = array(
-                'data' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($key),
+                'data' => $this->_coreData->urlEncode($key),
                 '_secure' => false,
             );
         }
@@ -484,7 +520,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             );
         }
         $session->setWishlistItemCount($count);
-        \Mage::dispatchEvent('wishlist_items_renewed');
+        $this->_eventManager->dispatch('wishlist_items_renewed');
         return $this;
     }
 

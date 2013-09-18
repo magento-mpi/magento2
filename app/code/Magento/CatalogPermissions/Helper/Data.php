@@ -31,6 +31,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const GRANT_NONE            = 0;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve config value for permission enabled
      *
      * @return boolean
@@ -56,7 +75,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
         return $options->getIsAllowed();
     }
-
 
     /**
      * Retrieve config value for category access permission

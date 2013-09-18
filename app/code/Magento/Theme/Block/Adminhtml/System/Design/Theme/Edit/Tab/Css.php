@@ -37,18 +37,24 @@ class Css
     protected $_customCssFile;
 
     /**
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Theme\Model\Uploader\Service $uploaderService
      * @param array $data
      */
     public function __construct(
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\ObjectManager $objectManager,
         \Magento\Theme\Model\Uploader\Service $uploaderService,
         array $data = array()
     ) {
-        parent::__construct($context, $objectManager, $data);
+        parent::__construct($formFactory, $coreData, $context, $registry, $objectManager, $data);
         $this->_uploaderService = $uploaderService;
     }
 
@@ -59,7 +65,8 @@ class Css
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $this->setForm($form);
         $this->_addThemeCssFieldset();
 

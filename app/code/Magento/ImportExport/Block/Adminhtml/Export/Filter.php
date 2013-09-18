@@ -27,13 +27,40 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_helper;
 
     /**
+     * Import export data
+     *
+     * @var \Magento\ImportExport\Helper\Data
+     */
+    protected $_importExportData = null;
+
+    /**
+     * @param \Magento\ImportExport\Helper\Data $importExportData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\ImportExport\Helper\Data $importExportData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_importExportData = $importExportData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set grid parameters.
      */
     protected function _construct()
     {
         parent::_construct();
 
-        $this->_helper = \Mage::helper('Magento\ImportExport\Helper\Data');
+        $this->_helper = $this->_importExportData;
 
         $this->setRowClickCallback(null);
         $this->setId('export_filter_grid');
@@ -57,7 +84,8 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
             'name'         => $this->getFilterElementName($attribute->getAttributeCode()) . '[]',
             'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
             'class'        => 'input-text input-text-range-date',
-            'date_format'  => \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
+            'date_format'  => \Mage::app()->getLocale()
+                ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif')
         );
         /** @var $selectBlock \Magento\Core\Block\Html\Date */
@@ -70,7 +98,6 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
             $fromValue = $this->_helper->escapeHtml(reset($value));
             $toValue   = $this->_helper->escapeHtml(next($value));
         }
-
 
         return '<strong>' . __('From') . ':</strong>&nbsp;'
             . $dateBlock->setValue($fromValue)->getHtml()
@@ -92,7 +119,6 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
         if ($value) {
             $html .= ' value="' . $this->_helper->escapeHtml($value) . '"';
         }
-
         return $html . ' />';
     }
 
@@ -317,6 +343,7 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Get row edit URL.
      *
+     * @param $row
      * @return string|boolean
      */
     public function getRowUrl($row)

@@ -9,38 +9,28 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <magento_giftcardaccount translate="label">
-        <label>Gift Card Accounts</label>
-        <expected_models>
-            <Magento_GiftCardAccount_Model_Giftcardaccount/>
-        </expected_models>
-        <actions>
-            <adminhtml_giftcardaccount_edit>
-                <action>view</action>
-            </adminhtml_giftcardaccount_edit>
-
-            <adminhtml_giftcardaccount_save>
-                <action>save</action>
-            </adminhtml_giftcardaccount_save>
-
-            <adminhtml_giftcardaccount_delete>
-                <action>delete</action>
-            </adminhtml_giftcardaccount_delete>
-
-            <adminhtml_giftcardaccount_massDelete>
-                <action>massDelete</action>
-            </adminhtml_giftcardaccount_massDelete>
-
-            <adminhtml_giftcardaccount_exportCsv>
-                <action>export</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_giftcardaccount_exportCsv>
-
-            <adminhtml_giftcardaccount_exportMsxml>
-                <action>export</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_giftcardaccount_exportMsxml>
-        </actions>
-    </magento_giftcardaccount>
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <groups>
+        <group name="magento_giftcardaccount">
+            <label translate="true">Gift Card Accounts</label>
+            <expected_models>
+                <expected_model class="Magento\GiftCardAccount\Model\Giftcardaccount" />
+            </expected_models>
+            <events>
+                <event controller_action="adminhtml_giftcardaccount_edit" action_alias="view" />
+                <event controller_action="adminhtml_giftcardaccount_save" action_alias="save" />
+                <event controller_action="adminhtml_giftcardaccount_delete"
+                       action_alias="delete" />
+                <event controller_action="adminhtml_giftcardaccount_massDelete"
+                       action_alias="massDelete" />
+                <event controller_action="adminhtml_giftcardaccount_exportCsv"
+                       action_alias="export"
+                       post_dispatch="postDispatchSimpleSave" />
+                <event controller_action="adminhtml_giftcardaccount_exportMsxml"
+                       action_alias="export"
+                       post_dispatch="postDispatchSimpleSave" />
+            </events>
+        </group>
+    </groups>
 </logging>

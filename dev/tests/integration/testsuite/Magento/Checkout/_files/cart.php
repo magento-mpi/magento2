@@ -9,8 +9,10 @@
  * @license     {license_link}
  */
 
-Mage::unregister('_singleton/Magento\Checkout\Model\Session');
-Mage::unregister('_singleton/Magento\Checkout\Model\Cart');
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Session');
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Cart');
 /** @var $cart \Magento\Checkout\Model\Cart */
 $cart = Mage::getSingleton('Magento\Checkout\Model\Cart');
 
@@ -18,6 +20,6 @@ $cart->addProduct($product, $requestInfo);
 $cart->save();
 
 $quoteItemId = $cart->getQuote()->getItemByProduct($product)->getId();
-Mage::register('product/quoteItemId', $quoteItemId);
-Mage::unregister('_singleton/Magento\Checkout\Model\Session');
-Mage::unregister('_singleton/Magento\Checkout\Model\Cart');
+$objectManager->get('Magento\Core\Model\Registry')->register('product/quoteItemId', $quoteItemId);
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Session');
+$objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Cart');

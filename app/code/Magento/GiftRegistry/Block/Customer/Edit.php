@@ -26,13 +26,38 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_inputTemplates = array();
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($configCacheType, $coreData, $context, $data);
+    }
+
+    /**
      * Return edit form header
      *
      * @return string
      */
     public function getFormHeader()
     {
-        if (\Mage::registry('magento_giftregistry_entity')->getId()) {
+        if ($this->_coreRegistry->registry('magento_giftregistry_entity')->getId()) {
             return __('Edit Gift Registry');
         } else {
             return __('Create Gift Registry');

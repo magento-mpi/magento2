@@ -45,10 +45,13 @@ class Catalog extends \Magento\Core\Controller\Front\Action
         /**
          * Format actionName => acrResourceId
          */
-        $acl = array('notifystock' => 'Magento_Catalog::products', 'review' => 'Magento_Review::reviews_all');
+        $acl = array(
+            'notifystock' => 'Magento_Catalog::products',
+            'review' => 'Magento_Review::reviews_all',
+        );
         if (isset($acl[$action])) {
             $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-            if (\Magento\Rss\Controller\Order::authenticateAndAuthorizeAdmin($this, $acl[$action])) {
+            if ($this->authenticateAndAuthorizeAdmin($acl[$action])) {
                 return;
             }
         }

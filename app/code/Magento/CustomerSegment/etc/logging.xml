@@ -9,48 +9,38 @@
  * @license     {license_link}
  */
 -->
-<logging>
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
     <actions>
-        <refresh_data translate="label">
-            <label>Refresh Data</label>
-        </refresh_data>
+        <action id="refresh_data">
+            <label translate="true">Refresh Data</label>
+        </action>
     </actions>
-
-    <magento_customersegment translate="label">
-        <label>Manage Segments</label>
-        <expected_models>
-            <Magento_CustomerSegment_Model_Segment/>
-        </expected_models>
-        <actions>
-            <adminhtml_customersegment_edit>
-                <action>view</action>
-            </adminhtml_customersegment_edit>
-
-            <adminhtml_customersegment_save>
-                <action>save</action>
-                <skip_on_back>
-                    <adminhtml_customersegment_edit />
-                </skip_on_back>
-            </adminhtml_customersegment_save>
-
-            <adminhtml_customersegment_match>
-                <action>refresh_data</action>
-                <post_dispatch>Magento\CustomerSegment\Model\Logging::postDispatchCustomerSegmentMatch</post_dispatch>
-            </adminhtml_customersegment_match>
-
-            <adminhtml_customersegment_delete>
-                <action>delete</action>
-            </adminhtml_customersegment_delete>
-
-            <adminhtml_report_customer_customersegment_exportCsv>
-                <action>export</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_report_customer_customersegment_exportCsv>
-
-            <adminhtml_report_customer_customersegment_exportExcel>
-                <action>export</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_report_customer_customersegment_exportExcel>
-        </actions>
-    </magento_customersegment>
+    <groups>
+        <group name="magento_customersegment">
+            <label translate="true">Manage Segments</label>
+            <expected_models>
+                <expected_model class="Magento\CustomerSegment\Model\Segment" />
+            </expected_models>
+            <events>
+                <event controller_action="adminhtml_customersegment_edit" action_alias="view" />
+                <event controller_action="adminhtml_customersegment_save" action_alias="save">
+                    <skip_on_back>
+                        <controller_action name="adminhtml_customersegment_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="adminhtml_customersegment_match"
+                       action_alias="refresh_data"
+                       post_dispatch="Magento\CustomerSegment\Model\Logging::postDispatchCustomerSegmentMatch" />
+                <event controller_action="adminhtml_customersegment_delete"
+                       action_alias="delete" />
+                <event controller_action="adminhtml_report_customer_customersegment_exportCsv"
+                       action_alias="export"
+                       post_dispatch="postDispatchSimpleSave" />
+                <event controller_action="adminhtml_report_customer_customersegment_exportExcel"
+                       action_alias="export"
+                       post_dispatch="postDispatchSimpleSave" />
+            </events>
+        </group>
+    </groups>
 </logging>

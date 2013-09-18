@@ -174,7 +174,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if ($this->isLoaded()) {
             return $this;
         }
-        \Mage::dispatchEvent('log_visitor_collection_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('log_visitor_collection_load_before', array('collection' => $this));
         return parent::load($printQuery, $logQuery);
     }
 

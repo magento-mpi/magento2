@@ -21,14 +21,22 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     protected $_moduleManager;
 
+    /** @var  \Magento\Core\Model\Event\Manager */
+    protected $_eventManager;
+
     /**
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\ModuleManager $moduleManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
-    public function __construct(\Magento\Core\Model\Translate $translator, \Magento\Core\Model\ModuleManager $moduleManager)
-    {
+    public function __construct(
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Core\Model\ModuleManager $moduleManager,
+        \Magento\Core\Model\Event\Manager $eventManager
+    ) {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -45,5 +53,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getModuleManager()
     {
         return $this->_moduleManager;
+    }
+
+    /**
+     * @return \Magento\Core\Model\Event\Manager
+     */
+    public function getEventManager()
+    {
+        return $this->_eventManager;
     }
 }

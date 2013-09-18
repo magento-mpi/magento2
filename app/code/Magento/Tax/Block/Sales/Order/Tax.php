@@ -25,15 +25,20 @@ class Tax extends \Magento\Core\Block\Template
     protected $_source;
 
     /**
-     * Initialize configuration object
+     * @param array $data
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param  $context
+     * @param  $taxConfig
+     * @param  $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Tax\Model\Config $taxConfig,
         array $data = array()
     ) {
         $this->_config = $taxConfig;
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

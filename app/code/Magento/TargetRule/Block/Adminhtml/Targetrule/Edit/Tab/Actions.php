@@ -18,8 +18,8 @@
 namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 
 class Actions
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 
 {
     /**
@@ -30,8 +30,9 @@ class Actions
     protected function _prepareForm()
     {
         /* @var $model \Magento\TargetRule\Model\Rule */
-        $model  = \Mage::registry('current_target_rule');
-        $form   = new \Magento\Data\Form();
+        $model  = $this->_coreRegistry->registry('current_target_rule');
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('actions_fieldset', array(

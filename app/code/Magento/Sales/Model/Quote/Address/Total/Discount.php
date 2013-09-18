@@ -13,6 +13,22 @@ namespace Magento\Sales\Model\Quote\Address\Total;
 
 class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager
+    ) {
+        $this->_eventManager = $eventManager;
+    }
+
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $quote = $address->getQuote();
@@ -63,7 +79,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                     foreach ($item->getChildren() as $child) {
                         $eventArgs['item'] = $child;
-                        \Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                        $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
 
                         if ($child->getDiscountAmount() || $child->getFreeShipping()) {
                             $hasDiscount = true;
@@ -94,7 +110,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 }
                 else {
                     $eventArgs['item'] = $item;
-                    \Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                    $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
 
                     if ($item->getDiscountAmount() || $item->getFreeShipping()) {
                         $hasDiscount = true;

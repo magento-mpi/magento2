@@ -9,33 +9,25 @@
  * @license     {license_link}
  */
 -->
-<logging>
-    <magento_invitation translate="label">
-        <label>Customer Invitations</label>
-        <expected_models>
-            <Magento_Invitation_Model_Invitation/>
-        </expected_models>
-        <actions>
-            <adminhtml_invitation_view>
-                <action>view</action>
-            </adminhtml_invitation_view>
-
-            <adminhtml_invitation_save>
-                <action>save</action>
-            </adminhtml_invitation_save>
-
-            <adminhtml_invitation_saveInvitation>
-                <action>save</action>
-            </adminhtml_invitation_saveInvitation>
-
-            <adminhtml_invitation_massCancel>
-                <action>massUpdate</action>
-            </adminhtml_invitation_massCancel>
-
-            <adminhtml_invitation_massResend>
-                <action>massUpdate</action>
-                <post_dispatch>Magento\Invitation\Model\Observer::postDispatchInvitationMassUpdate</post_dispatch>
-            </adminhtml_invitation_massResend>
-        </actions>
-    </magento_invitation>
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Logging/etc/logging.xsd">
+    <groups>
+        <group name="magento_invitation">
+            <label translate="true">Customer Invitations</label>
+            <expected_models>
+                <expected_model class="Magento\Invitation\Model\Invitation" />
+            </expected_models>
+            <events>
+                <event controller_action="adminhtml_invitation_view" action_alias="view" />
+                <event controller_action="adminhtml_invitation_save" action_alias="save" />
+                <event controller_action="adminhtml_invitation_saveInvitation"
+                       action_alias="save" />
+                <event controller_action="adminhtml_invitation_massCancel"
+                       action_alias="massUpdate" />
+                <event controller_action="adminhtml_invitation_massResend"
+                       action_alias="massUpdate"
+                       post_dispatch="Magento\Invitation\Model\Observer::postDispatchInvitationMassUpdate" />
+            </events>
+        </group>
+    </groups>
 </logging>

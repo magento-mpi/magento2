@@ -110,11 +110,16 @@ class Fedex
      * Fedex constructor
      *
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param array $data
      */
-    public function __construct(\Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory)
-    {
+    public function __construct(
+        \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory,
+        \Magento\Directory\Helper\Data $directoryData,
+        array $data = array()
+    ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
-        parent::__construct();
+        parent::__construct($directoryData, $data);
         $wsdlBasePath = \Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';

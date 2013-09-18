@@ -19,8 +19,28 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_REVIEW_GUETS_ALLOW = 'catalog/review/allow_guest';
 
-    public function getDetail($origDetail){
-        return nl2br(\Mage::helper('Magento\Core\Helper\String')->truncate($origDetail, 50));
+    /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($context);
+    }
+
+    public function getDetail($origDetail)
+    {
+        return nl2br($this->_coreString->truncate($origDetail, 50));
     }
 
     /**
@@ -28,8 +48,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param string $origDetail Full detail info
      * @return string
      */
-    public function getDetailHtml($origDetail){
-        return nl2br(\Mage::helper('Magento\Core\Helper\String')->truncate($this->escapeHtml($origDetail), 50));
+    public function getDetailHtml($origDetail)
+    {
+        return nl2br($this->_coreString->truncate($this->escapeHtml($origDetail), 50));
     }
 
     public function getIsGuestAllowToWrite()

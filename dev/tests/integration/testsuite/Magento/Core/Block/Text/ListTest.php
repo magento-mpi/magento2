@@ -23,7 +23,7 @@ class Magento_Core_Block_Text_ListTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = Mage::getModel('Magento\Core\Model\Layout');
+        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\Core\Block\Text\ListText');
     }
 

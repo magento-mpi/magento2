@@ -25,16 +25,16 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest ex
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('StdClass', array('isPriceGlobal'));
+        $this->_helper = $this->getMock('Magento\Catalog\Helper\Data', array('isPriceGlobal'), array(), '', false);
         $this->_helper->expects($this->any())
             ->method('isPriceGlobal')
             ->will($this->returnValue(true));
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice',
-            array(array(
-                'helper' => $this->_helper
-            ))
+            array(
+                'coreString' => $this->_helper,
+            )
         );
         $resource = $this->getMock('StdClass', array('getMainTable'));
         $resource->expects($this->any())

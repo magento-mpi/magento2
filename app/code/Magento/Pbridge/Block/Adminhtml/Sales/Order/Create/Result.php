@@ -18,8 +18,31 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
-class Result extends \Magento\Adminhtml\Block\Template
+class Result extends \Magento\Backend\Block\Template
 {
+    /**
+     * Pbridge data
+     *
+     * @var \Magento\Pbridge\Helper\Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Return JSON array of Payment Bridge incoming data
      *
@@ -27,8 +50,8 @@ class Result extends \Magento\Adminhtml\Block\Template
      */
     public function getJsonHiddenPbridgeParams()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(
-            \Mage::helper('Magento\Pbridge\Helper\Data')->getPbridgeParams()
+        return $this->_coreData->jsonEncode(
+            $this->_pbridgeData->getPbridgeParams()
         );
     }
 }

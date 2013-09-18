@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
 {
     /**

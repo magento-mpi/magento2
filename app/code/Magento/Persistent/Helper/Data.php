@@ -35,6 +35,51 @@ class Data extends \Magento\Core\Helper\Data
     protected $_configFileName = 'persistent.xml';
 
     /**
+     * Persistent session
+     *
+     * @var \Magento\Persistent\Helper\Session
+     */
+    protected $_persistentSession = null;
+
+    /**
+     * Checkout data
+     *
+     * @var \Magento\Checkout\Helper\Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Core url
+     *
+     * @var \Magento\Core\Helper\Url
+     */
+    protected $_coreUrl = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Persistent\Helper\Session $persistentSession
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
+    ) {
+        $this->_coreUrl = $coreUrl;
+        $this->_checkoutData = $checkoutData;
+        $this->_persistentSession = $persistentSession;
+        parent::__construct($eventManager, $coreHttp, $context, $config);
+    }
+
+    /**
      * Checks whether Persistence Functionality is enabled
      *
      * @param int|string|\Magento\Core\Model\Store $store
@@ -117,7 +162,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getPersistentName()
     {
-        return __('(Not %1?)', $this->escapeHtml(\Mage::helper('Magento\Persistent\Helper\Session')->getCustomer()->getName()));
+        return __('(Not %1?)', $this->escapeHtml($this->_persistentSession->getCustomer()->getName()));
     }
 
     /**
@@ -158,8 +203,8 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getCreateAccountUrl($url)
     {
-        if (\Mage::helper('Magento\Checkout\Helper\Data')->isContextCheckout()) {
-            $url = \Mage::helper('Magento\Core\Helper\Url')->addRequestParam($url, array('context' => 'checkout'));
+        if ($this->_checkoutData->isContextCheckout()) {
+            $url = $this->_coreUrl->addRequestParam($url, array('context' => 'checkout'));
         }
         return $url;
     }

@@ -26,10 +26,11 @@ class Refunded
      *
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init('sales_refunded_aggregated');
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 }

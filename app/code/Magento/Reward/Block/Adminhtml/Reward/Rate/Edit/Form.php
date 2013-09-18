@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Getter
@@ -27,7 +27,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getRate()
     {
-        return \Mage::registry('current_reward_rate');
+        return $this->_coreRegistry->registry('current_reward_rate');
     }
 
     /**
@@ -37,11 +37,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-            'id' => 'edit_form',
-            'action' => $this->getUrl('*/*/save', array('_current' => true)),
-            'method' => 'post'
-        ));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', array('_current' => true)),
+                'method' => 'post',
+            ))
+        );
         $form->setFieldNameSuffix('rate');
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend' => __('Reward Exchange Rate Information')

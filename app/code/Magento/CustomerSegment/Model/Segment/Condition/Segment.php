@@ -21,6 +21,37 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     protected $_inputType = 'multiselect';
 
     /**
+     * Adminhtml data
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_adminhtmlData = null;
+
+    /**
+     * Customer segment data
+     *
+     * @var \Magento\CustomerSegment\Helper\Data
+     */
+    protected $_customerSegmentData = null;
+
+    /**
+     * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CustomerSegment\Helper\Data $customerSegmentData,
+        \Magento\Backend\Helper\Data $adminhtmlData,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSegmentData = $customerSegmentData;
+        $this->_adminhtmlData = $adminhtmlData;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Default operator input by type map getter
      *
      * @return array
@@ -66,7 +97,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getValueElementChooserUrl()
     {
-        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/customersegment/chooserGrid', array(
+        return $this->_adminhtmlData->getUrl('adminhtml/customersegment/chooserGrid', array(
             'value_element_id' => $this->_valueElement->getId(),
             'form' => $this->getJsFormObject(),
         ));
@@ -133,7 +164,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function validate(\Magento\Object $object)
     {
-        if (!\Mage::helper('Magento\CustomerSegment\Helper\Data')->isEnabled()) {
+        if (!$this->_customerSegmentData->isEnabled()) {
             return false;
         }
         $customer = null;

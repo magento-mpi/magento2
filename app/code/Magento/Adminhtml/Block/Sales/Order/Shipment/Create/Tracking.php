@@ -20,6 +20,29 @@ namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Create;
 class Tracking extends \Magento\Adminhtml\Block\Template
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepares layout of block
      *
      * @return \Magento\Adminhtml\Block\Sales\Order\View\Giftmessage
@@ -41,7 +64,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**

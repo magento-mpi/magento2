@@ -31,15 +31,4 @@
             </banner>
         </magento>
     </global>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Banner>
-                    <files>
-                        <default>Magento_Banner.csv</default>
-                    </files>
-                </Magento_Banner>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

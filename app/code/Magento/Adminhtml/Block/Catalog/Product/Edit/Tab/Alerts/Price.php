@@ -20,6 +20,33 @@ namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts;
 
 class Price extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -39,7 +66,7 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
         if ($store = $this->getRequest()->getParam('store')) {
             $websiteId = \Mage::app()->getStore($store)->getWebsiteId();
         }
-        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_ProductAlert')) {
+        if ($this->_catalogData->isModuleEnabled('Magento_ProductAlert')) {
             $collection = \Mage::getModel('Magento\ProductAlert\Model\Price')
                 ->getCustomerCollection()
                 ->join($productId, $websiteId);

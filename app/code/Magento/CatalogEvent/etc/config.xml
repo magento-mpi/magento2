@@ -30,26 +30,4 @@
             </magento_catalogevent>
         </catalog>
     </default>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_CatalogEvent>
-                    <files>
-                        <default>Magento_CatalogEvent.csv</default>
-                    </files>
-                </Magento_CatalogEvent>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_CatalogEvent>
-                    <files>
-                        <default>Magento_CatalogEvent.csv</default>
-                    </files>
-                </Magento_CatalogEvent>
-            </modules>
-        </translate>
-    </adminhtml>
 </config>

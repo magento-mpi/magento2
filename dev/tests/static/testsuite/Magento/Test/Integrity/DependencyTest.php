@@ -281,7 +281,7 @@ class Magento_Test_Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             $result[] = sprintf("%s [%s]", $type, implode(', ', $modules));
         }
         if (count($result)) {
-            $this->fail('Undeclared module dependencies found: ' . implode(', ', $result));
+            $this->fail('Module ' . $module . ' has undeclared module dependencies found: ' . implode(', ', $result));
         }
     }
 

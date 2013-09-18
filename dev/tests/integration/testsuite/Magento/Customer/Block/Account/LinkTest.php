@@ -25,12 +25,15 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
     {
         $this->_block = Mage::app()->getLayout()->createBlock('Magento\Customer\Block\Account\Link');
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block->setLayout($layout);
         $layout->addBlock('Magento\Page\Block\Template\Links', 'links');
         $this->_links = $layout->getBlock('links');
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testAddAccountLink()
     {
         $this->assertEmpty($this->_links->getLinks());
@@ -41,6 +44,9 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('My Account', $links[1]->getLabel());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testAddRegisterLink()
     {
         $this->assertEmpty($this->_links->getLinks());
@@ -49,6 +55,9 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('register', $links[1]->getLabel());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testAddAuthLinkLogIn()
     {
         $this->assertEmpty($this->_links->getLinks());
@@ -60,6 +69,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
     public function testAddAuthLinkLogOut()

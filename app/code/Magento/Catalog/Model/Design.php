@@ -33,6 +33,7 @@ class Design extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -40,12 +41,13 @@ class Design extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

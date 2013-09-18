@@ -19,6 +19,29 @@ namespace Magento\Rss\Block\Order;
 
 class Status extends \Magento\Core\Block\Template
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         /*
@@ -31,7 +54,7 @@ class Status extends \Magento\Core\Block\Template
     protected function _toHtml()
     {
         $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
-        $order = \Mage::registry('current_order');
+        $order = $this->_coreRegistry->registry('current_order');
         if (!$order) {
             return '';
         }

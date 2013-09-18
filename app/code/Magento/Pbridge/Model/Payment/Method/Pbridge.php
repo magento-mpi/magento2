@@ -56,12 +56,34 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * List of address fields
      *
-     * @var unknown_type
+     * @var array
      */
     protected $_addressFileds = array(
         'prefix', 'firstname', 'middlename', 'lastname', 'suffix',
         'company', 'city', 'country_id', 'telephone', 'fax', 'postcode',
     );
+
+    /**
+     * Pbridge data
+     *
+     * @var \Magento\Pbridge\Helper\Data
+     */
+    protected $_pbridgeData = null;
+
+    /**
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Payment\Helper\Data $paymentData,
+        array $data = array()
+    ) {
+        $this->_pbridgeData = $pbridgeData;
+        parent::__construct($eventManager, $paymentData, $data);
+    }
 
     /**
      * Initialize and return Pbridge Api object
@@ -99,13 +121,13 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
         $storeId = $quote ? $quote->getStoreId() : null;
         $checkResult = new \StdClass;
         $checkResult->isAvailable = (bool)(int)$this->getOriginalMethodInstance()->getConfigData('active', $storeId);
-        \Mage::dispatchEvent('payment_method_is_active', array(
+        $this->_eventManager->dispatch('payment_method_is_active', array(
             'result'          => $checkResult,
             'method_instance' => $this->getOriginalMethodInstance(),
             'quote'           => $quote,
         ));
         $usingPbridge = $this->getOriginalMethodInstance()->getConfigData('using_pbridge', $storeId);
-        return $checkResult->isAvailable && \Mage::helper('Magento\Pbridge\Helper\Data')->isEnabled($storeId)
+        return $checkResult->isAvailable && $this->_pbridgeData->isEnabled($storeId)
             && $usingPbridge;
     }
 
@@ -198,7 +220,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             if (null === $this->_originalMethodCode) {
                 return null;
             }
-            $this->_originalMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')
+            $this->_originalMethodInstance = $this->_paymentData
                  ->getMethodInstance($this->_originalMethodCode);
         }
         return $this->_originalMethodInstance;
@@ -264,7 +286,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             $email = $order->getCustomerEmail();
             $id = $order->getCustomer()->getId();
             $request->setData('customer_id',
-                \Mage::helper('Magento\Pbridge\Helper\Data')->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
+                $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
             );
         }
 
@@ -462,7 +484,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected function _getCart(\Magento\Core\Model\AbstractModel $order)
     {
-        list($items, $totals) = \Mage::helper('Magento\Pbridge\Helper\Data')->prepareCart($order);
+        list($items, $totals) = $this->_pbridgeData->prepareCart($order);
         //Getting cart items
         $result = array();
 

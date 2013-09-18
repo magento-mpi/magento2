@@ -62,7 +62,7 @@ Ext.EventManager.onDocumentReady(function() {
         text: 'root',
         draggable:false,
         checked:'false',
-        id:'<?php echo \Magento\Webapi\Helper\Data::RESOURCES_TREE_ROOT_ID; ?>',
+        id:'<?php echo \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource::RESOURCES_TREE_ROOT_ID; ?>',
         uiProvider: Ext.tree.CheckboxNodeUI
     });
 
@@ -104,7 +104,7 @@ function checkHandler(node)
         var n = node.parentNode;
         this.removeListener('check', checkHandler);
         do {
-            if (!n || n.attributes.id == 'admin' || n.attributes.id == '<?php echo \Magento\Webapi\Helper\Data::RESOURCES_TREE_ROOT_ID; ?>') {
+            if (!n || n.attributes.id == 'admin' || n.attributes.id == '<?php echo \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource::RESOURCES_TREE_ROOT_ID; ?>') {
                 break;
             } else {
                 n.ui.check(true);

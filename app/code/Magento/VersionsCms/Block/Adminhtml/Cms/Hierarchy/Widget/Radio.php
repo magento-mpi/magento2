@@ -48,6 +48,29 @@ class Radio extends \Magento\Adminhtml\Block\Template
     protected $_template = 'hierarchy/widget/radio.phtml';
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get all Store View labels and ids
      *
      * @return array
@@ -135,7 +158,7 @@ class Radio extends \Magento\Adminhtml\Block\Template
     public function getParameters()
     {
         if (empty($this->_params)) {
-            $widget = \Mage::registry('current_widget_instance');
+            $widget = $this->_coreRegistry->registry('current_widget_instance');
             $this->_params = $widget ? $widget->getWidgetParameters() : array();
         }
         return $this->_params;

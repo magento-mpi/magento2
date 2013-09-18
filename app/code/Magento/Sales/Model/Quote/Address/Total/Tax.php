@@ -15,7 +15,20 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     protected $_appliedTaxes = array();
 
-    public function __construct(){
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData
+    ) {
+        $this->_taxData = $taxData;
         $this->setCode('tax');
     }
 
@@ -147,7 +160,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         if ($shippingTaxClass) {
             if ($rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass))) {
-                if (!\Mage::helper('Magento\Tax\Helper\Data')->shippingPriceIncludesTax()) {
+                if (!$this->_taxData->shippingPriceIncludesTax()) {
                     $shippingTax    = $address->getShippingAmount() * $rate/100;
                     $shippingBaseTax= $address->getBaseShippingAmount() * $rate/100;
                 } else {
@@ -171,7 +184,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             }
         }
 
-        if (!\Mage::helper('Magento\Tax\Helper\Data')->shippingPriceIncludesTax()) {
+        if (!$this->_taxData->shippingPriceIncludesTax()) {
             $address->setShippingTaxAmount($shippingTax);
             $address->setBaseShippingTaxAmount($shippingBaseTax);
         }
@@ -226,7 +239,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         $store = $address->getQuote()->getStore();
         $amount = $address->getTaxAmount();
 
-        if (($amount!=0) || (\Mage::helper('Magento\Tax\Helper\Data')->displayZeroTax($store))) {
+        if (($amount!=0) || ($this->_taxData->displayZeroTax($store))) {
             $address->addTotal(array(
                 'code'=>$this->getCode(),
                 'title'=>__('Tax'),

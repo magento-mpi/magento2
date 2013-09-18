@@ -37,24 +37,26 @@ class ColumnSet
     protected $_productType;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
-     * @param \Magento\Core\Model\Registry $registryManager
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
      * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
      * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
+     * @param \Magento\Core\Model\Registry $registryManager
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
-        \Magento\Core\Model\Registry $registryManager,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
         \Magento\Backend\Model\Widget\Grid\Totals $totals,
         \Magento\Catalog\Model\Product\Type\Configurable $productType,
+        \Magento\Core\Model\Registry $registryManager,
         array $data = array()
     ) {
-        parent::__construct($context, $generatorFactory, $subtotals, $totals, $data);
+        parent::__construct($coreData, $context, $generatorFactory, $subtotals, $totals, $data);
 
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;

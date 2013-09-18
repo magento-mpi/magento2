@@ -21,13 +21,38 @@ namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
+     * Catalog search data
+     *
+     * @var \Magento\CatalogSearch\Helper\Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+    }
+
+    /**
      * Retrieve query model object
      *
      * @return \Magento\CatalogSearch\Model\Query
      */
     protected function _getQuery()
     {
-        return \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery();
+        return $this->_catalogSearchData->getQuery();
     }
 
     /**

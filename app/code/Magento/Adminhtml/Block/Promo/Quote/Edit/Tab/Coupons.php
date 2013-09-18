@@ -22,6 +22,27 @@ class Coupons
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Block\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Block\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare content for tab
      *
      * @return string
@@ -68,7 +89,7 @@ class Coupons
      */
     protected function _isEditing()
     {
-        $priceRule = \Mage::registry('current_promo_quote_rule');
+        $priceRule = $this->_coreRegistry->registry('current_promo_quote_rule');
         return !is_null($priceRule->getRuleId());
     }
 }

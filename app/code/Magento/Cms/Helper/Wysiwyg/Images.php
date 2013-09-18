@@ -41,11 +41,43 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Adminhtml data
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Filesystem $filesystem)
-    {
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Filesystem $filesystem
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_backendData = $backendData;
+        $this->_coreData = $coreData;
         parent::__construct($context);
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -159,7 +191,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     {
         $checkResult = new \StdClass;
         $checkResult->isAllowed = false;
-        \Mage::dispatchEvent('cms_wysiwyg_images_static_urls_allowed', array(
+        $this->_eventManager->dispatch('cms_wysiwyg_images_static_urls_allowed', array(
             'result'   => $checkResult,
             'store_id' => $this->_storeId
         ));
@@ -184,8 +216,8 @@ class Images extends \Magento\Core\Helper\AbstractHelper
             if ($this->isUsingStaticUrlsAllowed()) {
                 $html = $fileurl; // $mediaPath;
             } else {
-                $directive = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($directive);
-                $html = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
+                $directive = $this->_coreData->urlEncode($directive);
+                $html = $this->_backendData->getUrl(
                     '*/cms_wysiwyg/directive',
                     array('___directive' => $directive)
                 );
@@ -244,7 +276,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     /**
      * Storage model singleton
      *
-     * @return Magento_Cms_Model_Page_Wysiwyg_Images_Storage
+     * @return \Magento\Cms\Model\Page_Wysiwyg_Images_Storage
      */
     public function getStorage()
     {

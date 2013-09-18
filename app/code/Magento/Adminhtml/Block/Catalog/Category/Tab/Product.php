@@ -17,8 +17,35 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
 
-class Product extends \Magento\Adminhtml\Block\Widget\Grid
+class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template_Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -30,7 +57,7 @@ class Product extends \Magento\Adminhtml\Block\Widget\Grid
 
     public function getCategory()
     {
-        return \Mage::registry('category');
+        return $this->_coreRegistry->registry('category');
     }
 
     protected function _addColumnFilterToCollection($column)

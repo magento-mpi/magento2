@@ -20,6 +20,32 @@ namespace Magento\Search\Model;
 class Recommendations
 {
     /**
+     * Catalog search data
+     *
+     * @var \Magento\CatalogSearch\Helper\Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Search data
+     *
+     * @var \Magento\Search\Helper\Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     */
+    public function __construct(
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData
+    ) {
+        $this->_searchData = $searchData;
+        $this->_catalogSearchData = $catalogSearchData;
+    }
+
+    /**
      * Retrieve search recommendations
      *
      * @return array
@@ -27,15 +53,15 @@ class Recommendations
     public function getSearchRecommendations()
     {
         $productCollection = \Mage::getSingleton('Magento\Search\Model\Search\Layer')->getProductCollection();
-        $searchQueryText = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getQueryText();
+        $searchQueryText = $this->_catalogSearchData->getQuery()->getQueryText();
 
         $params = array(
             'store_id' => $productCollection->getStoreId(),
         );
 
-        $searchRecommendationsEnabled = (boolean)\Mage::helper('Magento\Search\Helper\Data')
+        $searchRecommendationsEnabled = (boolean)$this->_searchData
             ->getSearchConfigData('search_recommendations_enabled');
-        $searchRecommendationsCount   = (int)\Mage::helper('Magento\Search\Helper\Data')
+        $searchRecommendationsCount   = (int)$this->_searchData
             ->getSearchConfigData('search_recommendations_count');
 
         if ($searchRecommendationsCount < 1) {

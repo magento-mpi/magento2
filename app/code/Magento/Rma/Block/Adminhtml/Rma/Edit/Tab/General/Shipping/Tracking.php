@@ -18,8 +18,42 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-class Tracking extends \Magento\Adminhtml\Block\Template
+class Tracking extends \Magento\Backend\Block\Template
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Rma data
+     *
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_rmaData = $rmaData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve shipment model instance
      *
@@ -27,7 +61,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getRma()
     {
-        return \Mage::registry('current_rma');
+        return $this->_coreRegistry->registry('current_rma');
     }
 
     /**
@@ -37,7 +71,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getCarriers()
     {
-        return \Mage::helper('Magento\Rma\Helper\Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        return $this->_rmaData->getAllowedShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**
@@ -81,7 +115,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
      */
     public function getShipment()
     {
-        return \Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**

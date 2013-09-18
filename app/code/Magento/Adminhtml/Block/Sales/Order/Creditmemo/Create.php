@@ -10,16 +10,35 @@
 
 /**
  * Adminhtml creditmemo create
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo;
 
 class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_objectId = 'order_id';
@@ -30,14 +49,6 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         $this->_removeButton('delete');
         $this->_removeButton('save');
-
-        /*$this->_addButton('submit_creditmemo', array(
-            'label'     => __('Submit Credit Memo'),
-            'class'     => 'save submit-button',
-            'onclick'   => '$(\'edit_form\').submit()',
-            )
-        );*/
-
     }
 
     /**
@@ -47,15 +58,14 @@ class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getCreditmemo()
     {
-        return \Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     public function getHeaderText()
     {
         if ($this->getCreditmemo()->getInvoice()) {
             $header = __('New Credit Memo for Invoice #%1', $this->getCreditmemo()->getInvoice()->getIncrementId());
-        }
-        else {
+        } else {
             $header = __('New Credit Memo for Order #%1', $this->getCreditmemo()->getOrder()->getRealOrderId());
         }
 

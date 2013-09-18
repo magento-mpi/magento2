@@ -21,7 +21,7 @@ class Magento_Page_Helper_RobotsTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento\Page\Helper\Robots');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Page\Helper\Robots');
     }
 
     /**

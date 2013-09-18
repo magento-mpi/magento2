@@ -18,8 +18,18 @@ class Magento_Catalog_Model_Product_Type_GroupedTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-        $this->_model = new \Magento\Catalog\Model\Product\Type\Grouped($filesystem);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $this->_model = new \Magento\Catalog\Model\Product\Type\Grouped(
+            $eventManager,
+            $coreDataMock,
+            $fileStorageDbMock,
+            $filesystem,
+            $coreRegistry
+        );
     }
 
     public function testHasWeightFalse()

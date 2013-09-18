@@ -38,9 +38,7 @@ class Magento_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCa
         /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|
          * PHPUnit_Framework_MockObject_MockObject */
         $attribute = $this->getMock($attributeClass, array('_init'), $arguments);
-        $this->_model = new \Magento\Eav\Model\Attribute\Data\Text(array(
-            'stringHelper' => $helper,
-        ));
+        $this->_model = new \Magento\Eav\Model\Attribute\Data\Text($helper);
         $this->_model->setAttribute($attribute);
     }
 

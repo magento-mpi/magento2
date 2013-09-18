@@ -27,6 +27,29 @@ abstract class AbstractSku
     abstract public function getFormAction();
 
     /**
+     * Checkout data
+     *
+     * @var \Magento\AdvancedCheckout\Helper\Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get request parameter name of SKU file imported flag
      *
      * @return string
@@ -59,7 +82,7 @@ abstract class AbstractSku
         }
 
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
-        $helper = \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
+        $helper = $this->_checkoutData;
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             return '';
         }

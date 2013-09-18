@@ -26,6 +26,35 @@ class Rviewed
     protected $_listType = 'rviewed';
 
     /**
+     * Adminhtml sales
+     *
+     * @var \Magento\Adminhtml\Helper\Sales
+     */
+    protected $_adminhtmlSales = null;
+
+    /**
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_adminhtmlSales = $adminhtmlSales;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+    }
+
+    /**
      * Initialize Grid
      */
     protected function _construct()
@@ -68,7 +97,7 @@ class Rviewed
 
                 \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
                     ->addIsInStockFilterToCollection($productCollection);
-                $productCollection = \Mage::helper('Magento\Adminhtml\Helper\Sales')
+                $productCollection = $this->_adminhtmlSales
                     ->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();
             }

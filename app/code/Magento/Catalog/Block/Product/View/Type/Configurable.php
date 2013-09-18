@@ -35,6 +35,35 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_resPrices   = array();
 
     /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Get allowed attributes
      *
      * @return array
@@ -73,7 +102,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     {
         if (!$this->hasAllowProducts()) {
             $products = array();
-            $skipSaleableCheck = \Mage::helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck();
+            $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
             $allProducts = $this->getProduct()->getTypeInstance()
                 ->getUsedProducts($this->getProduct(), null);
             foreach ($allProducts as $product) {
@@ -116,7 +145,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         $attributes = array();
         $options    = array();
         $store      = $this->getCurrentStore();
-        $taxHelper  = \Mage::helper('Magento\Tax\Helper\Data');
+        $taxHelper  = $this->_taxData;
         $currentProduct = $this->getProduct();
 
         $preconfiguredFlag = $currentProduct->hasPreconfiguredValues();
@@ -172,7 +201,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                         $this->_preparePrice($value['pricing_value'], $value['is_percent'])
                     );
                     $currentProduct->setParentId(true);
-                    \Mage::dispatchEvent(
+                    $this->_eventManager->dispatch(
                         'catalog_product_type_configurable_price',
                         array('product' => $currentProduct)
                     );
@@ -216,8 +245,8 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         }
 
         $taxCalculation = \Mage::getSingleton('Magento\Tax\Model\Calculation');
-        if (!$taxCalculation->getCustomer() && \Mage::registry('current_customer')) {
-            $taxCalculation->setCustomer(\Mage::registry('current_customer'));
+        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }
 
         $_request = $taxCalculation->getRateRequest(false, false, false);
@@ -254,7 +283,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 
         $config = array_merge($config, $this->_getAdditionalConfig());
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**

@@ -28,6 +28,49 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     /** @var string */
     protected $_template = 'Magento_Catalog::product/edit/tabs.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Adminhtml catalog
+     *
+     * @var \Magento\Adminhtml\Helper\Catalog
+     */
+    protected $_adminhtmlCatalog = null;
+
+    /**
+     * @param \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Adminhtml\Helper\Catalog $adminhtmlCatalog,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_adminhtmlCatalog = $adminhtmlCatalog;
+        $this->_catalogData = $catalogData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -105,7 +148,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
                 unset($advancedGroups['advanced-pricing']);
             }
 
-            if (\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
+            if ($this->_coreData->isModuleEnabled('Magento_CatalogInventory')) {
                 $this->addTab('advanced-inventory', array(
                     'label'     => __('Advanced Inventory'),
                     'content'   => $this->_translateHtml($this->getLayout()
@@ -168,7 +211,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
             }
 
             if ($this->getRequest()->getParam('id')) {
-                if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Review')) {
+                if ($this->_catalogData->isModuleEnabled('Magento_Review')) {
                     if ($this->_authorization->isAllowed('Magento_Review::reviews_all')){
                         $this->addTab('product-reviews', array(
                             'label' => __('Product Reviews'),
@@ -211,7 +254,7 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
     public function getProduct()
     {
         if (!($this->getData('product') instanceof \Magento\Catalog\Model\Product)) {
-            $this->setData('product', \Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');
     }
@@ -223,10 +266,10 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
      */
     public function getAttributeTabBlock()
     {
-        if (is_null(\Mage::helper('Magento\Adminhtml\Helper\Catalog')->getAttributeTabBlock())) {
+        if (is_null($this->_adminhtmlCatalog->getAttributeTabBlock())) {
             return $this->_attributeTabBlock;
         }
-        return \Mage::helper('Magento\Adminhtml\Helper\Catalog')->getAttributeTabBlock();
+        return $this->_adminhtmlCatalog->getAttributeTabBlock();
     }
 
     public function setAttributeTabBlock($attributeTabBlock)

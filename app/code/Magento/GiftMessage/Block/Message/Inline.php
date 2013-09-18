@@ -20,7 +20,6 @@ namespace Magento\GiftMessage\Block\Message;
 
 class Inline extends \Magento\Core\Block\Template
 {
-
     protected $_entity = null;
     protected $_type   = null;
     protected $_giftMessage = null;
@@ -28,9 +27,33 @@ class Inline extends \Magento\Core\Block\Template
     protected $_template = 'inline.phtml';
 
     /**
+     * Gift message message
+     *
+     * @var \Magento\GiftMessage\Helper\Message
+     */
+    protected $_giftMessageMessage = null;
+
+    /**
+     * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_giftMessageMessage = $giftMessageMessage;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set entity
      *
-     * @return mixed
+     * @param $entity
+     * @return Magento_GiftMessage_Block_Message_Inline
      */
     public function setEntity($entity)
     {
@@ -41,7 +64,7 @@ class Inline extends \Magento\Core\Block\Template
     /**
      * Get entity
      *
-     * @return mixed
+     * @return Magento_GiftMessage_Block_Message_Inline
      */
     public function getEntity()
     {
@@ -156,7 +179,7 @@ class Inline extends \Magento\Core\Block\Template
             $items = array();
 
             $entityItems = $this->getEntity()->getAllItems();
-            \Mage::dispatchEvent('gift_options_prepare_items', array('items' => $entityItems));
+            $this->_eventManager->dispatch('gift_options_prepare_items', array('items' => $entityItems));
 
             foreach ($entityItems as $item) {
                 if ($item->getParentItem()) {
@@ -245,18 +268,19 @@ class Inline extends \Magento\Core\Block\Template
      */
     public function isMessagesAvailable()
     {
-        return \Mage::helper('Magento\GiftMessage\Helper\Message')->isMessagesAvailable('quote', $this->getEntity());
+        return $this->_giftMessageMessage->isMessagesAvailable('quote', $this->getEntity());
     }
 
     /**
      * Check availability of giftmessages for specified entity item
      *
+     * @param $item
      * @return bool
      */
     public function isItemMessagesAvailable($item)
     {
         $type = substr($this->getType(), 0, 5) == 'multi' ? 'address_item' : 'item';
-        return \Mage::helper('Magento\GiftMessage\Helper\Message')->isMessagesAvailable($type, $item);
+        return $this->_giftMessageMessage->isMessagesAvailable($type, $item);
     }
 
     /**
@@ -280,5 +304,4 @@ class Inline extends \Magento\Core\Block\Template
     {
         return $this->getVar('product_thumbnail_image_size', 'Magento_Catalog');
     }
-
 }

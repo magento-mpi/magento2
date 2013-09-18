@@ -450,7 +450,12 @@ class Item
     public function __sleep()
     {
         if (\Mage::getIsSerializable()) {
-            $this->_moduleHelperName = get_class($this->_moduleHelper);
+            $helperClass = get_class($this->_moduleHelper);
+            // Save original class name of the helper
+            if (substr($helperClass, -1 * strlen('Interceptor')) === 'Interceptor') {
+                $helperClass = get_parent_class($helperClass);
+            }
+            $this->_moduleHelperName = $helperClass;
             if ($this->_submenu) {
                 $this->_serializedSubmenu = $this->_submenu->serialize();
             }
@@ -476,13 +481,19 @@ class Item
     public function __wakeup()
     {
         if (\Mage::getIsSerializable()) {
-            $this->_moduleHelper = \Mage::helper($this->_moduleHelperName);
-            $this->_validator = \Mage::getSingleton('Magento\Backend\Model\Menu\Item\Validator');
-            $this->_acl = \Mage::getSingleton('Magento\AuthorizationInterface');
-            $this->_storeConfig =  \Mage::getSingleton('Magento\Core\Model\Store\Config');
-            $this->_menuFactory = \Mage::getSingleton('Magento\Backend\Model\MenuFactory');
-            $this->_urlModel = \Mage::getSingleton('Magento\Backend\Model\Url');
-            $this->_moduleList = \Mage::getSingleton('Magento\Core\Model\ModuleListInterface');
+            $this->_moduleHelper = \Magento\Core\Model\ObjectManager::getInstance()->get($this->_moduleHelperName);
+            $this->_validator = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento\Backend\Model\Menu\Item\Validator');
+            $this->_acl = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento\AuthorizationInterface');
+            $this->_storeConfig = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento\Core\Model\Store\Config');
+            $this->_menuFactory = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento\Backend\Model\MenuFactory');
+            $this->_urlModel = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento\Backend\Model\Url');
+            $this->_moduleList = \Magento\Core\Model\ObjectManager::getInstance()
+                ->get('Magento\Core\Model\ModuleListInterface');
             if ($this->_serializedSubmenu) {
                 $this->_submenu = $this->_menuFactory->create();
                 $this->_submenu->unserialize($this->_serializedSubmenu);

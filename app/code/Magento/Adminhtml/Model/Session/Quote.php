@@ -49,8 +49,17 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
      */
     protected $_order   = null;
 
-    public function __construct()
-    {
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('adminhtml_quote');
         if (\Mage::app()->hasSingleStore()) {
             $this->setStoreId(\Mage::app()->getStore(true)->getId());

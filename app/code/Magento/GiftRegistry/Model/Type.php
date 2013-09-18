@@ -131,12 +131,13 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     protected function _saveAttributeStoreData()
     {
-        if ($groups = $this->getAttributes()) {
-            foreach((array)$groups as $attributes) {
-                foreach((array)$attributes as $attribute) {
+        $groups = $this->getAttributes();
+        if ($groups) {
+            foreach ((array)$groups as $attributes) {
+                foreach ((array)$attributes as $attribute) {
                     $this->_getResource()->saveStoreData($this, $attribute);
                     if (isset($attribute['options']) && is_array($attribute['options'])) {
-                        foreach($attribute['options'] as $option) {
+                        foreach ($attribute['options'] as $option) {
                             $optionCode = $option['code'];
                             $option['code'] = $attribute['code'];
                             $this->_getResource()->saveStoreData($this, $option, $optionCode);
@@ -155,7 +156,8 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     protected function _cleanupData()
     {
-        if ($groups = $this->getAttributes()) {
+        $groups = $this->getAttributes();
+        if ($groups) {
             $attributesToSave = array();
             $config = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
             foreach ((array)$groups as $group => $attributes) {
@@ -174,9 +176,9 @@ class Type extends \Magento\Core\Model\AbstractModel
                             $optionsToSave = array();
                             foreach ($attribute['options'] as $option) {
                                 if ($option['is_deleted']) {
-                                  $this->_getResource()->deleteAttributeStoreData(
-                                      $this->getId(), $attribute['code'], $option['code']
-                                  );
+                                    $this->_getResource()->deleteAttributeStoreData(
+                                        $this->getId(), $attribute['code'], $option['code']
+                                    );
                                 } else {
                                     $optionsToSave[] = $option;
                                 }
@@ -223,7 +225,8 @@ class Type extends \Magento\Core\Model\AbstractModel
     {
         if (is_array($attributes)) {
             foreach ($attributes as $code => $attribute) {
-                if ($storeLabel = $this->getAttributeStoreData($code)) {
+                $storeLabel = $this->getAttributeStoreData($code);
+                if ($storeLabel) {
                     $attributes[$code]['label'] = $storeLabel;
                     $attributes[$code]['default_label'] = $attribute['label'];
                 }
@@ -231,7 +234,8 @@ class Type extends \Magento\Core\Model\AbstractModel
                     $options = array();
                     foreach ($attribute['options'] as $key => $label) {
                         $data = array('code' => $key, 'label' => $label);
-                        if ($storeLabel = $this->getAttributeStoreData($code, $key)) {
+                        $storeLabel = $this->getAttributeStoreData($code, $key);
+                        if ($storeLabel) {
                             $data['label'] = $storeLabel;
                             $data['default_label'] = $label;
                         }
@@ -260,9 +264,9 @@ class Type extends \Magento\Core\Model\AbstractModel
 
         if (is_array($this->_storeData)) {
             foreach ($this->_storeData as $item) {
-               if ($item['attribute_code'] == $attributeCode && $item['option_code'] == $optionCode) {
-                   return $item['label'];
-               }
+                if ($item['attribute_code'] == $attributeCode && $item['option_code'] == $optionCode) {
+                    return $item['label'];
+                }
             }
         }
         return '';
@@ -279,7 +283,8 @@ class Type extends \Magento\Core\Model\AbstractModel
         if (!$this->getId() || empty($code)) {
             return null;
         }
-        if ($groups = $this->getAttributes()) {
+        $groups = $this->getAttributes();
+        if ($groups) {
             foreach ($groups as $group) {
                 if (isset($group[$code])) {
                     return $group[$code];
@@ -349,8 +354,9 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Custom handler for giftregistry type save action
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor
      * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)

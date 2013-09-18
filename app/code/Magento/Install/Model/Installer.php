@@ -55,6 +55,14 @@ class Installer extends \Magento\Object
     protected $_cacheTypeList;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\CacheInterface $cache
@@ -63,6 +71,7 @@ class Installer extends \Magento\Object
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\CacheInterface $cache,
@@ -70,6 +79,7 @@ class Installer extends \Magento\Object
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_dbUpdater = $dbUpdater;
         $this->_config = $config;
         $this->_cache = $cache;
@@ -239,15 +249,20 @@ class Installer extends \Magento\Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $locale['locale']);
+            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+                $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $locale['timezone']);
+            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+                $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT, $locale['currency']);
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW, $locale['currency']);
+            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                $locale['currency']);
+            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
+                $locale['currency']);
+            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
+                $locale['currency']);
         }
 
         if (!empty($data['order_increment_prefix'])) {
@@ -284,7 +299,9 @@ class Installer extends \Magento\Object
     public function createAdministrator($data)
     {
         // \Magento\User\Model\User belongs to adminhtml area
-        \Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+       \Mage::app()
+            ->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+
         /** @var $user \Magento\User\Model\User */
         $user = \Mage::getModel('Magento\User\Model\User');
         $user->loadByUsername($data['username']);
@@ -303,9 +320,7 @@ class Installer extends \Magento\Object
      */
     public function installEncryptionKey($key)
     {
-        /** @var $helper \Magento\Core\Helper\Data */
-        $helper = \Mage::helper('Magento\Core\Helper\Data');
-        $helper->validateKey($key);
+        $this->_coreData->validateKey($key);
         \Mage::getSingleton('Magento\Install\Model\Installer\Config')->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
         return $this;
@@ -319,12 +334,10 @@ class Installer extends \Magento\Object
      */
     public function getValidEncryptionKey($key = null)
     {
-        /** @var $helper \Magento\Core\Helper\Data */
-        $helper = \Mage::helper('Magento\Core\Helper\Data');
         if (!$key) {
-            $key = md5($helper->getRandomString(10));
+            $key = md5($this->_coreData->getRandomString(10));
         }
-        $helper->validateKey($key);
+        $this->_coreData->validateKey($key);
         return $key;
     }
 

@@ -43,6 +43,31 @@ class Collection
     protected $_comparableAttributes;
 
     /**
+     * Catalog product compare
+     *
+     * @var \Magento\Catalog\Helper\Product\Compare
+     */
+    protected $_catalogProductCompare = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_catalogProductCompare = $catalogProductCompare;
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+    }
+
+    /**
      * Initialize resources
      */
     protected function _construct()
@@ -298,7 +323,7 @@ class Collection
     {
         \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Compare\Item')
             ->clearItems($this->getVisitorId(), $this->getCustomerId());
-        \Mage::dispatchEvent('catalog_product_compare_item_collection_clear');
+        $this->_eventManager->dispatch('catalog_product_compare_item_collection_clear');
 
         return $this;
     }
@@ -311,7 +336,7 @@ class Collection
      */
     public function isEnabledFlat()
     {
-        if (!\Mage::helper('Magento\Catalog\Helper\Product\Compare')->getAllowUsedFlat()) {
+        if (!$this->_catalogProductCompare->getAllowUsedFlat()) {
             return false;
         }
         return parent::isEnabledFlat();

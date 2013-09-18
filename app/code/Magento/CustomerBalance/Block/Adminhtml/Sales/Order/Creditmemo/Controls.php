@@ -18,13 +18,36 @@ class Controls
  extends \Magento\Core\Block\Template
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Check whether refund to customerbalance is available
      *
      * @return bool
      */
     public function canRefundToCustomerBalance()
     {
-        if (\Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
+        if ($this->_coreRegistry->registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
             return false;
         }
         return true;
@@ -37,11 +60,11 @@ class Controls
      */
     public function canRefundMoneyToCustomerBalance()
     {
-        if (!\Mage::registry('current_creditmemo')->getGrandTotal()) {
+        if (!$this->_coreRegistry->registry('current_creditmemo')->getGrandTotal()) {
             return false;
         }
 
-        if (\Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
+        if ($this->_coreRegistry->registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
             return false;
         }
         return true;
@@ -54,7 +77,7 @@ class Controls
      */
     public function getReturnValue()
     {
-        $max = \Mage::registry('current_creditmemo')->getCustomerBalanceReturnMax();
+        $max = $this->_coreRegistry->registry('current_creditmemo')->getCustomerBalanceReturnMax();
         if ($max) {
             return $max;
         }

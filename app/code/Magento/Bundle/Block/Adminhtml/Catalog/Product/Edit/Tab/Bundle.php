@@ -24,6 +24,29 @@ class Bundle extends \Magento\Adminhtml\Block\Widget
 
     protected $_template = 'product/edit/bundle.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getTabUrl()
     {
         return $this->getUrl('*/bundle_product_edit/form', array('_current' => true));
@@ -83,21 +106,24 @@ class Bundle extends \Magento\Adminhtml\Block\Widget
 
     public function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     public function getTabLabel()
     {
         return __('Bundle Items');
     }
+
     public function getTabTitle()
     {
         return __('Bundle Items');
     }
+
     public function canShowTab()
     {
         return true;
     }
+
     public function isHidden()
     {
         return false;

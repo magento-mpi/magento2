@@ -14,10 +14,19 @@ namespace Magento\CustomerBalance\Model\Total\Quote;
 class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
-     * Init total model, set total code
+     * Customer balance data
+     *
+     * @var \Magento\CustomerBalance\Helper\Data
      */
-    public function __construct()
-    {
+    protected $_customerBalanceData = null;
+
+    /**
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     */
+    public function __construct(
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData
+    ) {
+        $this->_customerBalanceData = $customerBalanceData;
         $this->setCode('customerbalance');
     }
 
@@ -29,7 +38,7 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         $quote = $address->getQuote();
@@ -93,7 +102,7 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
      */
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
+        if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
         }
         if ($address->getCustomerBalanceAmount()) {

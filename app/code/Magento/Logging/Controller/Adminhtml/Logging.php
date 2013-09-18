@@ -16,6 +16,25 @@ namespace Magento\Logging\Controller\Adminhtml;
 class Logging extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Log page
      */
     public function indexAction()
@@ -50,7 +69,7 @@ class Logging extends \Magento\Adminhtml\Controller\Action
         }
         $this->_title(__("Log Entry #%1", $eventId));
 
-        \Mage::register('current_event', $model);
+        $this->_coreRegistry->register('current_event', $model);
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');

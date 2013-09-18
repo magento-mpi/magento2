@@ -17,9 +17,6 @@
     <event name="magento_giftcardaccount_charge_by_code">
         <observer name="magento_giftcardaccount_charge_by_code" instance="Magento\GiftCardAccount\Model\Observer" method="chargeByCode" />
     </event>
-    <event name="magento_giftcardaccount_charge">
-        <observer name="magento_giftcardaccount_charge" instance="Magento\GiftCardAccount\Model\Observer" method="chargeById" />
-    </event>
     <event name="magento_giftcardaccount_create">
         <observer name="magento_giftcardaccount_create" instance="Magento\GiftCardAccount\Model\Observer" method="create" />
     </event>

@@ -21,13 +21,46 @@ class Registry
     extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
+     * Gift registry data
+     *
+     * @var \Magento\GiftRegistry\Helper\Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct(
+            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data
+        );
+    }
+
+    /**
      * Check whether module is available
      *
      * @return bool
      */
     public function isEnabled()
     {
-        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled() && count($this->getGiftRegistryList());
+        return $this->_giftRegistryData->isEnabled() && count($this->getGiftRegistryList());
     }
 
     /**
@@ -37,7 +70,7 @@ class Registry
      */
     public function getGiftRegistryList()
     {
-        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->getCurrentCustomerEntityOptions();
+        return $this->_giftRegistryData->getCurrentCustomerEntityOptions();
     }
 
     /**
@@ -48,7 +81,7 @@ class Registry
      */
     public function checkProductType($item)
     {
-        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->canAddToGiftRegistry($item);
+        return $this->_giftRegistryData->canAddToGiftRegistry($item);
     }
 
     /**

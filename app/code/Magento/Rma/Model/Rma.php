@@ -50,9 +50,47 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_shippingLabel   = null;
 
     /**
+     * Rma data
+     *
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Resource\Rma $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\Resource\Rma $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_rmaData = $rmaData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init('Magento\Rma\Model\Resource\Rma');
         parent::_construct();
     }
@@ -217,7 +255,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
                 $session = \Mage::getSingleton('Magento\Core\Model\Session');
-                foreach($validateEmail as $error) {
+                foreach ($validateEmail as $error) {
                     $session->addError($error);
                 }
                 $session->setRmaFormData($data);
@@ -321,7 +359,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             }
         }
 
-        $returnAddress = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddress(
+        $returnAddress = $this->_rmaData->getReturnAddress(
             'html', array(), $this->getStoreId()
         );
 
@@ -402,8 +440,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
 
         $preparePost['product_name']       = $realItem->getName();
         $preparePost['product_sku']        = $realItem->getSku();
-        $preparePost['product_admin_name'] = \Mage::helper('Magento\Rma\Helper\Data')->getAdminProductName($realItem);
-        $preparePost['product_admin_sku']  = \Mage::helper('Magento\Rma\Helper\Data')->getAdminProductSku($realItem);
+        $preparePost['product_admin_name'] = $this->_rmaData->getAdminProductName($realItem);
+        $preparePost['product_admin_sku']  = $this->_rmaData->getAdminProductSku($realItem);
         $preparePost['product_options']    = serialize($realItem->getProductOptions());
         $preparePost['is_qty_decimal']     = $realItem->getIsQtyDecimal();
 
@@ -456,7 +494,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         $errors     = array();
         $errorKeys  = array();
         if (!$this->getIsUpdate()) {
-            $availableItems = \Mage::helper('Magento\Rma\Helper\Data')->getOrderItems($orderId);
+            $availableItems = $this->_rmaData->getOrderItems($orderId);
         } else {
             $availableItems = \Mage::getResourceModel('Magento\Rma\Model\Resource\Item')
                 ->getOrderItemsCollection($orderId);
@@ -483,7 +521,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                 }
                 $validation['dummy'] = -1;
                 $previousValue = null;
-                $escapedProductName = \Mage::helper('Magento\Rma\Helper\Data')->escapeHtml($item->getProductName());
+                $escapedProductName = $this->_rmaData->escapeHtml($item->getProductName());
                 foreach ($validation as $key => $value) {
                     if (isset($previousValue) && $value > $previousValue) {
                         $errors[] = __('There is an error in quantities for item %1.', $escapedProductName);
@@ -533,7 +571,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         foreach ($itemsArray as $key=>$qty) {
-            $escapedProductName = \Mage::helper('Magento\Rma\Helper\Data')->escapeHtml(
+            $escapedProductName = $this->_rmaData->escapeHtml(
                 $availableItemsArray[$key]['name']
             );
             if (!array_key_exists($key, $availableItemsArray)) {
@@ -679,7 +717,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     protected function _validateEmail($value)
     {
-        $label = \Mage::helper('Magento\Rma\Helper\Data')->getContactEmailLabel();
+        $label = $this->_rmaData->getContactEmailLabel();
 
         $validator = new \Zend_Validate_EmailAddress();
         $validator->setMessage(
@@ -733,7 +771,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getCreatedAtFormated($format)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return $this->_coreData->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**
@@ -816,7 +854,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected function _requestShippingRates($items, $address, $store, $subtotal, $weight, $qty)
     {
         /** @var \Magento\Sales\Model\Quote\Address $shippingDestinationInfo */
-        $shippingDestinationInfo = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel(
+        $shippingDestinationInfo = $this->_rmaData->getReturnAddressModel(
             $this->getStoreId()
         );
 
@@ -893,7 +931,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                 if (
                     in_array(
                         $shippingRate->getCarrier(),
-                        array_keys(\Mage::helper('Magento\Rma\Helper\Data')->getShippingCarriers())
+                        array_keys($this->_rmaData->getShippingCarriers())
                     )
                 ) {
                     $found[] = \Mage::getModel('Magento\Sales\Model\Quote\Address\Rate')->importShippingRate($shippingRate);

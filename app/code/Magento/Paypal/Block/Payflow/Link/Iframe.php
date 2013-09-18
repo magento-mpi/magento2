@@ -20,6 +20,29 @@ namespace Magento\Paypal\Block\Payflow\Link;
 class Iframe extends \Magento\Paypal\Block\Iframe
 {
     /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Set payment method code
      */
     protected function _construct()
@@ -79,7 +102,7 @@ class Iframe extends \Magento\Paypal\Block\Iframe
      */
     public function isTestMode()
     {
-        $mode = \Mage::helper('Magento\Payment\Helper\Data')
+        $mode = $this->_paymentData
             ->getMethodInstance($this->_paymentMethodCode)
             ->getConfigData('sandbox_flag');
         return (bool) $mode;

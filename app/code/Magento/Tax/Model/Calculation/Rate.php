@@ -42,6 +42,33 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_titleModel = null;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Magento model constructor
      */
     protected function _construct()
@@ -118,7 +145,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected function _afterSave()
     {
         $this->saveTitles();
-        \Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return parent::_afterSave();
     }
 
@@ -144,7 +171,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterDelete()
     {
-        \Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return parent::_afterDelete();
     }
 
@@ -188,7 +215,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     public function deleteAllRates()
     {
         $this->_getResource()->deleteAllRates();
-        \Mage::dispatchEvent('tax_settings_change_after');
+        $this->_eventManager->dispatch('tax_settings_change_after');
         return $this;
     }
 

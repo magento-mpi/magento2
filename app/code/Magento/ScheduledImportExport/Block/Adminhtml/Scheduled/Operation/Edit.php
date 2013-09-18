@@ -18,8 +18,41 @@
 namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation;
 
 class Edit
-    extends \Magento\Adminhtml\Block\Widget\Form\Container
+    extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * Import export data
+     *
+     * @var \Magento\ScheduledImportExport\Helper\Data
+     */
+    protected $_importExportData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\ScheduledImportExport\Helper\Data $importExportData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_importExportData = $importExportData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Initialize operation form container.
      * Create operation instance from database and set it to register.
@@ -40,7 +73,7 @@ class Edit
             $operation->setOperationType($this->getRequest()->getParam('type'))
                 ->setStatus(true);
         }
-        \Mage::register('current_operation', $operation);
+        $this->_coreRegistry->register('current_operation', $operation);
 
         parent::_construct();
     }
@@ -53,7 +86,7 @@ class Edit
      */
     protected function _prepareLayout()
     {
-        $operation = \Mage::registry('current_operation');
+        $operation = $this->_coreRegistry->registry('current_operation');
         $blockName = 'Magento\\ScheduledImportExport\\Block\\Adminhtml\\Scheduled\\Operation\\Edit\\Form\\'
             . ucfirst($operation->getOperationType());
         $formBlock = $this->getLayout()
@@ -65,7 +98,7 @@ class Edit
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
-            . \Mage::helper('Magento\ScheduledImportExport\Helper\Data')->getConfirmationDeleteMessage($operation->getOperationType())
+            . $this->_importExportData->getConfirmationDeleteMessage($operation->getOperationType())
             .'\', \'' . $this->getDeleteUrl() . '\')'
         );
 
@@ -81,7 +114,7 @@ class Edit
     {
         return $this->getUrl('*/*/delete', array(
             $this->_objectId => $this->getRequest()->getParam($this->_objectId),
-            'type' => \Mage::registry('current_operation')->getOperationType()
+            'type' => $this->_coreRegistry->registry('current_operation')->getOperationType()
         ));
     }
 
@@ -92,13 +125,13 @@ class Edit
      */
     public function getHeaderText()
     {
-        $operation = \Mage::registry('current_operation');
+        $operation = $this->_coreRegistry->registry('current_operation');
         if ($operation->getId()) {
             $action = 'edit';
         } else {
             $action = 'new';
         }
-        return \Mage::helper('Magento\ScheduledImportExport\Helper\Data')->getOperationHeaderText(
+        return $this->_importExportData->getOperationHeaderText(
             $operation->getOperationType(),
             $action
         );

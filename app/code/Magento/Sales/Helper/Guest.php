@@ -24,6 +24,24 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_lifeTime    = 600;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($eventManager, $coreHttp, $context, $config);
+    }
+
+    /**
      * Try to load valid order by $_POST or $_COOKIE
      *
      * @return bool|null
@@ -99,7 +117,7 @@ class Guest extends \Magento\Core\Helper\Data
         }
 
         if (!$errors && $order->getId()) {
-            \Mage::register('current_order', $order);
+            $this->_coreRegistry->register('current_order', $order);
             return true;
         }
 

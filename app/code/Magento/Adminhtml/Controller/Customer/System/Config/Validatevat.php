@@ -26,10 +26,11 @@ class Validatevat extends \Magento\Adminhtml\Controller\Action
      */
     protected function _validate()
     {
-        return \Mage::helper('Magento\Customer\Helper\Data')->checkVatNumber(
-            $this->getRequest()->getParam('country'),
-            $this->getRequest()->getParam('vat')
-        );
+        return $this->_objectManager->get('Magento\Customer\Helper\Data')
+            ->checkVatNumber(
+                $this->getRequest()->getParam('country'),
+                $this->getRequest()->getParam('vat')
+            );
     }
 
     /**
@@ -51,7 +52,7 @@ class Validatevat extends \Magento\Adminhtml\Controller\Action
     public function validateAdvancedAction()
     {
         /** @var $coreHelper \Magento\Core\Helper\Data */
-        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
+        $coreHelper = $this->_objectManager->get('Magento\Core\Helper\Data');
 
         $result = $this->_validate();
         $valid = $result->getIsValid();
@@ -63,9 +64,10 @@ class Validatevat extends \Magento\Adminhtml\Controller\Action
             $storeId = (int)$storeId;
         }
 
-        $groupId = \Mage::helper('Magento\Customer\Helper\Data')->getCustomerGroupIdBasedOnVatNumber(
-            $this->getRequest()->getParam('country'), $result, $storeId
-        );
+        $groupId = $this->_objectManager->get('Magento\Customer\Helper\Data')
+            ->getCustomerGroupIdBasedOnVatNumber(
+                $this->getRequest()->getParam('country'), $result, $storeId
+            );
 
         $body = $coreHelper->jsonEncode(array(
             'valid' => $valid,

@@ -58,6 +58,7 @@ class Subscription
     /**
      * @param \Magento\Webhook\Model\Endpoint $endpoint
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -65,6 +66,7 @@ class Subscription
     public function __construct(
         \Magento\Webhook\Model\Endpoint $endpoint,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -73,7 +75,7 @@ class Subscription
         if (!isset($data['status'])) {
             $data['status'] = \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE;
         }
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
 
         $this->_endpoint = $endpoint;
     }

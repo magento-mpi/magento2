@@ -66,7 +66,32 @@ class Token extends \Magento\Core\Model\AbstractModel
      */
     const USER_TYPE_ADMIN    = 'admin';
     const USER_TYPE_CUSTOMER = 'customer';
-    /**#@- */
+    /**
+     * Oauth data
+     *
+     * @var \Magento\Oauth\Helper\Data
+     */
+    protected $_oauthData = null;
+
+    /**
+     * @param \Magento\Oauth\Helper\Data $oauthData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Oauth\Helper\Data $oauthData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_oauthData = $oauthData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize resource model
@@ -88,10 +113,8 @@ class Token extends \Magento\Core\Model\AbstractModel
         parent::_afterSave();
 
         //Cleanup old entries
-        /** @var $helper \Magento\Oauth\Helper\Data */
-        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
-        if ($helper->isCleanupProbability()) {
-            $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
+        if ($this->_oauthData->isCleanupProbability()) {
+            $this->_getResource()->deleteOldEntries($this->_oauthData->getCleanupExpirationPeriod());
         }
         return $this;
     }
@@ -118,10 +141,8 @@ class Token extends \Magento\Core\Model\AbstractModel
         } else {
             \Mage::throwException('User type is unknown');
         }
-        /** @var $helper \Magento\Oauth\Helper\Data */
-        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
 
-        $this->setVerifier($helper->generateVerifier());
+        $this->setVerifier($this->_oauthData->generateVerifier());
         $this->setAuthorized(1);
         $this->save();
 
@@ -140,12 +161,10 @@ class Token extends \Magento\Core\Model\AbstractModel
         if (\Magento\Oauth\Model\Token::TYPE_REQUEST != $this->getType()) {
             \Mage::throwException('Can not convert due to token is not request type');
         }
-        /** @var $helper \Magento\Oauth\Helper\Data */
-        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
 
         $this->setType(self::TYPE_ACCESS);
-        $this->setToken($helper->generateToken());
-        $this->setSecret($helper->generateTokenSecret());
+        $this->setToken($this->_oauthData->generateToken());
+        $this->setSecret($this->_oauthData->generateTokenSecret());
         $this->save();
 
         return $this;
@@ -160,14 +179,11 @@ class Token extends \Magento\Core\Model\AbstractModel
      */
     public function createRequestToken($consumerId, $callbackUrl)
     {
-        /** @var $helper \Magento\Oauth\Helper\Data */
-        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
-
         $this->setData(array(
             'consumer_id'  => $consumerId,
             'type'         => self::TYPE_REQUEST,
-            'token'        => $helper->generateToken(),
-            'secret'       => $helper->generateTokenSecret(),
+            'token'        => $this->_oauthData->generateToken(),
+            'secret'       => $this->_oauthData->generateTokenSecret(),
             'callback_url' => $callbackUrl
         ));
         $this->save();

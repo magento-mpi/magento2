@@ -18,7 +18,8 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento\Catalog\Helper\Output');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Output');
     }
 
     /**

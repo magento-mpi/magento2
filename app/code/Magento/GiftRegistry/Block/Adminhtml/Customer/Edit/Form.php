@@ -17,6 +17,29 @@ class Form
     protected $_template = 'customer/form.phtml';
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare layout
      *
      * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Form
@@ -117,7 +140,7 @@ class Form
      */
     public function getEntity()
     {
-        return \Mage::registry('current_giftregistry_entity');
+        return $this->_coreRegistry->registry('current_giftregistry_entity');
     }
 
    /**

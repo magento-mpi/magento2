@@ -30,4 +30,7 @@
             <value>vde</value>
         </param>
     </type>
+    <type name="Magento\Core\Model\Theme\CopyService">
+        <plugin name="design_editor_theme_copy_service_plugin" type="Magento\DesignEditor\Model\Plugin\ThemeCopyService"/>
+    </type>
 </config>

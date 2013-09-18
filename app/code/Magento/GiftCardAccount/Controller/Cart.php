@@ -13,6 +13,25 @@ namespace Magento\GiftCardAccount\Controller;
 class Cart extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * No index action, forward to 404
      *
      */
@@ -38,12 +57,9 @@ class Cart extends \Magento\Core\Controller\Front\Action
                     ->loadByCode($code)
                     ->addToCart();
                 \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
-                    __('Gift Card "%1" was added.', \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($code))
+                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_eventManager->dispatch(
-                    'magento_giftcardaccount_add', array('status' => 'fail', 'code' => $code)
-                );
                 \Mage::getSingleton('Magento\Checkout\Model\Session')->addError(
                     $e->getMessage()
                 );
@@ -56,13 +72,14 @@ class Cart extends \Magento\Core\Controller\Front\Action
 
     public function removeAction()
     {
-        if ($code = $this->getRequest()->getParam('code')) {
+        $code = $this->getRequest()->getParam('code');
+        if ($code) {
             try {
                 \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart();
                 \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
-                    __('Gift Card "%1" was removed.', \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($code))
+                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Core\Helper\Data')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
                 \Mage::getSingleton('Magento\Checkout\Model\Session')->addError(
@@ -86,11 +103,10 @@ class Cart extends \Magento\Core\Controller\Front\Action
         /* @var $card \Magento\GiftCardAccount\Model\Giftcardaccount */
         $card = \Mage::getModel('Magento\GiftCardAccount\Model\Giftcardaccount')
             ->loadByCode($this->getRequest()->getParam('giftcard_code', ''));
-        \Mage::register('current_giftcardaccount', $card);
+        $this->_coreRegistry->register('current_giftcardaccount', $card);
         try {
             $card->isValid(true, true, true, false);
-        }
-        catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $card->unsetData();
         }
 

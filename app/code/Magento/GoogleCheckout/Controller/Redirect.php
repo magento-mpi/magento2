@@ -151,17 +151,15 @@ class Redirect extends \Magento\Core\Controller\Front\Action
 
     /**
      * Redirect to login page
-     *
      */
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
-            \Mage::helper('Magento\Core\Helper\Url')->addRequestParam(
-                \Mage::helper('Magento\Customer\Helper\Data')->getLoginUrl(),
+            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
+                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );
     }
-
 }

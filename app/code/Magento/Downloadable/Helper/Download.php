@@ -67,6 +67,45 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     protected $_fileName        = 'download';
 
     /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
+     * Downloadable file
+     *
+     * @var \Magento\Downloadable\Helper\File
+     */
+    protected $_downloadableFile = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Downloadable\Helper\File $downloadableFile
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Downloadable\Helper\File $downloadableFile,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_coreData = $coreData;
+        $this->_downloadableFile = $downloadableFile;
+        $this->_coreFileStorageDb = $coreFileStorageDb;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve Resource file handle (socket, file pointer etc)
      *
      * @return resource
@@ -152,7 +191,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
             elseif ($this->_linkType == self::LINK_TYPE_FILE) {
                 $this->_handle = new \Magento\Io\File();
                 if (!is_file($this->_resourceFile)) {
-                    \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($this->_resourceFile);
+                    $this->_coreFileStorageDb->saveFileToFilesystem($this->_resourceFile);
                 }
                 $this->_handle->open(array('path'=>\Mage::getBaseDir('var')));
                 if (!$this->_handle->fileExists($this->_resourceFile, true)) {
@@ -191,7 +230,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
             if (function_exists('mime_content_type') && ($contentType = mime_content_type($this->_resourceFile))) {
                 return $contentType;
             } else {
-                return \Mage::helper('Magento\Downloadable\Helper\File')->getFileType($this->_resourceFile);
+                return $this->_downloadableFile->getFileType($this->_resourceFile);
             }
         }
         elseif ($this->_linkType == self::LINK_TYPE_URL) {
@@ -235,7 +274,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
         if (self::LINK_TYPE_FILE == $linkType) {
             //check LFI protection
             /** @var $helper \Magento\Core\Helper\Data */
-            $helper = \Mage::helper('Magento\Core\Helper\Data');
+            $helper = $this->_coreData;
             $helper->checkLfiProtection($resourceFile);
         }
 

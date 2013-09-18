@@ -21,9 +21,11 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUnit_F
     {
         parent::setUp();
         $layout = Mage::getModel('Magento\Core\Model\Layout');
-        if (!\Mage::registry('current_reward_rate')) {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        if (!$objectManager->get('Magento\Core\Model\Registry')->registry('current_reward_rate')) {
             $rate = Mage::getModel('Magento\Reward\Model\Reward\Rate');
-            Mage::register('current_reward_rate', $rate);
+            $objectManager->get('Magento\Core\Model\Registry')->register('current_reward_rate', $rate);
         }
 
         $this->_block = $layout

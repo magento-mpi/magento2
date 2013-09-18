@@ -233,7 +233,7 @@ class Banner
         $suggestedParams['bannersSelected'] = $this->_bannersSelected;
         $suggestedParams['bannersSequence'] = $this->_bannersSequence;
 
-        \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         $renderedInfo = $block->setSuggestedParams($suggestedParams)
             ->setTemplate($placeholder->getAttribute('template'))

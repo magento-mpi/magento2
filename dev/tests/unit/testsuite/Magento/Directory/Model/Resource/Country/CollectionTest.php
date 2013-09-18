@@ -34,13 +34,15 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
             ->method('getTable')
             ->will($this->returnArgument(0));
 
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $helperMock = $this->getMock('Magento\Core\Helper\String', array(), array(), '', false);
         $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface');
         $localeMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
         $this->_model = $this->getMock('Magento\Directory\Model\Resource\Country\Collection',
-            array('_toOptionArray'), array($helperMock, $localeMock, $fetchStrategy, $resource), '', true
+            array('_toOptionArray'), array($eventManager, $helperMock, $localeMock, $fetchStrategy, $resource),
+            '', true
         );
     }
 

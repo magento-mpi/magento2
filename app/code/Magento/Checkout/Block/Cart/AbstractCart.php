@@ -26,6 +26,29 @@ abstract class AbstractCart extends \Magento\Core\Block\Template
     protected $_totals;
     protected $_itemRenders = array();
 
+    /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -167,7 +190,7 @@ abstract class AbstractCart extends \Magento\Core\Block\Template
      */
     public function canApplyMsrp()
     {
-        if (!$this->getQuote()->hasCanApplyMsrp() && \Mage::helper('Magento\Catalog\Helper\Data')->isMsrpEnabled()) {
+        if (!$this->getQuote()->hasCanApplyMsrp() && $this->_catalogData->isMsrpEnabled()) {
             $this->getQuote()->collectTotals();
         }
         return $this->getQuote()->getCanApplyMsrp();

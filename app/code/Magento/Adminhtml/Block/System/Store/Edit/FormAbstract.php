@@ -14,12 +14,13 @@
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\Adminhtml\Block\System\Store\Edit;
 
-abstract class FormAbstract extends \Magento\Adminhtml\Block\Widget\Form
+abstract class FormAbstract extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     /**
      * Class constructor
      *
@@ -37,31 +38,34 @@ abstract class FormAbstract extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $this->_prepareStoreFieldSet($form);
 
         $form->addField('store_type', 'hidden', array(
             'name'      => 'store_type',
             'no_span'   => true,
-            'value'     => \Mage::registry('store_type')
+            'value'     => $this->_coreRegistry->registry('store_type')
         ));
 
         $form->addField('store_action', 'hidden', array(
             'name'      => 'store_action',
             'no_span'   => true,
-            'value'     => \Mage::registry('store_action')
+            'value'     => $this->_coreRegistry->registry('store_action')
         ));
 
         $form->setAction($this->getUrl('*/*/save'));
         $form->setUseContainer(true);
         $this->setForm($form);
 
-        \Mage::dispatchEvent('adminhtml_store_edit_form_prepare_form', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_store_edit_form_prepare_form', array('block' => $this));
 
         return parent::_prepareForm();
     }

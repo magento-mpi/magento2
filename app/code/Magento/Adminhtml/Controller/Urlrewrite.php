@@ -179,7 +179,7 @@ class Urlrewrite extends \Magento\Adminhtml\Controller\Action
 
                 // Validate request path
                 $requestPath = $this->getRequest()->getParam('request_path');
-                \Mage::helper('Magento\Core\Helper\Url\Rewrite')->validateRequestPath($requestPath);
+                $this->_objectManager->get('Magento\Core\Helper\Url\Rewrite')->validateRequestPath($requestPath);
 
                 // Proceed and save request
                 $model->setIdPath($this->getRequest()->getParam('id_path'))
@@ -256,7 +256,7 @@ class Urlrewrite extends \Magento\Adminhtml\Controller\Action
 
             // if redirect specified try to find friendly URL
             $generateTarget = true;
-            if (\Mage::helper('Magento\Core\Helper\Url\Rewrite')->hasRedirectOptions($model)) {
+            if ($this->_objectManager->get('Magento\Core\Helper\Url\Rewrite')->hasRedirectOptions($model)) {
                 /** @var $rewriteResource \Magento\Catalog\Model\Resource\Url */
                 $rewriteResource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Url');
                 /** @var $rewrite \Magento\Core\Model\Url\Rewrite */
@@ -336,9 +336,9 @@ class Urlrewrite extends \Magento\Adminhtml\Controller\Action
 
         // if redirect specified try to find friendly URL
         $generateTarget = true;
-        if (\Mage::helper('Magento\Core\Helper\Url\Rewrite')->hasRedirectOptions($model)) {
+        if ($this->_objectManager->get('Magento\Core\Helper\Url\Rewrite')->hasRedirectOptions($model)) {
             /** @var $rewriteResource \Magento\Catalog\Model\Resource\Url */
-            $rewriteResource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Url');
+            $rewriteResource = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Url');
             /** @var $rewrite \Magento\Core\Model\Url\Rewrite */
             $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
             if (!$rewrite) {

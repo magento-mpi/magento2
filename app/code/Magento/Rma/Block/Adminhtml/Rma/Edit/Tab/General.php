@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab;
 
-class General extends \Magento\Adminhtml\Block\Widget\Form
+class General extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -27,11 +27,12 @@ class General extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = \Mage::registry('current_rma');
+        $model = $this->_coreRegistry->registry('current_rma');
 
         if ($model) {
             $form->setValues($model->getData());

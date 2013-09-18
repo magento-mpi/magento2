@@ -97,13 +97,14 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
             'Magento\Webapi\Model\Resource\Acl\Rule\Collection',
             array('_initSelect', 'setModel', 'getSelect'),
-            array($fetchStrategy, $this->_ruleResource)
+            array($eventManager, $fetchStrategy, $this->_ruleResource)
         );
         $collection->expects($this->any())->method('setModel')->with('Magento\Webapi\Model\Resource\Acl\Role');
         $collection->expects($this->any())

@@ -20,6 +20,43 @@ namespace Magento\Adminhtml\Block\Sales\Transactions;
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_paymentData = $paymentData;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set grid params
      *
      */
@@ -44,7 +81,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         if (!$collection) {
             $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection');
         }
-        $order = \Mage::registry('current_order');
+        $order = $this->_coreRegistry->registry('current_order');
         if ($order) {
             $collection->addOrderIdFilter($order->getId());
         }
@@ -97,8 +134,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'header' => __('Payment Method'),
             'index' => 'method',
             'type' => 'options',
-            'options' => \Mage::helper('Magento\Payment\Helper\Data')->getPaymentMethodList(true),
-            'option_groups' => \Mage::helper('Magento\Payment\Helper\Data')->getPaymentMethodList(true, true, true),
+            'options' => $this->_paymentData->getPaymentMethodList(true),
+            'option_groups' => $this->_paymentData->getPaymentMethodList(true, true, true),
             'header_css_class' => 'col-method',
             'column_css_class' => 'col-method'
         ));
@@ -154,6 +191,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Retrieve row url
      *
+     * @param $item
      * @return string
      */
     public function getRowUrl($item)

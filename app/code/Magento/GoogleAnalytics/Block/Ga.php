@@ -21,6 +21,29 @@ namespace Magento\GoogleAnalytics\Block;
 class Ga extends \Magento\Core\Block\Template
 {
     /**
+     * Google analytics data
+     *
+     * @var \Magento\GoogleAnalytics\Helper\Data
+     */
+    protected $_googleAnalyticsData = null;
+
+    /**
+     * @param \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_googleAnalyticsData = $googleAnalyticsData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get config
      *
      * @param string $path
@@ -91,9 +114,9 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
                 $order->getBaseGrandTotal(),
                 $order->getBaseTaxAmount(),
                 $order->getBaseShippingAmount(),
-                $this->jsQuoteEscape(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($address->getCity())),
-                $this->jsQuoteEscape(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($address->getRegion())),
-                $this->jsQuoteEscape(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($address->getCountry()))
+                $this->jsQuoteEscape($this->_coreData->escapeHtml($address->getCity())),
+                $this->jsQuoteEscape($this->_coreData->escapeHtml($address->getRegion())),
+                $this->jsQuoteEscape($this->_coreData->escapeHtml($address->getCountry()))
             );
             foreach ($order->getAllVisibleItems() as $item) {
                 $result[] = sprintf("_gaq.push(['_addItem', '%s', '%s', '%s', '%s', '%s', '%s']);",
@@ -115,7 +138,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
      */
     protected function _toHtml()
     {
-        if (!\Mage::helper('Magento\GoogleAnalytics\Helper\Data')->isGoogleAnalyticsAvailable()) {
+        if (!$this->_googleAnalyticsData->isGoogleAnalyticsAvailable()) {
             return '';
         }
 

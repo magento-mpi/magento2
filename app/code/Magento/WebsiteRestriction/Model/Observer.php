@@ -17,6 +17,42 @@ namespace Magento\WebsiteRestriction\Model;
 class Observer
 {
     /**
+     * Website restriction data
+     *
+     * @var \Magento\WebsiteRestriction\Helper\Data
+     */
+    protected $_websiteRestrictionData = null;
+
+    /**
+     * Customer data
+     *
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestrictionData
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\WebsiteRestriction\Helper\Data $websiteRestrictionData
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_customerData = $customerData;
+        $this->_websiteRestrictionData = $websiteRestrictionData;
+    }
+
+    /**
      * Implement website stub or private sales restriction
      *
      * @param \Magento\Event\Observer $observer
@@ -28,13 +64,13 @@ class Observer
 
         if (!\Mage::app()->getStore()->isAdmin()) {
             $dispatchResult = new \Magento\Object(array('should_proceed' => true, 'customer_logged_in' => false));
-            \Mage::dispatchEvent('websiterestriction_frontend', array(
+            $this->_eventManager->dispatch('websiterestriction_frontend', array(
                 'controller' => $controller, 'result' => $dispatchResult
             ));
             if (!$dispatchResult->getShouldProceed()) {
                 return;
             }
-            if (!\Mage::helper('Magento\WebsiteRestriction\Helper\Data')->getIsRestrictionEnabled()) {
+            if (!$this->_websiteRestrictionData->getIsRestrictionEnabled()) {
                 return;
             }
             /* @var $request \Magento\Core\Controller\Request\Http */
@@ -64,14 +100,14 @@ class Observer
 
                 // redirect to landing page/login
                 case \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN:
-                    if (!$dispatchResult->getCustomerLoggedIn() && !\Mage::helper('Magento\Customer\Helper\Data')->isLoggedIn()) {
+                    if (!$dispatchResult->getCustomerLoggedIn() && !$this->_customerData->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
                         $allowedActionNames = array_keys(\Mage::getConfig()
                             ->getNode(\Magento\WebsiteRestriction\Helper\Data::XML_NODE_RESTRICTION_ALLOWED_GENERIC)
                             ->asArray()
                         );
-                        if (\Mage::helper('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
+                        if ($this->_customerData->isRegistrationAllowed()) {
                             foreach(array_keys(\Mage::getConfig()
                                 ->getNode(
                                     \Magento\WebsiteRestriction\Helper\Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
@@ -111,7 +147,7 @@ class Observer
                         if (\Mage::getStoreConfigFlag(
                             \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                         )) {
-                            $afterLoginUrl = \Mage::helper('Magento\Customer\Helper\Data')->getDashboardUrl();
+                            $afterLoginUrl = $this->_customerData->getDashboardUrl();
                         } else {
                             $afterLoginUrl = \Mage::getUrl();
                         }
@@ -124,24 +160,6 @@ class Observer
                     }
                     break;
             }
-        }
-    }
-
-    /**
-     * Attempt to disallow customers registration
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function restrictCustomersRegistration($observer)
-    {
-        $result = $observer->getEvent()->getResult();
-        if ((!\Mage::app()->getStore()->isAdmin()) && $result->getIsAllowed()) {
-            $restrictionMode = (int)\Mage::getStoreConfig(
-                \Magento\WebsiteRestriction\Helper\Data::XML_PATH_RESTRICTION_MODE
-            );
-            $result->setIsAllowed((!\Mage::helper('Magento\WebsiteRestriction\Helper\Data')->getIsRestrictionEnabled())
-                || (\Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER === $restrictionMode)
-            );
         }
     }
 

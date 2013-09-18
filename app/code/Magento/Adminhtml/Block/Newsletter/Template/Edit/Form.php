@@ -18,9 +18,8 @@
  */
 namespace Magento\Adminhtml\Block\Newsletter\Template\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     /**
      * Retrieve template object
      *
@@ -28,7 +27,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getModel()
     {
-        return \Mage::registry('_current_template');
+        return $this->_coreRegistry->registry('_current_template');
     }
 
     /**
@@ -43,11 +42,14 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
         $identityName = \Mage::getStoreConfig('trans_email/ident_'.$identity.'/name');
         $identityEmail = \Mage::getStoreConfig('trans_email/ident_'.$identity.'/email');
 
-        $form   = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getData('action'),
-            'method'    => 'post'
-        ));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getData('action'),
+                'method'    => 'post',
+            ))
+        );
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
             'legend'    => __('Template Information'),
@@ -82,7 +84,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'label'     => __('Sender Name'),
             'title'     => __('Sender Name'),
             'required'  => true,
-            'value'     => $model->getId() !== null 
+            'value'     => $model->getId() !== null
                 ? $model->getTemplateSenderName()
                 : $identityName,
         ));
@@ -93,14 +95,15 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'title'     => __('Sender Email'),
             'class'     => 'validate-email',
             'required'  => true,
-            'value'     => $model->getId() !== null 
+            'value'     => $model->getId() !== null
                 ? $model->getTemplateSenderEmail()
                 : $identityEmail
         ));
 
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->getConfig(array('widget_filters' => $widgetFilters));
+        $wysiwygConfig = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')
+            ->getConfig(array('widget_filters' => $widgetFilters));
         if ($model->isPlain()) {
             $wysiwygConfig->setEnabled(false);
         }

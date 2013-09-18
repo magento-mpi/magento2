@@ -44,6 +44,29 @@ class Link
     protected $_anchorText;
 
     /**
+     * Cms page
+     *
+     * @var \Magento\Cms\Helper\Page
+     */
+    protected $_cmsPage = null;
+
+    /**
+     * @param \Magento\Cms\Helper\Page $cmsPage
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Cms\Helper\Page $cmsPage,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsPage = $cmsPage;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare page url. Use passed identifier
      * or retrieve such using passed page id.
      *
@@ -56,7 +79,7 @@ class Link
             if ($this->getData('href')) {
                 $this->_href = $this->getData('href');
             } else if ($this->getData('page_id')) {
-                $this->_href = \Mage::helper('Magento\Cms\Helper\Page')->getPageUrl($this->getData('page_id'));
+                $this->_href = $this->_cmsPage->getPageUrl($this->getData('page_id'));
             }
         }
 

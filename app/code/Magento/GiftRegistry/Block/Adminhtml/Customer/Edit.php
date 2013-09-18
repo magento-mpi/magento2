@@ -14,9 +14,30 @@ class Edit
     extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
-     * Intialize form
+     * Core registry
      *
-     * @return void
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
+     * Initialize form
      */
     protected function _construct()
     {
@@ -42,7 +63,7 @@ class Edit
      */
     public function getHeaderText()
     {
-        $entity = \Mage::registry('current_giftregistry_entity');
+        $entity = $this->_coreRegistry->registry('current_giftregistry_entity');
         if ($entity->getId()) {
             return $this->escapeHtml($entity->getTitle());
         }
@@ -57,8 +78,8 @@ class Edit
     public function getBackUrl()
     {
         $customerId = null;
-        if (\Mage::registry('current_giftregistry_entity')) {
-            $customerId = \Mage::registry('current_giftregistry_entity')->getCustomerId();
+        if ($this->_coreRegistry->registry('current_giftregistry_entity')) {
+            $customerId = $this->_coreRegistry->registry('current_giftregistry_entity')->getCustomerId();
         }
         return $this->getUrl('*/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }

@@ -39,6 +39,29 @@ class View extends \Magento\Core\Block\Template
     protected $_relatedOrders = null;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve related orders collection
      *
      * @return \Magento\Sales\Model\Resource\Order\Collection
@@ -104,7 +127,7 @@ class View extends \Magento\Core\Block\Template
     protected function _prepareLayout()
     {
         if (is_null($this->_billingAgreementInstance)) {
-            $this->_billingAgreementInstance = \Mage::registry('current_billing_agreement');
+            $this->_billingAgreementInstance = $this->_coreRegistry->registry('current_billing_agreement');
         }
         parent::_prepareLayout();
 

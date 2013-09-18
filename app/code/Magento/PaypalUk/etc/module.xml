@@ -20,6 +20,7 @@
             <module name="Magento_Paypal"/>
             <module name="Magento_Payment"/>
             <module name="Magento_Core"/>
+            <module name="Magento_Customer"/>
             <module name="Magento_Page" type="soft"/>
             <module name="Magento_Catalog" type="soft"/>
         </depends>

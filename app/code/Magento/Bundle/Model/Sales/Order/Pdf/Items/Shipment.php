@@ -20,6 +20,35 @@ namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
 class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
 {
     /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        array $data = array()
+    ) {
+        $this->_coreString = $coreString;
+        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Draw item line
      *
      */
@@ -37,7 +66,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
         $_prevOptionId = '';
         $drawItems = array();
 
-        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
+        $stringHelper = $this->_coreString;
         foreach ($items as $_item) {
             $line   = array();
 
@@ -60,7 +89,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => \Mage::helper('Magento\Core\Helper\String')->str_split($attributes['option_label'], 60, true, true),
+                        'text'  => $this->_coreString->str_split($attributes['option_label'], 60, true, true),
                         'feed'  => 60
                     );
 
@@ -113,7 +142,7 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
 
             // draw SKUs
             $text = array();
-            foreach (\Mage::helper('Magento\Core\Helper\String')->str_split($_item->getSku(), 25) as $part) {
+            foreach ($this->_coreString->str_split($_item->getSku(), 25) as $part) {
                 $text[] = $part;
             }
             $line[] = array(

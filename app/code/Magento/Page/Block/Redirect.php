@@ -20,6 +20,20 @@ namespace Magento\Page\Block;
 
 class Redirect extends \Magento\Core\Block\Template
 {
+    /**
+     * @var \Magento\Data\FormFactory
+     */
+    protected $_formFactory;
+
+    public function __construct(
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_formFactory = $formFactory;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      *  HTML form hidden fields
@@ -81,7 +95,7 @@ class Redirect extends \Magento\Core\Block\Template
      */
     public function getHtmlFormRedirect ()
     {
-        $form = new \Magento\Data\Form();
+        $form = $this->_formFactory->create();
         $form->setAction($this->getTargetURL())
             ->setId($this->getFormId())
             ->setName($this->getFormId())

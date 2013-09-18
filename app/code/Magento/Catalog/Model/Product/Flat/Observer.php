@@ -21,13 +21,29 @@ namespace Magento\Catalog\Model\Product\Flat;
 class Observer
 {
     /**
+     * Catalog product flat
+     *
+     * @var \Magento\Catalog\Helper\Product\Flat
+     */
+    protected $_catalogProductFlat = null;
+
+    /**
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+    ) {
+        $this->_catalogProductFlat = $catalogProductFlat;
+    }
+
+    /**
      * Retrieve Catalog Product Flat Helper
      *
      * @return \Magento\Catalog\Helper\Product\Flat
      */
     protected function _getHelper()
     {
-        return \Mage::helper('Magento\Catalog\Helper\Product\Flat');
+        return $this->_catalogProductFlat;
     }
 
     /**

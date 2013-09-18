@@ -102,7 +102,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $product->setAllowedInRss(true);
         $product->setAllowedPriceInRss(true);
 
-        \Mage::dispatchEvent('rss_catalog_category_xml_callback', $args);
+        $this->_eventManager->dispatch('rss_catalog_category_xml_callback', $args);
 
         if (!$product->getAllowedInRss()) {
             return;

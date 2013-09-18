@@ -22,13 +22,19 @@ class Observer
     const XML_NODE_ALLOWED_CACHE = 'frontend/cache/allowed_requests';
 
     /**
-     * Retrieve the helper instance
+     * Page cache data
      *
-     * @return \Magento\PageCache\Helper\Data
+     * @var \Magento\PageCache\Helper\Data
      */
-    protected function _getHelper()
-    {
-        return \Mage::helper('Magento\PageCache\Helper\Data');
+    protected $_pageCacheData = null;
+
+    /**
+     * @param \Magento\PageCache\Helper\Data $pageCacheData
+     */
+    public function __construct(
+        \Magento\PageCache\Helper\Data $pageCacheData
+    ) {
+        $this->_pageCacheData = $pageCacheData;
     }
 
     /**
@@ -38,7 +44,7 @@ class Observer
      */
     public function isCacheEnabled()
     {
-        return $this->_getHelper()->isEnabled();
+        return $this->_pageCacheData->isEnabled();
     }
 
     /**
@@ -84,7 +90,7 @@ class Observer
         }
 
         if (!$needCaching) {
-            $this->_getHelper()->setNoCacheCookie();
+            $this->_pageCacheData->setNoCacheCookie();
         }
 
         return $this;
@@ -101,7 +107,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getHelper()->setNoCacheCookie(0)->lockNoCacheCookie();
+        $this->_pageCacheData->setNoCacheCookie(0)->lockNoCacheCookie();
         return $this;
     }
 
@@ -116,7 +122,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_getHelper()->unlockNoCacheCookie()->removeNoCacheCookie();
+        $this->_pageCacheData->unlockNoCacheCookie()->removeNoCacheCookie();
         return $this;
     }
 }

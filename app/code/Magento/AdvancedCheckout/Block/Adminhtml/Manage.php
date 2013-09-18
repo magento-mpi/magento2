@@ -17,8 +17,31 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml;
 
-class Manage extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Manage extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -109,7 +132,7 @@ class Manage extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     protected function _getCustomer()
     {
-        return \Mage::registry('checkout_current_customer');
+        return $this->_coreRegistry->registry('checkout_current_customer');
     }
 
     /**
@@ -119,7 +142,7 @@ class Manage extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     protected function _getStore()
     {
-        return \Mage::registry('checkout_current_store');
+        return $this->_coreRegistry->registry('checkout_current_store');
     }
 
     /**
@@ -185,7 +208,7 @@ class Manage extends \Magento\Adminhtml\Block\Widget\Form\Container
             'store_id' => $this->_getStore()->getId()
         );
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
+        return $this->_coreData->jsonEncode($data);
     }
 
     /**

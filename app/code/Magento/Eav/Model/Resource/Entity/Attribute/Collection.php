@@ -190,7 +190,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Specify exclude attribute set filter
      *
      * @param $setId
-     * @internal param array $setIds
+     * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
      * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function setExcludeSetFilter($setId)

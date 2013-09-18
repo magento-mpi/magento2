@@ -14,7 +14,7 @@
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 
 class Templates
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare general properties form
@@ -23,9 +23,10 @@ class Templates
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
-        $model = \Mage::registry('current_reminder_rule');
-
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
+        $model = $this->_coreRegistry->registry('current_reminder_rule');
+        
         $fieldset = $form->addFieldset('email_fieldset', array(
             'legend' => __('Email Templates'),
             'class'  => 'tree-store-scope',

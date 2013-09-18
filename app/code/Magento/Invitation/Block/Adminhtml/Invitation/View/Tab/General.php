@@ -17,9 +17,42 @@
 namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
 class General extends \Magento\Adminhtml\Block\Template
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'view/tab/general.phtml';
+
+    /**
+     * Invitation data
+     *
+     * @var \Magento\Invitation\Helper\Data
+     */
+    protected $_invitationData = null;
+    
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Invitation\Helper\Data $invitationData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Invitation\Helper\Data $invitationData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_invitationData = $invitationData;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Tab label getter
@@ -68,7 +101,7 @@ class General extends \Magento\Adminhtml\Block\Template
      */
     public function getInvitation()
     {
-        return \Mage::registry('current_invitation');
+        return $this->_coreRegistry->registry('current_invitation');
     }
 
     /**
@@ -92,14 +125,14 @@ class General extends \Magento\Adminhtml\Block\Template
     }
 
     /**
-     * Retrieve formating date
+     * Retrieve formatting date
      *
      * @param   string $date
      * @param   string $format
      * @param   bool $showTime
      * @return  string
      */
-    public function formatDate($date=null, $format='short', $showTime=false)
+    public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
             $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
@@ -109,7 +142,7 @@ class General extends \Magento\Adminhtml\Block\Template
     }
 
     /**
-     * Return invintation customer model
+     * Return invitation customer model
      *
      * @return \Magento\Customer\Model\Customer
      */
@@ -225,7 +258,7 @@ class General extends \Magento\Adminhtml\Block\Template
             \Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
             return false;
         }
-        return \Mage::helper('Magento\Invitation\Helper\Data')->getInvitationUrl($this->getInvitation());
+        return $this->_invitationData->getInvitationUrl($this->getInvitation());
     }
 
     /**

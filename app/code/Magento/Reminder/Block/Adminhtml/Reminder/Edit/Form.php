@@ -14,9 +14,8 @@
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
 
 class Form
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     /**
      * Intialize form
      *
@@ -36,7 +35,14 @@ class Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
+        );
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

@@ -61,7 +61,7 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
     public function paymentMethodDataProvider()
     {
         /** @var $helper \Magento\Payment\Helper\Data */
-        $helper = Mage::helper('Magento\Payment\Helper\Data');
+        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Payment\Helper\Data');
         $result = array();
         foreach ($helper->getPaymentMethods() as $code => $method) {
             $result[] = array($code, $method['model']);

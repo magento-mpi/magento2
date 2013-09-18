@@ -21,6 +21,25 @@ namespace Magento\Reward\Controller\Adminhtml\Reward;
 class Rate extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if module functionality enabled
      *
      * @return \Magento\Reward\Controller\Adminhtml\Reward\Rate
@@ -28,7 +47,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!\Mage::helper('Magento\Reward\Helper\Data')->isEnabled()
+        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
             && $this->getRequest()->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
@@ -66,7 +85,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
         if ($rateId) {
             $rate->load($rateId);
         }
-        \Mage::register('current_reward_rate', $rate);
+        $this->_coreRegistry->register('current_reward_rate', $rate);
         return $rate;
     }
 

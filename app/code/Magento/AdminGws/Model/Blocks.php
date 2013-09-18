@@ -17,6 +17,27 @@ namespace Magento\AdminGws\Model;
 class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Initialize helper
+     *
+     * @param \Magento\AdminGws\Model\Role $role
+     * @param \Magento\Core\Model\Registry $coreRegistry\
+     */
+    public function __construct(
+        \Magento\AdminGws\Model\Role $role,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($role);
+    }
+
+    /**
      * Check whether category can be moved
      *
      * @param \Magento\Event\Observer $observer
@@ -158,9 +179,9 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function disableCatalogProductAttributeEditTabMainFields($observer)
     {
-        foreach ($observer->getEvent()->getBlock()->getForm()->getElements() as $element){
-            if ($element->getType() == 'fieldset'){
-                foreach ($element->getElements() as $field){
+        foreach ($observer->getEvent()->getBlock()->getForm()->getElements() as $element) {
+            if ($element->getType() == 'fieldset') {
+                foreach ($element->getElements() as $field) {
                     $field->setReadonly(true);
                     $field->setDisabled(true);
                 }
@@ -364,8 +385,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     private function _removeButtons($observer, $registryKey, $buttons = array())
     {
-        /* @var $model \Magento\Core\Model\AbstractModel */
-        $model = \Mage::registry($registryKey);
+        /* @var $model \Magento\Core\Model\Abstract */
+        $model = $this->_coreRegistry->registry($registryKey);
         if ($model) {
             $storeIds = $model->getStoreId();
             if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
@@ -423,7 +444,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function removeRewardRateButtons($observer)
     {
         /* @var $model \Magento\Reward\Model\Resource\Reward\Rate */
-        $model = \Mage::registry('current_reward_rate');
+        $model = $this->_coreRegistry->registry('current_reward_rate');
         if ($model) {
             if ($model->getId() && !in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
                 $block = $observer->getEvent()->getBlock();
@@ -443,7 +464,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeSalesTransactionControlButtons($observer)
     {
-        $model = \Mage::registry('current_transaction');
+        $model = $this->_coreRegistry->registry('current_transaction');
         if ($model) {
             $websiteId = $model->getOrderWebsiteId();
             if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
@@ -562,7 +583,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function removeRevisionEditButtons($observer)
     {
         /* @var $model \Magento\Cms\Model\Page */
-        $model = \Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
         if ($model && $model->getId()) {
             $storeIds = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
                 ->lookupStoreIds($model->getPageId());
@@ -583,7 +604,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removePreviewPublishButton($observer)
     {
-        $model = \Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
         if ($model && $model->getId()) {
             $storeIds = \Mage::getResourceSingleton('Magento\Cms\Model\Resource\Page')
                 ->lookupStoreIds($model->getPageId());
@@ -661,7 +682,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Event\Observer $observer
      * @return \Magento\AdminGws\Model\Blocks
      */
-    public function  removeEmailTemplateGridButtons($observer)
+    public function removeEmailTemplateGridButtons($observer)
     {
         $block = $observer->getEvent()->getBlock();
         if ($block) {
@@ -791,7 +812,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         /* @var \Magento\Banner\Block\Adminhtml\Banner\Edit */
         $block = $observer->getEvent()->getBlock();
-        $model = \Mage::registry('current_banner');
+        $model = $this->_coreRegistry->registry('current_banner');
         if ($block && $model) {
             if (!$this->_role->hasExclusiveStoreAccess((array)$model->getStoreIds())) {
                 $block->removeButton('reset');
@@ -842,7 +863,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function prepareCmsHierarchyNodes($observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if ($nodes = $block->getNodes()) {
+        $nodes = $block->getNodes();
+        if ($nodes) {
             if (is_array($nodes)) {
                 $nodesAssoc = array();
                 foreach ($nodes as $node) {
@@ -1048,7 +1070,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         /** @var $model \Magento\Rule\Model\Rule */
-        $model = \Mage::registry($registryKey);
+        $model = $this->_coreRegistry->registry($registryKey);
         if ($model) {
             $websiteIds = $model->getWebsiteIds();
             $block->removeButton('save_apply');

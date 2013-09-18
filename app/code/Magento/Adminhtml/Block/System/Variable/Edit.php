@@ -10,16 +10,35 @@
 
 /**
  * Custom Variable Edit Container
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\System\Variable;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Internal constructor
      *
@@ -39,7 +58,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getVariable()
     {
-        return \Mage::registry('current_variable');
+        return $this->_coreRegistry->registry('current_variable');
     }
 
     /**
@@ -90,8 +109,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     {
         if ($this->getVariable()->getId()) {
             return __('Custom Variable "%1"', $this->escapeHtml($this->getVariable()->getName()));
-        }
-        else {
+        } else {
             return __('New Custom Variable');
         }
     }

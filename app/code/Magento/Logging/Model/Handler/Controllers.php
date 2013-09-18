@@ -20,10 +20,49 @@ namespace Magento\Logging\Model\Handler;
 class Controllers
 {
     /**
+     * @var \Magento\Logging\Helper\Data
+     */
+    protected $_loggingData = null;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @var \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
+     */
+    protected $_adminhtmlActionAttribute = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Logging\Helper\Data $loggingData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $adminhtmlActionAttribute
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Logging\Helper\Data $loggingData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute $adminhtmlActionAttribute,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_loggingData = $loggingData;
+        $this->_coreData = $coreData;
+        $this->_adminhtmlActionAttribute = $adminhtmlActionAttribute;
+    }
+
+    /**
      * Generic Action handler
      *
-     *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processorModel
      * @return \Magento\Logging\Model\Event
@@ -32,20 +71,18 @@ class Controllers
     {
         $collectedIds = $processorModel->getCollectedIds();
         if ($collectedIds) {
-            $eventModel->setInfo(\Mage::helper('Magento\Logging\Helper\Data')->implodeValues($collectedIds));
+            $eventModel->setInfo(
+                $this->_loggingData->implodeValues($collectedIds)
+            );
             return true;
         }
         return false;
     }
 
-    /*
-     * Special postDispach handlers below
-    */
-
     /**
      * Simply log action without any id-s
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return bool
      */
@@ -57,7 +94,7 @@ class Controllers
     /**
      * Custom handler for config view
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -74,7 +111,7 @@ class Controllers
     /**
      * Custom handler for config save
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event
@@ -128,7 +165,7 @@ class Controllers
     /**
      * Custom handler for category move
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -140,7 +177,7 @@ class Controllers
     /**
      * Custom handler for global search
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -152,14 +189,14 @@ class Controllers
     /**
      * Handler for forgotpassword
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchForgotPassword($config, $eventModel)
     {
         if (\Mage::app()->getRequest()->isPost()) {
-            if ($model = \Mage::registry('magento_logging_saved_model_adminhtml_index_forgotpassword')) {
+            if ($model = $this->_coreRegistry->registry('magento_logging_saved_model_adminhtml_index_forgotpassword')) {
                 $info = $model->getId();
             } else {
                 $info = \Mage::app()->getRequest()->getParam('email');
@@ -177,7 +214,7 @@ class Controllers
     /**
      * Custom handler for poll save fail's action
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event|bool
      */
@@ -188,7 +225,7 @@ class Controllers
             $pollId = \Mage::app()->getRequest()->getParam('id');
             return $eventModel->setIsSuccess(false)->setInfo($pollId == 0 ? '' : $pollId);
         } else {
-            $poll = \Mage::registry('current_poll_model');
+            $poll = $this->_coreRegistry->registry('current_poll_model');
             if ($poll && $poll->getId()) {
                 return $eventModel->setIsSuccess(true)->setInfo($poll->getId());
             }
@@ -199,7 +236,7 @@ class Controllers
     /**
      * Custom handler for customer validation fail's action
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event|bool
      */
@@ -216,14 +253,14 @@ class Controllers
     /**
      * Handler for reports
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchReport($config, $eventModel, $processor)
     {
-        $fullActionNameParts = explode('_report_', $config->getName(), 2);
+        $fullActionNameParts = explode('_report_', $config['name'], 2);
         if (empty($fullActionNameParts[1])) {
             return false;
         }
@@ -243,7 +280,7 @@ class Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = \Mage::app()->getHelper('Magento\Adminhtml\Helper\Data')->prepareFilterString($filter);
+            $filterData = $this->_adminhtmlActionAttribute->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
@@ -261,7 +298,7 @@ class Controllers
     /**
      * Custom handler for catalog price rules apply
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -274,7 +311,7 @@ class Controllers
     /**
      * Custom handler for catalog price rules save & apply
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processorModel
      * @return \Magento\Logging\Model\Event
@@ -294,7 +331,7 @@ class Controllers
     /**
      * Special handler for newsletter unsubscribe
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -310,7 +347,7 @@ class Controllers
     /**
      * Custom tax import handler
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event|bool
      */
@@ -330,7 +367,7 @@ class Controllers
     /**
      * Custom handler for catalog product mass attribute update
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event
@@ -341,7 +378,7 @@ class Controllers
         $change = \Mage::getModel('Magento\Logging\Model\Event\Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute')->getProductIds();
+            $products = $this->_adminhtmlActionAttribute->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -381,7 +418,7 @@ class Controllers
     /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -399,7 +436,7 @@ class Controllers
     /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -409,7 +446,7 @@ class Controllers
             return false;
         }
         $classId = (int)\Mage::app()->getRequest()->getParam('class_id');
-        $classModel = \Mage::registry('tax_class_model');
+        $classModel = $this->_coreRegistry->registry('tax_class_model');
         $classType = $classModel != null ? $classModel->getClassType() : '';
 
         return $this->_logTaxClassEvent($classType, $eventModel, $classId);
@@ -418,13 +455,13 @@ class Controllers
     /**
      * Custom handler for creating System Backup
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemBackupsCreate($config, $eventModel)
     {
-        $backup = \Mage::registry('backup_manager');
+        $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
@@ -443,17 +480,17 @@ class Controllers
     /**
      * Custom handler for deleting System Backup
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemBackupsDelete($config, $eventModel)
     {
-        $backup = \Mage::registry('backup_manager');
+        $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo(\Mage::helper('Magento\Logging\Helper\Data')->implodeValues($backup->getDeleteResult()));
+                ->setInfo($this->_loggingData->implodeValues($backup->getDeleteResult()));
         } else {
             $eventModel->setIsSuccess(false);
         }
@@ -463,13 +500,13 @@ class Controllers
     /**
      * Custom handler for creating System Rollback
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemRollback($config, $eventModel)
     {
-        $backup = \Mage::registry('backup_manager');
+        $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
@@ -489,7 +526,7 @@ class Controllers
     /**
      * Custom handler for mass unlocking locked admin users
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -511,7 +548,7 @@ class Controllers
     /**
      * Custom handler for mass reindex process on index management
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -527,7 +564,7 @@ class Controllers
     /**
      * Custom handler for System Currency save
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event
@@ -565,7 +602,7 @@ class Controllers
     /**
      * Custom handler for Cache Settings Save
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event
@@ -594,7 +631,7 @@ class Controllers
     /**
      * Custom tax export handler
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event|bool
      */
@@ -614,7 +651,7 @@ class Controllers
     /**
      * Custom handler for sales archive operations
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -631,7 +668,7 @@ class Controllers
     /**
      * Custom handler for Recurring Profiles status update
      *
-     * @param \Magento\Simplexml\Element $config
+     * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
@@ -662,7 +699,7 @@ class Controllers
 
         $success = true;
         $body = \Mage::app()->getResponse()->getBody();
-        $messages = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($body);
+        $messages = $this->_coreData->jsonDecode($body);
         if (!empty($messages['success'])) {
             $success = $messages['success'];
             if (empty($classId) && !empty($messages['class_id'])) {

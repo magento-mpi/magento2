@@ -19,6 +19,32 @@ namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
 
 class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -38,12 +64,11 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
         if ($this->getWebsiteId()) {
             $quote->setWebsite(\Mage::app()->getWebsite($this->getWebsiteId()));
         }
-        $quote->loadByCustomer(\Mage::registry('current_customer'));
+        $quote->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
-        }
-        else {
+        } else {
             $collection = new \Magento\Data\Collection();
         }
 
@@ -105,5 +130,4 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
     {
         return ($this->getCollection()->getSize() >= 0);
     }
-
 }

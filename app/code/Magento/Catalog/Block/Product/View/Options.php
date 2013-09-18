@@ -24,6 +24,39 @@ class Options extends \Magento\Core\Block\Template
 
     protected $_optionRenders = array();
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -42,8 +75,8 @@ class Options extends \Magento\Core\Block\Template
     public function getProduct()
     {
         if (!$this->_product) {
-            if (\Mage::registry('current_product')) {
-                $this->_product = \Mage::registry('current_product');
+            if ($this->_coreRegistry->registry('current_product')) {
+                $this->_product = $this->_coreRegistry->registry('current_product');
             } else {
                 $this->_product = \Mage::getSingleton('Magento\Catalog\Model\Product');
             }
@@ -130,12 +163,12 @@ class Options extends \Magento\Core\Block\Template
     protected function _getPriceConfiguration($option)
     {
         $data = array();
-        $data['price']      = \Mage::helper('Magento\Core\Helper\Data')->currency($option->getPrice(true), false, false);
-        $data['oldPrice']   = \Mage::helper('Magento\Core\Helper\Data')->currency($option->getPrice(false), false, false);
+        $data['price']      = $this->_coreData->currency($option->getPrice(true), false, false);
+        $data['oldPrice']   = $this->_coreData->currency($option->getPrice(false), false, false);
         $data['priceValue'] = $option->getPrice(false);
         $data['type']       = $option->getPriceType();
-        $data['excludeTax'] = $price = \Mage::helper('Magento\Tax\Helper\Data')->getPrice($option->getProduct(), $data['price'], false);
-        $data['includeTax'] = $price = \Mage::helper('Magento\Tax\Helper\Data')->getPrice($option->getProduct(), $data['price'], true);
+        $data['excludeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], false);
+        $data['includeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], true);
         return $data;
     }
 
@@ -165,7 +198,7 @@ class Options extends \Magento\Core\Block\Template
             $config[$option->getId()] = $priceValue;
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
+        return $this->_coreData->jsonEncode($config);
     }
 
     /**

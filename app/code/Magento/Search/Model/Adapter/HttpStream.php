@@ -47,6 +47,33 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      *
      * @return array
      */
+    /**
+     * Catalog inventory data
+     *
+     * @var \Magento\CatalogInventory\Helper\Data
+     */
+    protected $_ctlgInventData = null;
+
+    /**
+     * Initialize connect to Solr Client
+     *
+     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
+     * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Search\Helper\ClientInterface $clientHelper
+     * @param  $options
+     */
+    public function __construct(
+        \Magento\CatalogInventory\Helper\Data $ctlgInventData,
+        \Magento\Search\Model\Client\FactoryInterface $clientFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Search\Helper\ClientInterface $clientHelper,
+        $options = array()
+    ) {
+        $this->_ctlgInventData = $ctlgInventData;
+        parent::__construct($clientFactory, $logger, $clientHelper, $options);
+    }
+
     protected function _search($query, $params = array())
     {
         $searchConditions = $this->prepareSearchConditions($query);
@@ -147,7 +174,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         if ($_params['store_id'] > 0) {
             $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
         }
-        if (!\Mage::helper('Magento\CatalogInventory\Helper\Data')->isShowOutOfStock()) {
+        if (!$this->_ctlgInventData->isShowOutOfStock()) {
             $searchParams['fq'][] = 'in_stock:true';
         }
 

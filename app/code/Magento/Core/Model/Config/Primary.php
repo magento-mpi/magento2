@@ -223,7 +223,7 @@ class Primary extends \Magento\Core\Model\Config\Base
         if (\Magento\Profiler::isEnabled()) {
             $result[] = array(
                 'class' => 'Magento\Cache\Frontend\Decorator\Profiler',
-                'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Magento_Cache_Backend_')),
+                'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Magento\Cache\Backend\\')),
             );
         }
         return $result;

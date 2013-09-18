@@ -38,6 +38,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     /**
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Webhook\Model\Source\Format $format
      * @param \Magento\Webhook\Model\Source\Authentication $authentication
@@ -47,13 +48,14 @@ class Form extends \Magento\Backend\Block\Widget\Form
     public function __construct(
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Webhook\Model\Source\Format $format,
         \Magento\Webhook\Model\Source\Authentication $authentication,
         \Magento\Webhook\Model\Source\Hook $hook,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_formFactory = $formFactory;
         $this->_registry = $registry;
         $this->_format = $format;
@@ -74,15 +76,12 @@ class Form extends \Magento\Backend\Block\Widget\Form
         $subscriptionId = isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
             ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
             : 0;
-        $form = $this->_formFactory->create(
-            array(
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                  'id'     => 'edit_form',
-                 'action' => $this->getUrl(
-                     '*/*/save',
-                     array('id' => $subscriptionId)
-                 ),
-                 'method' => 'post'
-            )
+                 'action' => $this->getUrl('*/*/save', array('id' => $subscriptionId)),
+                 'method' => 'post',
+            ))
         );
 
         // We don't want to allow subscriptions defined in config to be edited by the user.

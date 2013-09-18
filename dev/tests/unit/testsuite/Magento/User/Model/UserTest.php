@@ -16,13 +16,19 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     /** @var \Magento\User\Model\User */
     protected $_model;
 
+    /** @var \Magento\User\Helper\Data */
+    protected $_userData;
+
+    /** @var \Magento\Core\Helper\Data */
+    protected $_coreData;
+
     /** @var \Magento\Core\Model\Sender|PHPUnit_Framework_MockObject_MockObject */
     protected $_senderMock;
 
     /** @var \Magento\Core\Model\Context|PHPUnit_Framework_MockObject_MockObject */
     protected $_contextMock;
 
-    /** @var \Magento\Customer\Model\Resource\Customer\Collection|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\User\Model\Resource\User|PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceMock;
 
     /** @var \Magento\Data\Collection\Db|PHPUnit_Framework_MockObject_MockObject */
@@ -33,6 +39,14 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->_userData = $this->getMockBuilder('Magento\User\Helper\Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array())
+            ->getMock();
+        $this->_coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array())
+            ->getMock();
         $this->_senderMock = $this->getMockBuilder('Magento\Core\Model\Sender')
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
@@ -41,7 +55,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_resourceMock = $this->getMockBuilder('Magento\Customer\Model\Resource\Address')
+        $this->_resourceMock = $this->getMockBuilder('Magento\User\Model\Resource\User')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
@@ -49,9 +63,16 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
         $this->_model = new \Magento\User\Model\User(
-            $this->_senderMock, $this->_contextMock, $this->_resourceMock,
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            $this->_userData,
+            $this->_coreData,
+            $this->_senderMock,
+            $this->_contextMock,
+            $coreRegistry,
+            $this->_resourceMock,
             $this->_collectionMock
         );
     }

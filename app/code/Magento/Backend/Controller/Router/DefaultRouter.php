@@ -6,6 +6,8 @@
  * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 
 
@@ -33,6 +35,12 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     protected $_areaFrontName;
 
     /**
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_backendData;
+
+    /**
+     * @param \Magento\Backend\Helper\Data $backendData
      * Default routeId for router
      *
      * @var string
@@ -40,26 +48,27 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
     protected $_defaultRouteId;
 
     /**
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Controller\Varien\Action\Factory $controllerFactory
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Config\Scope $configScope
      * @param \Magento\Core\Model\Route\Config $routeConfig
-     * @param \Magento\Backend\Helper\Data $dataHelper
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
      * @param string $defaultRouteId
      * @throws \InvalidArgumentException
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Controller\Varien\Action\Factory $controllerFactory,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Config\Scope $configScope,
         \Magento\Core\Model\Route\Config $routeConfig,
-        \Magento\Backend\Helper\Data $dataHelper,
         $areaCode,
         $baseController,
         $routerId,
@@ -68,7 +77,8 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
         parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
             $baseController, $routerId);
 
-        $this->_areaFrontName = $dataHelper->getAreaFrontName();
+        $this->_backendData = $backendData;
+        $this->_areaFrontName = $this->_backendData->getAreaFrontName();
         $this->_defaultRouteId = $defaultRouteId;
         if (empty($this->_areaFrontName)) {
             throw new \InvalidArgumentException('Area Front Name should be defined');

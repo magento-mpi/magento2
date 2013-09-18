@@ -43,6 +43,30 @@ class Collection
     protected $_product;
 
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute
+     * $resource
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute  $resource
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+    }
+
+    /**
      * Initialize connection and define table names
      *
      */
@@ -54,16 +78,6 @@ class Collection
         );
         $this->_labelTable = $this->getTable('catalog_product_super_attribute_label');
         $this->_priceTable = $this->getTable('catalog_product_super_attribute_pricing');
-    }
-
-    /**
-     * Retrieve catalog helper
-     *
-     * @return \Magento\Catalog\Helper\Data
-     */
-    public function getHelper()
-    {
-        return \Mage::helper('Magento\Catalog\Helper\Data');
     }
 
     /**
@@ -217,7 +231,7 @@ class Collection
                 0 => array()
             );
 
-            if ($this->getHelper()->isPriceGlobal()) {
+            if ($this->_catalogData->isPriceGlobal()) {
                 $websiteId = 0;
             } else {
                 $websiteId = (int)\Mage::app()->getStore($this->getStoreId())->getWebsiteId();

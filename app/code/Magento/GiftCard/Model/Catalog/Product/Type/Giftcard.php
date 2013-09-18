@@ -29,7 +29,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_canConfigure = true;
 
     /**
-     * Mock for store instance
+     * Store instance
      *
      * @var \Magento\Core\Model\Store
      */
@@ -50,16 +50,30 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_giftcardAmounts = null;
 
     /**
-     * Initialize data
-     *
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
-    public function __construct(\Magento\Filesystem $filesystem, array $data = array())
-    {
-        $this->_store = isset($data['store']) ? $data['store'] : \Mage::app()->getStore();
-        $this->_locale = isset($data['locale']) ? $data['locale'] : \Mage::app()->getLocale();
-        parent::__construct($filesystem, $data);
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_store = $storeManager->getStore();
+        $this->_locale = $locale;
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $data);
     }
 
     /**
@@ -331,13 +345,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
             if (!$maxAmount || $maxAmount && $customAmount <= $maxAmount) {
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
-                $messageAmount = $this->_helper('Magento\Core\Helper\Data')->currency($maxAmount, true, false);
+                $messageAmount = $this->_coreData->currency($maxAmount, true, false);
                 \Mage::throwException(
                     __('Gift Card max amount is %1', $messageAmount)
                 );
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
-            $messageAmount = $this->_helper('Magento\Core\Helper\Data')->currency($minAmount, true, false);
+            $messageAmount = $this->_coreData->currency($minAmount, true, false);
             \Mage::throwException(
                 __('Gift Card min amount is %1', $messageAmount)
             );

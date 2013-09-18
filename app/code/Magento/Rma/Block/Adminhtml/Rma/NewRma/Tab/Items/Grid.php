@@ -19,7 +19,7 @@
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items;
 
 class Grid
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 //    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
 {
     /**
@@ -28,6 +28,43 @@ class Grid
      * @var null|array
      */
     protected $_attributeOptionValues = null;
+
+    /**
+     * Rma eav
+     *
+     * @var \Magento\Rma\Helper\Eav
+     */
+    protected $_rmaEav = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Rma\Helper\Eav $rmaEav
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rma\Helper\Eav $rmaEav,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_rmaEav = $rmaEav;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     /**
      * Block constructor
@@ -50,8 +87,8 @@ class Grid
     protected function _gatherOrderItemsData()
     {
         $itemsData = array();
-        if (\Mage::registry('current_order')) {
-            foreach (\Mage::registry('current_order')->getItemsCollection() as $item) {
+        if ($this->_coreRegistry->registry('current_order')) {
+            foreach ($this->_coreRegistry->registry('current_order')->getItemsCollection() as $item) {
                 $itemsData[$item->getId()] = array(
                     'qty_shipped' => $item->getQtyShipped(),
                     'qty_returned' => $item->getQtyReturned()
@@ -127,7 +164,7 @@ class Grid
             'column_css_class'  => 'col-qty'
         ));
 
-        $eavHelper = \Mage::helper('Magento\Rma\Helper\Eav');
+        $eavHelper = $this->_rmaEav;
         $this->addColumn('reason', array(
             'header'=> __('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
@@ -262,7 +299,7 @@ class Grid
     protected function _getAttributeOptionStringValue($value)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = $this->_rmaEav->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$value])) {
             return $this->escapeHtml($this->_attributeOptionValues[$value]);

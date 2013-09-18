@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Events edit page
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event;
 
@@ -23,6 +19,29 @@ class Edit
     protected $_objectId = 'id';
     protected $_blockGroup = 'Magento_CatalogEvent';
     protected $_controller = 'adminhtml_event';
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Prepare catalog event form or category selector
@@ -114,8 +133,7 @@ class Edit
     {
         if ($this->getEvent()->getId()) {
             return __('Edit Catalog Event');
-        }
-        else {
+        } else {
             return __('Add Catalog Event');
         }
     }
@@ -127,7 +145,6 @@ class Edit
      */
     public function getEvent()
     {
-        return \Mage::registry('magento_catalogevent_event');
+        return $this->_coreRegistry->registry('magento_catalogevent_event');
     }
-
 }

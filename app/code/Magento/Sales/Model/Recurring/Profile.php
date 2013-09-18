@@ -116,6 +116,35 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
     protected $_workflow = null;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($paymentData, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Load order by system increment identifier
      *
      * @param string $incrementId
@@ -134,9 +163,9 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
     {
         $this->_getResource()->beginTransaction();
         try {
-            $this->setInternalReferenceId(\Mage::helper('Magento\Core\Helper\Data')->uniqHash('temporary-'));
+            $this->setInternalReferenceId($this->_coreData->uniqHash('temporary-'));
             $this->save();
-            $this->setInternalReferenceId(\Mage::helper('Magento\Core\Helper\Data')->uniqHash($this->getId() . '-'));
+            $this->setInternalReferenceId($this->_coreData->uniqHash($this->getId() . '-'));
             $this->getMethodInstance()->submitRecurringProfile($this, $this->getQuote()->getPayment());
             $this->save();
             $this->_getResource()->commit();
@@ -345,7 +374,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
     /**
      * Import quote information to the profile
      *
-     * @param Magento_Sales_Model_Quote_ $quote
+     * @param \Magento\Sales\Model\Quote_ $quote
      * @return \Magento\Sales\Model\Recurring\Profile
      */
     public function importQuote(\Magento\Sales\Model\Quote $quote)

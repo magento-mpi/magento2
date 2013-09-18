@@ -63,7 +63,7 @@ class Custom extends \Magento\Adminhtml\Controller\Action
         if ($packageName) {
             $session = \Mage::getSingleton('Magento\Connect\Model\Session');
             try {
-                $data = \Mage::helper('Magento\Connect\Helper\Data')->loadLocalPackage($packageName);
+                $data = $this->_objectManager->get('Magento\Connect\Helper\Data')->loadLocalPackage($packageName);
                 if (!$data) {
                     \Mage::throwException(__('Something went wrong loading the package data.'));
                 }
@@ -130,10 +130,10 @@ class Custom extends \Magento\Adminhtml\Controller\Action
     {
         $session = \Mage::getSingleton('Magento\Connect\Model\Session');
         try {
-            $p = $this->getRequest()->getPost();
-            $session->setCustomExtensionPackageFormData($p);
+            $post = $this->getRequest()->getPost();
+            $session->setCustomExtensionPackageFormData($post);
             $ext = \Mage::getModel('Magento\Connect\Model\Extension');
-            $ext->setData($p);
+            $ext->setData($post);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {
                 if (in_array(\Magento\Connect\Package::PACKAGE_VERSION_2X, $packageVersion)) {

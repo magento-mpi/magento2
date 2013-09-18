@@ -52,6 +52,7 @@ class History extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Auth\Session $adminSession
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -60,6 +61,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Auth\Session $adminSession,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -68,7 +70,7 @@ class History extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_storeManager = $storeManager;
         $this->_adminSession = $adminSession;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
 

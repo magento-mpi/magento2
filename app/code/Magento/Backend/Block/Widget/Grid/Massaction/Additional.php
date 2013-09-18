@@ -19,7 +19,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
-class Additional extends \Magento\Backend\Block\Widget\Form
+class Additional extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
@@ -27,16 +27,22 @@ class Additional extends \Magento\Backend\Block\Widget\Form
     protected $_handlerFactory;
 
     /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
 
         $this->_handlerFactory = $handlerFactory;
     }
@@ -48,7 +54,8 @@ class Additional extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         foreach ($this->getData('fields') as $itemId => $item) {
             $this->_prepareFormItem($item);
             $form->addField($itemId, $item['type'], $item);
@@ -66,7 +73,11 @@ class Additional extends \Magento\Backend\Block\Widget\Form
     {
         if ($item['type'] == 'select' && is_string($item['values'])) {
             $argumentHandler = $this->_handlerFactory->getArgumentHandlerByType('options');
-            $item['values'] = $argumentHandler->process($item['values']);
+            $item['values'] = $argumentHandler->process(array(
+                'value' => array(
+                    'model' => $item['values']
+                )
+            ));
         }
         $item['class'] = isset($item['class']) ? $item['class'] . ' absolute-advice' : 'absolute-advice';
     }

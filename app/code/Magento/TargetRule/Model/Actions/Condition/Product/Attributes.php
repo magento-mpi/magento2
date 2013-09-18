@@ -32,10 +32,16 @@ class Attributes
     /**
      * Define action type and default value
      *
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Rule\Model\Condition\Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($backendData, $context, $data);
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Attributes');
         $this->setValue(null);
         $this->setValueType(self::VALUE_TYPE_SAME_AS);

@@ -18,11 +18,39 @@
 
 namespace Magento\Adminhtml\Block\Review\Add;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * Review data
+     *
+     * @var \Magento\Review\Helper\Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_reviewData = $reviewData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form   = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));
 
@@ -35,14 +63,15 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'label'     => __('Product Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
-                . $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml() . '</div>',
+                . $this->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml()
+                . '</div>',
         ));
 
         $fieldset->addField('status_id', 'select', array(
             'label'     => __('Status'),
             'required'  => true,
             'name'      => 'status_id',
-            'values'    => \Mage::helper('Magento\Review\Helper\Data')->getReviewStatusesOptionArray(),
+            'values'    => $this->_reviewData->getReviewStatusesOptionArray(),
         ));
 
         /**
@@ -55,7 +84,8 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'name'      => 'select_stores[]',
                 'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 

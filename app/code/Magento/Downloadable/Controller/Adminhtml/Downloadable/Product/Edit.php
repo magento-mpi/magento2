@@ -43,7 +43,7 @@ class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
      */
     protected function _processDownload($resource, $resourceType)
     {
-        $helper = \Mage::helper('Magento\Downloadable\Helper\Download');
+        $helper = $this->_objectManager->get('Magento\Downloadable\Helper\Download');
         /* @var $helper \Magento\Downloadable\Helper\Download */
 
         $helper->setResource($resource, $resourceType);
@@ -90,7 +90,7 @@ class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
                 $resource = $link->getLinkUrl();
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
             } elseif ($link->getLinkType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
-                $resource = \Mage::helper('Magento\Downloadable\Helper\File')->getFilePath(
+                $resource = $this->_objectManager->get('Magento\Downloadable\Helper\File')->getFilePath(
                     \Magento\Downloadable\Model\Link::getBasePath(), $link->getLinkFile()
                 );
                 $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;

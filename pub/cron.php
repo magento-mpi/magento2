@@ -12,11 +12,13 @@
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 \Magento\Profiler::start('mage');
-Mage::register('custom_entry_point', true);
 umask(0);
 
 try {
-    $params = array(Mage::PARAM_RUN_CODE => 'admin');
+    $params = array(
+        Mage::PARAM_RUN_CODE => 'admin',
+        Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM => true
+    );
     $config = new \Magento\Core\Model\Config\Primary(BP, $params);
     $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($config);
     $entryPoint->processRequest();

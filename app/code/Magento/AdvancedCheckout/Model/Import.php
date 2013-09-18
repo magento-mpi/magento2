@@ -40,6 +40,30 @@ class Import extends \Magento\Object
     );
 
     /**
+     * Checkout data
+     *
+     * @var \Magento\AdvancedCheckout\Helper\Data
+     */
+    protected $_checkoutData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        array $data = array()
+    ) {
+        $this->_checkoutData = $checkoutData;
+        parent::__construct($data);
+    }
+
+    /**
      * Destructor, removes uploaded file
      */
     public function __destruct()
@@ -68,7 +92,7 @@ class Import extends \Magento\Object
             $result = $uploader->save($this->_getWorkingDir());
             $this->_uploadedFile = $result['path'] . $result['file'];
         } catch (\Exception $e) {
-            \Mage::throwException(\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getFileGeneralErrorText());
+            \Mage::throwException($this->_checkoutData->getFileGeneralErrorText());
         }
     }
 
@@ -96,7 +120,7 @@ class Import extends \Magento\Object
     public function getDataFromCsv()
     {
         if (!$this->_uploadedFile || !file_exists($this->_uploadedFile)) {
-            \Mage::throwException(\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getFileGeneralErrorText());
+            \Mage::throwException($this->_checkoutData->getFileGeneralErrorText());
         }
 
         $csvData = array();
@@ -118,7 +142,7 @@ class Import extends \Magento\Object
                     if (false !== $found) {
                         $requiredColumnsPositions[] = $found;
                     } else {
-                        \Mage::throwException(\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getSkuEmptyDataMessageText());
+                        \Mage::throwException($this->_checkoutData->getSkuEmptyDataMessageText());
                     }
                 }
 

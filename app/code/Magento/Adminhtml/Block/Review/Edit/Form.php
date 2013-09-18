@@ -10,39 +10,74 @@
 
 /**
  * Adminhtml Review Edit Form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Review\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * Review data
+     *
+     * @var \Magento\Review\Helper\Data
+     */
+    protected $_reviewData = null;
+
+    /**
+     * @param \Magento\Review\Helper\Data $reviewData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Review\Helper\Data $reviewData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_reviewData = $reviewData;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     protected function _prepareForm()
     {
-        $review = \Mage::registry('review_data');
+        $review = $this->_coreRegistry->registry('review_data');
         $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($review->getEntityPkValue());
         $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load($review->getCustomerId());
 
-        $form = new \Magento\Data\Form(array(
-            'id'        => 'edit_form',
-            'action'    => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => \Mage::registry('ret'))),
-            'method'    => 'post'
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id'        => 'edit_form',
+                'action'    => $this->getUrl('*/*/save', array(
+                    'id' => $this->getRequest()->getParam('id'),
+                    'ret' => $this->_coreRegistry->registry('ret')
+                )),
+                'method'    => 'post'
+            ))
+        );
+
+        $fieldset = $form->addFieldset('review_details', array(
+            'legend' => __('Review Details'),
+            'class' => 'fieldset-wide'
         ));
 
-        $fieldset = $form->addFieldset('review_details', array('legend' => __('Review Details'), 'class' => 'fieldset-wide'));
-
-        /** @var $helper \Magento\Review\Helper\Data */
-        $helper = \Mage::helper('Magento\Review\Helper\Data');
         $fieldset->addField('product_name', 'note', array(
             'label'     => __('Product'),
-            'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" onclick="this.target=\'blank\'">' . $helper->escapeHtml($product->getName()) . '</a>'
+            'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId()))
+                . '" onclick="this.target=\'blank\'">' . $this->_reviewData->escapeHtml($product->getName()) . '</a>'
         ));
 
         if ($customer->getId()) {
-            $customerText = __('<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>', $this->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')), $this->escapeHtml($customer->getFirstname()), $this->escapeHtml($customer->getLastname()), $this->escapeHtml($customer->getEmail()));
+            $customerText = __('<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>',
+                $this->getUrl('*/customer/edit', array('id' => $customer->getId(), 'active_tab'=>'review')),
+                $this->escapeHtml($customer->getFirstname()),
+                $this->escapeHtml($customer->getLastname()),
+                $this->escapeHtml($customer->getEmail()));
         } else {
             if (is_null($review->getCustomerId())) {
                 $customerText = __('Guest');
@@ -73,7 +108,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             'label'     => __('Status'),
             'required'  => true,
             'name'      => 'status_id',
-            'values'    => \Mage::helper('Magento\Review\Helper\Data')->getReviewStatusesOptionArray(),
+            'values'    => $this->_reviewData->getReviewStatusesOptionArray(),
         ));
 
         /**
@@ -86,11 +121,11 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
                 'name'      => 'stores[]',
                 'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
             $review->setSelectStores($review->getStores());
-        }
-        else {
+        } else {
             $fieldset->addField('select_stores', 'hidden', array(
                 'name'      => 'stores[]',
                 'value'     => \Mage::app()->getStore(true)->getId()

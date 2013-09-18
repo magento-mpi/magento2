@@ -170,11 +170,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             ->addUrlRewrite()
             ->addTierPriceData();
 
-        \Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
+        $this->_eventManager->dispatch('prepare_catalog_product_collection_prices', array(
             'collection'            => $productCollection,
             'store_id'              => $this->getStoreId(),
         ));
-        \Mage::dispatchEvent('sales_quote_item_collection_products_after_load', array(
+        $this->_eventManager->dispatch('sales_quote_item_collection_products_after_load', array(
             'product_collection'    => $productCollection
         ));
 

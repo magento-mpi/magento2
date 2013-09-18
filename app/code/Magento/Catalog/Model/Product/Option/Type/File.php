@@ -36,18 +36,36 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_filesystem;
 
     /**
-     * Constructor
+     * Core file storage database
      *
-     * By default is looking for first argument as array and assigns it as object attributes
-     * This behavior may change in child classes
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
+     * Core data
      *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(\Magento\Filesystem $filesystem, $data = array())
-    {
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
+        \Magento\Filesystem $filesystem,
+        $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
         $this->_data = $data;
+        parent::__construct($data);
     }
 
 
@@ -355,7 +373,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         $fileFullPath = null;
         foreach ($checkPaths as $path) {
             if (!$this->_filesystem->isFile($path)) {
-                if (!\Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($fileFullPath)) {
+                if (!$this->_coreFileStorageDatabase->saveFileToFilesystem($fileFullPath)) {
                     continue;
                 }
             }
@@ -549,7 +567,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             return sprintf('<a href="%s" target="_blank">%s</a> %s',
                 $this->_getOptionDownloadUrl($urlRoute, $urlParams),
-                \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($title),
+                $this->_coreData->escapeHtml($title),
                 $sizes
             );
         } catch (\Exception $e) {
@@ -596,7 +614,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         try {
             $value = unserialize($optionValue);
             return sprintf('%s [%d]',
-                \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($value['title']),
+                $this->_coreData->escapeHtml($value['title']),
                 $this->getConfigurationItemOption()->getId()
             );
 
@@ -667,7 +685,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             $orderFileFullPath = \Mage::getBaseDir() . $value['order_path'];
             $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
             $this->_createWritableDir($dir);
-            \Mage::helper('Magento\Core\Helper\File\Storage\Database')->copyFile($quoteFileFullPath, $orderFileFullPath);
+            $this->_coreFileStorageDatabase->copyFile($quoteFileFullPath, $orderFileFullPath);
             $this->_filesystem->copy($quoteFileFullPath, $orderFileFullPath);
         } catch (\Exception $e) {
             return $this;

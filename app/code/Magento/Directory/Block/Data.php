@@ -25,16 +25,18 @@ class Data extends \Magento\Core\Block\Template
     protected $_configCacheType;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_configCacheType = $configCacheType;
     }
 
@@ -121,7 +123,7 @@ class Data extends \Magento\Core\Block\Template
     {
         $countryId = $this->getData('country_id');
         if (is_null($countryId)) {
-            $countryId = \Mage::helper('Magento\Core\Helper\Data')->getDefaultCountry();
+            $countryId = $this->_coreData->getDefaultCountry();
         }
         return $countryId;
     }
@@ -148,7 +150,7 @@ class Data extends \Magento\Core\Block\Template
                     'name'=>$region->getName()
                 );
             }
-            $regionsJs = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($regions);
+            $regionsJs = $this->_coreData->jsonEncode($regions);
         }
         \Magento\Profiler::stop('TEST: '.__METHOD__);
         return $regionsJs;

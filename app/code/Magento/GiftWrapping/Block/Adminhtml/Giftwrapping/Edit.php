@@ -13,7 +13,30 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping;
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
-     * Intialize form
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
+     * Initialize form
      *
      * @return void
      */
@@ -36,7 +59,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
             ),
         ), 3);
 
-        if (\Mage::registry('current_giftwrapping_model') && \Mage::registry('current_giftwrapping_model')->getId()) {
+        $giftWrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
+        if ($giftWrapping && $giftWrapping->getId()) {
             $confirmMessage = __('Are you sure you want to delete this gift wrapping?');
             $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
@@ -69,12 +93,11 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        $wrapping = \Mage::registry('current_giftwrapping_model');
+        $wrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
         if ($wrapping->getId()) {
             $title = $this->escapeHtml($wrapping->getDesign());
             return __('Edit Gift Wrapping "%1"', $title);
-        }
-        else {
+        } else {
             return __('New Gift Wrapping');
         }
     }
@@ -86,7 +109,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getSaveUrl()
     {
-        $wrapping = \Mage::registry('current_giftwrapping_model');
+        $wrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
 
         if ($wrapping) {
             $url = $this->getUrl('*/*/save', array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()));
@@ -103,7 +126,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getUploadUrl()
     {
-        $wrapping = \Mage::registry('current_giftwrapping_model');
+        $wrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
         $params = array();
         if ($wrapping) {
             $params['store'] = $wrapping->getStoreId();
@@ -114,5 +137,4 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
         return $this->getUrl('*/*/upload', $params);
     }
-
 }

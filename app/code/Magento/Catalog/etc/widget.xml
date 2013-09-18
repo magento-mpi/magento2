@@ -1,222 +1,167 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<widgets>
-    <new_products type="Magento\Catalog\Block\Product\Widget\New" translate="name description">
-        <name>Catalog New Products List</name>
-        <description>List of Products that are set as New</description>
-        <is_email_compatible>1</is_email_compatible>
-        <placeholder_image>Magento_Catalog::images/product_widget_new.gif</placeholder_image>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="new_products" class="Magento\Catalog\Block\Product\Widget\New" is_email_compatible="true"
+            placeholder_image="Magento_Catalog::images/product_widget_new.gif">
+        <label translate="true">Catalog New Products List</label>
+        <description translate="true">List of Products that are set as New</description>
         <parameters>
-            <display_type translate="label description">
-                <required>1</required>
-                <visible>1</visible>
-                <label>Display Type</label>
-                <type>select</type>
-                <value>all_products</value>
-                <values>
-                    <default translate="label">
-                        <value>all_products</value>
-                        <label>All products</label>
-                    </default>
-                    <item translate="label">
-                        <value>new_products</value>
-                        <label>New products</label>
-                    </item>
-                </values>
-                <description>All products - recently added products, New products - products marked as new</description>
-            </display_type>
-            <show_pager translate="label">
-                <visible>1</visible>
-                <label>Display Page Control</label>
-                <type>select</type>
-                <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-            </show_pager>
-            <products_per_page translate="label">
-                <required>1</required>
-                <visible>1</visible>
+            <parameter name="display_type" xsi:type="select" required="true" visible="true">
+                <label translate="true">Display Type</label>
+                <description translate="true">All products - recently added products, New products - products marked as new</description>
+                <options>
+                    <option name="default" value="all_products" selected="true">
+                        <label translate="true">All products</label>
+                    </option>
+                    <option name="item" value="new_products">
+                        <label translate="true">New products</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="show_pager" xsi:type="select" visible="true"
+                       source_model="Magento\Backend\Model\Config\Source\Yesno">
+                <label translate="true">Display Page Control</label>
+            </parameter>
+            <parameter name="products_per_page" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products per Page</label>
+                <depends>
+                    <parameter name="show_pager" value="1" />
+                </depends>
                 <value>5</value>
-                <label>Number of Products per Page</label>
-                <type>text</type>
-                <depends><show_pager><value>1</value></show_pager></depends>
-            </products_per_page>
-            <products_count translate="label">
-                <required>1</required>
-                <visible>1</visible>
+            </parameter>
+            <parameter name="products_count" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products to Display</label>
                 <value>10</value>
-                <label>Number of Products to Display</label>
-                <type>text</type>
-            </products_count>
-            <template>
-                <required>1</required>
-                <visible>1</visible>
-                <label>Template</label>
-                <type>select</type>
-                <value>product/widget/new/content/new_grid.phtml</value>
-                <values>
-                    <default translate="label">
-                        <value>product/widget/new/content/new_grid.phtml</value>
-                        <label>New Products Grid Template</label>
-                    </default>
-                    <list translate="label">
-                        <value>product/widget/new/content/new_list.phtml</value>
-                        <label>New Products List Template</label>
-                    </list>
-                    <list_default translate="label">
-                        <value>product/widget/new/column/new_default_list.phtml</value>
-                        <label>New Products Images and Names Template</label>
-                    </list_default>
-                    <list_names translate="label">
-                        <value>product/widget/new/column/new_names_list.phtml</value>
-                        <label>New Products Names Only Template</label>
-                    </list_names>
-                    <list_images translate="label">
-                        <value>product/widget/new/column/new_images_list.phtml</value>
-                        <label>New Products Images Only Template</label>
-                    </list_images>
-                </values>
-            </template>
-            <cache_lifetime translate="label description">
-                <label>Cache Lifetime (Seconds)</label>
-                <description>86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
-                <visible>1</visible>
-                <type>text</type>
-            </cache_lifetime>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="product/widget/new/content/new_grid.phtml" selected="true">
+                        <label translate="true">New Products Grid Template</label>
+                    </option>
+                    <option name="list" value="product/widget/new/content/new_list.phtml">
+                        <label translate="true">New Products List Template</label>
+                    </option>
+                    <option name="list_default"
+                            value="product/widget/new/column/new_default_list.phtml">
+                        <label translate="true">New Products Images and Names Template</label>
+                    </option>
+                    <option name="list_names"
+                            value="product/widget/new/column/new_names_list.phtml">
+                        <label translate="true">New Products Names Only Template</label>
+                    </option>
+                    <option name="list_images"
+                            value="product/widget/new/column/new_images_list.phtml">
+                        <label translate="true">New Products Images Only Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="cache_lifetime" xsi:type="text" visible="true">
+                <label translate="true">Cache Lifetime (Seconds)</label>
+                <description translate="true">86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
+            </parameter>
         </parameters>
-        <supported_containers>
-            <left_column>
-                <container_name>left</container_name>
-                <template>
-                    <default>list_default</default>
-                    <names_only>list_names</names_only>
-                    <images_only>list_images</images_only>
-                </template>
-            </left_column>
-            <main_content>
-                <container_name>content</container_name>
-                <template>
-                    <grid>default</grid>
-                    <list>list</list>
-                </template>
-            </main_content>
-            <right_column>
-                <container_name>right</container_name>
-                <template>
-                    <default>list_default</default>
-                    <names_only>list_names</names_only>
-                    <images_only>list_images</images_only>
-                </template>
-            </right_column>
-        </supported_containers>
-    </new_products>
-
-    <catalog_product_link type="Magento\Catalog\Block\Product\Widget\Link" translate="name description">
-        <name>Catalog Product Link</name>
-        <description>Link to a Specified Product</description>
-        <is_email_compatible>1</is_email_compatible>
-        <placeholder_image>Magento_Catalog::images/product_widget_link.gif</placeholder_image>
+        <containers>
+            <container name="left">
+                <template name="default" value="list_default" />
+                <template name="names_only" value="list_names" />
+                <template name="images_only" value="list_images" />
+            </container>
+            <container name="content">
+                <template name="grid" value="default" />
+                <template name="list" value="list" />
+            </container>
+            <container name="right">
+                <template name="default" value="list_default" />
+                <template name="names_only" value="list_names" />
+                <template name="images_only" value="list_images" />
+            </container>
+        </containers>
+    </widget>
+    <widget id="catalog_product_link"
+            class="Magento\Catalog\Block\Product\Widget\Link"
+            is_email_compatible="true"
+            placeholder_image="Magento_Catalog::images/product_widget_link.gif">
+        <label translate="true">Catalog Product Link</label>
+        <description translate="true">Link to a Specified Product</description>
         <parameters>
-            <id_path translate="label">
-                <visible>1</visible>
-                <required>1</required>
-                <label>Product</label>
-                <type>label</type>
-                <helper_block>
-                    <type>Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser</type>
+            <parameter name="id_path" xsi:type="block" visible="true" required="true" sort_order="10">
+                <label translate="true">Product</label>
+                <block class="Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser">
                     <data>
-                        <button translate="open">
-                            <open>Select Product...</open>
-                        </button>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Select Product...</item>
+                        </item>
                     </data>
-                </helper_block>
-                <sort_order>10</sort_order>
-            </id_path>
-            <anchor_text translate="label description">
-                <visible>1</visible>
-                <label>Anchor Custom Text</label>
-                <description>If empty, the Product Name will be used</description>
-                <type>text</type>
-            </anchor_text>
-            <title translate="label">
-                <visible>1</visible>
-                <label>Anchor Custom Title</label>
-                <type>text</type>
-            </title>
-            <template translate="label">
-                <label>Template</label>
-                <visible>1</visible>
-                <type>select</type>
-                <value>product/widget/link/link_block.phtml</value>
-                <values>
-                    <default translate="label">
-                        <value>product/widget/link/link_block.phtml</value>
-                        <label>Product Link Block Template</label>
-                    </default>
-                    <link_inline translate="label">
-                        <value>product/widget/link/link_inline.phtml</value>
-                        <label>Product Link Inline Template</label>
-                    </link_inline>
-                </values>
-            </template>
+                </block>
+            </parameter>
+            <parameter name="anchor_text" xsi:type="text" visible="true">
+                <label translate="true">Anchor Custom Text</label>
+                <description translate="true">If empty, the Product Name will be used</description>
+            </parameter>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Anchor Custom Title</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default"
+                            value="product/widget/link/link_block.phtml"
+                            selected="true">
+                        <label translate="true">Product Link Block Template</label>
+                    </option>
+                    <option name="link_inline" value="product/widget/link/link_inline.phtml">
+                        <label translate="true">Product Link Inline Template</label>
+                    </option>
+                </options>
+            </parameter>
         </parameters>
-    </catalog_product_link>
-
-    <catalog_category_link type="Magento\Catalog\Block\Category\Widget\Link" translate="name description">
-        <name>Catalog Category Link</name>
-        <description>Link to a Specified Category</description>
-        <is_email_compatible>1</is_email_compatible>
-        <placeholder_image>Magento_Catalog::images/category_widget_link.gif</placeholder_image>
+    </widget>
+    <widget id="catalog_category_link"
+            class="Magento\Catalog\Block\Category\Widget\Link"
+            is_email_compatible="true"
+            placeholder_image="Magento_Catalog::images/category_widget_link.gif">
+        <label translate="true">Catalog Category Link</label>
+        <description translate="true">Link to a Specified Category</description>
         <parameters>
-            <id_path translate="label">
-                <visible>1</visible>
-                <required>1</required>
-                <label>Category</label>
-                <type>label</type>
-                <helper_block>
-                    <type>Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser</type>
+            <parameter name="id_path" xsi:type="block" visible="true" required="true" sort_order="10">
+                <label translate="true">Category</label>
+                <block class="Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser">
                     <data>
-                        <button translate="open">
-                            <open>Select Category...</open>
-                        </button>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Select Category...</item>
+                        </item>
                     </data>
-                </helper_block>
-                <sort_order>10</sort_order>
-            </id_path>
-            <anchor_text translate="label description">
-                <visible>1</visible>
-                <label>Anchor Custom Text</label>
-                <description>If empty, the Category Name will be used</description>
-                <type>text</type>
-            </anchor_text>
-            <title translate="label">
-                <visible>1</visible>
-                <label>Anchor Custom Title</label>
-                <type>text</type>
-            </title>
-            <template translate="label">
-                <label>Template</label>
-                <visible>1</visible>
-                <type>select</type>
-                <value>category/widget/link/link_block.phtml</value>
-                <values>
-                    <default translate="label">
-                        <value>category/widget/link/link_block.phtml</value>
-                        <label>Category Link Block Template</label>
-                    </default>
-                    <link_inline translate="label">
-                        <value>category/widget/link/link_inline.phtml</value>
-                        <label>Category Link Inline Template</label>
-                    </link_inline>
-                </values>
-            </template>
+                </block>
+            </parameter>
+            <parameter name="anchor_text" xsi:type="text" visible="true">
+                <label translate="true">Anchor Custom Text</label>
+                <description translate="true">If empty, the Category Name will be used</description>
+            </parameter>
+            <parameter name="title" xsi:type="text" visible="true">
+                <label translate="true">Anchor Custom Title</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default"
+                            value="category/widget/link/link_block.phtml"
+                            selected="true">
+                        <label translate="true">Category Link Block Template</label>
+                    </option>
+                    <option name="link_inline" value="category/widget/link/link_inline.phtml">
+                        <label translate="true">Category Link Inline Template</label>
+                    </option>
+                </options>
+            </parameter>
         </parameters>
-    </catalog_category_link>
+    </widget>
 </widgets>

@@ -32,13 +32,6 @@ abstract class AbstractHelper
     protected $_request;
 
     /**
-     * Layout model object
-     *
-     * @var \Magento\Core\Model\Layout
-     */
-    protected $_layout;
-
-    /**
      * Translator model
      *
      * @var \Magento\Core\Model\Translate
@@ -282,28 +275,6 @@ abstract class AbstractHelper
     protected function _getUrl($route, $params = array())
     {
         return \Mage::getUrl($route, $params);
-    }
-
-    /**
-     * Declare layout
-     *
-     * @param   \Magento\Core\Model\Layout $layout
-     * @return  \Magento\Core\Helper\AbstractHelper
-     */
-    public function setLayout($layout)
-    {
-        $this->_layout = $layout;
-        return $this;
-    }
-
-    /**
-     * Retrieve layout model object
-     *
-     * @return \Magento\Core\Model\Layout
-     */
-    public function getLayout()
-    {
-        return $this->_layout;
     }
 
     /**

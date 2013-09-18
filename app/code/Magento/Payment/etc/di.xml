@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Payment\Model\Method\AbstractMethod">
+        <param name="eventManager">
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Paypal\Model\Cart">
+        <param name="eventManager">
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Paypal\Model\Payment\Transaction">
+        <param name="eventManager">
+            <instance type="Magento\Core\Model\Event\Manager\Proxy" />
+        </param>
+    </type>
+</config>

@@ -18,7 +18,8 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento\Catalog\Helper\Product');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Product');
     }
 
     /**
@@ -84,15 +85,17 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $product->setId(100);
         $category = Mage::getModel('Magento\Catalog\Model\Category');
         $category->setId(10);
-        Mage::register('current_category', $category);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
 
         try {
             $this->assertStringEndsWith(
                 'sendfriend/product/send/id/100/cat_id/10/', $this->_helper->getEmailToFriendUrl($product)
             );
-            Mage::unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
         } catch (Exception $e) {
-            Mage::unregister('current_category');
+            $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
     }
@@ -173,8 +176,17 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         Mage::getSingleton('Magento\Catalog\Model\Session')->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
-        $this->assertInstanceOf('Magento\Catalog\Model\Product', Mage::registry('current_product'));
-        $this->assertInstanceOf('Magento\Catalog\Model\Category', Mage::registry('current_category'));
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $this->assertInstanceOf(
+            'Magento\Catalog\Model\Product',
+            $objectManager->get('Magento\Core\Model\Registry')->registry('current_product')
+        );
+        $this->assertInstanceOf(
+            'Magento\Catalog\Model\Category',
+            $objectManager->get('Magento\Core\Model\Registry')->registry('current_category')
+        );
     }
 
     public function testPrepareProductOptions()

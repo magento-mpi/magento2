@@ -161,6 +161,53 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_wasPayCalled = false;
 
     /**
+     * Sales data
+     *
+     * @var \Magento\Sales\Helper\Data
+     */
+    protected $_salesData = null;
+
+    /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_paymentData = $paymentData;
+        $this->_salesData = $salesData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize invoice resource model
      */
     protected function _construct()
@@ -367,7 +414,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         $this->getOrder()->setBaseTotalPaid(
             $this->getOrder()->getBaseTotalPaid()+$this->getBaseGrandTotal()
         );
-        \Mage::dispatchEvent('sales_order_invoice_pay', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_invoice_pay', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -437,7 +484,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         }
         $this->setState(self::STATE_CANCELED);
         $this->getOrder()->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
-        \Mage::dispatchEvent('sales_order_invoice_cancel', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_invoice_cancel', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -643,7 +690,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $this->setState(self::STATE_OPEN);
         }
 
-        \Mage::dispatchEvent('sales_order_invoice_register', array($this->_eventObject=>$this, 'order' => $order));
+        $this->_eventManager->dispatch('sales_order_invoice_register', array($this->_eventObject=>$this, 'order' => $order));
         return $this;
     }
 
@@ -727,7 +774,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!\Mage::helper('Magento\Sales\Helper\Data')->canSendNewInvoiceEmail($storeId)) {
+        if (!$this->_salesData->canSendNewInvoiceEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
@@ -738,7 +785,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             return $this;
         }
 
-        $paymentBlockHtml = \Mage::helper('Magento\Payment\Helper\Data')->getInfoBlockHtml($order->getPayment(), $storeId);
+        $paymentBlockHtml = $this->_paymentData->getInfoBlockHtml($order->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
@@ -802,7 +849,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!\Mage::helper('Magento\Sales\Helper\Data')->canSendInvoiceCommentEmail($storeId)) {
+        if (!$this->_salesData->canSendInvoiceCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to

@@ -106,7 +106,20 @@ class Banner
      */
     protected $_renderedParams = array();
 
+    /**
+     * @param array $data
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param  $context
+     * @param  $resource
+     * @param  $coreSession
+     * @param  $checkoutSession
+     * @param  $customerSession
+     * @param  $cmsHelper
+     * @param  $storeManager
+     * @param  $data
+     */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Core\Model\Session $coreSession,
@@ -116,7 +129,7 @@ class Banner
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_bannerResource = $resource;
         $this->_coreSession = $coreSession;
         $this->_checkoutSession = $checkoutSession;

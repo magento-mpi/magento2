@@ -29,13 +29,23 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * Class constructor
+     * Rating data
      *
+     * @var \Magento\Rating\Helper\Data
+     */
+    protected $_ratingData = null;
+
+    /**
+     * @param \Magento\Rating\Helper\Data $ratingData
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
-    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Core\Model\StoreManager $storeManager)
-    {
+    public function __construct(
+        \Magento\Rating\Helper\Data $ratingData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManager $storeManager
+    ) {
+        $this->_ratingData = $ratingData;
         $this->_storeManager = $storeManager;
         parent::__construct($resource);
     }
@@ -232,13 +242,13 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions after object delete
      * Prepare rating data for reaggregate all data for reviews
      *
-     * @param \Magento\Rating\Model\Rating $object
-     * @return \Magento\Rating\Model\Resource\Rating
+     * @param Magento_Core_Model_Abstract $object
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterDelete($object);
-        if (!\Mage::helper('Magento\Rating\Helper\Data')->isModuleEnabled('Magento_Review')) {
+        if (!$this->_ratingData->isModuleEnabled('Magento_Review')) {
             return $this;
         }
         $data = $this->_getEntitySummaryData($object);

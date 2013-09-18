@@ -84,7 +84,6 @@ class Status extends \Magento\Core\Model\AbstractModel
     public function getStoreLabel($store = null)
     {
         $store = \Mage::app()->getStore($store);
-        $label = false;
         if (!$store->isAdmin()) {
             $labels = $this->getStoreLabels();
             if (isset($labels[$store->getId()])) {

@@ -98,7 +98,7 @@ class Items
     public function getDisplayGiftWrappingForItem($item)
     {
         $allowed = $item->getProduct()->getGiftWrappingAvailable();
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')
+        return $this->_giftWrappingData
             ->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
     }
 }

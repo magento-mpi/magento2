@@ -28,7 +28,7 @@ class Grid extends \Magento\Adminhtml\Block\Dashboard\Grid
 
     protected function _prepareCollection()
     {
-        if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_Reports')) {
+        if (!$this->_coreData->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
         $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Order\Collection')
@@ -65,7 +65,8 @@ class Grid extends \Magento\Adminhtml\Block\Dashboard\Grid
     protected function _preparePage()
     {
         $this->getCollection()->setPageSize($this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
-        // Remove count of total orders $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
+//        Remove count of total orders
+//        $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
     }
 
     protected function _prepareColumns()

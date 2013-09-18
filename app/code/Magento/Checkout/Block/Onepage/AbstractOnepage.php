@@ -30,17 +30,19 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     protected $_addressesCollection;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
         $this->_configCacheType = $configCacheType;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -165,7 +167,7 @@ abstract class AbstractOnepage extends \Magento\Core\Block\Template
     {
         $countryId = $this->getAddress()->getCountryId();
         if (is_null($countryId)) {
-            $countryId = \Mage::helper('Magento\Core\Helper\Data')->getDefaultCountry();
+            $countryId = $this->_coreData->getDefaultCountry();
         }
         $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
             ->setName($type.'[country_id]')

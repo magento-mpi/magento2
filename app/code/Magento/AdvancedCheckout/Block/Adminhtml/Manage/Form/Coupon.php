@@ -20,6 +20,29 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form;
 class Coupon extends \Magento\Adminhtml\Block\Template
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Return applied coupon code for current quote
      *
      * @return string
@@ -36,7 +59,7 @@ class Coupon extends \Magento\Adminhtml\Block\Template
      */
     public function getQuote()
     {
-        return \Mage::registry('checkout_current_quote');
+        return $this->_coreRegistry->registry('checkout_current_quote');
     }
 
     /**

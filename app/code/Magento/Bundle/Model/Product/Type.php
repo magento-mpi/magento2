@@ -76,6 +76,45 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_canConfigure                = true;
 
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        $this->_catalogData = $catalogData;
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $data);
+    }
+
+    /**
      * Return relation info about used products
      *
      * @return \Magento\Object Object with information data
@@ -395,7 +434,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
 
-            if (!\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal() && $storeId) {
+            if (!$this->_catalogData->isPriceGlobal() && $storeId) {
                 $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
                 $selectionsCollection->joinPrices($websiteId);
             }
@@ -519,7 +558,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $selections = array();
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
 
-        $skipSaleableCheck = \Mage::helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck();
+        $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
         $_appendAllSelections = (bool)$product->getSkipCheckRequiredOption() || $skipSaleableCheck;
 
         $options = $buyRequest->getBundleOption();
@@ -722,7 +761,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 ->addFilterByRequiredOptions()
                 ->setSelectionIdsFilter($selectionIds);
 
-                if (!\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal() && $storeId) {
+                if (!$this->_catalogData->isPriceGlobal() && $storeId) {
                     $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
                     $usedSelections->joinPrices($websiteId);
                 }
@@ -922,7 +961,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             \Mage::throwException($this->getSpecifyOptionMessage());
         }
 
-        $skipSaleableCheck = \Mage::helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck();
+        $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
         foreach ($selectionIds as $selectionId) {
             /* @var $selection \Magento\Bundle\Model\Selection */
             $selection = $productSelections->getItemById($selectionId);
@@ -1026,7 +1065,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
          */
         /*
         $collection = $this->getUsedProductCollection($product);
-        $helper = \Mage::helper('Magento\Catalog\Helper\Data');
+        $helper = $this->_catalogData;
 
         $result = null;
         $parentVisibility = $product->getMsrpDisplayActualPriceType();

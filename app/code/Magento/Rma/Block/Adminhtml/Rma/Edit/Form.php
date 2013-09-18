@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form before rendering HTML
@@ -19,16 +19,17 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form(
-            array(
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create(array(
+            'attributes' => array(
                 'id' => 'edit_form',
                 'action' => $this->getData('action'),
                 'method' => 'post',
-                'enctype' => 'multipart/form-data'
-            )
+                'enctype' => 'multipart/form-data',
+            ))
         );
 
-        $model = \Mage::registry('current_rma');
+        $model = $this->_coreRegistry->registry('current_rma');
 
         if ($model) {
             if ($model->getId()) {

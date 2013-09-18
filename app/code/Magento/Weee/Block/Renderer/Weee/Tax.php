@@ -17,16 +17,39 @@
  */
 namespace Magento\Weee\Block\Renderer\Weee;
 
-class Tax extends \Magento\Adminhtml\Block\Widget implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Tax extends \Magento\Backend\Block\Widget implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element = null;
     protected $_countries = null;
     protected $_websites = null;
     protected $_template = 'renderer/tax.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     public function render(\Magento\Data\Form\Element\AbstractElement $element)

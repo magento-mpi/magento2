@@ -17,9 +17,32 @@
  */
 namespace Magento\Adminhtml\Block\Catalog\Product;
 
-class Edit extends \Magento\Adminhtml\Block\Widget
+class Edit extends \Magento\Backend\Block\Widget
 {
     protected $_template = 'catalog/product/edit.phtml';
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _construct()
     {
@@ -35,7 +58,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getProduct()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -230,7 +253,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      */
     public function getTypeSwitcherData()
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
+        return $this->_coreData->jsonEncode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
             'is_virtual_id' => \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',

@@ -17,15 +17,19 @@ class Collection
     protected $_registryManager;
 
     /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Registry $registryManager
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\Registry $registryManager
+        \Magento\Core\Model\Registry $registryManager,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig
     ) {
         $this->_registryManager = $registryManager;
-        parent::__construct($fetchStrategy);
+        parent::__construct($eventManager, $fetchStrategy, $fieldsetConfig);
     }
 
     /**

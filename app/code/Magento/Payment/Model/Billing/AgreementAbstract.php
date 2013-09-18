@@ -56,6 +56,33 @@ abstract class AgreementAbstract extends \Magento\Core\Model\AbstractModel
     abstract public function cancel();
 
     /**
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData = null;
+
+    /**
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_paymentData = $paymentData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retreive payment method instance
      *
      * @return \Magento\Payment\Model\Method\AbstractMethod
@@ -63,7 +90,7 @@ abstract class AgreementAbstract extends \Magento\Core\Model\AbstractModel
     public function getPaymentMethodInstance()
     {
         if (is_null($this->_paymentMethodInstance)) {
-            $this->_paymentMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($this->getMethodCode());
+            $this->_paymentMethodInstance = $this->_paymentData->getMethodInstance($this->getMethodCode());
         }
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($this->getStoreId());

@@ -98,6 +98,35 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected static $_priceRulesData = array();
 
     /**
+     * Catalog rule data
+     *
+     * @var \Magento\CatalogRule\Helper\Data
+     */
+    protected $_catalogRuleData = null;
+
+    /**
+     * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogRule\Model\Resource\Rule $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\CatalogRule\Helper\Data $catalogRuleData,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogRule\Model\Resource\Rule $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_catalogRuleData = $catalogRuleData;
+        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init resource model and id field
      */
     protected function _construct()
@@ -302,7 +331,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                 foreach ($rulesData as $ruleData) {
                     if ($product->getParentId()) {
                         if (!empty($ruleData['sub_simple_action'])) {
-                            $priceRules = \Mage::helper('Magento\CatalogRule\Helper\Data')->calcPriceRule(
+                            $priceRules = $this->_catalogRuleData->calcPriceRule(
                                 $ruleData['sub_simple_action'],
                                 $ruleData['sub_discount_amount'],
                                 $priceRules ? $priceRules : $price
@@ -314,7 +343,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                             break;
                         }
                     } else {
-                        $priceRules = \Mage::helper('Magento\CatalogRule\Helper\Data')->calcPriceRule(
+                        $priceRules = $this->_catalogRuleData->calcPriceRule(
                             $ruleData['action_operator'],
                             $ruleData['action_amount'],
                             $priceRules ? $priceRules : $price

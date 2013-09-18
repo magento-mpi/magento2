@@ -21,13 +21,23 @@ namespace Magento\Core\Model\File\Storage\Database;
 abstract class AbstractDatabase extends \Magento\Core\Model\File\Storage\AbstractStorage
 {
     /**
-     * Class construct
-     *
-     * @param string $databaseConnection
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
      */
-    public function __construct($params = array())
-    {
-        $connectionName = (isset($params['connection'])) ? $params['connection'] : null;
+    public function __construct(
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
+        $connectionName = (isset($data['connection'])) ? $data['connection'] : null;
         if (empty($connectionName)) {
             $connectionName = $this->getConfigConnectionName();
         }

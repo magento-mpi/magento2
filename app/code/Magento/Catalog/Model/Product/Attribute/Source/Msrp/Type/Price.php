@@ -26,6 +26,22 @@ class Price
     const TYPE_USE_CONFIG = '4';
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * Get all options
      *
      * @return array
@@ -57,7 +73,7 @@ class Price
             'extra'     => null
         );
 
-        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
+        if ($this->_coreData->useDbCompatibleMode()) {
             $column['type']     = $attributeType;
             $column['is_null']  = true;
         } else {

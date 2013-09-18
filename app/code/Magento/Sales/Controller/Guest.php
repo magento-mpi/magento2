@@ -28,7 +28,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
      */
     protected function _loadValidOrder($orderId = null)
     {
-        return \Mage::helper('Magento\Sales\Helper\Guest')->loadValidOrder();
+        return $this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder();
     }
 
     /**
@@ -39,7 +39,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
      */
     protected function _canViewOrder($order)
     {
-        $currentOrder = \Mage::registry('current_order');
+        $currentOrder = $this->_coreRegistry->registry('current_order');
         if ($order->getId() && ($order->getId() === $currentOrder->getId())) {
             return true;
         }
@@ -53,7 +53,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         }
 
         $this->loadLayout();
-        \Mage::helper('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -68,7 +68,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         }
         $this->loadLayout();
         $this->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
-        \Mage::helper('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -83,12 +83,12 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
-            $order = \Mage::registry('current_order');
+            $order = $this->_coreRegistry->registry('current_order');
         }
 
         if ($this->_canViewOrder($order)) {
             if (isset($invoice)) {
-                \Mage::register('current_invoice', $invoice);
+                $this->_coreRegistry->register('current_invoice', $invoice);
             }
             $this->loadLayout('print');
             $this->renderLayout();
@@ -108,11 +108,11 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             $shipment = \Mage::getModel('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
-            $order = \Mage::registry('current_order');
+            $order = $this->_coreRegistry->registry('current_order');
         }
         if ($this->_canViewOrder($order)) {
             if (isset($shipment)) {
-                \Mage::register('current_shipment', $shipment);
+                $this->_coreRegistry->register('current_shipment', $shipment);
             }
             $this->loadLayout('print');
             $this->renderLayout();
@@ -132,12 +132,12 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             $creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
-            $order = \Mage::registry('current_order');
+            $order = $this->_coreRegistry->registry('current_order');
         }
 
         if ($this->_canViewOrder($order)) {
             if (isset($creditmemo)) {
-                \Mage::register('current_creditmemo', $creditmemo);
+                $this->_coreRegistry->register('current_creditmemo', $creditmemo);
             }
             $this->loadLayout('print');
             $this->renderLayout();

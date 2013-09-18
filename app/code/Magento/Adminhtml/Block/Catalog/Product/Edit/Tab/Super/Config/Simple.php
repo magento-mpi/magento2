@@ -9,7 +9,7 @@
  */
 
 /**
- * Quiq simple product creation
+ * Quick simple product creation
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -29,7 +29,8 @@ class Simple
 
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $form->setFieldNameSuffix('simple_product');
         $form->setDataObject($this->getProduct());
@@ -50,7 +51,7 @@ class Simple
             ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();
 
-        /* Standart attributes */
+        /* Standard attributes */
         foreach ($attributes as $attribute) {
             if (($attribute->getIsRequired()
                 && $attribute->getApplyTo()
@@ -168,8 +169,8 @@ class Simple
     public function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = \Mage::registry('current_product');
+            $this->_product = $this->_coreRegistry->registry('current_product');
         }
         return $this->_product;
     }
-} // Class \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Simple End
+}

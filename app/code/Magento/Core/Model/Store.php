@@ -32,6 +32,11 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     const ENTITY = 'core_store';
 
+    /**
+     * Custom entry point param
+     */
+    const CUSTOM_ENTRY_POINT_PARAM = 'custom_entry_point';
+
     /**#@+
      * Configuration paths
      */
@@ -229,6 +234,11 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_appState;
 
     /**
+     * @var bool
+     */
+    protected $_isCustomEntryPoint = false;
+
+    /**
      * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
@@ -239,33 +249,60 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_configDataResource;
 
     /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_coreFileStorageDatabase = null;
+
+    /**
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Core\Model\Resource\Store $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\App\State $appState,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Core\Model\Resource\Store $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        $isCustomEntryPoint = false,
         array $data = array()
     ) {
+        $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_urlModel = $urlModel;
         $this->_configCacheType = $configCacheType;
         $this->_appState = $appState;
         $this->_request = $request;
         $this->_configDataResource = $configDataResource;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_isCustomEntryPoint = $isCustomEntryPoint;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_coreFileStorageDatabase'));
+    }
+
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $this->_coreFileStorageDatabase = \Mage::getSingleton('Magento\Core\Helper\File\Storage\Database');
     }
 
     /**
@@ -537,7 +574,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     protected function _isCustomEntryPoint()
     {
-        return (bool)\Mage::registry('custom_entry_point');
+        return $this->_isCustomEntryPoint;
     }
 
     /**
@@ -553,7 +590,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected function _getMediaScriptUrl(\Magento\Core\Model\Dir $dirs, $secure)
     {
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
-            && \Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()
+            && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
             return $this->getBaseUrl(self::URL_TYPE_WEB, $secure) . $dirs->getUri(\Magento\Core\Model\Dir::PUB)
                 . '/' . self::MEDIA_REWRITE_SCRIPT;
@@ -904,7 +941,7 @@ class Store extends \Magento\Core\Model\AbstractModel
             if ($this->getBaseCurrency() && $this->getCurrentCurrency()) {
                 $this->_priceFilter = $this->getCurrentCurrency()->getFilter();
                 $this->_priceFilter->setRate($this->getBaseCurrency()->getRate($this->getCurrentCurrency()));
-            } elseif($this->getDefaultCurrency()) {
+            } elseif ($this->getDefaultCurrency()) {
                 $this->_priceFilter = $this->getDefaultCurrency()->getFilter();
             } else {
                 $this->_priceFilter = new \Magento\Filter\Sprintf('%s', 2);

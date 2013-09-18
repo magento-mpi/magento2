@@ -18,10 +18,17 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = $this->getMockForAbstractClass(
-            'Magento\Wishlist\Block\AbstractBlock',
-            array(Mage::getSingleton('Magento\Core\Block\Template\Context'))
-        );
+        $objectManager = Mage::getObjectManager();
+        $coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $wishlistData = $objectManager->get('Magento\Wishlist\Helper\Data');
+        $taxData = $objectManager->get('Magento\Tax\Helper\Data');
+        $catalogData = $objectManager->get('Magento\Catalog\Helper\Data');
+        $coreData = $objectManager->get('Magento\Core\Helper\Data');
+        $context = $objectManager->get('Magento\Core\Block\Template\Context');
+
+        $this->_block = $this->getMockForAbstractClass('Magento\Wishlist\Block\AbstractBlock', array(
+            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context
+        ));
     }
 
     /**

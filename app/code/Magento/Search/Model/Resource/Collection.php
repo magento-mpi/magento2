@@ -115,6 +115,43 @@ class Collection
     protected $_storedPageSize = false;
 
     /**
+     * Catalog search data
+     *
+     * @var \Magento\CatalogSearch\Helper\Data
+     */
+    protected $_catalogSearchData = null;
+
+    /**
+     * Search data
+     *
+     * @var \Magento\Search\Helper\Data
+     */
+    protected $_searchData = null;
+
+    /**
+     * Collection constructor
+     *
+     * @param \Magento\Search\Helper\Data $searchData
+     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     */
+    public function __construct(
+        \Magento\Search\Helper\Data $searchData,
+        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+    ) {
+        $this->_searchData = $searchData;
+        $this->_catalogSearchData = $catalogSearchData;
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+    }
+
+    /**
      * Load faceted data if not loaded
      *
      * @return \Magento\Search\Model\Resource\Collection
@@ -204,7 +241,7 @@ class Collection
         /**
          * @var \Magento\CatalogSearch\Model\Query $query
          */
-        $query = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery();
+        $query = $this->_catalogSearchData->getQuery();
         $this->_searchQueryText = $queryText;
         $synonymFor = $query->getSynonymFor();
         if (!empty($synonymFor)) {
@@ -416,7 +453,7 @@ class Collection
             list($query, $params) = $this->_prepareBaseParams();
             $params['limit'] = 1;
 
-            $helper = \Mage::helper('Magento\Search\Helper\Data');
+            $helper = $this->_searchData;
             $searchSuggestionsEnabled = ($this->_searchQueryParams != $this->_generalDefaultQuery
                     && $helper->getSolrConfigData('server_suggestion_enabled'));
             if ($searchSuggestionsEnabled) {

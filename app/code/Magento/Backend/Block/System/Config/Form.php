@@ -112,10 +112,10 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected $_config;
 
     /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\Data\Form\Factory $formFactory
-     * @param \Magento\Backend\Model\Config\BackendClone\Factory $cloneModelFactory
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Backend\Block\System\Config\Form\Fieldset\Factory $fieldsetFactory
      * @param \Magento\Backend\Block\System\Config\Form\Field\Factory $fieldFactory
@@ -123,20 +123,19 @@ class Form extends \Magento\Backend\Block\Widget\Form
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\Data\Form\Factory $formFactory,
-        \Magento\Backend\Model\Config\BackendClone\Factory $cloneModelFactory,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Backend\Block\System\Config\Form\Fieldset\Factory $fieldsetFactory,
         \Magento\Backend\Block\System\Config\Form\Field\Factory $fieldFactory,
         \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($coreData, $context, $data);
         $this->_configFactory = $configFactory;
         $this->_formFactory = $formFactory;
-        $this->_cloneModelFactory = $cloneModelFactory;
         $this->_configStructure = $configStructure;
         $this->_fieldsetFactory = $fieldsetFactory;
         $this->_fieldFactory = $fieldFactory;

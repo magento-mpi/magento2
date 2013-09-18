@@ -21,6 +21,25 @@ namespace Magento\Adminhtml\Controller\Cms;
 class Block extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init actions
      *
      * @return \Magento\Adminhtml\Controller\Cms\Block
@@ -31,8 +50,7 @@ class Block extends \Magento\Adminhtml\Controller\Action
         $this->loadLayout()
             ->_setActiveMenu('Magento_Cms::cms_block')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Static Blocks'), __('Static Blocks'))
-        ;
+            ->_addBreadcrumb(__('Static Blocks'), __('Static Blocks'));
         return $this;
     }
 
@@ -86,7 +104,7 @@ class Block extends \Magento\Adminhtml\Controller\Action
         }
 
         // 4. Register model to use later in blocks
-        \Mage::register('cms_block', $model);
+        $this->_coreRegistry->register('cms_block', $model);
 
         // 5. Build edit form
         $this->_initAction()
@@ -100,8 +118,8 @@ class Block extends \Magento\Adminhtml\Controller\Action
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
-
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $id = $this->getRequest()->getParam('block_id');
             $model = \Mage::getModel('Magento\Cms\Model\Block')->load($id);
             if (!$model->getId() && $id) {
@@ -151,20 +169,18 @@ class Block extends \Magento\Adminhtml\Controller\Action
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('block_id')) {
-            $title = "";
+        $id = $this->getRequest()->getParam('block_id');
+        if ($id) {
             try {
                 // init model and delete
                 $model = \Mage::getModel('Magento\Cms\Model\Block');
                 $model->load($id);
-                $title = $model->getTitle();
                 $model->delete();
                 // display success message
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The block has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
-
             } catch (\Exception $e) {
                 // display error message
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());

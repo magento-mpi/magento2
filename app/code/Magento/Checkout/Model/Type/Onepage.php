@@ -50,12 +50,42 @@ class Onepage
     protected $_helper;
 
     /**
-     * Class constructor
-     * Set customer already exists message
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
      */
-    public function __construct()
-    {
-        $this->_helper = \Mage::helper('Magento\Checkout\Helper\Data');
+    protected $_coreData = null;
+
+    /**
+     * Customer data
+     *
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerData = null;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Checkout\Helper\Data $helper
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Core\Helper\Data $coreData
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Checkout\Helper\Data $helper,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Helper\Data $coreData
+    ) {
+        $this->_eventManager = $eventManager;
+        $this->_customerData = $customerData;
+        $this->_coreData = $coreData;
+        $this->_helper = $helper;
         $this->_customerEmailExistsMessage = __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = \Mage::getSingleton('Magento\Checkout\Model\Session');
         $this->_customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
@@ -373,7 +403,7 @@ class Onepage
             $customer->setPassword($password);
             $customer->setConfirmation($password);
             // set NOT LOGGED IN group id explicitly,
-            // otherwise copyFieldset('customer_account', 'to_quote') will fill it with default group id value
+            // otherwise copyFieldsetToTarget('customer_account', 'to_quote') will fill it with default group id value
             $customer->setGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
         }
 
@@ -394,7 +424,7 @@ class Onepage
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset('customer_account', 'to_quote', $customer, $quote);
+        $this->_coreData->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $quote);
 
         return true;
     }
@@ -549,7 +579,7 @@ class Onepage
         }
 
         if ($quote->getCheckoutMethod() == self::METHOD_GUEST
-            && !\Mage::helper('Magento\Checkout\Helper\Data')->isAllowedGuestCheckout($quote)
+            && !$this->_helper->isAllowedGuestCheckout($quote)
         ) {
             \Mage::throwException(__('Sorry, guest checkout is not enabled.'));
         }
@@ -600,7 +630,7 @@ class Onepage
             $customerBilling->setIsDefaultShipping(true);
         }
 
-        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        $this->_coreData->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)
@@ -652,7 +682,7 @@ class Onepage
         $customer = $this->getQuote()->getCustomer();
         if ($customer->isConfirmationRequired()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->getQuote()->getStoreId());
-            $url = \Mage::helper('Magento\Customer\Helper\Data')->getEmailConfirmationUrl($customer->getEmail());
+            $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
             );
@@ -702,7 +732,7 @@ class Onepage
 
         $order = $service->getOrder();
         if ($order) {
-            \Mage::dispatchEvent('checkout_type_onepage_save_order_after',
+            $this->_eventManager->dispatch('checkout_type_onepage_save_order_after',
                 array('order'=>$order, 'quote'=>$this->getQuote()));
 
             /**
@@ -744,7 +774,7 @@ class Onepage
             // TODO: send recurring profile emails
         }
 
-        \Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'checkout_submit_all_after',
             array('order' => $order, 'quote' => $this->getQuote(), 'recurring_profiles' => $profiles)
         );

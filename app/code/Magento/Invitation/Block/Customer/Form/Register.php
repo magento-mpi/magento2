@@ -20,6 +20,31 @@ namespace Magento\Invitation\Block\Customer\Form;
 class Register extends \Magento\Customer\Block\Form\Register
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($configCacheType, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve form data
      *
      * @return \Magento\Object
@@ -51,7 +76,7 @@ class Register extends \Magento\Customer\Block\Form\Register
      */
     public function getPostActionUrl()
     {
-        return $this->getUrl('*/*/createpost', array('_current'=>true));
+        return $this->getUrl('*/*/createpost', array('_current' => true));
     }
 
     /**
@@ -61,6 +86,6 @@ class Register extends \Magento\Customer\Block\Form\Register
      */
     public function getCustomerInvitation()
     {
-        return \Mage::registry('current_invitation');
+        return $this->_coreRegistry->registry('current_invitation');
     }
 }

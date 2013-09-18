@@ -22,6 +22,13 @@ class Observer
     protected $_isEnabled;
 
     /**
+     * Gift registry data
+     *
+     * @var \Magento\GiftRegistry\Helper\Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
      * Design package instance
      *
      * @var \Magento\Core\Model\View\DesignInterface
@@ -29,15 +36,16 @@ class Observer
     protected $_design = null;
 
     /**
-     * Class constructor
-     *
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\View\DesignInterface $design
      */
     public function __construct(
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\View\DesignInterface $design
     ) {
+        $this->_giftRegistryData = $giftRegistryData;
         $this->_design = $design;
-        $this->_isEnabled = \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled();
+        $this->_isEnabled = $this->_giftRegistryData->isEnabled();
     }
 
     /**
@@ -71,7 +79,7 @@ class Observer
         $addressId = $observer->getEvent()->getValue();
 
         if (!is_numeric($addressId)) {
-            $prefix = \Mage::helper('Magento\GiftRegistry\Helper\Data')->getAddressIdPrefix();
+            $prefix = $this->_giftRegistryData->getAddressIdPrefix();
             $registryItemId = str_replace($prefix, '', $addressId);
             $object = $observer->getEvent()->getDataObject();
             $object->setGiftregistryItemId($registryItemId);
@@ -96,7 +104,7 @@ class Observer
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(
-                    \Mage::helper('Magento\GiftRegistry\Helper\Data')->getAddressIdPrefix() . $model->getId()
+                    $this->_giftRegistryData->getAddressIdPrefix() . $model->getId()
                 );
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());

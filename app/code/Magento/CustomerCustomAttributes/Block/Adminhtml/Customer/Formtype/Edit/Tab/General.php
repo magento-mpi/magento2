@@ -8,18 +8,14 @@
  * @license     {license_link}
  */
 
-
 /**
  * Form Type Edit General Tab Block
- *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
 
 class General
-    extends \Magento\Adminhtml\Block\Widget\Form
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Initialize Edit Form
@@ -39,10 +35,11 @@ class General
      */
     protected function _prepareForm()
     {
-        /* @var $model \Magento\Eav\Model\Form\Type */
-        $model      = \Mage::registry('current_form_type');
+        /* @var $model Magento_Eav_Model_Form_Type */
+        $model      = $this->_coreRegistry->registry('current_form_type');
 
-        $form       = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form       = $this->_formFactory->create();
         $fieldset   = $form->addFieldset('general_fieldset', array(
             'legend'    => __('General Information')
         ));

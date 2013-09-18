@@ -10,7 +10,7 @@
  */
 Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
     ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-$session = Mage::getModel('Magento_DesignEditor_Model_Session');
+$session = Mage::getModel('Magento\DesignEditor\Model\Session');
 /** @var $auth \Magento\Backend\Model\Auth */
 $auth = Mage::getModel('Magento\Backend\Model\Auth');
 $auth->setAuthStorage($session);

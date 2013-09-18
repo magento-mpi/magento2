@@ -8,20 +8,24 @@
  * @license     {license_link}
  */
 
-
 /**
  * Auth session model
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Model;
 
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
-    public function __construct()
-    {
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $coreHttp, $data);
         $this->init('adminhtml');
     }
 }

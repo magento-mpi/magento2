@@ -23,6 +23,27 @@ class Save extends \Magento\Object
     protected $_saved = false;
 
     /**
+     * Gift message message
+     *
+     * @var \Magento\GiftMessage\Helper\Message
+     */
+    protected $_giftMessageMessage = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
+     */
+    public function __construct(
+        \Magento\GiftMessage\Helper\Message $giftMessageMessage
+    ) {
+        $this->_giftMessageMessage = $giftMessageMessage;
+    }
+
+    /**
      * Save all seted giftmessages
      *
      * @return \Magento\Adminhtml\Model\Giftmessage\Save
@@ -69,7 +90,8 @@ class Save extends \Magento\Object
      * @param array $giftmessage
      * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
-    protected function _saveOne($entityId, $giftmessage) {
+    protected function _saveOne($entityId, $giftmessage)
+    {
         /* @var $giftmessageModel \Magento\GiftMessage\Model\Message */
         $giftmessageModel = \Mage::getModel('Magento\GiftMessage\Model\Message');
         $entityType = $this->_getMappedType($giftmessage['type']);
@@ -124,7 +146,7 @@ class Save extends \Magento\Object
      */
     protected function _deleteOne($entityModel, $giftmessageModel=null)
     {
-        if(is_null($giftmessageModel)) {
+        if (is_null($giftmessageModel)) {
             $giftmessageModel = \Mage::getModel('Magento\GiftMessage\Model\Message')
                 ->load($entityModel->getGiftMessageId());
         }
@@ -170,7 +192,7 @@ class Save extends \Magento\Object
      */
     public function getAllowQuoteItems()
     {
-        if(!is_array($this->_getSession()->getAllowQuoteItemsGiftMessage())) {
+        if (!is_array($this->_getSession()->getAllowQuoteItemsGiftMessage())) {
             $this->setAllowQuoteItems(array());
         }
 
@@ -187,7 +209,7 @@ class Save extends \Magento\Object
         $result = array();
         foreach ($this->getAllowQuoteItems() as $itemId) {
             $item = $this->_getQuote()->getItemById($itemId);
-            if(!$item) {
+            if (!$item) {
                 continue;
             }
             $result[] = $item->getProduct()->getId();
@@ -203,7 +225,7 @@ class Save extends \Magento\Object
      */
     public function getIsAllowedQuoteItem($item)
     {
-        if(!in_array($item->getId(), $this->getAllowQuoteItems())) {
+        if (!in_array($item->getId(), $this->getAllowQuoteItems())) {
             if ($item->getGiftMessageId() && $this->isGiftMessagesAvailable($item)) {
                 $this->addAllowQuoteItem($item->getId());
                 return true;
@@ -222,9 +244,7 @@ class Save extends \Magento\Object
      */
     public function isGiftMessagesAvailable($item)
     {
-        return \Mage::helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
-            'item', $item, $item->getStore()
-        );
+        return $this->_giftMessageMessage->getIsMessagesAvailable('item', $item, $item->getStore());
     }
 
     /**
@@ -243,7 +263,7 @@ class Save extends \Magento\Object
                 ->load($productId);
             $item = $this->_getQuote()->getItemByProduct($product);
 
-            if(!$item) {
+            if (!$item) {
                 continue;
             }
 
@@ -271,7 +291,7 @@ class Save extends \Magento\Object
 
             $item = $this->_getQuote()->getItemById($itemId);
 
-            if(!$item) {
+            if (!$item) {
                 // Clean not exists items
                 $deleteAllowedItems[] = $itemId;
                 continue;
@@ -333,5 +353,4 @@ class Save extends \Magento\Object
     {
         return $this->_getSession()->getQuote();
     }
-
 }

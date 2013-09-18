@@ -21,6 +21,29 @@ namespace Magento\Downloadable\Model\Resource;
 class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Catalog data
+     *
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogData = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Resource $resource
+     */
+    public function __construct(
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Resource $resource
+    ) {
+        $this->_catalogData = $catalogData;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define resource
      *
      */
@@ -110,7 +133,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
                 } else {
                     $_isNew = false;
                 }
-                if ($linkObject->getWebsiteId() == 0 && $_isNew && !\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal()) {
+                if ($linkObject->getWebsiteId() == 0 && $_isNew && !$this->_catalogData->isPriceGlobal()) {
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
                         $baseCurrency = \Mage::app()->getBaseCurrencyCode();

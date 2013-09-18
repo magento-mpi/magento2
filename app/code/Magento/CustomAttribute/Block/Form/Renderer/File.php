@@ -28,7 +28,7 @@ class File extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
     public function getEscapedValue()
     {
         if ($this->getValue()) {
-            return $this->escapeHtml(\Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getValue()));
+            return $this->escapeHtml($this->_coreData->urlEncode($this->getValue()));
         }
         return '';
     }

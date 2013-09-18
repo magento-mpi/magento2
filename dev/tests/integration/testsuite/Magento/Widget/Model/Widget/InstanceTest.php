@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -42,14 +41,24 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     /**
      * @return \Magento\Widget\Model\Widget\Instance
      */
-    public function testGetWidgetConfig()
+    public function testGetWidgetConfigAsArray()
     {
-        $config = $this->_model->setType('Magento\Catalog\Block\Product\Widget\New')->getWidgetConfig();
-        $this->assertInstanceOf('Magento\Simplexml\Element', $config);
-        /** @var \Magento\Simplexml\Element $config */
-        $element = $config->xpath('/widgets/new_products/parameters/template/values/list');
-        $this->assertArrayHasKey(0, $element);
-        $this->assertInstanceOf('Magento\Simplexml\Element', $element[0]);
+        $config = $this->_model->setType('Magento\Catalog\Block\Product\Widget\New')->getWidgetConfigAsArray();
+        $this->assertTrue(is_array($config));
+        $element = null;
+        if (isset($config['parameters']) && isset($config['parameters']['template'])
+            && isset($config['parameters']['template']['values'])
+            && isset($config['parameters']['template']['values']['list'])
+        ) {
+            $element = $config['parameters']['template']['values']['list'];
+        }
+        $expected = array(
+            'value' => 'product/widget/new/content/new_list.phtml',
+            'label' => 'New Products List Template'
+        );
+        $this->assertNotNull($element);
+        $this->assertEquals($expected, $element);
+
         return $this->_model;
     }
 
@@ -84,7 +93,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     /**
      * @param \Magento\Widget\Model\Widget\Instance $model
-     * @depends testGetWidgetConfig
+     * @depends testGetWidgetConfigAsArray
      */
     public function testGenerateLayoutUpdateXml(\Magento\Widget\Model\Widget\Instance $model)
     {

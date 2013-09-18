@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Customer\Helper\Data">
+        <plugin name="websiterestriction_customer_registration_plugin" type="Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration"/>
+    </type>
+</config>

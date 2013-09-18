@@ -28,8 +28,14 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
             ->setMethods(array('getHelperFactory'))
             ->getMock();
         $contextMock->expects($this->any())->method('getHelperFactory')->will($this->returnValue($helperFactory));
+        $taxData = $this->getMockBuilder('Magento\Tax\Helper\Data')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_block = $this->getMockBuilder('Magento\Adminhtml\Block\Sales\Order\Create\Items\Grid')
-            ->setConstructorArgs(array($contextMock))
+            ->setConstructorArgs(array($taxData, $coreData, $contextMock))
             ->setMethods(array('_getSession'))
             ->getMock();
         $sessionMock = $this->getMockBuilder('Magento\Adminhtml\Model\Session\Quote')
@@ -43,7 +49,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
 
         $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice'))
             ->getMock();
         $storeMock->expects($this->any())->method('convertPrice')->will($this->returnArgument(0));
 

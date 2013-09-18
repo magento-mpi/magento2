@@ -18,17 +18,19 @@ class Collection
     protected $_helper;
 
     /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Reward\Helper\Data $helper
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Reward\Helper\Data $helper,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_helper = $helper;
-        parent::__construct($fetchStrategy, $resource);
+        parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
     /**

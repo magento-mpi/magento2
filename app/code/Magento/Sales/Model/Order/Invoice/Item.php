@@ -143,8 +143,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if (is_null($this->_orderItem)) {
             if ($this->getInvoice()) {
                 $this->_orderItem = $this->getInvoice()->getOrder()->getItemById($this->getOrderItemId());
-            }
-            else {
+            } else {
                 $this->_orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item')
                     ->load($this->getOrderItemId());
             }
@@ -161,10 +160,9 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function setQty($qty)
     {
         if ($this->getOrderItem()->getIsQtyDecimal()) {
-            $qty = (float) $qty;
-        }
-        else {
-            $qty = (int) $qty;
+            $qty = (float)$qty;
+        } else {
+            $qty = (int)$qty;
         }
         $qty = $qty > 0 ? $qty : 0;
         /**
@@ -174,8 +172,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $qty = sprintf("%F", $qty);
         if ($qty <= $qtyToInvoice || $this->getOrderItem()->isDummy()) {
             $this->setData('qty', $qty);
-        }
-        else {
+        } else {
             \Mage::throwException(
                 __('We found an invalid quantity to invoice item "%1".', $this->getName())
             );

@@ -157,7 +157,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', \Mage::registry('current_product'));
+            $this->setData('product', $this->_coreRegistry->registry('current_product'));
         }
         return $this->getData('product');
     }
@@ -166,7 +166,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     {
         $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection);
         $this->setFormatProduct($_selection);
-        $priceTitle = $_selection->getSelectionQty()*1 . ' x ' . $this->escapeHtml($_selection->getName());
+        $priceTitle = $_selection->getSelectionQty() * 1 . ' x ' . $this->escapeHtml($_selection->getName());
 
         $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '')
             . '+' . $this->formatPriceString($price, $includeContainer)
@@ -234,11 +234,11 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      */
     public function formatPriceString($price, $includeContainer = true)
     {
-        $taxHelper  = \Mage::helper('Magento\Tax\Helper\Data');
+        $taxHelper  = $this->_taxData;
         $coreHelper = $this->helper('Magento\Core\Helper\Data');
         $currentProduct = $this->getProduct();
         if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
-                && $this->getFormatProduct()
+            && $this->getFormatProduct()
         ) {
             $product = $this->getFormatProduct();
         } else {

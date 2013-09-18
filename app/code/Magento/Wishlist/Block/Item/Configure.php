@@ -21,13 +21,46 @@ namespace Magento\Wishlist\Block\Item;
 class Configure extends \Magento\Core\Block\Template
 {
     /**
+     * Wishlist data
+     *
+     * @var \Magento\Wishlist\Helper\Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_wishlistData = $wishlistData;
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Returns product being edited
      *
      * @return \Magento\Catalog\Model\Product
      */
     protected function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -37,7 +70,7 @@ class Configure extends \Magento\Core\Block\Template
      */
     protected function getWishlistItem()
     {
-        return \Mage::registry('wishlist_item');
+        return $this->_coreRegistry->registry('wishlist_item');
     }
 
     /**
@@ -50,7 +83,7 @@ class Configure extends \Magento\Core\Block\Template
         // Set custom add to cart url
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
-            $url = \Mage::helper('Magento\Wishlist\Helper\Data')->getAddToCartUrl($this->getWishlistItem());
+            $url = $this->_wishlistData->getAddToCartUrl($this->getWishlistItem());
             $block->setCustomAddToCartUrl($url);
         }
 

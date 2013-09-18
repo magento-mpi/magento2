@@ -28,6 +28,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_cache;
 
     /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -37,6 +38,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * @param $resourceName
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\ModuleListInterface $moduleList,
@@ -45,7 +47,9 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         \Magento\Core\Model\CacheInterface $cache,
         $resourceName
     ) {
-        parent::__construct($resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName);
+        parent::__construct(
+            $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+        );
         $this->_cache = $cache;
     }
 

@@ -28,6 +28,22 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     const SKU_MAX_LENGTH = 64;
 
     /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * @param \Magento\Core\Helper\String $coreString
+     */
+    public function __construct(
+        \Magento\Core\Helper\String $coreString
+    ) {
+        $this->_coreString = $coreString;
+    }
+
+    /**
      * Validate SKU
      *
      * @param \Magento\Catalog\Model\Product $object
@@ -36,7 +52,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     public function validate($object)
     {
-        $helper = \Mage::helper('Magento\Core\Helper\String');
+        $helper = $this->_coreString;
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if ($this->getAttribute()->getIsRequired() && $this->getAttribute()->isValueEmpty($value)) {

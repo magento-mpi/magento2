@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
-class AbstractGeneral extends \Magento\Adminhtml\Block\Widget\Form
+class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Form, created in parent block
@@ -25,6 +25,29 @@ class AbstractGeneral extends \Magento\Adminhtml\Block\Widget\Form
      * @var \Magento\Data\Form
      */
     protected $_parentForm = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Get Form Object Which is Parent to this block
@@ -46,7 +69,7 @@ class AbstractGeneral extends \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_rma');
+        $model = $this->_coreRegistry->registry('current_rma');
         $form = $this->getParentForm();
 
         $this->_addFieldset();
@@ -76,7 +99,7 @@ class AbstractGeneral extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getRmaData($field)
     {
-        $model = \Mage::registry('current_rma');
+        $model = $this->_coreRegistry->registry('current_rma');
         if ($model) {
             return $model->getData($field);
         } else {
@@ -91,7 +114,7 @@ class AbstractGeneral extends \Magento\Adminhtml\Block\Widget\Form
      */
     public function getOrder()
     {
-        return \Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**

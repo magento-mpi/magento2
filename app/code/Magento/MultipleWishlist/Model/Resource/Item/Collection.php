@@ -20,6 +20,33 @@ namespace Magento\MultipleWishlist\Model\Resource\Item;
 class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
+     * Wishlist data
+     *
+     * @var \Magento\Wishlist\Helper\Data
+     */
+    protected $_wishlistData = null;
+
+    /**
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
+     */
+    public function __construct(
+        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Wishlist\Model\Resource\Item $resource
+    ) {
+        $this->_wishlistData = $wishlistData;
+        parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $resource);
+    }
+
+    /**
      * Add filtration by customer id
      *
      * @param int $customerId
@@ -30,7 +57,7 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
         parent::addCustomerIdFilter($customerId);
 
         $adapter = $this->getConnection();
-        $defaultWishlistName = \Mage::helper('Magento\Wishlist\Helper\Data')->getDefaultWishlistName();
+        $defaultWishlistName = $this->_wishlistData->getDefaultWishlistName();
         $this->getSelect()->columns(
             array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
         );

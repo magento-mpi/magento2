@@ -21,6 +21,39 @@ namespace Magento\Sales\Model\Resource;
 class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $modulesConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param $resourceName
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $modulesConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\CacheInterface $cache,
+        $resourceName
+    ) {
+        parent::__construct(
+            $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $resource, $modulesReader, $cache, $resourceName
+        );
+        $this->_coreData = $coreData;
+    }
+
+    /**
      * List of entities converted from EAV to flat data structure
      *
      * @var $_flatEntityTables array
@@ -211,5 +244,13 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
             )
         );
         return $entities;
+    }
+
+    /**
+     * @return \Magento\Core\Helper\Data
+     */
+    public function getCoreData()
+    {
+        return $this->_coreData;
     }
 }

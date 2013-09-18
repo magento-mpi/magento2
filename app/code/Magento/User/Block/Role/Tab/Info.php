@@ -11,11 +11,12 @@
 /**
  * implementing now
  *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 namespace Magento\User\Block\Role\Tab;
 
 class Info
-    extends \Magento\Backend\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     public function getTabLabel()
@@ -47,7 +48,8 @@ class Info
 
     protected function _initForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset(
             'base_fieldset',

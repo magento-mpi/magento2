@@ -41,7 +41,7 @@ class Items
                     $item->getGwPrice() + $item->getGwTaxAmount()
                 );
             } else {
-                $temp['price'] = $this->_preparePrices($item->getGwBasePrice(),$item->getGwPrice());
+                $temp['price'] = $this->_preparePrices($item->getGwBasePrice(), $item->getGwPrice());
             }
             $temp['design'] = $item->getGwId();
             $data[$item->getId()] = $temp;

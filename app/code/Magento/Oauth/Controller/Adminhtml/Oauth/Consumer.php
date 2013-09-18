@@ -20,14 +20,33 @@ namespace Magento\Oauth\Controller\Adminhtml\Oauth;
 class Consumer extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Perform layout initialization actions
      *
      * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
      */
     protected function  _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_consumer');
+        // TODO: Fix during Web API authentication implementation
+        // $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_legacy_api_oauth_consumer');
         return $this;
     }
     /**
@@ -90,14 +109,14 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
             $this->_setFormData($formData);
             $model->addData($formData);
         } else {
-            /** @var $helper \Magento\Oauth\Helper\Data */
-            $helper = \Mage::helper('Magento\Oauth\Helper\Data');
-            $model->setKey($helper->generateConsumerKey());
-            $model->setSecret($helper->generateConsumerSecret());
+            /** @var $oauthData \Magento\Oauth\Helper\Data */
+            $oauthData = $this->_objectManager->get('Magento\Oauth\Helper\Data');
+            $model->setKey($oauthData->generateConsumerKey());
+            $model->setSecret($oauthData->generateConsumerSecret());
             $this->_setFormData($model->getData());
         }
 
-        \Mage::register('current_consumer', $model);
+        $this->_coreRegistry->register('current_consumer', $model);
 
         $this->_initAction();
         $this->renderLayout();
@@ -127,7 +146,7 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
         }
 
         $model->addData($this->_filter($this->getRequest()->getParams()));
-        \Mage::register('current_consumer', $model);
+        $this->_coreRegistry->register('current_consumer', $model);
 
         $this->_initAction();
         $this->renderLayout();
@@ -176,11 +195,11 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
             } else {
                 // If an admin was started create a new consumer and at this moment he has been edited an existing
                 // consumer, we save the new consumer with a new key-secret pair
-                /** @var $helper \Magento\Oauth\Helper\Data */
-                $helper = \Mage::helper('Magento\Oauth\Helper\Data');
+                /** @var $oauthData \Magento\Oauth\Helper\Data */
+                $oauthData = $this->_objectManager->get('Magento\Oauth\Helper\Data');
 
-                $data['key']    = $helper->generateConsumerKey();
-                $data['secret'] = $helper->generateConsumerSecret();
+                $data['key']    = $oauthData->generateConsumerKey();
+                $data['secret'] = $oauthData->generateConsumerSecret();
             }
         }
 
@@ -191,7 +210,10 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
             $this->_setFormData(null);
         } catch (\Magento\Core\Exception $e) {
             $this->_setFormData($data);
-            $this->_getSession()->addError(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($e->getMessage()));
+            $this->_getSession()->addError(
+                $this->_objectManager->get('Magento\Core\Helper\Data')
+                    ->escapeHtml($e->getMessage())
+            );
             $this->getRequest()->setParam('back', 'edit');
         } catch (\Exception $e) {
             $this->_setFormData(null);

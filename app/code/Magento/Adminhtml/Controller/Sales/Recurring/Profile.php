@@ -18,9 +18,26 @@ namespace Magento\Adminhtml\Controller\Sales\Recurring;
 class Profile extends \Magento\Adminhtml\Controller\Action
 {
     /**
-     * Recurring profiles list
+     * Core registry
      *
-     * @return void
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
+     * Recurring profiles list
      */
     public function indexAction()
     {
@@ -32,7 +49,7 @@ class Profile extends \Magento\Adminhtml\Controller\Action
     }
 
     /**
-     * View recurring profile detales
+     * View recurring profile details
      */
     public function viewAction()
     {
@@ -42,8 +59,7 @@ class Profile extends \Magento\Adminhtml\Controller\Action
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::sales_recurring_profile')
                 ->_title(__('Profile #%1', $profile->getReferenceId()))
-                ->renderLayout()
-            ;
+                ->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -146,7 +162,7 @@ class Profile extends \Magento\Adminhtml\Controller\Action
     }
 
     /**
-     * Cutomer billing agreements ajax action
+     * Customer billing agreements ajax action
      *
      */
     public function customerGridAction()
@@ -170,7 +186,7 @@ class Profile extends \Magento\Adminhtml\Controller\Action
             $customer->load($customerId);
         }
 
-        \Mage::register('current_customer', $customer);
+        $this->_coreRegistry->register('current_customer', $customer);
         return $this;
     }
 
@@ -185,7 +201,7 @@ class Profile extends \Magento\Adminhtml\Controller\Action
         if (!$profile->getId()) {
             \Mage::throwException(__('The profile you specified does not exist.'));
         }
-        \Mage::register('current_recurring_profile', $profile);
+        $this->_coreRegistry->register('current_recurring_profile', $profile);
         return $profile;
     }
 }

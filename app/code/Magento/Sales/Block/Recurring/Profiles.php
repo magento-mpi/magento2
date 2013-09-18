@@ -23,6 +23,29 @@ class Profiles extends \Magento\Core\Block\Template
     protected $_profiles = null;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare profiles collection and render it as grid information
      */
     public function prepareProfilesGrid()
@@ -96,7 +119,7 @@ class Profiles extends \Magento\Core\Block\Template
     protected function _prepareProfiles($fields = '*')
     {
         $this->_profiles = \Mage::getModel('Magento\Sales\Model\Recurring\Profile')->getCollection()
-            ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->addFieldToSelect($fields)
             ->setOrder('profile_id', 'desc')
         ;

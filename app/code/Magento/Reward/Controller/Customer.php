@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward customer controller
  *
@@ -21,6 +20,25 @@ namespace Magento\Reward\Controller;
 class Customer extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Predispatch
      * Check is customer authenticate
      * Check is RP enabled on frontend
@@ -31,7 +49,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
         if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
-        if (!\Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront()) {
+        if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -42,7 +60,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
      */
     public function infoAction()
     {
-        \Mage::register('current_reward', $this->_getReward());
+        $this->_coreRegistry->register('current_reward', $this->_getReward());
         $this->loadLayout();
         $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');

@@ -12,6 +12,29 @@ namespace Magento\User\Block\Role;
 
 class Edit extends \Magento\Backend\Block\Widget\Tabs
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -22,7 +45,7 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
 
     protected function _prepareLayout()
     {
-        $role = \Mage::registry('current_role');
+        $role = $this->_coreRegistry->registry('current_role');
 
         $this->addTab(
             'info',

@@ -15,72 +15,113 @@
 class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout\Argument\Handler\Url
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Helper
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_urlModelMock;
-
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_urlModelMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Layout\Argument\Handler\Url($this->_objectManagerMock,
-            $this->_urlModelMock
+        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_urlModleMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
+        $this->_model = $helperObjectManager->getObject(
+            'Magento\Core\Model\Layout\Argument\Handler\Url',
+            array('urlModel' => $this->_urlModleMock)
         );
     }
 
-    protected function tearDown()
+    /**
+     * @dataProvider parseDataProvider()
+     * @param Magento_Core_Model_Layout_Element $argument
+     * @param array $expectedResult
+     */
+    public function testParse($argument, $expectedResult)
     {
-        unset($this->_model);
-        unset($this->_objectManagerMock);
-        unset($this->_urlModelMock);
-    }
-
-    public function testProcess()
-    {
-        $expectedUrl = "http://generated-url.com?___SID=U";
-
-        $path = 'module/controller/action';
-        $params = array('___SID' => "U");
-
-        $this->_urlModelMock->expects($this->once())
-            ->method('getUrl')
-            ->with($this->equalTo($path), $this->equalTo($params))
-            ->will($this->returnValue($expectedUrl));
-
-        $this->assertEquals($expectedUrl, $this->_model->process(array('path' => $path, 'params' => $params)));
-    }
-
-    public function testProcessWithoutUrlParams()
-    {
-        $expectedUrl = "http://generated-url.com";
-
-        $path = 'module/controller/action';
-        $params = null;
-
-        $this->_urlModelMock->expects($this->once())
-            ->method('getUrl')
-            ->with($this->equalTo($path), $this->equalTo($params))
-            ->will($this->returnValue($expectedUrl));
-
-        $this->assertEquals($expectedUrl, $this->_model->process(array('path' => $path)));
+        $result = $this->_model->parse($argument);
+        $this->assertEquals($result, $expectedResult);
     }
 
     /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Passed value has incorrect format
+     * @return array
      */
-    public function testProcessIfValueIsNotArray()
+    public function parseDataProvider()
     {
-        $this->_model->process('*/*/action');
+        $layout = simplexml_load_file(
+            __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'arguments.xml',
+            'Magento\Core\Model\Layout\Element'
+        );
+        $result = $this->processDataProvider();
+        $resultWithParams = $resultWithoutParams = $result[0][0];
+        $resultWithoutParams['value']['params'] = array();
+        $argWithParams = $layout->xpath('//argument[@name="testUrlWithParams"]');
+        $argWithoutParams = $layout->xpath('//argument[@name="testUrlWithoutParams"]');
+        return array(
+            array($argWithParams[0], $resultWithParams + array('type' => 'url')),
+            array($argWithoutParams[0], $resultWithoutParams + array('type' => 'url')),
+        );
+    }
+
+    /**
+     * @dataProvider processDataProvider
+     * @param array $argument
+     * @param boolean $expectedResult
+     */
+    public function testProcess($argument, $expectedResult)
+    {
+        $this->_urlModleMock->expects($this->once())
+            ->method('getUrl')
+            ->with($argument['value']['path'], $argument['value']['params'])
+            ->will($this->returnValue($expectedResult));
+
+        $this->assertEquals($this->_model->process($argument), $expectedResult);
+    }
+
+    /**
+     * @return array
+     */
+    public function processDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'value' => array(
+                        'path' => 'module/controller/action',
+                        'params' => array(
+                            'firstParam' => 'firstValue',
+                            'secondParam' => 'secondValue',
+                        ),
+                    )
+                )
+                , 'test/url'
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider processExceptionDataProvider
+     * @param array $argument
+     * @param string $message
+     */
+    public function testProcessException($argument, $message)
+    {
+        $this->setExpectedException(
+            'InvalidArgumentException', $message
+        );
+        $this->_model->process($argument);
+    }
+
+    /**
+     * @return array
+     */
+    public function processExceptionDataProvider()
+    {
+        return array(
+            array(array(), 'Value is required for argument'),
+            array(array('value' => array()), 'Passed value has incorrect format'),
+        );
     }
 }

@@ -32,13 +32,23 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_filesystem;
 
     /**
-     * Constructor
+     * Core data
      *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Filesystem $filesystem)
-    {
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Filesystem $filesystem
+    ) {
+        $this->_coreData = $coreData;
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
     }
@@ -60,7 +70,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function reEncryptDatabaseValues($safe = true)
     {
-        $this->_encryptor = clone \Mage::helper('Magento\Core\Helper\Data')->getEncryptor();
+        $this->_encryptor = clone $this->_coreData->getEncryptor();
 
         // update database only
         if ($safe) {
@@ -102,7 +112,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (null === $key) {
             $key = md5(time());
         }
-        $this->_encryptor = clone \Mage::helper('Magento\Core\Helper\Data')->getEncryptor();
+        $this->_encryptor = clone $this->_coreData->getEncryptor();
         $this->_encryptor->setNewKey($key);
         $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
             '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents

@@ -98,9 +98,8 @@ class Cart extends \Magento\Adminhtml\Controller\Action
             $configureResult->setMessage($e->getMessage());
         }
 
-        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Composite');
-        $helper->renderConfigureResult($this, $configureResult);
+        $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite')
+            ->renderConfigureResult($this, $configureResult);
 
         return $this;
     }

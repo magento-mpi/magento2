@@ -20,6 +20,25 @@ namespace Magento\Centinel\Controller\Adminhtml\Centinel;
 class Index extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Process validate payment data action
      *
      */
@@ -41,7 +60,7 @@ class Index extends \Magento\Adminhtml\Controller\Action
             \Mage::logException($e);
             $result['message'] = __('Validation failed.');
         }
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
@@ -50,8 +69,9 @@ class Index extends \Magento\Adminhtml\Controller\Action
      */
     public function authenticationStartAction()
     {
-        if ($validator = $this->_getValidator()) {
-            \Mage::register('current_centinel_validator', $validator);
+        $validator = $this->_getValidator();
+        if ($validator) {
+            $this->_coreRegistry->register('current_centinel_validator', $validator);
         }
         $this->loadLayout()->renderLayout();
     }
@@ -63,7 +83,8 @@ class Index extends \Magento\Adminhtml\Controller\Action
     public function authenticationCompleteAction()
     {
         try {
-           if ($validator = $this->_getValidator()) {
+            $validator = $this->_getValidator();
+            if ($validator) {
                 $request = $this->getRequest();
 
                 $data = new \Magento\Object();
@@ -71,10 +92,10 @@ class Index extends \Magento\Adminhtml\Controller\Action
                 $data->setPaResPayload($request->getParam('PaRes'));
 
                 $validator->authenticate($data);
-                \Mage::register('current_centinel_validator', $validator);
+                $this->_coreRegistry->register('current_centinel_validator', $validator);
             }
         } catch (\Exception $e) {
-            \Mage::register('current_centinel_validator', false);
+            $this->_coreRegistry->register('current_centinel_validator', false);
         }
         $this->loadLayout()->renderLayout();
     }
@@ -103,4 +124,3 @@ class Index extends \Magento\Adminhtml\Controller\Action
         return false;
     }
 }
-

@@ -30,7 +30,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getProductData()
     {
-        return \Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**
@@ -40,7 +40,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getReviewData()
     {
-        return \Mage::registry('current_review');
+        return $this->_coreRegistry->registry('current_review');
     }
 
     /**

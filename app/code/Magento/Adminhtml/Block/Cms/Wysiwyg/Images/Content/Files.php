@@ -27,6 +27,29 @@ class Files extends \Magento\Adminhtml\Block\Template
     protected $_filesCollection;
 
     /**
+     * Cms wysiwyg images
+     *
+     * @var \Magento\Cms\Helper\Wysiwyg\Images
+     */
+    protected $_cmsWysiwygImages = null;
+
+    /**
+     * @param \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_cmsWysiwygImages = $cmsWysiwygImages;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepared Files collection for current directory
      *
      * @return \Magento\Data\Collection\Filesystem
@@ -36,7 +59,7 @@ class Files extends \Magento\Adminhtml\Block\Template
         if (! $this->_filesCollection) {
             $this->_filesCollection = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage')
                 ->getFilesCollection(
-                    \Mage::helper('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath(), $this->_getMediaType()
+                    $this->_cmsWysiwygImages->getCurrentPath(), $this->_getMediaType()
                 );
         }
 

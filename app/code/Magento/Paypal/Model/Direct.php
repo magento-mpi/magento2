@@ -52,9 +52,20 @@ class Direct extends \Magento\Payment\Model\Method\Cc
      */
     protected $_proType = 'Magento\Paypal\Model\Pro';
 
-    public function __construct($params = array())
-    {
-        $proInstance = array_shift($params);
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Payment\Helper\Data $paymentData,
+        array $data = array()
+    ) {
+        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+        $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
         } else {

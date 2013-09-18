@@ -30,6 +30,35 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     protected $_mapRenderer = 'msrp_item';
 
+    /**
+     * Catalog product
+     *
+     * @var \Magento\Catalog\Helper\Product
+     */
+    protected $_catalogProduct = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
     public function getOptions()
     {
         if (!$this->_options) {
@@ -45,7 +74,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             );
 
             $this->_options = $optionCollection->appendSelections($selectionCollection, false,
-                \Mage::helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck()
+                $this->_catalogProduct->getSkipSaleableCheck()
             );
         }
 
@@ -74,11 +103,11 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         $selected     = array();
         $currentProduct = $this->getProduct();
         /* @var $coreHelper \Magento\Core\Helper\Data */
-        $coreHelper   = \Mage::helper('Magento\Core\Helper\Data');
+        $coreHelper   = $this->_coreData;
         /* @var $catalogHelper \Magento\Catalog\Helper\Data */
-        $catalogHelper = \Mage::helper('Magento\Catalog\Helper\Data');
+        $catalogHelper = $this->_catalogData;
         /* @var $taxHelper \Magento\Tax\Helper\Data */
-        $taxHelper = \Mage::helper('Magento\Tax\Helper\Data');
+        $taxHelper = $this->_taxData;
         /* @var $bundlePriceModel \Magento\Bundle\Model\Product\Price */
         $bundlePriceModel = \Mage::getModel('Magento\Bundle\Model\Product\Price');
 
@@ -146,7 +175,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
                 $responseObject = new \Magento\Object();
                 $args = array('response_object' => $responseObject, 'selection' => $_selection);
-                \Mage::dispatchEvent('bundle_product_view_config', $args);
+                $this->_eventManager->dispatch('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {
                     foreach ($responseObject->getAdditionalOptions() as $o => $v) {
                         $selection[$o] = $v;

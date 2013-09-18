@@ -10,16 +10,34 @@
 
 /**
  * Poll edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Adminhtml\Block\Poll;
 
 class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -35,8 +53,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 
     public function getHeaderText()
     {
-        if( \Mage::registry('poll_data') && \Mage::registry('poll_data')->getId() ) {
-            return __("Edit Poll '%1'", $this->escapeHtml(\Mage::registry('poll_data')->getPollTitle()));
+        $pollData = $this->_coreRegistry->registry('poll_data');
+        if ($pollData && $pollData->getId()) {
+            return __("Edit Poll '%1'", $this->escapeHtml($pollData->getPollTitle()));
         } else {
             return __('New Poll');
         }

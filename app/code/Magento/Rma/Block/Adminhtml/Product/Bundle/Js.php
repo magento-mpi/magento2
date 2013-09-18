@@ -13,6 +13,29 @@ namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
 class Js extends \Magento\Adminhtml\Block\Template
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get url for Bundle AJAX Action
      *
      * @return string
@@ -30,7 +53,7 @@ class Js extends \Magento\Adminhtml\Block\Template
     public function getLoadAttributesUrl()
     {
         return $this->getUrl('*/*/loadNewAttributes', array(
-            'order_id' => \Mage::registry('current_order')->getId()
+            'order_id' => $this->_coreRegistry->registry('current_order')->getId()
         ));
     }
 

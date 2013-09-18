@@ -37,13 +37,36 @@ class Extended extends \Magento\Backend\Block\Widget
     protected $_template = 'Magento_Backend::widget/grid/massaction_extended.phtml';
 
     /**
+     * Backend data
+     *
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_backendData = null;
+
+    /**
+     * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Helper\Data $backendData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_backendData = $backendData;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Sets Massaction template
      */
     public function _construct()
     {
         parent::_construct();
         $this->setErrorText(
-            \Mage::helper('Magento\Backend\Helper\Data')
+            $this->_backendData
                 ->jsQuoteEscape(__('Please select items.'))
         );
     }
@@ -115,7 +138,7 @@ class Extended extends \Magento\Backend\Block\Widget
             $result[$itemId] = $item->toArray();
         }
 
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
+        return $this->_coreData->jsonEncode($result);
     }
 
     /**

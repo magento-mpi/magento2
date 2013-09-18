@@ -20,8 +20,20 @@ namespace Magento\Reward\Model\Total\Quote;
 
 class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
-    public function __construct()
-    {
+    /**
+     * Reward data
+     *
+     * @var \Magento\Reward\Helper\Data
+     */
+    protected $_rewardData = null;
+
+    /**
+     * @param \Magento\Reward\Helper\Data $rewardData
+     */
+    public function __construct(
+        \Magento\Reward\Helper\Data $rewardData
+    ) {
+        $this->_rewardData = $rewardData;
         $this->setCode('reward');
     }
 
@@ -35,7 +47,7 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     {
         /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $address->getQuote();
-        if (!\Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
+        if (!$this->_rewardData->isEnabledOnFront($quote->getStore()->getWebsiteId())) {
             return $this;
         }
 
@@ -100,13 +112,13 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $websiteId = $address->getQuote()->getStore()->getWebsiteId();
-        if (!\Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront($websiteId)) {
+        if (!$this->_rewardData->isEnabledOnFront($websiteId)) {
             return $this;
         }
         if ($address->getRewardCurrencyAmount()) {
             $address->addTotal(array(
                 'code'  => $this->getCode(),
-                'title' => \Mage::helper('Magento\Reward\Helper\Data')->formatReward($address->getRewardPointsBalance()),
+                'title' => $this->_rewardData->formatReward($address->getRewardPointsBalance()),
                 'value' => -$address->getRewardCurrencyAmount()
             ));
         }

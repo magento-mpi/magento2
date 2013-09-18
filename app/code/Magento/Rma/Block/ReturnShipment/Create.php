@@ -12,15 +12,48 @@ namespace Magento\Rma\Block\ReturnShipment;
 
 class Create extends \Magento\Rma\Block\Form
 {
+    /**
+     * Rma data
+     *
+     * @var \Magento\Rma\Helper\Data
+     */
+    protected $_rmaData = null;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Rma\Helper\Data $rmaData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        $this->_rmaData = $rmaData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function _construct()
     {
-        $order = \Mage::registry('current_order');
+        $order = $this->_coreRegistry->registry('current_order');
         if (!$order) {
             return;
         }
         $this->setOrder($order);
 
-        $items = \Mage::helper('Magento\Rma\Helper\Data')->getOrderItems($order);
+        $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
         $session = \Mage::getSingleton('Magento\Core\Model\Session');

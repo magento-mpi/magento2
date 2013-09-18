@@ -149,7 +149,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
                 $collection->setPageSize($this->getSubReportSize());
             }
 
-            \Mage::dispatchEvent('adminhtml_widget_grid_filter_collection',
+            $this->_eventManager->dispatch('adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
             );
         }

@@ -24,9 +24,19 @@ class Date extends \Magento\Data\Form\Element\AbstractElement
      */
     protected $_value;
 
-    public function __construct($attributes = array())
-    {
-        parent::__construct($attributes);
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param array $attributes
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        $attributes = array()
+    ) {
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
         $this->setType('text');
         $this->setExtType('textfield');
         if (isset($attributes['value'])) {

@@ -19,6 +19,32 @@ namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
 
 class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Core\Model\Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -40,7 +66,7 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _prepareCollection()
     {
         $collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Grid\Collection')
-            ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->setIsCustomerMode(true);
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -108,5 +134,4 @@ class Orders extends \Magento\Adminhtml\Block\Widget\Grid
     {
         return ($this->getCollection()->getSize() >= 0);
     }
-
 }

@@ -8,18 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * description
- *
- * @category    Magento
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
+
 namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
 
 class Actions
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -64,14 +57,15 @@ class Actions
 
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        //$form = new \Magento\Data\Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
-        $form = new \Magento\Data\Form();
-
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>__('Update prices using the following information')));
+        $fieldset = $form->addFieldset('action_fieldset', array(
+            'legend' => __('Update prices using the following information')
+        ));
 
         $fieldset->addField('simple_action', 'select', array(
             'label'     => __('Apply'),
@@ -135,7 +129,8 @@ class Actions
             ->setNewChildUrl($this->getUrl('*/promo_quote/newActionHtml/form/rule_actions_fieldset'));
 
         $fieldset = $form->addFieldset('actions_fieldset', array(
-            'legend'=>__('Apply the rule only to cart items matching the following conditions (leave blank for all items).')
+            'legend'=>__('Apply the rule only to cart items matching the following conditions '
+                . '(leave blank for all items).')
         ))->setRenderer($renderer);
 
         $fieldset->addField('actions', 'text', array(
@@ -145,7 +140,7 @@ class Actions
             'required' => true,
         ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Actions'));
 
-        \Mage::dispatchEvent('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
 
         $form->setValues($model->getData());
 
@@ -154,11 +149,8 @@ class Actions
                 $element->setReadonly(true, true);
             }
         }
-        //$form->setUseContainer(true);
 
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
-
 }

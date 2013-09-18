@@ -26,14 +26,40 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
     protected $_prefix = 'registrant';
 
     /**
+     * Gift registry data
+     *
+     * @var \Magento\GiftRegistry\Helper\Data
+     */
+    protected $_giftRegistryData = null;
+
+    /**
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_giftRegistryData = $giftRegistryData;
+        parent::__construct($coreRegistry, $configCacheType, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Max Recipients
      *
-     * @param int $store
      * @return int
      */
     public function getMaxRegistrant()
     {
-        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->getMaxRegistrant();
+        return $this->_giftRegistryData->getMaxRegistrant();
     }
 
     /**

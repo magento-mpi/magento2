@@ -204,8 +204,10 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $store = $this->getMock(
             'Magento\Core\Model\Store',
-            array('isAdmin', 'getConfig', 'getBaseUrl'),
-            array(), '', false
+            array(),
+            array(),
+            '',
+            false
         );
 
         $store->expects($this->any())

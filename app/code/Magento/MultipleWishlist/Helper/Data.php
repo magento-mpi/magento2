@@ -44,16 +44,6 @@ class Data extends \Magento\Wishlist\Helper\Data
     }
 
     /**
-     * Retrieve current customer
-     *
-     * @return \Magento\Customer\Model\Customer
-     */
-    public function getCustomer()
-    {
-        return \Mage::helper('Magento\Wishlist\Helper\Data')->getCustomer();
-    }
-
-    /**
      * Check whether multiple wishlist is enabled
      *
      * @return bool
@@ -126,12 +116,12 @@ class Data extends \Magento\Wishlist\Helper\Data
         if (!$customerId && $this->getCustomer()) {
             $customerId = $this->getCustomer()->getId();
         }
-        $wishlistsByCustomer = \Mage::registry('wishlists_by_customer');
+        $wishlistsByCustomer = $this->_coreRegistry->registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
             $collection = \Mage::getModel('Magento\Wishlist\Model\Wishlist')->getCollection();
             $collection->filterByCustomerId($customerId);
             $wishlistsByCustomer[$customerId] = $collection;
-            \Mage::register('wishlists_by_customer', $wishlistsByCustomer);
+            $this->_coreRegistry->register('wishlists_by_customer', $wishlistsByCustomer);
         }
         return $wishlistsByCustomer[$customerId];
     }

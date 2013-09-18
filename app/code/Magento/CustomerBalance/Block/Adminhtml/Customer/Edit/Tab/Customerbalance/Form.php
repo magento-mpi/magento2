@@ -18,7 +18,7 @@
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
 class Form extends
-    \Magento\Adminhtml\Block\Widget\Form
+    \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form fields
@@ -27,7 +27,8 @@ class Form extends
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $prefix = '_customerbalance';
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');

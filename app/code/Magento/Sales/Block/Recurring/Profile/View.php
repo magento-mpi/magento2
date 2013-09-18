@@ -42,6 +42,29 @@ class View extends \Magento\Core\Block\Template
     protected $_relatedOrders = null;
 
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare main view data
      */
     public function prepareViewData()
@@ -107,13 +130,6 @@ class View extends \Magento\Core\Block\Template
                 'value' => $this->_profile->renderData($key),
             ));
         }
-//        $shippingDesctiption = $this->_profile->getInfoValue('order_info', 'shipping_description');
-//        if ($shippingDesctiption) {
-//            $this->_addInfo(array(
-//                'label' => __('Shipping Method'),
-//                'value' => $shippingDesctiption,
-//            ));
-//        }
     }
 
     /**
@@ -225,7 +241,7 @@ class View extends \Magento\Core\Block\Template
             if ($value) {
                 $this->_addInfo(array(
                     'label' => $this->_profile->getFieldLabel($key),
-                    'value' => \Mage::helper('Magento\Core\Helper\Data')->formatCurrency($value, false),
+                    'value' => $this->_coreData->formatCurrency($value, false),
                     'is_amount' => true,
                 ));
             }
@@ -309,7 +325,7 @@ class View extends \Magento\Core\Block\Template
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
-                'base_grand_total' => \Mage::helper('Magento\Core\Helper\Data')->formatCurrency(
+                'base_grand_total' => $this->_coreData->formatCurrency(
                     $order->getBaseGrandTotal(), false
                 ),
                 'status' => $order->getStatusLabel(),
@@ -349,7 +365,7 @@ class View extends \Magento\Core\Block\Template
         if (null === $this->_relatedOrders) {
             $this->_relatedOrders = \Mage::getResourceModel('Magento\Sales\Model\Resource\Order\Collection')
                 ->addFieldToSelect($fieldsToSelect)
-                ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
+                ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
                 ->addRecurringProfilesFilter($this->_profile->getId())
                 ->setOrder('entity_id', 'desc');
         }
@@ -376,7 +392,7 @@ class View extends \Magento\Core\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->_profile = \Mage::registry('current_recurring_profile')
+        $this->_profile = $this->_coreRegistry->registry('current_recurring_profile')
             ->setStore(\Mage::app()->getStore())
             ->setLocale(\Mage::app()->getLocale())
         ;

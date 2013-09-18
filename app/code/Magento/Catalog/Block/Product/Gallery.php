@@ -19,9 +19,33 @@ namespace Magento\Catalog\Block\Product;
 
 class Gallery extends \Magento\Core\Block\Template
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $headBlock->setTitle($this->getProduct()->getMetaTitle());
         }
         return parent::_prepareLayout();
@@ -29,7 +53,7 @@ class Gallery extends \Magento\Core\Block\Template
 
     public function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     public function getGalleryCollection()
@@ -121,16 +145,18 @@ class Gallery extends \Magento\Core\Block\Template
 
     public function getPreviusImageUrl()
     {
-        if ($image = $this->getPreviusImage()) {
-            return $this->getUrl('*/*/*', array('_current'=>true, 'image'=>$image->getValueId()));
+        $image = $this->getPreviusImage();
+        if ($image) {
+            return $this->getUrl('*/*/*', array('_current' => true, 'image' => $image->getValueId()));
         }
         return false;
     }
 
     public function getNextImageUrl()
     {
-        if ($image = $this->getNextImage()) {
-            return $this->getUrl('*/*/*', array('_current'=>true, 'image'=>$image->getValueId()));
+        $image = $this->getNextImage();
+        if ($image) {
+            return $this->getUrl('*/*/*', array('_current' => true, 'image' => $image->getValueId()));
         }
         return false;
     }

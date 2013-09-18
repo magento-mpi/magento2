@@ -26,6 +26,19 @@ class Http extends \Zend_Controller_Response_Http
     protected static $_transportObject = null;
 
     /**
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     */
+    public function __construct(\Magento\Core\Model\Event\Manager $eventManager)
+    {
+        $this->_eventManager = $eventManager;
+    }
+
+    /**
      * Fixes CGI only one Status header allowed bug
      *
      * @link  http://bugs.php.net/bug.php?id=36705
@@ -85,8 +98,8 @@ class Http extends \Zend_Controller_Response_Http
         }
         self::$_transportObject->setUrl($url);
         self::$_transportObject->setCode($code);
-        \Mage::dispatchEvent('controller_response_redirect',
-                array('response' => $this, 'transport' => self::$_transportObject));
+        $this->_eventManager->dispatch('controller_response_redirect',
+            array('response' => $this, 'transport' => self::$_transportObject));
 
         return parent::setRedirect(self::$_transportObject->getUrl(), self::$_transportObject->getCode());
     }

@@ -19,7 +19,7 @@
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
 
 class Update
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Getter
@@ -28,7 +28,7 @@ class Update
      */
     public function getCustomer()
     {
-        return \Mage::registry('current_customer');
+        return $this->_coreRegistry->registry('current_customer');
     }
 
     /**
@@ -38,7 +38,8 @@ class Update
      */
     protected function _prepareForm()
     {
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('reward_');
         $form->setFieldNameSuffix('reward');
         $fieldset = $form->addFieldset('update_fieldset', array(

@@ -19,6 +19,29 @@ namespace Magento\User\Block\User;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_objectId = 'user_id';
@@ -33,8 +56,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     public function getHeaderText()
     {
-        if (\Mage::registry('permissions_user')->getId()) {
-            $username = $this->escapeHtml(\Mage::registry('permissions_user')->getUsername());
+        if ($this->_coreRegistry->registry('permissions_user')->getId()) {
+            $username = $this->escapeHtml($this->_coreRegistry->registry('permissions_user')->getUsername());
             return __("Edit User '%1'", $username);
         } else {
             return __('New User');

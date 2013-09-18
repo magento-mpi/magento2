@@ -14,13 +14,40 @@ namespace Magento\Backend\Model\Config\Backend\Storage\Media;
 class Database extends \Magento\Core\Model\Config\Value
 {
     /**
+     * Core file storage
+     *
+     * @var \Magento\Core\Helper\File\Storage
+     */
+    protected $_coreFileStorage = null;
+
+    /**
+     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\File\Storage $coreFileStorage,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreFileStorage = $coreFileStorage;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Create db structure
      *
      * @return \Magento\Backend\Model\Config\Backend\Storage\Media\Database
      */
     protected function _afterSave()
     {
-        $helper = \Mage::helper('Magento\Core\Helper\File\Storage');
+        $helper = $this->_coreFileStorage;
         $helper->getStorageModel(null, array('init' => true));
 
         return $this;

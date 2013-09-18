@@ -31,14 +31,16 @@ class Sender
     /**
      * @param \Magento\Core\Model\Email\Template\Mailer $mailer
      * @param \Magento\Core\Model\Email\Info $info
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Core\Model\Email\Template\Mailer $mailer,
-        \Magento\Core\Model\Email\Info $info, \Magento\Core\Model\Store $store
+    public function __construct(
+        \Magento\Core\Model\Email\Template\Mailer $mailer,
+        \Magento\Core\Model\Email\Info $info,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_mailer = $mailer;
         $this->_emailInfo = $info;
-        $this->_store = $store;
+        $this->_store = $storeManager->getStore();
     }
 
     /**

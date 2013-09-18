@@ -112,7 +112,7 @@ class Info
      */
     public function getAllowPrintedCard()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowPrintedCard($this->getStoreId());
+        return $this->_giftWrappingData->allowPrintedCard($this->getStoreId());
     }
 
     /**
@@ -122,7 +122,7 @@ class Info
      */
     public function getAllowGiftReceipt()
     {
-        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowGiftReceipt($this->getStoreId());
+        return $this->_giftWrappingData->allowGiftReceipt($this->getStoreId());
     }
 
     /**

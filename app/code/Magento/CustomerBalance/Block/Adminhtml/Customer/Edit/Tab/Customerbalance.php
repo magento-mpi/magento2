@@ -10,7 +10,6 @@
 
 /**
  * Customer account Store Credit tab
- *
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
 
@@ -18,6 +17,29 @@ class Customerbalance
     extends \Magento\Adminhtml\Block\Widget
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Set identifier and title
      */
@@ -55,7 +77,7 @@ class Customerbalance
      */
     public function canShowTab()
     {
-        $customer = \Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return (bool)$customer->getId();
     }
 
@@ -66,7 +88,7 @@ class Customerbalance
      */
     public function isHidden()
     {
-        if( !$this->getRequest()->getParam('id') ) {
+        if (!$this->getRequest()->getParam('id')) {
             return true;
         }
         return false;

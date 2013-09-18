@@ -43,6 +43,29 @@ class Profile
     protected $_iframeHeight = '600';
 
     /**
+     * Core registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($pbridgeData, $coreData, $context, $data);
+    }
+
+    /**
      * Getter for label
      * @return string
      */
@@ -66,7 +89,7 @@ class Profile
      */
     public function canShowTab()
     {
-        if (\Mage::registry('current_customer')->getId() && $this->_isProfileEnable()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId() && $this->_isProfileEnable()) {
             return true;
         }
         return false;
@@ -78,7 +101,7 @@ class Profile
      */
     public function isHidden()
     {
-        if (\Mage::registry('current_customer')->getId() && $this->_isProfileEnable()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId() && $this->_isProfileEnable()) {
             return false;
         }
         return true;
@@ -109,7 +132,7 @@ class Profile
      */
     public function getSourceUrl()
     {
-        $helper = \Mage::helper('Magento\Pbridge\Helper\Data');
+        $helper = $this->_pbridgeData;
         $helper->setStoreId($this->_getCurrentStore()->getId());
         return $helper->getPaymentProfileUrl(
             array(
@@ -129,8 +152,8 @@ class Profile
      */
     protected function _getCurrentCustomer()
     {
-        if (\Mage::registry('current_customer') instanceof \Magento\Customer\Model\Customer) {
-            return \Mage::registry('current_customer');
+        if ($this->_coreRegistry->registry('current_customer') instanceof \Magento\Customer\Model\Customer) {
+            return $this->_coreRegistry->registry('current_customer');
         }
 
         return null;

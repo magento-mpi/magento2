@@ -40,7 +40,8 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
             $blocks = array($blocks);
         }
 
-        $requestData = \Mage::helper('Magento\Adminhtml\Helper\Data')->prepareFilterString($this->getRequest()->getParam('filter'));
+        $requestData = $this->_objectManager->get('Magento\Adminhtml\Helper\Data')
+            ->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new \Magento\Object();
@@ -110,11 +111,14 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
             foreach ($collectionsNames as $collectionName) {
                 \Mage::getResourceModel($collectionName)->aggregate($date);
             }
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('Recent statistics have been updated.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->addSuccess(__('Recent statistics have been updated.'));
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t refresh recent statistics.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->addError(__('We can\'t refresh recent statistics.'));
             \Mage::logException($e);
         }
 
@@ -138,11 +142,14 @@ class Statistics extends \Magento\Adminhtml\Controller\Action
             foreach ($collectionsNames as $collectionName) {
                 \Mage::getResourceModel($collectionName)->aggregate();
             }
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('We updated lifetime statistics.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->addSuccess(__('We updated lifetime statistics.'));
         } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t refresh lifetime statistics.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
+                ->addError(__('We can\'t refresh lifetime statistics.'));
             \Mage::logException($e);
         }
 

@@ -18,9 +18,8 @@
  */
 namespace Magento\Adminhtml\Block\Cms\Block\Edit;
 
-class Form extends \Magento\Adminhtml\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     /**
      * Init form
      */
@@ -44,10 +43,15 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
     protected function _prepareForm()
     {
-        $model = \Mage::registry('cms_block');
+        $model = $this->_coreRegistry->registry('cms_block');
 
-        $form = new \Magento\Data\Form(
-            array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
+        /** @var \Magento\Data\Form $form */
+        $form   = $this->_formFactory->create(array(
+            'attributes' => array(
+                'id' => 'edit_form',
+                'action' => $this->getData('action'),
+                'method' => 'post',
+            ))
         );
 
         $form->setHtmlIdPrefix('block_');
@@ -88,8 +92,7 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
             ));
             $renderer = $this->getLayout()->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
-        }
-        else {
+        } else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'stores[]',
                 'value'     => \Mage::app()->getStore(true)->getId()
@@ -126,5 +129,4 @@ class Form extends \Magento\Adminhtml\Block\Widget\Form
 
         return parent::_prepareForm();
     }
-
 }

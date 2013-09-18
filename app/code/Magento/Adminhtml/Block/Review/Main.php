@@ -10,16 +10,35 @@
 
 /**
  * Adminhtml review main block
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Adminhtml\Block\Review;
 
 class Main extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         $this->_addButtonLabel = __('Add New Review');
@@ -42,7 +61,7 @@ class Main extends \Magento\Adminhtml\Block\Widget\Grid\Container
             $productName =  $this->escapeHtml($product->getName());
         }
 
-        if( \Mage::registry('usePendingFilter') === true ) {
+        if ($this->_coreRegistry->registry('usePendingFilter') === true) {
             if ($customerName) {
                 $this->_headerText = __('Pending Reviews of Customer `%1`', $customerName);
             } else {

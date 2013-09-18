@@ -61,7 +61,26 @@ class Head extends \Magento\Core\Block\Template
      */
     private $_pageAssets;
 
+    /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_fileStorageDatabase = null;
+
+    /**
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \\Magento\Core\Block\Template\Context $context
+     * @param \\Magento\ObjectManager $objectManager
+     * @param \Magento_Core_Model_Page $page
+     * @param \Magento_Core_Model_Page_Asset_MergeService $assetMergeService
+     * @param \Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
+     * @param array $data
+     */
     public function __construct(
+        \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Page $page,
@@ -69,7 +88,8 @@ class Head extends \Magento\Core\Block\Template
         \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_fileStorageDatabase = $fileStorageDatabase;
+        parent::__construct($coreData, $context, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
@@ -527,8 +547,8 @@ class Head extends \Magento\Core\Block\Template
      */
     protected function _isFile($filename)
     {
-        if (\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage() && !is_file($filename)) {
-            \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($filename);
+        if ($this->_fileStorageDatabase->checkDbUsage() && !is_file($filename)) {
+            $this->_fileStorageDatabase->saveFileToFilesystem($filename);
         }
         return is_file($filename);
     }

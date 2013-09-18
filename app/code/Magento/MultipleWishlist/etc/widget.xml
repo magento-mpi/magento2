@@ -1,55 +1,38 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<widgets>
-    <wishlist_search type="Magento\MultipleWishlist\Block\Widget\Search" translate="name description">
-        <name>Wishlist Search</name>
-        <description>Wish List Search Description</description>
-        <is_email_compatible>0</is_email_compatible>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
+    <widget id="wishlist_search" class="Magento\MultipleWishlist\Block\Widget\Search" is_email_compatible="false">
+        <label translate="true">Wishlist Search</label>
+        <description translate="true">Wish List Search Description</description>
         <parameters>
-            <types translate="label description">
-                <required>1</required>
-                <visible>1</visible>
-                <label>Quick Search Form Types</label>
-                <type>multiselect</type>
-                <sort_order>10</sort_order>
-                <source_model>Magento\MultipleWishlist\Model\Config\Source\Search</source_model>
-            </types>
-            <template translate="label">
-                <required>1</required>
-                <visible>1</visible>
-                <label>Template</label>
-                <type>select</type>
-                <value>widget/search.phtml</value>
-                <values>
-                    <default_template translate="label">
-                        <value>widget/search.phtml</value>
-                        <label>Wish List Search Template</label>
-                    </default_template>
-                </values>
-            </template>
+            <parameter name="types" xsi:type="multiselect" required="true" visible="true" sort_order="10"
+                       source_model="Magento\MultipleWishlist\Model\Config\Source\Search">
+                <label translate="true">Quick Search Form Types</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default_template" value="widget/search.phtml" selected="true">
+                        <label translate="true">Wish List Search Template</label>
+                    </option>
+                </options>
+            </parameter>
         </parameters>
-        <supported_containers>
-            <left_column>
-                <container_name>left</container_name>
-                <template>
-                    <default>default_template</default>
-                </template>
-            </left_column>
-            <right_column>
-                <container_name>right</container_name>
-                <template>
-                    <default>default_template</default>
-                </template>
-            </right_column>
-        </supported_containers>
-    </wishlist_search>
+        <containers>
+            <container name="left">
+                <template name="default" value="default_template" />
+            </container>
+            <container name="right">
+                <template name="default" value="default_template" />
+            </container>
+        </containers>
+    </widget>
 </widgets>

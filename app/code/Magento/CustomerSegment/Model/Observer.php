@@ -10,7 +10,6 @@
 
 /**
  * CustomerSegment observer
- *
  */
 namespace Magento\CustomerSegment\Model;
 
@@ -22,10 +21,21 @@ class Observer
     private $_segmentHelper;
 
     /**
-     * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
      */
-    public function __construct(\Magento\CustomerSegment\Helper\Data $segmentHelper)
-    {
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\CustomerSegment\Helper\Data $segmentHelper,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_segmentHelper = $segmentHelper;
     }
 
@@ -82,7 +92,7 @@ class Observer
     public function processEvent(\Magento\Event\Observer $observer)
     {
         $eventName = $observer->getEvent()->getName();
-        $customer = \Mage::registry('segment_customer');
+        $customer = $this->_coreRegistry->registry('segment_customer');
 
         // For visitors use customer instance from customer session
         if (!$customer) {

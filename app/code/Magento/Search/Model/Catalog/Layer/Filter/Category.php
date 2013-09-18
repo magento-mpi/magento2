@@ -45,7 +45,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($category->getName()),
+                    'label' => $this->_coreData->escapeHtml($category->getName()),
                     'value' => $categoryId,
                     'count' => $category->getProductCount(),
                 );

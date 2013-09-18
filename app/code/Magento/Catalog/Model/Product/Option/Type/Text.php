@@ -20,6 +20,40 @@ namespace Magento\Catalog\Model\Product\Option\Type;
 class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
+     * Core string
+     *
+     * @var \Magento\Core\Helper\String
+     */
+    protected $_coreString = null;
+
+    /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\String $coreString
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\String $coreString,
+        array $data = array()
+    ) {
+        $this->_coreData = $coreData;
+        $this->_coreString = $coreString;
+        parent::__construct($data);
+    }
+
+    /**
      * Validate user input for option
      *
      * @throws \Magento\Core\Exception
@@ -41,7 +75,7 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         // Check maximal length limit
         $maxCharacters = $option->getMaxCharacters();
-        if ($maxCharacters > 0 && \Mage::helper('Magento\Core\Helper\String')->strlen($value) > $maxCharacters) {
+        if ($maxCharacters > 0 && $this->_coreString->strlen($value) > $maxCharacters) {
             $this->setIsValid(false);
             \Mage::throwException(__('The text is too long.'));
         }
@@ -72,6 +106,6 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function getFormattedOptionValue($value)
     {
-        return \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($value);
+        return $this->_coreData->escapeHtml($value);
     }
 }

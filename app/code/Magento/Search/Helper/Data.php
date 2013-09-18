@@ -67,6 +67,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     );
 
     /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrive text field types
      *
      * @return array
@@ -353,7 +372,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getTaxInfluence()
     {
         if (is_null($this->_taxInfluence)) {
-            $this->_taxInfluence = (bool) \Mage::helper('Magento\Tax\Helper\Data')->getPriceTaxSql('price', 'tax');
+            $this->_taxInfluence = (bool) $this->_taxData->getPriceTaxSql('price', 'tax');
         }
 
         return $this->_taxInfluence;

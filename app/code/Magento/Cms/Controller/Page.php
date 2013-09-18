@@ -28,7 +28,7 @@ class Page extends \Magento\Core\Controller\Front\Action
     {
         $pageId = $this->getRequest()
             ->getParam('page_id', $this->getRequest()->getParam('id', false));
-        if (!\Mage::helper('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
+        if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('noRoute');
         }
     }

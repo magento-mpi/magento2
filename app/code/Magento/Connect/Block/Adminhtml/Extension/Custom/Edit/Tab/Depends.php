@@ -30,7 +30,8 @@ class Depends
     {
         parent::_prepareForm();
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_depends');
 
         $fieldset = $form->addFieldset('depends_php_fieldset', array(

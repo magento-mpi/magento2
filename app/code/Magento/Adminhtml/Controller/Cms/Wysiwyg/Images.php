@@ -20,6 +20,25 @@ namespace Magento\Adminhtml\Controller\Cms\Wysiwyg;
 class Images extends \Magento\Adminhtml\Controller\Action
 {
     /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     */
+    public function __construct(
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init storage
      *
      * @return Magento_Adminhtml_Cms_Page_Wysiwyg_ImagesController
@@ -32,10 +51,10 @@ class Images extends \Magento\Adminhtml\Controller\Action
 
     public function indexAction()
     {
-        $storeId = (int) $this->getRequest()->getParam('store');
+        $storeId = (int)$this->getRequest()->getParam('store');
 
         try {
-            \Mage::helper('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath();
+            $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath();
         } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -57,7 +76,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
             );
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 
@@ -69,7 +88,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
             $this->renderLayout();
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 
@@ -83,7 +102,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         }
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     public function deleteFolderAction()
@@ -93,7 +112,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
             $this->getStorage()->deleteDirectory($path);
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 
@@ -110,8 +129,8 @@ class Images extends \Magento\Adminhtml\Controller\Action
             }
             $files = $this->getRequest()->getParam('files');
 
-            /** @var $helper \Magento\Cms\Helper\Wysiwyg\Images */
-            $helper = \Mage::helper('Magento\Cms\Helper\Wysiwyg\Images');
+            /** @var $helper Magento\Cms\Helper\Wysiwyg\Images */
+            $helper = $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images');
             $path = $this->getStorage()->getSession()->getCurrentPath();
             foreach ($files as $file) {
                 $file = $helper->idDecode($file);
@@ -125,7 +144,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
             }
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 
@@ -135,14 +154,13 @@ class Images extends \Magento\Adminhtml\Controller\Action
     public function uploadAction()
     {
         try {
-            $result = array();
             $this->_initAction();
             $targetPath = $this->getStorage()->getSession()->getCurrentPath();
             $result = $this->getStorage()->uploadFile($targetPath, $this->getRequest()->getParam('type'));
         } catch (\Exception $e) {
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
 
     }
 
@@ -151,14 +169,14 @@ class Images extends \Magento\Adminhtml\Controller\Action
      */
     public function onInsertAction()
     {
-        $helper = \Mage::helper('Magento\Cms\Helper\Wysiwyg\Images');
+        $helper = $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images');
         $storeId = $this->getRequest()->getParam('store');
 
         $filename = $this->getRequest()->getParam('filename');
         $filename = $helper->idDecode($filename);
         $asIs = $this->getRequest()->getParam('as_is');
 
-        \Mage::helper('Magento\Catalog\Helper\Data')->setStoreId($storeId);
+        $this->_objectManager->get('Magento\Core\Helper\Data')->setStoreId($storeId);
         $helper->setStoreId($storeId);
 
         $image = $helper->getImageHtmlDeclaration($filename, $asIs);
@@ -171,7 +189,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
     public function thumbnailAction()
     {
         $file = $this->getRequest()->getParam('file');
-        $file = \Mage::helper('Magento\Cms\Helper\Wysiwyg\Images')->idDecode($file);
+        $file = $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->idDecode($file);
         $thumb = $this->getStorage()->resizeOnTheFly($file);
         if ($thumb !== false) {
             $image = $this->_objectManager->get('Magento\Core\Model\Image\AdapterFactory')->create();
@@ -189,11 +207,11 @@ class Images extends \Magento\Adminhtml\Controller\Action
      */
     public function getStorage()
     {
-        if (!\Mage::registry('storage')) {
+        if (!$this->_coreRegistry->registry('storage')) {
             $storage = \Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage');
-            \Mage::register('storage', $storage);
+            $this->_coreRegistry->register('storage', $storage);
         }
-        return \Mage::registry('storage');
+        return $this->_coreRegistry->registry('storage');
     }
 
     /**
@@ -205,7 +223,7 @@ class Images extends \Magento\Adminhtml\Controller\Action
     {
         $this->getStorage()
             ->getSession()
-            ->setCurrentPath(\Mage::helper('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath());
+            ->setCurrentPath($this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath());
         return $this;
     }
 

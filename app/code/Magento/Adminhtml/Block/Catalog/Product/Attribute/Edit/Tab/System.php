@@ -18,14 +18,14 @@
 
 namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
 
-class System extends \Magento\Adminhtml\Block\Widget\Form
+class System extends \Magento\Backend\Block\Widget\Form\Generic
 {
-
     protected function _prepareForm()
     {
-        $model = \Mage::registry('entity_attribute');
+        $model = $this->_coreRegistry->registry('entity_attribute');
 
-        $form = new \Magento\Data\Form();
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('System Properties')));
 
         if ($model->getAttributeId()) {
@@ -44,18 +44,6 @@ class System extends \Magento\Adminhtml\Block\Widget\Form
                 'label' => __('Yes')
             ));
 
-        /*$fieldset->addField('attribute_model', 'text', array(
-            'name' => 'attribute_model',
-            'label' => __('Attribute Model'),
-            'title' => __('Attribute Model'),
-        ));
-
-        $fieldset->addField('backend_model', 'text', array(
-            'name' => 'backend_model',
-            'label' => __('Backend Model'),
-            'title' => __('Backend Model'),
-        ));*/
-
         $fieldset->addField('backend_type', 'select', array(
             'name' => 'backend_type',
             'label' => __('Data Type for Saving in Database'),
@@ -70,31 +58,6 @@ class System extends \Magento\Adminhtml\Block\Widget\Form
             ),
         ));
 
-        /*$fieldset->addField('backend_table', 'text', array(
-            'name' => 'backend_table',
-            'label' => __('Backend Table'),
-            'title' => __('Backend Table Title'),
-        ));
-
-        $fieldset->addField('frontend_model', 'text', array(
-            'name' => 'frontend_model',
-            'label' => __('Frontend Model'),
-            'title' => __('Frontend Model'),
-        ));*/
-
-        /*$fieldset->addField('is_visible', 'select', array(
-            'name' => 'is_visible',
-            'label' => __('Visible'),
-            'title' => __('Visible'),
-            'values' => $yesno,
-        ));*/
-
-        /*$fieldset->addField('source_model', 'text', array(
-            'name' => 'source_model',
-            'label' => __('Source Model'),
-            'title' => __('Source Model'),
-        ));*/
-
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
             'label' => __('Globally Editable'),
@@ -106,15 +69,9 @@ class System extends \Magento\Adminhtml\Block\Widget\Form
 
         if ($model->getAttributeId()) {
             $form->getElement('backend_type')->setDisabled(1);
-            if ($model->getIsGlobal()) {
-                #$form->getElement('is_global')->setDisabled(1);
-            }
-        } else {
         }
 
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
-
 }

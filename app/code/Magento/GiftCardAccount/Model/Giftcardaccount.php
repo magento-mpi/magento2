@@ -66,6 +66,33 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      */
     protected static $_alreadySelectedIds = array();
 
+    /**
+     * Gift card account data
+     *
+     * @var \Magento\GiftCardAccount\Helper\Data
+     */
+    protected $_giftCardAccountData = null;
+
+    /**
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_giftCardAccountData = $giftCardAccountData;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento\GiftCardAccount\Model\Resource\Giftcardaccount');
@@ -89,11 +116,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
             if ($this->getOrigData('balance') != $this->getBalance()) {
                 if ($this->getBalance() > 0) {
                     $this->setState(self::STATE_AVAILABLE);
-                }
-                elseif ($this->getIsRedeemable() && $this->getIsRedeemed())  {
+                } elseif ($this->getIsRedeemable() && $this->getIsRedeemed()) {
                     $this->setState(self::STATE_REDEEMED);
-                }
-                else {
+                } else {
                     $this->setState(self::STATE_USED);
                 }
             }
@@ -181,7 +206,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         }
         $website = \Mage::app()->getStore($quote->getStoreId())->getWebsite();
         if ($this->isValid(true, true, $website)) {
-            $cards = \Mage::helper('Magento\GiftCardAccount\Helper\Data')->getCards($quote);
+            $cards = $this->_giftCardAccountData->getCards($quote);
             if (!$cards) {
                 $cards = array();
             } else {
@@ -197,7 +222,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
                 'a'=>$this->getBalance(),   // amount
                 'ba'=>$this->getBalance(),  // base amount
             );
-            \Mage::helper('Magento\GiftCardAccount\Helper\Data')->setCards($quote, $cards);
+            $this->_giftCardAccountData->setCards($quote, $cards);
 
             if ($saveQuote) {
                 $quote->collectTotals()->save();
@@ -223,12 +248,12 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
             $quote = $this->_getCheckoutSession()->getQuote();
         }
 
-        $cards = \Mage::helper('Magento\GiftCardAccount\Helper\Data')->getCards($quote);
+        $cards = $this->_giftCardAccountData->getCards($quote);
         if ($cards) {
             foreach ($cards as $k => $one) {
                 if ($one['i'] == $this->getId()) {
                     unset($cards[$k]);
-                    \Mage::helper('Magento\GiftCardAccount\Helper\Data')->setCards($quote, $cards);
+                    $this->_giftCardAccountData->setCards($quote, $cards);
 
                     if ($saveQuote) {
                         $quote->collectTotals()->save();

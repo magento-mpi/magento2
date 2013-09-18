@@ -25,6 +25,25 @@ class Cart extends \Magento\Core\Helper\Url
     const COUPON_CODE_MAX_LENGTH = 255;
 
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Context $context
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve cart instance
      *
      * @return \Magento\Checkout\Model\Cart
@@ -42,7 +61,7 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function getAddUrl($product, $additional = array())
     {
-        $continueUrl    = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getCurrentUrl());
+        $continueUrl    = $this->_coreData->urlEncode($this->getCurrentUrl());
         $urlParamName   = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
 
         $routeParams = array(
@@ -70,7 +89,7 @@ class Cart extends \Magento\Core\Helper\Url
     /**
      * Retrieve url for remove product from cart
      *
-     * @param   Magento_Sales_Quote_Item $item
+     * @param   \Magento\Sales\Quote\Item $item
      * @return  string
      */
     public function getRemoveUrl($item)

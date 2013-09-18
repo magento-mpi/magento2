@@ -36,7 +36,7 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe
      */
     public function getSourceUrl()
     {
-        return \Mage::helper('Magento\Pbridge\Helper\Data')->getPaymentProfileUrl(
+        return $this->_pbridgeData->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url'         => $this->getCssUrl(),

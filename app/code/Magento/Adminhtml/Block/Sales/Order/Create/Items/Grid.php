@@ -26,6 +26,29 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
      */
     protected $_moveToCustomerStorage = true;
 
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -75,7 +98,7 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
         } elseif ($item->hasCustomPrice()) {
             $result = $item->getCustomPrice()*1;
         } else {
-            if (\Mage::helper('Magento\Tax\Helper\Data')->priceIncludesTax($this->getStore())) {
+            if ($this->_taxData->priceIncludesTax($this->getStore())) {
                 $result = $item->getPriceInclTax()*1;
             } else {
                 $result = $item->getOriginalPrice()*1;
@@ -321,7 +344,7 @@ class Grid extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 
     public function getInclExclTaxMessage()
     {
-        if (\Mage::helper('Magento\Tax\Helper\Data')->priceIncludesTax($this->getStore())) {
+        if ($this->_taxData->priceIncludesTax($this->getStore())) {
             return __('* - Enter custom price including tax');
         } else {
             return __('* - Enter custom price excluding tax');

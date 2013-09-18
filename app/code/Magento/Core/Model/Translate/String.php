@@ -32,14 +32,13 @@ class String extends \Magento\Core\Model\AbstractModel
     {
         $this->_init('Magento\Core\Model\Resource\Translate\String');
     }
-    
+
     public function setString($string)
     {
         $this->setData('string', $string);
-        //$this->setData('string', strtolower($string));
         return $this;
     }
-    
+
     /**
      * Retrieve string
      *
@@ -47,7 +46,6 @@ class String extends \Magento\Core\Model\AbstractModel
      */
     public function getString()
     {
-        //return strtolower($this->getData('string'));
         return $this->getData('string');
     }
 }

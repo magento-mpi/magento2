@@ -18,7 +18,7 @@
 namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
 class Links
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
 {
     /**
      * Block config data
@@ -37,18 +37,54 @@ class Links
     protected $_template = 'product/edit/downloadable/links.phtml';
 
     /**
+     * Downloadable file
+     *
+     * @var \Magento\Downloadable\Helper\File
+     */
+    protected $_downloadableFile = null;
+
+    /**
+     * Core file storage database
+     *
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_coreFileStorageDb = null;
+
+    /**
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
 
+    /**
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+     * @param \Magento\Downloadable\Helper\File $downloadableFile
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param array $data
+     */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
+        \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_coreFileStorageDb = $coreFileStorageDatabase;
+        $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -70,7 +106,7 @@ class Links
      */
     public function getProduct()
     {
-        return \Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -118,7 +154,7 @@ class Links
                 'label' => __('Add New Row'),
                 'id'    => 'add_link_item',
                 'class' => 'add'
-            ));
+        ));
         return $addButton->toHtml();
     }
 
@@ -171,7 +207,7 @@ class Links
         }
         $links = $this->getProduct()->getTypeInstance()->getLinks($this->getProduct());
         $priceWebsiteScope = $this->getIsPriceWebsiteScope();
-        $fileHelper = \Mage::helper('Magento\Downloadable\Helper\File');
+        $fileHelper = $this->_downloadableFile;
         foreach ($links as $item) {
             $tmpLinkItem = array(
                 'link_id' => $item->getId(),
@@ -191,7 +227,7 @@ class Links
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
-                \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($file);
+                $this->_coreFileStorageDb->saveFileToFilesystem($file);
             }
 
             if ($item->getLinkFile() && is_file($file)) {
@@ -323,7 +359,7 @@ class Links
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getConfig()->getData());
+        return $this->_coreData->jsonEncode($this->getConfig()->getData());
     }
 
     /**

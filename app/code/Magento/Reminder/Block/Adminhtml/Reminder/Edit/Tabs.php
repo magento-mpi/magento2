@@ -18,6 +18,27 @@ class Tabs
 {
 
     /**
+     * Core registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Intialize form
      *
      * @return void
@@ -61,7 +82,7 @@ class Tabs
             )->toHtml()
         ));
 
-        $rule = \Mage::registry('current_reminder_rule');
+        $rule = $this->_coreRegistry->registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
             $this->addTab('matched_customers', array(
                 'label' => __('Matched Customers'),

@@ -19,29 +19,56 @@ namespace Magento\Catalog\Block\Category;
 
 class View extends \Magento\Core\Block\Template
 {
+    /**
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
 
         $this->getLayout()->createBlock('Magento\Catalog\Block\Breadcrumbs');
 
-        if ($headBlock = $this->getLayout()->getBlock('head')) {
+        $headBlock = $this->getLayout()->getBlock('head');
+        if ($headBlock) {
             $category = $this->getCurrentCategory();
-            if ($title = $category->getMetaTitle()) {
+            $title = $category->getMetaTitle();
+            if ($title) {
                 $headBlock->setTitle($title);
             }
-            if ($description = $category->getMetaDescription()) {
+            $description = $category->getMetaDescription();
+            if ($description) {
                 $headBlock->setDescription($description);
             }
-            if ($keywords = $category->getMetaKeywords()) {
+            $keywords = $category->getMetaKeywords();
+            if ($keywords) {
                 $headBlock->setKeywords($keywords);
             }
             if ($this->helper('Magento\Catalog\Helper\Category')->canUseCanonicalTag()) {
                 $headBlock->addLinkRel('canonical', $category->getUrl());
             }
-            /*
-            want to show rss feed in the url
-            */
+            /**
+             * want to show rss feed in the url
+             */
             if ($this->IsRssCatalogEnable() && $this->IsTopCategory()) {
                 $title = __('%1 RSS Feed',$this->getCurrentCategory()->getName());
                 $headBlock->addRss($title, $this->getRssLink());
@@ -83,7 +110,7 @@ class View extends \Magento\Core\Block\Template
     public function getCurrentCategory()
     {
         if (!$this->hasData('current_category')) {
-            $this->setData('current_category', \Mage::registry('current_category'));
+            $this->setData('current_category', $this->_coreRegistry->registry('current_category'));
         }
         return $this->getData('current_category');
     }

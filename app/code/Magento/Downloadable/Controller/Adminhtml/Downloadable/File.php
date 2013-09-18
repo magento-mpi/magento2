@@ -36,7 +36,7 @@ class File extends \Magento\Adminhtml\Controller\Action
         }
         $result = array();
         try {
-            $uploader = new \Magento\Core\Model\File\Uploader($type);
+            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('type' => $type));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);
@@ -49,7 +49,7 @@ class File extends \Magento\Adminhtml\Controller\Action
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFile($fullPath);
+                $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')->saveFile($fullPath);
             }
 
             $result['cookie'] = array(
@@ -63,7 +63,7 @@ class File extends \Magento\Adminhtml\Controller\Action
             $result = array('error'=>$e->getMessage(), 'errorcode'=>$e->getCode());
         }
 
-        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**
@@ -75,5 +75,4 @@ class File extends \Magento\Adminhtml\Controller\Action
     {
         return $this->_authorization->isAllowed('Magento_Catalog::products');
     }
-
 }

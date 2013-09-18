@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Cms\Model\Page">
+        <plugin name="versionscms_cms_page_plugin" type="Magento\VersionsCms\Model\Plugin\CmsPage"/>
+    </type>
+</config>

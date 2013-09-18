@@ -71,7 +71,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
 
         $this->assertEquals($expectAddedCustomers, $addedCustomers, 'Added unexpected amount of customers');
 
-        $existingCustomer = Mage::registry('_fixture/Magento_ImportExport_Customer');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $existingCustomer = $objectManager->get('Magento\Core\Model\Registry')
+            ->registry('_fixture/Magento_ImportExport_Customer');
 
         $updatedCustomer = $customers[$existingCustomer->getId()];
 

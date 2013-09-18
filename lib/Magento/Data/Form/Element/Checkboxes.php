@@ -20,13 +20,18 @@ namespace Magento\Data\Form\Element;
 class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * Init Element
-     *
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
-    public function __construct($attributes=array())
-    {
-        parent::__construct($attributes);
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Data\Form\Element\Factory $factoryElement,
+        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        $attributes = array()
+    ) {
+        parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
         $this->setType('checkbox');
         $this->setExtType('checkboxes');
     }

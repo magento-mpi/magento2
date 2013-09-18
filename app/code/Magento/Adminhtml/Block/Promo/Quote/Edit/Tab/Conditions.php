@@ -8,18 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * description
- *
- * @category    Magento
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
+
 namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
 
 class Conditions
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -64,11 +57,10 @@ class Conditions
 
     protected function _prepareForm()
     {
-        $model = \Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
-        //$form = new \Magento\Data\Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
-        $form = new \Magento\Data\Form();
-
+        /** @var \Magento\Data\Form $form */
+        $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
         $renderer = \Mage::getBlockSingleton('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')

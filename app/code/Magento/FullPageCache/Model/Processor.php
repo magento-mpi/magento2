@@ -116,6 +116,22 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_storeManager;
 
     /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Core\Model\Event\Manager
+     */
+    protected $_eventManager = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Cache\SubProcessorFactory $subProcessorFactory
@@ -127,8 +143,10 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\FullPageCache\Model\Metadata $metadata
      * @param \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Cache\SubProcessorFactory $subProcessorFactory,
@@ -139,8 +157,11 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         \Magento\FullPageCache\Model\DesignPackage\Info $designInfo,
         \Magento\FullPageCache\Model\Metadata $metadata,
         \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_eventManager = $eventManager;
+        $this->_coreRegistry = $coreRegistry;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
         $this->_subProcessorFactory = $subProcessorFactory;
@@ -343,8 +364,8 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         if ($isProcessed) {
             return $content;
         } else {
-            \Mage::register('cached_page_content', $content);
-            \Mage::register('cached_page_containers', $containers);
+            $this->_coreRegistry->register('cached_page_content', $content);
+            $this->_coreRegistry->register('cached_page_containers', $containers);
             $request->setModuleName('pagecache')
                 ->setControllerName('request')
                 ->setActionName('process')
@@ -494,8 +515,6 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 $this->_metadata->setMetadata('sid_cookie_name',
                     \Mage::getSingleton('Magento\Core\Model\Session')->getSessionName()
                 );
-
-                \Mage::dispatchEvent('pagecache_processor_metadata_before_save', array('processor' => $this));
 
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }

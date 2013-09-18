@@ -22,6 +22,29 @@ class Form
 {
     protected $_rates;
 
+    /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        array $data = array()
+    ) {
+        $this->_taxData = $taxData;
+        parent::__construct($coreData, $context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -108,7 +131,7 @@ class Form
         $rates = $this->getShippingRates();
         if (is_array($rates)) {
             foreach ($rates as $group) {
-                foreach ($group as $code => $rate) {
+                foreach ($group as $rate) {
                     if ($rate->getCode() == $this->getShippingMethod()) {
                         return $rate;
                     }
@@ -126,7 +149,7 @@ class Form
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(
-            \Mage::helper('Magento\Tax\Helper\Data')->getShippingPrice(
+            $this->_taxData->getShippingPrice(
                 $price,
                 $flag,
                 $this->getAddress(),
