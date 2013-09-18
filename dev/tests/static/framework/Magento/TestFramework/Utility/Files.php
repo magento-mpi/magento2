@@ -301,6 +301,43 @@ class Magento_TestFramework_Utility_Files
     }
 
     /**
+     * Returns list of Javascript files in Magento by certain area
+     *
+     * @return array
+     */
+    public function getJsFilesForArea($area)
+    {
+        $key = __METHOD__ . $this->_path . $area;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
+        }
+        $namespace = $module = $package = $theme = '*';
+        $pathes = array(
+            "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
+            "{$this->_path}/app/design/{$area}/{$package}/{$theme}",
+            "{$this->_path}/pub/lib/varien",
+        );
+        $files = self::_getFiles(
+            $pathes,
+            '*.js'
+        );
+
+        if ($area == 'adminhtml') {
+            $adminhtmlPathes = array(
+                "{$this->_path}/pub/lib/mage/adminhtml",
+                "{$this->_path}/pub/lib/mage/backend"
+            );
+            $files = array_merge($files, self::_getFiles($adminhtmlPathes, '*.js'));
+        } else {
+            $frontendPathes = array("{$this->_path}/pub/lib/mage");
+            $files = array_merge($files, self::_getFiles($frontendPathes, '*.js', false));
+        }
+
+        self::$_cache[$key] = $files;
+        return $files;
+    }
+
+    /**
      * Returns list of Twig files in Magento app directory.
      *
      * @return array
@@ -383,7 +420,7 @@ class Magento_TestFramework_Utility_Files
      * @param string $fileNamePattern
      * @return array
      */
-    protected static function _getFiles(array $dirPatterns, $fileNamePattern)
+    protected static function _getFiles(array $dirPatterns, $fileNamePattern, $recursive = true)
     {
         $result = array();
         foreach ($dirPatterns as $oneDirPattern) {
@@ -391,8 +428,10 @@ class Magento_TestFramework_Utility_Files
             $subDirs = glob("$oneDirPattern/*", GLOB_ONLYDIR | GLOB_NOSORT | GLOB_BRACE);
             $filesInDir = array_diff($entriesInDir, $subDirs);
 
-            $filesInSubDir = self::_getFiles($subDirs, $fileNamePattern);
-            $result = array_merge($result, $filesInDir, $filesInSubDir);
+            if ($recursive) {
+                $filesInSubDir = self::_getFiles($subDirs, $fileNamePattern);
+                $result = array_merge($result, $filesInDir, $filesInSubDir);
+            }
         }
         return $result;
     }

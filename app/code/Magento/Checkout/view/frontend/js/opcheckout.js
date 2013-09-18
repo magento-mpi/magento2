@@ -425,7 +425,7 @@
         _validatePaymentMethod: function() {
             var methods = this.element.find('[name^="payment["]');
             if (methods.length === 0) {
-                alert($.mage.__("We can't complete your order because you don't have a payment method available. "));
+                alert($.mage.__("We can't complete your order because you don't have a payment method available."));
                 return false;
             }
             if (this.checkoutPrice < this.options.minBalance) {
