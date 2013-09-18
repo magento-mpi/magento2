@@ -19,13 +19,24 @@
 class Magento_Reward_Model_Source_Customer_Groups implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
+     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     */
+    protected $_groupsFactory;
+
+    public function __construct(Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory)
+    {
+
+        $this->_groupsFactory = $groupsFactory;
+    }
+
+    /**
      * Retrieve option array of customer groups
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $groups = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')
+        $groups = $this->_groupsFactory->create()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();

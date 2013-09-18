@@ -39,18 +39,42 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Reward_Model_Reward
+     */
+    protected $_reward;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $session
+     * @param Magento_Reward_Model_Reward $reward
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $session,
+        Magento_Reward_Model_Reward $reward,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
+        $this->_session = $session;
+        $this->_reward = $reward;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -60,10 +84,9 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
             if (!$this->_rewardData->isEnabledOnFront()) {
                 return $this;
             }
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
-            $this->_rewardInstance = Mage::getSingleton('Magento_Reward_Model_Reward')
-                ->setCustomer($customer)
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            $customer = $this->_session->getCustomer();
+            $this->_rewardInstance = $this->_reward->setCustomer($customer)
+                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
                 ->loadByCustomer();
             $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
         }

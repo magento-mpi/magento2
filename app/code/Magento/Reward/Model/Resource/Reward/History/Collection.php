@@ -26,6 +26,29 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
     protected $_expiryConfig     = array();
 
     /**
+     * @var Magento_Core_Model_Locale
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Locale $locale,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_locale = $locale;
+        $this->_customerFactory = $customerFactory;
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+    }
+
+
+    /**
      * Internal constructor
      *
      */
@@ -135,7 +158,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
 
         $this->_joinReward();
 
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = $this->_customerFactory->create();
         /* @var $customer Magento_Customer_Model_Customer */
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
@@ -241,7 +264,7 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
         $this->addWebsiteFilter($websiteId);
 
         $field = $expiryConfig->getExpiryCalculation()== 'static' ? 'expired_at_static' : 'expired_at_dynamic';
-        $locale = Mage::app()->getLocale()->getLocale();
+        $locale = $this->_locale->getLocale();
         $expireAtLimit = new Zend_Date($locale);
         $expireAtLimit->addDay($inDays);
         $expireAtLimit = $this->formatDate($expireAtLimit);
