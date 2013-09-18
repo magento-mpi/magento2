@@ -53,7 +53,7 @@ class Magento_User_Model_Role extends Magento_Core_Model_Abstract
         Magento_User_Model_Resource_Role $resource,
         Magento_User_Model_Resource_Role_Collection $resourceCollection,
         array $data = array()
-    ){
+    ) {
         $this->_userRolesFactory = $userRolesFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
