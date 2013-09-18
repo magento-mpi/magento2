@@ -120,8 +120,8 @@ class Magento_Persistent_Model_Observer
         $persistentConfig = Mage::getModel('Magento_Persistent_Model_Persistent_Config')
             ->setConfigFilePath($configFilePath);
 
-        foreach ($persistentConfig->getXmlConfig()->xpath($xPath) as $persistentConfigInfo) {
-            $persistentConfig->fireOne($persistentConfigInfo->asArray(), $block);
+        foreach ($persistentConfig->getBlocks($xPath) as $persistentConfigInfo) {
+            $persistentConfig->fireOne($persistentConfigInfo, $block);
         }
 
         return $this;

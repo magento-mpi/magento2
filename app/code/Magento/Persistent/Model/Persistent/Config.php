@@ -19,17 +19,40 @@
 class Magento_Persistent_Model_Persistent_Config
 {
     /**
-     * XML config instance for Persistent mode
-     * @var null|Magento_Simplexml_Element
-     */
-    protected $_xmlConfig = null;
-
-    /**
      * Path to config file
      *
      * @var string
      */
     protected $_configFilePath;
+
+    /** @var Magento_ObjectManager  */
+    protected $_objectManager;
+
+    /** @var Magento_Persistent_Model_Persistent_Config_Converter  */
+    protected $_converter;
+
+    /** @var Magento_Core_Model_Config_Modules_Reader  */
+    protected $_moduleReader;
+
+    /** @var DOMDocument  */
+    protected $_configDomDocument = null;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Persistent_Model_Persistent_Config_Converter $converter
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     */
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Magento_Persistent_Model_Persistent_Config_Converter $converter,
+        Magento_Core_Model_Config_Modules_Reader $moduleReader
+    ) {
+        $this->_objectManager = $objectManager;
+        $this->_converter = $converter;
+        $this->_moduleReader = $moduleReader;
+    }
 
     /**
      * Set path to config file that should be loaded
@@ -40,27 +63,51 @@ class Magento_Persistent_Model_Persistent_Config
     public function setConfigFilePath($path)
     {
         $this->_configFilePath = $path;
-        $this->_xmlConfig = null;
         return $this;
     }
 
     /**
      * Load persistent XML config
      *
-     * @return Magento_Simplexml_Element
+     * @return DOMDocument
      * @throws Magento_Core_Exception
      */
-    public function getXmlConfig()
+    protected function _getConfigDomDocument()
     {
-        if (is_null($this->_xmlConfig)) {
+        if (is_null($this->_configDomDocument)) {
             $filePath = $this->_configFilePath;
             if (!is_file($filePath) || !is_readable($filePath)) {
                 Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
             }
             $xml = file_get_contents($filePath);
-            $this->_xmlConfig = new Magento_Simplexml_Element($xml);
+            /** @var Magento_Config_Dom $configDom */
+            $configDom = $this->_objectManager->create(
+                'Magento_Config_Dom',
+                array(
+                    'xml' => $xml,
+                    'idAttributes' => array(
+                        'config/instances/blocks/reference' => 'id',
+                    ),
+                    'schemaFile' => $this->_moduleReader
+                        ->getModuleDir('etc', 'Magento_Persistent') . '/persistent.xsd'
+                )
+            );
+            $this->_configDomDocument = $configDom->getDom();
         }
-        return $this->_xmlConfig;
+        return $this->_configDomDocument;
+
+    }
+
+    /**
+     * Get blocks by xpath
+     * @param string $xpath
+     * @return $array
+     */
+    public function getBlocks($xpath)
+    {
+        $domXPath = new DOMXPath($this->_getConfigDomDocument());
+        $blocks = $domXPath->query($xpath);
+        return $this->_converter->convertBlocks($blocks);
     }
 
     /**
@@ -70,8 +117,7 @@ class Magento_Persistent_Model_Persistent_Config
      */
     public function collectInstancesToEmulate()
     {
-        $config = $this->getXmlConfig()->asArray();
-        return $config['instances'];
+        return $this->_converter->convert($this->_getConfigDomDocument());
     }
 
     /**
