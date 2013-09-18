@@ -72,7 +72,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
             return $this;
         }
         $indexCodes = array();
-        foreach ($this->_indexerConfig->getAll() as $name => $indexerData) {
+        foreach (array_keys($this->_indexerConfig->getAll()) as $name) {
             $indexCodes[] = $name;
         }
         $table = $this->getTable('index_process');
