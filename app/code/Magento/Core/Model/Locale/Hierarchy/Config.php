@@ -31,13 +31,6 @@ class Magento_Core_Model_Locale_Hierarchy_Config extends Magento_Config_Data
     protected $_cacheId;
 
     /**
-     * Configuration scope
-     *
-     * @var string
-     */
-    protected $_scope = 'global';
-
-    /**
      * @param Magento_Config_ReaderInterface $reader
      * @param Magento_Config_CacheInterface $cache
      * @param string $cacheId
