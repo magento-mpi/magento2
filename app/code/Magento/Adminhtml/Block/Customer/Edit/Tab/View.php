@@ -158,7 +158,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        $interval = Magento_Log_Model_Visitor::getOnlineMinutesInterval();
+        $interval = $this->_modelVisitor->getOnlineMinutesInterval();
         if ($log->getLogoutAt() || (strtotime(now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
             return __('Offline');
         }
