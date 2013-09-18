@@ -127,13 +127,12 @@ class Magento_Search_Model_Resource_Collection
     protected $_searchData = null;
 
     /**
-     * Collection constructor
-     *
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_EntityFactory $entityFactory
@@ -144,6 +143,7 @@ class Magento_Search_Model_Resource_Collection
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory
@@ -151,7 +151,7 @@ class Magento_Search_Model_Resource_Collection
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig, $entityFactory
+            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
         );
     }
 

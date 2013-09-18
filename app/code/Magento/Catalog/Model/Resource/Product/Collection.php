@@ -208,14 +208,16 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory
@@ -223,7 +225,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlat = $catalogProductFlat;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($eventManager, $fetchStrategy, $entityFactory);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory);
     }
 
     /**

@@ -54,6 +54,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Registry $registryManager,
@@ -65,7 +66,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
         $this->_productType = $productType;
         $this->_configurationHelper = $configurationHelper;
         parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig, $entityFactory
+            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
         );
     }
 
