@@ -399,7 +399,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Profiler::start('generate_elements');
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
-            list($type, $node) = current($this->_scheduledStructure->getElements());
+            list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
             $elementName = key($this->_scheduledStructure->getElements());
 
             if (isset($node['output'])) {
@@ -408,11 +408,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             if ($type == self::TYPE_BLOCK) {
                 $this->_generateBlock($elementName);
             } else {
-                $this->_generateContainer($elementName, (string)$node[self::CONTAINER_OPT_LABEL], array(
-                    self::CONTAINER_OPT_HTML_TAG => (string)$node[self::CONTAINER_OPT_HTML_TAG],
-                    self::CONTAINER_OPT_HTML_ID => (string)$node[self::CONTAINER_OPT_HTML_ID],
-                    self::CONTAINER_OPT_HTML_CLASS => (string)$node[self::CONTAINER_OPT_HTML_CLASS]
-                ));
+                $this->_generateContainer($elementName, (string)$node[self::CONTAINER_OPT_LABEL], $attributes);
                 $this->_scheduledStructure->unsetElement($elementName);
             }
         }
@@ -472,14 +468,23 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             /** @var $node Magento_Core_Model_Layout_Element */
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
+                    $this->_scheduleStructure($node, $parent);
+                    $this->_mergeContainerAttributes($node);
+                    $this->_readStructure($node);
+                    break;
+
                 case self::TYPE_BLOCK:
                     $this->_initServiceCalls($node);
                     $this->_scheduleStructure($node, $parent);
                     $this->_readStructure($node);
                     break;
 
-                case self::TYPE_REFERENCE_BLOCK:
                 case self::TYPE_REFERENCE_CONTAINER:
+                    $this->_mergeContainerAttributes($node);
+                    $this->_readStructure($node);
+                    break;
+
+                case self::TYPE_REFERENCE_BLOCK:
                     $this->_readStructure($node);
                     break;
 
@@ -537,6 +542,33 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             }
         }
         return $this;
+    }
+
+    /**
+     * Merge Container attributes
+     *
+     * @param Magento_Core_Model_Layout_Element $node
+     */
+    protected function _mergeContainerAttributes(Magento_Core_Model_Layout_Element $node)
+    {
+        $containerName = $node->getAttribute('name');
+        $element = $this->_scheduledStructure->getStructureElement($containerName, array());
+
+        if (isset($element['attributes'])) {
+            foreach($element['attributes'] as $key => $value) {
+                if (isset($node[$key])) {
+                    $element['attributes'][$key] = (string)$node[$key];
+                }
+            }
+        } else {
+            $element['attributes'] = array(
+                self::CONTAINER_OPT_HTML_TAG => (string)$node[self::CONTAINER_OPT_HTML_TAG],
+                self::CONTAINER_OPT_HTML_ID => (string)$node[self::CONTAINER_OPT_HTML_ID],
+                self::CONTAINER_OPT_HTML_CLASS => (string)$node[self::CONTAINER_OPT_HTML_CLASS],
+                self::CONTAINER_OPT_LABEL => (string)$node[self::CONTAINER_OPT_LABEL],
+            );
+        }
+        $this->_scheduledStructure->setStructureElement($containerName, $element);
     }
 
     /**
@@ -747,7 +779,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             $type,
             $node,
             isset($row['actions']) ? $row['actions'] : array(),
-            isset($row['arguments']) ? $row['arguments'] : array()
+            isset($row['arguments']) ? $row['arguments'] : array(),
+            isset($row['attributes']) ? $row['attributes'] : array()
         );
         $this->_scheduledStructure->setElement($name, $data);
 

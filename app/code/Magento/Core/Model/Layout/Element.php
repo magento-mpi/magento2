@@ -117,5 +117,4 @@ class Magento_Core_Model_Layout_Element extends Magento_Simplexml_Element
     {
         return $this;
     }
-
 }

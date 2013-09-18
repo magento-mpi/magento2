@@ -435,4 +435,15 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento_Core_Block_Text', $block);
         $this->assertSame($block, $this->_layout->getBlockSingleton('Magento_Core_Block_Text'));
     }
+
+    public function testUpdateContainerAttributes()
+    {
+        $this->_layout->setXml(simplexml_load_file(__DIR__ . '/_files/layout/container_attributes.xml',
+            'Magento_Core_Model_Layout_Element'));
+        $this->_layout->generateElements();
+        $result = $this->_layout->renderElement('container1', false);
+        $this->assertEquals('<div id="container1-2" class="class12">Test11Test12</div>', $result);
+        $result = $this->_layout->renderElement('container2', false);
+        $this->assertEquals('<div id="container2-2" class="class22">Test21Test22</div>', $result);
+    }
 }
