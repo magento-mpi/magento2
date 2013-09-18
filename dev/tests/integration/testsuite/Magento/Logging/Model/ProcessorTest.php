@@ -28,6 +28,8 @@ class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
+        $this->markTestSkipped('MAGETWO-13639');
+
         Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $collection = Mage::getModel('Magento\Logging\Model\Event')->getCollection();
         $eventCountBefore = count($collection);
