@@ -270,7 +270,6 @@ class Sitemap extends  \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addSuccess(
                     __('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename()));
             } catch (\Magento\Core\Exception $e) {
-            catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_getSession()->addException($e,

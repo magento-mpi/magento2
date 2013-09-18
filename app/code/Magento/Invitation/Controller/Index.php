@@ -71,9 +71,6 @@ class Index extends \Magento\Core\Controller\Front\Action
                             ->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
-                        throw new Exception(''); // not \Magento\Core\Exception intentionally
-                    }
-                    else {
                         throw new \Exception(''); // not \Magento\Core\Exception intentionally
                     }
 

@@ -88,7 +88,6 @@ class Account extends \Magento\Customer\Controller\Account
             $this->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('customer/account/login');
@@ -119,7 +118,6 @@ class Account extends \Magento\Customer\Controller\Account
             }
             return;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $_definedErrorCodes = array(
                 \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,
                 \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA

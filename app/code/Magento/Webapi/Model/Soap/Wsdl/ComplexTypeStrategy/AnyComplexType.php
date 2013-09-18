@@ -1,7 +1,4 @@
 <?php
-use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
-    Zend\Soap\Wsdl;
-
 /**
  * Magento-specific Complex type strategy for WSDL auto discovery.
  *
@@ -11,6 +8,8 @@ use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
  * @license     {license_link}
  */
 namespace Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
+use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
+    Zend\Soap\Wsdl;
 
 class AnyComplexType extends AbstractComplexTypeStrategy
 {

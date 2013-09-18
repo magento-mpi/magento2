@@ -73,7 +73,6 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
             $this->renderLayout();
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -136,7 +135,6 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                         $failedCount++;
                     }
                 } catch (\Magento\Core\Exception $e) {
-                catch (\Magento\Core\Exception $e) {
                     if ($e->getCode()) {
                         $failedCount++;
                         if ($e->getCode() == \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS) {
@@ -160,7 +158,6 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/');
             return;
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/new');
@@ -196,7 +193,6 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addSuccess(__('The invitation has been saved.'));
             }
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/view', array('_current' => true));
@@ -226,7 +222,6 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                         $sent++;
                     }
                 } catch (\Magento\Core\Exception $e) {
-                catch (\Magento\Core\Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
@@ -254,7 +249,6 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -283,7 +277,6 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                         $cancelled++;
                     }
                 } catch (\Magento\Core\Exception $e) {
-                catch (\Magento\Core\Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
@@ -298,7 +291,6 @@ class Invitation extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addNotice(__('We skipped %1 of the selected invitations.', $failed));
             }
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');

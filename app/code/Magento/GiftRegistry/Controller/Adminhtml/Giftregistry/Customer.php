@@ -208,7 +208,6 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                     \Mage::throwException(__('Please enter at least one email address.'));
                 }
             } catch (\Magento\Core\Exception $e) {
-            catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
 
@@ -237,7 +236,6 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 __('You deleted this gift registry entity.')
             );
         } catch (\Magento\Core\Exception $e) {
-        catch (\Magento\Core\Exception $e) {
             \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;

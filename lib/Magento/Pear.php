@@ -15,6 +15,7 @@
  * @package    \Magento\Pear
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+namespace Magento;
 
 // Looks like PEAR is being developed without E_NOTICE (1.7.0RC1)
 error_reporting(E_ALL & ~E_NOTICE);
@@ -49,7 +50,6 @@ if (strpos($_includePath, $_pearPhpDir) === false) {
 //require_once $_pearPhpDir."/PEAR/Exception.php";
 
 require_once dirname(__FILE__) . "/Pear/Frontend.php";
-namespace Magento;
 
 
 require_once dirname(__FILE__) . "/Pear/Package.php";

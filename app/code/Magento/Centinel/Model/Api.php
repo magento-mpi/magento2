@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Centinel\Model;
 
 /**
  * 3D Secure Validation Library for Payment
@@ -16,7 +17,6 @@ include_once '3Dsecure/CentinelClient.php';
 /**
  * 3D Secure Validation Api
  */
-namespace Magento\Centinel\Model;
 
 class Api extends \Magento\Object
 {

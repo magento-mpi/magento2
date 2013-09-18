@@ -347,9 +347,6 @@ class Backup extends \Magento\Adminhtml\Controller\Action
                     __('The selected backup(s) has been deleted.')
                 );
             } else {
-                throw new Exception($deleteFailMessage);
-            }
-            else {
                 throw new \Exception($deleteFailMessage);
             }
         } catch (\Exception $e) {
