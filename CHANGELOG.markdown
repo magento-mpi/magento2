@@ -39,6 +39,7 @@
 * Eliminated Mage::helper and Mage::dispatchEvent in code
 * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl, Mage::printException in /lib and /pub
 * Eliminated Mage:: static methods in Magento_Widget
+* Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
 * Static method `getObjectManager` of Mage class was eliminated
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
