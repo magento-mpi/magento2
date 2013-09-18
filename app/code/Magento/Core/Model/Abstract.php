@@ -167,7 +167,6 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
      */
     public function __sleep()
     {
-        file_put_contents('/home/nas/projects/magento2/var/log/session2.log', file_get_contents('/home/nas/projects/magento2/var/log/session2.log') . PHP_EOL . get_class($this));
         $properties = array_keys(get_object_vars($this));
         if (Mage::getIsSerializable()) {
             $properties = array_diff($properties, array('_eventDispatcher', '_cacheManager', '_coreRegistry'));
