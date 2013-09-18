@@ -97,6 +97,12 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_indexIndexer;
 
     /**
+     * @var Magento_Index_Model_Resource_Event
+     */
+    protected $_resourceEvent;
+
+    /**
+     * @param Magento_Index_Model_Resource_Event $resourceEvent
      * @param Magento_Index_Model_IndexerFactory $indexerFactory
      * @param Magento_Index_Model_Indexer $indexIndexer
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -109,6 +115,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Index_Model_Resource_Event $resourceEvent,
         Magento_Index_Model_IndexerFactory $indexerFactory,
         Magento_Index_Model_Indexer $indexIndexer,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -126,6 +133,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         $this->_eventRepository = $eventRepository;
         $this->_indexerFactory = $indexerFactory;
         $this->_indexIndexer = $indexIndexer;
+        $this->_resourceEvent = $resourceEvent;
     }
 
     /**
@@ -231,10 +239,6 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         $this->lock();
         try {
             $eventsCollection = $this->_eventRepository->getUnprocessed($this);
-
-            /** @var $eventResource Magento_Index_Model_Resource_Event */
-            $eventResource = Mage::getResourceSingleton('Magento_Index_Model_Resource_Event');
-
             if ($processStatus == self::STATUS_PENDING && $eventsCollection->getSize() > 0
                 || $this->getForcePartialReindex()
             ) {
@@ -248,7 +252,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
                 }
             } else {
                 //Update existing events since we'll do reindexAll
-                $eventResource->updateProcessEvents($this);
+                $this->_resourceEvent->updateProcessEvents($this);
                 $this->getIndexer()->reindexAll();
             }
             $this->unlock();
