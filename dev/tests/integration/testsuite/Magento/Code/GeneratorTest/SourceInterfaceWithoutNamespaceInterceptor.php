@@ -142,7 +142,7 @@ class Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor
      */
     public function __wakeup()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();
         $this->_pluginList = $this->_objectManager->get('Magento_Interception_PluginList');
     }
 

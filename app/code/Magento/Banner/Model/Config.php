@@ -11,7 +11,7 @@
 /**
  * Banner configuration/source model
  */
-class Magento_Banner_Model_Config
+class Magento_Banner_Model_Config implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Banner types getter

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Shipping_Model_Source_HandlingAction
+class Magento_Shipping_Model_Source_HandlingAction implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

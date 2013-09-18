@@ -99,7 +99,6 @@ class Magento_Core_Model_Layout_Merge
      * @param Magento_Core_Model_Resource_Layout_Update $resource
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Cache_FrontendInterface $cache
-     * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_Theme $theme Non-injectable theme instance
      */
     public function __construct(

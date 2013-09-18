@@ -82,6 +82,21 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Cache_Config
+     */
+    protected $_cacheConfig;
+
+    /**
+     * @var Magento_Core_Model_EncryptionFactory
+     */
+    protected $_encryptorFactory;
+
+    /**
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
@@ -97,10 +112,13 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_coreHttp = $coreHttp;
         parent::__construct($context);
         $this->_config = $config;
+        $this->_cacheConfig = $context->getCacheConfig();
+        $this->_encryptorFactory = $context->getEncryptorFactory();
+        $this->_fieldsetConfig = $context->getFieldsetConfig();
     }
 
     /**
-     * @return Magento_Core_Model_Encryption
+     * @return Magento_Core_Model_EncryptionInterface
      */
     public function getEncryptor()
     {
@@ -110,9 +128,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
             if (!$encryptionModel) {
                 $encryptionModel = 'Magento_Core_Model_Encryption';
             }
-
-            $this->_encryptor = Mage::getObjectManager()->create($encryptionModel);
-
+            $this->_encryptor = $this->_encryptorFactory->create($encryptionModel);
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -403,10 +419,8 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCacheTypes()
     {
-        /** @var Magento_Core_Model_Cache_Config $config */
-        $config = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Config');
         $types = array();
-        foreach ($config->getTypes() as $type => $node) {
+        foreach ($this->_cacheConfig->getTypes() as $type => $node) {
             $types[$type] = $node['label'];
         }
         return $types;
@@ -431,7 +445,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         if (!$this->_isFieldsetInputValid($source, $target)) {
             return null;
         }
-        $fields = Mage::getObjectManager()->get('Magento_Core_Model_Fieldset_Config')->getFieldset($fieldset, $root);
+        $fields = $this->_fieldsetConfig->getFieldset($fieldset, $root);
         if (is_null($fields)) {
             return $target;
         }

@@ -42,39 +42,6 @@
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>
     </global>
-    <frontend>
-        <translate>
-            <modules>
-                <Magento_Core>
-                    <files>
-                        <default>Magento_Core.csv</default>
-                    </files>
-                </Magento_Core>
-            </modules>
-        </translate>
-    </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <Magento_Core>
-                    <files>
-                        <default>Magento_Core.csv</default>
-                    </files>
-                </Magento_Core>
-            </modules>
-        </translate>
-    </adminhtml>
-    <install>
-        <translate>
-            <modules>
-                <Magento_Core>
-                    <files>
-                        <default>Magento_Core.csv</default>
-                    </files>
-                </Magento_Core>
-            </modules>
-        </translate>
-    </install>
     <default>
         <design>
             <pagination>
