@@ -23,7 +23,7 @@ class Magento_Logging_Model_Handler_Models
      *
      * @param Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory
      */
-    function __construct(Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory)
+    public function __construct(Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory)
     {
         $this->_eventChangesFactory = $eventChangesFactory;
     }
@@ -37,8 +37,9 @@ class Magento_Logging_Model_Handler_Models
     public function modelSaveAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = $this->_eventChangesFactory->create()
-            ->setOriginalData($model->getOrigData())
+        /** @var Magento_Logging_Model_Event_Changes $changes */
+        $changes = $this->_eventChangesFactory->create();
+        $changes->setOriginalData($model->getOrigData())
             ->setResultData($model->getData());
         return $changes;
     }
@@ -52,8 +53,9 @@ class Magento_Logging_Model_Handler_Models
     public function modelDeleteAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = $this->_eventChangesFactory->create()
-            ->setOriginalData($model->getOrigData())
+        /** @var Magento_Logging_Model_Event_Changes $changes */
+        $changes = $this->_eventChangesFactory->create();
+        $changes->setOriginalData($model->getOrigData())
             ->setResultData(null);
         return $changes;
     }

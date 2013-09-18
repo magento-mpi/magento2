@@ -131,7 +131,7 @@ class Magento_Logging_Model_Processor
      *
      * @var Magento_Core_Helper_Http
      */
-    protected $_httpHelper = null;
+    protected $_httpHelper;
 
     /**
      * Constructor: initialize configuration model, controller and model handler
@@ -145,7 +145,7 @@ class Magento_Logging_Model_Processor
      * @param Magento_Logging_Model_Handler_ControllersFactory $handlerControllersFactory
      * @param Magento_Logging_Model_EventFactory $eventFactory
      * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Helper_Http $httpHelper
      */
     public function __construct(
         Magento_Logging_Model_Config $config,
