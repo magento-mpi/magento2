@@ -59,7 +59,7 @@ class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
                 ),
             )
         );
-        $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(array()));
+        $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(serialize(array())));
         $this->_model->merge($testData);
         $this->assertEquals($expectedValue, $this->_model->get($path, $default));
     }
@@ -100,7 +100,7 @@ class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($testValue));
 
         /** test cache saving  */
-        $this->_cacheMock->expects($this->once())->method('save')->with($testValue, 'adminhtml::tag');
+        $this->_cacheMock->expects($this->once())->method('save')->with(serialize($testValue), 'adminhtml::tag');
 
         /** test config value existence */
         $this->assertEquals('testValue', $this->_model->get('some'));
@@ -122,7 +122,7 @@ class Magento_Config_Data_ScopedTest extends PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->once())
             ->method('load')
             ->with('adminhtml::tag')
-            ->will($this->returnValue($testValue));
+            ->will($this->returnValue(serialize($testValue)));
 
         /** test preventing of getting data from reader  */
         $this->_readerMock->expects($this->never())->method('read');

@@ -15,12 +15,28 @@ class Magento_Index_Model_Indexer_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configDataMock;
+    protected $_readerMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_configScopeMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_cacheMock;
 
     protected function setUp()
     {
-        $this->_configDataMock = $this->getMock('Magento_Index_Model_Indexer_Config_Data', array(), array(), '', false);
-        $this->_model = new Magento_Index_Model_Indexer_Config($this->_configDataMock);
+        $this->_readerMock = $this->getMock('Magento_Index_Model_Indexer_Config_Reader', array(), array(), '', false);
+        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
+        $this->_model = new Magento_Index_Model_Indexer_Config(
+            $this->_readerMock,
+            $this->_configScopeMock,
+            $this->_cacheMock
+        );
     }
 
     /**
@@ -28,13 +44,14 @@ class Magento_Index_Model_Indexer_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetIndexer()
     {
-        $indexerName = 'indexer';
         $indexerConfig = array('indexerName' => 'indexerConfig');
-        $this->_configDataMock->expects($this->once())
-            ->method('get')
-            ->with($indexerName, array())
-            ->will($this->returnValue($indexerConfig));
-        $this->assertEquals($indexerConfig, $this->_model->getIndexer($indexerName));
+        $this->_configScopeMock->expects($this->once())
+            ->method('getCurrentScope')
+            ->will($this->returnValue('global'));
+        $this->_cacheMock->expects($this->once())
+            ->method('load')->with('global::indexerConfigCache')
+            ->will($this->returnValue(serialize($indexerConfig)));
+        $this->assertEquals('indexerConfig', $this->_model->getIndexer('indexerName'));
     }
 
     /**
@@ -42,10 +59,11 @@ class Magento_Index_Model_Indexer_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAll()
     {
-        $indexerConfig = array('indexerName' => 'indexerConfig', 'anotherIndexer' => 'anotherConfig');
-        $this->_configDataMock->expects($this->once())
-            ->method('get')
-            ->will($this->returnValue($indexerConfig));
+        $indexerConfig = array('indexerName' => 'indexerConfig');
+        $this->_configScopeMock->expects($this->once())->method('getCurrentScope')
+            ->will($this->returnValue('global'));
+        $this->_cacheMock->expects($this->once())->method('load')->with('global::indexerConfigCache')
+            ->will($this->returnValue(serialize($indexerConfig)));
         $this->assertEquals($indexerConfig, $this->_model->getAll());
     }
 }

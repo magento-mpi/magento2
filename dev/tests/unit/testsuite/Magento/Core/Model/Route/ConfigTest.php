@@ -36,7 +36,7 @@ class Magento_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_cacheMock->expects($this->once())
             ->method('load')->with('areaCode::RoutesConfig-routerCode')
-            ->will($this->returnValue(array('expected')));
+            ->will($this->returnValue(serialize(array('expected'))));
         $this->assertEquals(array('expected'), $this->_config->getRoutes('areaCode', 'routerCode'));
     }
 
@@ -53,7 +53,7 @@ class Magento_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_readerMock->expects($this->once())
             ->method('read')->with('areaCode')->will($this->returnValue($areaConfig));
         $this->_cacheMock->expects($this->once())
-            ->method('save')->with('Expected Value', 'areaCode::RoutesConfig-routerCode');
+            ->method('save')->with(serialize('Expected Value'), 'areaCode::RoutesConfig-routerCode');
         $this->assertEquals('Expected Value', $this->_config->getRoutes('areaCode', 'routerCode'));
     }
 }

@@ -45,7 +45,7 @@ class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_T
         $this->_cacheMock->expects($this->once())
             ->method('load')
             ->with($this->_cacheId)
-            ->will($this->returnValue($this->_testData));
+            ->will($this->returnValue(serialize($this->_testData)));
 
         $this->_model = new Magento_Core_Model_Locale_Hierarchy_Config(
             $this->_configReaderMock,
