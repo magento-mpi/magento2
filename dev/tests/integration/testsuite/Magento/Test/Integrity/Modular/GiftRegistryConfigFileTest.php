@@ -11,9 +11,9 @@
 /**
  * Test for validation check of the giftregistry.xml and xsd for this file
  *
- * Class GiftregistryConfigTest
+ * Class Magento_Test_Integrity_Modular_GiftRegistryConfigFileTest
  */
-class Magento_Test_Integrity_Modular_GiftregistryConfigTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_GiftRegistryConfigFileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Schema for gift registry
