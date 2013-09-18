@@ -78,6 +78,16 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     protected $_importExportData = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @var Magento_ImportExport_Model_Config
+     */
+    protected $_config;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
@@ -85,14 +95,20 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_ImportExport_Model_Config $config
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_ImportExport_Helper_Data $importExportData,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_ImportExport_Model_Config $config,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
+        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
         parent::__construct($logger, $data);
     }
 
@@ -105,7 +121,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     protected function _getEntityAdapter()
     {
         if (!$this->_entityAdapter) {
-            $entityTypes = Magento_ImportExport_Model_Config::getModels(self::CONFIG_KEY_ENTITIES);
+            $entityTypes = $this->_config->getModels(self::CONFIG_KEY_ENTITIES);
 
             if (isset($entityTypes[$this->getEntity()])) {
                 try {
@@ -557,10 +573,10 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      * @static
      * @return array
      */
-    public static function getEntityBehaviors()
+    public function getEntityBehaviors()
     {
         $behaviourData = array();
-        $entitiesConfig = Mage::getConfig()->getNode(self::CONFIG_KEY_ENTITIES)->asArray();
+        $entitiesConfig = $this->_coreConfig->getNode(self::CONFIG_KEY_ENTITIES)->asArray();
         foreach ($entitiesConfig as $entityCode => $entityData) {
             $behaviorToken = isset($entityData['behavior_token']) ? $entityData['behavior_token'] : null;
             if ($behaviorToken && class_exists($behaviorToken)) {
@@ -589,10 +605,10 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      * @static
      * @return array
      */
-    public static function getUniqueEntityBehaviors()
+    public function getUniqueEntityBehaviors()
     {
         $uniqueBehaviors = array();
-        $behaviourData = self::getEntityBehaviors();
+        $behaviourData = $this->getEntityBehaviors();
         foreach ($behaviourData as $behavior) {
             $behaviorCode = $behavior['code'];
             if (!isset($uniqueBehaviors[$behaviorCode])) {

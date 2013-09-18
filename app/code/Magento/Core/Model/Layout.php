@@ -200,6 +200,13 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
      * @var Magento_Core_Model_Logger $logger
      */
     protected $_logger;
@@ -215,6 +222,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param Magento_Core_Model_Layout_Argument_Processor $argumentProcessor
      * @param Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure
      * @param Magento_Core_Model_DataService_Graph $dataServiceGraph
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $area
      */
     public function __construct(
@@ -228,11 +236,13 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         Magento_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Magento_Core_Model_DataService_Graph $dataServiceGraph,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
         $this->_factoryHelper = $factoryHelper;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;
@@ -811,7 +821,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         }
 
         $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath) && !Mage::getStoreConfigFlag($configPath)) {
+        if (!empty($configPath) && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
         }
@@ -881,7 +891,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !Mage::getStoreConfigFlag($configPath)) {
+        if ($configPath && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             return;
         }
 

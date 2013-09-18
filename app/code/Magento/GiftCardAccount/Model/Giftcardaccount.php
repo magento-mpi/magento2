@@ -72,9 +72,17 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
     protected $_giftCardAccountData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_GiftCardAccount_Helper_Data $giftCardAccountData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_GiftCardAccount_Model_Resource_Giftcardaccount $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -83,11 +91,13 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
         Magento_GiftCardAccount_Helper_Data $giftCardAccountData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_GiftCardAccount_Model_Resource_Giftcardaccount $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -512,8 +522,8 @@ class Magento_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Model_A
 
         $email = Mage::getModel('Magento_Core_Model_Email_Template')->setDesignConfig(array('store' => $storeId));
         $email->sendTransactional(
-            Mage::getStoreConfig('giftcard/giftcardaccount_email/template', $storeId),
-            Mage::getStoreConfig('giftcard/giftcardaccount_email/identity', $storeId),
+            $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/template', $storeId),
+            $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/identity', $storeId),
             $recipientEmail,
             $recipientName,
             array(

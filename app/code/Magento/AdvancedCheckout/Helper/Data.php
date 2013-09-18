@@ -107,20 +107,30 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_checkoutCart = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Checkout_Helper_Cart $checkoutCart
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Checkout_Helper_Cart $checkoutCart,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -213,7 +223,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isSkuEnabled()
     {
-        $storeData = Mage::getStoreConfig(self::XML_PATH_SKU_ENABLED);
+        $storeData = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
         return Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::NO_VALUE != $storeData;
     }
 
@@ -225,7 +235,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function isSkuApplied()
     {
         $result = false;
-        $data = Mage::getStoreConfig(self::XML_PATH_SKU_ENABLED);
+        $data = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
         switch ($data) {
             case Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::YES_VALUE:
                 $result = true;
@@ -251,7 +261,9 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSkuCustomerGroups()
     {
         if ($this->_allowedGroups === null) {
-            $this->_allowedGroups = explode(',', trim(Mage::getStoreConfig(self::XML_PATH_SKU_ALLOWED_GROUPS)));
+            $this->_allowedGroups = explode(
+                ',', trim($this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ALLOWED_GROUPS))
+            );
         }
         return $this->_allowedGroups;
     }

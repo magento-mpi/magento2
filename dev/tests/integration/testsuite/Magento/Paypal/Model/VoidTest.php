@@ -22,6 +22,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $coreData = $objectManager->get('Magento_Core_Helper_Data');
         $moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
         $paymentData = $objectManager->get('Magento_Payment_Helper_Data');
+        $coreStoreConfig = $objectManager->get('Magento_Core_Model_Store_Config');
 
         /** @var $order Magento_Sales_Model_Order */
         $order = $objectManager->create('Magento_Sales_Model_Order');
@@ -29,8 +30,9 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $payment = $order->getPayment();
 
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        /** @var Magento_Paypal_Model_Payflowpro $instance */
         $instance = $this->getMock('Magento_Paypal_Model_Payflowpro', array('_postRequest'),
-            array($eventManager, $coreData, $moduleList, $paymentData, $logger));
+            array($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $logger));
 
         $response = new Magento_Object(array(
             'result' => '0',

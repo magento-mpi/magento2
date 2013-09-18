@@ -51,17 +51,35 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     protected $_collectorsCacheKey = 'sorted_quote_collectors';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Init corresponding total models
      *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Store|null $store
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         $store = null
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($logger, $configCacheType);
         $this->_store = $store ?: Mage::app()->getStore();
         $this->_initModels()
@@ -123,7 +141,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
      */
     protected function _initModels()
     {
-        $totalsConfig = Mage::getConfig()->getNode($this->_totalsConfigNode);
+        $totalsConfig = $this->_coreConfig->getNode($this->_totalsConfigNode);
 
         foreach ($totalsConfig->children() as $totalCode => $totalConfig) {
             $class = $totalConfig->getClassName();
@@ -141,7 +159,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
      */
     protected function _initRetrievers()
     {
-        $sorts = Mage::getStoreConfig(self::XML_PATH_SALES_TOTALS_SORT, $this->_store);
+        $sorts = $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_TOTALS_SORT, $this->_store);
         foreach ($sorts as $code => $sortOrder) {
             if (isset($this->_models[$code])) {
                 // Reserve enough space for collisions

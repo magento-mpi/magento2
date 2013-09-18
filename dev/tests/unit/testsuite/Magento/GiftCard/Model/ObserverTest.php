@@ -31,6 +31,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             $this->getMock('Magento_GiftCard_Helper_Data', array(), array(), '', false),
             $context,
             $coreRegistry,
+            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
             null,
             null,
             array(
@@ -56,6 +57,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             $this->getMock('Magento_GiftCard_Helper_Data', array(), array(), '', false),
             $context,
             $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
             null,
             null,
             array('email_template_model' => new stdClass())

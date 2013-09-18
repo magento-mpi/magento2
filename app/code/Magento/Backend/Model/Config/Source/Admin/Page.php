@@ -17,13 +17,6 @@ class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Mod
     protected $_menu;
 
     /**
-     * Object factory
-     *
-     * @var Magento_Core_Model_Config
-     */
-    protected $_objectFactory;
-
-    /**
      * @var Magento_Backend_Model_Menu_Filter_IteratorFactory
      */
     protected $_iteratorFactory;

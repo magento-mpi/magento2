@@ -2,7 +2,7 @@
 /**
  * Obsolete methods
  *
- * Format: array(<method_name = ''>[, <class_scope> = ''[, <replacement>]])
+ * Format: array(<method_name = ''>[, <class_scope> = ''[, <replacement>[, <is_deprecated>]]])
  *
  * {license_notice}
  *
@@ -792,6 +792,9 @@ return array(
     array('getHelper', 'Magento_Core_Model_App'),
     array('helper', 'Mage'),
     array('dispatchEvent', 'Mage'),
+    array('getConfig', 'Mage', 'Magento_Core_Model_Config'),
+    array('getStoreConfig', 'Mage', 'Magento_Core_Model_Store_Config'),
+    array('getStoreConfigFlag', 'Mage', 'Magento_Core_Model_Store_Config'),
     array('resetRegistry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('register', 'Mage', 'use Magento_Core_Model_Registry'),
     array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),

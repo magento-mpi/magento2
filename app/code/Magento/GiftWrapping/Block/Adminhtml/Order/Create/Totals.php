@@ -27,6 +27,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals
      * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -34,10 +35,11 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals
         Magento_Sales_Helper_Data $salesData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($salesData, $coreData, $context, $data);
+        parent::__construct($salesData, $coreData, $context, $coreConfig, $data);
     }
 
     /**

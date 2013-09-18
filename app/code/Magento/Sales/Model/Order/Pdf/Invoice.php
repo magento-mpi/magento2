@@ -111,8 +111,10 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
             $this->insertOrder(
                 $page,
                 $order,
-                Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID, $order->getStoreId())
-            );
+                $this->_coreStoreConfig->getConfigFlag(
+                    self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID,
+                    $order->getStoreId()
+            ));
             /* Add document text and number */
             $this->insertDocumentNumber(
                 $page,
@@ -121,7 +123,7 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
             /* Add table */
             $this->_drawHeader($page);
             /* Add body */
-            foreach ($invoice->getAllItems() as $item){
+            foreach ($invoice->getAllItems() as $item) {
                 if ($item->getOrderItem()->getParentItem()) {
                     continue;
                 }

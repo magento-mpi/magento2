@@ -38,17 +38,28 @@ class Magento_Reward_Model_Observer
     protected $_logger;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Reward_Helper_Data $rewardData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
-        Magento_Reward_Helper_Data $rewardData
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_logger = $logger;
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -448,7 +459,7 @@ class Magento_Reward_Model_Observer
                 ->setCustomer($quote->getCustomer())
                 ->setWebsiteId($quote->getStore()->getWebsiteId())
                 ->loadByCustomer();
-            $minPointsBalance = (int)Mage::getStoreConfig(
+            $minPointsBalance = (int)$this->_coreStoreConfig->getConfig(
                 Magento_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
                 $quote->getStoreId()
             );

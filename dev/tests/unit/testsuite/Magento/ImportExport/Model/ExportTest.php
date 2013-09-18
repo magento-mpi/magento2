@@ -53,8 +53,7 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
         /** @var $mockModelExport Magento_ImportExport_Model_Export */
         $mockModelExport = $this->getMock(
             'Magento_ImportExport_Model_Export',
-            array('getEntityAdapter', '_getEntityAdapter', '_getWriter'),
-            array($this->getMock('Magento_Core_Model_Logger', array(), array(), '', false))
+            array('getEntityAdapter', '_getEntityAdapter', '_getWriter'), array(), '', false
         );
         $mockModelExport->expects($this->any())
             ->method('getEntityAdapter')
