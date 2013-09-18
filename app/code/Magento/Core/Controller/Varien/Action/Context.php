@@ -119,6 +119,9 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
         return $this->_eventManager;
     }
 
+    /**
+     * @return Magento_Core_Model_Logger
+     */
     public function getLogger()
     {
         return $this->_logger;
