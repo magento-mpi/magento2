@@ -31,13 +31,12 @@ class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('search_result_idsreviews'))
             ->will($this->returnValue(array(3,2,6,5)));
 
-        $this->_helper = $this->getMockBuilder('Magento_Review_Helper_Action_Pager')
-            ->setMethods(array('_getSession'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_helper->expects($this->any())
-            ->method('_getSession')
-            ->will($this->returnValue($sessionMock));
+        $contextMock = $this->getMock(
+            'Magento_Core_Helper_Context', array('getTranslator', 'getModuleManager', 'getRequest'), array(), '', false
+        );
+        $this->_helper = $this->getMock(
+            'Magento_Review_Helper_Action_Pager', array('__construct'), array($sessionMock, $contextMock)
+        );
         $this->_helper->setStorageId('reviews');
     }
 
