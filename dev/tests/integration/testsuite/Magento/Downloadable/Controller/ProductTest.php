@@ -19,7 +19,6 @@ class Magento_Downloadable_Controller_ProductTest extends Magento_TestFramework_
      */
     public function testViewAction()
     {
-        $this->markTestIncomplete('MAGETWO-13857');
         $this->dispatch('catalog/product/view/id/1');
         $this->assertContains(
             'catalog_product_view_type_downloadable',
