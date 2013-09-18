@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <move element="newsletter_subscription" destination="footer" as="newsletter" after="-"/>
-    </handle>
+    <move element="newsletter_subscription" destination="footer" as="newsletter" after="-"/>
 </layout>

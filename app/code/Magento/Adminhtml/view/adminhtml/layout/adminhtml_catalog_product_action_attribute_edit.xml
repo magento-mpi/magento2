@@ -8,29 +8,27 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_action_attribute_edit">
-        <reference name="left">
-            <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher" template="store/switcher.phtml"/>
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs" name="attributes_tabs">
-                <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes" name="tab_attributes"/>
-                <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory" name="tab_inventory" template="catalog/product/edit/action/inventory.phtml"/>
-                <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites" name="tab_websites" template="catalog/product/edit/action/websites.phtml"/>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">attributes</argument>
-                    <argument name="block" xsi:type="string">tab_attributes</argument>
-                </action>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">inventory</argument>
-                    <argument name="block" xsi:type="string">tab_inventory</argument>
-                </action>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">websites</argument>
-                    <argument name="block" xsi:type="string">tab_websites</argument>
-                </action>
-            </block>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute" name="attribute" template="catalog/product/edit/action/attribute.phtml"/>
-        </reference>
-    </handle>
+    <reference name="left">
+        <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher" template="store/switcher.phtml"/>
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs" name="attributes_tabs">
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes" name="tab_attributes"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory" name="tab_inventory" template="catalog/product/edit/action/inventory.phtml"/>
+            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites" name="tab_websites" template="catalog/product/edit/action/websites.phtml"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">attributes</argument>
+                <argument name="block" xsi:type="string">tab_attributes</argument>
+            </action>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">inventory</argument>
+                <argument name="block" xsi:type="string">tab_inventory</argument>
+            </action>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">websites</argument>
+                <argument name="block" xsi:type="string">tab_websites</argument>
+            </action>
+        </block>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute" name="attribute" template="catalog/product/edit/action/attribute.phtml"/>
+    </reference>
 </layout>

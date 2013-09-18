@@ -11,7 +11,7 @@
 /**
  * Adminhtml Tax Rule Edit Form
  */
-class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Core registry
@@ -21,18 +21,26 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Data_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_formFactory = $formFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -109,9 +117,11 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
                 'label'     => __('Store View'),
                 'title'     => __('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')
+                    ->getStoreValuesForForm(false, true),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_id', 'hidden', array(

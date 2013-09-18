@@ -47,6 +47,16 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_authorization;
 
     /**
+     * @var Magento_Core_Model_Cache_Config
+     */
+    protected $_cacheConfig;
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
+    
+    /**
      * Directory model
      *
      * @var Magento_Core_Model_Dir
@@ -59,17 +69,23 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Magento_AuthorizationInterface $authorization
+     * @param Magento_Core_Model_Cache_Config $cacheConfig
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Filesystem $filesystem,
         Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_Cache_Config $cacheConfig,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Magento_Core_Model_Dir $dir
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
-        $this->_filesystem = $filesystem;
+        $this->_filesystem = $filesystem;        
+        $this->_cacheConfig = $cacheConfig;
+        $this->_cacheTypeList = $cacheTypeList;
         $this->_dir = $dir;
     }
 
@@ -279,13 +295,9 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function invalidateCache()
     {
-        /** @var Magento_Core_Model_Cache_Config $config */
-        $config = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Config');
-        if ($cacheTypes = $config->getTypes()) {
+        if ($cacheTypes = $this->_cacheConfig->getTypes()) {
             $cacheTypesList = array_keys($cacheTypes);
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-            $cacheTypeList->invalidate($cacheTypesList);
+            $this->_cacheTypeList->invalidate($cacheTypesList);
         }
         return $this;
     }

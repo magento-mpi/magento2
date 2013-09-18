@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="paypal_express_review_details">
-        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block class="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" template="express/review/details.phtml">
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="onepage/review/item.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="onepage/review/item.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="onepage/review/item.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
-            </block>
+    <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+        <block class="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" template="express/review/details.phtml">
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="onepage/review/item.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="onepage/review/item.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="onepage/review/item.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
         </block>
-    </handle>
+    </block>
 </layout>

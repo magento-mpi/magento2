@@ -7,13 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account Invitations List" id="magento_invitation_index_index" type="page" parent="customer_account_index">
-        <update handle="customer_account"/>
-        <reference name="my.account.wrapper">
-            <block class="Magento_Invitation_Block_Customer_List" name="invitations_list" template="list.phtml">
-                <container name="invitations.list.list.before" as="list_before" label="Invitation List Before" htmlTag="div" htmlClass="rewards"/>
-            </block>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Invitations List" type="page" parent="customer_account_index">
+    <update handle="customer_account"/>
+    <reference name="my.account.wrapper">
+        <block class="Magento_Invitation_Block_Customer_List" name="invitations_list" template="list.phtml">
+            <container name="invitations.list.list.before" as="list_before" label="Invitation List Before" htmlTag="div" htmlClass="rewards"/>
+        </block>
+    </reference>
 </layout>

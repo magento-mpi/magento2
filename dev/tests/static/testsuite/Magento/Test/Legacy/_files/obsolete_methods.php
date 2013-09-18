@@ -621,6 +621,7 @@ return array(
     array('processRequest', 'Magento_Core_Model_Cache'),
     array('processSubst', 'Magento_Core_Model_Store'),
     array('productEventAggregate'),
+    array('publishRelatedViewFile', 'Magento_Core_Model_View_Publisher', '_publishRelatedViewFile'),
     array('push', 'Magento_Catalog_Model_Product_Image'),
     array('rebuildCategoryLevels', 'Magento_Catalog_Model_Resource_Setup'),
     array('refundOrderItem', 'Magento_CatalogInventory_Model_Observer'),
@@ -793,5 +794,6 @@ return array(
     array('register', 'Mage', 'use Magento_Core_Model_Registry'),
     array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('getObjectManager', 'Mage'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
 );

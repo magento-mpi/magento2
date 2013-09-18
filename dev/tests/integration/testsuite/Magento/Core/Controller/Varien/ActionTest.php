@@ -28,8 +28,12 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
         $arguments = array(
-            'request'  => new Magento_TestFramework_Request(),
+            'request'  => $request,
             'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
         );        
         $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
@@ -238,7 +242,10 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         if (headers_sent()) {
             $this->markTestSkipped('Can\' dispatch - headers already sent');
         }
-        $request = new Magento_TestFramework_Request();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
         $request->setDispatched();
 
         $arguments = array(

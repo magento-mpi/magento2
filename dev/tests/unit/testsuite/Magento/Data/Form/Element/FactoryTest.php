@@ -41,7 +41,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($className, array('attributes' => array()))
+            ->with($className, array())
             ->will($this->returnValue($elementMock));
         $this->assertSame($elementMock, $this->_factory->create($type));
     }
@@ -50,16 +50,16 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
      * @param string $type
      * @dataProvider createPositiveDataProvider
      */
-    public function testCreatePositiveWithAttributes($type)
+    public function testCreatePositiveWithNotEmptyConfig($type)
     {
-        $attributes = array('attr1' => 'attr1', 'attr2' => 'attr2');
+        $config = array('attributes' => array('attr1' => 'attr1', 'attr2' => 'attr2'));
         $className = 'Magento_Data_Form_Element_' . ucfirst($type);
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($className, array('attributes' => $attributes))
+            ->with($className, $config)
             ->will($this->returnValue($elementMock));
-        $this->assertSame($elementMock, $this->_factory->create($type, $attributes));
+        $this->assertSame($elementMock, $this->_factory->create($type, $config));
     }
 
     /**
@@ -108,7 +108,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($type, array('attributes' => array()))
+            ->with($type, array())
             ->will($this->throwException(new ReflectionException()));
         $this->_factory->create($type);
     }
@@ -135,7 +135,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
         $elementMock = $this->getMock($type, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with($type, array('attributes' => array()))
+            ->with($type, array())
             ->will($this->returnValue($elementMock));
         $this->_factory->create($type);
     }

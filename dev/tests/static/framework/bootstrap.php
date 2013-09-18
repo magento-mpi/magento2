@@ -9,16 +9,15 @@
  * @license     {license_link}
  */
 
-$baseDir = realpath(__DIR__ . '/../../../../');
 define('DS', DIRECTORY_SEPARATOR);
-define('BP', $baseDir);
-require $baseDir . '/app/autoload.php';
+define('BP', realpath(__DIR__ . '/../../../../'));
+require BP . '/app/autoload.php';
 Magento_Autoload_IncludePath::addIncludePath(array(
     __DIR__,
     dirname(__DIR__) . '/testsuite',
-    $baseDir . '/lib',
+    BP . '/lib',
 ));
-Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files($baseDir));
+Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files(BP));
 
 function tool_autoloader($className)
 {

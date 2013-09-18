@@ -8,18 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_crosssell">
-        <container name="root" label="Root" output="1">
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell" name="catalog.product.edit.tab.crosssell"/>
-            <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="crosssell_grid_serializer">
-                <arguments>
-                    <argument name="input_names" xsi:type="string">position</argument>
-                    <argument name="grid_block" xsi:type="string">catalog.product.edit.tab.crosssell</argument>
-                    <argument name="callback" xsi:type="string">getSelectedCrossSellProducts</argument>
-                    <argument name="input_element_name" xsi:type="string">links[crosssell]</argument>
-                    <argument name="reload_param_name" xsi:type="string">products_crosssell</argument>
-                </arguments>
-            </block>
-        </container>
-    </handle>
+    <container name="root" label="Root" output="1">
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell" name="catalog.product.edit.tab.crosssell"/>
+        <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="crosssell_grid_serializer">
+            <arguments>
+                <argument name="input_names" xsi:type="string">position</argument>
+                <argument name="grid_block" xsi:type="string">catalog.product.edit.tab.crosssell</argument>
+                <argument name="callback" xsi:type="string">getSelectedCrossSellProducts</argument>
+                <argument name="input_element_name" xsi:type="string">links[crosssell]</argument>
+                <argument name="reload_param_name" xsi:type="string">products_crosssell</argument>
+            </arguments>
+        </block>
+    </container>
 </layout>

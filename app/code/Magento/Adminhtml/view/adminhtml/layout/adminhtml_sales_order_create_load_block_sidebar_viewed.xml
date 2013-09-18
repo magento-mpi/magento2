@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_sidebar_viewed">
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed" template="sales/order/create/sidebar/items.phtml" name="sidebar_viewed"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed" template="sales/order/create/sidebar/items.phtml" name="sidebar_viewed"/>
+    </reference>
 </layout>

@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="rss_catalog_salesrule">
-        <block class="Magento_Rss_Block_Catalog_Salesrule" output="1" name="rss.catalog.salesrule"/>
-    </handle>
+    <block class="Magento_Rss_Block_Catalog_Salesrule" output="1" name="rss.catalog.salesrule"/>
 </layout>

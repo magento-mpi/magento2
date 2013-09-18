@@ -12,7 +12,7 @@
 /**
  * Extends valid Url rewrites
  */
-require dirname(__FILE__) . '/url_rewrites.php';
+require __DIR__ . '/url_rewrites.php';
 
 /**
  * Invalid rewrite for product assigned to different category
