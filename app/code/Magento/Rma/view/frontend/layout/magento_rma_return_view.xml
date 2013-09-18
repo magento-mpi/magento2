@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account Return View" id="magento_rma_return_view" type="page" parent="magento_rma_return_view_handle">
+    <handle label="Customer My Account Return View" id="magento_rma_returnshipment_view" type="page" parent="magento_rma_return_view_handle">
         <reference name="customer_account_navigation">
             <action method="setActive">
                 <argument name="path" xsi:type="string">rma/returnshipment/history/</argument>
@@ -21,7 +21,7 @@
             </block>
             <block class="Magento\Rma\Block\ReturnShipment\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
         </reference>
-        <update handle="magento_rma_return_view_handle"/>
+        <update handle="magento_rma_returnshipment_view_handle"/>
         <block class="Magento\Rma\Block\ReturnShipment\Tracking" name="rma.return.tracking" as="tracking"/>
     </handle>
 </layout>

@@ -80,8 +80,8 @@ class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase
                 )
             ),
             array('backend/admin/user_role/delete/rid/2', 'delete'),
-            array('backend/admin/tax_class/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
-            array('backend/admin/tax_class/ajaxSave', 'save',
+            array('backend/admin/tax_classtax/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
+            array('backend/admin/tax_classtax/ajaxSave', 'save',
                 array(
                     'class_id' => null,
                     'class_name' => 'test',

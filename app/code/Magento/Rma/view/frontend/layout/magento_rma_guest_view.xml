@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Guest Order View Return" id="magento_rma_guest_view" type="page" parent="magento_rma_return_view_handle">
+    <handle label="Guest Order View Return" id="magento_rma_guest_view" type="page" parent="magento_rma_returnshipment_view_handle">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>
@@ -26,7 +26,7 @@
             </block>
             <block class="Magento\Rma\Block\ReturnShipment\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
         </reference>
-        <update handle="magento_rma_return_view_handle"/>
+        <update handle="magento_rma_returnshipment_view_handle"/>
         <reference name="sales.order.info">
             <action method="addLink">
                 <argument name="name" xsi:type="string">view</argument>
