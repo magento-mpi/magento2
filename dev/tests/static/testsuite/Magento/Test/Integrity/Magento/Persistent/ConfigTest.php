@@ -41,7 +41,6 @@ class Magento_Test_Integrity_Magento_Persistent_ConfigTest extends Integrity_Con
     protected function _getKnownInvalidXml()
     {
         return __DIR__ . '/_files/invalid_persistent.xml';
-
     }
 
     /**
