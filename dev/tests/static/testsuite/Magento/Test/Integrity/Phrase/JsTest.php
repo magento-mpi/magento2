@@ -1,20 +1,17 @@
 <?php
-/**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
- */
 
-use \Magento\Tools\I18n\Code\Parser\Adapter;
-use \Magento\Tools\I18n\Code\FilesCollector;
-
+use Magento\Tools\I18n\Code\Parser\Adapter;
 use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
 use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
 
 /**
  * Scan javascript files for invocations of mage.__() function, verifies that all the translations
  * were output to the page.
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
 {
@@ -38,11 +35,10 @@ class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase
 
     public function testGetPhrasesAdminhtml()
     {
-        $phrases = array();
         $unregisteredMessages = array();
         $untranslated = array();
 
-        $registeredPhrases = $this->_getRegisteredPhrases('adminhtml');
+        $registeredPhrases = $this->_getRegisteredPhrases();
 
         foreach ($this->_getJavascriptPhrases('adminhtml') as $phrase) {
             if (!in_array($phrase['phrase'], $registeredPhrases)) {
@@ -62,11 +58,10 @@ class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase
 
     public function testGetPhrasesFrontend()
     {
-        $phrases = array();
         $unregisteredMessages = array();
         $untranslated = array();
 
-        $registeredPhrases = $this->_getRegisteredPhrases('frontend');
+        $registeredPhrases = $this->_getRegisteredPhrases();
 
         foreach ($this->_getJavascriptPhrases('frontend') as $phrase) {
             if (!in_array($phrase['phrase'], $registeredPhrases)) {
@@ -84,23 +79,17 @@ class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase
         }
     }
 
-    protected function _getRegisteredPhrases($area)
+    /**
+     * Returns an array of phrases that can be used by JS files.
+     *
+     * @return array[string]
+     */
+    protected function _getRegisteredPhrases()
     {
+        $jsHelperFile =  __DIR__ .
+            '../../../../../../../../../app/code/Magento/Core/Helper/Js.php';
 
-        $adminhtmlFile = __DIR__ .
-            '../../../../../../../../../app/code/Magento/Adminhtml/view/adminhtml/page/head.phtml';
-        $frontendFile =  __DIR__ .
-            '../../../../../../../../../app/code/Magento/Page/view/frontend/html/head.phtml';
-
-        switch ($area) {
-            case 'adminhtml':
-                $this->_phraseCollector->parse($adminhtmlFile);
-                break;
-            case 'frontend':
-                $this->_phraseCollector->parse($frontendFile);
-                break;
-        }
-
+        $this->_phraseCollector->parse($jsHelperFile);
 
         $result = array();
         foreach ($this->_phraseCollector->getPhrases() as $phrase) {
@@ -109,6 +98,12 @@ class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase
         return $result;
     }
 
+    /**
+     * Returns an array of phrases used by JavaScript files in a specific area of magento.
+     *
+     * @param string $area of magento to search, such as 'frontend' or 'adminthml'
+     * @return array[string]
+     */
     protected function _getJavascriptPhrases($area)
     {
         $jsPhrases = array();
