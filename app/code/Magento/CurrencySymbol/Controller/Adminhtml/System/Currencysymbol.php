@@ -55,9 +55,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends 
         try {
             $this->_objectManager->create('Magento_CurrencySymbol_Model_System_Currencysymbol')
                 ->setCurrencySymbolsData($symbolsDataArray);
-            $this->_objectManager->get('Magento_Connect_Model_Session')->addSuccess(
-                __('The custom currency symbols were applied.')
-            );
+            $backendSession->addSuccess(__('The custom currency symbols were applied.'));
         } catch (Exception $e) {
             $backendSession->addError($e->getMessage());
         }
