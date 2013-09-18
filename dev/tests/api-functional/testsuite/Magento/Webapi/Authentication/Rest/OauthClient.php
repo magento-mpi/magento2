@@ -155,4 +155,36 @@ class Magento_Webapi_Authentication_Rest_OauthClient extends AbstractService
         }
         return $this->_oauthVerifier;
     }
+
+    /**
+     * @override to fix since parent implementation from lib not sending the oauth_verifier when requeting access token
+     * Builds the authorization header for an authenticated API request
+     * @param string $method
+     * @param UriInterface $uri the uri the request is headed
+     * @param \OAuth\OAuth1\Token\TokenInterface $token
+     * @param $bodyParams array
+     * @return string
+     */
+    protected function buildAuthorizationHeaderForAPIRequest($method, UriInterface $uri, TokenInterface $token, $bodyParams)
+    {
+        $this->signature->setTokenSecret($token->getAccessTokenSecret());
+        $parameters = $this->getBasicAuthorizationHeaderInfo();
+        if( isset($parameters['oauth_callback'] ) ){
+            unset($parameters['oauth_callback']);
+        }
+
+        $parameters = array_merge($parameters, array('oauth_token' => $token->getAccessToken()) );
+        $parameters = array_merge($parameters, $bodyParams);
+        $parameters['oauth_signature'] = $this->signature->getSignature($uri, $parameters, $method);
+
+        $authorizationHeader = 'OAuth ';
+        $delimiter = '';
+
+        foreach($parameters as $key => $value) {
+            $authorizationHeader .= $delimiter . rawurlencode($key) . '="' . rawurlencode($value) . '"';
+            $delimiter = ', ';
+        }
+
+        return $authorizationHeader;
+    }
 }

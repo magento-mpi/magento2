@@ -239,7 +239,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         );
 
         //TODO:Check if we need callback URL here. Currently it errors out if not supplied
-        $requestToken = $token->createRequestToken($consumer->getId(), $consumer->getCallBackUrl());
+        $requestToken = $token->createRequestToken($token->getId(), $consumer->getCallBackUrl());
         return array('oauth_token' => $requestToken->getToken(), 'oauth_token_secret' => $requestToken->getSecret());
     }
 
@@ -428,13 +428,16 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             throw new Magento_Oauth_Exception('', self::ERR_SIGNATURE_METHOD_REJECTED);
         }
 
+        //Only allowable signature parameters
         $allowedSignParams = array(
             "oauth_callback",
             "oauth_consumer_key",
             "oauth_nonce",
             "oauth_signature_method",
             "oauth_timestamp",
-            "oauth_version"
+            "oauth_version",
+            "oauth_token",
+            "oauth_verifier"
         );
 
         $util = new Zend_Oauth_Http_Utility();

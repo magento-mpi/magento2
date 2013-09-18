@@ -194,14 +194,14 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     /**
      * Generate and save request token
      *
-     * @param int $consumerId Consumer identifier
+     * @param int $entityId Token identifier
      * @param string $callbackUrl Callback URL
      * @return Magento_Oauth_Model_Token
      */
-    public function createRequestToken($consumerId, $callbackUrl)
+    public function createRequestToken($entityId, $callbackUrl)
     {
         $this->setData(array(
-            'consumer_id'  => $consumerId,
+            'entity_id'  => $entityId,
             'type'         => self::TYPE_REQUEST,
             'token'        => $this->_oauthData->generateToken(),
             'secret'       => $this->_oauthData->generateTokenSecret(),

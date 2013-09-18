@@ -106,9 +106,8 @@ class Magento_Webapi_Authentication_RestTest extends Magento_Test_TestCase_Webap
 
     public function testGetAccessToken()
     {
-        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
         $this->_runConsumerFixture();
-        $oAuthClient = $this->_getOauthClient($this->_getValidConsumerKeyA(), $this->_getValidConsumerSecretA());
+        $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
         $accessToken = $oAuthClient->requestAccessToken(
             $requestToken->getRequestToken(),
