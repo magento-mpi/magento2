@@ -74,7 +74,7 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
             if (!$this->_appState->isInstalled()) {
                 throw new Magento_Webapi_Exception(__('Magento is not yet installed'));
             }
-            $this->_authentication->authenticate($this->_request);
+//            $this->_authentication->authenticate($this->_request);
             $route = $this->_router->match($this->_request);
 
             if ($route->isSecure() && !$this->_request->isSecure()) {

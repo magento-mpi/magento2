@@ -9,16 +9,16 @@
  */
 class Magento_Webapi_Controller_Rest_Authentication
 {
-    /** @var Magento_Oauth_Service_OauthInterfaceV1 */
+    /** @var Magento_Oauth_Service_OauthV1Interface */
     protected $_oauthService;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Oauth_Service_OauthInterfaceV1 $oauthService
+     * @param Magento_Oauth_Service_OauthV1Interface $oauthService
      */
     public function __construct(
-        Magento_Oauth_Service_OauthInterfaceV1 $oauthService
+        Magento_Oauth_Service_OauthV1Interface $oauthService
     ) {
         $this->_oauthService = $oauthService;
     }
