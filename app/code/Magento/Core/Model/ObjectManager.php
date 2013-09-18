@@ -21,6 +21,34 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
     protected $_compiledRelations;
 
     /**
+     * Retrieve object manager
+     *
+     * Temporary solution for removing Mage God Object, removed when Serialization problem has resolved
+     *
+     * @deprecated
+     * @return Magento_ObjectManager
+     * @throws RuntimeException
+     */
+    public static function getInstance()
+    {
+        if (!self::$_instance instanceof Magento_ObjectManager) {
+            throw new RuntimeException('ObjectManager isn\'t initialized');
+        }
+        return self::$_instance;
+    }
+
+    /**
+     * Set object manager instance
+     *
+     * @param Magento_ObjectManager $objectManager
+     * @throws LogicException
+     */
+    public static function setInstance(Magento_ObjectManager $objectManager)
+    {
+        self::$_instance = $objectManager;
+    }
+
+    /**
      * @param Magento_Core_Model_Config_Primary $primaryConfig
      * @param Magento_ObjectManager_Config $config
      * @param array $sharedInstances
@@ -53,7 +81,7 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
         parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
 
-        Mage::setObjectManager($this);
+        self::setInstance($this);
 
         Magento_Profiler::start('global_primary');
         $primaryLoader = $primaryLoader ?: new Magento_Core_Model_ObjectManager_ConfigLoader_Primary(
@@ -118,19 +146,6 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
         $this->_config->setCache($this->get('Magento_Core_Model_ObjectManager_ConfigCache'));
         $this->configure($this->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global'));
 
-        self::$_instance = $this;
-    }
-
-    /**
-     * Return global instance
-     *
-     * Temporary solution for removing Mage God Object, removed when Serialization problem has resolved
-     *
-     * @deprecated
-     * @return Magento_ObjectManager
-     */
-    public static function getInstance()
-    {
-        return self::$_instance;
+        self::setInstance($this);
     }
 }

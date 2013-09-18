@@ -69,17 +69,17 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
 
     /**
      * @var Magento_Backend_Model_Config_Factory
      */
     protected $_configFactory;
-
-    /**
-     * @var Magento_Core_Model_Cache_TypeList
-     */
-    protected $_cacheTypeList;
 
     /**
      * @var Magento_Core_Model_System_Store
