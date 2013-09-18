@@ -43,7 +43,7 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
         $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_model = $this->getMock('Magento_Directory_Model_Resource_Country_Collection',
             array('_toOptionArray'),
-            array($eventManager, $helperMock, $localeMock, $fetchStrategy, $storeConfigMock, $entityFactory, $resource),
+            array($eventManager, $helperMock, $localeMock, $fetchStrategy, $entityFactory, $storeConfigMock, $resource),
             '',
             true
         );

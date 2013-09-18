@@ -24,11 +24,18 @@ class Magento_Ogone_Model_ApiTest extends PHPUnit_Framework_TestCase
         $sourceString = 'Ë£';
 
         // Test protected method via reflection
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false);
+        $locale = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false);
+        $urlBuilder = $this->getMock('Magento_Core_Model_UrlInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $coreString = $this->getMock('Magento_Core_Helper_String', array(), array(), '', false);
         $config = $this->getMock('Magento_Ogone_Model_Config', array(), array(), '', false);
         $paymentDataMock = $this->getMock('Magento_Payment_Helper_Data', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $object = new Magento_Ogone_Model_Api($coreString, $coreStoreConfig, $config, $paymentDataMock);
+        $object = new Magento_Ogone_Model_Api(
+            $storeManager, $locale, $urlBuilder, $eventManager,
+            $coreString, $coreStoreConfig, $config, $paymentDataMock
+        );
 
         $method = new ReflectionMethod('Magento_Ogone_Model_Api', '_translate');
         $method->setAccessible(true);

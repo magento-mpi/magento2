@@ -10,6 +10,7 @@
 
 /**
  * Adminhtml customer cart items grid block
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     extends Magento_Adminhtml_Block_Widget_Grid
@@ -22,6 +23,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     protected $_coreRegistry = null;
 
     /**
+     * @var Magneto_Data_CollectionFactory
+     */
+    protected $_dataCollectionFactory;
+
+    /**
+     * @param Magneto_Data_CollectionFactory $dataCollectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -30,6 +37,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
      * @param array $data
      */
     public function __construct(
+        Magneto_Data_CollectionFactory $dataCollectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -37,6 +45,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -56,7 +65,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         $quote->setWebsite(Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
         $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
 
-        $collection = ($quote) ? $quote->getItemsCollection(false) : new Magento_Data_Collection();
+        $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataCollectionFactory->create();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
         $this->setCollection($collection);
 

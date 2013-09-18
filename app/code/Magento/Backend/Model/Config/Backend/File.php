@@ -33,6 +33,12 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
@@ -44,6 +50,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
@@ -54,6 +61,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_uploaderFactory = $uploaderFactory;
         parent::__construct(
             $context,
             $registry,
@@ -88,7 +96,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
         if (!empty($file)) {
             $uploadDir = $this->_getUploadDir();
             try {
-                $uploader = new Magento_Core_Model_File_Uploader($file);
+                $uploader = $this->_uploaderFactory->create(array('fileId' => $file));
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);
                 $uploader->addValidateCallback('size', $this, 'validateMaxSize');

@@ -153,7 +153,6 @@ class Magento_Search_Model_Resource_Collection
         parent::__construct(
             $catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig, $entityFactory
         );
-        );
     }
 
     /**
