@@ -22,6 +22,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testConstructorValidArguments()
     {
         $context = new Magento_Core_Model_Context(
+            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Cache', array(), array(), '', false)
         );
@@ -48,6 +49,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testConstructorInvalidArgument()
     {
         $context = new Magento_Core_Model_Context(
+            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false)
         );

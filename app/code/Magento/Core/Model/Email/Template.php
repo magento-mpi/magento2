@@ -88,6 +88,11 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     protected $_viewFileSystem;
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
     static protected $_defaultTemplates;
 
     /**
@@ -130,6 +135,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_logger = $context->getLogger();
         $this->_coreConfig = $coreConfig;
         parent::__construct($design, $context, $registry, $data);
     }
@@ -466,7 +472,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {
-            Mage::logException(new Exception('This letter cannot be sent.')); // translation is intentionally omitted
+            $this->_logger->logException(new Exception('This letter cannot be sent.')); // translation is intentionally omitted
             return false;
         }
 
@@ -536,7 +542,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
             $mail->send();
             $result = true;
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             $this->_sendingException = $e;
         }
         $this->_bcc = array();

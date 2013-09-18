@@ -200,7 +200,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_getSession()->addError(__('Something went wrong while deleting the revisions.'));
             }
         }
@@ -232,7 +232,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_Version extends Magento_
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $error = true;
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong while deleting this version.'));
                 $error = true;
             }

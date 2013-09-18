@@ -270,7 +270,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
                 ->save();
         } catch (Exception $e) {
             Mage::throwException(__('We were unable to save the cron expression.'));
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $this;
     }
@@ -292,7 +292,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
                 ->delete();
         } catch (Exception $e) {
             Mage::throwException(__('Unable to delete the cron task.'));
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $this;
     }

@@ -39,6 +39,8 @@
   * Static method `getConfig` of Mage class was eliminated
   * Static method `getStoreConfig` of Mage class was eliminated
   * Static method `getStoreConfigFlag` of Mage class was eliminated
+  * Static method `log` of Mage class was eliminated
+  * Static method `logException` of Mage class was eliminated
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
