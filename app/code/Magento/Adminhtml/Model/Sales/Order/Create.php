@@ -225,7 +225,8 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      *
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
-    public function recollectCart(){
+    public function recollectCart()
+    {
         if ($this->_needCollectCart === true) {
             $this->getCustomerCart()
                 ->collectTotals()

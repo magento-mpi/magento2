@@ -14,7 +14,6 @@ class Magento_Core_Model_Session_Generic extends Magento_Core_Model_Session_Abst
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $sessionNamespace
      * @param array $data
-     *
      * @param string $sessionName
      */
     public function __construct(

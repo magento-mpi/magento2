@@ -49,7 +49,6 @@ class Magento_Checkout_Model_Cart extends Magento_Object implements Magento_Chec
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
-     * @internal param $Ma gento_Core_Model_Event_Manager $eventManager* gento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,

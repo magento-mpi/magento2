@@ -55,7 +55,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -63,7 +62,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config

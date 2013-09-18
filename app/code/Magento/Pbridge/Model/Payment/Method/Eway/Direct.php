@@ -91,7 +91,6 @@ class Magento_Pbridge_Model_Payment_Method_Eway_Direct extends Magento_Payment_M
         parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
     }
 
-
     /**
      * Return that current payment method is dummy
      *

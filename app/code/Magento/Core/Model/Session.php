@@ -34,7 +34,6 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
-     *
      * @param string $sessionName
      */
     public function __construct(
