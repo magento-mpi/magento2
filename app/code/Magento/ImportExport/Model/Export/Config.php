@@ -27,7 +27,7 @@ class Magento_ImportExport_Model_Export_Config
      *
      * @return array
      */
-    function getEntities()
+    public function getEntities()
     {
         return $this->get('entities');
     }
@@ -37,7 +37,7 @@ class Magento_ImportExport_Model_Export_Config
      *
      * @return array
      */
-    function getProductTypes()
+    public function getProductTypes()
     {
         return $this->get('productTypes');
     }
@@ -47,7 +47,7 @@ class Magento_ImportExport_Model_Export_Config
      *
      * @return array
      */
-    function getFileFormats()
+    public function getFileFormats()
     {
         return $this->get('fileFormats');
     }
