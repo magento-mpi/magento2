@@ -28,8 +28,6 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
-  * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl, Mage::printException in /lib and /pub
-  * Static method `getObjectManager` of Mage class was eliminated
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
@@ -39,7 +37,7 @@
 * Removed "translate" node from configuration XML files
 * Added I18n tools for translation dictionary generation and language package generation
 * Eliminated Mage::helper and Mage::dispatchEvent in code
-* Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl, Mage::printException in /lib and /pub
+* Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
 * Eliminated Mage:: static methods in Magento_Widget
 * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
 * Eliminated Mage:: static methods in Magento_Sendfriend
