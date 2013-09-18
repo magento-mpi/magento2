@@ -26,8 +26,13 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
      */
     protected function setUp()
     {
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array('date'), array(), '', false);
+        $config = $this->getMock('Magento_ImportExport_Model_Config', array('date'), array(), '', false);
+        
         $this->_model = new Magento_ScheduledImportExport_Model_Import(
-            $this->getMock('Magento_ScheduledImportExport_Helper_Data', array(), array(), '', false, false)
+            $this->getMock('Magento_ScheduledImportExport_Helper_Data', array(), array(), '', false, false),
+            $coreConfig,
+            $config
         );
     }
 

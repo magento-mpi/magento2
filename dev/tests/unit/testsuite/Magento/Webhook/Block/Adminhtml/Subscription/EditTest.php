@@ -35,7 +35,6 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
         $this->_registry = new Magento_Core_Model_Registry();
         $this->_registry->register(Magento_Webhook_Block_Adminhtml_Subscription_Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
-
         $this->_block = new Magento_Webhook_Block_Adminhtml_Subscription_Edit(
             $this->_coreData,
             $this->_context,
@@ -44,7 +43,8 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
         $this->assertEquals('Edit Subscription', $this->_block->getHeaderText());
 
         $this->_registry->unregister(
-            Magento_Webhook_Block_Adminhtml_Subscription_Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
+            Magento_Webhook_Block_Adminhtml_Subscription_Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION
+        );
     }
 
     public function testGetHeaderTestNew()

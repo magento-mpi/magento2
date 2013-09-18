@@ -54,6 +54,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
@@ -61,10 +62,13 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_catalogProductCompare = $catalogProductCompare;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $entityFactory);
+        parent::__construct(
+            $catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
     }
 
     /**

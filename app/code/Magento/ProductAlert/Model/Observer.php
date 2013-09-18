@@ -67,12 +67,22 @@ class Magento_ProductAlert_Model_Observer
     protected $_taxData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_taxData = $taxData;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -108,7 +118,7 @@ class Magento_ProductAlert_Model_Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!Mage::getStoreConfig(
+            if (!$this->_coreStoreConfig->getConfig(
                 self::XML_PATH_PRICE_ALLOW,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
             )) {
@@ -196,7 +206,7 @@ class Magento_ProductAlert_Model_Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!Mage::getStoreConfig(
+            if (!$this->_coreStoreConfig->getConfig(
                 self::XML_PATH_STOCK_ALLOW,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
             )) {
@@ -278,7 +288,7 @@ class Magento_ProductAlert_Model_Observer
     protected function _sendErrorEmail()
     {
         if (count($this->_errors)) {
-            if (!Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE)) {
+            if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE)) {
                 return $this;
             }
 
@@ -290,9 +300,9 @@ class Magento_ProductAlert_Model_Observer
             /* @var $emailTemplate Magento_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area'  => 'backend'))
                 ->sendTransactional(
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT),
                     null,
                     array('warnings' => join("\n", $this->_errors))
                 );

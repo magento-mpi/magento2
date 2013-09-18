@@ -24,8 +24,6 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
     protected $_coreRegistry = null;
 
     /**
-     * Collection constructor
-     *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory

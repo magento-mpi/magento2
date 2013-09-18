@@ -191,9 +191,11 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Ogone_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @var Magento_Ogone_Model_Config $config
      * @param Magento_Payment_Helper_Data $paymentData
      * @param array $data
+     * @return Magento_Ogone_Model_Api
      */
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -201,6 +203,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
         Magento_Core_Model_UrlInterface $urlBuilder,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Ogone_Model_Config $config,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
@@ -210,7 +213,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
         $this->_urlBuilder = $urlBuilder;
         $this->_coreString = $coreString;
         $this->_config = $config;
-        parent::__construct($eventManager, $paymentData, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
     }
 
     /**

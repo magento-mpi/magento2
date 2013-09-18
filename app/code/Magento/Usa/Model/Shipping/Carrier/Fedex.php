@@ -106,8 +106,6 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
     protected $_productCollFactory;
 
     /**
-     * Fedex constructor
-     *
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
@@ -122,6 +120,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -140,6 +139,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -262,7 +262,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig(
+            $origCountry = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             );
@@ -272,7 +272,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig(
+            $r->setOrigPostal($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -1316,7 +1316,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                     'PaymentType' => $paymentType,
                     'Payor' => array(
                         'AccountNumber' => $this->getConfigData('account'),
-                        'CountryCode'   => Mage::getStoreConfig(
+                        'CountryCode'   => $this->_coreStoreConfig->getConfig(
                             Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                             $request->getStoreId()
                         )
@@ -1360,7 +1360,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                         'PaymentType' => $paymentType,
                         'Payor' => array(
                             'AccountNumber' => $this->getConfigData('account'),
-                            'CountryCode'   => Mage::getStoreConfig(
+                            'CountryCode'   => $this->_coreStoreConfig->getConfig(
                                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                                 $request->getStoreId()
                             )

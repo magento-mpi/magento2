@@ -505,7 +505,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      */
     protected function _invalidateCache()
     {
-        $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
+        $types = $this->_coreConfig->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
             $this->_typeList->invalidate($types);

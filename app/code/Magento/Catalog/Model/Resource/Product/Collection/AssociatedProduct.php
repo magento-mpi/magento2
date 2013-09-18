@@ -48,6 +48,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
      * @param Magento_Core_Model_Registry $registryManager
      * @param Magento_Catalog_Model_Product_Type_Configurable $productType
      * @param Magento_Catalog_Helper_Product_Configuration $configurationHelper
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
@@ -57,12 +58,15 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Registry $registryManager,
         Magento_Catalog_Model_Product_Type_Configurable $productType,
-        Magento_Catalog_Helper_Product_Configuration $configurationHelper
+        Magento_Catalog_Helper_Product_Configuration $configurationHelper,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
         $this->_configurationHelper = $configurationHelper;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $entityFactory);
+        parent::__construct(
+            $catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
     }
 
     /**

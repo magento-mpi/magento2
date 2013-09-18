@@ -198,21 +198,31 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_catalogData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($eventManager, $fetchStrategy, $entityFactory);
     }
 
@@ -1112,7 +1122,10 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        if (Mage::getStoreConfig(Magento_Catalog_Helper_Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId())) {
+        $useCategoryUrl = $this->_coreStoreConfig->getConfig(
+            Magento_Catalog_Helper_Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId()
+        );
+        if ($useCategoryUrl) {
             $this->_urlRewriteCategory = $categoryId;
         } else {
             $this->_urlRewriteCategory = 0;

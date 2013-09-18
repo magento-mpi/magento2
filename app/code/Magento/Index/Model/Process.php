@@ -102,6 +102,11 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_resourceEvent;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+    
+    /**
      * @param Magento_Index_Model_Resource_Event $resourceEvent
      * @param Magento_Index_Model_IndexerFactory $indexerFactory
      * @param Magento_Index_Model_Indexer $indexIndexer
@@ -110,6 +115,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Index_Model_Lock_Storage $lockStorage
      * @param Magento_Index_Model_EventRepository $eventRepository
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -125,6 +131,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         Magento_Core_Model_Registry $registry,
         Magento_Index_Model_Lock_Storage $lockStorage,
         Magento_Index_Model_EventRepository $eventRepository,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -136,6 +143,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         $this->_indexerFactory = $indexerFactory;
         $this->_indexIndexer = $indexIndexer;
         $this->_resourceEvent = $resourceEvent;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -574,7 +582,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         if (is_null($depends)) {
             $depends = array();
             $path = self::XML_PATH_INDEXER_DATA . '/' . $this->getIndexerCode();
-            $node = Mage::getConfig()->getNode($path);
+            $node = $this->_coreConfig->getNode($path);
             if ($node) {
                 $data = $node->asArray();
                 if (isset($data['depends']) && is_array($data['depends'])) {

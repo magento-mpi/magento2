@@ -33,12 +33,20 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
     protected $_locale;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $stringHelper
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param null $resource
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -46,9 +54,11 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
-        $resource = null
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         parent::__construct($eventManager, $fetchStrategy, $entityFactory, $resource);
+        $this->_coreStoreConfig = $coreStoreConfig;        
         $this->_stringHelper = $stringHelper;
         $this->_locale = $locale;
     }
@@ -76,7 +86,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      */
     public function loadByStore($store = null)
     {
-        $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow', $store));
+        $allowCountries = explode(',', (string)$this->_coreStoreConfig->getConfig('general/country/allow', $store));
         if (!empty($allowCountries)) {
             $this->addFieldToFilter("country_id", array('in' => $allowCountries));
         }

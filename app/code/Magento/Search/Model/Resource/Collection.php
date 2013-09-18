@@ -135,6 +135,7 @@ class Magento_Search_Model_Resource_Collection
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
@@ -144,11 +145,15 @@ class Magento_Search_Model_Resource_Collection
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $entityFactory);
+        parent::__construct(
+            $catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
+        );
     }
 
     /**

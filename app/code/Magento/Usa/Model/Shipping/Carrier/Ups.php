@@ -112,6 +112,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     protected $_locale;
 
     /**
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
      * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
@@ -124,10 +125,13 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
         Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
@@ -140,9 +144,11 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_locale = $locale;
+        $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
         parent::__construct(
             $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
             $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
@@ -215,7 +221,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig(
+            $origCountry = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             );
@@ -226,7 +232,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
         } else {
-            $origRegionCode = Mage::getStoreConfig(
+            $origRegionCode = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
                 $request->getStoreId()
             );
@@ -239,7 +245,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigPostcode()) {
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
-            $rowRequest->setOrigPostal(Mage::getStoreConfig(
+            $rowRequest->setOrigPostal($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -248,7 +254,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigCity()) {
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
-            $rowRequest->setOrigCity(Mage::getStoreConfig(
+            $rowRequest->setOrigCity($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY,
                 $request->getStoreId()
             ));

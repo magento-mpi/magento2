@@ -80,5 +80,4 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
 
         return $returnValue;
     }
-
 }

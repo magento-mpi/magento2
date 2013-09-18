@@ -303,8 +303,12 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'Magento_Catalog_Helper_Data', array('__construct'), array(), '', false
         );
 
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        
         $this->_model = new Magento_ImportExport_Model_Import_Entity_Product_Option(
-            $this->_catalogDataMock, $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
+            $this->_catalogDataMock,
+            $coreStoreConfig,
+            $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
 

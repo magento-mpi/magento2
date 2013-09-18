@@ -54,13 +54,14 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
     protected $_permanentAttributes = array();
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];

@@ -40,9 +40,10 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_model = $this->getMock('Magento_Directory_Model_Resource_Country_Collection',
             array('_toOptionArray'),
-            array($eventManager, $helperMock, $localeMock, $fetchStrategy, $entityFactory, $resource),
+            array($eventManager, $helperMock, $localeMock, $fetchStrategy, $storeConfigMock, $entityFactory, $resource),
             '',
             true
         );
