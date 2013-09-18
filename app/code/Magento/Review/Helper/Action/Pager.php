@@ -28,6 +28,24 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     protected $_items = null;
 
     /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Backend_Model_Session $backendSession,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_backendSession = $backendSession;
+        parent::__construct($context);
+    }
+
+
+    /**
      * Set storage id
      *
      * @param $storageId
@@ -46,7 +64,7 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     public function setItems(array $items)
     {
         $this->_items = $items;
-        $this->_getSession()->setData($this->_getStorageKey(), $this->_items);
+        $this->_backendSession->setData($this->_getStorageKey(), $this->_items);
 
         return $this;
     }
@@ -57,7 +75,7 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     protected function _loadItems()
     {
         if (is_null($this->_items)) {
-            $this->_items = (array) $this->_getSession()->getData($this->_getStorageKey());
+            $this->_items = (array) $this->_backendSession->getData($this->_getStorageKey());
         }
     }
 
@@ -117,15 +135,5 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
         }
 
         return self::STORAGE_PREFIX . $this->_storageId;
-    }
-
-    /**
-     * Get session
-     *
-     * @return Magento_Backend_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Magento_Backend_Model_Session');
     }
 }

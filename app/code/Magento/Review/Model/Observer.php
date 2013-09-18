@@ -19,6 +19,20 @@
 class Magento_Review_Model_Observer
 {
     /**
+     * @var Magento_Review_Model_Review
+     */
+    protected $_review;
+
+    /**
+     * @param Magento_Review_Model_Review $review
+     */
+    public function __construct(
+        Magento_Review_Model_Review $review
+    ) {
+        $this->_review = $review;
+    }
+
+    /**
      * Add review summary info for tagged product collection
      *
      * @param Magento_Event_Observer $observer
@@ -27,8 +41,7 @@ class Magento_Review_Model_Observer
     public function tagProductCollectionLoadAfter(Magento_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        Mage::getSingleton('Magento_Review_Model_Review')
-            ->appendSummary($collection);
+        $this->_review->appendSummary($collection);
 
         return $this;
     }

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Review_Block_Form">
+        <param name="reviewSession">
+            <instance type="Magento_Review_Model_Session" />
+        </param>
+    </type>
+</config>

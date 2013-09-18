@@ -797,4 +797,5 @@ return array(
     array('getObjectManager', 'Mage'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
     array('printException', 'Mage', 'magePrintException'),
+    array('_getSession', 'Magento_Review_Helper_Action_Pager'),
 );
