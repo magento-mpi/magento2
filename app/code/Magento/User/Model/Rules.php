@@ -35,9 +35,9 @@ class Magento_User_Model_Rules extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource,
+        Magento_User_Model_Resource_Rules $resource,
         Magento_User_Model_Resource_Permissions_Collection $resourceCollection,
-        array $data
+        array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

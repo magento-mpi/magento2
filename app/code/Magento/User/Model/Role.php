@@ -42,16 +42,16 @@ class Magento_User_Model_Role extends Magento_Core_Model_Abstract
      * @param Magento_User_Model_Resource_Role_User_CollectionFactory $userRolesFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param Magento_User_Model_Resource_Role $resource
+     * @param Magento_User_Model_Resource_Role_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_User_Model_Resource_Role_User_CollectionFactory $userRolesFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        Magento_User_Model_Resource_Role $resource,
+        Magento_User_Model_Resource_Role_Collection $resourceCollection,
         array $data = array()
     ){
         $this->_userRolesFactory = $userRolesFactory;
