@@ -55,7 +55,8 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public function testGetThumbsPath()
     {
-        $model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $model = $objectManager->create('Magento_Cms_Model_Wysiwyg_Images_Storage');
         $this->assertStringStartsWith(
             realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()

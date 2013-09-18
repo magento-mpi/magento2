@@ -49,7 +49,7 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
             if (!$store->getIsActive()) {
                 continue;
             }
-            $store->setLocaleCode(Mage::getStoreConfig('general/locale/code', $store->getId()));
+            $store->setLocaleCode($this->_storeConfig->getConfig('general/locale/code', $store->getId()));
             $this->_stores[$store->getGroupId()][$store->getId()] = $store;
         }
 
@@ -61,7 +61,7 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
     public function getStoreCount()
     {
         $stores = array();
-        $localeCode = Mage::getStoreConfig('general/locale/code');
+        $localeCode = $this->_storeConfig->getConfig('general/locale/code');
         foreach ($this->_groups as $group) {
             if (!isset($this->_stores[$group->getId()])) {
                 continue;

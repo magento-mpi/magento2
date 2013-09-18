@@ -32,16 +32,6 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     protected $_dbExtensions;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param array $dbExtensions
-     */
-    public function __construct(Magento_Core_Model_Resource $resource, array $dbExtensions = array())
-    {
-        $this->_resource = $resource;
-        $this->_dbExtensions = $dbExtensions;
-    }
-
-    /**
      *  Adapter instance
      *
      * @var Magento_DB_Adapter_Interface
@@ -63,6 +53,16 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     protected $_configData;
 
 
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param array $dbExtensions
+     */
+    public function __construct(Magento_Core_Model_Resource $resource, array $dbExtensions = array())
+    {
+        $this->_resource = $resource;
+        $this->_dbExtensions = $dbExtensions;
+    }
+    
     /**
      * Return the name of DB model from config
      *

@@ -17,6 +17,18 @@
  */
 class Magento_Downloadable_Block_Customer_Products_List extends Magento_Core_Block_Template
 {
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Class constructor
@@ -125,7 +137,7 @@ class Magento_Downloadable_Block_Customer_Products_List extends Magento_Core_Blo
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_storeConfig->getConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
 }

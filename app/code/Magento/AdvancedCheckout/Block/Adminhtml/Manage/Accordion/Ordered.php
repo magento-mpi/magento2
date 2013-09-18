@@ -35,6 +35,42 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
     protected $_configureRoute = '*/checkout/configureOrderedItem';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $coreData,
+            $context,
+            $storeManager,
+            $urlModel,
+            $coreRegistry,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Initialize Grid
      *
      */
@@ -102,7 +138,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
                         ->addAttributeToSelect('sku')
                         ->addAttributeToFilter('type_id',
                             array_keys(
-                                Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')
+                                $this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')
                                     ->asArray()
                             )
                         )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)

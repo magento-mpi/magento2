@@ -26,6 +26,25 @@ class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstrac
     const XML_NODE_RESTRICTION_ALLOWED_REGISTER   = 'frontend/magento/websiterestriction/full_action_names/register';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Define if restriction is active
      *
      * @param Magento_Core_Model_Store|string|int $store
@@ -33,6 +52,6 @@ class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstrac
      */
     public function getIsRestrictionEnabled($store = null)
     {
-        return (bool)(int)Mage::getStoreConfig(self::XML_PATH_RESTRICTION_ENABLED, $store);
+        return (bool)(int)$this->_coreStoreConfig->getConfig(self::XML_PATH_RESTRICTION_ENABLED, $store);
     }
 }

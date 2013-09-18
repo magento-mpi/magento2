@@ -109,6 +109,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Payment_Helper_Data $paymentData
      * @param array $data
      */
@@ -116,11 +117,12 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
     }
 
     /**

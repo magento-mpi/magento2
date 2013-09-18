@@ -105,7 +105,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(Magento_Rma_Model_Rma::XML_PATH_ENABLED);
+        return $this->_storeConfig->getConfigFlag(Magento_Rma_Model_Rma::XML_PATH_ENABLED);
     }
 
     /**
@@ -199,7 +199,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
 
         if (!$format) {
             $path = sprintf('%s%s', Magento_Customer_Model_Address_Config::XML_PATH_ADDRESS_TEMPLATE, $formatCode);
-            $format = Mage::getStoreConfig($path, $storeId);
+            $format = $this->_storeConfig->getConfig($path, $storeId);
         }
 
         $formater = new Magento_Filter_Template();
@@ -216,13 +216,13 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     public function getReturnContactName($storeId = null)
     {
         $contactName = new Magento_Object();
-        if (Mage::getStoreConfigFlag(Magento_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
+        if ($this->_storeConfig->getConfigFlag(Magento_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
             $admin = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());
         } else {
-            $name = Mage::getStoreConfig(Magento_Rma_Model_Shipping::XML_PATH_CONTACT_NAME, $storeId);
+            $name = $this->_storeConfig->getConfig(Magento_Rma_Model_Shipping::XML_PATH_CONTACT_NAME, $storeId);
             $contactName->setFirstName('');
             $contactName->setLastName($name);
             $contactName->setName($name);
@@ -335,7 +335,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $return = array();
         foreach (array('dhl', 'fedex', 'ups', 'usps') as $carrier) {
-            $return[$carrier] = Mage::getStoreConfig('carriers/' . $carrier . '/title', $store);
+            $return[$carrier] = $this->_storeConfig->getConfig('carriers/' . $carrier . '/title', $store);
         }
         return $return;
     }
@@ -351,7 +351,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $return = $this->getShippingCarriers($store);
         foreach (array_keys($return) as $carrier) {
-            if (!Mage::getStoreConfig('carriers/' . $carrier . '/active_rma', $store)) {
+            if (!$this->_storeConfig->getConfig('carriers/' . $carrier . '/active_rma', $store)) {
                 unset ($return[$carrier]);
             }
         }
@@ -370,10 +370,10 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
         $data           = explode('_', $code, 2);
         $carrierCode    = $data[0];
 
-        if (!Mage::getStoreConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
+        if (!$this->_storeConfig->getConfig('carriers/' . $carrierCode . '/active_rma', $storeId)) {
             return false;
         }
-        $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);
+        $className = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/model', $storeId);
         if (!$className) {
             return false;
         }
@@ -473,7 +473,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
             case Magento_Rma_Model_Product_Source::ATTRIBUTE_ENABLE_RMA_NO:
                 return false;
             default: //Use config and NULL
-                return Mage::getStoreConfig(Magento_Rma_Model_Product_Source::XML_PATH_PRODUCTS_ALLOWED, $storeId);
+                return $this->_storeConfig->getConfig(Magento_Rma_Model_Product_Source::XML_PATH_PRODUCTS_ALLOWED, $storeId);
         }
     }
 
