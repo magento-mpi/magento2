@@ -28,7 +28,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:all>
-            <xs:element minOccurs="1" name="blocks" type="blocksType" />
+            <xs:element name="blocks" type="blocksType" minOccurs="1" />
         </xs:all>
     </xs:complexType>
 
@@ -38,9 +38,9 @@
                 Contains the set of block references
             </xs:documentation>
         </xs:annotation>
-        <xs:all>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="reference" type="referenceType" />
-        </xs:all>
+        <xs:sequence>
+            <xs:element name="reference" type="referenceType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="referenceType">
