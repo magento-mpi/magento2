@@ -142,5 +142,10 @@ return array(
     array('XML_PATH_CONFIGURABLE_ALLOWED_TYPES', 'Magento_Catalog_Helper_Product_Configuration'),
     array('XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES', 'Magento_Catalog_Model_Config'),
     array('PRODUCT_OPTIONS_GROUPS_PATH', 'Magento_Catalog_Model_Config_Source_Product_Options_Type'),
+    array('XML_NODE_ADD_FILTERABLE_ATTRIBUTES', 'Magento_Catalog_Helper_Product_Flat'),
+    array('XML_NODE_ADD_CHILD_DATA', 'Magento_Catalog_Helper_Product_Flat'),
+    array('XML_PATH_CONTENT_TEMPLATE_FILTER', 'Magento_Catalog_Helper_Data'),
+    array('XML_NODE_MAX_INDEX_COUNT', 'Magento_Catalog_Model_Resource_Product_Flat_Indexer'),
+    array('XML_NODE_ATTRIBUTE_GROUPS', 'Magento_Catalog_Model_Resource_Product_Flat_Indexer'),
 
 );
