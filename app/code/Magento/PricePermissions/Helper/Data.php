@@ -49,13 +49,25 @@ class Magento_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_authorization;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_AuthorizationInterface $authorization
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_AuthorizationInterface $authorization)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_Config $coreConfig
+    ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -95,6 +107,6 @@ class Magento_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDefaultProductPriceString()
     {
-        return (string) Mage::getConfig()->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
+        return (string) $this->_coreConfig->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
     }
 }

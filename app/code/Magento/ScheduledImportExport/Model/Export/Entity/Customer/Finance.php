@@ -87,13 +87,15 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
 
     /**
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_ScheduledImportExport_Helper_Data $importExportData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        parent::__construct($coreStoreConfig, $data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
             : Mage::getResourceModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');

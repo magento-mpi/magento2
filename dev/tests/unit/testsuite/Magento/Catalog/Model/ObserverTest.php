@@ -33,10 +33,12 @@ class Magento_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_catalogCategoryFlat = $this->getMock(
             'Magento_Catalog_Helper_Category_Flat', array(), array(), '', false
         );
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_model = new Magento_Catalog_Model_Observer(
             $this->_catalogCategory,
             $this->_catalogData,
-            $this->_catalogCategoryFlat
+            $this->_catalogCategoryFlat,
+            $coreConfig
         );
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
     }

@@ -19,7 +19,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      *
      * @var Magento_ImportExport_Model_Source_Import_Entity
      */
-    public static $sourceModel;
+    protected $_sourceModel;
 
     /**
      * Test entity
@@ -33,28 +33,29 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
 
     /**
      * Init source model
-     *
-     * @static
      */
-    public static function setUpBeforeClass()
+    public function setUp()
     {
-        parent::setUpBeforeClass();
-        self::$sourceModel = new Magento_ImportExport_Model_Source_Import_Entity();
-    }
+        /** @var Magento_TestFramework_ObjectManager $objectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-    /**
-     * Unregister source model and helper
-     *
-     * @static
-     */
-    public static function tearDownAfterClass()
-    {
-        self::$sourceModel = null;
+        /** @var Magento_Core_Model_Config $coreConfig */
+        $coreConfig = $objectManager->create('Magento_Core_Model_Config', array('storage' => $this->_mockConfig()));
+        $coreConfig->setNode(
+            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
+            'Some_Class'
+        );
+        $coreConfig->setNode(
+            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
+            $this->_testEntity['label']
+        );
 
-        $config = new ReflectionProperty('Mage', '_config');
-        $config->setAccessible(true);
-        $config->setValue(null, null);
-        $config->setAccessible(false);
+        /** @var $config Magento_ImportExport_Model_Config */
+        $config = $objectManager->create('Magento_ImportExport_Model_Config', array('coreConfig' => $coreConfig));
+        $this->_sourceModel = $objectManager->create(
+            'Magento_ImportExport_Model_Source_Import_Entity',
+            array('config' => $config)
+        );
     }
 
     /**
@@ -62,6 +63,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      */
     protected function _mockConfig()
     {
+        $storage = $this->getMock('Magento_Core_Model_Config_Storage', array('getConfiguration'), array(), '', false);
         $configObject = new Magento_Core_Model_Config_Base(new Magento_Simplexml_Element('<config></config>'));
         $configObject->setNode(
             'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
@@ -71,10 +73,18 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
             'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
             $this->_testEntity['label']
         );
+        $storage->expects($this->atLeastOnce())
+            ->method('getConfiguration')
+            ->will($this->returnValue($configObject));
+        return $storage;
+    }
 
-        $config = new ReflectionProperty('Mage', '_config');
-        $config->setAccessible(true);
-        $config->setValue(null, $configObject);
+    /**
+     * Unregister source model and helper
+     */
+    public function tearDown()
+    {
+        $this->_sourceModel = null;
     }
 
     /**
@@ -82,9 +92,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      */
     public function testToOptionArray()
     {
-        $this->_mockConfig();
-
-        $optionalArray = self::$sourceModel->toOptionArray();
+        $optionalArray = $this->_sourceModel->toOptionArray();
 
         $this->assertInternalType('array', $optionalArray, 'Result variable must be an array.');
         $this->assertCount(2, $optionalArray);

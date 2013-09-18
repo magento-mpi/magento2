@@ -35,6 +35,27 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
     protected $_isComposite    = false;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define main table name
      *
      */
@@ -130,7 +151,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     protected function _isManageStock()
     {
-        return Mage::getStoreConfigFlag(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
     }
 
     /**

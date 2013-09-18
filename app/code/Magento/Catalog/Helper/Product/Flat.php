@@ -60,6 +60,35 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     protected $_flagObject;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieve Catalog Product Flat Flag object
      *
      * @return Magento_Catalog_Model_Product_Flat_Flag
@@ -82,7 +111,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT);
     }
 
     /**
@@ -102,7 +131,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      */
     public function isAddFilterableAttributes()
     {
-        return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_FILTERABLE_ATTRIBUTES));
+        return intval($this->_coreConfig->getNode(self::XML_NODE_ADD_FILTERABLE_ATTRIBUTES));
     }
 
     /**
@@ -112,6 +141,6 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      */
     public function isAddChildData()
     {
-        return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_CHILD_DATA));
+        return intval($this->_coreConfig->getNode(self::XML_NODE_ADD_CHILD_DATA));
     }
 }

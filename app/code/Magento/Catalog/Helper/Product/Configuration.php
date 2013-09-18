@@ -28,14 +28,22 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     protected $_coreString = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreString = $coreString;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context);
     }
 
@@ -272,7 +280,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
      */
     public function getConfigurableAllowedTypes()
     {
-        return Mage::getConfig()
+        return $this->_coreConfig
                 ->getNode(self::XML_PATH_CONFIGURABLE_ALLOWED_TYPES)
                 ->children();
     }

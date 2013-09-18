@@ -96,7 +96,7 @@ class Magento_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCategoryChangefreq($storeId)
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_CATEGORY_CHANGEFREQ, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_CATEGORY_CHANGEFREQ, $storeId);
     }
 
     /**
@@ -107,7 +107,7 @@ class Magento_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getProductChangefreq($storeId)
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_CHANGEFREQ, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_CHANGEFREQ, $storeId);
     }
 
     /**
@@ -118,7 +118,7 @@ class Magento_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPageChangefreq($storeId)
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_CHANGEFREQ, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_CHANGEFREQ, $storeId);
     }
 
     /**
@@ -129,7 +129,7 @@ class Magento_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCategoryPriority($storeId)
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_CATEGORY_PRIORITY, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_CATEGORY_PRIORITY, $storeId);
     }
 
     /**
@@ -140,7 +140,7 @@ class Magento_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getProductPriority($storeId)
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_PRIORITY, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_PRIORITY, $storeId);
     }
 
     /**
@@ -151,7 +151,7 @@ class Magento_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPagePriority($storeId)
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_PRIORITY, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_PRIORITY, $storeId);
     }
 
     /**
@@ -173,6 +173,6 @@ class Magento_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getProductImageIncludePolicy($storeId)
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_IMAGES_INCLUDE, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_IMAGES_INCLUDE, $storeId);
     }
 }

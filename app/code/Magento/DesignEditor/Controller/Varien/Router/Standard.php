@@ -29,9 +29,13 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $config
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -40,12 +44,24 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $config,
         $areaCode,
         $baseController,
         $routerId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
-            $baseController, $routerId);
+        parent::__construct(
+            $controllerFactory,
+            $filesystem,
+            $app,
+            $configScope,
+            $coreStoreConfig,
+            $routeConfig,
+            $config,
+            $areaCode,
+            $baseController,
+            $routerId
+        );
         $this->_objectManager = $objectManager;
     }
 

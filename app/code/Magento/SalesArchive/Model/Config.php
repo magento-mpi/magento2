@@ -27,11 +27,9 @@ class Magento_SalesArchive_Model_Config
 
     /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_LocaleInterface $locale
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_LocaleInterface $locale
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -53,7 +51,7 @@ class Magento_SalesArchive_Model_Config
      */
     public function getArchiveAge()
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_AGE);
+        return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_AGE);
     }
 
     /**
