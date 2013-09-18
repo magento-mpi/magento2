@@ -63,6 +63,11 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_skipSessionIdFlag   = false;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core http
      *
      * @var Magento_Core_Helper_Http
@@ -89,6 +94,12 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_coreConfig;
 
     /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object attributes
+     * This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -96,6 +107,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -104,6 +116,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
+        $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         parent::__construct($data);
@@ -480,7 +493,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
             "\n",
             $exception->getTraceAsString());
         $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
-        Mage::log($message, Zend_Log::DEBUG, $file);
+        $this->_logger->logFile($message, Zend_Log::DEBUG, $file);
 
         $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->error($alternativeText));
         return $this;
@@ -827,7 +840,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function renewSession()
     {
         if (headers_sent()) {
-            Mage::log('Can not regenerate session id because HTTP headers already sent.');
+            $this->_logger->log('Can not regenerate session id because HTTP headers already sent.');
             return $this;
         }
         session_regenerate_id(true);

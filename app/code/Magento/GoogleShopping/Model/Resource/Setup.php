@@ -13,6 +13,7 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
     protected $_googleShoppingData = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_GoogleShopping_Helper_Data $googleShoppingData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -23,6 +24,7 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_GoogleShopping_Helper_Data $googleShoppingData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -34,7 +36,8 @@ class Magento_GoogleShopping_Model_Resource_Setup extends Magento_Core_Model_Res
     ) {
         $this->_googleShoppingData = $googleShoppingData;
         parent::__construct(
-            $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader, $resourceName
+            $logger, $eventManager, $resourcesConfig, $modulesConfig,
+            $moduleList, $resource, $modulesReader, $resourceName
         );
     }
 

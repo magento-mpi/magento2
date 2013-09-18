@@ -38,18 +38,26 @@ class Magento_Paypal_Model_Observer
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Paypal_Helper_Hss $paypalHss
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Paypal_Helper_Hss $paypalHss,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;
         $this->_coreRegistry = $coreRegistry;
+        $this->_logger = $logger;
     }
 
     /**
@@ -66,11 +74,11 @@ class Magento_Paypal_Model_Observer
                 try {
                     $reports->fetchAndSave(Magento_Paypal_Model_Report_Settlement::createConnection($config));
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
     }
 

@@ -117,6 +117,11 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
@@ -136,6 +141,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -144,12 +150,14 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Config $coreConfig,
         Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
         $this->_coreConfig = $coreConfig;
+        $this->_logger = $logger;
         parent::__construct($data);
         $this->_session = $sessionQuote;
     }
@@ -888,7 +896,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $this->recollectCart();
                 throw $e;
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
             $this->recollectCart();
         }

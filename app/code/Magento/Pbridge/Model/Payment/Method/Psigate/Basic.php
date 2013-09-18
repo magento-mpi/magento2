@@ -78,6 +78,7 @@ class Magento_Pbridge_Model_Payment_Method_Psigate_Basic extends Magento_Payment
     protected $_pbridgeData = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
@@ -86,6 +87,7 @@ class Magento_Pbridge_Model_Payment_Method_Psigate_Basic extends Magento_Payment
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Core_Model_ModuleListInterface $moduleList,
@@ -94,7 +96,7 @@ class Magento_Pbridge_Model_Payment_Method_Psigate_Basic extends Magento_Payment
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
     }
 
     /**

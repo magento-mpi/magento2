@@ -66,7 +66,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
                 )
             );
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             return false;
         }
 

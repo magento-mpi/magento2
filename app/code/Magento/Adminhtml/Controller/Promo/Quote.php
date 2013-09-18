@@ -185,7 +185,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
             } catch (Exception $e) {
                 $this->_getSession()->addError(
                     __('An error occurred while saving the rule data. Please review the log and try again.'));
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
@@ -211,7 +211,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
             } catch (Exception $e) {
                 $this->_getSession()->addError(
                     __('An error occurred while deleting the rule. Please review the log and try again.'));
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -390,9 +390,8 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
             } catch (Magento_Core_Exception $e) {
                 $result['error'] = $e->getMessage();
             } catch (Exception $e) {
-                $result['error'] = __('Something went wrong while generating coupons. '
-                    . 'Please review the log and try again.');
-                Mage::logException($e);
+                $result['error'] = __('Something went wrong while generating coupons. Please review the log and try again.');
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
