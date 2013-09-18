@@ -8,19 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="review_product_list">
-        <update handle="page_one_column"/>
-        <reference name="head">
-            <action method="removeItem">
-                <argument name="type" xsi:type="string">css</argument>
-                <argument name="name" xsi:type="string">Magento_Catalog::zoom.css</argument>
-            </action>
-            <action method="addJs">
+    <update handle="page_one_column"/>
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
+            <arguments>
                 <argument name="file" xsi:type="string">jquery/jqzoom/js/jquery.jqzoom-core-pack.js</argument>
-            </action>
-            <action method="addCss">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="jquery-jqzoom-css-jquery-jqzoom-css">
+            <arguments>
                 <argument name="file" xsi:type="string">jquery/jqzoom/css/jquery.jqzoom.css</argument>
-            </action>
-        </reference>
-    </handle>
+            </arguments>
+        </block>
+    </reference>
+    <remove name="magento-catalog-zoom-css"/>
 </layout>

@@ -26,7 +26,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_primaryConfigMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false);
         $this->_primaryConfigMock =

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,8 +42,8 @@ class Magento_CatalogEvent_Controller_CategoryTest extends Magento_Backend_Utili
 
     public static function eventDataFixture()
     {
-        /** @var $event \Magento\CatalogEvent\Model\Event */
-        $event = Mage::getModel('Magento\CatalogEvent\Model\Event');
+        /** @var $event Magento_CatalogEvent_Model_Event */
+        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_CatalogEvent_Model_Event');
         $event->setStoreId(0);
         $event->setCategoryId('3');
         $event->setStoreDateStart(date('Y-m-d H:i:s'))->setStoreDateEnd(date('Y-m-d H:i:s', time() + 3600));

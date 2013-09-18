@@ -13,6 +13,20 @@ namespace Magento\Core\Model\Store;
 class Config implements \Magento\Core\Model\Store\ConfigInterface
 {
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Retrieve store config value
      *
      * @param string $path
@@ -21,7 +35,7 @@ class Config implements \Magento\Core\Model\Store\ConfigInterface
      */
     public function getConfig($path, $store = null)
     {
-        return \Mage::getStoreConfig($path, $store);
+        return $this->_storeManager->getStore($store)->getConfig($path);
     }
 
     /**
@@ -33,6 +47,7 @@ class Config implements \Magento\Core\Model\Store\ConfigInterface
      */
     public function getConfigFlag($path, $store = null)
     {
-        return \Mage::getStoreConfigFlag($path, $store);
+        $flag = strtolower($this->getConfig($path, $store));
+        return !empty($flag) && 'false' !== $flag;
     }
 }

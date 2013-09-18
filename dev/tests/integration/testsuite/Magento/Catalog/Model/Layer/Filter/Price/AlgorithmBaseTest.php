@@ -82,7 +82,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit
 
     public function pricesSegmentationDataProvider()
     {
-        $testCases = include(dirname(__FILE__) . '/_files/_algorithm_base_data.php');
+        $testCases = include(__DIR__ . '/_files/_algorithm_base_data.php');
         $result = array();
         foreach ($testCases as $index => $testCase) {
             $result[] = array(

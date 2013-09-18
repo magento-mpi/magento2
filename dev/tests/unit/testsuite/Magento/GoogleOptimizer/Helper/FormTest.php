@@ -27,7 +27,7 @@ class Magento_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
      */
     protected $_experimentCodeMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_formMock = $this->getMock('Magento\Data\Form', array('setFieldNameSuffix', 'addFieldset'), array(), '',
             false);

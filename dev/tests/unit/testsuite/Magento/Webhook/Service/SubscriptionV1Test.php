@@ -27,7 +27,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     /** @var array */
     private $_subscriptionData;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_subscriptionFactory = $this->getMockBuilder('Magento\Webhook\Model\Subscription\Factory')
             ->disableOriginalConstructor()

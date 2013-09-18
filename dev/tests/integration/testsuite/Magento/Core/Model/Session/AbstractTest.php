@@ -16,12 +16,16 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var Magento_Core_Model_Session_Abstract _model */
         $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Session\AbstractSession',
             array(
-                Mage::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
-                Mage::getObjectManager()->get('Magento\Core\Helper\Http'),
+                $objectManager->get('Magento_Core_Model_Event_Manager'),
+                $objectManager->get('Magento_Core_Helper_Http'),
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento_Core_Model_Config')
             ));
     }
 

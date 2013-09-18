@@ -32,15 +32,23 @@ class Observer
     protected $_coreHttp = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Logging\Model\Processor $processor
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Logging\Model\Processor $processor
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Logging_Model_Processor $processor,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreHttp = $coreHttp;
         $this->_processor = $processor;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -192,10 +200,10 @@ class Observer
     {
         $lastRotationFlag = \Mage::getModel('Magento\Logging\Model\Flag')->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
-        $rotationFrequency = 3600 * 24 * (int)\Mage::getConfig()->getValue('system/rotation/frequency', 'default');
+        $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
-            \Mage::getResourceModel('Magento\Logging\Model\Resource\Event')->rotate(
-                3600 * 24 *(int)\Mage::getConfig()->getValue('system/rotation/lifetime', 'default')
+            Mage::getResourceModel('Magento_Logging_Model_Resource_Event')->rotate(
+                3600 * 24 *(int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
             );
         }
         $lastRotationFlag->setFlagData(time())->save();

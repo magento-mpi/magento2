@@ -113,8 +113,10 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $this->insertOrder(
                 $page,
                 $order,
-                \Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID, $order->getStoreId())
-            );
+                $this->_coreStoreConfig->getConfigFlag(
+                    self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID,
+                    $order->getStoreId()
+            ));
             /* Add document text and number */
             $this->insertDocumentNumber(
                 $page,
@@ -123,7 +125,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             /* Add table */
             $this->_drawHeader($page);
             /* Add body */
-            foreach ($invoice->getAllItems() as $item){
+            foreach ($invoice->getAllItems() as $item) {
                 if ($item->getOrderItem()->getParentItem()) {
                     continue;
                 }

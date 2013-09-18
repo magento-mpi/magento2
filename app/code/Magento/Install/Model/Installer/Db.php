@@ -28,11 +28,20 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_resourceConfig;
 
     /**
-     * @param \Magento\Core\Model\Config\Resource $resourceConfig
+     * Databases configuration
+     *
+     * @var array
      */
-    public function __construct(\Magento\Core\Model\Config\Resource $resourceConfig)
+    protected $_dbConfig;
+
+    /**
+     * @param \Magento\Core\Model\Config\Resource $resourceConfig
+     * @param array $dbConfig
+     */
+    public function __construct(Magento_Core_Model_Config_Resource $resourceConfig, array $dbConfig)
     {
         $this->_resourceConfig = $resourceConfig;
+        $this->_dbConfig = $dbConfig;
     }
 
     /**
@@ -72,8 +81,9 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
             }
 
             $version    = $resource->getVersion();
-            $requiredVersion = (string) \Mage::getConfig()
-                ->getNode(sprintf('install/databases/%s/min_version', $dbModel));
+            $requiredVersion = isset($this->_dbConfig[$dbModel]['min_version'])
+                ? $this->_dbConfig[$dbModel]['min_version']
+                : 0;
 
             // check DB server version
             if (version_compare($version, $requiredVersion) == -1) {
@@ -131,16 +141,18 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
         }
         //set db type according the db model
         if (!isset($data['db_type'])) {
-            $data['db_type'] = (string) \Mage::getSingleton('Magento\Core\Model\Config')
-                ->getNode(sprintf('install/databases/%s/type', $data['db_model']));
+            $data['db_type'] = isset($this->_dbConfig[$data['db_model']]['type'])
+                ? $this->_dbConfig[$data['db_model']]['type']
+                : null;
         }
 
         $dbResource = $this->_getDbResource($data['db_model']);
         $data['db_pdo_type'] = $dbResource->getPdoType();
 
         if (!isset($data['db_init_statements'])) {
-            $data['db_init_statements'] = (string) \Mage::getSingleton('Magento\Core\Model\Config')
-                ->getNode(sprintf('install/databases/%s/initStatements', $data['db_model']));
+            $data['db_init_statements'] = isset($this->_dbConfig[$data['db_model']]['initStatements'])
+                ? $this->_dbConfig[$data['db_model']]['initStatements']
+                : null;
         }
 
         return $data;

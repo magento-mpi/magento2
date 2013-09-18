@@ -29,8 +29,8 @@ class Alerts extends \Magento\Adminhtml\Block\Template
             ->setId('productAlerts');
         /* @var $accordion \Magento\Adminhtml\Block\Widget\Accordion */
 
-        $alertPriceAllow = \Mage::getStoreConfig('catalog/productalert/allow_price');
-        $alertStockAllow = \Mage::getStoreConfig('catalog/productalert/allow_stock');
+        $alertPriceAllow = $this->_storeConfig->getConfig('catalog/productalert/allow_price');
+        $alertStockAllow = $this->_storeConfig->getConfig('catalog/productalert/allow_stock');
 
         if ($alertPriceAllow) {
             $accordion->addItem('price', array(

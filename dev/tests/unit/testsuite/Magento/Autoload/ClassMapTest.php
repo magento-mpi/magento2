@@ -13,7 +13,7 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
      */
     protected $_loader = null;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_loader = new \Magento\Autoload\ClassMap(__DIR__ . '/ClassMapTest');
     }

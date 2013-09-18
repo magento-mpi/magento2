@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_optionsimportgrid">
-        <container name="root" label="Root" output="1">
-            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Popup\Grid" name="catalog.product.import.custom.options"/>
-        </container>
-    </handle>
+    <container name="root" label="Root" output="1">
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid" name="catalog.product.import.custom.options"/>
+    </container>
 </layout>

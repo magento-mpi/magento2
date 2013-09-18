@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_cms_hierarchy_pagegrid">
-        <remove name="root"/>
-        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form\Grid" name="cms_page_grid" output="1"/>
-    </handle>
+    <remove name="root"/>
+    <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid" name="cms_page_grid" output="1"/>
 </layout>

@@ -131,6 +131,23 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
@@ -144,23 +161,30 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
-        \Magento\FullPageCache\Model\Cache $fpcCache,
-        \Magento\FullPageCache\Model\Cache\SubProcessorFactory $subProcessorFactory,
-        \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
-        \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
-        \Magento\FullPageCache\Model\Environment $environment,
-        \Magento\FullPageCache\Model\Request\Identifier $requestIdentifier,
-        \Magento\FullPageCache\Model\DesignPackage\Info $designInfo,
-        \Magento\FullPageCache\Model\Metadata $metadata,
-        \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Registry $coreRegistry
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
+        Magento_FullPageCache_Model_Cache $fpcCache,
+        Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory,
+        Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory,
+        Magento_FullPageCache_Model_ContainerFactory $containerFactory,
+        Magento_FullPageCache_Model_Environment $environment,
+        Magento_FullPageCache_Model_Request_Identifier $requestIdentifier,
+        Magento_FullPageCache_Model_DesignPackage_Info $designInfo,
+        Magento_FullPageCache_Model_Metadata $metadata,
+        Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
@@ -173,7 +197,9 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $this->_metadata = $metadata;
         $this->_storeIdentifier = $storeIdentifier;
         $this->_storeManager = $storeManager;
+        $this->_typeList = $typeList;
         $this->_requestTags = array(self::CACHE_TAG);
+        $this->_coreConfig = $coreConfig;
     }
 
 
@@ -480,12 +506,10 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 $contentSize = strlen($content);
                 $currentStorageSize = (int) $this->_fpcCache->load(self::CACHE_SIZE_KEY);
 
-                $maxSizeInBytes = \Mage::getStoreConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
+                $maxSizeInBytes = $this->_coreStoreConfig->getConfig(self::XML_PATH_CACHE_MAX_SIZE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
-                    /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-                    $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
-                    $cacheTypeList->invalidate('full_page');
+                    $this->_typeList->invalidate('full_page');
                     return $this;
                 }
 
@@ -538,13 +562,13 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $output = $this->isAllowed();
 
         if ($output) {
-            $maxDepth = \Mage::getStoreConfig(self::XML_PATH_ALLOWED_DEPTH);
+            $maxDepth = $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_DEPTH);
             $queryParams = $request->getQuery();
             unset($queryParams[\Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM]);
             $output = count($queryParams) <= $maxDepth;
         }
         if ($output) {
-            $multiCurrency = \Mage::getStoreConfig(self::XML_PATH_CACHE_MULTICURRENCY);
+            $multiCurrency = $this->_coreStoreConfig->getConfig(self::XML_PATH_CACHE_MULTICURRENCY);
             $currency = $this->_environment->getCookie('currency');
             if (!$multiCurrency && !empty($currency)) {
                 $output = false;
@@ -563,7 +587,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     {
         if ($this->_requestProcessor === null) {
             $this->_requestProcessor = false;
-            $configuration = \Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
+            $configuration = $this->_coreConfig->getNode(self::XML_NODE_ALLOWED_CACHE);
             if ($configuration) {
                 $configuration = $configuration->asArray();
             }

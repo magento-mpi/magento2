@@ -68,14 +68,16 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof \Magento\Paypal\Model\Pro)) {
             $this->_pro = $proInstance;
@@ -108,8 +110,8 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     */
    public function canUseCheckout()
    {
-       if (\Mage::getStoreConfigFlag('payment/hosted_pro/active')
-           && !\Mage::getStoreConfigFlag('payment/hosted_pro/display_ec')
+       if ($this->_coreStoreConfig->getConfigFlag('payment/hosted_pro/active')
+           && !$this->_coreStoreConfig->getConfigFlag('payment/hosted_pro/display_ec')
        ) {
            return false;
        }

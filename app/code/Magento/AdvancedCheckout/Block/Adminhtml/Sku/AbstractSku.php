@@ -55,7 +55,13 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
         $headBlock = parent::_prepareLayout()->getLayout()->getBlock('head');
         if ($headBlock) {
             // Head block is not defined on AJAX request
-            $headBlock->addJs('Magento_AdvancedCheckout::addbysku.js');
+            $headBlock->addChild(
+                'magento-checkout-addbysku-js',
+                'Magento_Page_Block_Html_Head_Script',
+                array(
+                    'file' => 'Magento_AdvancedCheckout::addbysku.js'
+                )
+            );
         }
 
         $this->addChild('deleteButton', 'Magento\Adminhtml\Block\Widget\Button', array(

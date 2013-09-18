@@ -29,9 +29,21 @@ class Webservicex extends \Magento\Directory\Model\Currency\Import\AbstractImpor
      */
     protected $_httpClient;
 
-    public function __construct()
-    {
-        $this->_httpClient = new \Magento\HTTP\ZendClient();
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     *
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_httpClient = new Magento_HTTP_ZendClient();
     }
 
     protected function _convert($currencyFrom, $currencyTo, $retry=0)
@@ -42,7 +54,7 @@ class Webservicex extends \Magento\Directory\Model\Currency\Import\AbstractImpor
         try {
             $response = $this->_httpClient
                 ->setUri($url)
-                ->setConfig(array('timeout' => \Mage::getStoreConfig('currency/webservicex/timeout')))
+                ->setConfig(array('timeout' => $this->_coreStoreConfig->getConfig('currency/webservicex/timeout')))
                 ->request('GET')
                 ->getBody();
 

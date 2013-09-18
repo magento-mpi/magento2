@@ -60,7 +60,7 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
      */
     protected $_iteratorMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Iterator', array(), array(), '', false

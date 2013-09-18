@@ -17,13 +17,13 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Fram
     /** @var \Magento\Core\Model\Registry */
     private $_registry;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Registry');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_registry->unregister('current_subscription');
     }

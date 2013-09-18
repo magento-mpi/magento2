@@ -17,13 +17,21 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPrintLogoUrl($configData, $returnValue)
     {
-        $storeConfig = $this->getMock('Magento\Core\Model\Store\Config');
+        $storeConfig = $this->getMockBuilder('Magento_Core_Model_Store_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
         $storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValueMap($configData));
-
-        $urlHelperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getBaseUrl'), array($urlHelperMock, array()));
+        $coreConfig = $this->getMockBuilder('Magento_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $urlBuilder = $this->getMock(
+            'Magento_Core_Model_Url',
+            array('getBaseUrl'),
+            array($urlHelperMock, $storeConfig, $coreConfig)
+        );
         $urlBuilder->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));

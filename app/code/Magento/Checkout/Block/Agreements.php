@@ -11,10 +11,23 @@ namespace Magento\Checkout\Block;
 
 class Agreements extends \Magento\Core\Block\Template
 {
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getAgreements()
     {
         if (!$this->hasAgreements()) {
-            if (!\Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
+            if (!$this->_storeConfig->getConfigFlag('checkout/options/enable_agreements')) {
                 $agreements = array();
             } else {
                 $agreements = \Mage::getModel('Magento\Checkout\Model\Agreement')->getCollection()

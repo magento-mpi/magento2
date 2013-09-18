@@ -13,7 +13,7 @@ class Magento_Captcha_Model_CaptchaFactoryTest extends PHPUnit_Framework_TestCas
     /** @var \Magento\Captcha\Model\CaptchaFactory */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $this->_model = new \Magento\Captcha\Model\CaptchaFactory($this->_objectManagerMock);

@@ -64,13 +64,6 @@ class CatalogProductItem
     );
 
     /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * Get parent block type
      *
      * @return null|string

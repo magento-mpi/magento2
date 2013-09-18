@@ -28,7 +28,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
      */
     protected $_objectManager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_user = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')
@@ -47,7 +47,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
             ->save();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_subscription->delete();
         $this->_event->delete();

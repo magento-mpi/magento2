@@ -9,7 +9,7 @@
  */
 class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->_markTestAsSoapOnly();
         parent::setUp();

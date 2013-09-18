@@ -79,14 +79,18 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model
-            = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address($this->_getModelDependencies());
+
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_model = new Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address(
+            $coreStoreConfig,
+            $this->_getModelDependencies()
+        );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_objectManager);

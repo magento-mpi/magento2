@@ -8,15 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_logging_archive">
-        <update handle="formkey"/>
-        <update handle="adminhtml_logging_archive_grid_block"/>
-        <reference name="content">
-            <block class="Magento\Logging\Block\Adminhtml\Container" name="adminhtml.logging.archive.grid.container">
-                <arguments>
-                    <argument name="header_text" xsi:type="string">Admin Actions Log Archive</argument>
-                </arguments>
-            </block>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_logging_archive_grid_block"/>
+    <reference name="content">
+        <block class="Magento_Logging_Block_Adminhtml_Container" name="adminhtml.logging.archive.grid.container">
+            <arguments>
+                <argument name="header_text" xsi:type="string">Admin Actions Log Archive</argument>
+            </arguments>
+        </block>
+    </reference>
 </layout>

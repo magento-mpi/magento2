@@ -28,7 +28,7 @@ class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
      */
     protected $_factoryMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_factoryMock = $this->getMock("Magento\Backend\Model\Menu\Item\Factory", array(), array(), '', false);
         $this->_menuMock = $this->getMock('Magento\Backend\Model\Menu', array(),

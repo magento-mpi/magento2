@@ -9,13 +9,6 @@
  */
 
 /**
- * Disable magic quotes in runtime if needed
- *
- * @link http://us3.php.net/manual/en/security.magicquotes.disabling.php
- */
-
-
-/**
  * Object destructor
  *
  * @param mixed $object
@@ -87,24 +80,6 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     $errorNo = $errorNo & error_reporting();
     if ($errorNo == 0) {
         return false;
-    }
-    if (!defined('E_STRICT')) {
-        /**
-         * Strict error int value
-         */
-        define('E_STRICT', 2048);
-    }
-    if (!defined('E_RECOVERABLE_ERROR')) {
-        /**
-         * Recoverable error int value
-         */
-        define('E_RECOVERABLE_ERROR', 4096);
-    }
-    if (!defined('E_DEPRECATED')) {
-        /**
-         * Deprecated error int value
-         */
-        define('E_DEPRECATED', 8192);
     }
 
     // PEAR specific message handling
@@ -296,11 +271,17 @@ function is_dir_writeable($dir)
 /**
  * Create value-object \Magento\Phrase
  *
- * @return \Magento\Phrase
+ * @return string
  */
 function __()
 {
     $argc = func_get_args();
 
-    return new \Magento\Phrase(array_shift($argc), $argc);
+    /**
+     * Type casting to string is a workaround.
+     * Many places in client code at the moment are unable to handle the Magento_Phrase object properly.
+     * The intended behavior is to use __toString(),
+     * so that rendering of the phrase happens only at the last moment when needed
+     */
+    return (string)new Magento_Phrase(array_shift($argc), $argc);
 }

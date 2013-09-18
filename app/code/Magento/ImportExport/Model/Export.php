@@ -52,6 +52,23 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     protected $_writer;
 
     /**
+     * @var Magento_ImportExport_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_ImportExport_Model_Config $config
+     * @param array $data
+     */
+    public function __construct(
+        Magento_ImportExport_Model_Config $config,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_config = $config;
+    }
+
+    /**
      * Create instance of entity adapter and return it
      *
      * @throws \Magento\Core\Exception
@@ -60,7 +77,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     protected function _getEntityAdapter()
     {
         if (!$this->_entityAdapter) {
-            $entityTypes = \Magento\ImportExport\Model\Config::getModels(self::CONFIG_KEY_ENTITIES);
+            $entityTypes = $this->_config->getModels(self::CONFIG_KEY_ENTITIES);
 
             if (isset($entityTypes[$this->getEntity()])) {
                 try {
@@ -105,7 +122,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     protected function _getWriter()
     {
         if (!$this->_writer) {
-            $validWriters = \Magento\ImportExport\Model\Config::getModels(self::CONFIG_KEY_FORMATS);
+            $validWriters = $this->_config->getModels(self::CONFIG_KEY_FORMATS);
 
             if (isset($validWriters[$this->getFileFormat()])) {
                 try {

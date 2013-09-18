@@ -25,7 +25,7 @@ class Magento_Test_Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framewor
      */
     protected $_schemeFile;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_schemeFile = Mage::getBaseDir('lib')
             . str_replace('/', DIRECTORY_SEPARATOR, '/Magento/Acl/etc/acl.xsd');

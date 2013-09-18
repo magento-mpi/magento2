@@ -25,7 +25,6 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
         parent::setUp();
 
         $layoutUtility = new Magento_Core_Utility_Layout($this);
-        $pageTypesFixture = __DIR__ . '/_files/_page_types_with_containers.xml';
         $args = array(
             'context' => Mage::getSingleton('Magento\Core\Block\Template\Context'),
             'data' => array(
@@ -42,10 +41,11 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
         $this->_block
             ->expects($this->any())
             ->method('_getLayoutMerge')
-            ->will($this->returnValue($layoutUtility->getLayoutUpdateFromFixture(
-            $pageTypesFixture,
-            $layoutUtility->getLayoutDependencies()
-        )))
+            ->will($this->returnCallback(
+                function () use ($layoutUtility) {
+                    return $layoutUtility->getLayoutUpdateFromFixture(glob(__DIR__ . '/_files/layout/*.xml'));
+                }
+            ))
         ;
     }
 

@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * GiftWrapping tax total calculator for quote
- *
  */
 namespace Magento\GiftWrapping\Model\Total\Quote\Tax;
 

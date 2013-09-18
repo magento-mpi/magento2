@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="checkout_controller_onepage_save_shipping_method">
-        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="checkoutProcessWrappingInfo" />
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="checkoutProcessWrappingInfo" />
     </event>
     <event name="checkout_controller_multishipping_shipping_post">
-        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="checkoutProcessWrappingInfo" />
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="checkoutProcessWrappingInfo" />
     </event>
     <event name="gift_options_prepare_items">
-        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="prepareGiftOptpionsItems" />
+        <observer name="magento_giftwrapping" instance="Magento_GiftWrapping_Model_Observer" method="prepareGiftOptpionsItems" />
     </event>
 </config>

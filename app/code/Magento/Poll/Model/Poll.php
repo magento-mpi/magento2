@@ -52,9 +52,17 @@ class Poll extends \Magento\Core\Model\AbstractModel
     protected $_coreHttp = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -63,11 +71,13 @@ class Poll extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreHttp = $coreHttp;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -130,7 +140,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
      */
     public function isValidationByIp()
     {
-        return (1 == \Mage::getStoreConfig(self::XML_PATH_POLL_CHECK_BY_IP));
+        return (1 == $this->_coreStoreConfig->getConfig(self::XML_PATH_POLL_CHECK_BY_IP));
     }
 
     /**

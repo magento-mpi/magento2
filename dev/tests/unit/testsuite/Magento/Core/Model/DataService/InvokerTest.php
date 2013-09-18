@@ -62,7 +62,7 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
         return $this->_dataServiceMock;
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_configMock = $this->getMockBuilder('Magento\Core\Model\DataService\ConfigInterface')
             ->disableOriginalConstructor()

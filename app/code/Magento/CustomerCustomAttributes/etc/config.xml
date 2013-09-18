@@ -15,7 +15,7 @@
             <customercustomattributes_setup>
                 <setup>
                     <module>Magento_CustomerCustomAttributes</module>
-                    <class>Magento\CustomerCustomAttributes\Model\Resource\Setup</class>
+                    <class>Magento_CustomerCustomAttributes_Model_Resource_Setup</class>
                 </setup>
             </customercustomattributes_setup>
         </resources>

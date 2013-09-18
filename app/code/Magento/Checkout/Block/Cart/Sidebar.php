@@ -43,21 +43,8 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
-        $this->_taxData = $taxData;
         parent::__construct($catalogData, $coreData, $context, $data);
-    }
-
-    /**
-     * Class constructor
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addItemRender(
-            'default',
-            'Magento\Checkout\Block\Cart\Item\Renderer',
-            'cart/sidebar/default.phtml'
-        );
+        $this->_taxData = $taxData;
     }
 
     /**
@@ -69,7 +56,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     {
         $count = $this->getData('item_count');
         if (is_null($count)) {
-            $count = \Mage::getStoreConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
+            $count = $this->_storeConfig->getConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
             $this->setData('item_count', $count);
         }
         return $count;
@@ -294,8 +281,14 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     protected function _serializeRenders()
     {
         $result = array();
-        foreach ($this->_itemRenders as $type => $renderer) {
-            $result[] = implode('|', array($type, $renderer['block'], $renderer['template']));
+        foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
+            /** @var $block Magento_Core_Block_Template */
+            $result[] = implode('|', array(
+                // skip $this->getNameInLayout() and '.'
+                substr($block->getNameInLayout(), strlen($this->getNameInLayout()) + 1),
+                get_class($block),
+                $block->getTemplate()
+            ));
         }
         return implode('|', $result);
     }
@@ -304,7 +297,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      * Deserialize renders from string
      *
      * @param string $renders
-     * @return \Magento\Checkout\Block\Cart\Sidebar
+     * @return $this
      */
     public function deserializeRenders($renders)
     {
@@ -320,7 +313,10 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
             if (!$template || !$block || !$type) {
                 continue;
             }
-            $this->addItemRender($type, $block, $template);
+            if (!$this->getChildBlock($type)) {
+                $this->addChild($type, $block, array('template' => $template));
+            }
+
         }
 
         return $this;

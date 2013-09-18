@@ -32,18 +32,26 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -76,7 +84,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
             // see if order has non-editable products as items
             $nonEditableTypes = array_keys($this->getOrder()->getResource()->aggregateProductsByTypes(
                 $order->getId(),
-                array_keys(\Mage::getConfig()
+                array_keys($this->_coreConfig
                     ->getNode('adminhtml/sales/order/create/available_product_types')
                     ->asArray()
                 ),

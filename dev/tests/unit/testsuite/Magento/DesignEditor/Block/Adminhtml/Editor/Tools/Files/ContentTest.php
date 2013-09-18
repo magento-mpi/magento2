@@ -30,7 +30,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
      */
     protected $_request;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);

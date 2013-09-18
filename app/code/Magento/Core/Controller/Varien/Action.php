@@ -20,7 +20,7 @@
  */
 namespace Magento\Core\Controller\Varien;
 
-abstract class Action extends \Magento\Core\Controller\Varien\ActionAbstract
+class Action extends \Magento\Core\Controller\Varien\ActionAbstract
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
@@ -201,10 +201,14 @@ abstract class Action extends \Magento\Core\Controller\Varien\ActionAbstract
      * @param   string|null|bool $handles
      * @param   bool $generateBlocks
      * @param   bool $generateXml
-     * @return  \Magento\Core\Controller\Varien\Action
+     * @return  $this
+     * @throws  RuntimeException
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
+        if ($this->_isLayoutLoaded) {
+            throw new RuntimeException('Layout must be loaded only once.');
+        }
         // if handles were specified in arguments load them first
         if (false !== $handles && '' !== $handles) {
             $this->getLayout()->getUpdate()->addHandle($handles ? $handles : 'default');
@@ -545,7 +549,7 @@ abstract class Action extends \Magento\Core\Controller\Varien\ActionAbstract
         $this->_initDesign();
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
-            && \Mage::getStoreConfig('web/browser_capabilities/cookies')
+            && $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/browser_capabilities/cookies')
         ) {
             $this->_forward('noCookies', 'index', 'core');
             return;
@@ -901,7 +905,7 @@ abstract class Action extends \Magento\Core\Controller\Varien\ActionAbstract
         $controller = $this->getRequest()->getControllerName();
         $action = $this->getRequest()->getActionName();
 
-        $rewrite = \Mage::getConfig()->getNode('global/routers/' . $route . '/rewrite/' . $controller);
+        $rewrite = $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/routers/' . $route . '/rewrite/' . $controller);
         if (!$rewrite) {
             return false;
         }

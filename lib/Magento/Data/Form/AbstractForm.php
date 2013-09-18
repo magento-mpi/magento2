@@ -146,7 +146,7 @@ class AbstractForm extends \Magento\Object
      * @param   mixed  $after
      * @return \Magento\Data\Form\Element\AbstractElement
      */
-    public function addField($elementId, $type, $config, $after=false)
+    public function addField($elementId, $type, $config, $after = false)
     {
         if (isset($this->_types[$type])) {
             $type = $this->_types[$type];

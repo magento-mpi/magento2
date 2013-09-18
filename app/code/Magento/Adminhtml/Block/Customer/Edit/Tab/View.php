@@ -34,17 +34,26 @@ class View
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_modelVisitor;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Log_Model_Visitor $modelVisitor
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Log_Model_Visitor $modelVisitor,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+        $this->_modelVisitor = $modelVisitor;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -151,7 +160,7 @@ class View
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        $interval = \Magento\Log\Model\Visitor::getOnlineMinutesInterval();
+        $interval = $this->_modelVisitor->getOnlineMinutesInterval();
         if ($log->getLogoutAt() || (strtotime(now()) - strtotime($log->getLastVisitAt()) > $interval * 60)) {
             return __('Offline');
         }

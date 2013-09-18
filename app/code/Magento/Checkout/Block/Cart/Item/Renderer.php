@@ -25,8 +25,8 @@ class Renderer extends \Magento\Core\Block\Template
     /** @var \Magento\Checkout\Model\Session */
     protected $_checkoutSession;
     protected $_item;
-    protected $_productUrl = null;
-    protected $_productThumbnail = null;
+    protected $_productUrl;
+    protected $_productThumbnail;
 
     /**
      * Whether qty will be converted to number

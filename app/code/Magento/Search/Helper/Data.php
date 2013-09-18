@@ -74,14 +74,32 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_taxData = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Helper\Context $context
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_taxData = $taxData;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context);
     }
 
@@ -159,7 +177,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         /**
          * Merging languages that specified manualy
          */
-        $node = \Mage::getConfig()->getNode('global/magento_search/supported_languages/solr');
+        $node = $this->_coreConfig->getNode('global/magento_search/supported_languages/solr');
         if ($node && $node->children()) {
             foreach ($node->children() as $_node) {
                 $localeCode = $_node->getName();
@@ -203,7 +221,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getSearchConfigData($field, $storeId = null)
     {
         $path = 'catalog/search/' . $field;
-        return \Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

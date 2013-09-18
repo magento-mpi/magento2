@@ -129,7 +129,7 @@ class ListBlock extends \Magento\Core\Block\Template
     public function NewProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/new';
-        if((bool)\Mage::getStoreConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('New Products'));
         }
     }
@@ -137,7 +137,7 @@ class ListBlock extends \Magento\Core\Block\Template
     public function SpecialProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/special';
-        if((bool)\Mage::getStoreConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('Special Products'),array(),true);
         }
     }
@@ -145,7 +145,7 @@ class ListBlock extends \Magento\Core\Block\Template
     public function SalesRuleProductRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/salesrule';
-        if((bool)\Mage::getStoreConfig($path)){
+        if((bool)$this->_storeConfig->getConfig($path)){
             $this->addRssFeed($path, __('Coupons/Discounts'),array(),true);
         }
     }
@@ -153,8 +153,8 @@ class ListBlock extends \Magento\Core\Block\Template
     public function CategoriesRssFeed()
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/category';
-        if((bool)\Mage::getStoreConfig($path)){
-            $category = \Mage::getModel('Magento\Catalog\Model\Category');
+        if((bool)$this->_storeConfig->getConfig($path)){
+            $category = Mage::getModel('Magento_Catalog_Model_Category');
 
             /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
             $treeModel = $category->getTreeModel()->loadNode(\Mage::app()->getStore()->getRootCategoryId());

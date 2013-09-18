@@ -21,13 +21,13 @@ class Magento_Adminhtml_Controller_CustomerTest extends Magento_Backend_Utility_
      */
     protected $_baseControllerUrl;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_baseControllerUrl = 'http://localhost/index.php/backend/admin/customer/';
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         /**
          * Unset customer data

@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_edit">
-        <update handle="adminhtml_catalog_product_new"/>
-        <reference name="page-title">
-            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher">
-                <action method="setUseConfirm">
-                    <argument name="params" xsi:type="string">1</argument>
-                </action>
-            </block>
-            <action method="setTitleClass">
-                <argument name="class" xsi:type="string">complex</argument>
+    <update handle="adminhtml_catalog_product_new"/>
+    <reference name="page-title">
+        <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher">
+            <action method="setUseConfirm">
+                <argument name="params" xsi:type="string">1</argument>
             </action>
-        </reference>
-    </handle>
+        </block>
+        <action method="setTitleClass">
+            <argument name="class" xsi:type="string">complex</argument>
+        </action>
+    </reference>
 </layout>

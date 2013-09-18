@@ -38,7 +38,7 @@ class Redeem extends \Magento\Core\Block\Template
     /**
      * Stub for future ability to implement redeem limitations based on customer/settings
      *
-     * @return boold
+     * @return bool
      */
     public function canRedeem()
     {

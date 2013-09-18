@@ -139,14 +139,25 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Sender $sender
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Eav\Model\Config $config
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Sender $sender
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Customer\Model\Resource\Customer $resource
      * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
@@ -160,6 +171,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Sender $sender,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Eav\Model\Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -167,6 +179,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -638,7 +651,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         }
         if (self::$_isConfirmationRequired === null) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : null;
-            self::$_isConfirmationRequired = (bool)\Mage::getStoreConfig(self::XML_PATH_IS_CONFIRM, $storeId);
+            self::$_isConfirmationRequired = (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_IS_CONFIRM, $storeId);
         }
 
         return self::$_isConfirmationRequired;
@@ -690,9 +703,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $mailer->addEmailInfo($emailInfo);
 
         // Set all required params and send emails
-        $mailer->setSender(\Mage::getStoreConfig($sender, $storeId));
+        $mailer->setSender($this->_coreStoreConfig->getConfig($sender, $storeId));
         $mailer->setStoreId($storeId);
-        $mailer->setTemplateId(\Mage::getStoreConfig($template, $storeId));
+        $mailer->setTemplateId($this->_coreStoreConfig->getConfig($template, $storeId));
         $mailer->setTemplateParams($templateParams);
         $mailer->send();
         return $this;
@@ -748,8 +761,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
     public function getGroupId()
     {
         if (!$this->hasData('group_id')) {
-            $storeId = $this->getStoreId() ? $this->getStoreId() : \Mage::app()->getStore()->getId();
-            $groupId = \Mage::getStoreConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $storeId);
+            $storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
+            $groupId = $this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId);
             $this->setData('group_id', $groupId);
         }
         return $this->getData('group_id');

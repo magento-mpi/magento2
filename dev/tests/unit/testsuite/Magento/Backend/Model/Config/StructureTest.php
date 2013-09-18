@@ -41,7 +41,7 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
      */
     protected $_structureData;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_flyweightFactory = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\FlyweightFactory', array(), array(), '', false

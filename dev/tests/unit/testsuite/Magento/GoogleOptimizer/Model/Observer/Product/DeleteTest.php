@@ -22,7 +22,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $entityId = 3;
         $storeId = 0;

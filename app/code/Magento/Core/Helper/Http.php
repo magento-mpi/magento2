@@ -36,14 +36,22 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     protected $_coreString = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Helper\Context $context
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreString = $coreString;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context);
     }
 
@@ -112,8 +120,8 @@ class Http extends \Magento\Core\Helper\AbstractHelper
     public function getRemoteAddrHeaders()
     {
         $headers = array();
-        $element = \Mage::getConfig()->getNode(self::XML_NODE_REMOTE_ADDR_HEADERS);
-        if ($element instanceof \Magento\Core\Model\Config\Element) {
+        $element = $this->_coreConfig->getNode(self::XML_NODE_REMOTE_ADDR_HEADERS);
+        if ($element instanceof Magento_Core_Model_Config_Element) {
             foreach ($element->children() as $node) {
                 $headers[] = (string)$node;
             }

@@ -7,15 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Shipment Tracking Popup" id="shipping_tracking_popup" type="page" parent="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">popup.phtml</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento\Shipping\Block\Tracking\Popup" name="shipping.tracking.popup" template="tracking/popup.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Shipment Tracking Popup" type="page" parent="default">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">popup.phtml</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Shipping_Block_Tracking_Popup" name="shipping.tracking.popup" template="tracking/popup.phtml"/>
+    </reference>
 </layout>

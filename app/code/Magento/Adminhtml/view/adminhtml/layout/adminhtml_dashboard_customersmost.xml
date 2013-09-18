@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_dashboard_customersmost">
-        <container name="root" label="Root" output="1">
-            <block class="Magento\Adminhtml\Block\Dashboard\Tab\Customers\Most" name="adminhtml.dashboard.tab.customers.most"/>
-        </container>
-    </handle>
+    <container name="root" label="Root" output="1">
+        <block class="Magento_Adminhtml_Block_Dashboard_Tab_Customers_Most" name="adminhtml.dashboard.tab.customers.most"/>
+    </container>
 </layout>

@@ -23,8 +23,8 @@ class String extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
      * Process argument value
      *
      * @param array $argument
-     * @return string|\Magento\Phrase
-     * @throws \InvalidArgumentException
+     * @return string
+     * @throws InvalidArgumentException
      */
     public function process(array $argument)
     {

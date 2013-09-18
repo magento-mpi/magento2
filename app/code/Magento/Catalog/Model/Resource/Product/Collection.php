@@ -200,19 +200,29 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $_catalogData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($eventManager, $fetchStrategy);
     }
 
@@ -1112,7 +1122,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        if (\Mage::getStoreConfig(\Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId())) {
+        $useCategoryUrl = $this->_coreStoreConfig->getConfig(
+            Magento_Catalog_Helper_Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId()
+        );
+        if ($useCategoryUrl) {
             $this->_urlRewriteCategory = $categoryId;
         } else {
             $this->_urlRewriteCategory = 0;

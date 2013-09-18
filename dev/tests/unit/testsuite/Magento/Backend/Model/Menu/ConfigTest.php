@@ -57,7 +57,7 @@ class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_cacheInstanceMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(),
             '', false);

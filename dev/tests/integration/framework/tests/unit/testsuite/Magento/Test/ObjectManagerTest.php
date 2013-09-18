@@ -55,13 +55,13 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
             $primaryLoaderMock
         );
 
-        $model->addSharedInstance($resource, 'Magento\Core\Model\Resource');
-        $instance1 = $model->get('Magento_TestFramework_Request');
+        $model->addSharedInstance($resource, 'Magento_Core_Model_Resource');
+        $instance1 = $model->get('Magento_Object');
 
-        $this->assertSame($instance1, $model->get('Magento_TestFramework_Request'));
+        $this->assertSame($instance1, $model->get('Magento_Object'));
         $this->assertSame($model, $model->clearCache());
-        $this->assertSame($model, $model->get('Magento\ObjectManager'));
-        $this->assertSame($resource, $model->get('Magento\Core\Model\Resource'));
-        $this->assertNotSame($instance1, $model->get('Magento_TestFramework_Request'));
+        $this->assertSame($model, $model->get('Magento_ObjectManager'));
+        $this->assertSame($resource, $model->get('Magento_Core_Model_Resource'));
+        $this->assertNotSame($instance1, $model->get('Magento_Object'));
     }
 }

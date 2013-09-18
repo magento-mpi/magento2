@@ -50,6 +50,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_PRODUCT_IMAGES_INCLUDE = 'sitemap/product/image_include';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Get maximum sitemap.xml URLs number
      *
      * @param int $storeId
@@ -57,7 +76,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMaximumLinesNumber($storeId)
     {
-        return \Mage::getStoreConfig(self::XML_PATH_MAX_LINES, $storeId);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_LINES, $storeId);
     }
 
     /**
@@ -68,7 +87,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMaximumFileSize($storeId)
     {
-        return \Mage::getStoreConfig(self::XML_PATH_MAX_FILE_SIZE, $storeId);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_FILE_SIZE, $storeId);
     }
 
     /**
@@ -79,7 +98,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCategoryChangefreq($storeId)
     {
-        return (string) \Mage::getStoreConfig(self::XML_PATH_CATEGORY_CHANGEFREQ, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_CATEGORY_CHANGEFREQ, $storeId);
     }
 
     /**
@@ -90,7 +109,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getProductChangefreq($storeId)
     {
-        return (string) \Mage::getStoreConfig(self::XML_PATH_PRODUCT_CHANGEFREQ, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_CHANGEFREQ, $storeId);
     }
 
     /**
@@ -101,7 +120,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPageChangefreq($storeId)
     {
-        return (string) \Mage::getStoreConfig(self::XML_PATH_PAGE_CHANGEFREQ, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_CHANGEFREQ, $storeId);
     }
 
     /**
@@ -112,7 +131,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCategoryPriority($storeId)
     {
-        return (string) \Mage::getStoreConfig(self::XML_PATH_CATEGORY_PRIORITY, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_CATEGORY_PRIORITY, $storeId);
     }
 
     /**
@@ -123,7 +142,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getProductPriority($storeId)
     {
-        return (string) \Mage::getStoreConfig(self::XML_PATH_PRODUCT_PRIORITY, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_PRIORITY, $storeId);
     }
 
     /**
@@ -134,7 +153,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPagePriority($storeId)
     {
-        return (string) \Mage::getStoreConfig(self::XML_PATH_PAGE_PRIORITY, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_PRIORITY, $storeId);
     }
 
     /**
@@ -145,7 +164,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getEnableSubmissionRobots($storeId)
     {
-        return \Mage::getStoreConfig(self::XML_PATH_SUBMISSION_ROBOTS, $storeId);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SUBMISSION_ROBOTS, $storeId);
     }
 
     /**
@@ -156,6 +175,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getProductImageIncludePolicy($storeId)
     {
-        return (string) \Mage::getStoreConfig(self::XML_PATH_PRODUCT_IMAGES_INCLUDE, $storeId);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_PRODUCT_IMAGES_INCLUDE, $storeId);
     }
 }

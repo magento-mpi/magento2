@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_customer_edit">
-        <update handle="adminhtml_customer_balance_grid"/>
-        <reference name="customer_edit_tabs">
-            <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance" name="customerbalance"/>
-            <action method="addTab">
-                <argument name="name" xsi:type="string">customerbalance</argument>
-                <argument name="block" xsi:type="string">customerbalance</argument>
-            </action>
-        </reference>
-        <reference name="customer_edit_tab_view">
-            <block class="Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance" name="customerbalance.balance" template="balance.phtml" before="-"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_customer_balance_grid"/>
+    <reference name="customer_edit_tabs">
+        <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance" name="customerbalance"/>
+        <action method="addTab">
+            <argument name="name" xsi:type="string">customerbalance</argument>
+            <argument name="block" xsi:type="string">customerbalance</argument>
+        </action>
+    </reference>
+    <reference name="customer_edit_tab_view">
+        <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml" before="-"/>
+    </reference>
 </layout>

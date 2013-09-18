@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="sales_order_save_commit_after">
-        <observer name="magento_giftcard_generate_giftcardaccounts" instance="Magento\GiftCard\Model\Observer" method="generateGiftCardAccounts" />
+        <observer name="magento_giftcard_generate_giftcardaccounts" instance="Magento_GiftCard_Model_Observer" method="generateGiftCardAccounts" />
     </event>
     <event name="catalog_product_collection_load_after">
-        <observer name="magento_giftcard" instance="Magento\GiftCard\Model\Observer" method="loadAttributesAfterCollectionLoad" />
+        <observer name="magento_giftcard" instance="Magento_GiftCard_Model_Observer" method="loadAttributesAfterCollectionLoad" />
     </event>
 </config>

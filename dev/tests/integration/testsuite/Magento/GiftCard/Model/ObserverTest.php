@@ -18,11 +18,13 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_blockInjections = array(
         'Magento\Core\Model\Context',
-        'Magento\Core\Model\Registry',
-        'Magento\Filesystem',
-        'Magento\Core\Model\View\Url',
-        'Magento\Core\Model\View\FileSystem',
-        'Magento\Core\Model\View\Design'
+        'Magento_Core_Model_Registry',
+        'Magento_Filesystem',
+        'Magento_Core_Model_View_Url',
+        'Magento_Core_Model_View_FileSystem',
+        'Magento_Core_Model_View_Design',
+        'Magento_Core_Model_Store_Config',
+        'Magento_Core_Model_Config'
     );
 
     /**
@@ -50,8 +52,8 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $emailTemplateMock->expects($this->once())
             ->method('_getMail')
             ->will($this->returnValue($zendMailMock));
-
-        $model = Mage::getModel('Magento\GiftCard\Model\Observer', array(
+        /** @var $model Magento_GiftCard_Model_Observer */
+        $model = Mage::getModel('Magento_GiftCard_Model_Observer', array(
             'data' => array('email_template_model' => $emailTemplateMock)
         ));
         $model->generateGiftCardAccounts($observer);

@@ -25,6 +25,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_entityTypeFrontendClasses = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Return default frontend classes value labal array
      *
      * @return array
@@ -127,6 +146,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getInputTypesValidatorData()
     {
-        return \Mage::getStoreConfig(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES);
     }
 }

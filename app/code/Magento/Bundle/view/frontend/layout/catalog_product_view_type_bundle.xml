@@ -7,61 +7,63 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Catalog Product View (Bundle)" id="catalog_product_view_type_bundle" type="page" parent="catalog_product_view">
-        <reference name="head">
-            <action method="addJs">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Bundle)" type="page" parent="catalog_product_view">
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-bundle-bundle-js">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_Bundle::bundle.js</argument>
-            </action>
-            <action method="addJs">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-bundle-js-product-summary-js">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_Bundle::js/product-summary.js</argument>
-            </action>
-        </reference>
-        <reference name="product.info">
-            <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle" as="product_type_data" template="catalog/product/view/type/bundle.phtml">
-                <action method="addPriceBlockType">
-                    <argument name="type" xsi:type="string">bundle</argument>
-                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
-                    <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
-                </action>
-                <block class="Magento\Bundle\Block\Catalog\Product\Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
-                    <action method="setMAPTemplate">
-                        <argument name="tmpl" xsi:type="string">Magento_Catalog::product/price_msrp_item.phtml</argument>
-                    </action>
-                </block>
-            </block>
-        </reference>
-        <reference name="product.info.options.wrapper">
-            <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="product.info.bundle.options" as="type_bundle_options" template="catalog/product/view/type/bundle/options.phtml" before="-">
-                <action method="addRenderer">
-                    <argument name="type" xsi:type="string">select</argument>
-                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Select</argument>
-                </action>
-                <action method="addRenderer">
-                    <argument name="type" xsi:type="string">multi</argument>
-                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi</argument>
-                </action>
-                <action method="addRenderer">
-                    <argument name="type" xsi:type="string">radio</argument>
-                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio</argument>
-                </action>
-                <action method="addRenderer">
-                    <argument name="type" xsi:type="string">checkbox</argument>
-                    <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox</argument>
-                </action>
-            </block>
-        </reference>
-        <reference name="product.info.options.wrapper.bottom">
-            <remove name="product.tierprices"/>
-            <block class="Magento\Bundle\Block\Catalog\Product\View" name="bundle.tierprices" as="tierprices" before="-" template="Magento_Bundle::catalog/product/view/tierprices.phtml"/>
-            <block class="Magento\CatalogInventory\Block\Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
-        </reference>
-        <reference name="product.clone_prices">
+            </arguments>
+        </block>
+    </reference>
+    <reference name="product.info">
+        <block class="Magento_Bundle_Block_Catalog_Product_View_Type_Bundle" name="product.info.bundle" as="product_type_data" template="catalog/product/view/type/bundle.phtml">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
-                <argument name="template" xsi:type="string">catalog/product/view/price.phtml</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
-        </reference>
-    </handle>
+            <block class="Magento_Bundle_Block_Catalog_Product_Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
+                <action method="setMAPTemplate">
+                    <argument name="tmpl" xsi:type="string">Magento_Catalog::product/price_msrp_item.phtml</argument>
+                </action>
+            </block>
+        </block>
+    </reference>
+    <reference name="product.info.options.wrapper">
+        <block class="Magento_Bundle_Block_Catalog_Product_View_Type_Bundle" name="product.info.bundle.options" as="type_bundle_options" template="catalog/product/view/type/bundle/options.phtml" before="-">
+            <action method="addRenderer">
+                <argument name="type" xsi:type="string">select</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Select</argument>
+            </action>
+            <action method="addRenderer">
+                <argument name="type" xsi:type="string">multi</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Multi</argument>
+            </action>
+            <action method="addRenderer">
+                <argument name="type" xsi:type="string">radio</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Radio</argument>
+            </action>
+            <action method="addRenderer">
+                <argument name="type" xsi:type="string">checkbox</argument>
+                <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Checkbox</argument>
+            </action>
+        </block>
+    </reference>
+    <reference name="product.info.options.wrapper.bottom">
+        <remove name="product.tierprices"/>
+        <block class="Magento_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="Magento_Bundle::catalog/product/view/tierprices.phtml"/>
+        <block class="Magento_CatalogInventory_Block_Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
+    </reference>
+    <reference name="product.clone_prices">
+        <action method="addPriceBlockType">
+            <argument name="type" xsi:type="string">bundle</argument>
+            <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+            <argument name="template" xsi:type="string">catalog/product/view/price.phtml</argument>
+        </action>
+    </reference>
 </layout>

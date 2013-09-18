@@ -8,13 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_order_printorder">
-        <reference name="sales.order.printorder">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">downloadable</argument>
-                <argument name="block" xsi:type="string">Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable</argument>
-                <argument name="template" xsi:type="string">sales/order/items/renderer/downloadable.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="sales.order.print">
+        <block class="Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable" as="downloadable" template="sales/order/items/renderer/downloadable.phtml"/>
+    </reference>
 </layout>

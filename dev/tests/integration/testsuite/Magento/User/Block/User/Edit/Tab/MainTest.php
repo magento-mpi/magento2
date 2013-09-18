@@ -24,7 +24,7 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
      */
     protected $_user;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         /** @var $objectManager Magento_TestFramework_ObjectManager */

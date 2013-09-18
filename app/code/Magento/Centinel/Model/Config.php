@@ -44,12 +44,30 @@ class Config
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -82,7 +100,7 @@ class Config
      */
     public function getStateModelClass($cardType)
     {
-        $node = \Mage::getConfig()->getNode($this->_cardTypesConfigPath . '/' . $cardType . '/validator/centinel/state');
+        $node = $this->_coreConfig->getNode($this->_cardTypesConfigPath . '/' . $cardType . '/validator/centinel/state');
         if (!$node) {
             return false;
         }
@@ -137,7 +155,7 @@ class Config
      */
     private function _getServiceConfigValue($key)
     {
-        return \Mage::getStoreConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
+        return $this->_coreStoreConfig->getConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
     }
 
     /**

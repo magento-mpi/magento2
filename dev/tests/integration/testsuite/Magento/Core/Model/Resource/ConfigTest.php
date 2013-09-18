@@ -16,7 +16,7 @@ class Magento_Core_Model_Resource_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getResourceModel('Magento\Core\Model\Resource\Config');
     }

@@ -21,7 +21,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
      */
     protected $_viewDir;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_baseDir = realpath(__DIR__ . '/../../../_files/fallback');
         $this->_viewDir = $this->_baseDir . DIRECTORY_SEPARATOR . 'design';

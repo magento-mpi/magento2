@@ -112,13 +112,6 @@ class Toolbar extends \Magento\Core\Block\Template
     protected $_viewMode            = null;
 
     /**
-     * Available page limits for different list modes
-     *
-     * @var array
-     */
-    protected $_availableLimit  = array();
-
-    /**
      * Default limits per page
      *
      * @var array
@@ -151,13 +144,13 @@ class Toolbar extends \Magento\Core\Block\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->_orderField  = \Mage::getStoreConfig(
-            \Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY
+        $this->_orderField  = $this->_storeConfig->getConfig(
+            Magento_Catalog_Model_Config::XML_PATH_LIST_DEFAULT_SORT_BY
         );
 
         $this->_availableOrder = $this->_getConfig()->getAttributeUsedForSortByArray();
 
-        switch (\Mage::getStoreConfig('catalog/frontend/list_mode')) {
+        switch ($this->_storeConfig->getConfig('catalog/frontend/list_mode')) {
             case 'grid':
                 $this->_availableMode = array('grid' => __('Grid'));
                 break;
@@ -641,32 +634,15 @@ class Toolbar extends \Magento\Core\Block\Template
             if ($default = $this->getDefaultListPerPage()) {
                 return $default;
             }
-            return \Mage::getStoreConfig('catalog/frontend/list_per_page');
+            return $this->_storeConfig->getConfig('catalog/frontend/list_per_page');
         }
         elseif ($this->getCurrentMode() == 'grid') {
             if ($default = $this->getDefaultGridPerPage()) {
                 return $default;
             }
-            return \Mage::getStoreConfig('catalog/frontend/grid_per_page');
+            return $this->_storeConfig->getConfig('catalog/frontend/grid_per_page');
         }
         return 0;
-    }
-
-    /**
-     * Add new limit to pager for mode
-     *
-     * @param string $mode
-     * @param string $value
-     * @param string $label
-     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
-     */
-    public function addPagerLimit($mode, $value, $label='')
-    {
-        if (!isset($this->_availableLimit[$mode])) {
-            $this->_availableLimit[$mode] = array();
-        }
-        $this->_availableLimit[$mode][$value] = empty($label) ? $value : $label;
-        return $this;
     }
 
     /**
@@ -687,18 +663,16 @@ class Toolbar extends \Magento\Core\Block\Template
     /**
      * Retrieve available limits for specified view mode
      *
+     * @param string $mode
      * @return array
      */
     protected function _getAvailableLimit($mode)
     {
-        if (isset($this->_availableLimit[$mode])) {
-            return $this->_availableLimit[$mode];
-        }
         $perPageConfigKey = 'catalog/frontend/' . $mode . '_per_page_values';
-        $perPageValues = (string)\Mage::getStoreConfig($perPageConfigKey);
+        $perPageValues = (string)$this->_storeConfig->getConfig($perPageConfigKey);
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
-        if (\Mage::getStoreConfigFlag('catalog/frontend/list_allow_all')) {
+        if ($this->_storeConfig->getConfigFlag('catalog/frontend/list_allow_all')) {
             return ($perPageValues + array('all'=>__('All')));
         } else {
             return $perPageValues;
@@ -808,8 +782,8 @@ class Toolbar extends \Magento\Core\Block\Template
                 ->setLimitVarName($this->getLimitVarName())
                 ->setPageVarName($this->getPageVarName())
                 ->setLimit($this->getLimit())
-                ->setFrameLength(\Mage::getStoreConfig('design/pagination/pagination_frame'))
-                ->setJump(\Mage::getStoreConfig('design/pagination/pagination_frame_skip'))
+                ->setFrameLength($this->_storeConfig->getConfig('design/pagination/pagination_frame'))
+                ->setJump($this->_storeConfig->getConfig('design/pagination/pagination_frame_skip'))
                 ->setCollection($this->getCollection());
 
             return $pagerBlock->toHtml();

@@ -74,26 +74,35 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_dateModel;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * Initialize operation model
      *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_init('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dateModel = $dateModel;
     }
 
@@ -122,11 +131,11 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $mailer = \Mage::getSingleton('Magento\Core\Model\Email\Template\Mailer');
         $emailInfo = \Mage::getModel('Magento\Core\Model\Email\Info');
 
-        $receiverEmail = \Mage::getStoreConfig(
+        $receiverEmail = $this->_coreStoreConfig->getConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
             $storeId
         );
-        $receiverName  = \Mage::getStoreConfig(
+        $receiverName  = $this->_coreStoreConfig->getConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
             $storeId
         );

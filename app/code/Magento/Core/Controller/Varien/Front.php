@@ -17,6 +17,11 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
     protected $_rewriteFactory;
 
     /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var array
      */
     protected $_defaults = array();
@@ -27,7 +32,12 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
     protected $_routerList;
 
     /**
-     * @var \Magento\Backend\Helper\Data
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @var Magento_Backend_Helper_Data
      */
     protected $_backendData;
 
@@ -36,6 +46,8 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\RouterList $routerList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -43,6 +55,8 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\RouterList $routerList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -51,6 +65,8 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
         $this->_rewriteFactory = $rewriteFactory;
         $this->_eventManager = $eventManager;
         $this->_routerList = $routerList;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     public function setDefault($key, $value=null)
@@ -209,7 +225,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
             $request = $this->getRequest();
         }
 
-        $config = \Mage::getConfig()->getNode('global/rewrite');
+        $config = $this->_coreConfig->getNode('global/rewrite');
         if (!$config) {
             return;
         }
@@ -265,7 +281,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
             return;
         }
 
-        $redirectCode = (int)\Mage::getStoreConfig('web/url/redirect_to_base');
+        $redirectCode = (int)$this->_coreStoreConfig->getConfig('web/url/redirect_to_base');
         if (!$redirectCode) {
             return;
         } elseif ($redirectCode != 301) {
@@ -284,7 +300,7 @@ class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInt
             return;
         }
 
-        $uri = @parse_url($baseUrl);
+        $uri = parse_url($baseUrl);
         $requestUri = $request->getRequestUri() ? $request->getRequestUri() : '/';
         if (isset($uri['scheme']) && $uri['scheme'] != $request->getScheme()
             || isset($uri['host']) && $uri['host'] != $request->getHttpHost()

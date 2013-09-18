@@ -66,6 +66,6 @@ class Header extends \Magento\Adminhtml\Block\Template
      */
     public function displayNoscriptNotice()
     {
-        return \Mage::getStoreConfig('web/browser_capabilities/javascript');
+        return $this->_storeConfig->getConfig('web/browser_capabilities/javascript');
     }
 }

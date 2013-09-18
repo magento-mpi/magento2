@@ -71,15 +71,41 @@ class Currencysymbol
      *
      * @var \Magento\Core\Model\Event\Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -125,7 +151,7 @@ class Currencysymbol
 
         $allowedCurrencies = explode(
             self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-            \Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
         );
 
         /* @var $storeModel \Magento\Core\Model\System\Store */
@@ -148,7 +174,7 @@ class Currencysymbol
                             $websiteSymbols
                         ));
                     }
-                    $storeSymbols = \Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, $store);
+                    $storeSymbols = $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_CURRENCIES, $store);
                     $allowedCurrencies = array_merge($allowedCurrencies, explode(
                         self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
                         $storeSymbols
@@ -222,8 +248,8 @@ class Currencysymbol
         );
 
         // reinit configuration
-        \Mage::getConfig()->reinit();
-        \Mage::app()->reinitStores();
+        $this->_coreConfig->reinit();
+        Mage::app()->reinitStores();
 
         $this->clearCache();
 
@@ -257,11 +283,9 @@ class Currencysymbol
      */
     public function clearCache()
     {
-        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
         // clear cache for frontend
         foreach ($this->_cacheTypes as $cacheType) {
-            $cacheTypeList->invalidate($cacheType);
+            $this->_cacheTypeList->invalidate($cacheType);
         }
         return $this;
     }
@@ -276,7 +300,7 @@ class Currencysymbol
     protected function _unserializeStoreConfig($configPath, $storeId = null)
     {
         $result = array();
-        $configData = (string)\Mage::getStoreConfig($configPath, $storeId);
+        $configData = (string)$this->_coreStoreConfig->getConfig($configPath, $storeId);
         if ($configData) {
             $result = unserialize($configData);
         }

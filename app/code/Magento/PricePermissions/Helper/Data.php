@@ -51,13 +51,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_authorization;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\AuthorizationInterface $authorization
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\AuthorizationInterface $authorization)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_Config $coreConfig
+    ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -97,6 +109,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDefaultProductPriceString()
     {
-        return (string) \Mage::getConfig()->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
+        return (string) $this->_coreConfig->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
     }
 }

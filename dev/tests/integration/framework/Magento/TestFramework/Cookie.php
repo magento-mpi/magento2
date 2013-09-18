@@ -15,54 +15,19 @@
 class Magento_TestFramework_Cookie extends \Magento\Core\Model\Cookie
 {
     /**
-     * Request instance
-     *
-     * @var \Magento\Core\Controller\Request\Http
-     */
-    private $_request;
-
-    /**
-     * Response instance
-     *
-     * @var \Magento\Core\Controller\Response\Http
-     */
-    private $_response;
-
-    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Controller\Response\Http $response
      */
     public function __construct(
-        \Magento\Core\Controller\Request\Http $request = null, \Magento\Core\Controller\Response\Http $response = null
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Controller_Request_Http $request = null,
+        Magento_Core_Controller_Response_Http $response = null
     ) {
-        $this->_request = $request;
-        $this->_response = $response;
-    }
-
-    /**
-     * Retrieve a request instance suitable for the testing environment
-     *
-     * @return \Magento\Core\Controller\Request\Http
-     */
-    protected function _getRequest()
-    {
-        if ($this->_request) {
-            return $this->_request;
-        }
-        return parent::_getRequest();
-    }
-
-    /**
-     * Retrieve a request instance suitable for the testing environment
-     *
-     * @return \Magento\Core\Controller\Response\Http
-     */
-    protected function _getResponse()
-    {
-        if ($this->_response) {
-            return $this->_response;
-        }
-        return parent::_getResponse();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $request = $request ?: $objectManager->get('Magento_Core_Controller_Request_Http');
+        $response = $response ?: $objectManager->get('Magento_Core_Controller_Response_Http');
+        parent::__construct($request, $response, $coreStoreConfig);
     }
 
     /**

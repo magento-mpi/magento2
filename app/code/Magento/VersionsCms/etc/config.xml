@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,7 @@
             <versionscms_setup>
                 <setup>
                     <module>Magento_VersionsCms</module>
-                    <class>Magento\Core\Model\Resource\Setup</class>
+                    <class>Magento_Core_Model_Resource_Setup</class>
                 </setup>
             </versionscms_setup>
         </resources>

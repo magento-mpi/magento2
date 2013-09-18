@@ -8,42 +8,40 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_invitation_index_index">
-        <reference name="invitations.list.list.before">
-            <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
-                <action method="initRewardType">
-                    <argument name="type" xsi:type="string">Magento\Reward\Model\Action\InvitationCustomer</argument>
-                </action>
-                <action method="setWrapperClass">
-                    <argument name="class" xsi:type="string">reward-invitation</argument>
-                </action>
-                <action method="setHideBalance">
-                    <argument name="value" xsi:type="string">1</argument>
-                </action>
-                <action method="setRewardMessage">
-                    <argument translate="true" name="message" xsi:type="string">Send this invitation now and earn %s when your invitee signs up on our site.</argument>
-                </action>
-                <action method="setRewardQtyLimitationMessage">
-                    <argument translate="true" name="message" xsi:type="string">You can reward up to %s invitee registration(s).</argument>
-                </action>
-            </block>
-            <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
-                <action method="initRewardType">
-                    <argument name="type" xsi:type="string">Magento\Reward\Model\Action\InvitationOrder</argument>
-                </action>
-                <action method="setWrapperClass">
-                    <argument name="class" xsi:type="string">reward-invitation</argument>
-                </action>
-                <action method="setHideLink">
-                    <argument name="value" xsi:type="string">1</argument>
-                </action>
-                <action method="setRewardMessage">
-                    <argument translate="true" name="message" xsi:type="string">Earn %s for purchases your invitees make.</argument>
-                </action>
-                <action method="setRewardQtyLimitationMessage">
-                    <argument translate="true" name="message" xsi:type="string">You can reward up to %s invitee purchase(s).</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <reference name="invitations.list.list.before">
+        <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
+            <arguments>
+                <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_InvitationCustomer</argument>
+            </arguments>
+            <action method="setWrapperClass">
+                <argument name="class" xsi:type="string">reward-invitation</argument>
+            </action>
+            <action method="setHideBalance">
+                <argument name="value" xsi:type="string">1</argument>
+            </action>
+            <action method="setRewardMessage">
+                <argument translate="true" name="message" xsi:type="string">Send this invitation now and earn %s when your invitee signs up on our site.</argument>
+            </action>
+            <action method="setRewardQtyLimitationMessage">
+                <argument translate="true" name="message" xsi:type="string">You can reward up to %s invitee registration(s).</argument>
+            </action>
+        </block>
+        <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
+            <arguments>
+                <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_InvitationOrder</argument>
+            </arguments>
+            <action method="setWrapperClass">
+                <argument name="class" xsi:type="string">reward-invitation</argument>
+            </action>
+            <action method="setHideLink">
+                <argument name="value" xsi:type="string">1</argument>
+            </action>
+            <action method="setRewardMessage">
+                <argument translate="true" name="message" xsi:type="string">Earn %s for purchases your invitees make.</argument>
+            </action>
+            <action method="setRewardQtyLimitationMessage">
+                <argument translate="true" name="message" xsi:type="string">You can reward up to %s invitee purchase(s).</argument>
+            </action>
+        </block>
+    </reference>
 </layout>

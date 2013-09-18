@@ -38,14 +38,14 @@ class Locale extends \Magento\Core\Model\Locale
     protected $_localeValidator;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Backend\Model\Session $session
-     * @param \Magento\Backend\Model\Locale\Manager $localeManager
-     * @param \Magento\Core\Controller\Request\Http $request
-     * @param \Magento\Core\Model\Locale\Validator $localeValidator
-     * @param string $locale
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Backend_Model_Session $session
+     * @param Magento_Backend_Model_Locale_Manager $localeManager
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_Locale_Validator $localeValidator
+     * @param Magento_Core_Helper_Translate $translate
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param string|null $locale
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -53,14 +53,15 @@ class Locale extends \Magento\Core\Model\Locale
         \Magento\Backend\Model\Locale\Manager $localeManager,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Model\Locale\Validator $localeValidator,
+        Magento_Core_Helper_Translate $translate,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $locale = null
     ) {
         $this->_session = $session;
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
-
-        parent::__construct($eventManager, $locale);
+        parent::__construct($eventManager, $translate, $coreStoreConfig, $locale);
     }
 
     /**

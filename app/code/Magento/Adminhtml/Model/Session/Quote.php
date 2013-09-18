@@ -52,14 +52,18 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('adminhtml_quote');
         if (\Mage::app()->hasSingleStore()) {
             $this->setStoreId(\Mage::app()->getStore(true)->getId());
@@ -81,7 +85,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
             }
             elseif($this->getStoreId() && $this->hasCustomerId()) {
                 $this->_quote->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId(\Mage::getStoreConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
+                    ->setCustomerGroupId($this->_coreStoreConfig->getConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
                     ->assignCustomer($this->getCustomer())
                     ->setIsActive(false)
                     ->save();

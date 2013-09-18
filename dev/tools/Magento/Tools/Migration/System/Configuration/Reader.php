@@ -54,7 +54,7 @@ class Reader
         $this->_parser = $parser;
         $this->_mapper = $mapper;
 
-        $this->_basePath = realpath(dirname(__FILE__) . '/../../../../../../..');
+        $this->_basePath = realpath(__DIR__ . '/../../../../../../..');
     }
 
     /**

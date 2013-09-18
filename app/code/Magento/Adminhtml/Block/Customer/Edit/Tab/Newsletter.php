@@ -78,5 +78,4 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         );
         return parent::_prepareLayout();
     }
-
 }

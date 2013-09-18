@@ -32,13 +32,21 @@ class Encryption extends \Magento\Core\Model\Encryption
     protected $_keys = array();
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
-    {
-        parent::__construct($objectManager);
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $objectManager,
+            $coreConfig
+        );
         // load all possible keys
-        $this->_keys = preg_split('/\s+/s', trim((string)\Mage::getConfig()->getNode('global/crypt/key')));
+        $this->_keys = preg_split('/\s+/s', trim((string)$this->_coreConfig->getNode('global/crypt/key')));
         $this->_keyVersion = count($this->_keys) - 1;
     }
 

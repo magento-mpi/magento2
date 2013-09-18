@@ -63,14 +63,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreString = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Helper\Context $context
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreString = $coreString;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -215,7 +225,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMinQueryLength($store = null)
     {
-        return \Mage::getStoreConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MIN_QUERY_LENGTH, $store);
+        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MIN_QUERY_LENGTH, $store);
     }
 
     /**
@@ -226,7 +236,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMaxQueryLength($store = null)
     {
-        return \Mage::getStoreConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MAX_QUERY_LENGTH, $store);
+        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_LENGTH, $store);
     }
 
     /**
@@ -237,7 +247,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMaxQueryWords($store = null)
     {
-        return \Mage::getStoreConfig(\Magento\CatalogSearch\Model\Query::XML_PATH_MAX_QUERY_WORDS, $store);
+        return $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_WORDS, $store);
     }
 
     /**
@@ -289,9 +299,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         /* @var $stringHelper \Magento\Core\Helper\String */
         $stringHelper = $this->_coreString;
 
-        $searchType = \Mage::getStoreConfig(\Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
-        if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
-            || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE
+        $searchType = $this->_coreStoreConfig->getConfig(Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
+        if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
+            || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
         ) {
             $wordsFull = $stringHelper->splitWords($this->getQueryText(), true);
             $wordsLike = $stringHelper->splitWords($this->getQueryText(), true, $this->getMaxQueryWords());
@@ -335,7 +345,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getEngine()
     {
         if (!$this->_engine) {
-            $engine = \Mage::getStoreConfig('catalog/search/engine');
+            $engine = $this->_coreStoreConfig->getConfig('catalog/search/engine');
 
             /**
              * This needed if there already was saved in configuration some none-default engine

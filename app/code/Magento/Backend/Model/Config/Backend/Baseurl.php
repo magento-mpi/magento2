@@ -17,6 +17,8 @@ class Baseurl extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
      * @param \Magento\Core\Model\Page\Asset\MergeService $mergeService
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -25,13 +27,23 @@ class Baseurl extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         \Magento\Core\Model\Page\Asset\MergeService $mergeService,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_mergeService = $mergeService;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $config,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

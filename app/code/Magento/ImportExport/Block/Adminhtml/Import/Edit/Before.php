@@ -49,8 +49,7 @@ class Before extends \Magento\Backend\Block\Template
      */
     public function getEntityBehaviors()
     {
-        $importModel = $this->_importModel;
-        $behaviors = $importModel::getEntityBehaviors();
+        $behaviors = $this->_importModel->getEntityBehaviors();
         foreach ($behaviors as $entityCode => $behavior) {
             $behaviors[$entityCode] = $behavior['code'];
         }
@@ -64,8 +63,7 @@ class Before extends \Magento\Backend\Block\Template
      */
     public function getUniqueBehaviors()
     {
-        $importModel = $this->_importModel;
-        $uniqueBehaviors = $importModel::getUniqueEntityBehaviors();
+        $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
         return $this->_coreData->jsonEncode(array_keys($uniqueBehaviors));
     }
 }

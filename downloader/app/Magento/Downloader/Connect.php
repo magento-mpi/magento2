@@ -17,7 +17,7 @@ if (!defined('DS')) {
 
 // add Magento lib in include_path if needed
 $_includePath = get_include_path();
-$_libDir = dirname(dirname(__FILE__)) . DS . 'lib';
+$_libDir = dirname(__DIR__) . DS . 'lib';
 if (strpos($_includePath, $_libDir) === false) {
     if (substr($_includePath, 0, 2) === '.' . PATH_SEPARATOR) {
         $_includePath = '.' . PATH_SEPARATOR . $_libDir . PATH_SEPARATOR . substr($_includePath, 2);
@@ -130,8 +130,8 @@ class Connect
                 $this->_config=$config;
                 $this->_sconfig=$cache;
             }
-            $this->_config->magento_root = dirname(dirname(__FILE__)).DS.'..';
-            \Magento\Connect\Command::setConfigObject($this->_config);
+            $this->_config->magento_root = dirname(__DIR__).DS.'..';
+            Magento_Connect_Command::setConfigObject($this->_config);
         }
         return $this->_config;
     }

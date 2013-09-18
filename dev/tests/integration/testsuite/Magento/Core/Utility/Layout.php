@@ -27,20 +27,23 @@ class Magento_Core_Utility_Layout
     /**
      * Retrieve new layout update model instance with XML data from a fixture file
      *
-     * @param string $layoutUpdatesFile
-     * @return \Magento\Core\Model\Layout\Merge
+     * @param string|array $layoutUpdatesFile
+     * @return Magento_Core_Model_Layout_Merge
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Layout\File\Factory $fileFactory */
         $fileFactory = $objectManager->get('Magento\Core\Model\Layout\File\Factory');
-        $file = $fileFactory->create($layoutUpdatesFile, 'Magento_Core');
+        $files = array();
+        foreach ((array)$layoutUpdatesFile as $filename) {
+            $files[] = $fileFactory->create($filename, 'Magento_Core');
+        }
         $fileSource = $this->_testCase->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
         $fileSource->expects(PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
-            ->will(PHPUnit_Framework_TestCase::returnValue(array($file)));
-        $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+            ->will(PHPUnit_Framework_TestCase::returnValue($files));
+        $cache = $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         return $objectManager->create(
             'Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
         );
@@ -49,7 +52,7 @@ class Magento_Core_Utility_Layout
     /**
      * Retrieve new layout model instance with layout updates from a fixture file
      *
-     * @param string $layoutUpdatesFile
+     * @param string|array $layoutUpdatesFile
      * @param array $args
      * @return \Magento\Core\Model\Layout|PHPUnit_Framework_MockObject_MockObject
      */
@@ -82,6 +85,7 @@ class Magento_Core_Utility_Layout
             'argumentProcessor'  => $objectManager->create('Magento\Core\Model\Layout\Argument\Processor', array()),
             'scheduledStructure' => $objectManager->create('Magento\Core\Model\Layout\ScheduledStructure', array()),
             'dataServiceGraph'   => $objectManager->create('Magento\Core\Model\DataService\Graph', array()),
+            'coreStoreConfig'    => $objectManager->create('Magento_Core_Model_Store_Config'),
         );
     }
 }

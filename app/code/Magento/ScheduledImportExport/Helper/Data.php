@@ -40,18 +40,22 @@ class Data extends \Magento\ImportExport\Helper\Data
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
+     * @param Magento_File_Size $fileSize
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config
+        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        Magento_Reward_Helper_Data $rewardData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_File_Size $fileSize,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($eventManager, $coreHttp, $context, $config);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $fileSize, $coreStoreConfig);
     }
 
     /**

@@ -17,7 +17,7 @@ class Magento_Phrase_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
      */
     protected $_factory;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 

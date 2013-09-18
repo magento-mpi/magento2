@@ -118,16 +118,24 @@ class User
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\User\Helper\Data $userData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Sender $sender
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Sender $sender
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_User_Helper_Data $userData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Sender $sender
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -138,6 +146,7 @@ class User
         \Magento\Core\Model\Sender $sender,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -146,6 +155,7 @@ class User
         $this->_userData = $userData;
         $this->_coreData = $coreData;
         $this->_sender = $sender;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -160,16 +170,27 @@ class User
     public function __sleep()
     {
         $properties = parent::__sleep();
-        return array_diff($properties, array('_eventManager', '_sender', '_coreData', '_userData'));
+        return array_diff($properties, array(
+            '_eventManager',
+            '_sender',
+            '_coreData',
+            '_userData',
+            '_coreStoreConfig',
+            '_coreRegistry'
+        ));
+        return $properties;
     }
 
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_eventManager = \Mage::getSingleton('Magento\Core\Model\Event\Manager');
-        $this->_sender       = \Mage::getSingleton('Magento\Core\Model\Sender');
-        $this->_coreData     = \Mage::getSingleton('Magento\Core\Helper\Data');
-        $this->_userData     = \Mage::getSingleton('Magento\User\Helper\Data');
+        $this->_eventManager = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Event_Manager');
+        $this->_sender       = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Sender');
+        $this->_coreData     = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Helper_Data');
+        $this->_userData     = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_User_Helper_Data');
+        $this->_coreStoreConfig = Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Core_Model_Store_Config');
+        $this->_coreRegistry = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Registry');
     }
 
     /**
@@ -423,9 +444,9 @@ class User
         $mailer->addEmailInfo($emailInfo);
 
         // Set all required params and send emails
-        $mailer->setSender(\Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY));
+        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY));
         $mailer->setStoreId(0);
-        $mailer->setTemplateId(\Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE));
+        $mailer->setTemplateId($this->_coreStoreConfig->getConfig(self::XML_PATH_FORGOT_EMAIL_TEMPLATE));
         $mailer->setTemplateParams(array(
             'user' => $this
         ));
@@ -495,7 +516,7 @@ class User
      */
     public function authenticate($username, $password)
     {
-        $config = \Mage::getStoreConfigFlag('admin/security/use_case_sensitive_login');
+        $config = $this->_coreStoreConfig->getConfigFlag('admin/security/use_case_sensitive_login');
         $result = false;
 
         try {

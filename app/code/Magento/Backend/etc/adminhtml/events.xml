@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="translate_initialization_before">
-        <observer name="initialize_translation" instance="Magento\Backend\Model\Observer" method="initializeTranslation" />
+        <observer name="initialize_translation" instance="Magento_Backend_Model_Observer" method="initializeTranslation" />
     </event>
 </config>

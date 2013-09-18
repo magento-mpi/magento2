@@ -70,9 +70,9 @@ class Payment extends \Magento\Backend\Block\Template
      */
     public function canUseRewardPoints()
     {
-        $websiteId = \Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
-        $minPointsBalance = (int)\Mage::getStoreConfig(
-            \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
+        $websiteId = Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
+        $minPointsBalance = (int)$this->_storeConfig->getConfig(
+            Magento_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
             $this->getQuote()->getStoreId()
         );
 

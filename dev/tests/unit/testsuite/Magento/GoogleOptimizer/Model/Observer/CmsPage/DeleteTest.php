@@ -22,7 +22,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_DeleteTest extends PHPUnit_
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);

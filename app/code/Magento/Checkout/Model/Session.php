@@ -52,18 +52,23 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param string $sessionName
+     *
      * @param array $data
      */
     public function __construct(
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         $sessionName = null,
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
-        parent::__construct($eventManager, $coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('checkout', $sessionName);
     }
 

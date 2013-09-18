@@ -55,6 +55,39 @@ class Group extends \Magento\Core\Model\AbstractModel
 
     protected static $_taxClassIds = array();
 
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
     protected function _construct()
     {
         $this->_init('Magento\Customer\Model\Resource\Group');
@@ -95,7 +128,7 @@ class Group extends \Magento\Core\Model\AbstractModel
 
     public function usesAsDefault()
     {
-        $data = \Mage::getConfig()->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
+        $data = $this->_coreConfig->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
         if (in_array($this->getId(), $data)) {
             return true;
         }

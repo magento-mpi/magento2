@@ -16,7 +16,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_ExtendsTest extends PHPUnit_
      */
     protected $_sut;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_sut = new \Magento\Backend\Model\Config\Structure\Mapper\ExtendsMapper(
             new \Magento\Backend\Model\Config\Structure\Mapper\Helper\RelativePathConverter()

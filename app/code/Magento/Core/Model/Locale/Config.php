@@ -99,13 +99,29 @@ class Config
     );
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Get list preconfigured allowed locales
      *
      * @return array
      */
     public function getAllowedLocales()
     {
-        $configData = \Mage::getConfig()->getNode(\Magento\Core\Model\LocaleInterface::XML_PATH_ALLOW_CODES);
+        $configData = $this->_coreConfig->getNode(Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CODES);
         if ($configData) {
             $configData = $configData->asArray();
         }
@@ -124,7 +140,7 @@ class Config
      */
     public function getAllowedCurrencies()
     {
-        $configData = \Mage::getConfig()->getNode(\Magento\Core\Model\LocaleInterface::XML_PATH_ALLOW_CURRENCIES);
+        $configData = $this->_coreConfig->getNode(Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES);
         if ($configData) {
             $configData = $configData->asArray();
         }

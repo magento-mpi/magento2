@@ -130,10 +130,15 @@ class Magento_TestFramework_Annotation_DataFixture
      */
     protected function _applyOneFixture($fixture)
     {
-        if (is_callable($fixture)) {
-            call_user_func($fixture);
-        } else {
-            require($fixture);
+        try {
+            if (is_callable($fixture)) {
+                call_user_func($fixture);
+            } else {
+                    require($fixture);
+            }
+        } catch (Zend_Db_Statement_Exception $e) {
+            echo 'Error in fixture: ', json_encode($fixture), PHP_EOL, $e;
+            throw $e;
         }
     }
 
@@ -145,14 +150,18 @@ class Magento_TestFramework_Annotation_DataFixture
      */
     protected function _applyFixtures(array $fixtures)
     {
-        /* Execute fixture scripts */
-        foreach ($fixtures as $oneFixture) {
-            /* Skip already applied fixtures */
-            if (in_array($oneFixture, $this->_appliedFixtures, true)) {
-                continue;
+        try {
+            /* Execute fixture scripts */
+            foreach ($fixtures as $oneFixture) {
+                /* Skip already applied fixtures */
+                if (in_array($oneFixture, $this->_appliedFixtures, true)) {
+                    continue;
+                }
+                $this->_applyOneFixture($oneFixture);
+                $this->_appliedFixtures[] = $oneFixture;
             }
-            $this->_applyOneFixture($oneFixture);
-            $this->_appliedFixtures[] = $oneFixture;
+        } catch (PDOException $e) {
+            echo $e;
         }
     }
 

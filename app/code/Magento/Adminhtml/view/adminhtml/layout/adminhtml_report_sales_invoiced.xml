@@ -8,26 +8,24 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_report_sales_invoiced">
-        <update handle="report_sales"/>
-        <reference name="content">
-            <block class="Magento\Adminhtml\Block\Report\Sales\Invoiced" template="report/grid/container.phtml" name="sales.report.grid.container">
-                <block class="Magento\Backend\Block\Store\Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
-                    <action method="setStoreVarName">
-                        <argument name="var_name" xsi:type="string">store_ids</argument>
-                    </action>
-                </block>
-                <block class="Magento\Sales\Block\Adminhtml\Report\Filter\Form" name="grid.filter.form">
-                    <action method="addReportTypeOption">
-                        <argument name="key" xsi:type="string">created_at_order</argument>
-                        <argument translate="true" name="value" xsi:type="string">Order Created Date</argument>
-                    </action>
-                    <action method="addReportTypeOption">
-                        <argument name="key" xsi:type="string">created_at_invoice</argument>
-                        <argument translate="true" name="value" xsi:type="string">Last Invoice Created Date</argument>
-                    </action>
-                </block>
+    <update handle="report_sales"/>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Report_Sales_Invoiced" template="report/grid/container.phtml" name="sales.report.grid.container">
+            <block class="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
+                <action method="setStoreVarName">
+                    <argument name="var_name" xsi:type="string">store_ids</argument>
+                </action>
             </block>
-        </reference>
-    </handle>
+            <block class="Magento_Sales_Block_Adminhtml_Report_Filter_Form" name="grid.filter.form">
+                <action method="addReportTypeOption">
+                    <argument name="key" xsi:type="string">created_at_order</argument>
+                    <argument translate="true" name="value" xsi:type="string">Order Created Date</argument>
+                </action>
+                <action method="addReportTypeOption">
+                    <argument name="key" xsi:type="string">created_at_invoice</argument>
+                    <argument translate="true" name="value" xsi:type="string">Last Invoice Created Date</argument>
+                </action>
+            </block>
+        </block>
+    </reference>
 </layout>

@@ -26,7 +26,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
     /** @var  \Magento\Webhook\Model\Subscription */
     private $_subscription;
     
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 

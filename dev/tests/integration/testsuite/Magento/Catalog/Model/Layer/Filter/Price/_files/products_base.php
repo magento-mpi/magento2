@@ -13,7 +13,7 @@
  * Products generation to test base data
  */
 
-$testCases = include(dirname(__FILE__) . '/_algorithm_base_data.php');
+$testCases = include(__DIR__ . '/_algorithm_base_data.php');
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = Mage::getResourceModel('Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));

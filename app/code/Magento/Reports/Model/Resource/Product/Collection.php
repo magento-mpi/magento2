@@ -57,6 +57,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Resource\Product $product
      */
     public function __construct(
@@ -64,12 +65,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Catalog\Model\Resource\Product $product
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
         $this->setProductEntityTypeId($product->getTypeId());
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig);
     }
     /**
      * Set Type for COUNT SQL Select

@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_newsletter_subscriber_index">
-        <update handle="formkey"/>
-        <update handle="adminhtml_newsletter_subscriber_block"/>
-        <reference name="content">
-            <block class="Magento\Adminhtml\Block\Newsletter\Subscriber" name="adminhtml.newsletter.subscriber.container"/>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_newsletter_subscriber_block"/>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Newsletter_Subscriber" name="adminhtml.newsletter.subscriber.container"/>
+    </reference>
 </layout>

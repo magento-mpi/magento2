@@ -9,63 +9,63 @@
 -->
 <config>
     <event name="catalog_block_product_status_display">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="displayProductStatusInfo" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="displayProductStatusInfo" />
     </event>
     <event name="catalog_product_load_after">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="addInventoryData" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="addInventoryData" />
     </event>
     <event name="catalog_product_clear">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="removeInventoryData" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="removeInventoryData" />
     </event>
     <event name="catalog_product_collection_load_after">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="addStockStatusToCollection" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="addStockStatusToCollection" />
     </event>
     <event name="catalog_product_prepare_index_select">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="prepareCatalogProductIndexSelect" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="prepareCatalogProductIndexSelect" />
     </event>
     <event name="sales_quote_item_collection_products_after_load">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="addInventoryDataToCollection" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="addInventoryDataToCollection" />
     </event>
     <event name="sales_quote_item_qty_set_after">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="checkQuoteItemQty" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="checkQuoteItemQty" />
     </event>
     <event name="checkout_submit_all_after">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="checkoutAllSubmitAfter" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="checkoutAllSubmitAfter" />
     </event>
     <event name="sales_model_service_quote_submit_before">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="subtractQuoteInventory" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="subtractQuoteInventory" />
     </event>
     <event name="sales_model_service_quote_submit_success">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="reindexQuoteInventory" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="reindexQuoteInventory" />
     </event>
     <event name="sales_model_service_quote_submit_failure">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="revertQuoteInventory" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="revertQuoteInventory" />
     </event>
     <event name="paypal_payment_cancel">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="revertQuoteInventory" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="revertQuoteInventory" />
     </event>
     <event name="sales_order_item_cancel">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="cancelOrderItem" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="cancelOrderItem" />
     </event>
     <event name="sales_order_creditmemo_save_after">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="refundOrderInventory" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="refundOrderInventory" />
     </event>
     <event name="catalog_product_save_after">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="saveInventoryData" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="saveInventoryData" />
     </event>
     <event name="catalog_model_product_duplicate">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="copyInventoryData" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="copyInventoryData" />
     </event>
     <event name="admin_system_config_changed_section_cataloginventory">
-        <observer name="inventory" instance="Magento\CatalogInventory\Model\Observer" method="updateItemsStockUponConfigChange" />
+        <observer name="inventory" instance="Magento_CatalogInventory_Model_Observer" method="updateItemsStockUponConfigChange" />
     </event>
     <event name="prepare_catalog_product_index_select">
-        <observer name="cataloginventory" instance="Magento\CatalogInventory\Model\Observer" method="prepareCatalogProductIndexSelect" />
+        <observer name="cataloginventory" instance="Magento_CatalogInventory_Model_Observer" method="prepareCatalogProductIndexSelect" />
     </event>
     <event name="end_index_events_cataloginventory_stock_item_save">
-        <observer name="cataloginventory" instance="Magento\CatalogInventory\Model\Observer" method="reindexProductsMassAction" />
+        <observer name="cataloginventory" instance="Magento_CatalogInventory_Model_Observer" method="reindexProductsMassAction" />
     </event>
     <event name="end_process_event_cataloginventory_stock_item_save">
-        <observer name="cataloginventory" instance="Magento\CatalogInventory\Model\Observer" method="reindexProductsMassAction" />
+        <observer name="cataloginventory" instance="Magento_CatalogInventory_Model_Observer" method="reindexProductsMassAction" />
     </event>
 </config>

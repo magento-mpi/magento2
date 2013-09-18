@@ -15,7 +15,7 @@ class Magento_Captcha_Block_Captcha_DefaultTest extends PHPUnit_Framework_TestCa
      */
     protected $_block;
 
-    public function setUp()
+    protected function setUp()
     {
          $this->_block = Mage::app()->getLayout()
             ->createBlock('Magento\Captcha\Block\Captcha\DefaultCaptcha');

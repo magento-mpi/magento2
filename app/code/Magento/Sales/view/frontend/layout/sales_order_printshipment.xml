@@ -7,17 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Sales Order Print View" id="sales_order_printshipment" type="page" parent="print">
-        <reference name="content">
-            <block class="Magento\Sales\Block\Order\PrintShipment" name="sales.order.printshipment" template="order/print.phtml">
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer</argument>
-                    <argument name="template" xsi:type="string">order/shipment/items/renderer/default.phtml</argument>
-                </action>
-            </block>
-        </reference>
-        <container name="additional.product.info" label="Additional Product Info"/>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Shipment Print View" type="page" parent="sales_order_print">
+    <reference name="content">
+        <block class="Magento_Sales_Block_Order_Print_Shipment" name="sales.order.print.shipment" template="order/print/shipment.phtml">
+            <block class="Magento_Sales_Block_Order_Item_Renderer_Default" as="default" template="order/shipment/items/renderer/default.phtml"/>
+        </block>
+    </reference>
+    <container name="additional.product.info" label="Additional Product Info"/>
 </layout>

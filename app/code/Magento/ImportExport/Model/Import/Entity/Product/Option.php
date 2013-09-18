@@ -242,15 +242,24 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_catalogData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
-
+        $this->_coreStoreConfig = $coreStoreConfig;
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
@@ -404,7 +413,9 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if (isset($data['page_size'])) {
             $this->_pageSize = $data['page_size'];
         } else {
-            $this->_pageSize = self::XML_PATH_PAGE_SIZE ? (int) \Mage::getStoreConfig(self::XML_PATH_PAGE_SIZE) : 0;
+            $this->_pageSize = self::XML_PATH_PAGE_SIZE
+                ? (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_SIZE)
+                : 0;
         }
         return $this;
     }

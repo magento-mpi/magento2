@@ -25,12 +25,24 @@ abstract class AbstractXml extends \Magento\Object
     protected $_translator;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Model\Translate $translator
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(\Magento\Core\Model\Translate $translator, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Translate $translator,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
         parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_translator = $translator;
     }
 
@@ -43,7 +55,7 @@ abstract class AbstractXml extends \Magento\Object
     public function getMerchantId()
     {
         if (!$this->hasData('merchant_id')) {
-            $this->setData('merchant_id', \Mage::getStoreConfig('google/checkout/merchant_id', $this->getStoreId()));
+            $this->setData('merchant_id', $this->_coreStoreConfig->getConfig('google/checkout/merchant_id', $this->getStoreId()));
         }
         return $this->getData('merchant_id');
     }
@@ -51,7 +63,7 @@ abstract class AbstractXml extends \Magento\Object
     public function getMerchantKey()
     {
         if (!$this->hasData('merchant_key')) {
-            $this->setData('merchant_key', \Mage::getStoreConfig('google/checkout/merchant_key', $this->getStoreId()));
+            $this->setData('merchant_key', $this->_coreStoreConfig->getConfig('google/checkout/merchant_key', $this->getStoreId()));
         }
         return $this->getData('merchant_key');
     }
@@ -61,7 +73,7 @@ abstract class AbstractXml extends \Magento\Object
         if (!$this->hasData('server_type')) {
             $this->setData(
                 'server_type',
-                \Mage::getStoreConfig('google/checkout/sandbox', $this->getStoreId()) ? "sandbox" : ""
+                $this->_coreStoreConfig->getConfig('google/checkout/sandbox', $this->getStoreId()) ? "sandbox" : ""
             );
         }
         return $this->getData('server_type');
@@ -70,7 +82,7 @@ abstract class AbstractXml extends \Magento\Object
     public function getLocale()
     {
         if (!$this->hasData('locale')) {
-            $this->setData('locale', \Mage::getStoreConfig('google/checkout/locale', $this->getStoreId()));
+            $this->setData('locale', $this->_coreStoreConfig->getConfig('google/checkout/locale', $this->getStoreId()));
         }
         return $this->getData('locale');
     }
@@ -205,7 +217,7 @@ abstract class AbstractXml extends \Magento\Object
     {
         return \Mage::getUrl(
             'googlecheckout/api',
-            array('_forced_secure'=>\Mage::getStoreConfig('google/checkout/use_secure_callback_url',$this->getStoreId()))
+            array('_forced_secure'=>$this->_coreStoreConfig->getConfig('google/checkout/use_secure_callback_url',$this->getStoreId()))
         );
     }
 
@@ -233,6 +245,6 @@ abstract class AbstractXml extends \Magento\Object
      */
     protected function _getTaxClassForShipping($quote)
     {
-        return \Mage::getStoreConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $quote->getStoreId());
+        return $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $quote->getStoreId());
     }
 }

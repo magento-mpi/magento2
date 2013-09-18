@@ -42,6 +42,13 @@ class AbstractApi extends \Magento\Object
     protected $_pbridgeData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
@@ -49,15 +56,18 @@ class AbstractApi extends \Magento\Object
      *
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
     }
 
@@ -176,7 +186,7 @@ class AbstractApi extends \Magento\Object
      */
     protected function _debug($debugData)
     {
-        $this->_debugFlag = (bool)\Mage::getStoreConfigFlag('payment/pbridge/debug');
+        $this->_debugFlag = (bool)$this->_coreStoreConfig->getConfigFlag('payment/pbridge/debug');
         if ($this->_debugFlag) {
             \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_pbridge.log'))
                ->log($debugData);

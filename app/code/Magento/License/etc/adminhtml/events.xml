@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="admin_user_authenticate_after">
-        <observer name="magento_license" instance="Magento\License\Model\Observer" method="adminUserAuthenticateAfter" />
+        <observer name="magento_license" instance="Magento_License_Model_Observer" method="adminUserAuthenticateAfter" />
     </event>
     <event name="controller_action_predispatch">
-        <observer name="magento_license" instance="Magento\License\Model\Observer" method="preDispatch" />
+        <observer name="magento_license" instance="Magento_License_Model_Observer" method="preDispatch" />
     </event>
 </config>

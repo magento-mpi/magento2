@@ -121,6 +121,8 @@ class Form extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Backend\Block\System\Config\Form\Field\Factory $fieldFactory
      * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -442,6 +444,10 @@ class Form extends \Magento\Backend\Block\Widget\Form
     public function getConfigValue($path)
     {
         return $this->_config->getValue($path, $this->getScope(), $this->getScopeCode());
+        if (empty($this->_configRoot)) {
+            $this->_configRoot = $this->_coreConfig->getNode(null, $this->getScope(), $this->getScopeCode());
+        }
+        return $this->_configRoot;
     }
 
     /**

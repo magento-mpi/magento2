@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_user_role_editrole">
-        <reference name="adminhtml.user.tab.rolesedit">
-            <block class="Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws" name="adminhtml.user.role.edit.gws" as="gws" template="permissions/rolesedit/gws.phtml"/>
-        </reference>
-    </handle>
+    <reference name="adminhtml.user.tab.rolesedit">
+        <block class="Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws" name="adminhtml.user.role.edit.gws" as="gws" template="permissions/rolesedit/gws.phtml"/>
+    </reference>
 </layout>

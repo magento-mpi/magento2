@@ -8,13 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_view">
-        <reference name="order_items">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">giftcard</argument>
-                <argument name="block" xsi:type="string">Magento\GiftCard\Block\Sales\Order\Item\Renderer</argument>
-                <argument name="template" xsi:type="string">Magento_Sales::order/items/renderer/default.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="order_items">
+        <block class="Magento_GiftCard_Block_Sales_Order_Item_Renderer" as="giftcard" template="Magento_Sales::order/items/renderer/default.phtml"/>
+    </reference>
 </layout>

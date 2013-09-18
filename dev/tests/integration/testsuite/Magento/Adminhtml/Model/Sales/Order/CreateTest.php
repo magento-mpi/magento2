@@ -21,7 +21,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 

@@ -48,10 +48,14 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
 
     public function testGetUrl()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
         $action = Mage::getModel(
             'Magento\Core\Controller\Front\Action',
             array(
-                'request' => new Magento_TestFramework_Request(),
+                'request' => $request,
                 'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
                     ->get('Magento_TestFramework_Response'),
             )
@@ -65,13 +69,17 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
      */
     public function testGetRemoveUrl()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
+
         Mage::app()->getRequest()->setRoutingInfo(array(
             'requested_route'      => 'x',
             'requested_controller' => 'y',
             'requested_action'     => 'z',
         ));
 
-        $request = new Magento_TestFramework_Request();
         $request->setParam('cat', 4);
         $this->_model->getFilter()->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 

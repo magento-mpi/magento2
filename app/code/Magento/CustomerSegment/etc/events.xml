@@ -9,15 +9,15 @@
 -->
 <config>
     <event name="customer_save_commit_after">
-        <observer name="magento_customersegment" instance="Magento\CustomerSegment\Model\Observer" method="processCustomerEvent" />
+        <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="processCustomerEvent" />
     </event>
     <event name="customer_address_save_commit_after">
-        <observer name="magento_customersegment" instance="Magento\CustomerSegment\Model\Observer" method="processCustomerEvent" />
+        <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="processCustomerEvent" />
     </event>
     <event name="customer_address_delete_commit_after">
-        <observer name="magento_customersegment" instance="Magento\CustomerSegment\Model\Observer" method="processCustomerEvent" />
+        <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="processCustomerEvent" />
     </event>
     <event name="customer_balance_save_commit_after">
-        <observer name="magento_customersegment" instance="Magento\CustomerSegment\Model\Observer" method="processCustomerEvent" />
+        <observer name="magento_customersegment" instance="Magento_CustomerSegment_Model_Observer" method="processCustomerEvent" />
     </event>
 </config>

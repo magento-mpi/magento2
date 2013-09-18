@@ -97,78 +97,6 @@ class Head extends \Magento\Core\Block\Template
     }
 
     /**
-     * Add CSS file to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $ieCondition
-     * @param string|null $flagName
-     * @return \Magento\Page\Block\Html\Head
-     */
-    public function addCss($file, $attributes = '', $ieCondition = null, $flagName = null)
-    {
-        $contentType = \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS;
-        $asset = $this->_objectManager->create(
-            'Magento\Core\Model\Page\Asset\ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
-        );
-        $this->_pageAssets->add("$contentType/$file", $asset, array(
-            'attributes'    => (string)$attributes,
-            'ie_condition'  => (string)$ieCondition,
-            'flag_name'     => (string)$flagName,
-        ));
-        return $this;
-    }
-
-    /**
-     * Add JavaScript file to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $ieCondition
-     * @param string|null $flagName
-     * @return \Magento\Page\Block\Html\Head
-     */
-    public function addJs($file, $attributes = '', $ieCondition = null, $flagName = null)
-    {
-        $contentType = \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS;
-        $asset = $this->_objectManager->create(
-            'Magento\Core\Model\Page\Asset\ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
-        );
-        $this->_pageAssets->add("$contentType/$file", $asset, array(
-            'attributes'    => (string)$attributes,
-            'ie_condition'  => (string)$ieCondition,
-            'flag_name'     => (string)$flagName,
-        ));
-        return $this;
-    }
-
-    /**
-     * Add CSS file for Internet Explorer only to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $flagName
-     * @return \Magento\Page\Block\Html\Head
-     */
-    public function addCssIe($file, $attributes = '', $flagName = null)
-    {
-        return $this->addCss($file, $attributes, 'IE', $flagName);
-    }
-
-    /**
-     * Add JavaScript file for Internet Explorer only to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $flagName
-     * @return \Magento\Page\Block\Html\Head
-     */
-    public function addJsIe($file, $attributes = '', $flagName = null)
-    {
-        return $this->addJs($file, $attributes, 'IE', $flagName);
-    }
-
-    /**
      * Add RSS element to HEAD entity
      *
      * @param string $title
@@ -186,116 +114,25 @@ class Head extends \Magento\Core\Block\Template
     }
 
     /**
-     * Add Link element to HEAD entity
-     *
-     * @param string $rel forward link types
-     * @param string $href URI for linked resource
-     * @return \Magento\Page\Block\Html\Head
-     */
-    public function addLinkRel($rel, $href)
-    {
-        $asset = $this->_objectManager->create(
-            'Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
-        );
-        $this->_pageAssets->add("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
-        return $this;
-    }
-
-    /**
-     * Add Meta element to HEAD entity
-     *
-     * @param string|array $metaData
-     * @param string $content
-     * @return \Magento\Page\Block\Html\Head
-     */
-    public function addMetaTag($metaData, $content = null)
-    {
-        $this->_initMetaTags();
-        if (!is_array($metaData)) {
-            $metaData = array('name' => $metaData, 'content' => $content);
-        }
-        if (!empty($metaData['name']) && !empty($metaData['content'])) {
-             $this->_data['meta_tag'][] = $metaData;
-        }
-        return $this;
-    }
-
-    /**
-     * Create empy array form meta tags
-     *
-     * @return $this
-     */
-    protected function _initMetaTags()
-    {
-        if (!isset($this->_data['meta_tag'])) {
-            $this->_data['meta_tag'] = array();
-        }
-        return $this;
-    }
-
-    /**
-     * Get default Meta elements
-     *
-     * @return array
-     */
-    public function getDefaultMetaTags()
-    {
-        return array(
-            array('name' => 'description', 'content' => $this->getDescription()),
-            array('name' => 'keywords', 'content' => $this->getKeywords()),
-            array('name' => 'robots', 'content' => $this->getRobots()),
-        );
-    }
-
-    /**
-     * Get Meta elements
-     *
-     * @return array
-     */
-    public function getMetaTags()
-    {
-        $this->_initMetaTags();
-        return array_merge($this->getDefaultMetaTags(), $this->_data['meta_tag']);
-    }
-
-    /**
-     * Get meta tags as html
-     *
-     * @return string
-     */
-    public function getMetaTagHtml()
-    {
-        $metaTags = array();
-        foreach ($this->getMetaTags() as $metaTag) {
-            $metaTags[] = sprintf(
-                '<meta name="%s" content="%s"/>',
-                $metaTag['name'],
-                htmlspecialchars($metaTag['content'])
-            );
-        }
-        return implode("\n", $metaTags);
-    }
-
-    /**
-     * Remove Item from HEAD entity
-     *
-     * @param string $type
-     * @param string $name
-     * @return \Magento\Page\Block\Html\Head
-     */
-    public function removeItem($type, $name)
-    {
-        $this->_pageAssets->remove("$type/$name");
-        return $this;
-    }
-
-    /**
      * Render HTML for the added head items
      *
      * @return string
      */
     public function getCssJsHtml()
     {
+        foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
+            /** @var $block Magento_Core_Block_Abstract */
+            if ($block instanceof Magento_Page_Block_Html_Head_AssetBlock) {
+                /** @var Magento_Core_Model_Page_Asset_AssetInterface $asset */
+                $asset = $block->getAsset();
+                $this->_pageAssets->add(
+                    $block->getNameInLayout(),
+                    $asset,
+                    (array)$block->getProperties()
+                );
+            }
+        }
+
         $result = '';
         /** @var $group \Magento\Page\Model\Asset\PropertyGroup */
         foreach ($this->_pageAssets->getGroups() as $group) {
@@ -316,8 +153,17 @@ class Head extends \Magento\Core\Block\Template
             }
 
             if (!empty($attributes)) {
-                $attributes = ' ' . $attributes;
+                if (is_array($attributes)) {
+                    $attributesString = '';
+                    foreach ($attributes as $name => $value) {
+                        $attributesString .= ' ' . $name . '="' . $this->escapeHtml($value) . '"';
+                    }
+                    $attributes = $attributesString;
+                } else {
+                    $attributes = ' ' . $attributes;
+                }
             }
+
             if ($contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
@@ -380,7 +226,7 @@ class Head extends \Magento\Core\Block\Template
     public function getMediaType()
     {
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = \Mage::getStoreConfig('design/head/default_media_type');
+            $this->_data['media_type'] = $this->_storeConfig->getConfig('design/head/default_media_type');
         }
         return $this->_data['media_type'];
     }
@@ -393,7 +239,7 @@ class Head extends \Magento\Core\Block\Template
     public function getCharset()
     {
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = \Mage::getStoreConfig('design/head/default_charset');
+            $this->_data['charset'] = $this->_storeConfig->getConfig('design/head/default_charset');
         }
         return $this->_data['charset'];
     }
@@ -412,8 +258,8 @@ class Head extends \Magento\Core\Block\Template
         } else {
             $this->_pureTitle = $title;
         }
-        $this->_data['title'] = \Mage::getStoreConfig('design/head/title_prefix') . ' ' . $title
-            . ' ' . \Mage::getStoreConfig('design/head/title_suffix');
+        $this->_data['title'] = $this->_storeConfig->getConfig('design/head/title_prefix') . ' ' . $title
+            . ' ' . $this->_storeConfig->getConfig('design/head/title_suffix');
         return $this;
     }
 
@@ -451,7 +297,7 @@ class Head extends \Magento\Core\Block\Template
      */
     public function getDefaultTitle()
     {
-        return \Mage::getStoreConfig('design/head/default_title');
+        return $this->_storeConfig->getConfig('design/head/default_title');
     }
 
     /**
@@ -462,20 +308,20 @@ class Head extends \Magento\Core\Block\Template
     public function getDescription()
     {
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = \Mage::getStoreConfig('design/head/default_description');
+            $this->_data['description'] = $this->_storeConfig->getConfig('design/head/default_description');
         }
         return $this->_data['description'];
     }
 
     /**
-     * Retrieve content for keyvords tag
+     * Retrieve content for keywords tag
      *
      * @return string
      */
     public function getKeywords()
     {
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = \Mage::getStoreConfig('design/head/default_keywords');
+            $this->_data['keywords'] = $this->_storeConfig->getConfig('design/head/default_keywords');
         }
         return $this->_data['keywords'];
     }
@@ -488,7 +334,7 @@ class Head extends \Magento\Core\Block\Template
     public function getRobots()
     {
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = \Mage::getStoreConfig('design/search_engine_robots/default_robots');
+            $this->_data['robots'] = $this->_storeConfig->getConfig('design/search_engine_robots/default_robots');
         }
         return $this->_data['robots'];
     }
@@ -501,7 +347,7 @@ class Head extends \Magento\Core\Block\Template
     public function getIncludes()
     {
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = \Mage::getStoreConfig('design/head/includes');
+            $this->_data['includes'] = $this->_storeConfig->getConfig('design/head/includes');
         }
         return $this->_data['includes'];
     }
@@ -526,10 +372,10 @@ class Head extends \Magento\Core\Block\Template
      */
     protected function _getFaviconFile()
     {
-        $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
-        $storeConfig = \Mage::getStoreConfig('design/head/shortcut_icon');
-        $faviconFile = \Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
-        $absolutePath = \Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
+        $folderName = Magento_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
+        $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
+        $faviconFile = Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
+        $absolutePath = Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
 
         if (!is_null($storeConfig) && $this->_isFile($absolutePath)) {
             $url = $faviconFile;

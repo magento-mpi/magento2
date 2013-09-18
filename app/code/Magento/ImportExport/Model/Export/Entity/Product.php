@@ -136,12 +136,22 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_headerColumns = array();
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Constructor
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct(\Magento\Catalog\Model\Resource\Product\Collection $collection)
-    {
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Collection $collection,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_entityCollection = $collection;
+        $this->_coreConfig = $coreConfig;
         parent::__construct();
 
         $this->_initTypeModels()
@@ -150,7 +160,6 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             ->_initAttributeSets()
             ->_initWebsites()
             ->_initCategories();
-        $this->_entityCollection = $collection;
     }
 
     /**
@@ -203,7 +212,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     protected function _initTypeModels()
     {
-        $config = \Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
+        $config = $this->_coreConfig->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
         foreach ($config as $type => $typeModel) {
             if (!($model = \Mage::getModel($typeModel))) {
                 \Mage::throwException("Entity type model '{$typeModel}' is not found");

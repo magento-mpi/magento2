@@ -21,35 +21,6 @@ namespace Magento\Adminhtml\Model\Email;
 class Template extends \Magento\Core\Model\Email\Template
 {
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_config;
-
-    /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Core\Model\Config $config
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\View\DesignInterface $design,
-        \Magento\Core\Model\Config $config,
-        array $data = array()
-    ) {
-        $this->_config = $config;
-        parent::__construct($context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $data);
-    }
-
-    /**
      * Collect all system config paths where current template is used as default
      *
      * @return array
@@ -61,7 +32,7 @@ class Template extends \Magento\Core\Model\Email\Template
             return array();
         }
 
-        $configData = $this->_config->getValue(null, 'default');
+        $configData = $this->_coreConfig->getValue(null, 'default');
         $paths = $this->_findEmailTemplateUsages($templateCode, $configData, '');
         return $paths;
     }

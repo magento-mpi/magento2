@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */

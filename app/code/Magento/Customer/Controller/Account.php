@@ -214,8 +214,8 @@ class Account extends \Magento\Core\Controller\Front\Action
             $session->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($session->isLoggedIn()) {
-                if (!\Mage::getStoreConfigFlag(
-                    \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
+                if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag(
+                    Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                 )) {
                     $referer = $this->getRequest()->getParam(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
@@ -469,8 +469,8 @@ class Account extends \Magento\Core\Controller\Front\Action
             \Mage::app()->getStore()->getId()
         );
 
-        $successUrl = \Mage::getUrl('*/*/index', array('_secure' => true));
-        if (!\Mage::getStoreConfigFlag(\Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
+        $successUrl = Mage::getUrl('*/*/index', array('_secure' => true));
+        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag(Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
             && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);

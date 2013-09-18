@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_archive_creditmemosgrid">
-        <update handle="formkey"/>
-        <block class="Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid" name="archive.grid" as="grid" output="1"/>
-    </handle>
+    <update handle="formkey"/>
+    <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid" name="archive.grid" as="grid" output="1"/>
 </layout>

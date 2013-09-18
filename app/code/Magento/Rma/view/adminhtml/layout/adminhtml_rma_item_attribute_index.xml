@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_rma_item_attribute_index">
-        <reference name="content">
-            <block class="Magento\Rma\Block\Adminhtml\Rma\Item\Attribute" name="magento_rma_item_attribute"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_Rma_Block_Adminhtml_Rma_Item_Attribute" name="magento_rma_item_attribute"/>
+    </reference>
 </layout>

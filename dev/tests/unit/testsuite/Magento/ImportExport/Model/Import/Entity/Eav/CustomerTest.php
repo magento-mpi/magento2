@@ -70,7 +70,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
 

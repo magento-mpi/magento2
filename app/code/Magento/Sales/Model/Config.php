@@ -16,6 +16,22 @@ class Config
     const XML_PATH_ORDER_STATES = 'global/sales/order/states';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieve order statuses for state
      *
      * @param string $state
@@ -23,7 +39,7 @@ class Config
      */
     public function getOrderStatusesForState($state)
     {
-        $states = \Mage::getConfig()->getNode(self::XML_PATH_ORDER_STATES);
+        $states = $this->_coreConfig->getNode(self::XML_PATH_ORDER_STATES);
         if (!isset($states->$state) || !isset($states->$state->statuses)) {
            return array();
         }

@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Factory.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Console.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Logger/File.php';
 
 
@@ -26,12 +26,12 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Fra
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new \Magento\Tools\Migration\Acl\Db\Logger\Factory();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }
@@ -43,7 +43,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Fra
     {
         return array(
             array('console', null),
-            array('file', realpath(dirname(__FILE__) . '/../../../../../') . '/tmp') ,
+            array('file', realpath(__DIR__ . '/../../../../../') . '/tmp') ,
         );
     }
 

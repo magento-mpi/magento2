@@ -106,7 +106,7 @@ class Merchant
                 if (!$carrierMethods) {
                     continue;
                 }
-                $carrierTitle = \Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $storeId);
+                $carrierTitle = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/title', $storeId);
                 $methods[$carrierCode] = array(
                     'title'   => $carrierTitle,
                     'methods' => array(),

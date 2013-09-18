@@ -46,21 +46,15 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ),
         ));
 
-        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
-        $cacheState = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\StateInterface');
-
-        foreach ($this->_coreData->getCacheTypes() as $type=>$label) {
+        foreach ($this->_coreData->getCacheTypes() as $type => $label) {
             $fieldset->addField('enable_'.$type, 'checkbox', array(
-                'name'=>'enable['.$type.']',
-                'label'=>__($label),
-                'value'=>1,
-                'checked'=>(int)$cacheState->isEnabled($type),
-                //'options'=>$options,
+                'name'    => 'enable['.$type.']',
+                'label'   => __($label),
+                'value'   => 1,
+                'checked' => (int)$this->_cacheState->isEnabled($type),
             ));
         }
-
         $this->setForm($form);
-
         return $this;
     }
 }

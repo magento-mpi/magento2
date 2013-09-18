@@ -284,7 +284,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     /**
      * Init entity adapter model
      */
-    public function setUp()
+    protected function setUp()
     {
         $addExpectations = false;
         $deleteBehavior  = false;
@@ -303,15 +303,19 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'Magento\Catalog\Helper\Data', array('__construct'), array(), '', false
         );
 
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\Product\Option(
-            $this->_catalogDataMock, $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
+            $this->_catalogDataMock,
+            $coreStoreConfig,
+            $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
 
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_productEntity);

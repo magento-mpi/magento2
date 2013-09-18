@@ -50,6 +50,7 @@ abstract class AbstractHelper
     {
         $this->_translator = $context->getTranslator();
         $this->_moduleManager = $context->getModuleManager();
+        $this->_request = $context->getRequest();
     }
 
     /**
@@ -60,9 +61,6 @@ abstract class AbstractHelper
      */
     protected function _getRequest()
     {
-        if (!$this->_request) {
-            $this->_request = \Mage::getObjectManager()->get('Magento\Core\Controller\Request\Http');
-        }
         return $this->_request;
     }
 
@@ -200,7 +198,10 @@ abstract class AbstractHelper
      */
     public function removeTags($html)
     {
-        $html = preg_replace("# <(?![/a-z]) | (?<=\s)>(?![a-z]) #exi", "htmlentities('$0')", $html);
+        $callback = function ($matches) {
+            return htmlentities($matches[0]);
+        };
+        $html = preg_replace_callback("# <(?![/a-z]) | (?<=\s)>(?![a-z]) #xi", $callback, $html);
         $html =  strip_tags($html);
         return htmlspecialchars_decode($html);
     }

@@ -36,6 +36,13 @@ class Catalog extends \Magento\Core\Helper\AbstractHelper
     protected $_categoryAttributeTabBlock;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
@@ -45,12 +52,15 @@ class Catalog extends \Magento\Core\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -105,7 +115,9 @@ class Catalog extends \Magento\Core\Helper\AbstractHelper
      */
     public function getSitemapValidPaths()
     {
-        return array_merge(\Mage::getStoreConfig(self::XML_PATH_SITEMAP_VALID_PATHS),
-            $this->_coreData->getPublicFilesValidPath());
+        return array_merge(
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_SITEMAP_VALID_PATHS),
+            $this->_coreData->getPublicFilesValidPath()
+        );
     }
 }

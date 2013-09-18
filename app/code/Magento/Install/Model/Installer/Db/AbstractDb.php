@@ -27,12 +27,11 @@ abstract class AbstractDb
     protected $_resource;
 
     /**
-     * @param \Magento\Core\Model\Resource $resource
+     * List of necessary extensions for DBs
+     *
+     * @var array
      */
-    public function __construct(\Magento\Core\Model\Resource $resource)
-    {
-        $this->_resource = $resource;
-    }
+    protected $_dbExtensions;
 
     /**
      *  Adapter instance
@@ -56,6 +55,16 @@ abstract class AbstractDb
     protected $_configData;
 
 
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param array $dbExtensions
+     */
+    public function __construct(Magento_Core_Model_Resource $resource, array $dbExtensions = array())
+    {
+        $this->_resource = $resource;
+        $this->_dbExtensions = $dbExtensions;
+    }
+    
     /**
      * Return the name of DB model from config
      *
@@ -148,12 +157,7 @@ abstract class AbstractDb
      */
     public function getRequiredExtensions()
     {
-        $extensions = array();
-        $configExt = (array)\Mage::getConfig()->getNode(sprintf('install/databases/%s/extensions', $this->getModel()));
-        foreach (array_keys($configExt) as $name) {
-            $extensions[] = $name;
-        }
-        return $extensions;
+        return isset($this->_dbExtensions[$this->getModel()]) ? $this->_dbExtensions[$this->getModel()] : array();
     }
 
     /**

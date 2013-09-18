@@ -25,13 +25,21 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_taxData = null;
 
     /**
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\GoogleShopping\Helper\Data $gsData
-     * @param \Magento\GoogleShopping\Helper\Product $gsProduct
-     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_GoogleShopping_Helper_Data $gsData
+     * @param Magento_GoogleShopping_Helper_Product $gsProduct
+     * @param Magento_GoogleShopping_Helper_Price $gsPrice
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -42,11 +50,13 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Helper\Price $gsPrice,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($gsData, $gsProduct, $gsPrice, $context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -61,7 +71,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     {
         $product->setWebsiteId(\Mage::app()->getStore($product->getStoreId())->getWebsiteId());
         $product->setCustomerGroupId(
-            \Mage::getStoreConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $product->getStoreId())
+            $this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $product->getStoreId())
         );
 
         $store = \Mage::app()->getStore($product->getStoreId());

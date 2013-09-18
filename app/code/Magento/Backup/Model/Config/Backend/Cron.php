@@ -2,19 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Backup by cron backend model
- *
- * @category   Magento
- * @package    \Magento\Backup
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Model\Config\Backend;
 
@@ -28,9 +21,44 @@ class Cron extends \Magento\Core\Model\Config\Value
     const XML_PATH_BACKUP_FREQUENCY     = 'groups/backup/fields/frequency/value';
 
     /**
+     * Config value factory
+     *
+     * @var Magento_Core_Model_Config_Value
+     */
+    protected $_configValueFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Config_ValueFactory $configValueFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+
+        $this->_configValueFactory = $configValueFactory;
+    }
+
+    /**
      * Cron settings after save
      *
      * @return \Magento\Backend\Model\Config\Backend\Log\Cron
+     * @throws Magento_Core_Exception
      */
     protected function _afterSave()
     {
@@ -50,26 +78,24 @@ class Cron extends \Magento\Core\Model\Config\Value
                 ($frequency == $frequencyWeekly) ? '1' : '*',       # Day of the Week
             );
             $cronExprString = join(' ', $cronExprArray);
-        }
-        else {
+        } else {
             $cronExprString = '';
         }
 
         try {
-            \Mage::getModel('Magento\Core\Model\Config\Value')
+            $this->_configValueFactory->create()
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
 
-            \Mage::getModel('Magento\Core\Model\Config\Value')
+            $this->_configValueFactory->create()
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) \Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
+                ->setValue((string) $this->_coreConfig->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
-        }
-        catch (\Exception $e) {
-            \Mage::throwException(__('We can\'t save the Cron expression.'));
+        } catch (\Exception $e) {
+            throw new Magento_Core_Exception(__('We can\'t save the Cron expression.'));
         }
     }
 }

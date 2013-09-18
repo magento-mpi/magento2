@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="tag_product_list">
-        <update handle="SHORTCUT_popup"/>
-    </handle>
+    <update handle="SHORTCUT_popup"/>
 </layout>

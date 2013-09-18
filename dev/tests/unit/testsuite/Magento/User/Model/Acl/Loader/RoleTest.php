@@ -36,7 +36,7 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
      */
     protected $_groupFactoryMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_resourceMock = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false);
         $this->_groupFactoryMock = $this->getMock('Magento\User\Model\Acl\Role\GroupFactory',

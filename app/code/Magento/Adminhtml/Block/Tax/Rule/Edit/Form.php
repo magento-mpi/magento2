@@ -53,7 +53,6 @@ class Form extends \Magento\Backend\Block\Widget\Form
     }
 
     /**
-     *
      * return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()

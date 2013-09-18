@@ -44,7 +44,7 @@ class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_
     /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Translate */
     protected $_translatorMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_requestMock = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()

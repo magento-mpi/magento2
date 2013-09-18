@@ -11,15 +11,43 @@
 
 /**
  * CatalogInventory Stock Status per website Resource Model
- *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Model\Resource\Stock;
 
 class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
+    /**
+     * Store model manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Website model factory
+     *
+     * @var Magento_Core_Model_WebsiteFactory
+     */
+    protected $_websiteFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_WebsiteFactory $websiteFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_WebsiteFactory $websiteFactory
+    ) {
+        parent::__construct($resource);
+
+        $this->_storeManager = $storeManager;
+        $this->_websiteFactory = $websiteFactory;
+    }
+
     /**
      * Resource model initialization
      *
@@ -138,8 +166,9 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getWebsiteStores()
     {
-        $select = \Mage::getModel('Magento\Core\Model\Website')->getDefaultStoresSelect(false);
-        return $this->_getReadAdapter()->fetchPairs($select);
+        /** @var \Magento_Core_Model_Website $website */
+        $website = $this->_websiteFactory->create();
+        return $this->_getReadAdapter()->fetchPairs($website->getDefaultStoresSelect(false));
     }
 
     /**
@@ -231,7 +260,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function addIsInStockFilterToCollection($collection)
     {
-        $websiteId = \Mage::app()->getStore($collection->getStoreId())->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($collection->getStoreId())->getWebsiteId();
         $joinCondition = $this->_getReadAdapter()
             ->quoteInto('e.entity_id = stock_status_index.product_id'
                 . ' AND stock_status_index.website_id = ?', $websiteId

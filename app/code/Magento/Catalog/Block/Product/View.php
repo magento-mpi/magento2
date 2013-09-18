@@ -85,9 +85,19 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             } else {
                 $headBlock->setDescription($this->_coreString->substr($product->getDescription(), 0, 255));
             }
-            if ($this->helper('Magento\Catalog\Helper\Product')->canUseCanonicalTag()) {
+            //@todo: move canonical link to separate block
+            if ($this->helper('Magento_Catalog_Helper_Product')->canUseCanonicalTag()
+                && !$headBlock->getChildBlock('magento-page-head-product-canonical-link')
+            ) {
                 $params = array('_ignore_category'=>true);
-                $headBlock->addLinkRel('canonical', $product->getUrlModel()->getUrl($product, $params));
+                $headBlock->addChild(
+                    'magento-page-head-product-canonical-link',
+                    'Magento_Page_Block_Html_Head_Link',
+                    array(
+                        'url' => $product->getUrlModel()->getUrl($product, $params),
+                        'properties' => array('attributes' => array('rel' => 'canonical'))
+                    )
+                );
             }
         }
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');

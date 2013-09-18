@@ -13,7 +13,7 @@ class Magento_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestC
      */
     private $_object;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_object = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Usa\Model\Shipping\Carrier\Ups');

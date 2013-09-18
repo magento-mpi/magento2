@@ -8,29 +8,33 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="root">
-            <container name="notifications" as="notifications" label="Notifications" after="header">
-                <block class="Magento\AdminNotification\Block\System\Messages" name="system_messages" as="system_messages" before="-" template="Magento_AdminNotification::system/messages.phtml"/>
-                <block class="Magento\AdminNotification\Block\System\Messages\UnreadMessagePopup" name="unread_system_messages" as="unread_system_messages" after="system_messages" template="Magento_AdminNotification::system/messages/popup.phtml"/>
-                <block class="Magento\AdminNotification\Block\Window" name="notification_window" as="notification_window" acl="Magento_AdminNotification::show_toolbar" template="notification/window.phtml"/>
-            </container>
-            <reference name="head">
-                <action method="addJs">
-                    <argument name="file" xsi:type="string">Magento_AdminNotification::system/notification.js</argument>
-                </action>
-            </reference>
-        </reference>
-        <reference name="header">
-            <block class="Magento\AdminNotification\Block\ToolbarEntry" template="toolbar_entry.phtml" before="-"/>
-        </reference>
+    <reference name="root">
+        <container name="notifications" as="notifications" label="Notifications" after="header">
+            <block class="Magento_AdminNotification_Block_System_Messages" name="system_messages" as="system_messages" before="-" template="Magento_AdminNotification::system/messages.phtml"/>
+            <block class="Magento_AdminNotification_Block_System_Messages_UnreadMessagePopup" name="unread_system_messages" as="unread_system_messages" after="system_messages" template="Magento_AdminNotification::system/messages/popup.phtml"/>
+            <block class="Magento_AdminNotification_Block_Window" name="notification_window" as="notification_window" acl="Magento_AdminNotification::show_toolbar" template="notification/window.phtml"/>
+        </container>
         <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_AdminNotification::toolbar_entry.js</argument>
-            </action>
+            <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminnotification-system-notification-js">
+                <arguments>
+                    <argument name="file" xsi:type="string">Magento_AdminNotification::system/notification.js</argument>
+                </arguments>
+            </block>
         </reference>
-    </handle>
+    </reference>
+    <reference name="header">
+        <block class="Magento_AdminNotification_Block_ToolbarEntry" template="toolbar_entry.phtml" before="-"/>
+    </reference>
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Css" name="magento-core-prototype-magento-css">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminnotification-toolbar-entry-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_AdminNotification::toolbar_entry.js</argument>
+            </arguments>
+        </block>
+    </reference>
 </layout>

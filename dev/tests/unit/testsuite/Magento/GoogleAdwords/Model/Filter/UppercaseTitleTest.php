@@ -12,7 +12,7 @@ class Magento_GoogleAdwords_Model_Filter_UppercaseTitleTest extends PHPUnit_Fram
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new \Magento\GoogleAdwords\Model\Filter\UppercaseTitle();
     }

@@ -20,7 +20,7 @@ namespace Magento\Adminhtml\Block\Sales\Order\Create;
 class Messages extends \Magento\Adminhtml\Block\Messages
 {
 
-    public function _prepareLayout()
+    protected function _prepareLayout()
     {
         $this->addMessages(\Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getMessages(true));
         parent::_prepareLayout();

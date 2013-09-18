@@ -2,90 +2,97 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+/**
+ * Class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit_Framework_TestCase
 {
     const ATTRIBUTE_NAME = 'quantity_and_stock_status';
 
     /**
-     * @var \Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock
+     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_model;
+    protected $_coreHelperMock;
 
     /**
-     * @var \Magento\Data\Form\Element\Text
+     * @var Magento_Data_Form_Element_Factory|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_qty;
+    protected $_factoryElementMock;
 
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var Magento_Data_Form_Element_CollectionFactory|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factory;
+    protected $_collectionFactoryMock;
+    
+    /**
+     * @var Magento_Data_Form_Element_Text|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_qtyMock;
 
     /**
-     * @var \Magento\Data\Form\Element\CollectionFactory
+     * @var Magento_Data_Form_Element_TextFactory|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_collectionFactory;
-
+    protected $_factoryTextMock;
+    
     /**
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreHelper;
+    protected $_block;
 
     protected function setUp()
     {
-        $this->_coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
-        $this->_collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
+        $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);        
+        $this->_factoryElementMock = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $this->_collectionFactoryMock = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(),
             array(), '', false);
-        $this->_qty = $this->getMock('\Magento\Data\Form\Element\Text',
-            array('getElementHtml', 'setForm', 'setValue', 'setName'),
-            array($this->_coreHelper, $this->_factory, $this->_collectionFactory)
-        );
-        $this->_model = $this->getMock('Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock',
-            array('getElementHtml'),
+        $this->_qtyMock = $this->getMock('Magento_Data_Form_Element_Text', array('setForm', 'setValue', 'setName'),
+            array(), '', false);
+        $this->_factoryTextMock = $this->getMock('Magento_Data_Form_Element_TextFactory', array('create'));
+
+        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_block = $objectManagerHelper->getObject('Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
             array(
-                $this->_coreHelper,
-                $this->_factory,
-                $this->_collectionFactory,
-                array('qty' => $this->_qty, 'name' => self::ATTRIBUTE_NAME)
+                'coreData' => $this->_coreHelperMock,
+                'factoryElement' => $this->_factoryElementMock,
+                'factoryCollection' => $this->_collectionFactoryMock,
+                'factoryText' => $this->_factoryTextMock,
+                'attributes' => array(
+                    'qty' => $this->_qtyMock,
+                    'name' => self::ATTRIBUTE_NAME,
+                ),
             )
         );
     }
-
-    public function testGetElementHtml()
-    {
-        $this->_qty->expects($this->once())->method('getElementHtml')->will($this->returnValue('html'));
-        $this->_model->expects($this->once())->method('getElementHtml')
-            ->will($this->returnValue($this->_qty->getElementHtml()));
-        $this->assertEquals('html', $this->_model->getElementHtml());
-    }
-
+    
     public function testSetForm()
     {
-        $this->_qty->expects($this->once())->method('setForm')
-            ->with($this->isInstanceOf('Magento\Data\Form\Element\AbstractElement'));
-        $this->_model->setForm(
-            new \Magento\Data\Form\Element\Text($this->_coreHelper, $this->_factory, $this->_collectionFactory)
-        );
+        $this->_qtyMock->expects($this->once())->method('setForm')
+            ->with($this->isInstanceOf('Magento_Data_Form_Element_Abstract'));
+
+        $this->_block->setForm(new Magento_Data_Form_Element_Text(
+            $this->_coreHelperMock, 
+            $this->_factoryElementMock, 
+            $this->_collectionFactoryMock
+        ));
     }
 
     public function testSetValue()
     {
         $value = array('qty' => 1, 'is_in_stock' => 0);
-        $this->_qty->expects($this->once())->method('setValue')->with($this->equalTo(1));
-        $this->_model->setValue($value);
+        $this->_qtyMock->expects($this->once())->method('setValue')->with($this->equalTo(1));
+
+        $this->_block->setValue($value);
     }
 
     public function testSetName()
     {
-        $this->_qty->expects($this->once())->method('setName')->with(self::ATTRIBUTE_NAME . '[qty]');
-        $this->_model->setName(self::ATTRIBUTE_NAME);
+        $this->_qtyMock->expects($this->once())->method('setName')->with(self::ATTRIBUTE_NAME . '[qty]');
+
+        $this->_block->setName(self::ATTRIBUTE_NAME);
     }
 }

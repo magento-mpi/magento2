@@ -43,7 +43,7 @@ class Magento_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Fra
      */
     protected $_customerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_quoteMock = $this->getMock('Magento\Sales\Model\Quote',
             array('setWebsite', 'loadByCustomer', 'getId', 'setCustomerGroupId', 'collectTotals'), array(), '', false

@@ -73,6 +73,25 @@ abstract class AbstractCarrier extends \Magento\Object
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Retrieve information from carrier configuration
      *
      * @param   string $field
@@ -84,7 +103,7 @@ abstract class AbstractCarrier extends \Magento\Object
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return \Mage::getStoreConfig($path, $this->getStore());
+        return $this->_coreStoreConfig->getConfig($path, $this->getStore());
     }
 
     /**
@@ -99,7 +118,7 @@ abstract class AbstractCarrier extends \Magento\Object
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return \Mage::getStoreConfigFlag($path, $this->getStore());
+        return $this->_coreStoreConfig->getConfigFlag($path, $this->getStore());
     }
 
     /**

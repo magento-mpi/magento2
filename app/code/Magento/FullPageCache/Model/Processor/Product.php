@@ -42,16 +42,26 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     protected $_coreRegistry = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Processor $processor
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\FullPageCache\Model\Cache $fpcCache,
-        \Magento\FullPageCache\Model\Processor $processor,
-        \Magento\Core\Model\Registry $coreRegistry
+        Magento_FullPageCache_Model_Cache $fpcCache,
+        Magento_FullPageCache_Model_Processor $processor,
+        Magento_Core_Model_Registry $coreRegistry,
+    Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_fpcCache = $fpcCache;
         $this->_processor = $processor;
     }
@@ -64,7 +74,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      */
     public function prepareContent(\Zend_Controller_Response_Http $response)
     {
-        $countLimit = \Mage::getStoreConfig(\Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
+        $countLimit = $this->_coreStoreConfig->getConfig(Magento_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
         // save recently viewed product count limit
         $cacheId = $this->_processor->getRecentlyViewedCountCacheId();
         if (!$this->_fpcCache->getFrontend()->test($cacheId)) {

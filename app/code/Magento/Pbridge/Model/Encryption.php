@@ -16,11 +16,15 @@ class Encryption extends \Magento\Pci\Model\Encryption {
      * Constructor
      *
      * @param \Magento\ObjectManager $objectManager
+     * @param Magento_Core_Model_Config $coreConfig
      * @param $key
      */
-    public function __construct(\Magento\ObjectManager $objectManager, $key)
-    {
-        parent::__construct($objectManager);
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Magento_Core_Model_Config $coreConfig,
+        $key
+    ) {
+        parent::__construct($objectManager, $coreConfig);
         $this->_keys = array($key);
         $this->_keyVersion = 0;
     }
@@ -48,4 +52,3 @@ class Encryption extends \Magento\Pci\Model\Encryption {
         return $crypt->getInitVector() . ':' . base64_encode($crypt->encrypt((string)$data));
     }
 }
-

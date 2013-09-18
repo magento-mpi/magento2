@@ -37,7 +37,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_sectionPoolMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $xml = '<config>
                     <global>
@@ -70,11 +70,17 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $modulesReaderMock = $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
-        $this->_sectionPoolMock = $this->getMock('Magento\Core\Model\Config\SectionPool', array(), array(), '', false);
+        $this->_sectionPoolMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
-        $this->_model = new \Magento\Core\Model\Config(
-            $this->_objectManagerMock, $configStorageMock, $modulesReaderMock, $this->_moduleListMock,
-            $this->_configScopeMock, $this->_sectionPoolMock
+        $this->_model = new Magento_Core_Model_Config(
+            $this->_objectManagerMock,
+            $configStorageMock,
+            $modulesReaderMock,
+            $this->_moduleListMock,
+            $this->_configScopeMock,
+            $this->_sectionPoolMock,
+            $coreStoreConfig
         );
     }
     public function testSetNodeData()

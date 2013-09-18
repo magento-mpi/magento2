@@ -20,17 +20,24 @@ class Translate extends \Magento\Core\Helper\AbstractHelper
      *
      * @var \Magento\Core\Model\View\DesignInterface
      */
-    protected $_design = null;
+    protected $_design;
+    
+    /**
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
 
     /**
-     * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
-        \Magento\Core\Model\View\DesignInterface $design,
-        \Magento\Core\Helper\Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Event_Manager $eventManager
     ) {
-        $this->_design = $design;
+        $this->_eventManager = $eventManager;
         parent::__construct($context);
     }
 
@@ -72,8 +79,7 @@ class Translate extends \Magento\Core\Helper\AbstractHelper
             'inline_type' => null,
             'params' => array('area' => $area)
         ));
-        $eventManager = \Mage::getObjectManager()->get('Magento\Core\Model\Event\Manager');
-        $eventManager->dispatch('translate_initialization_before', array(
+        $this->_eventManager->dispatch('translate_initialization_before', array(
             'translate_object' => $this->_translator,
             'result' => $dispatchResult
         ));

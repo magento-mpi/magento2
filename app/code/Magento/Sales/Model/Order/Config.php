@@ -32,11 +32,20 @@ class Config extends \Magento\Core\Model\Config\Base
     private $_states;
 
     /**
-     * @param \Magento\Core\Model\Config $config
+     * @var Magento_Core_Model_Config
      */
-    public function __construct(\Magento\Core\Model\Config $config)
-    {
-        parent::__construct($config->getNode('global/sales/order'));
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+        parent::__construct($this->_coreConfig->getNode('global/sales/order'));
     }
 
     protected function _getStatus($status)

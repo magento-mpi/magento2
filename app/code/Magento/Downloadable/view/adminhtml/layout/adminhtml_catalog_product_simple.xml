@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_simple">
-        <reference name="product_tabs">
-            <action method="addTab">
-                <argument name="name" xsi:type="string">downloadable_items</argument>
-                <argument name="block" xsi:type="string">Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="product_tabs">
+        <action method="addTab">
+            <argument name="name" xsi:type="string">downloadable_items</argument>
+            <argument name="block" xsi:type="string">Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</argument>
+        </action>
+    </reference>
 </layout>

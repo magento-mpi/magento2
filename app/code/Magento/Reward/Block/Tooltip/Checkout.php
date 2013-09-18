@@ -20,15 +20,49 @@ namespace Magento\Reward\Block\Tooltip;
 class Checkout extends \Magento\Reward\Block\Tooltip
 {
     /**
-     * Set quote to the reward action instance
-     *
-     * @param int|string $action
+     * @var Magento_Checkout_Model_Session
      */
-    public function initRewardType($action)
+    protected $_checkoutSession;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Reward_Helper_Data $rewardHelper
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Reward_Model_Reward $rewardInstance
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Reward_Helper_Data $rewardHelper,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Reward_Model_Reward $rewardInstance,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Helper_Data $coreData,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $rewardHelper,
+            $customerSession,
+            $rewardInstance,
+            $storeManager,
+            $coreData,
+            $data
+        );
+        $this->_checkoutSession = $checkoutSession;
+    }
+
+
+    protected function _prepareLayout()
     {
-        parent::initRewardType($action);
+        parent::_prepareLayout();
         if ($this->_actionInstance) {
-            $this->_actionInstance->setQuote(\Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote());
+            $this->_actionInstance->setQuote($this->_checkoutSession->getQuote());
         }
+        return $this;
     }
 }

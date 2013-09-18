@@ -131,16 +131,16 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_filesystem;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
-     * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\Resource $resource
-     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Helper\Data $helper
-     * @param $resourceName
-     * @param \Magento\Filesystem $filesystem
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Helper_Data $helper
+     * @param string $resourceName
+     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
@@ -215,7 +215,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
         if (isset($data['path_to_map_file'])) {
             $this->_pathToMapFile = $data['path_to_map_file'];
         } else {
-            $this->_pathToMapFile = \Mage::getConfig()->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
+            $this->_pathToMapFile = $this->_config->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
         }
 
         if (isset($data['aliases_map'])) {

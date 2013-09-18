@@ -30,6 +30,27 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_controllersMap = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Initialize helper
+     *
+     * @param Magento_AdminGws_Model_Role $role
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_AdminGws_Model_Role $role,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $role
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Put websites/stores permissions data after loading admin role
      *
      * If all permissions are allowed, all possible websites / store groups / stores will be set
@@ -313,7 +334,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         /* @var $session \Magento\Acl\Builder */
         $builder = \Mage::getSingleton('Magento\Acl\Builder');
 
-        foreach (\Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
+        foreach ($this->_coreConfig->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
             $builder->getAcl()->deny($session->getUser()->getAclRole(), $rule);
         }
         return $this;
@@ -404,7 +425,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
-            $children = \Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')
+            $children = $this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')
                 ->children();
             foreach ($children as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
@@ -480,7 +501,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // gather callbacks from mapper configuration
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
-            $callbacks = (array)\Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
+            $callbacks = (array)$this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
             foreach ($callbacks as $className => $callback) {
                 $className = uc_words($className);
 

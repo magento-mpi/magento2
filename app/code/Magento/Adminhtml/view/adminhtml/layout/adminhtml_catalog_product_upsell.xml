@@ -8,22 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_upsell">
-        <container name="root" label="Root" output="1">
-            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Upsell" name="catalog.product.edit.tab.upsell"/>
-            <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="upsell_grid_serializer">
-                <reference name="upsell_grid_serializer">
-                    <action method="initSerializerBlock">
-                        <argument name="grid_block_name" xsi:type="string">catalog.product.edit.tab.upsell</argument>
-                        <argument name="data_callback" xsi:type="string">getSelectedUpsellProducts</argument>
-                        <argument name="hidden_input_name" xsi:type="string">links[upsell]</argument>
-                        <argument name="reload_param_name" xsi:type="string">products_upsell</argument>
-                    </action>
-                    <action method="addColumnInputName">
-                        <argument name="input_name" xsi:type="string">position</argument>
-                    </action>
-                </reference>
-            </block>
-        </container>
-    </handle>
+    <container name="root" label="Root" output="1">
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell" name="catalog.product.edit.tab.upsell"/>
+        <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="upsell_grid_serializer">
+            <arguments>
+                <argument name="input_names" xsi:type="string">position</argument>
+                <argument name="grid_block" xsi:type="string">catalog.product.edit.tab.upsell</argument>
+                <argument name="callback" xsi:type="string">getSelectedUpsellProducts</argument>
+                <argument name="input_element_name" xsi:type="string">links[upsell]</argument>
+                <argument name="reload_param_name" xsi:type="string">products_upsell</argument>
+            </arguments>
+        </block>
+    </container>
 </layout>

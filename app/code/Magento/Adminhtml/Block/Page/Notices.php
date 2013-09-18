@@ -27,7 +27,7 @@ class Notices extends \Magento\Adminhtml\Block\Template
      */
     public function displayNoscriptNotice()
     {
-        return \Mage::getStoreConfig('web/browser_capabilities/javascript');
+        return $this->_storeConfig->getConfig('web/browser_capabilities/javascript');
     }
 
     /**
@@ -37,7 +37,7 @@ class Notices extends \Magento\Adminhtml\Block\Template
      */
     public function displayDemoNotice()
     {
-        return \Mage::getStoreConfig('design/head/demonotice');
+        return $this->_storeConfig->getConfig('design/head/demonotice');
     }
 
 }

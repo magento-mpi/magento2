@@ -20,16 +20,7 @@
 <dl class="order-info">
     <dt><?php echo __('About This Order:') ?></dt>
     <dd>
-        <?php $_links = $this->getLinks(); ?>
-        <ul>
-        <?php foreach ($_links as $_link): ?>
-            <?php if($_link->getUrl()): ?>
-                <li><a href="<?php echo $_link->getUrl() ?>"><?php echo $_link->getLabel() ?></a></li>
-            <?php else: ?>
-                <li class="current"><strong><?php echo $_link->getLabel() ?></strong></li>
-            <?php endif; ?>
-        <?php endforeach; ?>
-        </ul>
+        <?php echo $this->getChildHtml('links') ?>
     </dd>
 </dl>
 <p class="order-date"><?php echo __('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>

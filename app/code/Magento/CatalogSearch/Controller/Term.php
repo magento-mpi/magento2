@@ -15,7 +15,7 @@ class Term extends \Magento\Core\Controller\Front\Action {
 
     public function preDispatch(){
         parent::preDispatch();
-        if(!\Mage::getStoreConfig('catalog/seo/search_terms')){
+        if(!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('catalog/seo/search_terms')){
               $this->_redirect('noroute');
               $this->setFlag('',self::FLAG_NO_DISPATCH,true);
         }

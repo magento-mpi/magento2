@@ -16,6 +16,19 @@ namespace Magento\FullPageCache\Helper;
 class Url
 {
     /**
+     * @var Magento_Core_Helper_Url
+     */
+    protected $_urlHelper;
+
+    /**
+     * @param Magento_Core_Helper_Url $urlHelper
+     */
+    public function __construct(Magento_Core_Helper_Url $urlHelper)
+    {
+        $this->_urlHelper = $urlHelper;
+    }
+
+    /**
      * Retrieve unique marker value
      *
      * @return string
@@ -69,14 +82,10 @@ class Url
      * @param string $content
      * @return string
      */
-    public static function replaceUenc($content)
+    public function replaceUenc($content)
     {
-        /**
-         * @var $urlHelper \Magento\Core\Helper\Url
-         */
-        $urlHelper = \Mage::getObjectManager()->create('Magento\Core\Helper\Url');
-        $search = '/\/(' . \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
-        $replace = '/$1/' . $urlHelper->getEncodedUrl() . '/';
+        $search = '/\/(' . Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
+        $replace = '/$1/' . $this->_urlHelper->getEncodedUrl() . '/';
         $content = preg_replace($search, $replace, $content);
         return $content;
     }

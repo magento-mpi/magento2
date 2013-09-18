@@ -113,7 +113,7 @@ class Solr extends Apache_Solr_Service
         foreach ($rawQueries as $query)
         {
             //escape special xml characters
-            $query = htmlspecialchars($query, ENT_NOQUOTES, 'UTF-8');
+            $query = htmlspecialchars($query, ENT_NOQUOTES);
 
             $rawPost .= '<query>' . $query . '</query>';
         }

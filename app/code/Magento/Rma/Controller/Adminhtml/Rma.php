@@ -1136,7 +1136,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
-                $carrierTitle = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
+                $carrierTitle = $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
                     \Mage::getResourceModel('Magento\Rma\Model\Resource\Shipping')->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {

@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_paypal_reports_index">
-        <update handle="adminhtml_paypal_reports_block"/>
-        <reference name="content">
-            <block class="Magento\Paypal\Block\Adminhtml\Settlement\Report" name="adminhtml.paypal.report.grid.container"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_paypal_reports_block"/>
+    <reference name="content">
+        <block class="Magento_Paypal_Block_Adminhtml_Settlement_Report" name="adminhtml.paypal.report.grid.container"/>
+    </reference>
 </layout>

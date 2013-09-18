@@ -68,16 +68,20 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected $_eventManager = null;
 
     /**
-     * Initialize tree
-     *
-     *
-     *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreConfig = $coreConfig;
         $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
 
         parent::__construct(
@@ -372,7 +376,7 @@ class Tree extends \Magento\Data\Tree\Dbp
         $collection = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection();
         /** @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
 
-        $attributes = \Mage::getConfig()->getNode('frontend/category/collection/attributes');
+        $attributes = $this->_coreConfig->getNode('frontend/category/collection/attributes');
         if ($attributes) {
             $attributes = $attributes->asArray();
             $attributes = array_keys($attributes);

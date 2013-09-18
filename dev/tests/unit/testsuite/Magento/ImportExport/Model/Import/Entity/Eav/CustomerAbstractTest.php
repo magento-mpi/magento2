@@ -61,14 +61,14 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
         \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
     );
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
         $this->_model = $this->_getModelMock();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
 

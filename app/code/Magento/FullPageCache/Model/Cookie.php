@@ -77,15 +77,22 @@ class Cookie extends \Magento\Core\Model\Cookie
     protected $_eventManager = null;
 
     /**
+     * @param Magento_Core_Controller_Request_Http $httpRequest
+     * @param Magento_Core_Controller_Response_Http $httpResponse
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\FullPageCache\Model\Cache $_fpcCache
      */
     public function __construct(
+        Magento_Core_Controller_Request_Http $httpRequest,
+        Magento_Core_Controller_Response_Http $httpResponse,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\FullPageCache\Model\Cache $_fpcCache
     ) {
         $this->_eventManager = $eventManager;
         $this->_fpcCache = $_fpcCache;
+        parent::__construct($httpRequest, $httpResponse, $coreStoreConfig);
     }
 
     /**

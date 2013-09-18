@@ -31,7 +31,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
         \Magento\Profiler::disable();
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getModel('Magento\Core\Model\Resource');
     }

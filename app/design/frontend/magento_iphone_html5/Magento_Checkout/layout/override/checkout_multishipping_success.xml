@@ -7,11 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Multishipping Checkout Success" id="checkout_multishipping_success" type="page" parent="checkout_multishipping">
-        <update handle="checkout_multishipping"/>
-        <reference name="content">
-            <block class="Magento\Checkout\Block\Multishipping\Success" name="checkout_success" template="multishipping/success.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Success" type="page" parent="checkout_multishipping">
+    <update handle="checkout_multishipping"/>
+    <reference name="content">
+        <block class="Magento_Checkout_Block_Multishipping_Success" name="checkout_success" template="multishipping/success.phtml"/>
+    </reference>
 </layout>

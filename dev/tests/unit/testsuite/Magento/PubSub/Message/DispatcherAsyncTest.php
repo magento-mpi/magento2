@@ -25,7 +25,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
     private $_queueWriter;
 
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_eventFactoryMock = $this->getMockBuilder('Magento\PubSub\Event\FactoryInterface')
             ->disableOriginalConstructor()

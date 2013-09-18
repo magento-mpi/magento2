@@ -44,6 +44,25 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
     protected $_process = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if Catalog Category Flat Data is enabled
      *
      * @param bool $skipAdminCheck this parameter is deprecated and no longer in use
@@ -52,7 +71,7 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
      */
     public function isEnabled($skipAdminCheck = false)
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY);
     }
 
     /**

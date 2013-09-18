@@ -23,26 +23,5 @@ namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
 class LogoUploader
     extends \Magento\Backend\Model\Config\Backend\Image\Logo
 {
-    /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\DesignEditor\Model\Config\Backend\File\RequestData $requestData
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\DesignEditor\Model\Config\Backend\File\RequestData $requestData,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        parent::__construct(
-            $context, $registry, $requestData, $filesystem, $resource, $resourceCollection, $data
-        );
-    }
+
 }

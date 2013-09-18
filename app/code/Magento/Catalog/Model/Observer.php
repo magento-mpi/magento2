@@ -40,17 +40,27 @@ class Observer
      * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
+    
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Catalog\Helper\Category $catalogCategory,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
+        Magento_Catalog_Helper_Category $catalogCategory,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
+        Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_coreConfig = $coreConfig;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogData = $catalogData;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
@@ -90,8 +100,8 @@ class Observer
         /* @var $store \Magento\Core\Model\Store */
         $store = $observer->getEvent()->getStore();
         \Mage::app()->reinitStores();
-        \Mage::getConfig()->reinit();
-        /** @var $categoryFlatHelper Magento\Catalog\Helper\Category\Flat */
+        $this->_coreConfig->reinit();
+        /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Flat')
@@ -172,18 +182,6 @@ class Observer
     {
         \Mage::getModel('Magento\Catalog\Model\Url')->refreshRewrites();
         \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Category')->refreshProductIndex();
-        return $this;
-    }
-
-    /**
-     * Catalog Product Compare Items Clean
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Observer
-     */
-    public function catalogProductCompareClean(\Magento\Event\Observer $observer)
-    {
-        \Mage::getModel('Magento\Catalog\Model\Product\Compare\Item')->clean();
         return $this;
     }
 

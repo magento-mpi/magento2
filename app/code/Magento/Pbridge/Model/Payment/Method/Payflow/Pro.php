@@ -54,6 +54,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
      */
@@ -62,11 +63,12 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ModuleListInterface $moduleList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreData, $moduleList, $paymentData, $data);
+        parent::__construct($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $data);
     }
 
     /**
@@ -142,7 +144,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return \Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

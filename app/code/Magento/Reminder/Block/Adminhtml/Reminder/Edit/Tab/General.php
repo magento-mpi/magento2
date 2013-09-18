@@ -144,7 +144,7 @@ class General
     public function getChooserConfig()
     {
         return array(
-            'button' => array('open'=>'Select Rule...')
+            'button' => array('open' => __('Select Rule...'))
         );
     }
 }

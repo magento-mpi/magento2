@@ -23,7 +23,7 @@ class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest ext
      */
     protected $_observerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_blockFactoryMock = $this->getMock(
             'Magento\Core\Model\BlockFactory', array('createBlock'), array(), '', false

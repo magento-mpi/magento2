@@ -30,14 +30,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Context $context
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -74,7 +84,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getRequiredAgreementIds()
     {
         if (is_null($this->_agreements)) {
-            if (!\Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
+            if (!$this->_coreStoreConfig->getConfigFlag('checkout/options/enable_agreements')) {
                 $this->_agreements = array();
             } else {
                 $this->_agreements = \Mage::getModel('Magento\Checkout\Model\Agreement')->getCollection()
@@ -93,7 +103,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function canOnepageCheckout()
     {
-        return (bool)\Mage::getStoreConfig('checkout/options/onepage_checkout_enabled');
+        return (bool)$this->_coreStoreConfig->getConfig('checkout/options/onepage_checkout_enabled');
     }
 
     /**
@@ -159,19 +169,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
         /* @var $mailTemplate \Magento\Core\Model\Email\Template */
 
-        $template = \Mage::getStoreConfig('checkout/payment_failed/template', $checkout->getStoreId());
+        $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
 
         $copyTo = $this->_getEmails('checkout/payment_failed/copy_to', $checkout->getStoreId());
-        $copyMethod = \Mage::getStoreConfig('checkout/payment_failed/copy_method', $checkout->getStoreId());
+        $copyMethod = $this->_coreStoreConfig->getConfig('checkout/payment_failed/copy_method', $checkout->getStoreId());
         if ($copyTo && $copyMethod == 'bcc') {
             $mailTemplate->addBcc($copyTo);
         }
 
-        $_receiver = \Mage::getStoreConfig('checkout/payment_failed/receiver', $checkout->getStoreId());
+        $_receiver = $this->_coreStoreConfig->getConfig('checkout/payment_failed/receiver', $checkout->getStoreId());
         $sendTo = array(
             array(
-                'email' => \Mage::getStoreConfig('trans_email/ident_'.$_receiver.'/email', $checkout->getStoreId()),
-                'name'  => \Mage::getStoreConfig('trans_email/ident_'.$_receiver.'/name', $checkout->getStoreId())
+                'email' => $this->_coreStoreConfig->getConfig('trans_email/ident_'.$_receiver.'/email', $checkout->getStoreId()),
+                'name'  => $this->_coreStoreConfig->getConfig('trans_email/ident_'.$_receiver.'/name', $checkout->getStoreId())
             )
         );
 
@@ -210,7 +220,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             ))
                 ->sendTransactional(
                     $template,
-                    \Mage::getStoreConfig('checkout/payment_failed/identity', $checkout->getStoreId()),
+                    $this->_coreStoreConfig->getConfig('checkout/payment_failed/identity', $checkout->getStoreId()),
                     $recipient['email'],
                     $recipient['name'],
                     array(
@@ -221,8 +231,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                         'customerEmail' => $checkout->getCustomerEmail(),
                         'billingAddress' => $checkout->getBillingAddress(),
                         'shippingAddress' => $checkout->getShippingAddress(),
-                        'shippingMethod' => \Mage::getStoreConfig('carriers/'.$shippingMethod.'/title'),
-                        'paymentMethod' => \Mage::getStoreConfig('payment/'.$paymentMethod.'/title'),
+                        'shippingMethod' => $this->_coreStoreConfig->getConfig('carriers/'.$shippingMethod.'/title'),
+                        'paymentMethod' => $this->_coreStoreConfig->getConfig('payment/'.$paymentMethod.'/title'),
                         'items' => nl2br($items),
                         'total' => $total
                     )
@@ -236,7 +246,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     protected function _getEmails($configPath, $storeId)
     {
-        $data = \Mage::getStoreConfig($configPath, $storeId);
+        $data = $this->_coreStoreConfig->getConfig($configPath, $storeId);
         if (!empty($data)) {
             return explode(',', $data);
         }
@@ -252,11 +262,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isMultishippingCheckoutAvailable()
     {
         $quote = $this->getQuote();
-        $isMultiShipping = (bool)(int)\Mage::getStoreConfig('shipping/option/checkout_multiple');
+        $isMultiShipping = (bool)(int)$this->_coreStoreConfig->getConfig('shipping/option/checkout_multiple');
         if ((!$quote) || !$quote->hasItems()) {
             return $isMultiShipping;
         }
-        $maximunQty = (int)\Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
+        $maximunQty = (int)$this->_coreStoreConfig->getConfig('shipping/option/checkout_multiple_maximum_qty');
         return $isMultiShipping
             && !$quote->hasItemsWithDecimalQty()
             && $quote->validateMinimumAmount(true)
@@ -279,7 +289,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if ($store === null) {
             $store = $quote->getStoreId();
         }
-        $guestCheckout = \Mage::getStoreConfigFlag(self::XML_PATH_GUEST_CHECKOUT, $store);
+        $guestCheckout = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_GUEST_CHECKOUT, $store);
 
         if ($guestCheckout == true) {
             $result = new \Magento\Object();
@@ -313,6 +323,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isCustomerMustBeLogged()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_MUST_BE_LOGGED);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_MUST_BE_LOGGED);
     }
 }

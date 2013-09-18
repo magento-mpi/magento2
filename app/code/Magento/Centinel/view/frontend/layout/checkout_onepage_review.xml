@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_review">
-        <reference name="checkout.onepage.review.info.items.before">
-            <block class="Magento\Centinel\Block\Authentication" name="centinel.frame" template="authentication.phtml">
-                <action method="setAuthenticationStartMode">
-                    <argument name="mode" xsi:type="string">instant</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <reference name="checkout.onepage.review.info.items.before">
+        <block class="Magento_Centinel_Block_Authentication" name="centinel.frame" template="authentication.phtml">
+            <action method="setAuthenticationStartMode">
+                <argument name="mode" xsi:type="string">instant</argument>
+            </action>
+        </block>
+    </reference>
 </layout>

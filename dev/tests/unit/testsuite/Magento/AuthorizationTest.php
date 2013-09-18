@@ -26,7 +26,7 @@ class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
      */
     protected $_policyMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_policyMock = $this->getMock('Magento\Authorization\Policy', array(), array(), '', false);
         $roleLocatorMock = $this->getMock('Magento\Authorization\RoleLocator', array(), array(), '', false);
@@ -34,7 +34,7 @@ class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Authorization($this->_policyMock, $roleLocatorMock);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

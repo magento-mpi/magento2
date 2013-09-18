@@ -38,6 +38,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_ratesArray = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Setter for hasRates flag
      *
      * @param boolean $flag
@@ -66,7 +85,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED);
     }
 
     /**
@@ -194,8 +213,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = \Mage::getStoreConfig(self::XML_PATH_LANDING_PAGE);
-        return \Mage::getUrl('', array('_direct' => $pageIdentifier));
+        $pageIdentifier = $this->_coreStoreConfig->getConfig(self::XML_PATH_LANDING_PAGE);
+        return Mage::getUrl('', array('_direct' => $pageIdentifier));
     }
 
     /**
@@ -337,6 +356,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isAutoRefundEnabled()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_AUTO_REFUND);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_AUTO_REFUND);
     }
 }

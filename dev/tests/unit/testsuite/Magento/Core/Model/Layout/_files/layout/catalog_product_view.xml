@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout label="Catalog Product View (Any)" type="page" parent="catalog_category_default">
+    <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
+</layout>

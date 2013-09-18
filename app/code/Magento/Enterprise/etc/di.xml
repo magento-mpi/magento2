@@ -9,4 +9,18 @@
 -->
 <config>
     <preference for="Magento\Core\Model\Resource\Setup\Migration" type="Magento\Enterprise\Model\Resource\Setup\Migration" />
+    <type name="Magento_Core_Model_View_Design">
+        <param name="themes">
+            <value>
+                <frontend>magento_fixed_width</frontend>
+                <adminhtml>magento_backend</adminhtml>
+                <install>magento_enterprise</install>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Install_Block_Begin">
+        <param name="eulaFile">
+            <value>LICENSE_EE.html</value>
+        </param>
+    </type>
 </config>

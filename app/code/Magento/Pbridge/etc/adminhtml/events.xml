@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="admin_system_config_changed_section_payment">
-        <observer name="magento_pbridge" instance="Magento\Pbridge\Model\Observer" method="updatePaymentProfileStatus" />
+        <observer name="magento_pbridge" instance="Magento_Pbridge_Model_Observer" method="updatePaymentProfileStatus" />
     </event>
 </config>

@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_status_newstatus">
-        <reference name="content">
-            <block class="Magento\Adminhtml\Block\Sales\Order\Status\NewStatus" name="sales_order_status.new.container"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Status_New" name="sales_order_status.new.container"/>
+    </reference>
 </layout>

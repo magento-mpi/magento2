@@ -121,7 +121,6 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             $fileSystem
         );
         $result = $helper->getCssFiles($theme);
-
         // 9. Compare actual result with expected data
         $this->assertEquals($expectedResult, $result);
     }
@@ -134,8 +133,10 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                '<block class="Magento\Page\Block\Html\Head" name="head">
-                    <action method="addCss"><param>test1.css</param></action>
+                '<block class="Magento_Page_Block_Html_Head" name="head">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments><argument name="file" xsi:type="string">test1.css</argument></arguments>
+                    </block>
                 </block>',
                 array(
                     'test1.css' => array(
@@ -146,150 +147,26 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                '<block class="Magento\Page\Block\Html\Head" name="head">
-                    <action method="addCss"><file>test2.css</file></action>
-                </block>',
-                array(
-                    'test2.css' => array(
-                        'id'       => 'test2.css',
-                        'path'     => '/zzz/qqq/test2.css',
-                        'safePath' => 'qqq/test2.css'
-                    )
-                )
-            ),
-            array(
-                '<block class="Magento\Page\Block\Html\Head" name="head">
-                    <action method="addCss"><param>Magento_Core::test3.css</param></action>
+                '<block class="Magento_Page_Block_Html_Head" name="head">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test3.css</argument>
+                        </arguments>
+                    </block>
                 </block>',
                 array(
                     'Magento_Core::test3.css' => array(
                         'id'       => 'Magento_Core::test3.css',
                         'path'     => '/zzz/qqq/test3.css',
                         'safePath' => 'qqq/test3.css'
-                    ),
-                )
-            ),
-            array(
-                '<block class="Magento\Page\Block\Html\Head" name="head">
-                    <action method="addCssIe"><param>test4.css</param></action>
-                </block>',
-                array(
-                    'test4.css' => array(
-                        'id'       => 'test4.css',
-                        'path'     => '/zzz/qqq/test4.css',
-                        'safePath' => 'qqq/test4.css'
-                    )
-                )
-            ),
-            array(
-                '<reference name="head"><action method="addCss"><param>test21.css</param></action></reference>',
-                array(
-                    'test21.css' => array(
-                        'id'       => 'test21.css',
-                        'path'     => '/zzz/qqq/test21.css',
-                        'safePath' => 'qqq/test21.css'
-                    ),
-                )
-            ),
-            array(
-                '<reference name="head"><action method="addCss"><file>test22.css</file></action></reference>',
-                array(
-                    'test22.css' => array(
-                        'id'       => 'test22.css',
-                        'path'     => '/zzz/qqq/test22.css',
-                        'safePath' => 'qqq/test22.css'
                     ),
                 )
             ),
             array(
                 '<reference name="head">
-                    <action method="addCss"><param>Magento_Core::test23.css</param></action>
-                </reference>',
-                array(
-                    'Magento_Core::test23.css' => array(
-                        'id'       => 'Magento_Core::test23.css',
-                        'path'     => '/zzz/qqq/test23.css',
-                        'safePath' => 'qqq/test23.css'
-                    ),
-                )
-            ),
-            array(
-                '<reference name="head"><action method="addCssIe"><param>test24.css</param></action></reference>',
-                array(
-                    'test24.css' => array(
-                        'id'       => 'test24.css',
-                        'path'     => '/zzz/qqq/test24.css',
-                        'safePath' => 'qqq/test24.css'
-                    ),
-                )
-            ),
-            array(
-                '<block class="Some_Block_Class"><action method="addCss"><param>test31.css</param></action></block>',
-                array(),
-
-            ),
-            array(
-                '<block class="Some_Block_Class"><action method="addCss"><file>test32.css</file></action></block>',
-                array(),
-            ),
-            array(
-                '<block class="Some_Block_Class">
-                    <action method="addCss"><param>Magento_Core::test33.css</param></action>
-                </block>',
-                array(),
-            ),
-            array(
-                '<block class="Some_Block_Class"><action method="addCssIe"><param>test34.css</param></action></block>',
-                array(),
-            ),
-            array(
-                '<reference name="some_block_name">
-                    <action method="addCss"><param>test41.css</param></action>
-                </reference>',
-                array(),
-            ),
-            array(
-                '<reference name="some_block_name">
-                    <action method="addCss"><file>test42.css</file></action>
-                </reference>',
-                array(),
-            ),
-            array(
-                '<reference name="some_block_name">
-                    <action method="addCss"><param>Magento_Core::test43.css</param></action>
-                </reference>',
-                array(),
-            ),
-            array(
-                '<reference name="some_block_name">
-                    <action method="addCssIe"><param>test44.css</param></action>
-                </reference>',
-                array(),
-            ),
-            array(
-                '<block class="Magento\Page\Block\Html\Head" name="head">
-                    <action method="addCss"><param>test1.css</param></action>
-                    <action method="addCss"><file>test2.css</file></action>
-                    <action method="addCss"><param>Magento_Core::test3.css</param></action>
-                    <action method="addCssIe"><param>test4.css</param></action>
-                </block>
-                <reference name="head">
-                    <action method="addCss"><param>test21.css</param></action>
-                    <action method="addCss"><file>test22.css</file></action>
-                    <action method="addCss"><param>Magento_Core::test23.css</param></action>
-                    <action method="addCssIe"><param>test24.css</param></action>
-                </reference>
-                <block class="Some_Block_Class">
-                    <action method="addCss"><param>test31.css</param></action>
-                    <action method="addCss"><file>test32.css</file></action>
-                    <action method="addCss"><param>Magento_Core::test33.css</param></action>
-                    <action method="addCssIe"><param>test34.css</param></action>
-                </block>
-                <reference name="some_block_name">
-                    <action method="addCss"><param>test41.css</param></action>
-                    <action method="addCss"><file>test42.css</file></action>
-                    <action method="addCss"><param>Magento_Core::test43.css</param></action>
-                    <action method="addCssIe"><param>test44.css</param></action>
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments><argument name="file" xsi:type="string">test21.css</argument></arguments>
+                    </block>
                 </reference>',
                 array(
                     'test21.css' => array(
@@ -297,40 +174,117 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                         'path'     => '/zzz/qqq/test21.css',
                         'safePath' => 'qqq/test21.css'
                     ),
-                    'test22.css' => array(
-                        'id'       => 'test22.css',
-                        'path'     => '/zzz/qqq/test22.css',
-                        'safePath' => 'qqq/test22.css'
-                    ),
+                )
+            ),
+            array(
+                '<reference name="head">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
+                        </arguments>
+                    </block>
+                </reference>',
+                array(
                     'Magento_Core::test23.css' => array(
                         'id'       => 'Magento_Core::test23.css',
                         'path'     => '/zzz/qqq/test23.css',
                         'safePath' => 'qqq/test23.css'
                     ),
-                    'test24.css' => array(
-                        'id'       => 'test24.css',
-                        'path'     => '/zzz/qqq/test24.css',
-                        'safePath' => 'qqq/test24.css'
+                )
+            ),
+            array(
+                '<block type="Some_Block_Class">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
+                        </arguments>
+                    </block>
+                </block>',
+                array(),
+
+            ),
+            array(
+                '<block type="Some_Block_Class">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
+                        </arguments>
+                    </block>
+                </block>',
+                array(),
+            ),
+            array(
+                '<reference name="some_block_name">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments><argument name="file" xsi:type="string">test23.css</argument></arguments>
+                    </block>
+                </reference>',
+                array(),
+            ),
+            array(
+                '<reference name="some_block_name">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
+                        </arguments>
+                    </block>
+                </reference>',
+                array(),
+            ),
+            array(
+                '<block class="Magento_Page_Block_Html_Head" name="head">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments><argument name="file" xsi:type="string">test.css</argument></arguments>
+                    </block>
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::test.css</argument>
+                        </arguments>
+                    </block>
+                </block>
+                <reference name="head">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments><argument name="file" xsi:type="string">testh.css</argument></arguments>
+                    </block>
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments><argument name="file" xsi:type="string">Magento_Core::test.css</argument></arguments>
+                    </block>
+                </reference>
+                <block type="Some_Block_Class">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments><argument name="file" xsi:type="string">testa.css</argument></arguments>
+                    </block>
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::testa.css</argument>
+                        </arguments>
+                    </block>
+                </block>
+                <reference name="some_block_name">
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments><argument name="file" xsi:type="string">testb.css</argument></arguments>
+                    </block>
+                    <block class="Magento_Page_Block_Html_Head_Css" name="magento-loader-js">
+                        <arguments>
+                            <argument name="file" xsi:type="string">Magento_Core::testb.css</argument>
+                        </arguments>
+                    </block>
+                </reference>',
+                array(
+                    'testh.css' => array(
+                        'id' => 'testh.css',
+                        'path' => '',
+                        'safePath' => '',
                     ),
-                    'test1.css' => array(
-                        'id'       => 'test1.css',
-                        'path'     => '/zzz/qqq/test1.css',
-                        'safePath' => 'qqq/test1.css'
+                    'Magento_Core::test.css' => array(
+                        'id' => 'Magento_Core::test.css',
+                        'path' => '',
+                        'safePath' => '',
                     ),
-                    'test2.css' => array(
-                        'id'       => 'test2.css',
-                        'path'     => '/zzz/qqq/test2.css',
-                        'safePath' => 'qqq/test2.css'
-                    ),
-                    'Magento_Core::test3.css' => array(
-                        'id'       => 'Magento_Core::test3.css',
-                        'path'     => '/zzz/qqq/test3.css',
-                        'safePath' => 'qqq/test3.css'
-                    ),
-                    'test4.css' => array(
-                        'id'       => 'test4.css',
-                        'path'     => '/zzz/qqq/test4.css',
-                        'safePath' => 'qqq/test4.css'
+                    'test.css' => array(
+                        'id' => 'test.css',
+                        'path' => '',
+                        'safePath' => '',
                     ),
                 ),
             ),
@@ -521,7 +475,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $layoutMerge = $this->getMock('Magento\Core\Model\Layout\Merge',
             array('getFileLayoutUpdatesXml'), array(), '', false
         );
-        $xml = '<layouts>' . $layoutStr . '</layouts>';
+        $xml = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutElement = simplexml_load_string($xml);
         $layoutMerge->expects($this->any())
             ->method('getFileLayoutUpdatesXml')

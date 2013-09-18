@@ -17,7 +17,7 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUnit_F
     /** @var \Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form */
     protected $_block;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $layout = Mage::getModel('Magento\Core\Model\Layout');

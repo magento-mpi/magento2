@@ -47,6 +47,25 @@ class Coupon extends \Magento\Core\Helper\AbstractHelper
     const XML_CHARSET_SEPARATOR = 'global/salesrule/coupon/separator';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Get all possible coupon codes formats
      *
      * @return array
@@ -67,7 +86,7 @@ class Coupon extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDefaultLength()
     {
-        return (int)\Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_LENGTH);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_LENGTH);
     }
 
     /**
@@ -77,7 +96,7 @@ class Coupon extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDefaultFormat()
     {
-        return \Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_FORMAT);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_FORMAT);
     }
 
     /**
@@ -87,7 +106,7 @@ class Coupon extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDefaultPrefix()
     {
-        return \Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_PREFIX);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_PREFIX);
     }
 
     /**
@@ -97,7 +116,7 @@ class Coupon extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDefaultSuffix()
     {
-        return \Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_SUFFIX);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_SUFFIX);
     }
 
     /**
@@ -107,7 +126,7 @@ class Coupon extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDefaultDashInterval()
     {
-        return (int)\Mage::getStoreConfig(self::XML_PATH_SALES_RULE_COUPON_DASH_INTERVAL);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_RULE_COUPON_DASH_INTERVAL);
     }
 
     /**

@@ -14,7 +14,7 @@ class Magento_Core_Model_DataService_RepositoryTest extends PHPUnit_Framework_Te
      */
     protected $_repository;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_repository = new \Magento\Core\Model\DataService\Repository();
     }

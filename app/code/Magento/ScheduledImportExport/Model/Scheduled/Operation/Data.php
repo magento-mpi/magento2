@@ -39,12 +39,21 @@ class Data
     protected $_importModel;
 
     /**
+     * @var Magento_ImportExport_Model_Config
+     */
+    protected $_config;
+
+    /**
      * Constructor
      *
+     * @param Magento_ImportExport_Model_Config $config
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_ImportExport_Model_Config $config,
+        array $data = array()
+    ) {
+        $this->_config = $config;
         $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
             : \Mage::getModel('Magento\ImportExport\Model\Config');
         $this->_importModel = isset($data['import_model']) ? $data['import_model']
@@ -155,11 +164,11 @@ class Data
      */
     public function getEntitiesOptionArray($type = null)
     {
-        $importEntities = \Magento\ImportExport\Model\Config::getModelsArrayOptions(
-            \Magento\ImportExport\Model\Import::CONFIG_KEY_ENTITIES
+        $importEntities = $this->_config->getModelsArrayOptions(
+            Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES
         );
-        $exportEntities = \Magento\ImportExport\Model\Config::getModelsArrayOptions(
-            \Magento\ImportExport\Model\Export::CONFIG_KEY_ENTITIES
+        $exportEntities = $this->_config->getModelsArrayOptions(
+            Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES
         );
         switch ($type) {
             case 'import':

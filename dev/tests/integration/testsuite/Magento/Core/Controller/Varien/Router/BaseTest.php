@@ -45,7 +45,10 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
             $this->markTestSkipped('Can\'t test get match without sending headers');
         }
 
-        $request = new Magento_TestFramework_Request();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
 
         $this->assertInstanceOf('Magento\Core\Controller\Varien\Action', $this->_model->match($request));
         $request->setRequestUri('core/index/index');

@@ -51,29 +51,20 @@ class Request extends \Magento\Object
      * @param string $merchantApiLoginId
      * @param string $merchantTransactionKey
      * @param string $amount
+     * @param string $currencyCode
      * @param string $fpSequence An invoice number or random number.
      * @param string $fpTimestamp
      * @return string The fingerprint.
      */
     public function generateRequestSign($merchantApiLoginId, $merchantTransactionKey, $amount, $currencyCode, $fpSequence, $fpTimestamp)
     {
-        if (phpversion() >= '5.1.2') {
-            return hash_hmac("md5",
-                $merchantApiLoginId . "^" .
-                $fpSequence . "^" .
-                $fpTimestamp . "^" .
-                $amount . "^" .
-                $currencyCode, $merchantTransactionKey
-            );
-        }
-
-        return bin2hex(mhash(MHASH_MD5,
+        return hash_hmac("md5",
             $merchantApiLoginId . "^" .
             $fpSequence . "^" .
             $fpTimestamp . "^" .
             $amount . "^" .
             $currencyCode, $merchantTransactionKey
-        ));
+        );
     }
 
     /**

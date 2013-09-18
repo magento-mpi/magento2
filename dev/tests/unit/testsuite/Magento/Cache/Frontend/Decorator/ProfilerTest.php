@@ -7,12 +7,12 @@
  */
 class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         \Magento\Profiler::enable();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         \Magento\Profiler::reset();
     }

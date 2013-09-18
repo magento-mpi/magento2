@@ -16,7 +16,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getModel('Magento\Core\Model\Resource');
     }
@@ -34,25 +34,29 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
         $resource = $this->_model->getConnectionTypeInstance('pdo_mysql');
         $this->assertEquals('Magento\Core\Model\Resource\Entity\Table', $resource->getEntityClass(), 'Entity class');
 
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         $resource->setName('test');
         $this->assertEquals('test', $resource->getName(), 'Set/Get name');
 
         $this->assertInstanceOf(
             'Zend_Db_Adapter_Abstract',
-            $resource->getConnection(Mage::getConfig()->getNode('global/resources/default_setup/connection')->asArray())
+            $resource->getConnection($configModel->getNode('global/resources/default_setup/connection')->asArray())
         );
 
     }
 
     public function testCreateConnection()
     {
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         $this->assertFalse($this->_model->createConnection('test_false', 'test', 'test'));
         $this->assertInstanceOf(
             'Magento\DB\Adapter\Pdo\Mysql',
             $this->_model->createConnection(
                 'test',
                 'pdo_mysql',
-                Mage::getConfig()->getNode('global/resources/default_setup/connection')->asArray()
+                $configModel->getNode('global/resources/default_setup/connection')->asArray()
             )
         );
 

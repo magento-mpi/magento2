@@ -16,14 +16,9 @@ namespace Magento\Adminhtml\Block\Sales\Items;
 class AbstractItems extends \Magento\Adminhtml\Block\Template
 {
     /**
-     * Renderers with render type key
-     * block    => the block name
-     * template => the template file
-     * renderer => the block object
-     *
-     * @var array
+     * Block alias fallback
      */
-    protected $_itemRenders = array();
+    const DEFAULT_TYPE = 'default';
 
     /**
      * Renderers for other column with column name key
@@ -77,34 +72,17 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     }
 
     /**
-     * Add item renderer
-     *
-     * @param string $type
-     * @param string $block
-     * @param string $template
-     * @return \Magento\Adminhtml\Block\Sales\Items\AbstractItems
-     */
-    public function addItemRender($type, $block, $template)
-    {
-        $this->_itemRenders[$type] = array(
-            'block'     => $block,
-            'template'  => $template,
-            'renderer'  => null
-        );
-        return $this;
-    }
-
-    /**
      * Add column renderer
      *
      * @param string $column
      * @param string $block
      * @param string $template
-     * @return \Magento\Adminhtml\Block\Sales\Items\AbstractItems
+     * @param string|null $type
+     * @return $this
      */
-    public function addColumnRender($column, $block, $template, $type=null)
+    public function addColumnRender($column, $block, $template, $type = null)
     {
-        if (!is_null($type)) {
+        if (isset($type)) {
             $column .= '_' . $type;
         }
         $this->_columnRenders[$column] = array(
@@ -120,21 +98,22 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      *
      * @param string $type
      * @return \Magento\Core\Block\AbstractBlock
+     * @throws RuntimeException
      */
     public function getItemRenderer($type)
     {
-        if (!isset($this->_itemRenders[$type])) {
-            $type = 'default';
+        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
+        if (!$renderer instanceof Magento_Core_Block) {
+            throw new RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
-        if (is_null($this->_itemRenders[$type]['renderer'])) {
-            $this->_itemRenders[$type]['renderer'] = $this->getLayout()
-                ->createBlock($this->_itemRenders[$type]['block'])
-                ->setTemplate($this->_itemRenders[$type]['template']);
-            foreach ($this->_columnRenders as $columnType=>$renderer) {
-                $this->_itemRenders[$type]['renderer']->addColumnRender($columnType, $renderer['block'], $renderer['template']);
-            }
+        foreach ($this->_columnRenders as $columnType => $columnRenderer) {
+            $renderer->addColumnRender(
+                $columnType,
+                $columnRenderer['block'],
+                $columnRenderer['template']
+            );
         }
-        return $this->_itemRenders[$type]['renderer'];
+        return $renderer;
     }
 
     /**
@@ -353,8 +332,12 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     public function displayPriceInclTax(\Magento\Object $item)
     {
         $qty = ($item->getQtyOrdered() ? $item->getQtyOrdered() : ($item->getQty() ? $item->getQty() : 1));
-        $baseTax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : ($item->getTaxAmount() ? $item->getTaxAmount() : 0));
-        $tax = ($item->getBaseTaxBeforeDiscount() ? $item->getBaseTaxBeforeDiscount() : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0));
+        $baseTax = $item->getTaxBeforeDiscount()
+            ? $item->getTaxBeforeDiscount()
+            : ($item->getTaxAmount() ? $item->getTaxAmount() : 0);
+        $tax = $item->getBaseTaxBeforeDiscount()
+            ? $item->getBaseTaxBeforeDiscount()
+            : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0);
 
         $basePriceTax = 0;
         $priceTax = 0;
@@ -378,8 +361,12 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      */
     public function displaySubtotalInclTax($item)
     {
-        $baseTax = ($item->getTaxBeforeDiscount() ? $item->getTaxBeforeDiscount() : ($item->getTaxAmount() ? $item->getTaxAmount() : 0));
-        $tax = ($item->getBaseTaxBeforeDiscount() ? $item->getBaseTaxBeforeDiscount() : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0));
+        $baseTax = $item->getTaxBeforeDiscount()
+            ? $item->getTaxBeforeDiscount()
+            : ($item->getTaxAmount() ? $item->getTaxAmount() : 0);
+        $tax = $item->getBaseTaxBeforeDiscount()
+            ? $item->getBaseTaxBeforeDiscount()
+            : ($item->getBaseTaxAmount() ? $item->getBaseTaxAmount() : 0);
 
         return $this->displayPrices(
             $item->getBaseRowTotal()+$baseTax,
@@ -522,9 +509,8 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      * CREDITMEMO
      */
 
-    public function canReturnToStock()
-    {
-        if (\Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
+    public function canReturnToStock() {
+        if ($this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;
@@ -538,7 +524,9 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      */
     public function canReturnItemToStock($item = null)
     {
-        $canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT);
+        $canReturnToStock = $this->_storeConfig->getConfig(
+            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+        );
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
                 $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
@@ -560,7 +548,9 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      */
     public function canParentReturnToStock($item = null)
     {
-        $canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT);
+        $canReturnToStock = $this->_storeConfig->getConfig(
+            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+        );
         if (!is_null($item)) {
             if ( $item->getCreditmemo()->getOrder()->hasCanReturnToStock() ) {
                 $canReturnToStock = $item->getCreditmemo()->getOrder()->getCanReturnToStock();

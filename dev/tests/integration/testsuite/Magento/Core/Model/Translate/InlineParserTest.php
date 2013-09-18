@@ -25,7 +25,7 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
             ->setDesignTheme('magento_demo');
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_inlineParser = Mage::getModel('Magento\Core\Model\Translate\InlineParser');
         /* Called getConfig as workaround for setConfig bug */

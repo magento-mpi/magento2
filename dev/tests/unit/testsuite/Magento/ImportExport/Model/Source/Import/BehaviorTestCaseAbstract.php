@@ -21,7 +21,7 @@ abstract class Magento_ImportExport_Model_Source_Import_BehaviorTestCaseAbstract
      */
     protected $_model;
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

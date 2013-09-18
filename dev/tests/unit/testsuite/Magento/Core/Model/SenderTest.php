@@ -33,7 +33,7 @@ class Magento_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
     /**
      * Set required values
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_mailerMock = $this->getMockBuilder('Magento\Core\Model\Email\Template\Mailer')
             ->disableOriginalConstructor()

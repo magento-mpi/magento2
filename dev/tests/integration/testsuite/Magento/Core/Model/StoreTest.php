@@ -21,26 +21,42 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
+    {
+        $this->_model = $this->_getStoreModel();
+    }
+
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Store
+     */
+    protected function _getStoreModel()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
-            'context' => $objectManager->get('Magento\Core\Model\Context'),
-            'registry' => $objectManager->get('Magento\Core\Model\Registry'),
-            'configCacheType' => $objectManager->get('Magento\Core\Model\Cache\Type\Config'),
-            'urlModel' => $objectManager->get('Magento\Core\Model\Url'),
-            'appState' => $objectManager->get('Magento\Core\Model\App\State'),
-            'request' => $objectManager->get('Magento\Core\Controller\Request\Http'),
-            'configDataResource' => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
-            'resource' => $objectManager->get('Magento\Core\Model\Resource\Store'),
+            'coreFileStorageDatabase' => $objectManager->get('Magento_Core_Helper_File_Storage_Database'),
+            'context'                 => $objectManager->get('Magento_Core_Model_Context'),
+            'registry'                => $objectManager->get('Magento_Core_Model_Registry'),
+            'configCacheType'         => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
+            'urlModel'                => $objectManager->get('Magento_Core_Model_Url'),
+            'appState'                => $objectManager->get('Magento_Core_Model_App_State'),
+            'request'                 => $objectManager->get('Magento_Core_Controller_Request_Http'),
+            'configDataResource'      => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
+            'dir'                     => $objectManager->get('Magento_Core_Model_Dir'),
+            'coreStoreConfig'         => $objectManager->get('Magento_Core_Model_Store_Config'),
+            'coreStore'               => $objectManager->get('Magento_Core_Model_Config'),
+            'resource'                => $objectManager->get('Magento_Core_Model_Resource_Store'),
         );
 
-        $this->_model = $this->getMock(
-            'Magento\Core\Model\Store',
+        return $this->getMock(
+            'Magento_Core_Model_Store',
             array('getUrl'),
             $this->_modelParams
         );
+    }
+    
+    protected function tearDown()
+    {
+        $this->_model = null;
     }
 
     /**
@@ -163,6 +179,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_URIS => array(\Magento\Core\Model\Dir::PUB => '')
         ));
+        $this->_model = $this->_getStoreModel();
         $this->_model->load('default');
 
         $this->assertEquals(

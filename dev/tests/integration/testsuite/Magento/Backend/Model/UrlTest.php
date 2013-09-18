@@ -96,8 +96,8 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function getSecretKeyDataProvider()
     {
-        /** @var $helper \Magento\Core\Helper\Data */
-        $helper = Mage::getObjectManager()->get('Magento\Core\Helper\Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
         return array(
             array('', '', '',
                 $helper->getHash('default_router' . 'default_controller' . 'default_action' . 'salt')),
@@ -123,10 +123,10 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSecretKeyForwarded()
     {
-        /** @var $helper \Magento\Core\Helper\Data */
-        $helper = Mage::getObjectManager()->get('Magento\Core\Helper\Data');
-        /** @var $request \Magento\Core\Controller\Request\Http */
-        $request = Mage::getModel('Magento\Core\Controller\Request\Http');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Data');
+        /** @var $request Magento_Core_Controller_Request_Http */
+        $request = Mage::getModel('Magento_Core_Controller_Request_Http');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);

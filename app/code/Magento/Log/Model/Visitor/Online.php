@@ -39,6 +39,33 @@ class Online extends \Magento\Core\Model\AbstractModel
     const XML_PATH_UPDATE_FREQUENCY     = 'log/visitor/online_update_frequency';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -100,7 +127,7 @@ class Online extends \Magento\Core\Model\AbstractModel
      */
     public function getUpdateFrequency()
     {
-        return \Mage::getStoreConfig(self::XML_PATH_UPDATE_FREQUENCY);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_FREQUENCY);
     }
 
     /**
@@ -110,7 +137,7 @@ class Online extends \Magento\Core\Model\AbstractModel
      */
     public function getOnlineInterval()
     {
-        $value = intval(\Mage::getStoreConfig(self::XML_PATH_ONLINE_INTERVAL));
+        $value = intval($this->_coreStoreConfig->getConfig(self::XML_PATH_ONLINE_INTERVAL));
         if (!$value) {
             $value = \Magento\Log\Model\Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
         }

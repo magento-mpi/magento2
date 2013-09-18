@@ -191,11 +191,13 @@ class Address
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         if (!isset($data['attribute_collection'])) {
@@ -206,7 +208,7 @@ class Address
             $data['attribute_collection'] = $attributeCollection;
         }
 
-        parent::__construct($coreData, $coreString, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
             : \Mage::getResourceModel('Magento\Customer\Model\Resource\Address\Collection');

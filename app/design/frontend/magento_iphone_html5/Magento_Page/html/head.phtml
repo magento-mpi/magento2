@@ -7,10 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this Magento_Page_Block_Html_Head */
 ?>
 <title><?php echo $this->getTitle() ?></title>
-<meta charset="UTF-8">
-<?php echo $this->getMetaTagHtml() ?>
+
+<meta charset="UTF-8"/>
+<meta name="description" content="<?php echo $this->escapeHtml($this->getDescription())?>"/>
+<meta name="keywords" content="<?php echo $this->escapeHtml($this->getKeywords())?>"/>
+<meta name="robots" content="<?php echo $this->escapeHtml($this->getRobots())?>"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
 <link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
 

@@ -20,6 +20,33 @@ namespace Magento\GoogleShopping\Model\Attribute;
 class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set current attribute to entry (for specified product)
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -30,7 +57,7 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     {
         $url = $product->getProductUrl(false);
         if ($url) {
-            if (!\Mage::getStoreConfigFlag('web/url/use_store')) {
+            if (!$this->_coreStoreConfig->getConfigFlag('web/url/use_store')) {
                 $urlInfo = parse_url($url);
                 $store = $product->getStore()->getCode();
                 if (isset($urlInfo['query']) && $urlInfo['query'] != '') {

@@ -2,24 +2,43 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Stock item collection resource model
- *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Model\Resource\Stock\Item;
 
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
+    /**
+     * Store model manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+
+        $this->_storeManager = $storeManager;
+    }
+
     /**
      * Initialize resource model
      *
@@ -77,7 +96,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function joinStockStatus($storeId = null)
     {
-        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         $this->getSelect()->joinLeft(
             array('status_table' => $this->getTable('cataloginventory_stock_status')),
                 'main_table.product_id=status_table.product_id'
@@ -109,11 +128,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filter by quantity to collection
      *
-     * @param string $comparsionMethod
+     * @param string $comparisonMethod
      * @param float $qty
      * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
+     * @throws Magento_Core_Exception
      */
-    public function addQtyFilter($comparsionMethod, $qty)
+    public function addQtyFilter($comparisonMethod, $qty)
     {
         $methods = array(
             '<'  => 'lt',
@@ -123,13 +143,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             '>=' => 'gteq',
             '<>' => 'neq'
         );
-        if (!isset($methods[$comparsionMethod])) {
-            \Mage::throwException(
-                __('%1 is not a correct comparison method.', $comparsionMethod)
-            );
+        if (!isset($methods[$comparisonMethod])) {
+            throw new Magento_Core_Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
         }
 
-        return $this->addFieldToFilter('main_table.qty', array($methods[$comparsionMethod] => $qty));
+        return $this->addFieldToFilter('main_table.qty', array($methods[$comparisonMethod] => $qty));
     }
 
     /**

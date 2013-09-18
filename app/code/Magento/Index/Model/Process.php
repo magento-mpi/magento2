@@ -89,12 +89,18 @@ class Process extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Index\Model\Lock\Storage $lockStorage
-     * @param \Magento\Index\Model\EventRepository $eventRepository
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+    
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Index_Model_Lock_Storage $lockStorage
+     * @param Magento_Index_Model_EventRepository $eventRepository
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -104,6 +110,7 @@ class Process extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Index\Model\Lock\Storage $lockStorage,
         \Magento\Index\Model\EventRepository $eventRepository,
+        Magento_Core_Model_Config $coreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -112,6 +119,7 @@ class Process extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -327,7 +335,7 @@ class Process extends \Magento\Core\Model\AbstractModel
                 \Mage::throwException(__('Indexer code is not defined.'));
             }
             $xmlPath = self::XML_PATH_INDEXER_DATA . '/' . $code;
-            $config = \Mage::getConfig()->getNode($xmlPath);
+            $config = $this->_coreConfig->getNode($xmlPath);
             if (!$config || empty($config->model)) {
                 \Mage::throwException(__('Indexer model is not defined.'));
             }
@@ -560,7 +568,7 @@ class Process extends \Magento\Core\Model\AbstractModel
         if (is_null($depends)) {
             $depends = array();
             $path = self::XML_PATH_INDEXER_DATA . '/' . $this->getIndexerCode();
-            $node = \Mage::getConfig()->getNode($path);
+            $node = $this->_coreConfig->getNode($path);
             if ($node) {
                 $data = $node->asArray();
                 if (isset($data['depends']) && is_array($data['depends'])) {

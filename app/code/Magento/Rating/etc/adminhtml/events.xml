@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="catalog_product_delete_after_done">
-        <observer name="rating" instance="Magento\Rating\Model\Observer" method="processProductAfterDeleteEvent" />
+        <observer name="rating" instance="Magento_Rating_Model_Observer" method="processProductAfterDeleteEvent" />
     </event>
 </config>

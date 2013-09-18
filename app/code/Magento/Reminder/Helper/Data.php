@@ -21,13 +21,32 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_EMAIL_THRESHOLD = 'promo/magento_reminder/threshold';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check whether reminder rules should be enabled
      *
      * @return bool
      */
     public function isEnabled()
     {
-        return (bool)\Mage::getStoreConfig(self::XML_PATH_ENABLED);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_ENABLED);
     }
 
     /**
@@ -37,7 +56,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getOneRunLimit()
     {
-        return (int)\Mage::getStoreConfig(self::XML_PATH_SEND_LIMIT);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SEND_LIMIT);
     }
 
     /**
@@ -47,7 +66,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getEmailIdentity()
     {
-        return (string)\Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY);
+        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY);
     }
 
     /**
@@ -57,6 +76,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getSendFailureThreshold()
     {
-        return (int)\Mage::getStoreConfig(self::XML_PATH_EMAIL_THRESHOLD);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_THRESHOLD);
     }
 }

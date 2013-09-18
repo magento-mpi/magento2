@@ -26,7 +26,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_TreeTest extends P
      */
     protected $_filesTree;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);

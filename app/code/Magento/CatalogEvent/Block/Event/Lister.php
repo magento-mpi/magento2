@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,6 @@
 
 /**
  * Catalog Event homepage block
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 namespace Magento\CatalogEvent\Block\Event;
 
@@ -31,22 +26,37 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      *
      * @var \Magento\CatalogEvent\Helper\Data
      */
-    protected $_catalogEventData = null;
+    protected $_catalogEventData;
 
     /**
-     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
+     * Event collection factory
+     *
+     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     */
+    protected $_eventCollectionFactory;
+    
+    /**
+     * Construct
+     * 
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
+        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $locale, $data);
+        
         $this->_catalogEventData = $catalogEventData;
-        parent::__construct($coreData, $context, $data);
+        $this->_eventCollectionFactory = $eventCollectionFactory;
     }
 
     /**
@@ -71,7 +81,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     public function canDisplay()
     {
         return $this->_catalogEventData->isEnabled()
-            && \Mage::getStoreConfigFlag('catalog/magento_catalogevent/lister_output')
+            && $this->_storeConfig->getConfigFlag('catalog/magento_catalogevent/lister_output')
             && (count($this->getEvents()) > 0);
     }
 
@@ -93,8 +103,8 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
             }
 
             if (!empty($allIds)) {
-                $eventCollection = \Mage::getModel('Magento\CatalogEvent\Model\Event')
-                    ->getCollection();
+                /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $eventCollection */
+                $eventCollection = $this->_eventCollectionFactory->create();
                 $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
                     ->addVisibilityFilter()
                     ->addImageData()
@@ -117,8 +127,6 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
                 foreach ($eventCollection as $event) {
                     $this->_events[] = $event;
                 }
-
-
             }
         }
 
@@ -158,7 +166,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
             $pageSize = (int) $this->_getData('limit');
         }
         else {
-            $pageSize = (int)\Mage::getStoreConfig('catalog/magento_catalogevent/lister_widget_limit');
+            $pageSize = (int)$this->_storeConfig->getConfig('catalog/magento_catalogevent/lister_widget_limit');
         }
         return max($pageSize, 1);
     }
@@ -174,7 +182,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
             $scrollSize = (int) $this->_getData('scroll');
         }
         else {
-            $scrollSize = (int)\Mage::getStoreConfig('catalog/magento_catalogevent/lister_widget_scroll');
+            $scrollSize = (int)$this->_storeConfig->getConfig('catalog/magento_catalogevent/lister_widget_scroll');
         }
         return  min(max($scrollSize, 1), $this->getPageSize());
     }

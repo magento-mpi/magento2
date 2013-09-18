@@ -78,7 +78,7 @@ class Messages extends \Magento\Core\Block\Template
      *
      * @return \Magento\Core\Block\Messages
      */
-    public function _prepareLayout()
+    protected function _prepareLayout()
     {
         $this->addStorageType(get_class($this->_session));
         $this->addMessages($this->_session->getMessages(true));

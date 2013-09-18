@@ -2,106 +2,54 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Customer
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+/**
+ * Test class for Magento_Customer_Block_Account_Link
+ */
 class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Session */
-    protected $_session;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Helper\Data */
-    protected $_helper;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Page\Block\Template\Links */
-    protected $_targetBlock;
-
-    /** @var \Magento\Customer\Block\Account\Link */
-    protected $_block;
-
-    public function setUp()
+    public function testGetHref()
     {
-        $this->_session = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getAccountUrl'))
+            ->getMock();
 
-        $this->_helper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
+        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+            ->disableOriginalConstructor()
+            ->setMethods(array('get'))
+            ->getMock();
+        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array(), array(), '', false);
-        $helperFactory->expects($this->any())
-            ->method('get')
-            ->with('Magento\Customer\Helper\Data')
-            ->will($this->returnValue($this->_helper));
+        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+            ->disableOriginalConstructor()
+            ->setMethods(array('helper'))
+            ->getMock();
 
-        $this->_targetBlock = $this->getMock('Magento\Page\Block\Template\Links', array(), array(), '', false);
-
-        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
-        $layout->expects($this->any())
-            ->method('getBlock')
-            ->with('target_block')
-            ->will($this->returnValue($this->_targetBlock));
-
-        $context = $this->getMock('Magento\Core\Block\Context', array(), array(), '', false);
-        $context->expects($this->any())
-            ->method('getHelperFactory')
-            ->will($this->returnValue($helperFactory));
-        $context->expects($this->any())
-            ->method('getLayout')
-            ->will($this->returnValue($layout));
-
-        $this->_block = new \Magento\Customer\Block\Account\Link($context, $this->_session);
-    }
-
-    /**
-     * @param bool $isLoggedIn
-     * @param string $expectedUrlMethod
-     * @dataProvider removeAuthLinkDataProvider
-     */
-    public function testRemoveAuthLink($isLoggedIn, $expectedUrlMethod)
-    {
-        $this->_session->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue($isLoggedIn));
-
-        $this->_helper->expects($this->once())
-            ->method($expectedUrlMethod)
-            ->will($this->returnValue('composed_url'));
-
-        $this->_targetBlock->expects($this->once())
-            ->method('removeLinkByUrl')
-            ->with('composed_url');
-
-        $result = $this->_block->removeAuthLink('target_block');
-        $this->assertSame($this->_block, $result);
-    }
-
-    /**
-     * @return array
-     */
-    public static function removeAuthLinkDataProvider()
-    {
-        return array(
-            'Log In url' => array(
-                true,
-                'getLogoutUrl',
-            ),
-            'Log Out url' => array(
-                false,
-                'getLoginUrl',
-            ),
+        $context = $objectManager->getObject(
+            'Magento_Core_Block_Template_Context',
+            array(
+                'layout' => $layout,
+                'helperFactory' => $helperFactory
+            )
         );
-    }
 
-    public function testRemoveRegisterLink()
-    {
-        $this->_helper->expects($this->once())
-            ->method('getRegisterUrl')
-            ->will($this->returnValue('register_url'));
+        $block = $objectManager->getObject(
+            'Magento_Customer_Block_Account_Link',
+            array(
+                'context' => $context,
+            )
+        );
+        $helper->expects($this->any())->method('getAccountUrl')->will($this->returnValue('account url'));
 
-        $this->_targetBlock->expects($this->once())
-            ->method('removeLinkByUrl')
-            ->with('register_url');
-
-        $result = $this->_block->removeRegisterLink('target_block');
-        $this->assertSame($this->_block, $result);
+        $this->assertEquals('account url', $block->getHref());
     }
 }

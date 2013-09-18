@@ -137,6 +137,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
+     * @param Magento_Core_Model_Config $coreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -145,12 +146,14 @@ class Website extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
+        Magento_Core_Model_Config $coreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_configDataResource = $configDataResource;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -188,7 +191,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     {
         if (!isset($this->_configCache[$path])) {
 
-            $config = \Mage::getConfig()->getValue($path, 'website', $this->getCode());
+            $config = $this->_coreConfig->getValue($path, 'website', $this->getCode());
             if (!$config) {
                 return false;
             }
@@ -459,7 +462,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     {
         \Mage::app()->clearWebsiteCache($this->getId());
         parent::_afterDelete();
-        \Mage::getConfig()->removeCache();
+        $this->_coreConfig->removeCache();
         return $this;
     }
 

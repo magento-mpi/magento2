@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/View/Generator/ThemeDeployment.php';
 
 class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCase

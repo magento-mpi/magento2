@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_index">
-        <reference name="js">
-            <block class="Magento\Adminhtml\Block\Template" template="Magento_GiftCardAccount::sales/order/create/js.phtml" name="giftcardaccount_js"/>
-        </reference>
-        <reference name="items_grid">
-            <block class="Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Create\Payment" template="sales/order/create/items.phtml" name="giftcardaccount" after="-"/>
-        </reference>
-    </handle>
+    <reference name="js">
+        <block class="Magento_Adminhtml_Block_Template" template="Magento_GiftCardAccount::sales/order/create/js.phtml" name="giftcardaccount_js"/>
+    </reference>
+    <reference name="items_grid">
+        <block class="Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment" template="sales/order/create/items.phtml" name="giftcardaccount" after="-"/>
+    </reference>
 </layout>

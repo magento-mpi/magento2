@@ -27,7 +27,7 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
             ->setDesignTheme('magento_demo');
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getModel('Magento\Core\Model\Translate\Inline');
         /* Called getConfig as workaround for setConfig bug */

@@ -103,9 +103,6 @@ class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramewo
                     }
                     break;
                 case 'addPriceBlockType':
-                case 'addRowItemRender':
-                case 'addItemRender':
-                case 'addOptionRenderer':
                 case 'addInformationRenderer':
                 case 'addMergeSettingsBlockType':
                     $blockType = $action[0]->xpath('block');

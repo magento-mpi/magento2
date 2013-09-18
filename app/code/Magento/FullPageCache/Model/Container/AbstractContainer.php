@@ -47,21 +47,39 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_FullPageCache_Helper_Url
+     */
+    protected $_urlHelper;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_FullPageCache_Helper_Url $urlHelper
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\FullPageCache\Model\Cache $fpcCache,
-        \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
-        \Magento\Core\Model\Registry $coreRegistry
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_FullPageCache_Model_Cache $fpcCache,
+        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_FullPageCache_Helper_Url $urlHelper,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_placeholder = $placeholder;
         $this->_fpcCache = $fpcCache;
         $this->_eventManager = $eventManager;
         $this->_coreRegistry = $coreRegistry;
+        $this->_urlHelper = $urlHelper;
     }
 
     /**
@@ -94,7 +112,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
             return false;
         }
 
-        $block = \Magento\FullPageCache\Helper\Url::replaceUenc($block);
+        $block = $this->_urlHelper->replaceUenc($block);
         $this->_applyToContent($content, $block);
         return true;
     }
@@ -112,8 +130,8 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
             return false;
         }
 
-        if (\Mage::getStoreConfig(\Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_DEBUG)) {
-            $debugBlock = \Mage::app()->getLayout()->createBlock('Magento\FullPageCache\Block\Debug');
+        if ($this->_coreStoreConfig->getConfig(Magento_FullPageCache_Model_Processor::XML_PATH_CACHE_DEBUG)) {
+            $debugBlock = Mage::app()->getLayout()->createBlock('Magento_FullPageCache_Block_Debug');
             $debugBlock->setDynamicBlockContent($blockContent);
             $this->_applyToContent($content, $debugBlock->toHtml());
         } else {

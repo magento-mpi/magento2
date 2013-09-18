@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_CustomerCustomAttributes
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /**
  * @magentoAppIsolation enabled
  */

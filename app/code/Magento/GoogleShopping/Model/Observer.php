@@ -20,6 +20,22 @@ namespace Magento\GoogleShopping\Model;
 class Observer
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Update product item in Google Content
      *
      * @param \Magento\Object $observer
@@ -78,7 +94,7 @@ class Observer
         }
 
         foreach ($items as $item) {
-            if (!\Mage::getStoreConfigFlag('google/googleshopping/observed', $item->getStoreId())) {
+            if (!$this->_coreStoreConfig->getConfigFlag('google/googleshopping/observed', $item->getStoreId())) {
                 $items->removeItemByKey($item->getId());
             }
         }

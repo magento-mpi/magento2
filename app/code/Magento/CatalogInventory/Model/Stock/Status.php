@@ -23,10 +23,6 @@
  * @method \Magento\CatalogInventory\Model\Stock\Status setQty(float $value)
  * @method int getStockStatus()
  * @method \Magento\CatalogInventory\Model\Stock\Status setStockStatus(int $value)
- *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
@@ -54,26 +50,52 @@ class Status extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\CatalogInventory\Helper\Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
-     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * Store model manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Stock item factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     */
+    protected $_stockItemFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        Magento_Core_Model_Registry $registry,
+        Magento_Catalog_Model_Product_Type $productType,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_catalogInventoryData = $catalogInventoryData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
+        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_productType = $productType;
+        $this->_storeManager = $storeManager;
+        $this->_stockItemFactory = $stockItemFactory;
     }
 
     /**
@@ -97,7 +119,7 @@ class Status extends \Magento\Core\Model\AbstractModel
             $this->_productTypes = array();
             $productEmulator     = new \Magento\Object();
 
-            foreach (array_keys(\Magento\Catalog\Model\Product\Type::getTypes()) as $typeId) {
+            foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
                 $this->_productTypes[$typeId] = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')
                     ->factory($productEmulator);
@@ -266,7 +288,8 @@ class Status extends \Magento\Core\Model\AbstractModel
             $productType = $this->getProductType($productId);
         }
 
-        $item = $this->getStockItemModel()->loadByProduct($productId);
+        /** @var \Magento_CatalogInventory_Model_Stock_Item $item */
+        $item = $this->_stockItemFactory->create()->loadByProduct($productId);
 
         $status  = self::STATUS_IN_STOCK;
         $qty     = 0;
@@ -374,7 +397,8 @@ class Status extends \Magento\Core\Model\AbstractModel
         }
 
         $productTypes = $this->getProductsType($parentIds);
-        $item         = $this->getStockItemModel();
+        /** @var \Magento_CatalogInventory_Model_Stock_Item $item */
+        $item = $this->_stockItemFactory->create();
 
         foreach ($parentIds as $parentId) {
             $parentType = isset($productTypes[$parentId]) ? $productTypes[$parentId] : null;
@@ -478,9 +502,9 @@ class Status extends \Magento\Core\Model\AbstractModel
             $stockId = \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID;
         }
         if ($websiteId === null) {
-            $websiteId = \Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
             if ((int)$websiteId == 0 && $productCollection->getStoreId()) {
-                $websiteId = \Mage::app()->getStore($productCollection->getStoreId())->getWebsiteId();
+                $websiteId = $this->_storeManager->getStore($productCollection->getStoreId())->getWebsiteId();
             }
         }
         $productIds = array();

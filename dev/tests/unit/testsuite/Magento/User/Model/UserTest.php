@@ -37,7 +37,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     /**
      * Set required values
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_userData = $this->getMockBuilder('Magento\User\Helper\Data')
             ->disableOriginalConstructor()
@@ -64,14 +64,16 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->setMethods(array())
             ->getMock();
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-
-        $this->_model = new \Magento\User\Model\User(
-            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        
+        $this->_model = new Magento_User_Model_User(
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->_userData,
             $this->_coreData,
             $this->_senderMock,
             $this->_contextMock,
             $coreRegistry,
+            $coreStoreConfig,
             $this->_resourceMock,
             $this->_collectionMock
         );

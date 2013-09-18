@@ -26,9 +26,6 @@ class Magento_Widget_Controller_Adminhtml_Widget_InstanceTest extends Magento_Ba
         $this->getRequest()->setParam('theme_id', $theme->getId());
     }
 
-    /**
-     * @magentoConfigFixture adminhtml/design/theme/full_name magento_basic
-     */
     public function testEditAction()
     {
         $this->dispatch('backend/admin/widget_instance/edit');
@@ -37,18 +34,12 @@ class Magento_Widget_Controller_Adminhtml_Widget_InstanceTest extends Magento_Ba
         );
     }
 
-    /**
-     * @magentoConfigFixture adminhtml/design/theme/full_name magento_basic
-     */
     public function testBlocksAction()
     {
         $this->dispatch('backend/admin/widget_instance/blocks');
         $this->assertStringStartsWith('<select name="block" id=""', $this->getResponse()->getBody());
     }
 
-    /**
-     * @magentoConfigFixture adminhtml/design/theme/full_name magento_basic
-     */
     public function testTemplateAction()
     {
         $this->dispatch('backend/admin/widget_instance/template');

@@ -204,11 +204,19 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -219,11 +227,13 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($eventManager, $directoryData, $context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -1007,7 +1017,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function validateMinimumAmount()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!\Mage::getStoreConfigFlag('sales/minimum_order/active', $storeId)) {
+        if (!$this->_coreStoreConfig->getConfigFlag('sales/minimum_order/active', $storeId)) {
             return true;
         }
 
@@ -1017,7 +1027,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             return true;
         }
 
-        $amount = \Mage::getStoreConfig('sales/minimum_order/amount', $storeId);
+        $amount = $this->_coreStoreConfig->getConfig('sales/minimum_order/amount', $storeId);
         if ($this->getBaseSubtotalWithDiscount() < $amount) {
             return false;
         }

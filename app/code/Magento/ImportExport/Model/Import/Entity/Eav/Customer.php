@@ -113,11 +113,13 @@ class Customer
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         if (isset($data['attribute_collection'])) {
@@ -129,7 +131,7 @@ class Customer
             $data['attribute_collection'] = $this->_attributeCollection;
         }
 
-        parent::__construct($coreData, $coreString, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
 
         $this->_specialAttributes[] = self::COLUMN_WEBSITE;
         $this->_specialAttributes[] = self::COLUMN_STORE;

@@ -112,6 +112,11 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Catalog\Helper\Product\Compare $ctlgProdCompare
@@ -124,25 +129,30 @@ class Observer
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\DesignPackage\Rules $designRules
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Url $coreUrl,
-        \Magento\Wishlist\Helper\Data $wishlistData,
-        \Magento\Catalog\Helper\Product\Compare $ctlgProdCompare,
-        \Magento\FullPageCache\Model\Processor $processor,
-        \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier,
-        \Magento\FullPageCache\Model\Placeholder\Mapper $mapper,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\FullPageCache\Model\Cache $fpcCache,
-        \Magento\FullPageCache\Model\Cookie $cookie,
-        \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
-        \Magento\FullPageCache\Model\DesignPackage\Rules $designRules,
-        \Magento\Core\Model\Registry $coreRegistry
+        Magento_Core_Helper_Url $coreUrl,
+        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Catalog_Helper_Product_Compare $ctlgProdCompare,
+        Magento_FullPageCache_Model_Processor $processor,
+        Magento_FullPageCache_Model_Request_Identifier $_requestIdentifier,
+        Magento_FullPageCache_Model_Placeholder_Mapper $mapper,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
+        Magento_FullPageCache_Model_Cache $fpcCache,
+        Magento_FullPageCache_Model_Cookie $cookie,
+        Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
+        Magento_FullPageCache_Model_DesignPackage_Rules $designRules,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreUrl = $coreUrl;
         $this->_wishlistData = $wishlistData;
         $this->_ctlgProdCompare = $ctlgProdCompare;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_processor = $processor;
         $this->_mapper    = $mapper;
         $this->_cacheState = $cacheState;
@@ -152,6 +162,7 @@ class Observer
         $this->_requestIdentifier = $_requestIdentifier;
         $this->_designRules = $designRules;
         $this->_isEnabled = $this->_cacheState->isEnabled('full_page');
+        $this->_typeList = $typeList;
     }
 
     /**
@@ -224,7 +235,7 @@ class Observer
         $cacheId = \Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY;
         $exception = $this->_fpcCache->load($cacheId);
         if (!$exception) {
-            $exception = \Mage::getStoreConfig(self::XML_PATH_DESIGN_EXCEPTION);
+            $exception = $this->_coreStoreConfig->getConfig(self::XML_PATH_DESIGN_EXCEPTION);
             $this->_fpcCache->save($exception, $cacheId);
             $this->_requestIdentifier->refreshRequestIds();
         }
@@ -343,9 +354,7 @@ class Observer
      */
     public function invalidateCache()
     {
-        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
-        $cacheTypeList->invalidate('full_page');
+        $this->_typeList->invalidate('full_page');
         return $this;
     }
 
@@ -365,10 +374,10 @@ class Observer
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = $event->getData('layout');
         $name = $event->getData('element_name');
-        if (!$layout->isBlock($name)) {
+        if (!$layout->isBlock($name) || !($block = $layout->getBlock($name))) {
             return $this;
         }
-        $block = $layout->getBlock($name);
+
         $transport = $event->getData('transport');
         $placeholder = $this->_mapper->map($block);
         if ($transport && $placeholder && !$block->getSkipRenderTag()) {
@@ -481,8 +490,8 @@ class Observer
         }
 
         // renew customer viewed product ids cookie
-        $countLimit = \Mage::getStoreConfig(\Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
-        $collection = \Mage::getResourceModel('Magento\Reports\Model\Resource\Product\Index\Viewed\Collection')
+        $countLimit = $this->_coreStoreConfig->getConfig(Magento_Reports_Block_Product_Viewed::XML_PATH_RECENTLY_VIEWED_COUNT);
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Index_Viewed_Collection')
             ->addIndexFilter()
             ->setAddedAtOrder()
             ->setPageSize($countLimit)

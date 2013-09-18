@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,16 +9,44 @@
 
 /**
  * Catalog Events form fieldset element renderer
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Form\Renderer\Fieldset;
 
 class Element
-    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
+    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
+    /**
+     * Template
+     *
+     * @var string
+     */
     protected $_template = 'form/renderer/fieldset/element.phtml';
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+
+        $this->_storeManager = $storeManager;
+    }
 
     /**
      * Retrieve data object related with form
@@ -86,7 +112,7 @@ class Element
     {
         $html = '';
         $element = $this->getElement();
-        if (\Mage::app()->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {

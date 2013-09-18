@@ -18,11 +18,8 @@ class Magento_Data_Form_Element_EditablemultiselectTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $factoryElement = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array(), array(), '', false);
-        $this->_model =
-            new \Magento\Data\Form\Element\Editablemultiselect($coreHelper, $factoryElement, $collectionFactory);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_model = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
         $values = array(
             array('value' => 1, 'label' => 'Value1'),
             array('value' => 2, 'label' => 'Value2'),

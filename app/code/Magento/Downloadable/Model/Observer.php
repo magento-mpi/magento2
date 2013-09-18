@@ -27,11 +27,22 @@ class Observer
     protected $_helper;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
      */
-    public function __construct(\Magento\Core\Helper\Data $coreData)
-    {
+    protected $_coreStoreConfig;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         $this->_helper = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -126,7 +137,7 @@ class Observer
                 $linkSectionTitle = (
                     $product->getLinksTitle()
                         ? $product->getLinksTitle()
-                        : \Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
+                        : $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
@@ -210,8 +221,8 @@ class Observer
         );
 
         $downloadableItemsStatuses = array();
-        $orderItemStatusToEnable = \Mage::getStoreConfig(
-            \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS, $order->getStoreId()
+        $orderItemStatusToEnable = $this->_coreStoreConfig->getConfig(
+            Magento_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_ITEM_STATUS, $order->getStoreId()
         );
 
         if ($order->getState() == \Magento\Sales\Model\Order::STATE_HOLDED) {
@@ -304,7 +315,7 @@ class Observer
             }
         }
 
-        if ($isContain && \Mage::getStoreConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
+        if ($isContain && $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
             $result->setIsAllowed(false);
         }
 

@@ -67,12 +67,15 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
-        $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer($this->_getModelDependencies());
+        $this->_model = new Magento_ImportExport_Model_Export_Entity_Eav_Customer(
+            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
+            $this->_getModelDependencies()
+        );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

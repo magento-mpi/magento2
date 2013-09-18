@@ -27,14 +27,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreString = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\String $coreString,
-        \Magento\Core\Helper\Context $context
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreString = $coreString;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -53,9 +63,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         return nl2br($this->_coreString->truncate($this->escapeHtml($origDetail), 50));
     }
 
+    /**
+     * @return bool
+     */
     public function getIsGuestAllowToWrite()
     {
-        return \Mage::getStoreConfigFlag(self::XML_REVIEW_GUETS_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_REVIEW_GUETS_ALLOW);
     }
 
     /**

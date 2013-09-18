@@ -16,7 +16,7 @@ namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form;
 class Builder
 {
     /**
-     * @var \Magento\Data\FormFactory
+     * @var Magento_Data_Form_Factory
      */
     protected $_formFactory;
 
@@ -43,16 +43,16 @@ class Builder
     /**
      * Constructor
      *
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $configFactory
-     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory
-     * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
+     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
+     * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      */
     public function __construct(
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory $configFactory,
-        \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
-        \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
+        Magento_Data_Form_Factory $formFactory,
+        Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
+        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
+        Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
     ) {
         $this->_formFactory     = $formFactory;
         $this->_configFactory   = $configFactory;

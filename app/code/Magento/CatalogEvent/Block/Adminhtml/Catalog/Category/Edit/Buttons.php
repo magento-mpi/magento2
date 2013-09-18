@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Catalog Events edit form select categories
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 
 namespace Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit;
@@ -21,6 +16,34 @@ class Buttons
     extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     /**
+     * Factory for event collections
+     *
+     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     */
+    protected $_eventCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $registry, $data);
+
+        $this->_eventCollectionFactory = $eventCollectionFactory;
+    }
+
+    /**
      * Retrieve category event
      *
      * @return \Magento\CatalogEvent\Model\Event
@@ -28,7 +51,8 @@ class Buttons
     public function getEvent()
     {
         if (!$this->hasData('event')) {
-            $collection = \Mage::getModel('Magento\CatalogEvent\Model\Event')->getCollection()
+            /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $collection */
+            $collection = $this->_eventCollectionFactory->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId());
 
             $event = $collection->getFirstItem();

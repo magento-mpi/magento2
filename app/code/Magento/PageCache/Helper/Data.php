@@ -47,13 +47,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_isNoCacheCookieLocked = false;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * Initialize 'no cache' cookie locking
      *
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    function __construct(\Magento\Core\Helper\Context $context)
-    {
+    function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_isNoCacheCookieLocked = (bool)$this->_getCookie()->get(self::NO_CACHE_LOCK_COOKIE);
     }
 
@@ -74,7 +85,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)\Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_ENABLED);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_ENABLED);
     }
 
     /**
@@ -96,7 +107,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCacheControlInstance()
     {
-        $usedControl = \Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
+        $usedControl = $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
         if ($usedControl) {
             foreach ($this->getCacheControls() as $control => $info) {
                 if ($control == $usedControl && !empty($info['class'])) {
@@ -118,7 +129,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         if ($this->_isNoCacheCookieLocked) {
             return $this;
         }
-        $lifetime = $lifetime !== null ? $lifetime : \Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
+        $lifetime = $lifetime !== null ? $lifetime : $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
         if ($this->_getCookie()->get(self::NO_CACHE_COOKIE)) {
             $this->_getCookie()->renew(self::NO_CACHE_COOKIE, $lifetime);
         } else {
@@ -171,6 +182,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getNoCacheCookieLifetime()
     {
-        return \Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
     }
 }

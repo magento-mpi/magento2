@@ -19,6 +19,24 @@ namespace Magento\Downloadable\Block\Catalog\Product;
 
 class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
 {
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $taxData, $catalogData, $coreData, $context, $data);
+    }
 
     /**
      * Enter description here...
@@ -57,7 +75,7 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
         if ($this->getProduct()->getSamplesTitle()) {
             return $this->getProduct()->getSamplesTitle();
         }
-        return \Mage::getStoreConfig(\Magento\Downloadable\Model\Sample::XML_PATH_SAMPLES_TITLE);
+        return $this->_storeConfig->getConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**
@@ -67,6 +85,6 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getIsOpenInNewWindow()
     {
-        return \Mage::getStoreConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_storeConfig->getConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 }

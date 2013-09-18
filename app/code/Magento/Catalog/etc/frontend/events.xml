@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="customer_login">
-        <observer name="catalog" instance="Magento\Catalog\Model\Product\Compare\Item" method="bindCustomerLogin" shared="false" />
+        <observer name="catalog" instance="Magento_Catalog_Model_Product_Compare_Item" method="bindCustomerLogin" shared="false" />
     </event>
     <event name="customer_logout">
-        <observer name="catalog" instance="Magento\Catalog\Model\Product\Compare\Item" method="bindCustomerLogout" shared="false" />
+        <observer name="catalog" instance="Magento_Catalog_Model_Product_Compare_Item" method="bindCustomerLogout" shared="false" />
     </event>
 </config>

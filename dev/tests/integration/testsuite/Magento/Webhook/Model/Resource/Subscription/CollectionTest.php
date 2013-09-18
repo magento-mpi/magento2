@@ -55,13 +55,13 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         }
     }
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_subscriptions = array();
-
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
+        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        $configModel->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
+        $configModel->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
+        $configModel->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
@@ -118,7 +118,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->create('Magento\Webhook\Model\Resource\Subscription\Collection');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         foreach ($this->_subscriptions as $subscription) {
             $subscription->delete();

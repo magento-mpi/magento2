@@ -32,9 +32,9 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
     {
         $storeId = $this->_getStoreId();
 
-        $newurl = \Mage::getUrl('rss/catalog/new/store_id/' . $storeId);
-        $title = __('New Products from %1', \Mage::getModel('Magento\Core\Model\StoreManagerInterface')->getStore($storeId)->getFrontendName());
-        $lang = \Mage::getStoreConfig('general/locale/code');
+        $newurl = Mage::getUrl('rss/catalog/new/store_id/' . $storeId);
+        $title = __('New Products from %1', Mage::getModel('Magento_Core_Model_StoreManagerInterface')->getStore($storeId)->getFrontendName());
+        $lang = $this->_storeConfig->getConfig('general/locale/code');
 
         $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');
         $data = array('title' => $title,

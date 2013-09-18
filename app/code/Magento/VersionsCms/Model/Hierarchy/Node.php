@@ -83,6 +83,13 @@ class Node extends \Magento\Core\Model\AbstractModel
     protected $_scopeId = self::NODE_SCOPE_DEFAULT_ID;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * Meta node's types
      */
     const META_NODE_TYPE_CHAPTER = 'chapter';
@@ -102,6 +109,7 @@ class Node extends \Magento\Core\Model\AbstractModel
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -110,11 +118,13 @@ class Node extends \Magento\Core\Model\AbstractModel
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
@@ -736,7 +746,7 @@ class Node extends \Magento\Core\Model\AbstractModel
         }
         $layoutCode = $rootParams['menu_layout'];
         if (!$layoutCode) {
-            $layoutCode = \Mage::getStoreConfig('cms/hierarchy/menu_layout');
+            $layoutCode = $this->_coreStoreConfig->getConfig('cms/hierarchy/menu_layout');
         }
         if (!$layoutCode) {
             return null;

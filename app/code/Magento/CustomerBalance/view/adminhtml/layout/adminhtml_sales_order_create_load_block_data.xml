@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_data">
-        <reference name="billing_method">
-            <block class="Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment" template="sales/order/create/payment.phtml" name="customerbalance" before="-"/>
-        </reference>
-    </handle>
+    <reference name="billing_method">
+        <block class="Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_Payment" template="sales/order/create/payment.phtml" name="customerbalance" before="-"/>
+    </reference>
 </layout>

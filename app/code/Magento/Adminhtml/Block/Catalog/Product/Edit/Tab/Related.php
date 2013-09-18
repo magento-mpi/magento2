@@ -220,7 +220,7 @@ class Related extends \Magento\Adminhtml\Block\Widget\Grid
         $this->addColumn('price', array(
             'header'        => __('Price'),
             'type'          => 'currency',
-            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'         => 'price',
             'header_css_class'  => 'col-price',
             'column_css_class'  => 'col-price'

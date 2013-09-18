@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Menu/Generator.php';
 
 /**
@@ -42,7 +42,7 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
     protected $_fileManagerMock;
 
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_fixturePath = realpath(__DIR__ . '/../') . DIRECTORY_SEPARATOR . '_files';
 

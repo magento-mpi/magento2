@@ -62,12 +62,18 @@ class Installer extends \Magento\Object
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Resource_SetupFactory
+     */
+    protected $_setupFactory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param Magento_Core_Model_Resource_SetupFactory $setupFactory
      * @param array $data
      */
     public function __construct(
@@ -77,6 +83,7 @@ class Installer extends \Magento\Object
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
+        Magento_Core_Model_Resource_SetupFactory $setupFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -85,6 +92,7 @@ class Installer extends \Magento\Object
         $this->_cache = $cache;
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
+        $this->_setupFactory = $setupFactory;
         parent::__construct($data);
     }
 
@@ -211,8 +219,10 @@ class Installer extends \Magento\Object
         /**
          * Saving host information into DB
          */
-        $setupModel = \Mage::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup'));
+        /** @var $setupModel Magento_Core_Model_Resource_Setup */
+        $setupModel = $this->_setupFactory->create(
+            'Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup')
+        );
 
         if (!empty($data['use_rewrites'])) {
             $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 1);

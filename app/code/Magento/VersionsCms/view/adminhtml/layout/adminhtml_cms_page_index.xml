@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_cms_page_index">
-        <reference name="cms_page">
-            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page" name="cms_page_extender"/>
-        </reference>
-    </handle>
+    <reference name="cms_page">
+        <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page" name="cms_page_extender"/>
+    </reference>
 </layout>

@@ -21,6 +21,25 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_PAYMENT_GROUPS = 'global/payment/groups';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve method model object
      *
      * @param   string $code
@@ -28,9 +47,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMethodInstance($code)
     {
-        $key = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/model';
-        $class = \Mage::getStoreConfig($key);
-        return \Mage::getModel($class);
+        $key = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/model';
+        $class = $this->_coreStoreConfig->getConfig($key);
+        return Mage::getModel($class);
     }
 
     /**
@@ -50,7 +69,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         uasort($methods, array($this, '_sortMethods'));
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
-            if (!$model = \Mage::getStoreConfig($prefix . 'model', $store)) {
+            if (!$model = $this->_coreStoreConfig->getConfig($prefix . 'model', $store)) {
                 continue;
             }
             $methodInstance = \Mage::getModel($model);
@@ -79,7 +98,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * Retreive payment method form html
+     * Retrieve payment method form html
      *
      * @param   \Magento\Payment\Model\Method\AbstractMethod $method
      * @return  Magento_Payment_Block_Form
@@ -185,7 +204,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPaymentMethods($store = null)
     {
-        return \Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PAYMENT_METHODS, $store);
     }
 
     /**
@@ -286,7 +305,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isZeroSubTotal($store = null)
     {
-        return \Mage::getStoreConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE, $store);
+        return $this->_coreStoreConfig
+            ->getConfig(Magento_Payment_Model_Method_Free::XML_PATH_PAYMENT_FREE_ACTIVE, $store);
     }
 
     /**
@@ -297,7 +317,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getZeroSubTotalOrderStatus($store = null)
     {
-        return \Mage::getStoreConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, $store);
+        return $this->_coreStoreConfig
+            ->getConfig(Magento_Payment_Model_Method_Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, $store);
     }
 
     /**
@@ -308,6 +329,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)
     {
-        return \Mage::getStoreConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, $store);
+        return $this->_coreStoreConfig
+            ->getConfig(Magento_Payment_Model_Method_Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, $store);
     }
 }

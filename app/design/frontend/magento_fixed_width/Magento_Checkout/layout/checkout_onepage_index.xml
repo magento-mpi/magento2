@@ -8,18 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_index">
-        <update handle="page_one_column"/>
-        <reference name="head">
-            <action method="addJs">
+    <update handle="page_one_column"/>
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-checkout-js-opcheckout-js">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_Checkout::js/opcheckout.js</argument>
-            </action>
-        </reference>
-        <move element="checkout.progress" destination="checkout.onepage" as="checkoutProgress" before="-"/>
-        <remove name="checkout.progress.wrapper"/>
-        <reference name="checkout.onepage.payment">
-            <block class="Magento\Core\Block\Template" name="checkout.onepage.payment.additional" as="additional" after="checkout.payment.methods"/>
-            <block class="Magento\Core\Block\Template" name="checkout.onepage.payment.methods_additional" as="methods_additional" after="checkout.onepage.payment.additional"/>
-        </reference>
-    </handle>
+            </arguments>
+        </block>
+    </reference>
+    <move element="checkout.progress" destination="checkout.onepage" as="checkoutProgress" before="-"/>
+    <remove name="checkout.progress.wrapper"/>
+    <reference name="checkout.onepage.payment">
+        <block class="Magento_Core_Block_Template" name="checkout.onepage.payment.additional" as="additional" after="checkout.payment.methods"/>
+        <block class="Magento_Core_Block_Template" name="checkout.onepage.payment.methods_additional" as="methods_additional" after="checkout.onepage.payment.additional"/>
+    </reference>
 </layout>

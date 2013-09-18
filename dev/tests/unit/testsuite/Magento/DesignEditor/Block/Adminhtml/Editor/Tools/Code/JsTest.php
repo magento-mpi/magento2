@@ -36,7 +36,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
         $this->_themeContext = $this->getMock('Magento\DesignEditor\Model\Theme\Context', array(), array(), '', false);
@@ -63,7 +63,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_model = null;
         $this->_urlBuilder = null;

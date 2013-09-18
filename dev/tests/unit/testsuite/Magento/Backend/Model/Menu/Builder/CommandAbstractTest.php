@@ -16,7 +16,7 @@ class Magento_Backend_Model_Menu_Builder_CommandAbstractTest extends PHPUnit_Fra
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Backend\Model\Menu\Builder\CommandAbstract',

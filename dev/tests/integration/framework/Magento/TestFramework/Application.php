@@ -182,8 +182,8 @@ class Magento_TestFramework_Application
                 new Magento_TestFramework_ObjectManager_Config());
             $primaryLoader = new \Magento\Core\Model\ObjectManager\ConfigLoader\Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
-            $objectManager->get('Magento\Core\Model\Resource')
-                ->setResourceConfig(Mage::getObjectManager()->get('Magento\Core\Model\Config\Resource'));
+            $objectManager->get('Magento_Core_Model_Resource')
+                ->setResourceConfig($objectManager->get('Magento_Core_Model_Config_Resource'));
         } else {
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             Magento_TestFramework_ObjectManager::setInstance($objectManager);
@@ -362,7 +362,6 @@ class Magento_TestFramework_Application
             ->registry('_singleton/Magento\Core\Model\Resource');
 
         Mage::reset();
-        Mage::setObjectManager($objectManager);
         \Magento\Data\Form::setElementRenderer(null);
         \Magento\Data\Form::setFieldsetRenderer(null);
         \Magento\Data\Form::setFieldsetElementRenderer(null);

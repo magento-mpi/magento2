@@ -24,6 +24,32 @@ class Config
     protected static $_methods;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieve active system payments
      *
      * @param   mixed $store
@@ -32,9 +58,9 @@ class Config
     public function getActiveMethods($store=null)
     {
         $methods = array();
-        $config = \Mage::getStoreConfig('payment', $store);
+        $config = $this->_coreStoreConfig->getConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
-            if (\Mage::getStoreConfigFlag('payment/'.$code.'/active', $store)) {
+            if ($this->_coreStoreConfig->getConfigFlag('payment/'.$code.'/active', $store)) {
                 if (array_key_exists('model', $methodConfig)) {
                     $methodModel = \Mage::getModel($methodConfig['model']);
                     if ($methodModel && $methodModel->getConfigData('active', $store)) {
@@ -55,7 +81,7 @@ class Config
     public function getAllMethods($store=null)
     {
         $methods = array();
-        $config = \Mage::getStoreConfig('payment', $store);
+        $config = $this->_coreStoreConfig->getConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
             $data = $this->_getMethod($code, $methodConfig);
             if (false !== $data) {
@@ -92,7 +118,7 @@ class Config
      */
     public function getCcTypes()
     {
-        $_types = \Mage::getConfig()->getNode('global/payment/cc/types')->asArray();
+        $_types = $this->_coreConfig->getNode('global/payment/cc/types')->asArray();
 
         uasort($_types, array('Magento\Payment\Model\Config', 'compareCcTypes'));
 

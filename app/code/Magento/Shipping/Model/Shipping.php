@@ -52,12 +52,22 @@ class Shipping
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -117,15 +127,15 @@ class Shipping
         $storeId = $request->getStoreId();
         if (!$request->getOrig()) {
             $request
-                ->setCountryId(\Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $request->getStore()))
-                ->setRegionId(\Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $request->getStore()))
-                ->setCity(\Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $request->getStore()))
-                ->setPostcode(\Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $request->getStore()));
+                ->setCountryId($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_COUNTRY_ID, $request->getStore()))
+                ->setRegionId($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_REGION_ID, $request->getStore()))
+                ->setCity($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $request->getStore()))
+                ->setPostcode($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ZIP, $request->getStore()));
         }
 
         $limitCarrier = $request->getLimitCarrier();
         if (!$limitCarrier) {
-            $carriers = \Mage::getStoreConfig('carriers', $storeId);
+            $carriers = $this->_coreStoreConfig->getConfig('carriers', $storeId);
 
             foreach ($carriers as $carrierCode => $carrierConfig) {
                 $this->collectCarrierRates($carrierCode, $request);
@@ -135,7 +145,7 @@ class Shipping
                 $limitCarrier = array($limitCarrier);
             }
             foreach ($limitCarrier as $carrierCode) {
-                $carrierConfig = \Mage::getStoreConfig('carriers/' . $carrierCode, $storeId);
+                $carrierConfig = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode, $storeId);
                 if (!$carrierConfig) {
                     continue;
                 }
@@ -411,10 +421,12 @@ class Shipping
      */
     public function getCarrierByCode($carrierCode, $storeId = null)
     {
-        if (!\Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/'.$this->_availabilityConfigField, $storeId)) {
+        $isActive = $this->_coreStoreConfig
+            ->getConfigFlag('carriers/' . $carrierCode . '/' . $this->_availabilityConfigField, $storeId);
+        if (!$isActive) {
             return false;
         }
-        $className = \Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);
+        $className = $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/model', $storeId);
         if (!$className) {
             return false;
         }
@@ -443,21 +455,21 @@ class Shipping
         if (!$shipmentCarrier) {
             \Mage::throwException('Invalid carrier: ' . $shippingMethod->getCarrierCode());
         }
-        $shipperRegionCode = \Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
+        $shipperRegionCode = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
         if (is_numeric($shipperRegionCode)) {
             $shipperRegionCode = \Mage::getModel('Magento\Directory\Model\Region')->load($shipperRegionCode)->getCode();
         }
 
         $recipientRegionCode = \Mage::getModel('Magento\Directory\Model\Region')->load($address->getRegionId())->getCode();
 
-        $originStreet1 = \Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
-        $originStreet2 = \Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
-        $storeInfo = new \Magento\Object(\Mage::getStoreConfig('general/store_information', $shipmentStoreId));
+        $originStreet1 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
+        $originStreet2 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
+        $storeInfo = new Magento_Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
 
         if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
-            || !$originStreet1 || !\Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)
-            || !$shipperRegionCode || !\Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId)
-            || !\Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
+            || !$originStreet1 || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)
+            || !$shipperRegionCode || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId)
+            || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
         ) {
             \Mage::throwException(
                 __('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
@@ -476,10 +488,10 @@ class Shipping
         $request->setShipperAddressStreet(trim($originStreet1 . ' ' . $originStreet2));
         $request->setShipperAddressStreet1($originStreet1);
         $request->setShipperAddressStreet2($originStreet2);
-        $request->setShipperAddressCity(\Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId));
+        $request->setShipperAddressCity($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId));
         $request->setShipperAddressStateOrProvinceCode($shipperRegionCode);
-        $request->setShipperAddressPostalCode(\Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId));
-        $request->setShipperAddressCountryCode(\Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId));
+        $request->setShipperAddressPostalCode($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId));
+        $request->setShipperAddressCountryCode($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId));
         $request->setRecipientContactPersonName(trim($address->getFirstname() . ' ' . $address->getLastname()));
         $request->setRecipientContactPersonFirstName($address->getFirstname());
         $request->setRecipientContactPersonLastName($address->getLastname());

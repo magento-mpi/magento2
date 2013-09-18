@@ -33,16 +33,34 @@ class Data extends \Magento\Core\Helper\Url
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
+    
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
 
     /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_layout = $layout;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -99,7 +117,7 @@ class Data extends \Magento\Core\Helper\Url
     {
         if (is_string($block)) {
             if (class_exists($block)) {
-                $block = \Mage::getObjectManager()->create($block);
+                $block = $this->_layout->createBlock($block);
             }
         }
         if (!$block instanceof \Magento\Core\Block\AbstractBlock) {
@@ -115,7 +133,7 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function isStockAlertAllowed()
     {
-        return \Mage::getStoreConfigFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_STOCK_ALLOW);
     }
 
     /**
@@ -125,6 +143,6 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function isPriceAlertAllowed()
     {
-        return \Mage::getStoreConfigFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_PRICE_ALLOW);
     }
 }

@@ -47,7 +47,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
         return $this->_coreRegistry->registry('sales_order');
     }
 
-    public function _prepareLayout()
+    protected function _prepareLayout()
     {
         /**
          * Check customer existing

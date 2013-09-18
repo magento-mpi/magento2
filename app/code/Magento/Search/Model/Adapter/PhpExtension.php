@@ -35,14 +35,14 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     protected $_ctlgInventData = null;
 
     /**
-     * Initialize connect to Solr Client
-     * 
-     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
-     * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
+     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Search_Helper_ClientInterface $clientHelper
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $options
+     * @throws Exception
      */
     public function __construct(
         \Magento\CatalogInventory\Helper\Data $ctlgInventData,
@@ -50,13 +50,14 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Core\Model\Logger $logger,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;
         if (!extension_loaded('solr')) {
             throw new \Exception('Solr extension not enabled!');
         }
-        parent::__construct($clientFactory, $logger, $clientHelper, $registry, $options);
+        parent::__construct($clientFactory, $logger, $clientHelper, $registry, $coreStoreConfig, $options);
     }
 
     /**

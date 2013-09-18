@@ -295,22 +295,6 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     }
 
     /**
-     * Add/replace reviews summary template by type
-     *
-     * @param string $type
-     * @param string $template
-     * @return string
-     */
-    public function addReviewSummaryTemplate($type, $template)
-    {
-        if ($this->_initReviewsHelperBlock()) {
-            $this->_reviewsHelperBlock->addTemplate($type, $template);
-        }
-
-        return '';
-    }
-
-    /**
      * Create reviews summary helper block once
      *
      * @return boolean

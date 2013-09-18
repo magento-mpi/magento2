@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Backup data collection
- *
- * @category   Magento
- * @package    \Magento\Backup
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Model\Fs;
 
@@ -39,26 +33,34 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected $_backupData = null;
 
     /**
+     * Directory model
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
      * Set collection specific parameters and make sure backups folder will exist
      *
-     *
-     *
-     * @param \Magento\Backup\Helper\Data $backupData
-     * @param \Magento\Filesystem $filesystem
+     * @param Magento_Backup_Helper_Data $backupData
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
-        \Magento\Backup\Helper\Data $backupData,
-        \Magento\Filesystem $filesystem
+        Magento_Backup_Helper_Data $backupData,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Dir $dir
     ) {
-        $this->_backupData = $backupData;
         parent::__construct();
 
-        $this->_baseDir = \Mage::getBaseDir('var') . DS . 'backups';
+        $this->_backupData = $backupData;
         $this->_filesystem = $filesystem;
+        $this->_dir = $dir;
+        $this->_baseDir = $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'backups';
+
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($this->_baseDir);
         $this->_filesystem->setWorkingDirectory($this->_baseDir);
-
         $this->_hideBackupsForApache();
 
         // set collection specific params
@@ -69,12 +71,10 @@ class Collection extends \Magento\Data\Collection\Filesystem
         }
         $extensions = implode('|', $extensions);
 
-        $this
-            ->setOrder('time', self::SORT_ORDER_DESC)
+        $this->setOrder('time', self::SORT_ORDER_DESC)
             ->addTargetDir($this->_baseDir)
             ->setFilesFilter('/^[a-z0-9\-\_]+\.' . $extensions . '$/')
-            ->setCollectRecursively(false)
-        ;
+            ->setCollectRecursively(false);
     }
 
     /**

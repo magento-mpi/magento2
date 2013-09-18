@@ -55,16 +55,18 @@ class Collection
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_catalogProductCompare = $catalogProductCompare;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig);
     }
 
     /**

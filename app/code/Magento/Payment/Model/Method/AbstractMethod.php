@@ -87,6 +87,13 @@ abstract class AbstractMethod extends \Magento\Object
     protected $_paymentData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * Core event manager proxy
      *
      * @var \Magento\Core\Model\Event\Manager
@@ -96,15 +103,18 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
     }
 
@@ -593,8 +603,8 @@ abstract class AbstractMethod extends \Magento\Object
         if (null === $storeId) {
             $storeId = $this->getStore();
         }
-        $path = 'payment/'.$this->getCode().'/'.$field;
-        return \Mage::getStoreConfig($path, $storeId);
+        $path = 'payment/' . $this->getCode() . '/' . $field;
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**
@@ -614,8 +624,8 @@ abstract class AbstractMethod extends \Magento\Object
         return $this;
     }
 
-   /**
-     * Parepare info instance for save
+    /**
+     * Prepare info instance for save
      *
      * @return Magento_Payment_Model_Abstract
      */
@@ -630,7 +640,6 @@ abstract class AbstractMethod extends \Magento\Object
      * TODO: payment method instance is not supposed to know about quote
      *
      * @param \Magento\Sales\Model\Quote|null $quote
-     *
      * @return bool
      */
     public function isAvailable($quote = null)

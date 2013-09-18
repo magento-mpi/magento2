@@ -20,10 +20,12 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
     protected $_design = null;
 
     /**
-     * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -31,12 +33,14 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
     /**

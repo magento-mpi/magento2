@@ -102,14 +102,26 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @var \Magento\CatalogRule\Helper\Data
      */
-    protected $_catalogRuleData = null;
+    protected $_catalogRuleData;
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
 
     /**
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\CatalogRule\Model\Resource\Rule $resource
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_CatalogRule_Model_Resource_Rule $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -118,11 +130,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Core_Model_Config $coreConfig,
         \Magento\CatalogRule\Model\Resource\Rule $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_catalogRuleData = $catalogRuleData;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -286,7 +302,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function applyAllRulesToProduct($product)
     {
-        $this->_getResource()->applyAllRulesForDateRange(NULL, NULL, $product);
+        $this->_getResource()->applyAllRulesForDateRange(null, null, $product);
         $this->_invalidateCache();
 
         if ($product instanceof \Magento\Catalog\Model\Product) {
@@ -404,12 +420,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _invalidateCache()
     {
-        $types = \Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
+        $types = $this->_coreConfig->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
-            /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-            $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
-            $cacheTypeList->invalidate(array_keys($types));
+            $this->_cacheTypeList->invalidate(array_keys($types));
         }
         return $this;
     }
@@ -421,7 +435,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @return string
      */
-    public function toString($format='')
+    public function toString($format = '')
     {
         return '';
     }

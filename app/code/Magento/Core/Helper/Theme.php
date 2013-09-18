@@ -16,18 +16,6 @@ namespace Magento\Core\Helper;
 class Theme extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * XPath selector to get CSS files from layout added for HEAD block directly
-     */
-    const XPATH_SELECTOR_BLOCKS =
-        '//block[@class="Magento\Page\Block\Html\Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
-
-    /**
-     * XPath selector to get CSS files from layout added for HEAD block using reference
-     */
-    const XPATH_SELECTOR_REFS =
-        '//reference[@name="head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
-
-    /**
      * Directories
      *
      * @var \Magento\Core\Model\Dir
@@ -91,9 +79,21 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
         $layoutMerge = $this->_layoutMergeFactory->create(array('theme' => $theme));
         $layoutElement = $layoutMerge->getFileLayoutUpdatesXml();
 
+        /**
+         * XPath selector to get CSS files from layout added for HEAD block directly
+         */
+        $xpathSelectorBlocks = '//block[@class="Magento_Page_Block_Html_Head"]'
+            . '/block[@class="Magento_Page_Block_Html_Head_Css"]/arguments/argument[@name="file"]';
+
+        /**
+         * XPath selector to get CSS files from layout added for HEAD block using reference
+         */
+        $xpathSelectorRefs = '//reference[@name="head"]'
+            . '/block[@class="Magento_Page_Block_Html_Head_Css"]/arguments/argument[@name="file"]';
+
         $elements = array_merge(
-            $layoutElement->xpath(self::XPATH_SELECTOR_REFS) ?: array(),
-            $layoutElement->xpath(self::XPATH_SELECTOR_BLOCKS) ?: array()
+            $layoutElement->xpath($xpathSelectorBlocks) ?: array(),
+            $layoutElement->xpath($xpathSelectorRefs) ?: array()
         );
 
         $params = array(

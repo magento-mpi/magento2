@@ -8,15 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="top.links">
-            <block class="Magento\Wishlist\Block\Links" name="wishlist_link"/>
-            <action method="addLinkBlock">
-                <argument name="blockName" xsi:type="string">wishlist_link</argument>
-            </action>
-        </reference>
-        <reference name="right">
-            <block class="Magento\Wishlist\Block\Customer\Sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="sidebar.phtml"/>
-        </reference>
-    </handle>
+    <reference name="top.links">
+        <block class="Magento_Wishlist_Block_Link" name="wish-list-link" after="my-account-link"/>
+    </reference>
+    <reference name="right">
+        <block class="Magento_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" as="wishlist" after="cart_sidebar" template="sidebar.phtml"/>
+    </reference>
 </layout>

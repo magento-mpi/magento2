@@ -50,7 +50,7 @@ class Breadcrumbs extends \Magento\Core\Block\Template
      */
     public function getTitleSeparator($store = null)
     {
-        $separator = (string)\Mage::getStoreConfig('catalog/seo/title_separator', $store);
+        $separator = (string)$this->_storeConfig->getConfig('catalog/seo/title_separator', $store);
         return ' ' . $separator . ' ';
     }
 

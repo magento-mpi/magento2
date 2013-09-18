@@ -42,7 +42,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_F
      */
     protected $_storeId;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', array(), array(), '', false);
         $this->_categoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);

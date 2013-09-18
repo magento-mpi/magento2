@@ -88,20 +88,30 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Downloadable\Helper\File $downloadableFile,
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Helper\Context $context
+        Magento_Core_Helper_Data $coreData,
+        Magento_Downloadable_Helper_File $downloadableFile,
+        Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -327,6 +337,6 @@ class Download extends \Magento\Core\Helper\AbstractHelper
      */
     public function getContentDisposition($store = null)
     {
-        return \Mage::getStoreConfig(self::XML_PATH_CONTENT_DISPOSITION, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_CONTENT_DISPOSITION, $store);
     }
 }

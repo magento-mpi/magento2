@@ -15,7 +15,7 @@ class Magento_Core_Model_ShellAbstractTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = $this->getMockBuilder('Magento\Core\Model\ShellAbstract')
             ->disableOriginalConstructor()
@@ -23,7 +23,7 @@ class Magento_Core_Model_ShellAbstractTest extends PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

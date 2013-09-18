@@ -8,36 +8,34 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_superconfig_config">
-        <reference name="admin.product.edit.tab.super.config.grid">
-            <arguments>
-                <argument name="dataSource" xsi:type="object">
-                    <updater>Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater</updater>
-                </argument>
-            </arguments>
-            <reference name="admin.product.edit.tab.super.config.grid.columnSet">
-                <block class="Magento\Backend\Block\Widget\Grid\Column" as="inventory_in_stock" after="admin.product.edit.tab.super.config.grid.sku">
-                    <arguments>
-                        <argument name="header" xsi:type="string" translate="true">Stock Availability</argument>
-                        <argument name="type" xsi:type="string">text</argument>
-                        <argument name="index" xsi:type="string">inventory_in_stock</argument>
-                        <argument name="id" xsi:type="string">inventory_in_stock</argument>
-                        <argument name="filter" xsi:type="string">0</argument>
-                        <argument name="sortable" xsi:type="string">1</argument>
-                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Grid\Renderer\Inventory</argument>
-                    </arguments>
-                </block>
-                <block class="Magento\Backend\Block\Widget\Grid\Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">
-                    <arguments>
-                        <argument name="header" xsi:type="string" translate="true">Qty</argument>
-                        <argument name="type" xsi:type="string">text</argument>
-                        <argument name="index" xsi:type="string">qty</argument>
-                        <argument name="id" xsi:type="string">qty</argument>
-                        <argument name="filter" xsi:type="string">0</argument>
-                        <argument name="sortable" xsi:type="string">1</argument>
-                    </arguments>
-                </block>
-            </reference>
+    <reference name="admin.product.edit.tab.super.config.grid">
+        <arguments>
+            <argument name="dataSource" xsi:type="object">
+                <updater>Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater</updater>
+            </argument>
+        </arguments>
+        <reference name="admin.product.edit.tab.super.config.grid.columnSet">
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="inventory_in_stock" after="admin.product.edit.tab.super.config.grid.sku">
+                <arguments>
+                    <argument name="header" xsi:type="string" translate="true">Stock Availability</argument>
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="index" xsi:type="string">inventory_in_stock</argument>
+                    <argument name="id" xsi:type="string">inventory_in_stock</argument>
+                    <argument name="filter" xsi:type="string">0</argument>
+                    <argument name="sortable" xsi:type="string">1</argument>
+                    <argument name="renderer" xsi:type="string">Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory</argument>
+                </arguments>
+            </block>
+            <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">
+                <arguments>
+                    <argument name="header" xsi:type="string" translate="true">Qty</argument>
+                    <argument name="type" xsi:type="string">text</argument>
+                    <argument name="index" xsi:type="string">qty</argument>
+                    <argument name="id" xsi:type="string">qty</argument>
+                    <argument name="filter" xsi:type="string">0</argument>
+                    <argument name="sortable" xsi:type="string">1</argument>
+                </arguments>
+            </block>
         </reference>
-    </handle>
+    </reference>
 </layout>

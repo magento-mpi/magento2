@@ -19,7 +19,7 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
     /**
      * Create a Twig template engine to test.
      */
-    public function setUp()
+    protected function setUp()
     {
         // Objects that are injected into \Magento\Core\Model\TemplateEngine\Twig
         $this->_envFactoryMock = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\Twig\EnvironmentFactory')

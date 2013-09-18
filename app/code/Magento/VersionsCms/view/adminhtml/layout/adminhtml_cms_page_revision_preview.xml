@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_cms_page_revision_preview">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">Magento_VersionsCms::page/preview.phtml</argument>
-            </action>
-            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Form" name="preview_form"/>
-            <container name="tools" as="tools" label="Tools">
-                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Store" name="store_switcher" template="page/preview/store.phtml"/>
-                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Revision" name="revision_switcher" template="page/preview/revision.phtml"/>
-                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Buttons" name="preview_control_buttons"/>
-            </container>
-        </reference>
-    </handle>
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">Magento_VersionsCms::page/preview.phtml</argument>
+        </action>
+        <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Form" name="preview_form"/>
+        <container name="tools" as="tools" label="Tools">
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Store" name="store_switcher" template="page/preview/store.phtml"/>
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Revision" name="revision_switcher" template="page/preview/revision.phtml"/>
+            <block class="Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Buttons" name="preview_control_buttons"/>
+        </container>
+    </reference>
 </layout>

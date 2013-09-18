@@ -106,13 +106,14 @@ class Address
     protected $_customers = array();
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
             : \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');

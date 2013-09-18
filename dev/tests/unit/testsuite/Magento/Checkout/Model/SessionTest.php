@@ -29,10 +29,15 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         $coreHttp = $this->getMock('Magento\Core\Helper\Http', array(), array(), '', false);
 
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        
         /** @var Magento_Checkout_Model_Session $session */
         $session = $this->getMock(
-            'Magento\Checkout\Model\Session', array('init'), array($orderFactory, $eventManager, $coreHttp), ''
+            'Magento_Checkout_Model_Session',
+            array('init'),
+            array($orderFactory, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig),
+            ''
         );
         $session->setLastRealOrderId($orderId);
 

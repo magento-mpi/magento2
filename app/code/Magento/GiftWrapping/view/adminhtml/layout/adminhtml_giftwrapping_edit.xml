@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_giftwrapping_edit">
-        <reference name="content">
-            <block class="Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit" name="giftwrapping_edit"/>
-            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" before="-"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit" name="giftwrapping_edit"/>
+        <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
+    </reference>
 </layout>

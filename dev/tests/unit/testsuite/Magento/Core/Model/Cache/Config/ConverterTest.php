@@ -12,7 +12,7 @@ class Magento_Core_Model_Cache_Config_ConverterTest extends PHPUnit_Framework_Te
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new \Magento\Core\Model\Cache\Config\Converter();
     }

@@ -43,6 +43,25 @@ class DefaultType extends \Magento\Object
     protected $_productOptions = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Option Instance setter
      *
      * @param \Magento\Catalog\Model\Product\Option $option
@@ -153,7 +172,7 @@ class DefaultType extends \Magento\Object
      */
     public function getConfigData($key)
     {
-        return \Mage::getStoreConfig('catalog/custom_options/' . $key);
+        return $this->_coreStoreConfig->getConfig('catalog/custom_options/' . $key);
     }
 
     /**

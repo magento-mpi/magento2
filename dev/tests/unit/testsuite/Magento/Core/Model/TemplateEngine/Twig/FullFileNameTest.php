@@ -27,7 +27,7 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
      */
     private $_appStateMock;
 
-    public function setUp()
+    protected function setUp()
     {
         // prevent PHPUnit from converting real code exceptions
         $this->_prevErrorLevel = error_reporting();
@@ -48,7 +48,7 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
             ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_DEVELOPER));
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         error_reporting($this->_prevErrorLevel);
         PHPUnit_Framework_Error_Warning::$enabled = $this->_prevFrameworkWarningEnabled;

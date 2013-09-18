@@ -64,6 +64,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      * @param string $sessionName
      */
@@ -72,12 +74,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array(),
         $sessionName = null
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
-        parent::__construct($eventManager, $coreHttp, $data);
+        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
             $namespace .= '_' . (\Mage::app()->getStore()->getWebsite()->getCode());

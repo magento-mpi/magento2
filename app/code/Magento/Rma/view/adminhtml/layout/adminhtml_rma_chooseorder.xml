@@ -8,20 +8,18 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_rma_chooseorder">
-        <reference name="left">
-            <action method="setIsCollapsed">
-                <argument name="value" xsi:type="string">true</argument>
-            </action>
-        </reference>
-        <reference name="root">
-            <block class="Magento\Rma\Block\Adminhtml\Rma\Create" name="content">
-                <block class="Magento\Rma\Block\Adminhtml\Rma\Create\Form" template="create/form.phtml" name="form">
-                    <block class="Magento\Rma\Block\Adminhtml\Rma\Create\Order" template="create/order.phtml" name="rma_create_order">
-                        <block class="Magento\Rma\Block\Adminhtml\Rma\Create\Order\Grid" name="grid"/>
-                    </block>
+    <reference name="left">
+        <action method="setIsCollapsed">
+            <argument name="value" xsi:type="string">true</argument>
+        </action>
+    </reference>
+    <reference name="root">
+        <block class="Magento_Rma_Block_Adminhtml_Rma_Create" name="content">
+            <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Form" template="create/form.phtml" name="form">
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Order" template="create/order.phtml" name="rma_create_order">
+                    <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid" name="grid"/>
                 </block>
             </block>
-        </reference>
-    </handle>
+        </block>
+    </reference>
 </layout>

@@ -26,7 +26,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
      */
     protected $_event;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockContext = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()

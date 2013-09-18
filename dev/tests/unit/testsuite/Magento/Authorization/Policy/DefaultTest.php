@@ -15,7 +15,7 @@ class Magento_Authorization_Policy_DefaultTest extends PHPUnit_Framework_TestCas
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new \Magento\Authorization\Policy\DefaultPolicy();
     }

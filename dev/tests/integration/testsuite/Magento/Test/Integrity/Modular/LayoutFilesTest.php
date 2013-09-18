@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -21,10 +21,10 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
      */
     protected $_types;
 
-    public function setUp()
+    protected function setUp()
     {
-        $objectManager = Mage::getObjectManager();
-        $this->_handlerFactory = $objectManager->get('Magento\Core\Model\Layout\Argument\HandlerFactory');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_handlerFactory = $objectManager->get('Magento_Core_Model_Layout_Argument_HandlerFactory');
         $this->_types = $this->_handlerFactory->getTypes();
     }
 

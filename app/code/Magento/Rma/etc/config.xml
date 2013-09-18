@@ -15,7 +15,7 @@
             <rma_setup>
                 <setup>
                     <module>Magento_Rma</module>
-                    <class>Magento\Rma\Model\Resource\Setup</class>
+                    <class>Magento_Rma_Model_Resource_Setup</class>
                 </setup>
             </rma_setup>
         </resources>

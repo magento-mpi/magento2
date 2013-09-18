@@ -69,16 +69,6 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         }
     }
 
-    public function chooseTemplate()
-    {
-        $itemsCount = $this->getItemsCount() ? $this->getItemsCount() : $this->getQuote()->getItemsCount();
-        if ($itemsCount) {
-            $this->setTemplate($this->getCartTemplate());
-        } else {
-            $this->setTemplate($this->getEmptyTemplate());
-        }
-    }
-
     public function hasError()
     {
         return $this->getQuote()->getHasError();
@@ -93,8 +83,8 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
     {
         $isActive = $this->_getData('is_wishlist_active');
         if ($isActive === null) {
-            $isActive = \Mage::getStoreConfig('wishlist/general/active')
-                && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
+            $isActive = $this->_storeConfig->getConfig('wishlist/general/active')
+                && \Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;
@@ -165,5 +155,13 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         }
 
         return parent::getItems();
+    }
+
+    /**
+     * @return int
+     */
+    public function getItemsCount()
+    {
+        return $this->getQuote()->getItemsCount();
     }
 }

@@ -26,6 +26,27 @@ class Layout
     protected $_template = 'instance/edit/layout.phtml';
 
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Catalog_Model_Product_Type $productType,
+        array $data = array()
+    ) {
+        $this->_productType = $productType;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Render given element (return html of element)
      *
      * @return string
@@ -142,7 +163,7 @@ class Layout
                 )
             )
         );
-        foreach (\Magento\Catalog\Model\Product\Type::getTypes() as $typeId => $type) {
+        foreach ($this->_productType->getTypes() as $typeId => $type) {
             $productsOptions[] = array(
                'value' => $typeId.'_products',
                'label' => $this->helper('Magento\Core\Helper\Data')->jsQuoteEscape($type['label'])
@@ -204,7 +225,7 @@ class Layout
             'is_anchor_only' => '',
             'product_type_id' => ''
         );
-        foreach (\Magento\Catalog\Model\Product\Type::getTypes() as $typeId => $type) {
+        foreach ($this->_productType->getTypes() as $typeId => $type) {
             $container[$typeId] = array(
                 'label' => 'Products',
                 'code' => 'products',

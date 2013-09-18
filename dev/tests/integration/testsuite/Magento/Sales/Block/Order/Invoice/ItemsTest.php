@@ -26,7 +26,7 @@ class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_Test
      */
     protected $_invoice;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\Sales\Block\Order\Invoice\Items', 'block');

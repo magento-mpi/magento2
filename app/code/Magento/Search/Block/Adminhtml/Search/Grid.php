@@ -29,6 +29,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      */
     protected $_registryManager;
 
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Search_Model_Adminhtml_Search_Grid_Options $options
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,

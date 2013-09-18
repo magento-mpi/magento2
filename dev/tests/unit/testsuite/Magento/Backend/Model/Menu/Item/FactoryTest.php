@@ -33,7 +33,7 @@ class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_Test
      */
     protected $_params = array();
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectFactoryMock = $this->getMock('Magento\ObjectManager');
         $this->_helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array(), array(), '', false);

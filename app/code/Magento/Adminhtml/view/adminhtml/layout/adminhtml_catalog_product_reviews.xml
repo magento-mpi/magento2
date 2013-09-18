@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_reviews">
-        <container name="root" label="Root" output="1">
-            <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Reviews" name="admin.product.reviews"/>
-        </container>
-    </handle>
+    <container name="root" label="Root" output="1">
+        <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Reviews" name="admin.product.reviews"/>
+    </container>
 </layout>

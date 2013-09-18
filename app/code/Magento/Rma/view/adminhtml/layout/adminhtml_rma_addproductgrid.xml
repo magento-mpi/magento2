@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_rma_addproductgrid">
-        <block class="Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid" name="add_product_grid" output="1"/>
-    </handle>
+    <block class="Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid" name="add_product_grid" output="1"/>
 </layout>

@@ -16,7 +16,7 @@ class Magento_Backend_Model_Config_Structure_ConverterTest extends PHPUnit_Frame
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $factoryMock = $this->getMock('Magento\Backend\Model\Config\Structure\Mapper\Factory',
             array(),

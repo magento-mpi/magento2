@@ -11,9 +11,7 @@
 /**
  * System config file field backend model
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Backend\Model\Config\Backend;
 
@@ -39,6 +37,8 @@ class File extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -48,13 +48,23 @@ class File extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $config,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->_requestData = $requestData;
         $this->_filesystem = $filesystem;
     }

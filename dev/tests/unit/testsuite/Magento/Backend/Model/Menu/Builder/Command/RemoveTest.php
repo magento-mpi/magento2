@@ -20,7 +20,7 @@ class Magento_Backend_Model_Menu_Builder_Command_RemoveTest extends PHPUnit_Fram
         'id' => 'item'
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new \Magento\Backend\Model\Menu\Builder\Command\Remove($this->_params);
     }

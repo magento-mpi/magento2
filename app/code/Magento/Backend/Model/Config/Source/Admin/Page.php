@@ -19,7 +19,7 @@ class Page implements \Magento\Core\Model\Option\ArrayInterface
     protected $_menu;
 
     /**
-     * Object factory
+     * @var Magento_Backend_Model_Menu_Filter_IteratorFactory
      *
      * @var \Magento\Core\Model\Config
      */

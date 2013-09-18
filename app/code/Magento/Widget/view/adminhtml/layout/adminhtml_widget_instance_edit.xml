@@ -8,51 +8,59 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_widget_instance_edit">
-        <reference name="head">
-            <action method="setCanLoadExtJs">
-                <argument name="flag" xsi:type="string">1</argument>
-            </action>
-            <action method="addJs">
+    <reference name="head">
+        <action method="setCanLoadExtJs">
+            <argument name="flag" xsi:type="string">1</argument>
+        </action>
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-wysiwyg-widget-js">
+            <arguments>
                 <argument name="file" xsi:type="string">mage/adminhtml/wysiwyg/widget.js</argument>
-            </action>
-            <action method="addJs">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="prototype-window-js">
+            <arguments>
                 <argument name="file" xsi:type="string">prototype/window.js</argument>
-            </action>
-            <action method="addCss">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="prototype-windows-themes-default-css">
+            <arguments>
                 <argument name="file" xsi:type="string">prototype/windows/themes/default.css</argument>
-            </action>
-            <action method="addCss">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="magento-core-prototype-magento-css">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_Core::prototype/magento.css</argument>
-            </action>
-            <action method="addCss">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="magento-widget-css-styles-css">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_Widget::css/styles.css</argument>
+            </arguments>
+        </block>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit" name="widget_instance_edit"/>
+    </reference>
+    <reference name="left">
+        <block class="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tabs" name="widget_instance_edit_tabs">
+            <block class="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings" name="widget_instance_edit_tab_settings"/>
+            <block class="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main" name="widget_instance_edit_tab_main"/>
+            <block class="Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties" name="widget_instance_edit_tab_properties"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">settings_section</argument>
+                <argument name="block" xsi:type="string">widget_instance_edit_tab_settings</argument>
             </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento\Widget\Block\Adminhtml\Widget\Instance\Edit" name="widget_instance_edit"/>
-        </reference>
-        <reference name="left">
-            <block class="Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tabs" name="widget_instance_edit_tabs">
-                <block class="Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Settings" name="widget_instance_edit_tab_settings"/>
-                <block class="Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main" name="widget_instance_edit_tab_main"/>
-                <block class="Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Properties" name="widget_instance_edit_tab_properties"/>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">settings_section</argument>
-                    <argument name="block" xsi:type="string">widget_instance_edit_tab_settings</argument>
-                </action>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">main_section</argument>
-                    <argument name="block" xsi:type="string">widget_instance_edit_tab_main</argument>
-                </action>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">properties_section</argument>
-                    <argument name="block" xsi:type="string">widget_instance_edit_tab_properties</argument>
-                </action>
-            </block>
-        </reference>
-        <reference name="js">
-            <block class="Magento\Adminhtml\Block\Template" template="Magento_Widget::instance/js.phtml" name="widget_instance_js"/>
-        </reference>
-    </handle>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">main_section</argument>
+                <argument name="block" xsi:type="string">widget_instance_edit_tab_main</argument>
+            </action>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">properties_section</argument>
+                <argument name="block" xsi:type="string">widget_instance_edit_tab_properties</argument>
+            </action>
+        </block>
+    </reference>
+    <reference name="js">
+        <block class="Magento_Adminhtml_Block_Template" template="Magento_Widget::instance/js.phtml" name="widget_instance_js"/>
+    </reference>
 </layout>

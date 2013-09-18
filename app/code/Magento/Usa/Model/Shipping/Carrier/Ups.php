@@ -116,19 +116,19 @@ class Ups
     protected $_simpleXmlElementFactory;
 
     /**
-     * Usp constructor
-     *
-     * @param \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
-     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param Magento_Directory_Helper_Data $directoryData     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory,
+        Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Directory\Helper\Data $directoryData,
         array $data = array()
     ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
-        parent::__construct($directoryData, $data);
+        parent::__construct($directoryData, $coreStoreConfig, $data);
     }
 
     /**
@@ -196,8 +196,8 @@ class Ups
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = \Mage::getStoreConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
+            $origCountry = $this->_coreStoreConfig->getConfig(
+                Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             );
         }
@@ -207,8 +207,8 @@ class Ups
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
         } else {
-            $origRegionCode = \Mage::getStoreConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_REGION_ID,
+            $origRegionCode = $this->_coreStoreConfig->getConfig(
+                Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
                 $request->getStoreId()
             );
         }
@@ -220,8 +220,8 @@ class Ups
         if ($request->getOrigPostcode()) {
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
-            $rowRequest->setOrigPostal(\Mage::getStoreConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
+            $rowRequest->setOrigPostal($this->_coreStoreConfig->getConfig(
+                Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
         }
@@ -229,8 +229,8 @@ class Ups
         if ($request->getOrigCity()) {
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
-            $rowRequest->setOrigCity(\Mage::getStoreConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_CITY,
+            $rowRequest->setOrigCity($this->_coreStoreConfig->getConfig(
+                Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY,
                 $request->getStoreId()
             ));
         }

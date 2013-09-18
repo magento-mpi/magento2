@@ -17,7 +17,7 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_codeModelMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
 

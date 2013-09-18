@@ -8,13 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_overview">
-        <reference name="checkout_overview">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">giftcard</argument>
-                <argument name="block" xsi:type="string">Magento\GiftCard\Block\Checkout\Cart\Item\Renderer</argument>
-                <argument name="template" xsi:type="string">Magento_Checkout::multishipping/item/default.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="checkout_overview">
+        <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_Checkout::multishipping/item/default.phtml"/>
+    </reference>
 </layout>

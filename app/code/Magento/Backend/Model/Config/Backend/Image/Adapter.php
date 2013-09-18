@@ -28,6 +28,8 @@ class Adapter extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
      * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -36,17 +38,27 @@ class Adapter extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         \Magento\Core\Model\Image\AdapterFactory $imageFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $config,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->_imageFactory = $imageFactory;
     }
 
     /**
-     * Checks if choosen image adapter available
+     * Checks if chosen image adapter available
      *
      * @throws \Magento\Core\Exception if some of adapter dipendencies was not loaded
      * @return \Magento\Backend\Model\Config\Backend\File

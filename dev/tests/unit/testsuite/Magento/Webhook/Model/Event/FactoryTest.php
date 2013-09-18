@@ -20,7 +20,7 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_arrayConverter;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()

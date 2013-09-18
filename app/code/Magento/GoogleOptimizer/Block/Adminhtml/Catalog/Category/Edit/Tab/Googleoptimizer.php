@@ -27,14 +27,13 @@ class Googleoptimizer
      */
     protected $_formHelper;
 
-    /**.
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
      * @param Magento_GoogleOptimizer_Helper_Form $formHelper
-     * @param \Magento\Data\Form $form
      * @param array $data
      */
     public function __construct(
@@ -44,14 +43,13 @@ class Googleoptimizer
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
-        \Magento\Data\Form $form,
         array $data = array()
     ) {
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
 
         $this->_codeHelper = $codeHelper;
         $this->_formHelper = $formHelper;
-        $this->setForm($form);
+        $this->setForm($formFactory->create());
     }
 
     /**

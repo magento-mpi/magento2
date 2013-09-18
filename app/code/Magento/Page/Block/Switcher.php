@@ -111,7 +111,7 @@ class Switcher extends \Magento\Core\Block\Template
             $rawStores = $this->getRawStores();
 
             $groups = array();
-            $localeCode = \Mage::getStoreConfig('general/locale/code');
+            $localeCode = $this->_storeConfig->getConfig('general/locale/code');
             foreach ($rawGroups as $group) {
                 /* @var $group \Magento\Core\Model\Store\Group */
                 if (!isset($rawStores[$group->getId()])) {

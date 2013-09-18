@@ -32,13 +32,24 @@ class Config extends \Magento\Object
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreData = $coreData;
         parent::__construct($data);
     }
@@ -53,7 +64,7 @@ class Config extends \Magento\Object
     public function getConfigData($key, $storeId = null)
     {
         if (!isset($this->_config[$key][$storeId])) {
-            $value = \Mage::getStoreConfig('google/googleshopping/' . $key, $storeId);
+            $value = $this->_coreStoreConfig->getConfig('google/googleshopping/' . $key, $storeId);
             $this->_config[$key][$storeId] = $value;
         }
         return $this->_config[$key][$storeId];

@@ -33,7 +33,13 @@ class Dialogs extends \Magento\Adminhtml\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->getLayout()->getBlock('head')->addJs('mage/adminhtml/backup.js');
+        $this->getLayout()->getBlock('head')->addChild(
+            'magento-adminhtml-backup-js',
+            'Magento_Page_Block_Html_Head_Script',
+            array(
+                'file' => 'mage/adminhtml/backup.js'
+            )
+        );
         parent::_prepareLayout();
     }
 }

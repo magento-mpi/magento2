@@ -18,51 +18,40 @@
  */
 namespace Magento\Rma\Block;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\Page\Block\Link\Current
 {
     /**
-     * Rma data
+     * @var Magento_Rma_Helper_Data
      *
      * @var \Magento\Rma\Helper\Data
      */
-    protected $_rmaData = null;
+    protected $_rmaHelper = null;
 
     /**
-     * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Rma_Helper_Data $rmaHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Rma_Helper_Data $rmaHelper,
         array $data = array()
     ) {
-        $this->_rmaData = $rmaData;
         parent::__construct($coreData, $context, $data);
+        $this->_rmaHelper = $rmaHelper;
     }
 
     /**
-     * Adding link to account links block link params if rma
-     * is allowed globaly and for current store view
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return \Magento\Rma\Block\Link
+     * @inheritdoc
      */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
+    protected function _toHtml()
     {
-        if ($this->_rmaData->isEnabled()) {
-            /** @var $blockInstance \Magento\Page\Block\Template\Links */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
+        if ($this->_rmaHelper->isEnabled()) {
+            return parent::_toHtml();
+        } else {
+            return '';
         }
-        return $this;
     }
 }

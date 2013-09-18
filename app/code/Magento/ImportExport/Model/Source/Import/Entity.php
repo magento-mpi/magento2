@@ -20,14 +20,27 @@ namespace Magento\ImportExport\Model\Source\Import;
 class Entity
 {
     /**
+     * @var Magento_ImportExport_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_ImportExport_Model_Config $config
+     */
+    public function __construct(Magento_ImportExport_Model_Config $config)
+    {
+        $this->_config = $config;
+    }
+
+    /**
      * Prepare and return array of import entities ids and their names
      *
      * @return array
      */
     public function toOptionArray()
     {
-        return \Magento\ImportExport\Model\Config::getModelsComboOptions(
-            \Magento\ImportExport\Model\Import::CONFIG_KEY_ENTITIES, true
+        return $this->_config->getModelsComboOptions(
+            Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES, true
         );
     }
 }

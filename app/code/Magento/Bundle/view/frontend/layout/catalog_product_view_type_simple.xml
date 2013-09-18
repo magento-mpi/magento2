@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="catalog_product_view_type_simple">
-        <reference name="product.info.upsell">
-            <action method="addPriceBlockType">
-                <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento\Bundle\Block\Catalog\Product\Price</argument>
-                <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
-            </action>
-            <action method="setItemLimit">
-                <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="limit" xsi:type="string">4</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="product.info.upsell">
+        <action method="addPriceBlockType">
+            <argument name="type" xsi:type="string">bundle</argument>
+            <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
+            <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
+        </action>
+        <action method="setItemLimit">
+            <argument name="type" xsi:type="string">bundle</argument>
+            <argument name="limit" xsi:type="string">4</argument>
+        </action>
+    </reference>
 </layout>

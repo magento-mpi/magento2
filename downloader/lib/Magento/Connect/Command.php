@@ -303,8 +303,8 @@ class Command
      */
     public static function registerCommands()
     {
-        $pathCommands = dirname(__FILE__).DIRECTORY_SEPARATOR.basename(__FILE__, ".php");
-        $f = new \DirectoryIterator($pathCommands);
+        $pathCommands = __DIR__.DIRECTORY_SEPARATOR.basename(__FILE__, ".php");
+        $f = new DirectoryIterator($pathCommands);
         foreach($f as $file) {
             /** @var $file \DirectoryIterator */
             if (! $file->isFile()) {

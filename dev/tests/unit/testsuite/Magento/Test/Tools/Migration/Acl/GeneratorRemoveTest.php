@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Generator.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Formatter.php';
 
 /**
@@ -45,7 +45,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
      */
     protected $_fileManagerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         $path = $fixturePath . DIRECTORY_SEPARATOR . 'remove' . DIRECTORY_SEPARATOR;
@@ -59,7 +59,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
         $this->_model = new \Magento\Tools\Migration\Acl\Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

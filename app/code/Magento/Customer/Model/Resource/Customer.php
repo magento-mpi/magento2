@@ -17,12 +17,21 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_validatorFactory;
 
     /**
-     * Resource initialization
+     * Core store config
      *
-     * @param \Magento\Core\Model\Validator\Factory $validatorFactory
+     * @var Magento_Core_Model_Store_Config
      */
-    public function __construct(\Magento\Core\Model\Validator\Factory $validatorFactory)
-    {
+    protected $_coreStoreConfig;
+
+    /**
+     * @param \Magento\Core\Model\Validator\Factory $validatorFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Validator_Factory $validatorFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_validatorFactory = $validatorFactory;
         $this->setType('customer');
         $this->setConnection('customer_read', 'customer_write');
@@ -314,7 +323,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function setNewIncrementId(\Magento\Object $object)
     {
-        if (\Mage::getStoreConfig(\Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
+        if ($this->_coreStoreConfig->getConfig(Magento_Customer_Model_Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID)) {
             parent::setNewIncrementId($object);
         }
         return $this;

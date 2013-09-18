@@ -22,16 +22,22 @@ class Tablerate
 
     protected $_conditionNames = array();
 
-    public function __construct()
-    {
-        parent::__construct();
-        foreach ($this->getCode('condition_name') as $k=>$v) {
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        parent::__construct($coreStoreConfig, $data);
+        foreach ($this->getCode('condition_name') as $k => $v) {
             $this->_conditionNames[] = $k;
         }
     }
 
     /**
-     * Enter description here...
+     * @param Magento_Shipping_Model_Rate_Request $request
      *
      * @param \Magento\Shipping\Model\Rate\Request $data
      * @return \Magento\Shipping\Model\Rate\Result

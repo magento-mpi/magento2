@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_order_invoice">
-        <reference name="invoice_totals">
-            <block class="Magento\CustomerBalance\Block\Sales\Order\Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
-        </reference>
-    </handle>
+    <reference name="invoice_totals">
+        <block class="Magento_CustomerBalance_Block_Sales_Order_Customerbalance" name="customerbalance" template="order/customerbalance.phtml"/>
+    </reference>
 </layout>

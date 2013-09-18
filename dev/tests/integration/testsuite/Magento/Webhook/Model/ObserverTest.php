@@ -29,7 +29,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /** @var \Magento\Webhook\Model\Subscription\Factory */
     private $_subscriptionFactory;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
@@ -121,7 +121,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
             $this->_subscriptionFactory->create()->load($this->_subscription->getId())->getStatus());
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_subscription->delete();
         $this->_user->delete();

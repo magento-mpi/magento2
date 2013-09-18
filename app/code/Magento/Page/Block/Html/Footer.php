@@ -55,7 +55,7 @@ class Footer extends \Magento\Core\Block\Template
     public function getCopyright()
     {
         if (!$this->_copyright) {
-            $this->_copyright = \Mage::getStoreConfig('design/footer/copyright');
+            $this->_copyright = $this->_storeConfig->getConfig('design/footer/copyright');
         }
 
         return $this->_copyright;

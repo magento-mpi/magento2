@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_invitation_index">
-        <update handle="formkey"/>
-        <update handle="adminhtml_invitation_block"/>
-        <reference name="content">
-            <block class="Magento\Invitation\Block\Adminhtml\Invitation" name="invitation_grid_container"/>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_invitation_block"/>
+    <reference name="content">
+        <block class="Magento_Invitation_Block_Adminhtml_Invitation" name="invitation_grid_container"/>
+    </reference>
 </layout>

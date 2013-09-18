@@ -35,10 +35,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_locale;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\String $stringHelper
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -46,9 +54,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Core\Helper\String $stringHelper,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $resource = null
     ) {
         parent::__construct($eventManager, $fetchStrategy, $resource);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_stringHelper = $stringHelper;
         $this->_locale = $locale;
     }
@@ -76,7 +86,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function loadByStore($store = null)
     {
-        $allowCountries = explode(',', (string)\Mage::getStoreConfig('general/country/allow', $store));
+        $allowCountries = explode(',', (string)$this->_coreStoreConfig->getConfig('general/country/allow', $store));
         if (!empty($allowCountries)) {
             $this->addFieldToFilter("country_id", array('in' => $allowCountries));
         }

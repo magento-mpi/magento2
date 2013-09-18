@@ -19,7 +19,7 @@ class Magento_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
      */
     protected $_block;
 
-    public function setUp()
+    protected function setUp()
     {
         $roleAdmin = Mage::getModel('Magento\User\Model\Role');
         $roleAdmin->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');

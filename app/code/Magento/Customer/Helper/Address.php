@@ -56,13 +56,33 @@ class Address extends \Magento\Core\Helper\AbstractHelper
     protected $_blockFactory;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\BlockFactory $blockFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\BlockFactory $blockFactory)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_BlockFactory $blockFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_blockFactory = $blockFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -106,11 +126,7 @@ class Address extends \Magento\Core\Helper\AbstractHelper
      */
     public function getConfig($key, $store = null)
     {
-        /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
-        $storeManager = \Mage::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface');
-        /** @var $store \Magento\Core\Model\Store */
-        $store = $storeManager->getStore($store);
-
+        $store = $this->_storeManager->getStore($store);
         $websiteId = $store->getWebsiteId();
         if (!isset($this->_config[$websiteId])) {
             $this->_config[$websiteId] = $store->getConfig('customer/address', $store);
@@ -250,7 +266,7 @@ class Address extends \Magento\Core\Helper\AbstractHelper
      */
     public function isVatValidationEnabled($store = null)
     {
-        return (bool)\Mage::getStoreConfig(self::XML_PATH_VAT_VALIDATION_ENABLED, $store);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VAT_VALIDATION_ENABLED, $store);
     }
 
     /**
@@ -260,7 +276,7 @@ class Address extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDisableAutoGroupAssignDefaultValue()
     {
-        return (bool)\Mage::getStoreConfig(self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT);
     }
 
     /**
@@ -271,7 +287,7 @@ class Address extends \Magento\Core\Helper\AbstractHelper
      */
     public function getValidateOnEachTransaction($store = null)
     {
-        return (bool)\Mage::getStoreConfig(self::XML_PATH_VIV_ON_EACH_TRANSACTION, $store);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VIV_ON_EACH_TRANSACTION, $store);
     }
 
     /**
@@ -282,7 +298,7 @@ class Address extends \Magento\Core\Helper\AbstractHelper
      */
     public function getTaxCalculationAddressType($store = null)
     {
-        return (string)\Mage::getStoreConfig(self::XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE, $store);
+        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE, $store);
     }
 
     /**
@@ -292,6 +308,6 @@ class Address extends \Magento\Core\Helper\AbstractHelper
      */
     public function isVatAttributeVisible()
     {
-        return (bool)\Mage::getStoreConfig(self::XML_PATH_VAT_FRONTEND_VISIBILITY);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VAT_FRONTEND_VISIBILITY);
     }
 }

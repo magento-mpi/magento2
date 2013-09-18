@@ -64,25 +64,46 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeId = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
-     * @param \Magento\Core\Model\Store $store
-     * @return boolean
+     * @param Magento_Core_Model_Store $store
+     * @return bool
      */
     public function isEnabled($store = null)
     {
-        return (bool)\Mage::getStoreConfigFlag('payment/pbridge/active', $store) && $this->isAvailable($store);
+        return $this->_coreStoreConfig->getConfigFlag('payment/pbridge/active', $store) && $this->isAvailable($store);
     }
 
     /**
      * Check if Payment Bridge supports Payment Profiles
      *
-     * @param \Magento\Core\Model\Store $store
-     * @return boolean
+     * @param Magento_Core_Model_Store $store
+     * @return bool
      */
     public function arePaymentProfilesEnables($store = null)
     {
-        return (bool)\Mage::getStoreConfigFlag('payment/pbridge/profilestatus', $store) && $this->isEnabled($store);
+        return $this->_coreStoreConfig->getConfigFlag('payment/pbridge/profilestatus', $store)
+            &&
+            $this->isEnabled($store);
     }
 
     /**
@@ -93,9 +114,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isAvailable($store = null)
     {
-        return (bool)\Mage::getStoreConfig('payment/pbridge/gatewayurl', $store) &&
-            (bool)\Mage::getStoreConfig('payment/pbridge/merchantcode', $store) &&
-            (bool)\Mage::getStoreConfig('payment/pbridge/merchantkey', $store);
+        return (bool)$this->_coreStoreConfig->getConfig('payment/pbridge/gatewayurl', $store) &&
+            (bool)$this->_coreStoreConfig->getConfig('payment/pbridge/merchantcode', $store) &&
+            (bool)$this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $store);
     }
 
     /**
@@ -125,8 +146,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $storeId = \Mage::app()->getStore()->getId();
         }
 
-        $merchantCode = \Mage::getStoreConfig('payment/pbridge/merchantcode', $storeId);
-        $uniqueId = \Mage::getStoreConfig('payment/pbridge/uniquekey');
+        $merchantCode = $this->_coreStoreConfig->getConfig('payment/pbridge/merchantcode', $storeId);
+        $uniqueId = $this->_coreStoreConfig->getConfig('payment/pbridge/uniquekey');
         if ($uniqueId) {
             $uniqueId .= '@';
         }
@@ -153,7 +174,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             }
         }
 
-        $params['merchant_code'] = trim(\Mage::getStoreConfig('payment/pbridge/merchantcode', $storeId));
+        $params['merchant_code'] = trim($this->_coreStoreConfig->getConfig('payment/pbridge/merchantcode', $storeId));
 
         $sourceUrl .= '?' . http_build_query($params);
 
@@ -173,7 +194,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             'locale' => \Mage::app()->getLocale()->getLocaleCode(),
         ), $params);
 
-        $params['merchant_key']  = trim(\Mage::getStoreConfig('payment/pbridge/merchantkey', $this->_storeId));
+        $params['merchant_key']  = trim($this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $this->_storeId));
 
         $params['scope'] = \Mage::app()->getStore()->isAdmin() ? 'backend' : 'frontend';
 
@@ -250,8 +271,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getEncryptor()
     {
         if ($this->_encryptor === null) {
-            $key = trim((string)\Mage::getStoreConfig('payment/pbridge/transferkey', $this->_storeId));
-            $this->_encryptor = \Mage::getModel('Magento\Pbridge\Model\Encryption', array('key' => $key));
+            $key = trim((string)$this->_coreStoreConfig->getConfig('payment/pbridge/transferkey', $this->_storeId));
+            $this->_encryptor = Mage::getModel('Magento_Pbridge_Model_Encryption', array('key' => $key));
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -319,7 +340,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getBridgeBaseUrl()
     {
-        return trim(\Mage::getStoreConfig('payment/pbridge/gatewayurl', $this->_storeId));
+        return trim($this->_coreStoreConfig->getConfig('payment/pbridge/gatewayurl', $this->_storeId));
     }
 
     /**

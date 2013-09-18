@@ -33,23 +33,23 @@ abstract class TabAbstract
     protected $_formHelper;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\GoogleOptimizer\Helper\Data $helperData
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
-     * @param \Magento\GoogleOptimizer\Helper\Form $formHelper
-     * @param \Magento\Data\Form $form
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_GoogleOptimizer_Helper_Data $helperData
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
+     * @param Magento_GoogleOptimizer_Helper_Form $formHelper
+     * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\GoogleOptimizer\Helper\Data $helperData,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\GoogleOptimizer\Helper\Code $codeHelper,
-        \Magento\GoogleOptimizer\Helper\Form $formHelper,
-        \Magento\Data\Form $form,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_GoogleOptimizer_Helper_Data $helperData,
+        Magento_Core_Model_Registry $registry,
+        Magento_GoogleOptimizer_Helper_Code $codeHelper,
+        Magento_GoogleOptimizer_Helper_Form $formHelper,
+        Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -58,7 +58,7 @@ abstract class TabAbstract
         $this->_registry = $registry;
         $this->_codeHelper = $codeHelper;
         $this->_formHelper = $formHelper;
-        $this->setForm($form);
+        $this->setForm($formFactory->create());
     }
 
     /**

@@ -16,7 +16,7 @@ class Magento_Core_Helper_UrlTest extends PHPUnit_Framework_TestCase
      */
     protected $_helper = null;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Url');
     }

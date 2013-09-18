@@ -19,3 +19,4 @@ $banner->setIsEnabled(\Magento\Banner\Model\Banner::STATUS_ENABLED)
     ->setStoreContents(array(0 => 'Banner Content'))
     ->save();
 
+

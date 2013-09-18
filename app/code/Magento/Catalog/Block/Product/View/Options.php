@@ -22,15 +22,20 @@ class Options extends \Magento\Core\Block\Template
 {
     protected $_product;
 
-    protected $_optionRenders = array();
+    /**
+     * Product option
+     *
+     * @var Magento_Catalog_Model_Product_Option
+     */
+    protected $_option;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
-    
+    protected $_registry = null;
+
     /**
      * Tax data
      *
@@ -42,6 +47,7 @@ class Options extends \Magento\Core\Block\Template
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Catalog_Model_Product_Option $option
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
@@ -49,22 +55,14 @@ class Options extends \Magento\Core\Block\Template
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        Magento_Catalog_Model_Product_Option $option,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        $this->_taxData = $taxData;
         parent::__construct($coreData, $context, $data);
-    }
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addOptionRenderer(
-            'default',
-            'Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
-            'product/view/options/type/default.phtml'
-        );
+        $this->_registry = $registry;
+        $this->_option = $option;
+        $this->_taxData = $taxData;
     }
 
     /**
@@ -75,8 +73,8 @@ class Options extends \Magento\Core\Block\Template
     public function getProduct()
     {
         if (!$this->_product) {
-            if ($this->_coreRegistry->registry('current_product')) {
-                $this->_product = $this->_coreRegistry->registry('current_product');
+            if ($this->_registry->registry('current_product')) {
+                $this->_product = $this->_registry->registry('current_product');
             } else {
                 $this->_product = \Mage::getSingleton('Magento\Catalog\Model\Product');
             }
@@ -96,42 +94,9 @@ class Options extends \Magento\Core\Block\Template
         return $this;
     }
 
-    /**
-     * Add option renderer to renderers array
-     *
-     * @param string $type
-     * @param string $block
-     * @param string $template
-     * @return \Magento\Catalog\Block\Product\View\Options
-     */
-    public function addOptionRenderer($type, $block, $template)
-    {
-        $this->_optionRenders[$type] = array(
-            'block' => $block,
-            'template' => $template,
-            'renderer' => null
-        );
-        return $this;
-    }
-
-    /**
-     * Get option render by given type
-     *
-     * @param string $type
-     * @return array
-     */
-    public function getOptionRender($type)
-    {
-        if (isset($this->_optionRenders[$type])) {
-            return $this->_optionRenders[$type];
-        }
-
-        return $this->_optionRenders['default'];
-    }
-
     public function getGroupOfOption($type)
     {
-        $group = \Mage::getSingleton('Magento\Catalog\Model\Product\Option')->getGroupByType($type);
+        $group = $this->_option->getGroupByType($type);
 
         return $group == '' ? 'default' : $group;
     }
@@ -208,16 +173,12 @@ class Options extends \Magento\Core\Block\Template
      */
     public function getOptionHtml(\Magento\Catalog\Model\Product\Option $option)
     {
-        $renderer = $this->getOptionRender(
-            $this->getGroupOfOption($option->getType())
-        );
-        if (is_null($renderer['renderer'])) {
-            $renderer['renderer'] = $this->getLayout()->createBlock($renderer['block'])
-                ->setTemplate($renderer['template']);
-        }
-        return $renderer['renderer']
-            ->setProduct($this->getProduct())
-            ->setOption($option)
-            ->toHtml();
+        $type = $this->getGroupOfOption($option->getType());
+        $renderer = $this->getChildBlock($type);
+
+        $renderer->setProduct($this->getProduct())
+            ->setOption($option);
+
+        return $this->getChildHtml($type, false);
     }
 }

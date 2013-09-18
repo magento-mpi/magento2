@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Magento_MultipleWishlist
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_MultipleWishlist_RssTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**

@@ -35,13 +35,32 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check whether gift registry is enabled
      *
      * @return bool
      */
     public function isEnabled()
     {
-        return (bool)\Mage::getStoreConfig(self::XML_PATH_ENABLED);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_ENABLED);
     }
 
     /**
@@ -51,7 +70,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getRecipientsLimit()
     {
-        return \Mage::getStoreConfig(self::XML_PATH_SEND_LIMIT);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_SEND_LIMIT);
     }
 
     /**
@@ -72,7 +91,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMaxRegistrant($store = null)
     {
-        return (int)\Mage::getStoreConfig(self::XML_PATH_MAX_REGISTRANT, $store);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_REGISTRANT, $store);
     }
 
     /**

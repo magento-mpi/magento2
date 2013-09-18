@@ -32,15 +32,26 @@ class Config
     protected $_sharingTextLimit;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @var Magento_Core_Model_Config
      */
-    public function __construct(\Magento\Core\Model\Store\Config $storeConfig)
-    {
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Config $coreConfig
+    ) {
         $emailLimitInConfig = (int) $storeConfig->getConfig(self::XML_PATH_SHARING_EMAIL_LIMIT);
         $textLimitInConfig = (int) $storeConfig->getConfig(self::XML_PATH_SHARING_TEXT_LIMIT);
         $this->_sharingEmailLimit = $emailLimitInConfig ?: self::SHARING_EMAIL_LIMIT;
         $this->_sharignTextLimit = $textLimitInConfig ?: self::SHARING_TEXT_LIMIT;
         $this->_storeConfig = $storeConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -50,8 +61,8 @@ class Config
      */
     public function getProductAttributes()
     {
-        $attrsForCatalog  = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-        $attrsForWishlist = \Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_ATTRIBUTES)->asArray();
+        $attrsForCatalog  = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+        $attrsForWishlist = $this->_coreConfig->getNode(self::XML_PATH_PRODUCT_ATTRIBUTES)->asArray();
 
         return array_merge($attrsForCatalog, array_keys($attrsForWishlist));
     }

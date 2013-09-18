@@ -27,7 +27,7 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
      */
     protected $_handlerFactoryMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $handlers = array(
             'app' => array(
@@ -46,7 +46,7 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
         $this->_model = new \Magento\HTTP\Handler\Composite($this->_handlerFactoryMock, $handlers);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_requestMock);
         unset($this->_responseMock);

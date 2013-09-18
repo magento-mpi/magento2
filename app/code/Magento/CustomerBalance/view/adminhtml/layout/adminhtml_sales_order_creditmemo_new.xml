@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_creditmemo_new">
-        <reference name="creditmemo_totals">
-            <block class="Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/customerbalance.phtml" after="-"/>
-        </reference>
-        <reference name="submit_before">
-            <block class="Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo\Controls" name="customerbalance" template="sales/creditmemo/refund.phtml"/>
-        </reference>
-    </handle>
+    <reference name="creditmemo_totals">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/customerbalance.phtml" after="-"/>
+    </reference>
+    <reference name="submit_before">
+        <block class="Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls" name="customerbalance" template="sales/creditmemo/refund.phtml"/>
+    </reference>
 </layout>

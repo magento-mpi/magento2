@@ -177,7 +177,8 @@ class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
      */
     public function shouldDisplayCustomerIp()
     {
-        return !\Mage::getStoreConfigFlag('sales/general/hide_customer_ip', $this->getOrder()->getStoreId());
+        return !$this->_storeConfig
+            ->getConfigFlag('sales/general/hide_customer_ip', $this->getOrder()->getStoreId());
     }
 
     /**

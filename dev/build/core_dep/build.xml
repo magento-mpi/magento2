@@ -16,7 +16,7 @@
     <import file="../core_dev/static/build.xml"/>
     <import file="../core_dev/integration/build.xml"/>
 
-    <target name="publication_ce" description="Community Edition source code population to the public repository">
+    <target name="publication_ce" depends="_server_info" description="Community Edition source code population to the public repository">
         <property name="publication_target_dir" location="${basedir}/dev/build/publication/_tmp_target"/>
         <fail message="Bamboo variable 'source_repository' must be defined.">
             <condition><equals arg1="${env.bamboo_source_repository}" arg2="" trim="true"/></condition>

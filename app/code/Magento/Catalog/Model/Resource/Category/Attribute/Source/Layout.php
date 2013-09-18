@@ -22,6 +22,22 @@ class Layout
     extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Return cms layout update options
      *
      * @return array
@@ -30,7 +46,7 @@ class Layout
     {
         if (!$this->_options) {
             $layouts = array();
-            foreach (\Mage::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
+            foreach ($this->_coreConfig->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
                 $this->_options[] = array(
                    'value'=>$layoutName,
                    'label'=>(string)$layoutConfig->label

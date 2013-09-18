@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="controller_action_predispatch_catalog_category_view">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="resetCurrentCatalogLayer" />
+        <observer name="magento_search" instance="Magento_Search_Model_Observer" method="resetCurrentCatalogLayer" />
     </event>
     <event name="controller_action_predispatch_catalogsearch_result_index">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="resetCurrentSearchLayer" />
+        <observer name="magento_search" instance="Magento_Search_Model_Observer" method="resetCurrentSearchLayer" />
     </event>
     <event name="controller_action_predispatch_catalogsearch_advanced_result">
-        <observer name="magento_search" instance="Magento\Search\Model\Observer" method="resetCurrentSearchLayer" />
+        <observer name="magento_search" instance="Magento_Search_Model_Observer" method="resetCurrentSearchLayer" />
     </event>
 </config>

@@ -8,11 +8,9 @@
  */
 -->
 <layout>
-    <handle id="move_alias_broken">
-        <container name="container1" label="Container 1">
-            <block class="Magento\Core\Block\Text" name="no_name1" as="same_alias"/>
-        </container>
-        <move element="no_name3" destination="container1" as="same_alias"/>
-        <block class="Magento\Core\Block\Text" name="no_name3" as="same_alias"/>
-    </handle>
+    <container name="container1" label="Container 1">
+        <block class="Magento_Core_Block_Text" name="no_name1" as="same_alias"/>
+    </container>
+    <move element="no_name3" destination="container1" as="same_alias"/>
+    <block class="Magento_Core_Block_Text" name="no_name3" as="same_alias"/>
 </layout>

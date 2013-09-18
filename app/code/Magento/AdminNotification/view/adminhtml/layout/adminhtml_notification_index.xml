@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_notification_index">
-        <update handle="adminhtml_notification_block"/>
-        <reference name="content">
-            <block class="Magento\AdminNotification\Block\Inbox" name="adminhtml.notification.container"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_notification_block"/>
+    <reference name="content">
+        <block class="Magento_AdminNotification_Block_Inbox" name="adminhtml.notification.container"/>
+    </reference>
 </layout>

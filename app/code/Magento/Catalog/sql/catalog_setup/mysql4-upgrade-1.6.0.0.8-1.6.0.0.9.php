@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-$installFile = dirname(__FILE__) . DS . 'upgrade-1.6.0.0.8-1.6.0.0.9.php';
+$installFile = __DIR__ . DS . 'upgrade-1.6.0.0.8-1.6.0.0.9.php';
 if (file_exists($installFile)) {
     include $installFile;
 }

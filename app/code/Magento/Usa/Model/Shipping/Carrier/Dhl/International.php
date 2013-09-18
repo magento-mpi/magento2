@@ -177,6 +177,7 @@ class International
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Directory\Helper\Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -185,8 +186,10 @@ class International
         \Magento\Core\Helper\String $coreString,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Directory\Helper\Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        parent::__construct($directoryData, $coreStoreConfig, $data);
         $this->_coreData = $coreData;
         $this->_usaData = $usaData;
         $this->_coreString = $coreString;
@@ -194,7 +197,6 @@ class International
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }
-        parent::__construct($directoryData, $data);
     }
 
     /**
@@ -207,7 +209,7 @@ class International
     protected function _getDefaultValue($origValue, $pathToValue)
     {
         if (!$origValue) {
-            $origValue = \Mage::getStoreConfig(
+            $origValue = $this->_coreStoreConfig->getConfig(
                 $pathToValue,
                 $this->getStore()
             );
@@ -355,7 +357,7 @@ class International
             ->setOrigCity($request->getOrigCity())
             ->setOrigPhoneNumber($request->getOrigPhoneNumber())
             ->setOrigPersonName($request->getOrigPersonName())
-            ->setOrigEmail(\Mage::getStoreConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
+            ->setOrigEmail($this->_coreStoreConfig->getConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
             ->setOrigCity($request->getOrigCity())
             ->setOrigPostal($request->getOrigPostal())
             ->setOrigStreetLine2($request->getOrigStreetLine2())
@@ -363,8 +365,8 @@ class International
             ->setDestPersonName($request->getDestPersonName())
             ->setDestCompanyName($request->getDestCompanyName());
 
-        $originStreet2 = \Mage::getStoreConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
+        $originStreet2 = $this->_coreStoreConfig->getConfig(
+                Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
 
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
@@ -1131,7 +1133,7 @@ class International
         }
 
         $countryParams = $this->getCountryParams(
-            \Mage::getStoreConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
+            $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
         );
         if (!$countryParams->getData()) {
             $this->_errors[] = __('Please, specify origin country');
@@ -1245,7 +1247,7 @@ class International
         $rawRequest = $this->_request;
 
         $originRegion = $this->getCountryParams(
-            \Mage::getStoreConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
+            $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
         )->getRegion();
 
         if (!$originRegion) {

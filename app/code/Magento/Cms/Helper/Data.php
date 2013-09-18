@@ -24,14 +24,35 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_NODE_BLOCK_TEMPLATE_FILTER    = 'global/cms/block/tempate_filter';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $context
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieve Template processor for Page Content
      *
      * @return \Magento\Filter\Template
      */
     public function getPageTemplateProcessor()
     {
-        $model = (string)\Mage::getConfig()->getNode(self::XML_NODE_PAGE_TEMPLATE_FILTER);
-        return \Mage::getModel($model);
+        $model = (string)$this->_coreConfig->getNode(self::XML_NODE_PAGE_TEMPLATE_FILTER);
+        return Mage::getModel($model);
     }
 
     /**
@@ -41,7 +62,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getBlockTemplateProcessor()
     {
-        $model = (string)\Mage::getConfig()->getNode(self::XML_NODE_BLOCK_TEMPLATE_FILTER);
-        return \Mage::getModel($model);
+        $model = (string)$this->_coreConfig->getNode(self::XML_NODE_BLOCK_TEMPLATE_FILTER);
+        return Mage::getModel($model);
     }
 }

@@ -57,7 +57,7 @@ class Header extends \Magento\Core\Block\Template
     public function getLogoAlt()
     {
         if (empty($this->_data['logo_alt'])) {
-            $this->_data['logo_alt'] = \Mage::getStoreConfig('design/header/logo_alt');
+            $this->_data['logo_alt'] = $this->_storeConfig->getConfig('design/header/logo_alt');
         }
         return $this->_data['logo_alt'];
     }
@@ -68,7 +68,7 @@ class Header extends \Magento\Core\Block\Template
             if (\Mage::isInstalled() && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_data['welcome'] = __('Welcome, %1!', $this->escapeHtml(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getName()));
             } else {
-                $this->_data['welcome'] = \Mage::getStoreConfig('design/header/welcome');
+                $this->_data['welcome'] = $this->_storeConfig->getConfig('design/header/welcome');
             }
         }
 

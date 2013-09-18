@@ -26,7 +26,7 @@ class Magento_Backend_Model_Config_Structure_Element_Iterator_FieldTest extends 
      */
     protected $_groupMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_fieldMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Field', array(), array(), '', false

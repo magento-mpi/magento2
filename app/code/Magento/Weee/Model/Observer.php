@@ -13,11 +13,10 @@ namespace Magento\Weee\Model;
 class Observer extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * Assign custom renderer for product create/edit form weee attribute element
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return  \Magento\Weee\Model\Observer
+     * @var Magento_Catalog_Model_Product_Type
      */
+    protected $_productType;
+
     /**
      * Weee data
      *
@@ -29,6 +28,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Weee\Helper\Data $weeeData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -37,14 +37,22 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Weee\Helper\Data $weeeData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Catalog_Model_Product_Type $productType,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_productType = $productType;
         $this->_weeeData = $weeeData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * Assign custom renderer for product create/edit form weee attribute element
+     *
+     * @param Magento_Event_Observer $observer
+     * @return  Magento_Weee_Model_Observer
+     */
     public function setWeeeRendererInForm(\Magento\Event\Observer $observer)
     {
         //adminhtml_catalog_product_edit_prepare_form
@@ -143,8 +151,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
             $object->setBackendModel($backendModel);
             if (!$object->getApplyTo()) {
                 $applyTo = array();
-                foreach (\Magento\Catalog\Model\Product\Type::getOptions() as $option) {
-                    if ($option['value'] == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED) {
+                foreach ($this->_productType->getOptions() as $option) {
+                    if ($option['value'] == Magento_Catalog_Model_Product_Type::TYPE_GROUPED) {
                         continue;
                     }
                     $applyTo[] = $option['value'];

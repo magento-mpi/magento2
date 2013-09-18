@@ -44,12 +44,22 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     protected $_catalogData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_catalogData = $catalogData;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -114,7 +124,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
             $params = $this->_getSessionParams();
             $queryParams = $request->getQuery();
             $queryParams = array_merge($queryParams, $params);
-            $maxDepth = \Mage::getStoreConfig(\Magento\FullPageCache\Model\Processor::XML_PATH_ALLOWED_DEPTH);
+            $maxDepth = $this->_coreStoreConfig->getConfig(Magento_FullPageCache_Model_Processor::XML_PATH_ALLOWED_DEPTH);
             $res = count($queryParams)<=$maxDepth;
         }
         return $res;

@@ -50,10 +50,18 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_design = null;
 
     /**
-     * @param \Magento\Core\Model\View\DesignInterface $design
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -61,11 +69,13 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -177,8 +187,8 @@ class History extends \Magento\Core\Model\AbstractModel
                 ->setDesignConfig(array('store' => $storeId, 'area' => $this->_design->getArea()));
             $customer = $this->getBalanceModel()->getCustomer();
             $email->sendTransactional(
-                \Mage::getStoreConfig('customer/magento_customerbalance/email_template', $storeId),
-                \Mage::getStoreConfig('customer/magento_customerbalance/email_identity', $storeId),
+                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_template', $storeId),
+                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_identity', $storeId),
                 $customer->getEmail(), $customer->getName(),
                 array(
                     'balance' => \Mage::app()->getWebsite($this->getBalanceModel()->getWebsiteId())

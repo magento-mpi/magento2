@@ -53,11 +53,25 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Http $coreHttp
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -66,12 +80,16 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -82,7 +100,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     {
         $this->_init('Magento\Log\Model\Resource\Visitor');
         $userAgent = $this->_coreHttp->getHttpUserAgent();
-        $ignoreAgents = \Mage::getConfig()->getNode('global/ignore_user_agents');
+        $ignoreAgents = $this->_coreConfig->getNode('global/ignore_user_agents');
         if ($ignoreAgents) {
             $ignoreAgents = $ignoreAgents->asArray();
             if (in_array($userAgent, $ignoreAgents)) {
@@ -129,9 +147,9 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      *
      * @return int Minutes Interval
      */
-    public static function getOnlineMinutesInterval()
+    public function getOnlineMinutesInterval()
     {
-        $configValue = \Mage::getStoreConfig('customer/online_customers/online_minutes_interval');
+        $configValue = $this->_coreStoreConfig->getConfig('customer/online_customers/online_minutes_interval');
         return intval($configValue) > 0
             ? intval($configValue)
             : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
@@ -328,7 +346,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function isModuleIgnored($observer)
     {
-        $ignores = \Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
+        $ignores = $this->_coreConfig->getNode('global/ignoredModules/entities')->asArray();
 
         if (is_array($ignores) && $observer) {
             $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getRouteName();

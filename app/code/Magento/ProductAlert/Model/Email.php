@@ -81,9 +81,17 @@ class Email extends \Magento\Core\Model\AbstractModel
     protected $_productAlertData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -92,11 +100,13 @@ class Email extends \Magento\Core\Model\AbstractModel
         \Magento\ProductAlert\Helper\Data $productAlertData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -256,9 +266,9 @@ class Email extends \Magento\Core\Model\AbstractModel
         $store      = $this->_website->getDefaultStore();
         $storeId    = $store->getId();
 
-        if ($this->_type == 'price' && !\Mage::getStoreConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId)) {
+        if ($this->_type == 'price' && !$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId)) {
             return false;
-        } elseif ($this->_type == 'stock' && !\Mage::getStoreConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId)) {
+        } elseif ($this->_type == 'stock' && !$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId)) {
             return false;
         }
 
@@ -278,7 +288,7 @@ class Email extends \Magento\Core\Model\AbstractModel
                 $this->_getPriceBlock()->addProduct($product);
             }
             $block = $this->_getPriceBlock()->toHtml();
-            $templateId = \Mage::getStoreConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId);
         } else {
             $this->_getStockBlock()
                 ->setStore($store)
@@ -288,7 +298,7 @@ class Email extends \Magento\Core\Model\AbstractModel
                 $this->_getStockBlock()->addProduct($product);
             }
             $block = $this->_getStockBlock()->toHtml();
-            $templateId = \Mage::getStoreConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId);
         }
 
         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
@@ -299,7 +309,7 @@ class Email extends \Magento\Core\Model\AbstractModel
                 'store' => $storeId
             ))->sendTransactional(
                 $templateId,
-                \Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId),
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId),
                 $this->_customer->getEmail(),
                 $this->_customer->getName(),
                 array(

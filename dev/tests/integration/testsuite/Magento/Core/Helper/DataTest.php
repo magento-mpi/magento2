@@ -32,7 +32,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_dateTime = null;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
         $this->_dateTime = new DateTime;

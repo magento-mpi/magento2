@@ -108,14 +108,14 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
             'header' => __('Price'),
             'index' => 'price',
             'type'  => 'currency',
-            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
             'header' => __('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
-            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         return parent::_prepareColumns();

@@ -63,20 +63,22 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Url $coreUrl,
-        \Magento\Checkout\Helper\Data $checkoutData,
-        \Magento\Persistent\Helper\Session $persistentSession,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Url $coreUrl,
+        Magento_Checkout_Helper_Data $checkoutData,
+        Magento_Persistent_Helper_Session $persistentSession,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
-        parent::__construct($eventManager, $coreHttp, $context, $config);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
     }
 
     /**
@@ -87,7 +89,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isEnabled($store = null)
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
     }
 
     /**
@@ -98,7 +100,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isRememberMeEnabled($store = null)
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_REMEMBER_ME_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REMEMBER_ME_ENABLED, $store);
     }
 
     /**
@@ -109,7 +111,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isRememberMeCheckedDefault($store = null)
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_REMEMBER_ME_DEFAULT, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REMEMBER_ME_DEFAULT, $store);
     }
 
     /**
@@ -120,7 +122,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isShoppingCartPersist($store = null)
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_SHOPPING_CART, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_SHOPPING_CART, $store);
     }
 
     /**
@@ -131,7 +133,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getLifeTime($store = null)
     {
-        $lifeTime = intval(\Mage::getStoreConfig(self::XML_PATH_LIFE_TIME, $store));
+        $lifeTime = intval($this->_coreStoreConfig->getConfig(self::XML_PATH_LIFE_TIME, $store));
         return ($lifeTime < 0) ? 0 : $lifeTime;
     }
 
@@ -142,7 +144,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getClearOnLogout()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_LOGOUT_CLEAR);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_LOGOUT_CLEAR);
     }
 
     /**
@@ -172,7 +174,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getPersistentConfigFilePath()
     {
-        return \Mage::getConfig()->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
+        return $this->_coreConfig->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
     }
 
     /**

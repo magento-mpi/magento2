@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +9,6 @@
 
 /**
  * HTML select element block with customer groups options
- *
- * @category   Magento
- * @package    Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
 
@@ -35,6 +29,30 @@ class Customergroup extends \Magento\Core\Block\Html\Select
     protected $_addGroupAllOption = true;
 
     /**
+     * Customer group collection factory
+     *
+     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     */
+    protected $_groupCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Block_Context $context
+     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollectionFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Context $context,
+        Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollectionFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+
+        $this->_groupCollectionFactory = $groupCollectionFactory;
+    }
+
+    /**
      * Retrieve allowed customer groups
      *
      * @param int $groupId  return name by customer group id
@@ -44,8 +62,7 @@ class Customergroup extends \Magento\Core\Block\Html\Select
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            $collection = \Mage::getModel('Magento\Customer\Model\Group')->getCollection();
-            foreach ($collection as $item) {
+            foreach ($this->_groupCollectionFactory->create() as $item) {
                 /* @var $item \Magento\Customer\Model\Group */
                 $this->_customerGroups[$item->getId()] = $item->getCustomerGroupCode();
             }

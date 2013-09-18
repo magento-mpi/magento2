@@ -57,7 +57,6 @@ class Product extends \Magento\Core\Helper\Url
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -65,21 +64,40 @@ class Product extends \Magento\Core\Helper\Url
     protected $_coreRegistry = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\Registry $coreRegistry
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
-        parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
+        $this->_coreConfig = $coreConfig;
+        parent::__construct($context);
     }
 
     /**
@@ -232,7 +250,9 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = \Mage::getStoreConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
+            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(
+                self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId
+            );
         }
         return $this->_productUrlSuffix[$storeId];
     }
@@ -245,7 +265,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return \Mage::getStoreConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
     }
 
     /**
@@ -515,8 +535,8 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getFieldsAutogenerationMasks()
     {
-        return \Mage::getConfig()
-            ->getValue(\Magento\Catalog\Helper\Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
+        return $this->_coreConfig
+            ->getValue(Magento_Catalog_Helper_Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
     }
 
     /**
@@ -526,7 +546,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getUnassignableAttributes()
     {
-        $data = \Mage::getConfig()->getNode(self::XML_PATH_UNASSIGNABLE_ATTRIBUTES);
+        $data = $this->_coreConfig->getNode(self::XML_PATH_UNASSIGNABLE_ATTRIBUTES);
         return false === $data || is_string($data->asArray()) ? array() : array_keys($data->asArray());
     }
 
@@ -537,7 +557,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return array_keys(\Mage::getConfig()->getNode(self::XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION)->asArray());
+        return array_keys($this->_coreConfig->getNode(self::XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION)->asArray());
     }
 
     /**
@@ -547,6 +567,6 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function getTypeSwitcherControlLabel()
     {
-        return __((string)\Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
+        return __((string)$this->_coreConfig->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
     }
 }

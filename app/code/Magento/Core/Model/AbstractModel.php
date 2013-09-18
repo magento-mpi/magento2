@@ -181,13 +181,11 @@ abstract class AbstractModel extends \Magento\Object
      */
     public function __wakeup()
     {
-        if (\Mage::getIsSerializable()) {
-            $this->_eventDispatcher = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento\Core\Model\Event\Manager');
-            $this->_cacheManager    = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento\Core\Model\CacheInterface');
-            $this->_coreRegistry    = \Magento\Core\Model\ObjectManager::getInstance()
-                ->get('Magento\Core\Model\Registry');
+        if (Mage::getIsSerializable()) {
+            $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+            $this->_eventDispatcher = $objectManager->get('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager = $objectManager->get('Magento_Core_Model_CacheInterface');
+            $this->_coreRegistry = $objectManager->get('Magento_Core_Model_Registry');
         }
     }
 

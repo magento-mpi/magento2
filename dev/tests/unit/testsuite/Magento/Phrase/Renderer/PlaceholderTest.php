@@ -12,7 +12,7 @@ class Magento_Phrase_Renderer_PlaceholderTest extends PHPUnit_Framework_TestCase
      */
     protected $_renderer;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_renderer = $objectManagerHelper->getObject('Magento\Phrase\Renderer\Placeholder');

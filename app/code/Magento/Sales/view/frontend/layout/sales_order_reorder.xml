@@ -7,11 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Sales Reorder" id="sales_order_reorder" type="page" parent="sales_order_view">
-        <update handle="customer_account"/>
-        <reference name="content">
-            <block class="Magento\Sales\Block\Order\View" name="sales.order.view"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Sales Reorder" type="page" parent="sales_order_view">
+    <update handle="customer_account"/>
+    <reference name="content">
+        <block class="Magento_Sales_Block_Order_View" name="sales.order.view"/>
+    </reference>
 </layout>

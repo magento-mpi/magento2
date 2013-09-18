@@ -129,7 +129,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     public function testGetEntityBehaviors()
     {
         $importModel = $this->_model;
-        $actualBehaviors = $importModel::getEntityBehaviors();
+        $actualBehaviors = $importModel->getEntityBehaviors();
 
         foreach ($this->_entityBehaviors as $entityKey => $behaviorData) {
             $this->assertArrayHasKey($entityKey, $actualBehaviors);
@@ -148,7 +148,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     public function testGetEntityBehaviorsWithUnknownBehavior()
     {
         $importModel = $this->_model;
-        $actualBehaviors = $importModel::getEntityBehaviors();
+        $actualBehaviors = $importModel->getEntityBehaviors();
         $this->assertArrayNotHasKey('customer', $actualBehaviors);
     }
 
@@ -161,7 +161,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     public function testGetUniqueEntityBehaviors()
     {
         $importModel = $this->_model;
-        $actualBehaviors = $importModel::getUniqueEntityBehaviors();
+        $actualBehaviors = $importModel->getUniqueEntityBehaviors();
 
         foreach ($this->_uniqueBehaviors as $behaviorCode => $behaviorClass) {
             $this->assertArrayHasKey($behaviorCode, $actualBehaviors);

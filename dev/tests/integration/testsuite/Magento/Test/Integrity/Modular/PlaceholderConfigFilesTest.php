@@ -12,7 +12,7 @@ class Magento_Test_Integrity_Modular_PlaceholderConfigFilesTest extends PHPUnit_
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         // List of all available placeholders.xml
         $xmlFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles(

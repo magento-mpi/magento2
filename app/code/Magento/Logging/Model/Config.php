@@ -45,8 +45,10 @@ class Config
 
     /**
      * @param \Magento\Logging\Model\Config\Data $dataStorage
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
-    public function __construct(\Magento\Logging\Model\Config\Data $dataStorage,
+    public function __construct(
+        Magento_Logging_Model_Config_Data $dataStorage,
         \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_xmlConfig = $dataStorage->get('logging');
@@ -105,7 +107,7 @@ class Config
                 }
             }
             asort($this->_labels);
-        };
+        }
         return $this->_labels;
     }
 
@@ -119,8 +121,8 @@ class Config
     {
         if (isset($this->_xmlConfig['actions'])
             && array_key_exists($action, $this->_xmlConfig['actions'])
-            && isset($this->_xmlConfig['actions'][$action]['label']))
-        {
+            && isset($this->_xmlConfig['actions'][$action]['label'])
+        ) {
             return __($this->_xmlConfig['actions'][$action]['label']);
         }
 

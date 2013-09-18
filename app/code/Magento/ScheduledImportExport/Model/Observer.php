@@ -50,6 +50,22 @@ class Observer
     const XML_TEMPLATE_EMAIL_PATH = 'system/magento_scheduled_import_export_log/error_email_template';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Clear old log files and folders
      *
      * @param \Magento\Cron\Model\Schedule $schedule
@@ -59,8 +75,8 @@ class Observer
     public function scheduledLogClean($schedule, $forceRun = false)
     {
         $result = false;
-        if (!\Mage::getStoreConfig(self::CRON_STRING_PATH)
-            && (!$forceRun || !\Mage::getStoreConfig(self::LOG_CLEANING_ENABLE_PATH))
+        if (!$this->_coreStoreConfig->getConfig(self::CRON_STRING_PATH)
+            && (!$forceRun || !$this->_coreStoreConfig->getConfig(self::LOG_CLEANING_ENABLE_PATH))
         ) {
             return;
         }
@@ -78,7 +94,7 @@ class Observer
             if (!is_dir($logPath) || !is_writable($logPath)) {
                 \Mage::throwException(__('The directory "%1" is not writable.', $logPath));
             }
-            $saveTime = (int) \Mage::getStoreConfig(self::SAVE_LOG_TIME_PATH) + 1;
+            $saveTime = (int) $this->_coreStoreConfig->getConfig(self::SAVE_LOG_TIME_PATH) + 1;
             $dateCompass = new \DateTime('-' . $saveTime . ' days');
 
             foreach ($this->_getDirectoryList($logPath) as $directory) {
@@ -163,8 +179,8 @@ class Observer
      */
     protected function _sendEmailNotification($vars)
     {
-        $storeId = \Mage::app()->getStore()->getId();
-        $receiverEmail = \Mage::getStoreConfig(self::XML_RECEIVER_EMAIL_PATH, $storeId);
+        $storeId = Mage::app()->getStore()->getId();
+        $receiverEmail = $this->_coreStoreConfig->getConfig(self::XML_RECEIVER_EMAIL_PATH, $storeId);
         if (!$receiverEmail) {
             return $this;
         }
@@ -176,9 +192,9 @@ class Observer
         $mailer->addEmailInfo($emailInfo);
 
         // Set all required params and send emails
-        $mailer->setSender(\Mage::getStoreConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
+        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
         $mailer->setStoreId($storeId);
-        $mailer->setTemplateId(\Mage::getStoreConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId));
+        $mailer->setTemplateId($this->_coreStoreConfig->getConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId));
         $mailer->setTemplateParams($vars);
         $mailer->send();
         return $this;

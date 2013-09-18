@@ -27,6 +27,19 @@ class Form extends \Magento\Backend\Block\Widget
     protected $_template = 'Magento_Backend::widget/form.phtml';
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Class constructor
      *
      */

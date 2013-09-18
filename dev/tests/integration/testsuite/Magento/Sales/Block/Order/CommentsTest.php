@@ -16,7 +16,7 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
      */
     protected $_block;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_block = Mage::app()->getLayout()->createBlock('Magento\Sales\Block\Order\Comments');
     }

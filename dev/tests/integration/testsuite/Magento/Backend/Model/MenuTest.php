@@ -21,7 +21,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);

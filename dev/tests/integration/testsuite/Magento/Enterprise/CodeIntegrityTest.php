@@ -11,22 +11,14 @@
 
 class Magento_Enterprise_CodeIntegrityTest extends PHPUnit_Framework_TestCase
 {
-    public function testConfiguration()
+    /**
+     * @magentoConfigFixture current_store design/theme/theme_id 0
+     */
+    public function testGetConfigurationDesignThemeDefaults()
     {
-        $this->assertEquals('magento_fixed_width',
-            (string)\Mage::app()->getConfig()->getNode(
-                'frontend/' . \Magento\Core\Model\View\Design::XML_PATH_THEME
-            )
-        );
-        $this->assertEquals('magento_backend',
-            (string)\Mage::app()->getConfig()->getNode(
-                'adminhtml/' . \Magento\Core\Model\View\Design::XML_PATH_THEME
-            )
-        );
-        $this->assertEquals('magento_enterprise',
-            (string)\Mage::app()->getConfig()->getNode(
-                'install/' . \Magento\Core\Model\View\Design::XML_PATH_THEME
-            )
-        );
+        $design = Mage::getModel('Magento_Core_Model_View_Design');
+        $this->assertEquals('magento_fixed_width', $design->getConfigurationDesignTheme('frontend'));
+        $this->assertEquals('magento_enterprise', $design->getConfigurationDesignTheme('install'));
+        $this->assertEquals('magento_backend', $design->getConfigurationDesignTheme('adminhtml'));
     }
 }

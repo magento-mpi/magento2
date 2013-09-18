@@ -58,19 +58,25 @@ class Filter extends \Magento\Filter\Template
     protected $_coreData = null;
 
     /**
-     * Setup callbacks for filters
+     * Core store config
      *
-     *
-     *
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\View\Url $viewUrl
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
     }
 
@@ -200,7 +206,6 @@ class Filter extends \Magento\Filter\Template
     public function layoutDirective($construction)
     {
         $skipParams = array('handle', 'area');
-
         $params = $this->_getIncludeParameters($construction[2]);
         $layoutParams = array();
         if (isset($params['area'])) {
@@ -208,31 +213,31 @@ class Filter extends \Magento\Filter\Template
         }
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = \Mage::getModel('Magento\Core\Model\Layout', $layoutParams);
-
-        $layout->getUpdate()->addHandle($params['handle']);
-        $layout->getUpdate()->load();
+        $layout->getUpdate()->addHandle($params['handle'])
+            ->load();
 
         $layout->generateXml();
         $layout->generateElements();
 
+        $rootBlock = false;
         foreach ($layout->getAllBlocks() as $block) {
             /* @var $block \Magento\Core\Block\AbstractBlock */
+            if (!$block->getParentBlock() && !$rootBlock) {
+                $rootBlock = $block;
+            }
             foreach ($params as $k => $v) {
                 if (in_array($k, $skipParams)) {
                     continue;
                 }
-
                 $block->setDataUsingMethod($k, $v);
             }
         }
 
         /**
-         * Add output method for first block
+         * Add root block to output
          */
-        $allBlocks = $layout->getAllBlocks();
-        $firstBlock = reset($allBlocks);
-        if ($firstBlock) {
-            $layout->addOutputElement($firstBlock->getNameInLayout());
+        if ($rootBlock) {
+            $layout->addOutputElement($rootBlock->getNameInLayout());
         }
 
         $layout->setDirectOutput(false);
@@ -457,7 +462,7 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = \Mage::getStoreConfig($params['path'], $storeId);
+            $configValue = $this->_coreStoreConfig->getConfig($params['path'], $storeId);
         }
         return $configValue;
     }

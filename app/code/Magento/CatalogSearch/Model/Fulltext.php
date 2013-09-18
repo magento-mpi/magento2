@@ -48,10 +48,18 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -61,12 +69,14 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogSearchData = $catalogSearchData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -152,7 +162,7 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
      */
     public function getSearchType($storeId = null)
     {
-        return \Mage::getStoreConfig(self::XML_PATH_CATALOG_SEARCH_TYPE, $storeId);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOG_SEARCH_TYPE, $storeId);
     }
 
 

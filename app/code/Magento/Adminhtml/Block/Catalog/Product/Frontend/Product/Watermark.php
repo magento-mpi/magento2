@@ -29,16 +29,24 @@ class Watermark
     protected $_elementFactory;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Backend\Block\Context $context
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Backend\Block\Context $context,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context, $data);
     }
 
@@ -47,7 +55,7 @@ class Watermark
         $html = $this->_getHeaderHtml($element);
         $renderer = \Mage::getBlockSingleton('Magento\Backend\Block\System\Config\Form\Field');
 
-        $attributes = \Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
+        $attributes = $this->_coreConfig->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 
         foreach ($attributes as $key => $attribute) {
             /**

@@ -38,7 +38,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
             . DIRECTORY_SEPARATOR . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
     }
 
-    public function setUp()
+    protected function setUp()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
@@ -49,7 +49,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
             ->setDesignTheme('vendor_default');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $filesystem->delete(self::$_themePublicDir . '/frontend');

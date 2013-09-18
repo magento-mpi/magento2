@@ -89,30 +89,27 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
 
         $this->_testObsoleteReferences($layoutXml);
 
-        $selectorHeadBlock = '
-            (name()="block" or name()="reference") and (@name="head" or @name="convert_root_head" or @name="vde_head")
-        ';
+        $selectorHeadBlock = '(name()="block" or name()="reference") and '
+            . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
         $this->assertSame(array(),
             $layoutXml->xpath(
-                '//*[' . $selectorHeadBlock . ']/action[@method="addItem"]'
+                '//block[@class="Magento_Page_Block_Html_Head_Css" '
+                    . 'or @class="Magento_Page_Block_Html_Head_Link" '
+                    . 'or @class="Magento_Page_Block_Html_Head_Script"]'
+                    . '/parent::*[not(' . $selectorHeadBlock . ')]'
             ),
-            'Magento\Page\Block\Html\Head::addItem is obsolete. Use addCss()/addJs() instead.'
-        );
-        $this->assertSame(array(),
-            $layoutXml->xpath(
-                '//action[@method="addJs" or @method="addCss"]/parent::*[not(' . $selectorHeadBlock . ')]'
-            ),
-            "Calls addCss/addJs are allowed within the 'head' block only. Verify integrity of the nodes nesting."
+            'Blocks Magento_Page_Block_Html_Head_{Css,Link,Script} are allowed within the "head" block only. '
+                . 'Verify integrity of the nodes nesting.'
         );
         $this->assertSame(array(),
             $layoutXml->xpath('/layout//*[@output="toHtml"]'), 'output="toHtml" is obsolete. Use output="1"'
         );
         foreach ($layoutXml as $handle) {
-            $this->assertNotContains($handle->getName(), $this->_obsoleteNodes, 'Layout handle was removed.');
+            $this->assertNotContains((string)$handle['id'], $this->_obsoleteNodes, 'This layout handle is obsolete.');
         }
         foreach ($layoutXml->xpath('@helper') as $action) {
-            $this->assertNotContains('/', $action->getAtrtibute('helper'));
-            $this->assertContains('::', $action->getAtrtibute('helper'));
+            $this->assertNotContains('/', $action->getAttribute('helper'));
+            $this->assertContains('::', $action->getAttribute('helper'));
         }
 
         if (false !== strpos($layoutFile, 'app/code/Magento/Adminhtml/view/adminhtml/layout/adminhtml_sales_order')) {
@@ -121,8 +118,8 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             );
         }
         $this->assertSame(array(),
-            $layoutXml->xpath('/layout//block[@type="Magento\Core\Block\Text\ListText"]'),
-            'The class \Magento\Core\Block\Text\ListText is not supposed to be used in layout anymore.'
+            $layoutXml->xpath('/layout//block[@class="Magento_Core_Block_Text_List"]'),
+            'The class Magento_Core_Block_Text_List is not supposed to be used in layout anymore.'
         );
     }
 
@@ -150,5 +147,159 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
     public function layoutFileDataProvider()
     {
         return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+    }
+
+    /**
+     * @param string $layoutFile
+     * @dataProvider layoutFileDataProvider
+     */
+    public function testActionNodeMethods($layoutFile)
+    {
+        $layoutXml = simplexml_load_file($layoutFile);
+        $methodFilter = '@method!="' . implode('" and @method!="', $this->getAllowedActionNodeMethods()) . '"';
+        foreach ($layoutXml->xpath('//action[' . $methodFilter . ']') as $node) {
+            $attributes = $node->attributes();
+            $this->fail(sprintf(
+                'Call of method "%s" via layout instruction <action> is not allowed.', $attributes['method']
+            ));
+        }
+    }
+
+    /**
+     * List of currently allowed (i.e. not refactored yet) methods for use in <action method="someMethod"/> layout
+     *  instruction.
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * Temporary method existing until <action> instruction in layout is not eliminated, no need to split it.
+     *
+     * @return string[]
+     */
+    public function getAllowedActionNodeMethods()
+    {
+        return array(
+            'addBodyClass',
+            'addButtons',
+            'addColumnCountLayoutDepend',
+            'addColumnRender',
+            'addCrumb',
+            'addDatabaseBlock',
+            'addInputTypeTemplate',
+            'addNotice',
+            'addPriceBlockType',
+            'addRenderer',
+            'addReportTypeOption',
+            'addTab',
+            'addTabAfter',
+            'addText',
+            'addToParentGroup',
+            'append',
+            'removeTab',
+            'setActive',
+            'setAddressType',
+            'setAfterCondition',
+            'setAfterTotal',
+            'setAtCall',
+            'setAtCode',
+            'setAtLabel',
+            'setAuthenticationStartMode',
+            'setBeforeCondition',
+            'setBlockId',
+            'setBugreportUrl',
+            'setCanLoadExtJs',
+            'setCanLoadRulesJs',
+            'setCanLoadTinyMce',
+            'setClassName',
+            'setColClass',
+            'setColumnCount',
+            'setColumnsLimit',
+            'setCssClass',
+            'setDefaultFilter',
+            'setDefaultStoreName',
+            'setDestElementId',
+            'setDisplayArea',
+            'setDontDisplayContainer',
+            'setEmptyGridMessage',
+            'setEntityModelClass',
+            'setFieldOption',
+            'setFieldVisibility',
+            'setFormCode',
+            'setFormId',
+            'setFormPrefix',
+            'setGiftRegistryTemplate',
+            'setGiftRegistryUrl',
+            'setGridHtmlClass',
+            'setGridHtmlCss',
+            'setGridHtmlId',
+            'setHeaderTitle',
+            'setHideBalance',
+            'setHideLink',
+            'setHideRequiredNotice',
+            'setHtmlClass',
+            'setId',
+            'setImageType',
+            'setImgAlt',
+            'setImgHeight',
+            'setImgSrc',
+            'setImgWidth',
+            'setInList',
+            'setInfoTemplate',
+            'setIsCollapsed',
+            'setIsEnabled',
+            'setIsGuestNote',
+            'setIsHandle',
+            'setIsInCatalogProduct',
+            'setIsLinkMode',
+            'setIsPlaneMode',
+            'setIsQuoteAllowed',
+            'setIsTitleHidden',
+            'setIsViewCurrent',
+            'setItemLimit',
+            'setLabel',
+            'setLabelProperties',
+            'setLayoutCode',
+            'setLinkUrl',
+            'setListCollection',
+            'setListModes',
+            'setListOrders',
+            'setMAPTemplate',
+            'setMethodFormTemplate',
+            'setMethodInfo',
+            'setMyClass',
+            'setPageLayout',
+            'setPageTitle',
+            'setParentType',
+            'setPaypalActionPrefix',
+            'setPollTemplate',
+            'setPosition',
+            'setPositioned',
+            'setRewardMessage',
+            'setRewardQtyLimitationMessage',
+            'setShouldPrepareInfoTabs',
+            'setShowOrPosition',
+            'setShowPart',
+            'setSignupLabel',
+            'setSourceField',
+            'setStoreVarName',
+            'setStrong',
+            'setTemplate',
+            'setText',
+            'setThemeName',
+            'setTierPriceTemplate',
+            'setTitle',
+            'setTitleClass',
+            'setTitleId',
+            'setToolbarBlockName',
+            'setType',
+            'setUseConfirm',
+            'setValueProperties',
+            'setViewAction',
+            'setViewColumn',
+            'setViewLabel',
+            'setViewMode',
+            'setWrapperClass',
+            'unsetChild',
+            'unsetChildren',
+            'updateButton',
+        );
     }
 }

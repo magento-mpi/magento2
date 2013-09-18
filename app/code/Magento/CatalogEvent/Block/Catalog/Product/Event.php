@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Event on category page
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 namespace Magento\CatalogEvent\Block\Catalog\Product;
 
@@ -24,32 +18,37 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
-    
+    protected $_coreRegistry;
+
     /**
      * Catalog event data
      *
      * @var \Magento\CatalogEvent\Helper\Data
      */
-    protected $_catalogEventData = null;
+    protected $_catalogEventData;
 
     /**
-     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
      * @param array $data
      */
     public function __construct(
-        \Magento\CatalogEvent\Helper\Data $catalogEventData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Registry $registry,
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $locale, $data);
+        
         $this->_coreRegistry = $registry;
         $this->_catalogEventData = $catalogEventData;
-        parent::__construct($coreData, $context, $data);
     }
 
     /**

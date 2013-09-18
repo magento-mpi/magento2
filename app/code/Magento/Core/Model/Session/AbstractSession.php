@@ -79,17 +79,35 @@ class AbstractSession extends \Magento\Object
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($data);
     }
 
@@ -172,8 +190,8 @@ class AbstractSession extends \Magento\Object
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId();
 
-        \Magento\Profiler::start('session_start');
-        $sessionCacheLimiter = \Mage::getConfig()->getNode('global/session_cache_limiter');
+        Magento_Profiler::start('session_start');
+        $sessionCacheLimiter = $this->_coreConfig->getNode('global/session_cache_limiter');
         if ($sessionCacheLimiter) {
             session_cache_limiter((string)$sessionCacheLimiter);
         }
@@ -318,12 +336,12 @@ class AbstractSession extends \Magento\Object
         $sessionData = $_SESSION[self::VALIDATOR_KEY];
         $validatorData = $this->_getSessionEnvironment();
 
-        if (\Mage::getStoreConfig(self::XML_PATH_USE_REMOTE_ADDR)
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_USE_REMOTE_ADDR)
             && $sessionData[self::VALIDATOR_REMOTE_ADDR_KEY] != $validatorData[self::VALIDATOR_REMOTE_ADDR_KEY]
         ) {
             return false;
         }
-        if (\Mage::getStoreConfig(self::XML_PATH_USE_HTTP_VIA)
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_USE_HTTP_VIA)
             && $sessionData[self::VALIDATOR_HTTP_VIA_KEY] != $validatorData[self::VALIDATOR_HTTP_VIA_KEY]
         ) {
             return false;
@@ -331,11 +349,11 @@ class AbstractSession extends \Magento\Object
 
         $httpXForwardedKey = $sessionData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY];
         $validatorXForwarded = $validatorData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY];
-        if (\Mage::getStoreConfig(self::XML_PATH_USE_X_FORWARDED)
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_USE_X_FORWARDED)
             && $httpXForwardedKey != $validatorXForwarded ) {
             return false;
         }
-        if (\Mage::getStoreConfig(self::XML_PATH_USE_USER_AGENT)
+        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_USE_USER_AGENT)
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
         ) {
             $userAgentValidated = $this->getValidateHttpUserAgentSkip();
@@ -421,7 +439,7 @@ class AbstractSession extends \Magento\Object
     public function getValidateHttpUserAgentSkip()
     {
         $userAgents = array();
-        $skip = \Mage::getConfig()->getNode(self::XML_NODE_USET_AGENT_SKIP);
+        $skip = $this->_coreConfig->getNode(self::XML_NODE_USET_AGENT_SKIP);
         foreach ($skip->children() as $userAgent) {
             $userAgents[] = (string)$userAgent;
         }
@@ -463,8 +481,8 @@ class AbstractSession extends \Magento\Object
             $exception->getMessage(),
             "\n",
             $exception->getTraceAsString());
-        $file = \Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
-        \Mage::log($message, \Zend_Log::DEBUG, $file);
+        $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
+        Mage::log($message, Zend_Log::DEBUG, $file);
 
         $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->error($alternativeText));
         return $this;
@@ -607,7 +625,7 @@ class AbstractSession extends \Magento\Object
     {
 
         if (null === $id
-            && (\Mage::app()->getStore()->isAdmin() || \Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID))
+            && (Mage::app()->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
         ) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam]) && \Mage::getSingleton('Magento\Core\Model\Url')->isOwnOriginUrl()) {
@@ -644,7 +662,7 @@ class AbstractSession extends \Magento\Object
     public function getSessionIdQueryParam()
     {
         $sessionName = $this->getSessionName();
-        if ($sessionName && $queryParam = (string)\Mage::getConfig()->getNode($sessionName . '/session/query_param')) {
+        if ($sessionName && $queryParam = (string)$this->_coreConfig->getNode($sessionName . '/session/query_param')) {
             return $queryParam;
         }
         return self::SESSION_ID_QUERY_PARAM;
@@ -784,7 +802,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionSaveMethod()
     {
-        if (\Mage::isInstalled() && $sessionSave = \Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
+        if (Mage::isInstalled() && $sessionSave = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE)) {
             return (string) $sessionSave;
         }
         return 'files';
@@ -797,7 +815,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionSavePath()
     {
-        if (\Mage::isInstalled() && $sessionSavePath = \Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
+        if (Mage::isInstalled() && $sessionSavePath = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
             return $sessionSavePath;
         }
         return \Mage::getBaseDir('session');

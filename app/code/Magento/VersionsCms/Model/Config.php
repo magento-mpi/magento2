@@ -42,10 +42,21 @@ class Config
     protected $_authorization;
 
     /**
-     * @param \Magento\AuthorizationInterface $authorization
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
      */
-    public function __construct(\Magento\AuthorizationInterface $authorization)
-    {
+    protected $_coreStoreConfig;
+
+    /**
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
     }
 
@@ -178,6 +189,6 @@ class Config
      */
     public function getDefaultVersioningStatus()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_CONTENT_VERSIONING);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CONTENT_VERSIONING);
     }
 }

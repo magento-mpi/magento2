@@ -39,7 +39,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
      */
     protected $_themeModel;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'fallback';
         mkdir($this->_tmpDir);

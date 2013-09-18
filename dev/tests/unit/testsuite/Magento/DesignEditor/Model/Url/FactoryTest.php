@@ -20,7 +20,7 @@ class Magento_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestC
      */
     protected $_objectManager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_model = new \Magento\DesignEditor\Model\Url\Factory($this->_objectManager);

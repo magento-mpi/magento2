@@ -10,8 +10,6 @@
 
 /**
  * Abstract USA shipping carrier model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Usa\Model\Shipping\Carrier;
 
@@ -46,14 +44,16 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * attributes This behavior may change in child classes
      *
      * @param \Magento\Directory\Helper\Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Directory\Helper\Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_directoryData = $directoryData;
-        parent::__construct($data);
+        parent::__construct($coreStoreConfig, $data);
     }
 
     /**
@@ -80,16 +80,14 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
 
     public function getTrackingInfo($tracking)
     {
-        $info = array();
-
         $result = $this->getTracking($tracking);
 
-        if($result instanceof \Magento\Shipping\Model\Tracking\Result){
-            if ($trackings = $result->getAllTrackings()) {
+        if ($result instanceof Magento_Shipping_Model_Tracking_Result) {
+            $trackings = $result->getAllTrackings();
+            if ($trackings) {
                 return $trackings[0];
             }
-        }
-        elseif (is_string($result) && !empty($result)) {
+        } elseif (is_string($result) && !empty($result)) {
             return $result;
         }
 
@@ -457,7 +455,8 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * @param null|string $countyDest
      * @return bool
      */
-    public function isGirthAllowed($countyDest = null) {
+    public function isGirthAllowed($countyDest = null)
+    {
         return false;
     }
 }

@@ -41,12 +41,25 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
     }
 
     /**
@@ -522,7 +535,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         }
 
         if ($quoteId && $this->_summaryQty === null) {
-            if (\Mage::getStoreConfig('checkout/cart_link/use_qty')) {
+            if ($this->_coreStoreConfig->getConfig('checkout/cart_link/use_qty')) {
                 $this->_summaryQty = $this->getItemsQty();
             } else {
                 $this->_summaryQty = $this->getItemsCount();

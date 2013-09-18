@@ -59,16 +59,8 @@ class Magento_Test_Integrity_Theme_RenderersTest extends Magento_TestFramework_T
                 '//action[@method=\'addRenderer\']/argument[@name="renderer_block"]'
             ),
             array(
-                'Magento_Adminhtml',
-                '//action[@method=\'addOptionRenderer\']/argument[@name="block"]'
-            ),
-            array(
                 'Magento_Bundle',
                 '//action[@method=\'addRenderer\']/argument[@name="block"]'
-            ),
-            array(
-                'Magento_Catalog',
-                '//action[@method=\'addOptionRenderer\']/argument[@name="block"]'
             ),
         );
     }

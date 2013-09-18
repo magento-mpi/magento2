@@ -43,7 +43,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
      */
     protected $_objectFactory;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
@@ -70,7 +70,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_controllerMock);
         unset($this->_ctrlRequestMock);

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -126,46 +124,78 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\CatalogInventory\Helper\Minsaleqty
      */
-    protected $_catalogInventoryMinsaleqty = null;
+    protected $_catalogInventoryMinsaleqty;
 
     /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Catalog inventory data
      *
      * @var \Magento\CatalogInventory\Helper\Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
-     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * Store model manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     * 
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_coreData = $coreData;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
     }
 
     /**
@@ -235,7 +265,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function canSubtractQty()
     {
-        return $this->getManageStock() && \Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
+        return $this->getManageStock() && $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CAN_SUBTRACT);
     }
 
     /**
@@ -249,7 +279,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if (!$this->getManageStock()) {
             return $this;
         }
-        $config = \Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
+        $config = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CAN_SUBTRACT);
         if (!$config) {
             return $this;
         }
@@ -267,7 +297,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $storeId = $this->getData('store_id');
         if (is_null($storeId)) {
-            $storeId = \Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
             $this->setData('store_id', $storeId);
         }
         return $storeId;
@@ -302,7 +332,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getMinQty()
     {
-        return (float)($this->getUseConfigMinQty() ? \Mage::getStoreConfig(self::XML_PATH_MIN_QTY)
+        return (float)($this->getUseConfigMinQty() ? $this->_coreStoreConfig->getConfig(self::XML_PATH_MIN_QTY)
             : $this->getData('min_qty'));
     }
 
@@ -337,9 +367,9 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $customerGroupId = $this->getCustomerGroupId();
         if (!$customerGroupId) {
-            $customerGroupId = \Mage::app()->getStore()->isAdmin()
-                ? \Magento\Customer\Model\Group::CUST_GROUP_ALL
-                : \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+            $customerGroupId = $this->_storeManager->getStore()->isAdmin()
+                ? Magento_Customer_Model_Group::CUST_GROUP_ALL
+                : Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
 
         if (!isset($this->_minSaleQtyCache[$customerGroupId])) {
@@ -360,7 +390,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getMaxSaleQty()
     {
-        return (float)($this->getUseConfigMaxSaleQty() ? \Mage::getStoreConfig(self::XML_PATH_MAX_SALE_QTY)
+        return (float)($this->getUseConfigMaxSaleQty() ? $this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_SALE_QTY)
             : $this->getData('max_sale_qty'));
     }
 
@@ -372,7 +402,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getNotifyStockQty()
     {
         if ($this->getUseConfigNotifyStockQty()) {
-            return (float) \Mage::getStoreConfig(self::XML_PATH_NOTIFY_STOCK_QTY);
+            return (float) $this->_coreStoreConfig->getConfig(self::XML_PATH_NOTIFY_STOCK_QTY);
         }
         return (float) $this->getData('notify_stock_qty');
     }
@@ -385,7 +415,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getEnableQtyIncrements()
     {
         if ($this->getUseConfigEnableQtyInc()) {
-            return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS);
+            return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS);
         }
         return (bool) $this->getData('enable_qty_increments');
     }
@@ -400,7 +430,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if ($this->_qtyIncrements === null) {
             if ($this->getEnableQtyIncrements()) {
                 $this->_qtyIncrements = (float)($this->getUseConfigQtyIncrements()
-                    ? \Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS)
+                    ? $this->_coreStoreConfig->getConfig(self::XML_PATH_QTY_INCREMENTS)
                     : $this->getData('qty_increments'));
                 if ($this->_qtyIncrements <= 0) {
                     $this->_qtyIncrements = false;
@@ -420,8 +450,8 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getDefaultQtyIncrements()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS)
-            ? (int)\Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS)
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS)
+            ? (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_QTY_INCREMENTS)
             : false;
     }
 
@@ -433,7 +463,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getBackorders()
     {
         if ($this->getUseConfigBackorders()) {
-            return (int) \Mage::getStoreConfig(self::XML_PATH_BACKORDERS);
+            return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_BACKORDERS);
         }
         return $this->getData('backorders');
     }
@@ -446,7 +476,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getManageStock()
     {
         if ($this->getUseConfigManageStock()) {
-            return (int) \Mage::getStoreConfigFlag(self::XML_PATH_MANAGE_STOCK);
+            return (int) $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_MANAGE_STOCK);
         }
         return $this->getData('manage_stock');
     }
@@ -458,7 +488,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getCanBackInStock()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_CAN_BACK_IN_STOCK);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CAN_BACK_IN_STOCK);
     }
 
     /**
@@ -470,7 +500,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function checkQty($qty)
     {
-        if (!$this->getManageStock() || \Mage::app()->getStore()->isAdmin()) {
+        if (!$this->getManageStock() || $this->_storeManager->getStore()->isAdmin()) {
             return true;
         }
 
@@ -542,7 +572,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $result->setHasError(false);
 
         if (!is_numeric($qty)) {
-            $qty = \Mage::app()->getLocale()->getNumber($qty);
+            $qty = $this->_locale->getNumber($qty);
         }
 
         /**
@@ -560,7 +590,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $result->setItemQty($qty);
 
             if (!is_numeric($qty)) {
-                $qty = \Mage::app()->getLocale()->getNumber($qty);
+                $qty = $this->_locale->getNumber($qty);
             }
             $origQty = intval($origQty);
             $result->setOrigQty($origQty);
@@ -644,7 +674,7 @@ class Item extends \Magento\Core\Model\AbstractModel
                                 __('We don\'t have "%1" in the requested quantity, so we\'ll back order the remaining %2.', $this->getProductName(), ($backorderQty * 1))
                             );
                         }
-                    } elseif (\Mage::app()->getStore()->isAdmin()) {
+                    } elseif ($this->_storeManager->getStore()->isAdmin()) {
                         $result->setMessage(
                             __('We don\'t have as many "%1" as you requested.', $this->getProductName())
                         );
@@ -754,8 +784,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             // if qty is below notify qty, update the low stock date to today date otherwise set null
             $this->setLowStockDate(null);
             if ($this->verifyNotification()) {
-                $this->setLowStockDate(\Mage::app()->getLocale()->date(null, null, null, false)
-                    ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
+                $this->setLowStockDate($this->_locale->date(null, null, null, false)
+                    ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
                 );
             }
 

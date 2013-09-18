@@ -181,7 +181,7 @@ class Samples
     {
         return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
             ? $this->getProduct()->getSamplesTitle()
-            : \Mage::getStoreConfig(\Magento\Downloadable\Model\Sample::XML_PATH_SAMPLES_TITLE);
+            : $this->_storeConfig->getConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**

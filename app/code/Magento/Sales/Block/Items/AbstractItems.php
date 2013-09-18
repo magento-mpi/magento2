@@ -20,41 +20,23 @@ namespace Magento\Sales\Block\Items;
 class AbstractItems extends \Magento\Core\Block\Template
 {
     /**
-     * Renderers with render type key
-     * block    => the block name
-     * template => the template file
-     * renderer => the block object
-     *
-     * @var array
+     * Block alias fallback
      */
-    protected $_itemRenders = array();
+    const DEFAULT_TYPE = 'default';
 
     /**
      * Initialize default item renderer
      */
-    protected function _construct()
+    protected function _prepareLayout()
     {
-        parent::_construct();
-        $this->addItemRender('default', 'Magento\Checkout\Block\Cart\Item\Renderer', 'cart/item/default.phtml');
-    }
-
-    /**
-     * Add renderer for item product type
-     *
-     * @param   string $type
-     * @param   string $block
-     * @param   string $template
-     * @return  \Magento\Checkout\Block\Cart\AbstractCart
-     */
-    public function addItemRender($type, $block, $template)
-    {
-        $this->_itemRenders[$type] = array(
-            'block'     => $block,
-            'template'  => $template,
-            'renderer'  => null
-        );
-
-        return $this;
+        if (!$this->getChildBlock(self::DEFAULT_TYPE)) {
+            $this->addChild(
+                self::DEFAULT_TYPE,
+                'Magento_Checkout_Block_Cart_Item_Renderer',
+                array('template' => 'cart/item/default.phtml')
+            );
+        }
+        return parent::_prepareLayout();
     }
 
     /**
@@ -62,20 +44,16 @@ class AbstractItems extends \Magento\Core\Block\Template
      *
      * @param string $type
      * @return \Magento\Core\Block\AbstractBlock
+     * @throws RuntimeException
      */
     public function getItemRenderer($type)
     {
-        if (!isset($this->_itemRenders[$type])) {
-            $type = 'default';
+        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
+        if (!$renderer instanceof Magento_Core_Block) {
+            throw new RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
-
-        if (is_null($this->_itemRenders[$type]['renderer'])) {
-            $this->_itemRenders[$type]['renderer'] = $this->getLayout()
-                ->createBlock($this->_itemRenders[$type]['block'])
-                ->setTemplate($this->_itemRenders[$type]['template'])
-                ->setRenderedBlock($this);
-        }
-        return $this->_itemRenders[$type]['renderer'];
+        $renderer->setRenderedBlock($this);
+        return $renderer;
     }
 
     /**

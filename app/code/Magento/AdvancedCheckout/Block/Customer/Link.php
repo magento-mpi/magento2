@@ -18,8 +18,11 @@ namespace Magento\AdvancedCheckout\Block\Customer;
 
 class Link extends \Magento\Core\Block\Template
 {
+    /** @var Magento_AdvancedCheckout_Helper_Data  */
+    protected $_customerHelper;
+
     /**
-     * Checkout data
+     * Constructor
      *
      * @var \Magento\AdvancedCheckout\Helper\Data
      */
@@ -27,39 +30,29 @@ class Link extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_AdvancedCheckout_Helper_Data $customerHelper
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Helper_Data $coreData,
+        Magento_AdvancedCheckout_Helper_Data $customerHelper,
         array $data = array()
     ) {
-        $this->_checkoutData = $checkoutData;
         parent::__construct($coreData, $context, $data);
+        $this->_customerHelper = $customerHelper;
     }
 
     /**
-     * Adding link to dashboard links block
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return \Magento\AdvancedCheckout\Block\Customer\Link
+     * @inheritdoc
      */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
+    protected function _toHtml()
     {
-        if ($this->_checkoutData->isSkuApplied()) {
-            /** @var $blockInstance \Magento\Customer\Block\Account\Navigation */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
+        if ($this->_customerHelper->isSkuApplied()) {
+            return parent::_toHtml();
+        } else {
+            return '';
         }
-        return $this;
     }
 }

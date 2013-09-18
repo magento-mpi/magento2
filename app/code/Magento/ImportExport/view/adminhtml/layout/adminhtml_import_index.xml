@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_import_index">
-        <reference name="content">
-            <block class="Magento\ImportExport\Block\Adminhtml\Import\Edit\Before" template="Magento_ImportExport::import/form/before.phtml" name="import.form.before" alias="form_before"/>
-            <block class="Magento\ImportExport\Block\Adminhtml\Import\Edit" name="import.form.container"/>
-            <block class="Magento\ImportExport\Block\Adminhtml\Form\After" template="Magento_ImportExport::import/form/after.phtml" name="import.form.after" alias="form_after"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_ImportExport_Block_Adminhtml_Import_Edit_Before" template="Magento_ImportExport::import/form/before.phtml" name="import.form.before" as="form_before"/>
+        <block class="Magento_ImportExport_Block_Adminhtml_Import_Edit" name="import.form.container"/>
+        <block class="Magento_ImportExport_Block_Adminhtml_Form_After" template="Magento_ImportExport::import/form/after.phtml" name="import.form.after" as="form_after"/>
+    </reference>
 </layout>

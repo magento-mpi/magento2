@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-rma-rma-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Rma::rma.js</argument>
+            </arguments>
+        </block>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Rma_Block_Adminhtml_Rma_New" name="magento_rma_new"/>
+    </reference>
+    <reference name="left">
+        <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tabs" name="magento_rma_edit_tabs">
+            <block class="Magento_Rma_Block_Adminhtml_Rma_New_Tab_General" template="new/general.phtml" name="magento_rma_new_tab_general">
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Details" template="new/general/details.phtml" name="request_details"/>
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingaddress" template="edit/general/shippingaddress.phtml" name="shipping_address"/>
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress" template="edit/general/returnadress.phtml" name="return_address"/>
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="new/general/history.phtml" name="comments_history"/>
+                <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="new/general/confirmation.phtml" name="return_confirmation"/>
+            </block>
+            <block class="Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items" name="magento_rma_new_tab_items" template="new/items.phtml">
+                <block class="Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid" name="rma_items_grid"/>
+                <block class="Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid" name="order_items_grid"/>
+            </block>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">general_section</argument>
+                <argument name="block" xsi:type="string">magento_rma_new_tab_general</argument>
+            </action>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">items_section</argument>
+                <argument name="block" xsi:type="string">magento_rma_new_tab_items</argument>
+            </action>
+        </block>
+    </reference>
+    <reference name="before_body_end">
+        <block class="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/mask.phtml"/>
+        <block class="Magento_Rma_Block_Adminhtml_Product_Bundle_Js" template="edit/bundle/js.phtml" name="magento_rma_js_create"/>
+    </reference>
+</layout>

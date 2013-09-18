@@ -54,6 +54,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Resource\Product $product
      */
     public function __construct(
@@ -62,10 +63,18 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Catalog\Model\Resource\Product $product
     ) {
         $this->_inventoryData = $catalogInventoryData;
-        parent::__construct($catalogProductFlat, $catalogData, $eventManager, $fetchStrategy, $product);
+        parent::__construct(
+            $catalogProductFlat,
+            $catalogData,
+            $eventManager,
+            $fetchStrategy,
+            $coreStoreConfig,
+            $product
+        );
     }
 
     /**
@@ -230,7 +239,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem();
         $manageStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_manage_stock') . ' = 1',
-            (int) \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, $storeId),
+            (int) $this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK, $storeId),
             $this->_getInventoryItemField('manage_stock')
         );
         $this->getSelect()->where($manageStockExpr . ' = ?', 1);
@@ -248,7 +257,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem(array('qty'));
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
-            (int)\Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY, $storeId),
+            (int)$this->_coreStoreConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY, $storeId),
             $this->_getInventoryItemField('notify_stock_qty')
         );
         $this->getSelect()->where('qty < ?', $notifyStockExpr);

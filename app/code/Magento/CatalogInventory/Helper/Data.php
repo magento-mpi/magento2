@@ -36,6 +36,35 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected static $_isQtyTypeIds;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Check if quantity defined for specified product type
      *
      * @param string $productTypeId
@@ -60,7 +89,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if (null === self::$_isQtyTypeIds) {
             self::$_isQtyTypeIds = array();
-            $productTypesXml = \Mage::getConfig()->getNode('global/catalog/product/type');
+            $productTypesXml = $this->_coreConfig->getNode('global/catalog/product/type');
             foreach ($productTypesXml->children() as $typeId => $configXml) {
                 self::$_isQtyTypeIds[$typeId] = (bool)$configXml->is_qty;
             }
@@ -104,7 +133,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isShowOutOfStock()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_SHOW_OUT_OF_STOCK);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_SHOW_OUT_OF_STOCK);
     }
 
     /**
@@ -113,7 +142,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isAutoReturnEnabled()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_ITEM_AUTO_RETURN);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ITEM_AUTO_RETURN);
     }
 
     /**
@@ -124,6 +153,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isDisplayProductStockStatus()
     {
-        return \Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS);
     }
 }

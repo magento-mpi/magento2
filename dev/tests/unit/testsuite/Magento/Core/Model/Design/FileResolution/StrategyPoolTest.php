@@ -35,7 +35,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\Core\Model\ObjectManager', array(), array(), '', false);
         $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);

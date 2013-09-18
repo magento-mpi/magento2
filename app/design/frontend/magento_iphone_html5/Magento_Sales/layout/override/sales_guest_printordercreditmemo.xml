@@ -8,29 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_printordercreditmemo">
-        <reference name="content">
-            <block class="Magento\Sales\Block\Order\PrintOrder\Creditmemo" name="sales.order.printorder.creditmemo" template="order/print/creditmemo.phtml">
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
-                    <argument name="template" xsi:type="string">Magento_Sales::order/creditmemo/items/renderer/default.phtml</argument>
+    <reference name="content">
+        <block class="Magento_Sales_Block_Order_Print_Creditmemo" name="sales.order.print.creditmemo" template="order/print/creditmemo.phtml">
+            <block class="Magento_Catalog_Block_Product_Price" as="default" template="Magento_Sales::order/creditmemo/items/renderer/default.phtml"/>
+            <block class="Magento_Sales_Block_Order_Item_Renderer_Grouped" as="grouped" template="order/creditmemo/items/renderer/default.phtml"/>
+            <block class="Magento_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="order/totals.phtml">
+                <action method="setLabelProperties">
+                    <argument name="value" xsi:type="string">colspan="6" class="a-right"</argument>
                 </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">Magento\Sales\Block\Order\Item\Renderer\Grouped</argument>
-                    <argument name="template" xsi:type="string">order/creditmemo/items/renderer/default.phtml</argument>
+                <action method="setValueProperties">
+                    <argument name="value" xsi:type="string">class="a-right"</argument>
                 </action>
-                <block class="Magento\Sales\Block\Order\Creditmemo\Totals" name="creditmemo_totals" template="order/totals.phtml">
-                    <action method="setLabelProperties">
-                        <argument name="value" xsi:type="string">colspan="6" class="a-right"</argument>
-                    </action>
-                    <action method="setValueProperties">
-                        <argument name="value" xsi:type="string">class="a-right"</argument>
-                    </action>
-                    <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml"/>
-                </block>
+                <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
             </block>
-        </reference>
-    </handle>
+        </block>
+    </reference>
 </layout>

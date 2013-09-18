@@ -8,13 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_invoice_updateqty">
-        <reference name="order_items">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento\Bundle\Block\Adminhtml\Sales\Order\Items\Renderer</argument>
-                <argument name="template" xsi:type="string">sales/invoice/create/items/renderer.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="order_items">
+        <block class="Magento_Bundle_Block_Adminhtml_Sales_Order_Items_Renderer" as="bundle" template="sales/invoice/create/items/renderer.phtml"/>
+    </reference>
 </layout>

@@ -123,8 +123,10 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $this->insertOrder(
                 $page,
                 $order,
-                \Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_CREDITMEMO_PUT_ORDER_ID, $order->getStoreId())
-            );
+                $this->_coreStoreConfig->getConfigFlag(
+                    self::XML_PATH_SALES_PDF_CREDITMEMO_PUT_ORDER_ID,
+                    $order->getStoreId()
+            ));
             /* Add document text and number */
             $this->insertDocumentNumber(
                 $page,
@@ -133,7 +135,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             /* Add table head */
             $this->_drawHeader($page);
             /* Add body */
-            foreach ($creditmemo->getAllItems() as $item){
+            foreach ($creditmemo->getAllItems() as $item) {
                 if ($item->getOrderItem()->getParentItem()) {
                     continue;
                 }

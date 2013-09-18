@@ -84,20 +84,30 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Core\Model\Resource $resource
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\String $coreString,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Core\Model\Resource $resource
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_String $coreString,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreString = $coreString;
         $this->_catalogSearchData = $catalogSearchData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($resource);
     }
 
@@ -818,8 +828,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getStoreDate($storeId, $date = null)
     {
         if (!isset($this->_dates[$storeId])) {
-            $timezone = \Mage::getStoreConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = \Mage::getStoreConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $timezone = $this->_coreStoreConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
+            $locale   = $this->_coreStoreConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
             $locale   = new \Zend_Locale($locale);
 
             $dateObj = new \Zend_Date(null, null, $locale);

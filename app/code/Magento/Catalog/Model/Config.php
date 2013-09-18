@@ -50,6 +50,32 @@ class Config extends \Magento\Eav\Model\Config
     const XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES = 'frontend/product/collection/attributes';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Initialize resource model
      *
      */
@@ -251,7 +277,7 @@ class Config extends \Magento\Eav\Model\Config
      * @return array
      */
     public function getProductCollectionAttributes() {
-        $attributes = \Mage::getConfig()
+        $attributes = $this->_coreConfig
             ->getNode(self::XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES)
             ->asArray();
         return array_keys($attributes);;
@@ -338,6 +364,6 @@ class Config extends \Magento\Eav\Model\Config
      * @return string
      */
     public function getProductListDefaultSortBy($store = null) {
-        return \Mage::getStoreConfig(self::XML_PATH_LIST_DEFAULT_SORT_BY, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_LIST_DEFAULT_SORT_BY, $store);
     }
 }

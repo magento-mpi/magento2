@@ -30,7 +30,7 @@ class Magento_Convert_ExcelTest extends PHPUnit_Framework_TestCase
      */
     protected function _getSampleOutputFile()
     {
-        return dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'output.txt';
+        return __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'output.txt';
     }
 
     /**

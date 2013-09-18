@@ -46,7 +46,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     private $_actualJobsMap;
 
 
-    public function setUp()
+    protected function setUp()
     {
         /**
          * Mock objects

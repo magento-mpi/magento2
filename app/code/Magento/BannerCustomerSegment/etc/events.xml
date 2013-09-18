@@ -9,18 +9,18 @@
 -->
 <config>
     <event name="magento_banner_load_after">
-        <observer name="magento_bannercustomersegment" instance="Magento\BannerCustomerSegment\Model\Observer" method="loadCustomerSegmentRelations" />
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="loadCustomerSegmentRelations" />
     </event>
     <event name="magento_banner_save_after">
-        <observer name="magento_bannercustomersegment" instance="Magento\BannerCustomerSegment\Model\Observer" method="saveCustomerSegmentRelations" />
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="saveCustomerSegmentRelations" />
     </event>
     <event name="magento_banner_catalogrule_collection_load_before">
-        <observer name="magento_bannercustomersegment" instance="Magento\BannerCustomerSegment\Model\Observer" method="addCustomerSegmentFilterToCollection" />
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addCustomerSegmentFilterToCollection" />
     </event>
     <event name="magento_banner_salesrule_collection_load_before">
-        <observer name="magento_bannercustomersegment" instance="Magento\BannerCustomerSegment\Model\Observer" method="addCustomerSegmentFilterToCollection" />
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addCustomerSegmentFilterToCollection" />
     </event>
     <event name="magento_banner_resource_banner_content_select_init">
-        <observer name="magento_bannercustomersegment" instance="Magento\BannerCustomerSegment\Model\Observer" method="addCustomerSegmentFilterToSelect" />
+        <observer name="magento_bannercustomersegment" instance="Magento_BannerCustomerSegment_Model_Observer" method="addCustomerSegmentFilterToSelect" />
     </event>
 </config>

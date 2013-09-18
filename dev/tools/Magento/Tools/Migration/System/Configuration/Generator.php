@@ -50,7 +50,7 @@ class Generator
         $this->_logger = $logger;
 
 
-        $this->_basePath = realpath(dirname(__FILE__) . '/../../../../../../../');
+        $this->_basePath = realpath(__DIR__ . '/../../../../../../../');
         $this->_fileSchemaPath = $this->_basePath
             . '/app/code/Mage/Backend/etc/system_file.xsd';
     }

@@ -94,7 +94,7 @@ class Form
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
+        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
             return $name;
         }
         return $carrierCode;

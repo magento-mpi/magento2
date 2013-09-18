@@ -69,8 +69,15 @@ class Head extends \Magento\Core\Block\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER
                     );
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(
-                            \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER, $linkNode->getUrl()
+                        $head->addChild(
+                            'magento-page-head-chapter-link',
+                            'Magento_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER
+                                ))
+                            )
                         );
                     }
 
@@ -78,8 +85,15 @@ class Head extends \Magento\Core\Block\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION
                     );
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(
-                            \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION, $linkNode->getUrl()
+                        $head->addChild(
+                            'magento-page-head-section-link',
+                            'Magento_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION
+                                ))
+                            )
                         );
                     }
                 }
@@ -89,8 +103,15 @@ class Head extends \Magento\Core\Block\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT
                     );
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(
-                            \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT, $linkNode->getUrl()
+                        $head->addChild(
+                            'magento-page-head-next-link',
+                            'Magento_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT
+                                ))
+                            )
                         );
                     }
 
@@ -98,8 +119,15 @@ class Head extends \Magento\Core\Block\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS
                     );
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(
-                            \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS, $linkNode->getUrl()
+                        $head->addChild(
+                            'magento-page-head-previous-link',
+                            'Magento_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS
+                                ))
+                            )
                         );
                     }
                 }
@@ -109,8 +137,15 @@ class Head extends \Magento\Core\Block\AbstractBlock
                         \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST
                     );
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(
-                            \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST, $linkNode->getUrl()
+                        $head->addChild(
+                            'magento-page-head-first-link',
+                            'Magento_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST
+                                ))
+                            )
                         );
                     }
                 }

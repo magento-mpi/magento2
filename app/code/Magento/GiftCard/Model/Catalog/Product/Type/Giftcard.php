@@ -50,6 +50,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_giftcardAmounts = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -58,6 +65,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -69,8 +77,10 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_store = $storeManager->getStore();
         $this->_locale = $locale;
         parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $data);
@@ -183,7 +193,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         $messageAllowed = false;
         if ($product->getUseConfigAllowMessage()) {
-            $messageAllowed = \Mage::getStoreConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
+            $messageAllowed = $this->_coreStoreConfig->getConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
         } else {
             $messageAllowed = (int) $product->getAllowMessage();
         }

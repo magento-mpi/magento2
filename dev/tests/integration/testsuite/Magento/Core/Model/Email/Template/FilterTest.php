@@ -80,7 +80,6 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
 
     /**
      * @magentoDataFixture Magento/Core/Model/Email/_files/themes.php
-     * @magentoConfigFixture adminhtml/design/theme/full_name test_default
      * @magentoAppIsolation enabled
      * @dataProvider layoutDirectiveDataProvider
      *
@@ -101,13 +100,18 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
         Mage::app()->getStore()->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId);
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $themes = array('frontend' => 'test_default', 'adminhtml' => 'test_default');
+        $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = $objectManager->create('Magento\Core\Model\Layout', array('area' => $area));
         $objectManager->addSharedInstance($layout, 'Magento\Core\Model\Layout');
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals($area, Mage::app()->getLayout()->getArea());
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
-            ->setDesignTheme('test_default');
+        $objectManager->get('Magento_Core_Model_View_DesignInterface')->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(array(
             '{{layout ' . $directiveParams . '}}',

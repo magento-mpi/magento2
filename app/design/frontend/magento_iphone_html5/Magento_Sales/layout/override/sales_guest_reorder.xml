@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_reorder">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento\Sales\Block\Order\View" name="sales.order.view"/>
-        </reference>
-    </handle>
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Sales_Block_Order_View" name="sales.order.view"/>
+    </reference>
 </layout>

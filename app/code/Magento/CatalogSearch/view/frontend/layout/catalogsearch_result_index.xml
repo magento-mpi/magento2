@@ -7,53 +7,51 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Quick Search Form" id="catalogsearch_result_index" type="page" parent="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">3columns.phtml</argument>
-            </action>
-        </reference>
-        <reference name="left">
-            <block class="Magento\CatalogSearch\Block\Layer" name="catalogsearch.leftnav" after="currency" template="Magento_Catalog::layer/view.phtml"/>
-        </reference>
-        <reference name="content">
-            <block class="Magento\CatalogSearch\Block\Result" name="search.result" template="result.phtml">
-                <block class="Magento\Catalog\Block\Product\ListProduct" name="search_result_list" template="product/list.phtml">
-                    <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block class="Magento\Page\Block\Html\Pager" name="product_list_toolbar_pager"/>
-                    </block>
-                    <action method="addColumnCountLayoutDepend">
-                        <argument name="layout" xsi:type="string">empty</argument>
-                        <argument name="count" xsi:type="string">6</argument>
-                    </action>
-                    <action method="addColumnCountLayoutDepend">
-                        <argument name="layout" xsi:type="string">one_column</argument>
-                        <argument name="count" xsi:type="string">5</argument>
-                    </action>
-                    <action method="addColumnCountLayoutDepend">
-                        <argument name="layout" xsi:type="string">two_columns_left</argument>
-                        <argument name="count" xsi:type="string">4</argument>
-                    </action>
-                    <action method="addColumnCountLayoutDepend">
-                        <argument name="layout" xsi:type="string">two_columns_right</argument>
-                        <argument name="count" xsi:type="string">4</argument>
-                    </action>
-                    <action method="addColumnCountLayoutDepend">
-                        <argument name="layout" xsi:type="string">three_columns</argument>
-                        <argument name="count" xsi:type="string">3</argument>
-                    </action>
-                    <action method="setToolbarBlockName">
-                        <argument name="name" xsi:type="string">product_list_toolbar</argument>
-                    </action>
-                    <action method="setPageLayout">
-                        <argument name="layout" xsi:type="string">three_columns</argument>
-                    </action>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Quick Search Form" type="page" parent="default">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">3columns.phtml</argument>
+        </action>
+    </reference>
+    <reference name="left">
+        <block class="Magento_CatalogSearch_Block_Layer" name="catalogsearch.leftnav" after="currency" template="Magento_Catalog::layer/view.phtml"/>
+    </reference>
+    <reference name="content">
+        <block class="Magento_CatalogSearch_Block_Result" name="search.result" template="result.phtml">
+            <block class="Magento_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
+                <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                    <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                 </block>
-                <action method="setListOrders"/>
-                <action method="setListModes"/>
-                <action method="setListCollection"/>
+                <action method="addColumnCountLayoutDepend">
+                    <argument name="layout" xsi:type="string">empty</argument>
+                    <argument name="count" xsi:type="string">6</argument>
+                </action>
+                <action method="addColumnCountLayoutDepend">
+                    <argument name="layout" xsi:type="string">one_column</argument>
+                    <argument name="count" xsi:type="string">5</argument>
+                </action>
+                <action method="addColumnCountLayoutDepend">
+                    <argument name="layout" xsi:type="string">two_columns_left</argument>
+                    <argument name="count" xsi:type="string">4</argument>
+                </action>
+                <action method="addColumnCountLayoutDepend">
+                    <argument name="layout" xsi:type="string">two_columns_right</argument>
+                    <argument name="count" xsi:type="string">4</argument>
+                </action>
+                <action method="addColumnCountLayoutDepend">
+                    <argument name="layout" xsi:type="string">three_columns</argument>
+                    <argument name="count" xsi:type="string">3</argument>
+                </action>
+                <action method="setToolbarBlockName">
+                    <argument name="name" xsi:type="string">product_list_toolbar</argument>
+                </action>
+                <action method="setPageLayout">
+                    <argument name="layout" xsi:type="string">three_columns</argument>
+                </action>
             </block>
-        </reference>
-    </handle>
+            <action method="setListOrders"/>
+            <action method="setListModes"/>
+            <action method="setListCollection"/>
+        </block>
+    </reference>
 </layout>

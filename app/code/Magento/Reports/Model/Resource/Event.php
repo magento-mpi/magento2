@@ -21,6 +21,25 @@ namespace Magento\Reports\Model\Resource;
 class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize main table and identifier field.
      * Set main entity table name and primary key field name.
      *
@@ -118,7 +137,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
                 }
             }
         } else { // get all stores, required by configuration in current store scope
-            switch (\Mage::getStoreConfig('catalog/recently_products/scope')) {
+            switch ($this->_coreStoreConfig->getConfig('catalog/recently_products/scope')) {
                 case 'website':
                     $resourceStore = \Mage::app()->getStore()->getWebsite()->getStores();
                     break;

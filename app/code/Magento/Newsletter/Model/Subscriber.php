@@ -79,9 +79,17 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     protected $_newsletterData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Newsletter\Helper\Data $newsletterData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -90,11 +98,13 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         \Magento\Newsletter\Helper\Data $newsletterData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_newsletterData = $newsletterData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -329,7 +339,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             $this->setSubscriberConfirmCode($this->randomSequence());
         }
 
-        $isConfirmNeed   = (\Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
+        $isConfirmNeed   = ($this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
         $isOwnSubscribes = false;
         $ownerId = \Mage::getModel('Magento\Customer\Model\Customer')
             ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
@@ -518,8 +528,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        if (!\Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE)
-           || !\Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY)
+        if(!$this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE)
+           || !$this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY)
         )  {
             return $this;
         }
@@ -531,8 +541,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $email = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
-            \Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE),
-            \Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY),
             $this->getEmail(),
             $this->getName(),
             array('subscriber'=>$this)
@@ -554,8 +564,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        if (!\Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE)
-           || !\Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY)
+        if(!$this->_coreStoreConfig->getConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE)
+           || !$this->_coreStoreConfig->getConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY)
         ) {
             return $this;
         }
@@ -567,8 +577,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $email = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
-            \Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE),
-            \Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY),
             $this->getEmail(),
             $this->getName(),
             array('subscriber'=>$this)
@@ -589,8 +599,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         if ($this->getImportMode()) {
             return $this;
         }
-        if (!\Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE)
-           || !\Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY)
+        if(!$this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE)
+           || !$this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY)
         ) {
             return $this;
         }
@@ -602,8 +612,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $email = \Mage::getModel('Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
-            \Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE),
-            \Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY),
             $this->getEmail(),
             $this->getName(),
             array('subscriber'=>$this)

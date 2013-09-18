@@ -24,7 +24,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest ext
         'topics' => array('customer/created', 'customer/updated')
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getUrl'), array(), '', false);
 

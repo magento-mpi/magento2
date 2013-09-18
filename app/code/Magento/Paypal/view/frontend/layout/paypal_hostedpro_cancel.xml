@@ -7,10 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Paypal Hosted Pro Frame" id="paypal_hostedpro_cancel" type="fragment" owner="checkout_onepage_index">
-        <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
-            <block class="Magento\Paypal\Block\Hosted\Pro\Iframe" name="hosted.pro.iframe" template="hss/redirect.phtml"/>
-        </block>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Paypal Hosted Pro Frame" type="fragment" owner="checkout_onepage_index">
+    <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+        <block class="Magento_Paypal_Block_Hosted_Pro_Iframe" name="hosted.pro.iframe" template="hss/redirect.phtml"/>
+    </block>
 </layout>

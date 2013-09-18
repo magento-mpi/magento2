@@ -2,10 +2,6 @@
 /**
  * Application configuration object. Used to access configuration when application is initialized and installed.
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -14,7 +10,6 @@
 
 
 /**
- * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -113,22 +108,33 @@ class Config implements \Magento\Core\Model\ConfigInterface
     protected $_storeCollection;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Model\ObjectManager $objectManager
      * @param \Magento\Core\Model\Config\StorageInterface $storage
      * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Core\Model\Config\SectionPool $sectionPool
+     * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Core\Model\ObjectManager $objectManager,
-        \Magento\Core\Model\Config\StorageInterface $storage,
-        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
-        \Magento\Core\Model\ModuleListInterface $moduleList,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Core\Model\Config\SectionPool $sectionPool
+        Magento_Core_Model_ObjectManager $objectManager,
+        Magento_Core_Model_Config_StorageInterface $storage,
+        Magento_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Config_ScopeInterface $configScope,
+        Magento_Core_Model_Config_SectionPool $sectionPool,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         \Magento\Profiler::start('config_load');
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_objectManager = $objectManager;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
@@ -343,7 +349,7 @@ class Config implements \Magento\Core\Model\ConfigInterface
      */
     public function shouldUrlBeSecure($url)
     {
-        if (!\Mage::getStoreConfigFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
             return false;
         }
 

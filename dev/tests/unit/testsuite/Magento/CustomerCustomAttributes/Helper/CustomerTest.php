@@ -48,13 +48,13 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
             ->method('get')
             ->will($this->returnValue($abstractHelperMock));
         Mage::reset();
-        Mage::setObjectManager($objectManagerMock);
+        Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
     }
 
     /**
      * Clean up after test
      */
-    public function tearDown()
+    protected function tearDown()
     {
         Mage::reset();
     }

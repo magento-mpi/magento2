@@ -19,7 +19,7 @@ class Magento_Rma_Block_Adminhtml_Create_OrderTest extends PHPUnit_Framework_Tes
         $utility = new Magento_Core_Utility_Layout($this);
         $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(
-            __DIR__ . '/../../../_files/chooseorder.xml',
+            __DIR__ . '/../../../_files/adminhtml_rma_chooseorder.xml',
             $layoutArguments
         );
         $layout->getUpdate()->addHandle('adminhtml_rma_chooseorder')->load();

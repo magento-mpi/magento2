@@ -27,7 +27,6 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage::getConfig();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock', array(
@@ -563,12 +562,6 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals('Magento_Core', $this->_block->getModuleName());
         $this->assertEquals('Magento_Core', $this->_block->getData('module_name'));
-    }
-
-    public function test__()
-    {
-        $str = uniqid();
-        $this->assertEquals($str, __($str));
     }
 
     /**

@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_oauth_consumer_grid">
-        <remove name="root"/>
-        <block class="Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Grid" name="oauth_consumer.grid" output="1"/>
-    </handle>
+    <remove name="root"/>
+    <block class="Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid" name="oauth_consumer.grid" output="1"/>
 </layout>

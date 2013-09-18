@@ -22,7 +22,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     /**
      * Prepares layout for current block
      */
-    public function _prepareLayout()
+    protected function _prepareLayout()
     {
         $this->addMessages(\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getMessages(true));
         parent::_prepareLayout();

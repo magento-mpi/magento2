@@ -41,16 +41,18 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      *
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_coreString = $coreString;
-        parent::__construct($data);
+        parent::__construct($coreStoreConfig, $data);
     }
 
     /**

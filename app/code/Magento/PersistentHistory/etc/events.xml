@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="clear_expired_quotes_before">
-        <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer" method="modifyExpiredQuotesCleanup" />
+        <observer name="magento_persistenthistory" instance="Magento_PersistentHistory_Model_Observer" method="modifyExpiredQuotesCleanup" />
     </event>
 </config>

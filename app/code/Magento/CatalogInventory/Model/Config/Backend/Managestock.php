@@ -29,8 +29,8 @@ class Managestock
     protected function _afterSave()
     {
         $newValue = $this->getValue();
-        $oldValue = \Mage::getConfig()->getValue(
-            \Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
+        $oldValue = $this->_coreConfig->getValue(
+            Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
         );

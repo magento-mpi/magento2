@@ -23,12 +23,22 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_taxData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_taxData = $taxData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->setCode('tax');
     }
 
@@ -153,7 +163,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         }
 
 
-        $shippingTaxClass = \Mage::getStoreConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
+        $shippingTaxClass = $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
 
         $shippingTax      = 0;
         $shippingBaseTax  = 0;

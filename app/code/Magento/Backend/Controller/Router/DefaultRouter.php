@@ -53,7 +53,9 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Core\Model\Route\Config $routeConfig
+     * @param Magento_Core_Model_Config $config
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -68,14 +70,27 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Config\Scope $configScope,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Route\Config $routeConfig,
+        Magento_Core_Model_Config $config,
         $areaCode,
         $baseController,
         $routerId,
         $defaultRouteId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
-            $baseController, $routerId);
+        parent::__construct(
+            $controllerFactory,
+            $filesystem,
+            $app,
+            $configScope,
+            $coreStoreConfig,
+            $routeConfig,
+            $config,
+            $areaCode,
+            $baseController,
+            $routerId,
+            $defaultRouteId
+        );
 
         $this->_backendData = $backendData;
         $this->_areaFrontName = $this->_backendData->getAreaFrontName();
@@ -122,7 +137,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      */
     protected function _getDefaultPath()
     {
-        return (string)\Mage::getConfig()->getValue('web/default/admin', 'default');
+        return (string)$this->_config->getValue('web/default/admin', 'default');
     }
 
     /**
@@ -172,10 +187,11 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      */
     protected function _shouldBeSecure($path)
     {
-        return substr((string)\Mage::getConfig()->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
-            || \Mage::getStoreConfigFlag('web/secure/use_in_adminhtml',
-                \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
-                && substr((string)\Mage::getConfig()->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
+        return substr((string)$this->_config->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
+            || $this->_coreStoreConfig->getConfigFlag(
+                'web/secure/use_in_adminhtml',
+                Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+            ) && substr((string)$this->_config->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
     }
 
     /**

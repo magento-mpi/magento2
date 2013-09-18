@@ -202,6 +202,13 @@ class Layout extends \Magento\Simplexml\Config
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
@@ -211,6 +218,7 @@ class Layout extends \Magento\Simplexml\Config
      * @param \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor
      * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Core\Model\DataService\Graph $dataServiceGraph
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $area
      */
     public function __construct(
@@ -223,11 +231,13 @@ class Layout extends \Magento\Simplexml\Config
         \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $area = \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
         $this->_factoryHelper = $factoryHelper;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;
@@ -803,6 +813,12 @@ class Layout extends \Magento\Simplexml\Config
             throw new \Magento\Exception("Unexpected element type specified for generating block: {$type}.");
         }
 
+        $configPath = (string)$node->getAttribute('ifconfig');
+        if (!empty($configPath) && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
+            $this->_scheduledStructure->unsetElement($elementName);
+            return;
+        }
+
         // create block
         $className = (string)$node['class'];
 
@@ -844,11 +860,8 @@ class Layout extends \Magento\Simplexml\Config
      * @param array $options
      * @throws \Magento\Exception if any of arguments are invalid
      */
-    protected function _generateContainer($name, $label, array $options)
+    protected function _generateContainer($name, $label = '', array $options)
     {
-        if (empty($label)) {
-            throw new \Magento\Exception('Container requires a label.');
-        }
         $this->_structure->setAttribute($name, self::CONTAINER_OPT_LABEL, $label);
         unset($options[self::CONTAINER_OPT_LABEL]);
         unset($options['type']);
@@ -871,7 +884,7 @@ class Layout extends \Magento\Simplexml\Config
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !\Mage::getStoreConfigFlag($configPath)) {
+        if ($configPath && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
             return;
         }
 

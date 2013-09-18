@@ -33,7 +33,7 @@ class Magento_ImportExport_Model_Source_Import_Behavior_CustomTest
         \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
     );
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_model = new \Magento\ImportExport\Model\Source\Import\Behavior\Custom(array());

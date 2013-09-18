@@ -82,11 +82,13 @@ abstract class AbstractType
      * Object constructor.
      *
      * @param array $params
+     * @return \Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
      */
     public function __construct(array $params)
     {
         if ($this->isSuitable()) {
-            if (!isset($params[0]) || !isset($params[1])
+            if (!isset($params[0])
+                || !isset($params[1])
                 || !is_object($params[0])
                 || !($params[0] instanceof \Magento\ImportExport\Model\Import\Entity\Product)
             ) {

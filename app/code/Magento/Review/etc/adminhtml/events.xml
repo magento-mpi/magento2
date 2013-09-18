@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="catalog_product_delete_after_done">
-        <observer name="review" instance="Magento\Review\Model\Observer" method="processProductAfterDeleteEvent" />
+        <observer name="review" instance="Magento_Review_Model_Observer" method="processProductAfterDeleteEvent" />
     </event>
 </config>

@@ -64,9 +64,15 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     protected $_websiteRestricData = null;
 
     /**
+     * @var Magento_Core_Model_Cache_StateInterface
+     */
+    protected $_cacheState;
+
+    /**
      * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestricData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -75,10 +81,12 @@ class Crawler extends \Magento\Core\Model\AbstractModel
         \Magento\WebsiteRestriction\Helper\Data $websiteRestricData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Cache_StateInterface $cacheState,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_cacheState = $cacheState;
         $this->_websiteRestricData = $websiteRestricData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -151,9 +159,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
      */
     public function crawl()
     {
-        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
-        $cacheState = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\StateInterface');
-        if (!$cacheState->isEnabled('full_page')) {
+        if (!$this->_cacheState->isEnabled('full_page')) {
             return $this;
         }
         $storesInfo  = $this->getStoresInfo();

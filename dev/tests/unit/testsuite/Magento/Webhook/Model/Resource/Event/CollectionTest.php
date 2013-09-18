@@ -11,8 +11,13 @@
  */
 class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    public function testConstructor()
     {
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $mockFetchStrategy = $this->getMockBuilder('Magento_Data_Collection_Db_FetchStrategyInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $mockDBAdapter = $this->getMockBuilder('Magento\DB\Adapter\Pdo\Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('_connect', '_quote'))
@@ -24,44 +29,11 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
 
-        $mockObjectManager = $this->_setMageObjectManager();
-        $mockObjectManager->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo('Magento\Webhook\Model\Resource\Event'))
-            ->will($this->returnValue($mockResourceEvent));
-    }
-
-    public function tearDown()
-    {
-        // Unsets object manager
-        Mage::reset();
-    }
-
-    public function testConstructor()
-    {
-        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-        $mockFetchStrategy = $this->getMockBuilder('Magento\Data\Collection\Db\FetchStrategyInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $collection = new \Magento\Webhook\Model\Resource\Event\Collection($eventManager, $mockFetchStrategy);
-        $this->assertInstanceOf('Magento\Webhook\Model\Resource\Event\Collection', $collection);
-        $this->assertEquals('Magento\Webhook\Model\Resource\Event', $collection->getResourceModelName());
-        $this->assertEquals('Magento\Webhook\Model\Event', $collection->getModelName());
-    }
-
-    /**
-     * Makes sure that Mage has a mock object manager set, and returns that instance.
-     *
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _setMageObjectManager()
-    {
-        Mage::reset();
-        $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        Mage::setObjectManager($mockObjectManager);
-
-        return $mockObjectManager;
+        $collection = new Magento_Webhook_Model_Resource_Event_Collection(
+            $eventManager, $mockFetchStrategy, $mockResourceEvent
+        );
+        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Event_Collection', $collection);
+        $this->assertEquals('Magento_Webhook_Model_Resource_Event', $collection->getResourceModelName());
+        $this->assertEquals('Magento_Webhook_Model_Event', $collection->getModelName());
     }
 }

@@ -16,7 +16,7 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
             => sprintf(\Magento\Core\Model\Config\Primary::CONFIG_TEMPLATE_INSTALL_DATE, date('r', strtotime('now')))

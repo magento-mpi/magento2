@@ -43,11 +43,17 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     protected $_template = 'system/email/template/edit.phtml';
 
     /**
+     * @var Magento_Core_Model_Email_Template
+     */
+    protected $_templateModel;
+    
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param Magento_Core_Model_Email_Template $templateModel
      * @param array $data
      */
     public function __construct(
@@ -56,11 +62,13 @@ class Edit extends \Magento\Adminhtml\Block\Widget
         \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Backend\Model\Config\Structure $configStructure,
+        Magento_Core_Model_Email_Template $templateModel,
         array $data = array()
     ) {
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
+        $this->_templateModel = $templateModel;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -177,7 +185,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     protected function _beforeToHtml()
     {
         $groupedOptions = array();
-        foreach (\Magento\Core\Model\Email\Template::getDefaultTemplatesAsOptionsArray() as $option) {
+        foreach ($this->_templateModel->getDefaultTemplatesAsOptionsArray() as $option) {
             $groupedOptions[$option['group']][] = $option;
         }
         ksort($groupedOptions);

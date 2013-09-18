@@ -26,7 +26,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_syncFlagMock = $this->getMock('Magento\Core\Model\File\Storage\Flag', array(), array(), '', false);
 

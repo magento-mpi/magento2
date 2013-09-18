@@ -13,50 +13,40 @@
  */
 namespace Magento\GiftRegistry\Block;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\Page\Block\Link\Current
 {
     /**
-     * Gift registry data
+     * @var Magento_GiftRegistry_Helper_Data
      *
      * @var \Magento\GiftRegistry\Helper\Data
      */
-    protected $_giftRegistryData = null;
+    protected $_giftHelper = null;
 
     /**
-     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_GiftRegistry_Helper_Data $giftHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_GiftRegistry_Helper_Data $giftHelper,
         array $data = array()
     ) {
-        $this->_giftRegistryData = $giftRegistryData;
         parent::__construct($coreData, $context, $data);
+        $this->_giftHelper = $giftHelper;
     }
 
     /**
-     * Adding link to dashboard links block
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return \Magento\GiftRegistry\Block\Link
+     * @inheritdoc
      */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
+    protected function _toHtml()
     {
-        if ($this->_giftRegistryData->isEnabled()) {
-            /** @var $blockInstance \Magento\Customer\Block\Account\Navigation */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
+        if ($this->_giftHelper->isEnabled()) {
+            return parent::_toHtml();
+        } else {
+            return '';
         }
-        return $this;
     }
 }

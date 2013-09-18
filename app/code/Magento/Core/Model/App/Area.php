@@ -79,11 +79,19 @@ class Area
     protected $_diConfigLoader;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\ObjectManager $objectManager
      * @param \Magento\Core\Model\ObjectManager\ConfigLoader $diConfigLoader
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $areaCode
      */
     public function __construct(
@@ -92,8 +100,10 @@ class Area
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\ObjectManager $objectManager,
         \Magento\Core\Model\ObjectManager\ConfigLoader $diConfigLoader,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $areaCode
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_code = $areaCode;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
@@ -150,7 +160,7 @@ class Area
             return false;
         }
         try {
-            $expressions = \Mage::getStoreConfig('design/theme/ua_regexp');
+            $expressions = $this->_coreStoreConfig->getConfig('design/theme/ua_regexp');
             if (!$expressions) {
                 return false;
             }

@@ -50,22 +50,41 @@ class Storage extends \Magento\Core\Model\AbstractModel
     protected $_coreFileStorage = null;
 
     /**
-     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @param Magento_Core_Helper_File_Storage $coreFileStorage
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento_Data_Collection_Db $resourceCollection
+     * $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage $coreFileStorage,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorage = $coreFileStorage;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -235,12 +254,12 @@ class Storage extends \Magento\Core\Model\AbstractModel
         $config = array();
         $config['media_directory'] = \Mage::getBaseDir('media');
 
-        $allowedResources = \Mage::getConfig()->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
+        $allowedResources = $this->_coreConfig->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {
             $config['allowed_resources'][] = $allowedResource;
         }
 
-        $config['update_time'] = \Mage::getStoreConfig(self::XML_PATH_MEDIA_UPDATE_TIME);
+        $config['update_time'] = $this->_coreStoreConfig->getConfig(self::XML_PATH_MEDIA_UPDATE_TIME);
 
         return $config;
     }

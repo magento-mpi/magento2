@@ -40,7 +40,7 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
      */
     protected $_emailTemplate;
 
-    public function setUp()
+    protected function setUp()
     {
         $app = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);

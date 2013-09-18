@@ -28,14 +28,24 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     protected $_productConfigur = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Catalog\Helper\Product\Configuration $productConfigur,
-        \Magento\Core\Helper\Context $context
+        Magento_Catalog_Helper_Product_Configuration $productConfigur,
+        Magento_Core_Helper_Context $context,
+    Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_productConfigur = $productConfigur;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -74,7 +84,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
         if (strlen($title)) {
             return $title;
         }
-        return \Mage::getStoreConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
+        return $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     /**

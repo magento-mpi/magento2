@@ -9,18 +9,18 @@
 -->
 <config>
     <event name="sales_convert_quote_address_to_order">
-        <observer name="giftmessage" instance="Magento\GiftMessage\Model\Observer" method="salesEventConvertQuoteAddressToOrder" shared="false" />
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="salesEventConvertQuoteAddressToOrder" shared="false" />
     </event>
     <event name="sales_convert_quote_to_order">
-        <observer name="giftmessage" instance="Magento\GiftMessage\Model\Observer" method="salesEventConvertQuoteToOrder" shared="false" />
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="salesEventConvertQuoteToOrder" shared="false" />
     </event>
     <event name="adminhtml_sales_order_create_create_order">
-        <observer name="giftmessage" instance="Magento\GiftMessage\Model\Observer" method="checkoutEventCreateOrder" shared="false" />
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="checkoutEventCreateOrder" shared="false" />
     </event>
     <event name="sales_convert_order_to_quote">
-        <observer name="giftmessage" instance="Magento\GiftMessage\Model\Observer" method="salesEventOrderToQuote" shared="false" />
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="salesEventOrderToQuote" shared="false" />
     </event>
     <event name="sales_convert_order_item_to_quote_item">
-        <observer name="giftmessage" instance="Magento\GiftMessage\Model\Observer" method="salesEventOrderItemToQuoteItem" shared="false" />
+        <observer name="giftmessage" instance="Magento_GiftMessage_Model_Observer" method="salesEventOrderItemToQuoteItem" shared="false" />
     </event>
 </config>

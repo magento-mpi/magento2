@@ -35,6 +35,38 @@ class Cookie
     protected $_store;
 
     /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_httpRequest;
+
+    /**
+     * @var Magento_Core_Controller_Response_Http
+     */
+    protected $_httpResponse;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Controller_Request_Http $httpRequest
+     * @param Magento_Core_Controller_Response_Http $httpResponse
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Controller_Request_Http $httpRequest,
+        Magento_Core_Controller_Response_Http $httpResponse,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_httpRequest = $httpRequest;
+        $this->_httpResponse = $httpResponse;
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Set Store object
      *
      * @param mixed $store
@@ -66,7 +98,7 @@ class Cookie
      */
     protected function _getRequest()
     {
-        return \Mage::getObjectManager()->get('Magento\Core\Controller\Request\Http');
+        return $this->_httpRequest;
     }
 
     /**
@@ -76,7 +108,7 @@ class Cookie
      */
     protected function _getResponse()
     {
-        return \Mage::getObjectManager()->get('Magento\Core\Controller\Response\Http');
+        return $this->_httpResponse;
     }
 
     /**
@@ -100,7 +132,7 @@ class Cookie
      */
     public function getConfigDomain()
     {
-        return (string)\Mage::getStoreConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
+        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
     }
 
     /**
@@ -110,7 +142,7 @@ class Cookie
      */
     public function getPath()
     {
-        $path = \Mage::getStoreConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
+        $path = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
         if (empty($path)) {
             $path = $this->_getRequest()->getBasePath();
         }
@@ -127,7 +159,7 @@ class Cookie
         if (!is_null($this->_lifetime)) {
             $lifetime = $this->_lifetime;
         } else {
-            $lifetime = \Mage::getStoreConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
+            $lifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
         }
         if (!is_numeric($lifetime)) {
             $lifetime = 3600;
@@ -154,7 +186,7 @@ class Cookie
      */
     public function getHttponly()
     {
-        $httponly = \Mage::getStoreConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
+        $httponly = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
         if (is_null($httponly)) {
             return null;
         }

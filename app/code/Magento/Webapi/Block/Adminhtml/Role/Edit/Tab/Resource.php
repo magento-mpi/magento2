@@ -94,7 +94,7 @@ class Resource extends \Magento\Backend\Block\Widget\Form
         foreach ($resources as $resource) {
             $item = array();
             $item['id'] = $resource['id'];
-            $item['text'] = __($resource['title'])->__toString();
+            $item['text'] = __($resource['title']);
             if (in_array($item['id'], $this->_getSelectedResourcesIds())) {
                 $item['checked'] = true;
             }

@@ -15,7 +15,7 @@
             <giftcard_setup>
                 <setup>
                     <module>Magento_GiftCard</module>
-                    <class>Magento\Catalog\Model\Resource\Setup</class>
+                    <class>Magento_Catalog_Model_Resource_Setup</class>
                 </setup>
             </giftcard_setup>
         </resources>
@@ -24,12 +24,12 @@
                 <type>
                     <giftcard translate="label">
                         <label>Gift Card</label>
-                        <model>Magento\GiftCard\Model\Catalog\Product\Type\Giftcard</model>
-                        <price_model>Magento\GiftCard\Model\Catalog\Product\Price\Giftcard</price_model>
+                        <model>Magento_GiftCard_Model_Catalog_Product_Type_Giftcard</model>
+                        <price_model>Magento_GiftCard_Model_Catalog_Product_Price_Giftcard</price_model>
                         <index_priority>45</index_priority>
                         <composite>0</composite>
                         <is_qty>1</is_qty>
-                        <price_indexer>Magento\GiftCard\Model\Resource\Indexer\Price</price_indexer>
+                        <price_indexer>Magento_GiftCard_Model_Resource_Indexer_Price</price_indexer>
                     </giftcard>
                 </type>
                 <attributes>

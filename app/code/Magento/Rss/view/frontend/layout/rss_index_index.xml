@@ -7,15 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="RSS Feeds List" id="rss_index_index" type="page" parent="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento\Rss\Block\ListBlock" name="rss.list" template="list.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RSS Feeds List" type="page" parent="default">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">2columns-right.phtml</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Rss_Block_List" name="rss.list" template="list.phtml"/>
+    </reference>
 </layout>

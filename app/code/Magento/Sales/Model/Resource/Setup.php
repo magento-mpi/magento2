@@ -27,6 +27,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      * @param \Magento\Core\Model\Config $modulesConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -252,5 +253,15 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     public function getCoreData()
     {
         return $this->_coreData;
+    }
+
+    /**
+     * Get config model
+     *
+     * @return Magento_Core_Model_Config
+     */
+    public function getConfigModel()
+    {
+        return $this->_config;
     }
 }

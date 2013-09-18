@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_checkout_viewrecentlyviewed">
-        <remove name="root"/>
-        <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Rviewed" name="checkout.accordion.rviewed" output="1"/>
-    </handle>
+    <remove name="root"/>
+    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed" name="checkout.accordion.rviewed" output="1"/>
 </layout>

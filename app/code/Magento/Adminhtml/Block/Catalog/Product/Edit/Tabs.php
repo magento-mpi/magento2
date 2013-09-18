@@ -197,8 +197,8 @@ class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
                 unset($advancedGroups['design']);
             }
 
-            $alertPriceAllow = \Mage::getStoreConfig('catalog/productalert/allow_price');
-            $alertStockAllow = \Mage::getStoreConfig('catalog/productalert/allow_stock');
+            $alertPriceAllow = $this->_storeConfig->getConfig('catalog/productalert/allow_price');
+            $alertStockAllow = $this->_storeConfig->getConfig('catalog/productalert/allow_stock');
             if (($alertPriceAllow || $alertStockAllow) && !$product->isGrouped()) {
                 $this->addTab('product-alerts', array(
                     'label'     => __('Product Alerts'),

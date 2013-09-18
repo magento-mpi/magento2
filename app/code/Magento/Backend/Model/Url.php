@@ -62,28 +62,27 @@ class Url extends \Magento\Core\Model\Url
     protected $_menuConfig;
 
     /**
-     * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Core\Model\Session $coreSession
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Backend\Model\Menu\Config $menuConfig
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Backend_Helper_Data $backendHelper
+     * @param Magento_Core_Model_Session $coreSession
+     * @param Magento_Backend_Model_Menu_Config $menuConfig
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Core\Model\Session $coreSession,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Backend\Model\Menu\Config $menuConfig,
-        \Magento\Core\Helper\Data $coreData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Backend_Helper_Data $backendHelper,
+        Magento_Core_Model_Session $coreSession,
+        Magento_Backend_Model_Menu_Config $menuConfig,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($coreData, $data);
-        $this->_startupMenuItemId = $storeConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
+        parent::__construct($coreData, $coreStoreConfig, $coreConfig, $data);
+        $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $coreSession;
-        $this->_coreHelper = $coreHelper;
         $this->_menuConfig = $menuConfig;
     }
 
@@ -97,7 +96,7 @@ class Url extends \Magento\Core\Model\Url
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
         }
-        return \Mage::getStoreConfigFlag('web/secure/use_in_adminhtml');
+        return $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_adminhtml');
     }
 
     /**
@@ -200,7 +199,7 @@ class Url extends \Magento\Core\Model\Url
         }
 
         $secret = $routeName . $controller . $action . $salt;
-        return $this->_coreHelper->getHash($secret);
+        return $this->_coreData->getHash($secret);
     }
 
     /**
@@ -210,7 +209,7 @@ class Url extends \Magento\Core\Model\Url
      */
     public function useSecretKey()
     {
-        return \Mage::getStoreConfigFlag('admin/security/use_form_key') && !$this->getNoSecret();
+        return $this->_coreStoreConfig->getConfigFlag('admin/security/use_form_key') && !$this->getNoSecret();
     }
 
     /**

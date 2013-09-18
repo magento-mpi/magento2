@@ -108,20 +108,36 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param \Magento\Core\Model\Resource $resource
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Core\Model\Resource $resource
+        Magento_Catalog_Model_Product_Type $productType,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_productType = $productType;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($resource);
     }
 
@@ -185,11 +201,11 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
             $adapter               = $this->_getReadAdapter();
             $this->_attributeCodes = array();
 
-            $attributeNodes = \Mage::getConfig()
+            $attributeNodes = $this->_coreConfig
                 ->getNode(self::XML_NODE_ATTRIBUTE_NODES)
                 ->children();
             foreach ($attributeNodes as $node) {
-                $attributes = \Mage::getConfig()->getNode((string)$node)->asArray();
+                $attributes = $this->_coreConfig->getNode((string)$node)->asArray();
                 $attributes = array_keys($attributes);
                 $this->_systemAttributes = array_unique(array_merge($attributes, $this->_systemAttributes));
             }
@@ -582,7 +598,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
         // Extract indexes we need to have in flat table
         $indexesNeed  = $this->getFlatIndexes();
 
-        $maxIndex = \Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
+        $maxIndex = $this->_coreConfig->getNode(self::XML_NODE_MAX_INDEX_COUNT);
         if (count($indexesNeed) > $maxIndex) {
             \Mage::throwException(__("Please make sure you don\'t have too many filterable and sortable attributes. You now have %1\$d. The Flat Catalog module allows only %2\$d.", count($indexesNeed), $maxIndex));
         }
@@ -1002,7 +1018,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
             $this->_productTypes = array();
             $productEmulator     = new \Magento\Object();
 
-            foreach (array_keys(\Magento\Catalog\Model\Product\Type::getTypes()) as $typeId) {
+            foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
                 $this->_productTypes[$typeId] = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')
                     ->factory($productEmulator);

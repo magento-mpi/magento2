@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_StoreTest extends PHPUnit_F
      */
     protected $_block;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 

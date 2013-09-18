@@ -26,7 +26,7 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
      */
     protected $_paymentMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $helperManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')

@@ -53,8 +53,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
     {
         $args = array();
         if ($cmsPageData) {
-            $args['cms_page'] = Mage::getObjectManager()->create(
-                'Magento\Cms\Model\Page', array('data' => $cmsPageData)
+            $args['cms_page'] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+                'Magento_Cms_Model_Page', array('data' => $cmsPageData)
             );
         }
         $form = $this->_getFormInstance($args);

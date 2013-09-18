@@ -25,7 +25,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
      */
     protected $_expectedAttributes = array('firstname', 'lastname');
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
             '', false, true, true, array('_getExportAttributeCodes', 'getAttributeCollection', 'getAttributeOptions'));
@@ -35,7 +35,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
             ->will($this->returnValue($this->_expectedAttributes));
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }

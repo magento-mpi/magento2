@@ -16,7 +16,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
     /** @var  \Magento\Webhook\Model\Resource\Subscription */
     private $_resource;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Resource\Subscription');

@@ -55,7 +55,8 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Authorize
      *
-     * @param   \Magento\Object $orderPayment
+     * @param Magento_Object $payment
+     * @param float $amount
      * @return  \Magento\GoogleCheckout\Model\Payment
      */
     public function authorize(\Magento\Object $payment, $amount)
@@ -69,19 +70,12 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Capture payment
      *
-     * @param   \Magento\Object $orderPayment
+     * @param Magento_Object $payment
+     * @param float $amount
      * @return  \Magento\GoogleCheckout\Model\Payment
      */
     public function capture(\Magento\Object $payment, $amount)
     {
-        /*
-        try {
-            $this->authorize($payment, $amount);
-        } catch (\Exception $e) {
-            // authorization is not expired yet
-        }
-        */
-
         if ($payment->getOrder()->getPaymentAuthExpiration() < \Mage::getModel('Magento\Core\Model\Date')->gmtTimestamp()) {
             try {
                 $this->authorize($payment, $amount);
@@ -158,7 +152,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
         }
         $path = 'google/checkout/' . $field;
 
-        return \Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

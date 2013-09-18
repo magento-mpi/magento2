@@ -27,17 +27,22 @@ class Validator
     protected $_config;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
      * Constructor dependency injection
      *
-     * @param array $data
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct(array $data = array())
-    {
-        if (isset($data['config'])) {
-            $this->_config = $data['config'];
-        } else {
-            $this->_config = \Mage::getConfig();
-        }
+    public function __construct(
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_typeList = $typeList;
+        $this->_config = $coreConfig;
     }
 
     /**
@@ -45,9 +50,7 @@ class Validator
      */
     protected function _invalidateCache()
     {
-        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
-        $cacheTypeList->invalidate('full_page');
+        $this->_typeList->invalidate('full_page');
     }
 
     /**

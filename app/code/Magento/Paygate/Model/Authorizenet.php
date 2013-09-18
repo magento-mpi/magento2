@@ -186,6 +186,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Paygate\Helper\Data $paygateData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
      */
@@ -193,11 +194,12 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Paygate\Helper\Data $paygateData,
         \Magento\Core\Model\ModuleListInterface $moduleList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
         array $data = array()
     ) {
         $this->_paygateData = $paygateData;
-        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
     }
 
     /**

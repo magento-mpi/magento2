@@ -210,13 +210,21 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Sales\Helper\Data $salesData
-     * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Sales_Helper_Data $salesData
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -227,6 +235,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -235,6 +244,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_salesData = $salesData;
         $this->_catalogProduct = $catalogProduct;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -1744,9 +1754,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function validateMinimumAmount($multishipping = false)
     {
         $storeId = $this->getStoreId();
-        $minOrderActive = \Mage::getStoreConfigFlag('sales/minimum_order/active', $storeId);
-        $minOrderMulti  = \Mage::getStoreConfigFlag('sales/minimum_order/multi_address', $storeId);
-        $minAmount      = \Mage::getStoreConfig('sales/minimum_order/amount', $storeId);
+        $minOrderActive = $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/active', $storeId);
+        $minOrderMulti  = $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/multi_address', $storeId);
+        $minAmount      = $this->_coreStoreConfig->getConfig('sales/minimum_order/amount', $storeId);
 
         if (!$minOrderActive) {
             return true;

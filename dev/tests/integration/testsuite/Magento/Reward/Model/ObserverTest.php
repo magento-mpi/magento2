@@ -60,7 +60,10 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
             'points_delta' => $pointsDelta
         );
 
-        $request = new Magento_TestFramework_Request();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $request Magento_TestFramework_Request */
+        $request = $objectManager->get('Magento_TestFramework_Request');
         $request->setPost(
             array('reward' => $reward)
         );

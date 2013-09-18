@@ -389,7 +389,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * Render label for specified period unit
      *
      * @param string $unit
-     * @return \\Magento\Phrase|string
+     * @return string
      */
     public function getPeriodUnitLabel($unit)
     {

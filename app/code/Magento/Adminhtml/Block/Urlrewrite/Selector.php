@@ -35,7 +35,6 @@ class Selector extends \Magento\Core\Block\Template
      */
     protected function _construct()
     {
-
         $this->_modes = array(
             'category' => __('For category'),
             'product' => __('For product'),

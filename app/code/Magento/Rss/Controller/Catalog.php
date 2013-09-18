@@ -110,7 +110,7 @@ class Catalog extends \Magento\Core\Controller\Front\Action
      */
     protected function _isEnabled($code)
     {
-        return \Mage::getStoreConfigFlag("rss/catalog/{$code}");
+        return $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag("rss/catalog/{$code}");
     }
 
     /**

@@ -92,6 +92,16 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_widgetData = null;
 
     /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_typeList;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
      * @param \Magento\Widget\Helper\Data $widgetData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
@@ -100,7 +110,9 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Widget\Model\Config\Reader $reader,
      * @param \Magento\Widget\Model\Widget $widgetModel,
      * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
+     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -113,17 +125,21 @@ class Instance extends \Magento\Core\Model\AbstractModel
         \Magento\Widget\Model\Config\Reader $reader,
         \Magento\Widget\Model\Widget $widgetModel,
         \Magento\Core\Model\Config $coreConfig,
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
+        Magento_Catalog_Model_Product_Type $productType,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_widgetData = $widgetData;
         $this->_coreData = $coreData;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->_coreConfig = $coreConfig;
+        $this->_typeList = $typeList;
+        $this->_productType = $productType;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -144,7 +160,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
             'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
             'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
         );
-        foreach (array_keys(\Magento\Catalog\Model\Product\Type::getTypes()) as $typeId) {
+        foreach (array_keys($this->_productType->getTypes()) as $typeId) {
             $layoutHandle = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE);
             $this->_layoutHandles[$typeId . '_products'] = $layoutHandle;
             $this->_specificEntitiesLayoutHandles[$typeId . '_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;
@@ -375,8 +391,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
             if (isset($configTemplates['values'])) {
                 foreach ($configTemplates['values'] as $name => $template) {
                     $templates[(string)$name] = array(
-                        'value' => (string)$template['value'],
-                        'label' => __((string)$template['label'])->render()
+                        'value' => $template['value'],
+                        'label' => __((string)$template['label'])
                     );
                 }
             }
@@ -491,12 +507,10 @@ class Instance extends \Magento\Core\Model\AbstractModel
      */
     protected function _invalidateCache()
     {
-        $types = \Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
+        $types = $this->_coreConfig->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
-            /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-            $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
-            $cacheTypeList->invalidate($types);
+            $this->_typeList->invalidate($types);
         }
         return $this;
     }

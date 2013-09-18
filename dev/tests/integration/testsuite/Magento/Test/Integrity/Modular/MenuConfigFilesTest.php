@@ -16,7 +16,7 @@ class Magento_Test_Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framewo
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $moduleReader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Config\Modules\Reader');

@@ -37,7 +37,7 @@ class Magento_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCas
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento\GoogleAdwords\Helper\Data', array(), array(), '', false);
         $this->_registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', true);

@@ -39,17 +39,27 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_taxData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_taxData = $taxData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -61,7 +71,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPriceDisplayType($store = null)
     {
-        return \Mage::getStoreConfig('tax/weee/display', $store);
+        return $this->_coreStoreConfig->getConfig('tax/weee/display', $store);
     }
 
     /**
@@ -72,7 +82,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getListPriceDisplayType($store = null)
     {
-        return \Mage::getStoreConfig('tax/weee/display_list', $store);
+        return $this->_coreStoreConfig->getConfig('tax/weee/display_list', $store);
     }
 
     /**
@@ -83,7 +93,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getSalesPriceDisplayType($store = null)
     {
-        return \Mage::getStoreConfig('tax/weee/display_sales', $store);
+        return $this->_coreStoreConfig->getConfig('tax/weee/display_sales', $store);
     }
 
     /**
@@ -94,7 +104,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getEmailPriceDisplayType($store = null)
     {
-        return \Mage::getStoreConfig('tax/weee/display_email', $store);
+        return $this->_coreStoreConfig->getConfig('tax/weee/display_email', $store);
     }
 
     /**
@@ -105,7 +115,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isDiscounted($store = null)
     {
-        return \Mage::getStoreConfigFlag('tax/weee/discount', $store);
+        return $this->_coreStoreConfig->getConfigFlag('tax/weee/discount', $store);
     }
 
     /**
@@ -116,7 +126,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isTaxable($store = null)
     {
-        return \Mage::getStoreConfigFlag('tax/weee/apply_vat', $store);
+        return $this->_coreStoreConfig->getConfigFlag('tax/weee/apply_vat', $store);
     }
 
     /**
@@ -127,7 +137,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function includeInSubtotal($store = null)
     {
-        return \Mage::getStoreConfigFlag('tax/weee/include_in_subtotal', $store);
+        return $this->_coreStoreConfig->getConfigFlag('tax/weee/include_in_subtotal', $store);
     }
 
     /**
@@ -357,7 +367,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isEnabled($store = null)
     {
-        return \Mage::getStoreConfig(self::XML_PATH_FPT_ENABLED, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_FPT_ENABLED, $store);
     }
 
     /**

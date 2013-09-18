@@ -23,7 +23,7 @@ class Magento_Core_Model_Resource_IteratorTest extends PHPUnit_Framework_TestCas
      */
     protected $_callbackCounter = 0;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = Mage::getResourceModel('Magento\Core\Model\Resource\Iterator');
     }

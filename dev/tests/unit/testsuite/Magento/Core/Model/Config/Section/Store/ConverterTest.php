@@ -13,7 +13,7 @@ class Magento_Core_Model_Config_Section_Store_ConverterTest extends PHPUnit_Fram
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_processorMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_processorMock = $this->getMock('Magento\Core\Model\Config\Section\Processor\Placeholder',
             array(), array(), '', false);

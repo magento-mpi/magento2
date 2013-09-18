@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="customer_address_save_before">
-        <observer name="customer_address_before_save_viv_observer" instance="Magento\Customer\Model\Observer" method="beforeAddressSave" />
+        <observer name="customer_address_before_save_viv_observer" instance="Magento_Customer_Model_Observer" method="beforeAddressSave" />
     </event>
     <event name="customer_address_save_after">
-        <observer name="customer_addres_after_save_viv_observer" instance="Magento\Customer\Model\Observer" method="afterAddressSave" />
+        <observer name="customer_addres_after_save_viv_observer" instance="Magento_Customer_Model_Observer" method="afterAddressSave" />
     </event>
 </config>

@@ -173,22 +173,27 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_coreString = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\String $coreString
-     * @param \Magento\Ogone\Model\Config $config
+     * Core string
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @var Magento_Ogone_Model_Config $config
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
+     * @return Magento_Ogone_Model_Api
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\String $coreString,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Ogone\Model\Config $config,
         \Magento\Payment\Helper\Data $paymentData,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
         $this->_config = $config;
-        parent::__construct($eventManager, $paymentData, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
     }
 
     /**
@@ -375,11 +380,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected function _translate($text)
     {
-        $flags = ENT_COMPAT;
-        if (defined('ENT_HTML401')) { // Constant is defined in PHP 5.4 only
-            $flags |= ENT_HTML401;
-        }
-        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), $flags, 'ISO-8859-1');
+        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
     }
 
     /**

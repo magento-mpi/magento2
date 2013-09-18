@@ -24,7 +24,7 @@ class Magento_Backend_Model_Menu_Builder_Command_AddTest extends PHPUnit_Framewo
         'resource' => 'Magento_Backend::item'
     );
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new \Magento\Backend\Model\Menu\Builder\Command\Add($this->_params);
     }

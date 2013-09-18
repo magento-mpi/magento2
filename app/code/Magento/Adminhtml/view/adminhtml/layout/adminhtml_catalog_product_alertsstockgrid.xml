@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_catalog_product_alertsstockgrid">
-        <block class="Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts\Stock" name="admin.product.edit.tab.alerts.stock" output="1"/>
-    </handle>
+    <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock" name="admin.product.edit.tab.alerts.stock" output="1"/>
 </layout>

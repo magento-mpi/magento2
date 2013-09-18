@@ -28,6 +28,11 @@ class LogoUploader
     protected $_themeContext;
 
     /**
+     * @var Magento_Theme_Model_Config_Customization
+     */
+    protected $_customization;
+
+    /**
      * Set of templates to render
      *
      * Upper is rendered first and is inserted into next using <?php echo $this->getHtml() ?>
@@ -43,15 +48,18 @@ class LogoUploader
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
+     * @param Magento_Theme_Model_Config_Customization $customization
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
+        Magento_Theme_Model_Config_Customization $customization,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
+        $this->_customization = $customization;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -103,7 +111,7 @@ class LogoUploader
      */
     public function getStoresList()
     {
-        $stores = \Mage::getObjectManager()->get('Magento\Theme\Model\Config\Customization')->getStoresByThemes();
+        $stores = $this->_customization->getStoresByThemes();
         return isset($stores[$this->_themeContext->getEditableTheme()->getId()])
             ? $stores[$this->_themeContext->getEditableTheme()->getId()]
             : null;

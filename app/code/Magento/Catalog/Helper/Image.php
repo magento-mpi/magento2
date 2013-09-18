@@ -100,12 +100,24 @@ class Image extends \Magento\Core\Helper\AbstractHelper
     protected $_viewUrl;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
-    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\View\Url $viewUrl)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
     }
 
@@ -145,16 +157,16 @@ class Image extends \Magento\Core\Helper\AbstractHelper
         $this->setProduct($product);
 
         $this->setWatermark(
-            \Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image")
+            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image")
         );
         $this->setWatermarkImageOpacity(
-            \Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity")
+            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity")
         );
         $this->setWatermarkPosition(
-            \Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position")
+            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position")
         );
         $this->setWatermarkSize(
-            \Mage::getStoreConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size")
+            $this->_coreStoreConfig->getConfig("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size")
         );
 
         if ($imageFile) {

@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_banner_catalogrulebannersgrid">
-        <remove name="root"/>
-        <block class="Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners\Grid" name="related_catalogrule_banners_grid" output="1"/>
-    </handle>
+    <remove name="root"/>
+    <block class="Magento_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid" name="related_catalogrule_banners_grid" output="1"/>
 </layout>

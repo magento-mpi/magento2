@@ -42,14 +42,14 @@ class Depends
             'name'      => 'depends_php_min',
             'label'     => __('Minimum'),
             'required'  => true,
-            'value'     => '5.2.0',
+            'value'     => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION,
         ));
 
         $fieldset->addField('depends_php_max', 'text', array(
             'name'      => 'depends_php_max',
             'label'     => __('Maximum'),
             'required'  => true,
-            'value'     => '5.2.20',
+            'value'     => PHP_MAJOR_VERSION . '.' . (PHP_MINOR_VERSION + 1) . '.0',
         ));
 
         $form->setValues($this->getData());

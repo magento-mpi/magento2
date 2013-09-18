@@ -11,7 +11,6 @@
 /**
  * Catalog product option model
  *
- * @method \Magento\Catalog\Model\Resource\Product\Option _getResource()
  * @method \Magento\Catalog\Model\Resource\Product\Option getResource()
  * @method int getProductId()
  * @method \Magento\Catalog\Model\Product\Option setProductId(int $value)

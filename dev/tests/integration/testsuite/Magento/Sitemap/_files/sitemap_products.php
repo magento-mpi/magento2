@@ -17,8 +17,8 @@ $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 /** @var \Magento\Filesystem $filesystem */
 $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Filesystem');
 $filesystem->setIsAllowCreateDirectories(true);
-$filesystem->copy(dirname(__FILE__) . '/magento_image_sitemap.png', $baseTmpMediaPath . '/magento_image_sitemap.png');
-$filesystem->copy(dirname(__FILE__) . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
+$filesystem->copy(__DIR__ . '/magento_image_sitemap.png', $baseTmpMediaPath . '/magento_image_sitemap.png');
+$filesystem->copy(__DIR__ . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
 
 $product = Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)

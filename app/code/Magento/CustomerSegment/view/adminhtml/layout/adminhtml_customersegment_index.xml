@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_customersegment_index">
-        <update handle="formkey"/>
-        <update handle="adminhtml_customersegment_block"/>
-        <reference name="content">
-            <block class="Magento\CustomerSegment\Block\Adminhtml\Customersegment" name="customersegment.container"/>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_customersegment_block"/>
+    <reference name="content">
+        <block class="Magento_CustomerSegment_Block_Adminhtml_Customersegment" name="customersegment.container"/>
+    </reference>
 </layout>

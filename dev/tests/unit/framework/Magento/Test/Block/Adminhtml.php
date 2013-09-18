@@ -64,7 +64,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
-    public function setUp()
+    protected function setUp()
     {
         // These mocks are accessed via context
         $this->_designMock         = $this->_makeMock('Magento\Core\Model\View\DesignInterface');

@@ -7,13 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account Newsletter Subscriptions" id="newsletter_manage_index" type="page" parent="customer_account_index">
-        <update handle="customer_account"/>
-        <reference name="my.account.wrapper">
-            <block class="Magento\Customer\Block\Newsletter" name="customer_newsletter">
-                <container name="customer.newsletter.form.before" as="form_before" label="Newsletter Subscription Form Before"/>
-            </block>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Newsletter Subscriptions" type="page" parent="customer_account_index">
+    <update handle="customer_account"/>
+    <reference name="my.account.wrapper">
+        <block class="Magento_Customer_Block_Newsletter" name="customer_newsletter">
+            <container name="customer.newsletter.form.before" as="form_before" label="Newsletter Subscription Form Before"/>
+        </block>
+    </reference>
 </layout>

@@ -30,15 +30,24 @@ class Guest extends \Magento\Core\Helper\Data
      */
     protected $_coreRegistry = null;
 
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
     public function __construct(
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($eventManager, $coreHttp, $context, $config);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
     }
 
     /**

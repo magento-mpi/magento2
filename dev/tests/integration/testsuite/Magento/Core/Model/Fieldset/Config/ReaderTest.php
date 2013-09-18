@@ -17,9 +17,10 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
 
     public function setUp()
     {
-        /** @var \Magento\Core\Model\Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
-            'Magento\Core\Model\Dir', array(
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var Magento_Core_Model_Dir $dirs */
+        $dirs = $objectManager->create(
+            'Magento_Core_Model_Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
                     \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files',
@@ -28,45 +29,45 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
             )
         );
 
-        /** @var Magento\Core\Model\Module\Declaration\FileResolver $modulesDeclarations */
-        $modulesDeclarations = Mage::getObjectManager()->create(
-            'Magento\Core\Model\Module\Declaration\FileResolver', array(
+        /** @var Magento_Core_Model_Module_Declaration_FileResolver $modulesDeclarations */
+        $modulesDeclarations = $objectManager->create(
+            'Magento_Core_Model_Module_Declaration_FileResolver', array(
                 'applicationDirs' => $dirs,
             )
         );
 
 
-        /** @var Magento\Core\Model\Module\Declaration\Reader\Filesystem $filesystemReader */
-        $filesystemReader = Mage::getObjectManager()->create(
-            'Magento\Core\Model\Module\Declaration\Reader\Filesystem', array(
+        /** @var Magento_Core_Model_Module_Declaration_Reader_Filesystem $filesystemReader */
+        $filesystemReader = $objectManager->create(
+            'Magento_Core_Model_Module_Declaration_Reader_Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
             )
         );
 
-        /** @var \Magento\Core\Model\ModuleList $modulesList */
-        $modulesList = Mage::getObjectManager()->create(
-            'Magento\Core\Model\ModuleList', array(
+        /** @var Magento_Core_Model_ModuleList $modulesList */
+        $modulesList = $objectManager->create(
+            'Magento_Core_Model_ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );
 
-        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
-            'Magento\Core\Model\Config\Modules\Reader', array(
+        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
+        $moduleReader = $objectManager->create(
+            'Magento_Core_Model_Config_Modules_Reader', array(
                 'dirs' => $dirs,
                 'moduleList' => $modulesList
             )
         );
 
-        /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
-        $fileResolver = Mage::getObjectManager()->create(
-            'Magento\Core\Model\Config\FileResolver', array(
+        /** @var Magento_Core_Model_Config_FileResolver $fileResolver */
+        $fileResolver = $objectManager->create(
+            'Magento_Core_Model_Config_FileResolver', array(
                 'moduleReader' => $moduleReader,
             )
         );
 
-        $this->_model = Mage::getObjectManager()->create(
-            'Magento\Core\Model\Fieldset\Config\Reader', array(
+        $this->_model = $objectManager->create(
+            'Magento_Core_Model_Fieldset_Config_Reader', array(
                 'fileResolver' => $fileResolver,
             )
         );
@@ -94,9 +95,9 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
             ->with($this->equalTo('fieldset.xml'), $this->equalTo('global'))
             ->will($this->returnValue($fileList));
 
-        /** @var \Magento\Core\Model\Fieldset\Config\Reader $model */
-        $model = Mage::getObjectManager()->create(
-            'Magento\Core\Model\Fieldset\Config\Reader', array(
+        /** @var Magento_Core_Model_Fieldset_Config_Reader $model */
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+            'Magento_Core_Model_Fieldset_Config_Reader', array(
                 'fileResolver' => $fileResolverMock,
             )
         );

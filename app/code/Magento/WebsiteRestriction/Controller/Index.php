@@ -73,8 +73,8 @@ class Index extends \Magento\Core\Controller\Front\Action
             /**
              * Generating page and save it to cache
              */
-            $page = \Mage::getModel('Magento\Cms\Model\Page')
-                ->load(\Mage::getStoreConfig($this->_stubPageIdentifier), 'identifier');
+            $page = Mage::getModel('Magento_Cms_Model_Page')
+                ->load($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig($this->_stubPageIdentifier), 'identifier');
 
             $this->_coreRegistry->register('restriction_landing_page', $page);
 

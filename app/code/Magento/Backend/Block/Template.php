@@ -64,7 +64,7 @@ class Template extends \Magento\Core\Block\Template
         if ($moduleName === null) {
             $moduleName = $this->getModuleName();
         }
-        return !\Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $moduleName);
+        return !$this->_storeConfig->getConfigFlag('advanced/modules_disable_output/' . $moduleName);
     }
     
     /**

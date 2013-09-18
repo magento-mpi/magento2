@@ -61,8 +61,8 @@
         <block instance="Magento\Sales\Block\Reorder\Sidebar" />
     </placeholder>
     <placeholder name="wishlist_links" code="WISHLISTLINKS" cacheLifeTime="86400">
-        <container instance="Magento\FullPageCache\Model\Container\Wishlistlinks" />
-        <block instance="Magento\Wishlist\Block\Links" />
+        <container instance="Magento_FullPageCache_Model_Container_Wishlistlinks" />
+        <block instance="Magento_Wishlist_Block_Link" />
     </placeholder>
     <placeholder name="poll_activepoll" code="POLL" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Sidebar\Poll" />

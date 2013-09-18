@@ -15,7 +15,7 @@
             <reward_setup>
                 <setup>
                     <module>Magento_Reward</module>
-                    <class>Magento\Reward\Model\Resource\Setup</class>
+                    <class>Magento_Reward_Model_Resource_Setup</class>
                 </setup>
             </reward_setup>
         </resources>
@@ -37,17 +37,17 @@
             <quote>
                 <totals>
                     <reward>
-                        <class>Magento\Reward\Model\Total\Quote\Reward</class>
+                        <class>Magento_Reward_Model_Total_Quote_Reward</class>
                         <after>weee,discount,tax,tax_subtotal,grand_total</after>
                         <before>giftcardaccount,customerbalance</before>
-                        <renderer>Magento\Reward\Block\Checkout\Total</renderer>
+                        <renderer>Magento_Reward_Block_Checkout_Total</renderer>
                     </reward>
                 </totals>
             </quote>
             <order_invoice>
                 <totals>
                     <reward>
-                        <class>Magento\Reward\Model\Total\Invoice\Reward</class>
+                        <class>Magento_Reward_Model_Total_Invoice_Reward</class>
                         <after>grand_total</after>
                         <before>giftcardaccount,customerbalance</before>
                     </reward>
@@ -56,7 +56,7 @@
             <order_creditmemo>
                 <totals>
                     <reward>
-                        <class>Magento\Reward\Model\Total\Creditmemo\Reward</class>
+                        <class>Magento_Reward_Model_Total_Creditmemo_Reward</class>
                         <after>weee,discount,tax,grand_total,customerbalance,giftcardaccount</after>
                     </reward>
                 </totals>
@@ -104,7 +104,7 @@
                     <cron_expr>1 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento\Reward\Model\Observer::scheduledBalanceExpireNotification</model>
+                    <model>Magento_Reward_Model_Observer::scheduledBalanceExpireNotification</model>
                 </run>
             </magento_reward_balance_warning_notification>
             <magento_reward_expire_points>
@@ -112,7 +112,7 @@
                     <cron_expr>1 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento\Reward\Model\Observer::scheduledPointsExpiration</model>
+                    <model>Magento_Reward_Model_Observer::scheduledPointsExpiration</model>
                 </run>
             </magento_reward_expire_points>
         </jobs>

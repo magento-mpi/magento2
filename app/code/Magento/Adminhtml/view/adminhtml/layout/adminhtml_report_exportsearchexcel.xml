@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_report_exportsearchexcel">
-        <update handle="formkey"/>
-        <update handle="adminhtml_report_search_block"/>
-        <container name="report.search.grid.container" label="Report Search Container"/>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_report_search_block"/>
+    <container name="report.search.grid.container" label="Report Search Container"/>
 </layout>

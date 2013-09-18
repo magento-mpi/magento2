@@ -227,15 +227,25 @@ abstract class EntityAbstract
     protected $_bunchSize;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
             : \Magento\ImportExport\Model\Import::getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
@@ -243,11 +253,11 @@ abstract class EntityAbstract
         $this->_jsonHelper          =  $coreData;
         $this->_stringHelper        =  $coreString;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
-            : (static::XML_PATH_PAGE_SIZE ? (int) \Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
+            : (static::XML_PATH_PAGE_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
             : \Mage::getResourceHelper('Magento_ImportExport')->getMaxDataSize();
         $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
-            : (static::XML_PATH_BUNCH_SIZE ? (int) \Mage::getStoreConfig(static::XML_PATH_BUNCH_SIZE) : 0);
+            : (static::XML_PATH_BUNCH_SIZE ? (int)$this->_coreStoreConfig->getConfig(static::XML_PATH_BUNCH_SIZE) : 0);
     }
 
     /**

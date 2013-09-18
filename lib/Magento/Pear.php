@@ -26,7 +26,7 @@ if (!defined('DS')) {
 
 // add PEAR lib in include_path if needed
 $_includePath = get_include_path();
-$_pearDir = dirname(dirname(dirname(__FILE__))) . DS . 'downloader' . DS . 'pearlib';
+$_pearDir = dirname(dirname(__DIR__)) . DS . 'downloader' . DS . 'pearlib';
 if (!getenv('PHP_PEAR_INSTALL_DIR')) {
     putenv('PHP_PEAR_INSTALL_DIR=' . $_pearDir);
 }
@@ -48,9 +48,10 @@ if (strpos($_includePath, $_pearPhpDir) === false) {
 //require_once $_pearPhpDir."/PEAR/Command.php";
 //require_once $_pearPhpDir."/PEAR/Exception.php";
 
-require_once dirname(__FILE__) . "/Pear/Frontend.php";
-namespace Magento;
+require_once __DIR__ . "/Pear/Frontend.php";
+require_once __DIR__ . "/Pear/Package.php";
 
+namespace Magento;
 
 require_once dirname(__FILE__) . "/Pear/Package.php";
 class Pear
@@ -87,7 +88,7 @@ class Pear
 
     public function getBaseDir()
     {
-        return dirname(dirname(dirname(__FILE__)));
+        return dirname(dirname(__DIR__));
     }
 
     public function getPearDir()

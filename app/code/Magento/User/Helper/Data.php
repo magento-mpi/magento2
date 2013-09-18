@@ -33,14 +33,22 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreData = $coreData;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context);
     }
 
@@ -61,7 +69,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) \Mage::getConfig()->
-            getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD, 'default');
+        return (int)$this->_coreConfig->getValue(
+            self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
+            'default'
+        );
     }
 }

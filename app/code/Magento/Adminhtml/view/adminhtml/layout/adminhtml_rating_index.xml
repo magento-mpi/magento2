@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_rating_index">
-        <update handle="formkey"/>
-        <update handle="adminhtml_rating_block"/>
-        <reference name="content">
-            <block class="Magento\Adminhtml\Block\Rating\Rating" name="adminhtml.rating.container"/>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_rating_block"/>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Rating_Rating" name="adminhtml.rating.container"/>
+    </reference>
 </layout>

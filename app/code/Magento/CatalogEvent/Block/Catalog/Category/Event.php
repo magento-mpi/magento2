@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,36 +14,41 @@ namespace Magento\CatalogEvent\Block\Catalog\Category;
 class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry;
+    
+    /**
      * Catalog event data
      *
      * @var \Magento\CatalogEvent\Helper\Data
      */
-    protected $_catalogEventData = null;
+    protected $_catalogEventData;    
 
     /**
-     * Core registry
+     * Construct
      *
      * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
      * @param array $data
      */
     public function __construct(
-        \Magento\CatalogEvent\Helper\Data $catalogEventData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Registry $registry,
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $locale, $data);
+
         $this->_coreRegistry = $registry;
         $this->_catalogEventData = $catalogEventData;
-        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -90,8 +93,8 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      */
     public function canDisplay()
     {
-        return $this->_catalogEventData->isEnabled() &&
-               $this->getEvent() &&
-               $this->getEvent()->canDisplayCategoryPage();
+        return $this->_catalogEventData->isEnabled()
+            && $this->getEvent()
+            && $this->getEvent()->canDisplayCategoryPage();
     }
 }

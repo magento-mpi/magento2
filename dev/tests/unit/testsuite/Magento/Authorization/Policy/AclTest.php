@@ -19,7 +19,7 @@ class Magento_Authorization_Policy_AclTest extends PHPUnit_Framework_TestCase
 
     protected $_aclBuilderMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_aclMock = $this->getMock('Magento\Acl');
         $this->_aclBuilderMock = $this->getMock('Magento\Acl\Builder', array(), array(), '', false);

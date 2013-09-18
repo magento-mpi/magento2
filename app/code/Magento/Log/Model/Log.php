@@ -36,6 +36,33 @@ class Log extends \Magento\Core\Model\AbstractModel
     const XML_LOG_CLEAN_DAYS    = 'system/log/clean_after_day';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Init Resource Model
      *
      */
@@ -46,7 +73,7 @@ class Log extends \Magento\Core\Model\AbstractModel
 
     public function getLogCleanTime()
     {
-        return \Mage::getStoreConfig(self::XML_LOG_CLEAN_DAYS) * 60 * 60 * 24;
+        return $this->_coreStoreConfig->getConfig(self::XML_LOG_CLEAN_DAYS) * 60 * 60 * 24;
     }
 
     /**

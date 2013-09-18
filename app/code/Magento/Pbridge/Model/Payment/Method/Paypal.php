@@ -56,21 +56,23 @@ class Paypal extends \Magento\Paypal\Model\Direct
     protected $_pbridgeData = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+        parent::__construct($eventManager, $moduleList, $paymentData, $coreStoreConfig, $data);
         $this->_pro->setPaymentMethod($this);
     }
 
@@ -147,7 +149,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return \Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

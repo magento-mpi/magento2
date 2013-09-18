@@ -110,7 +110,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Core data
      *
@@ -126,22 +126,34 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($data);
-        $this->_session = \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
+        $this->_session = $sessionQuote;
     }
 
     /**
@@ -215,7 +227,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @return  \Magento\Adminhtml\Model\Sales\Order\Create
      */
-    public function recollectCart(){
+    public function recollectCart()
+    {
         if ($this->_needCollectCart === true) {
             $this->getCustomerCart()
                 ->collectTotals()
@@ -297,7 +310,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         /* Initialize catalog rule data with new session values */
         $this->initRuleData();
         foreach ($order->getItemsCollection(
-            array_keys(\Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
+            array_keys($this->_coreConfig->getNode('adminhtml/sales/order/create/available_product_types')->asArray()),
             true
         ) as $orderItem) {
             /* @var $orderItem \Magento\Sales\Model\Order\Item */
@@ -814,11 +827,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            }
+            } catch (Magento_Core_Exception $e){
             catch (\Magento\Core\Exception $e){
                 $this->getSession()->addError($e->getMessage());
-            }
-            catch (\Exception $e){
+            } catch (\Exception $e){
                 return $e;
             }
         }

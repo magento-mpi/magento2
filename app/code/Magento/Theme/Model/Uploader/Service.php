@@ -59,18 +59,28 @@ class Service
     protected $_uploaderFactory;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\Io\File $fileIo
      * @param \Magento\File\Size $fileSize
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        \Magento\Io\File $fileIo,
-        \Magento\File\Size $fileSize,
-        \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+        Magento_Io_File $fileIo,
+        Magento_File_Size $fileSize,
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_fileIo = $fileIo;
         $this->_fileSize = $fileSize;
         $this->_uploaderFactory = $uploaderFactory;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -165,7 +175,7 @@ class Service
     protected function _getMaxUploadSize($node)
     {
         $maxCssUploadSize = $this->_fileSize->convertSizeToInteger(
-            (string)\Mage::getConfig()->getNode($node)
+            (string)$this->_coreConfig->getNode($node)
         );
         $maxIniUploadSize = $this->_fileSize->getMaxFileSize();
         return min($maxCssUploadSize, $maxIniUploadSize);

@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="controller_action_noroute">
-        <observer name="cms" instance="Magento\Cms\Model\Observer" method="noRoute" />
+        <observer name="cms" instance="Magento_Cms_Model_Observer" method="noRoute" />
     </event>
     <event name="controller_action_nocookies">
-        <observer name="cms" instance="Magento\Cms\Model\Observer" method="noCookies" />
+        <observer name="cms" instance="Magento_Cms_Model_Observer" method="noCookies" />
     </event>
 </config>

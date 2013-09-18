@@ -20,8 +20,6 @@ namespace Magento\Sales\Block\Order;
 
 class Info extends \Magento\Core\Block\Template
 {
-    protected $_links = array();
-
     protected $_template = 'order/info.phtml';
 
     /**
@@ -73,33 +71,4 @@ class Info extends \Magento\Core\Block\Template
         return $this->_coreRegistry->registry('current_order');
     }
 
-    public function addLink($name, $path, $label)
-    {
-        $this->_links[$name] = new \Magento\Object(array(
-            'name' => $name,
-            'label' => $label,
-            'url' => empty($path) ? '' : \Mage::getUrl($path, array('order_id' => $this->getOrder()->getId()))
-        ));
-        return $this;
-    }
-
-    public function getLinks()
-    {
-        $this->checkLinks();
-        return $this->_links;
-    }
-
-    private function checkLinks()
-    {
-        $order = $this->getOrder();
-        if (!$order->hasInvoices()) {
-            unset($this->_links['invoice']);
-        }
-        if (!$order->hasShipments()) {
-            unset($this->_links['shipment']);
-        }
-        if (!$order->hasCreditmemos()) {
-            unset($this->_links['creditmemo']);
-        }
-    }
 }

@@ -7,22 +7,20 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Advanced Search Form" id="catalogsearch_advanced_index" type="page" parent="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">2columns-right.phtml</argument>
-            </action>
-        </reference>
-        <reference name="head">
-            <action method="setTitle">
-                <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
-            </action>
-        </reference>
-        <update handle="page_calendar"/>
-        <reference name="content">
-            <block class="Magento\CatalogSearch\Block\Advanced\Form" name="catalogsearch_advanced_form" template="advanced/form.phtml"/>
-            <block class="Magento\Core\Block\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Advanced Search Form" type="page" parent="default">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">2columns-right.phtml</argument>
+        </action>
+    </reference>
+    <reference name="head">
+        <action method="setTitle">
+            <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
+        </action>
+    </reference>
+    <update handle="page_calendar"/>
+    <reference name="content">
+        <block class="Magento_CatalogSearch_Block_Advanced_Form" name="catalogsearch_advanced_form" template="advanced/form.phtml"/>
+        <block class="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
+    </reference>
 </layout>

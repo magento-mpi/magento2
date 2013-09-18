@@ -16,7 +16,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require dirname(__FILE__) . '/app/bootstrap.php';
+require __DIR__ . '/app/bootstrap.php';
 
 \Magento\Profiler::start('mage');
 $entryPoint = new \Magento\Core\Model\EntryPoint\Http(new \Magento\Core\Model\Config\Primary(BP, $_SERVER));

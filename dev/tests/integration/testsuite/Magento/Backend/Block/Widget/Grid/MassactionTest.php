@@ -54,11 +54,6 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
                 \Magento\Core\Model\Dir::THEMES => __DIR__ . '/../../_files/design'
             ),
         ));
-
-        Mage::app()->getConfig()->setNode(
-            'adminhtml/' . \Magento\Core\Model\View\Design::XML_PATH_THEME,
-            'test/default'
-        );
     }
 
     /**

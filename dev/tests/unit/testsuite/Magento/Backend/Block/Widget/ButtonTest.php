@@ -72,7 +72,7 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
             $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Button', $arguments);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_layoutMock);
         unset($this->_helperMock);

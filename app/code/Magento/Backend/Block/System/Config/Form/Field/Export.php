@@ -39,7 +39,6 @@ class Export extends \Magento\Data\Form\Element\AbstractElement
         array $attributes = array()
     ) {
         $this->_helperFactory = $helperFactory;
-
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
     }
 

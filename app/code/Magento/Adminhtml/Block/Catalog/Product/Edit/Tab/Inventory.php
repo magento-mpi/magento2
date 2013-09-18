@@ -116,7 +116,7 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     public function getConfigFieldValue($field)
@@ -127,12 +127,12 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
             }
         }
 
-        return \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     public function getDefaultConfigValue($field)
     {
-        return \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     /**

@@ -36,6 +36,33 @@ namespace Magento\VersionsCms\Model\Hierarchy;
 class Lock extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Session model instance
      *
      * @var \Magento\Backend\Model\Auth\Session
@@ -213,8 +240,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function getLockLifeTime()
     {
-        $timeout = (int)\Mage::getStoreConfig('cms/hierarchy/lock_timeout');
+        $timeout = (int)$this->_coreStoreConfig->getConfig('cms/hierarchy/lock_timeout');
         return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
-
     }
 }

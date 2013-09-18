@@ -26,7 +26,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
      */
     protected $_items = array();
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_items['item1'] = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
         $this->_items['item1']->expects($this->any())->method('getId')->will($this->returnValue('item1'));

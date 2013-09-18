@@ -74,9 +74,6 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         // Retrieve the XML sent in the HTTP POST request to the ResponseHandler
         $xmlResponse = isset($GLOBALS['HTTP_RAW_POST_DATA']) ?
             $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
-        if (get_magic_quotes_gpc()) {
-            $xmlResponse = stripslashes($xmlResponse);
-        }
 
         $debugData = array('request' => $xmlResponse, 'dir' => 'in');
 
@@ -211,7 +208,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
             $googleAddresses = $googleAddress;
         }
 
-        $methods = \Mage::getStoreConfig('google/checkout_shipping_merchant/allowed_methods', $this->getStoreId());
+        $methods = $this->_coreStoreConfig->getConfig('google/checkout_shipping_merchant/allowed_methods', $this->getStoreId());
         $methods = unserialize($methods);
         $limitCarrier = array();
         foreach ($methods['method'] as $method) {
@@ -287,7 +284,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
                         if ($shippingTaxClass &&
                             $this->getData('root/calculate/tax/VALUE') == 'true') {
                             $i = 1;
-                            $price = \Mage::getStoreConfig(
+                            $price = $this->_coreStoreConfig->getConfig(
                                 'google/checkout_shipping_flatrate/price_'.$i,
                                 $quote->getStoreId()
                             );
@@ -615,9 +612,9 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     {
         $cacheKey = ($storeId === null) ? 'nofilter' : $storeId;
         if (!isset($this->_cachedShippingInfo[$cacheKey])) {
-            /* @var $shipping \Magento\Shipping\Model\Shipping */
-            $shipping = \Mage::getModel('Magento\Shipping\Model\Shipping');
-            $carriers = \Mage::getStoreConfig('carriers', $storeId);
+            /* @var $shipping Magento_Shipping_Model_Shipping */
+            $shipping = Mage::getModel('Magento_Shipping_Model_Shipping');
+            $carriers = $this->_coreStoreConfig->getConfig('carriers', $storeId);
             $infos = array();
 
             foreach (array_keys($carriers) as $carrierCode) {
@@ -632,7 +629,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
                     $carrierName = 'Google Checkout';
                 } else {
                     $methods = $carrier->getAllowedMethods();
-                    $carrierName = \Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $storeId);
+                    $carrierName = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode . '/title', $storeId);
                 }
 
                 foreach ($methods as $methodCode => $methodName) {

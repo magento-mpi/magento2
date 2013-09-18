@@ -113,7 +113,7 @@ class Profile
      */
     protected function _isProfileEnable()
     {
-        return \Mage::getStoreConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
+        return $this->_storeConfig->getConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
     }
 
     /**

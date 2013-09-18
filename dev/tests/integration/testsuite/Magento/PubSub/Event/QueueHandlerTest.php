@@ -21,7 +21,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $eventCollection */
         $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

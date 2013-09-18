@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Catalog Events edit form
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
@@ -26,23 +21,46 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_adminhtmlData = null;
 
     /**
-     * @param \Magento\Core\Model\Registry $registry
+     * Category model factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     * 
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param Magento_Backend_Helper_Data $adminhtmlData
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\Data\Form\Factory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Backend_Helper_Data $adminhtmlData,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
-        $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
+
+        $this->_adminhtmlData = $adminhtmlData;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_locale = $locale;
     }
 
     /**
@@ -101,8 +119,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $this->_addElementTypes($fieldset);
 
-        $currentCategory = \Mage::getModel('Magento\Catalog\Model\Category')
-            ->load($this->getEvent()->getCategoryId());
+        /** @var Magento_Catalog_Model_Category $currentCategory */
+        $currentCategory = $this->_categoryFactory->create()->load($this->getEvent()->getCategoryId());
 
         $fieldset->addField('category_name', 'note',
             array(
@@ -111,8 +129,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = \Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = $this->_locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('date_start', 'date', array(
                 'label'        => __('Start Date'),

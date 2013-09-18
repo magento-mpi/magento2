@@ -63,8 +63,18 @@ class View extends \Magento\Core\Block\Template
             if ($keywords) {
                 $headBlock->setKeywords($keywords);
             }
-            if ($this->helper('Magento\Catalog\Helper\Category')->canUseCanonicalTag()) {
-                $headBlock->addLinkRel('canonical', $category->getUrl());
+            //@todo: move canonical link to separate block
+            if ($this->helper('Magento_Catalog_Helper_Category')->canUseCanonicalTag()
+                && !$headBlock->getChildBlock('magento-page-head-category-canonical-link')
+            ) {
+                $headBlock->addChild(
+                    'magento-page-head-category-canonical-link',
+                    'Magento_Page_Block_Html_Head_Link',
+                    array(
+                        'url' => $category->getUrl(),
+                        'properties' => array('attributes' => array('rel' => 'canonical'))
+                    )
+                );
             }
             /**
              * want to show rss feed in the url
@@ -84,7 +94,7 @@ class View extends \Magento\Core\Block\Template
 
     public function IsRssCatalogEnable()
     {
-        return \Mage::getStoreConfig('rss/catalog/category');
+        return $this->_storeConfig->getConfig('rss/catalog/category');
     }
 
     public function IsTopCategory()
@@ -132,7 +142,7 @@ class View extends \Magento\Core\Block\Template
      */
     public function isProductMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode()==\Magento\Catalog\Model\Category::DM_PRODUCT;
+        return $this->getCurrentCategory()->getDisplayMode() == Magento_Catalog_Model_Category::DM_PRODUCT;
     }
 
     /**
@@ -141,7 +151,7 @@ class View extends \Magento\Core\Block\Template
      */
     public function isMixedMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode()==\Magento\Catalog\Model\Category::DM_MIXED;
+        return $this->getCurrentCategory()->getDisplayMode() == Magento_Catalog_Model_Category::DM_MIXED;
     }
 
     /**

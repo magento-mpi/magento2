@@ -16,79 +16,61 @@
  */
 namespace Magento\Invitation\Block;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\Page\Block\Link
 {
     /**
-     * Invitation data
-     *
+     * @var Magento_Invitation_Helper_Data
+     */
+    protected $_invitationConfiguration;
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+    /**
      * @var \Magento\Invitation\Helper\Data
      */
-    protected $_invitationData = null;
+    protected $_invitationHelper;
 
     /**
-     * @param \Magento\Invitation\Helper\Data $invitationData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Invitation_Helper_Data $invitationHelper
+     * @param Magento_Invitation_Model_Config $invitationConfiguration
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
-        \Magento\Invitation\Helper\Data $invitationData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Invitation_Helper_Data $invitationHelper,
+        Magento_Invitation_Model_Config $invitationConfiguration,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        $this->_invitationData = $invitationData;
         parent::__construct($coreData, $context, $data);
+        $this->_customerSession = $customerSession;
+        $this->_invitationConfiguration = $invitationConfiguration;
+        $this->_invitationHelper = $invitationHelper;
     }
 
     /**
-     * Adding link to account links block link params if invitation
-     * is allowed globally and for current website
-     *
-     * @return \Magento\Invitation\Block\Link
+     * @return string
      */
-    public function addAccountLink()
+    public function getHref()
     {
-        if (\Mage::getSingleton('Magento\Invitation\Model\Config')->isEnabledOnFront()
-            && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
+        return $this->_invitationHelper->getCustomerInvitationFormUrl();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function _toHtml()
+    {
+        if ($this->_invitationConfiguration->isEnabledOnFront()
+            && $this->_customerSession->isLoggedIn()
         ) {
-            /** @var $blockInstance \Magento\Page\Block\Template\Links */
-            $blockInstance = $this->getLayout()->getBlock('account.links');
-            if ($blockInstance) {
-                $blockInstance->addLink(
-                    __('Send Invitations'),
-                    $this->_invitationData->getCustomerInvitationFormUrl(),
-                    __('Send Invitations'),
-                    true,
-                    array(),
-                    1,
-                    'id="invitation-send-link"'
-                );
-            }
+            return parent::_toHtml();
         }
-        return $this;
-    }
-
-    /**
-     * Adding link to account links block link params if invitation
-     * is allowed globally and for current website
-     *
-     * @param string $block
-     * @param string $name
-     * @param string $path
-     * @param string $label
-     * @param array $urlParams
-     * @return \Magento\Invitation\Block\Link
-     */
-    public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
-    {
-        if (\Mage::getSingleton('Magento\Invitation\Model\Config')->isEnabledOnFront()) {
-            /** @var $blockInstance \Magento\Customer\Block\Account\Navigation */
-            $blockInstance = $this->getLayout()->getBlock($block);
-            if ($blockInstance) {
-                $blockInstance->addLink($name, $path, $label, $urlParams);
-            }
-        }
-        return $this;
+        return '';
     }
 }

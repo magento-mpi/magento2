@@ -121,6 +121,7 @@ class Finance
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -130,12 +131,13 @@ class Finance
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($coreData, $coreString, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
 
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;

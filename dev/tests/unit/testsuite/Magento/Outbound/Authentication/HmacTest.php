@@ -43,7 +43,7 @@ class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCas
      */
     private $_mockStoreManager;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_mockStoreManager = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
             ->disableOriginalConstructor()

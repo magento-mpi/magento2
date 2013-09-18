@@ -32,7 +32,7 @@ abstract class AbstractForm extends \Magento\Core\Model\Config\Value
     public function toOptionArray()
     {
         $optionArray = array();
-        $backendConfig = \Mage::getConfig()->getValue($this->_configPath, 'default');
+        $backendConfig = $this->_config->getValue($this->_configPath, 'default');
         if ($backendConfig) {
             foreach ($backendConfig as $formName => $formConfig) {
                 if (!empty($formConfig['label'])) {

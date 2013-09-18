@@ -14,7 +14,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
      */
     protected $_config;
 
-    public function setUp()
+    protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Dir $dirs */

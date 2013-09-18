@@ -8,21 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="account_links">
-            <action method="removeAuthLink">
-                <argument name="target" xsi:type="string">top.links</argument>
-            </action>
-            <action method="addAuthLink">
-                <argument name="target" xsi:type="string">account.links</argument>
-                <argument name="position" xsi:type="string">100</argument>
-            </action>
-            <action method="addRegisterLink">
-                <argument name="target" xsi:type="string">account.links</argument>
-                <argument name="position" xsi:type="string">100</argument>
-                <argument translate="true" name="text_before" xsi:type="string"><![CDATA[or&nbsp;]]></argument>
-                <argument name="text_after" xsi:type="string">.</argument>
-            </action>
-        </reference>
-    </handle>
+    <move element="authorization-link" destination="account.links"/>
+    <reference name="account.links">
+        <block class="Magento_Customer_Block_Account_RegisterLink" name="register-link">
+            <arguments>
+                <argument name="label" xsi:type="string">register</argument>
+            </arguments>
+        </block>
+    </reference>
 </layout>

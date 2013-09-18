@@ -52,11 +52,17 @@ class Session extends \Magento\Core\Model\AbstractModel
     protected $_coreData = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Persistent\Helper\Data $persistentData
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Persistent_Helper_Data $persistentData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -65,12 +71,14 @@ class Session extends \Magento\Core\Model\AbstractModel
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_Config $coreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_persistentData = $persistentData;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -230,8 +238,8 @@ class Session extends \Magento\Core\Model\AbstractModel
             $websiteId = \Mage::app()->getStore()->getWebsiteId();
         }
 
-        $lifetime = \Mage::getConfig()->getValue(
-            \Magento\Persistent\Helper\Data::XML_PATH_LIFE_TIME,
+        $lifetime = $this->_coreConfig->getValue(
+            Magento_Persistent_Helper_Data::XML_PATH_LIFE_TIME,
             'website',
             intval($websiteId)
         );

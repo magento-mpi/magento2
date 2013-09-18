@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +9,6 @@
 
 /**
  * Catalog Event resource model
- *
- * @category    Magento
- * @package     Magento_CatalogEvent
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogEvent\Model\Resource;
 
@@ -36,6 +30,38 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @var array
      */
     protected $_eventCategories;
+
+    /**
+     * Store model manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Category collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     */
+    protected $_categoryCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+    ) {
+        parent::__construct($resource);
+
+        $this->_storeManager = $storeManager;
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
+    }
 
     /**
      * Initialize resource
@@ -74,11 +100,11 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCategoryIdsWithEvent($storeId = null)
     {
-        $rootCategoryId = \Mage::app()->getStore($storeId)->getRootCategoryId();
+        $rootCategoryId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
 
-        /* @var $select \Magento\DB\Select */
-        $select = \Mage::getModel('Magento\Catalog\Model\Category')->getCollection()
-            ->setStoreId(\Mage::app()->getStore($storeId)->getId())
+        /* @var $select Magento_DB_Select */
+        $select = $this->_categoryCollectionFactory->create()
+            ->setStoreId($this->_storeManager->getStore($storeId)->getId())
             ->addIsActiveFilter()
             ->addPathsFilter(\Magento\Catalog\Model\Category::TREE_ROOT_ID . '/' . $rootCategoryId)
             ->getSelect();
