@@ -25,8 +25,8 @@ class Magento_Persistent_Model_Persistent_Config
      */
     protected $_configFilePath;
 
-    /** @var Magento_ObjectManager  */
-    protected $_objectManager;
+    /** @var Magento_Config_DomFactory  */
+    protected $_domFactory;
 
     /** @var Magento_Persistent_Model_Persistent_Config_Converter  */
     protected $_converter;
@@ -40,16 +40,16 @@ class Magento_Persistent_Model_Persistent_Config
     /**
      * Constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Config_DomFactory $domFactory
      * @param Magento_Persistent_Model_Persistent_Config_Converter $converter
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        Magento_Config_DomFactory $domFactory,
         Magento_Persistent_Model_Persistent_Config_Converter $converter,
         Magento_Core_Model_Config_Modules_Reader $moduleReader
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_domFactory = $domFactory;
         $this->_converter = $converter;
         $this->_moduleReader = $moduleReader;
     }
@@ -80,9 +80,8 @@ class Magento_Persistent_Model_Persistent_Config
                 Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
             }
             $xml = file_get_contents($filePath);
-            /** @var Magento_Config_Dom $configDom */
-            $configDom = $this->_objectManager->create(
-                'Magento_Config_Dom',
+            /** @var Magento_Config_DomFactory $configDom */
+            $configDom = $this->_domFactory->createDom(
                 array(
                     'xml' => $xml,
                     'idAttributes' => array(
