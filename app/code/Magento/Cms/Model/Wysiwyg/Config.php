@@ -60,6 +60,12 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @param Magento_Backend_Model_Url $backendUrl
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_AuthorizationInterface $authorization
@@ -69,6 +75,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Url $backendUrl,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Cms_Helper_Data $cmsData,
         Magento_AuthorizationInterface $authorization,
@@ -77,6 +84,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         Magento_Widget_Model_Widget_Config $widgetConfig,
         array $data = array()
     ) {
+        $this->_backendUrl = $backendUrl;
         $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
         $this->_authorization = $authorization;
@@ -116,8 +124,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             'no_display'                    => false,
             'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
-            'directives_url'                =>
-                Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
+            'directives_url'                => $this->_backendUrl->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
                 $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
@@ -131,8 +138,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         if ($this->_authorization->isAllowed('Magento_Cms::media_gallery')) {
             $config->addData(array(
                 'add_images' => true,
-                'files_browser_window_url' => Mage::getSingleton('Magento_Backend_Model_Url')
-                    ->getUrl('*/cms_wysiwyg_images/index'),
+                'files_browser_window_url' => $this->_backendUrl->getUrl('*/cms_wysiwyg_images/index'),
                 'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
                 'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
             ));

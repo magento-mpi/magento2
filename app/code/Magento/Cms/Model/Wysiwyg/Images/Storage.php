@@ -65,10 +65,18 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     protected $_cmsWysiwygImages = null;
 
     /**
-     * Constructor
-     *
-     *
-     *
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Adminhtml_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Adminhtml_Model_Session $session
+     * @param Magento_Backend_Model_Url $backendUrl
      * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Filesystem $filesystem
@@ -77,6 +85,8 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      * @param array $data
      */
     public function __construct(
+        Magento_Adminhtml_Model_Session $session,
+        Magento_Backend_Model_Url $backendUrl,
         Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Filesystem $filesystem,
@@ -84,6 +94,8 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
+        $this->_session = $session;
+        $this->_backendUrl = $backendUrl;
         $this->_cmsWysiwygImages = $cmsWysiwygImages;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_filesystem = $filesystem;
@@ -181,8 +193,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
                 $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true);
                 // generate thumbnail "on the fly" if it does not exists
                 if (!$thumbUrl) {
-                    $thumbUrl = Mage::getSingleton('Magento_Backend_Model_Url')
-                        ->getUrl('*/*/thumbnail', array('file' => $item->getId()));
+                    $thumbUrl = $this->_backendUrl->getUrl('*/*/thumbnail', array('file' => $item->getId()));
                 }
 
                 $size = @getimagesize($item->getFilename());
@@ -475,7 +486,7 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        return $this->_session;
     }
 
     /**

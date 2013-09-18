@@ -19,6 +19,24 @@
 class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_date = $date;
+        parent::__construct($resource);
+    }
+
+
+    /**
      * Initialize resource model
      *
      */
@@ -57,9 +75,9 @@ class Magento_Cms_Model_Resource_Block extends Magento_Core_Model_Resource_Db_Ab
         }
 
         if (! $object->getId()) {
-            $object->setCreationTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $object->setCreationTime($this->_date->gmtDate());
         }
-        $object->setUpdateTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+        $object->setUpdateTime($this->_date->gmtDate());
         return $this;
     }
 
