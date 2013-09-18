@@ -227,7 +227,6 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($directoryData, $coreStoreConfig, $data);
         $this->_coreData = $coreData;
         $this->_usaData = $usaData;
         $this->_coreString = $coreString;
