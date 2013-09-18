@@ -15,6 +15,7 @@
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     extends Magento_Catalog_Model_Resource_Product_Collection

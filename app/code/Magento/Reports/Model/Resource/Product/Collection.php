@@ -73,7 +73,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         $this->setProductEntityTypeId($product->getTypeId());
         parent::__construct(
             $catalogData, $catalogProductFlat, $eventManager,
-            $fetchStrategy, $entityFactory, $coreStoreConfig, $entityFactory
+            $fetchStrategy, $coreStoreConfig, $entityFactory
 
         );
     }
