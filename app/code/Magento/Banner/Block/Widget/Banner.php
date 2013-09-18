@@ -84,9 +84,9 @@ class Magento_Banner_Block_Widget_Banner
     protected $_customerSession;
 
     /**
-     * @var Magento_Filter_Template
+     * @var Magento_Cms_Model_Template_FilterProvider
      */
-    protected $_pageTemplateFilter;
+    protected $_filterProvider;
 
     /**
      * @var int
@@ -111,7 +111,7 @@ class Magento_Banner_Block_Widget_Banner
      * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Filter_Template $pageTemplateFilter
+     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
@@ -122,7 +122,7 @@ class Magento_Banner_Block_Widget_Banner
         Magento_Core_Model_Session $coreSession,
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Customer_Model_Session $customerSession,
-        Magento_Filter_Template $pageTemplateFilter,
+        Magento_Cms_Model_Template_FilterProvider $filterProvider,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -131,7 +131,7 @@ class Magento_Banner_Block_Widget_Banner
         $this->_coreSession = $coreSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
-        $this->_pageTemplateFilter = $pageTemplateFilter;
+        $this->_filterProvider = $filterProvider;
         $this->_currentStoreId  = $storeManager->getStore()->getId();
         $this->_currentWebsiteId  = $storeManager->getWebsite()->getId();
     }
@@ -242,7 +242,7 @@ class Magento_Banner_Block_Widget_Banner
 
         // Filtering directives
         foreach ($bannersContent as $bannerId => $content) {
-            $bannersContent[$bannerId] = $this->_pageTemplateFilter->filter($content);
+            $bannersContent[$bannerId] = $this->_filterProvider->getPageFilter()->filter($content);
         }
 
         return $bannersContent;

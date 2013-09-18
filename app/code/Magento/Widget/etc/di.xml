@@ -24,5 +24,12 @@
             <value>widget_config</value>
         </param>
     </type>
-    <preference for="Magento_Filter_Template" type="Magento_Widget_Model_Template_Filter" />
+    <type name="Magento_Cms_Model_Template_FilterProvider">
+        <param name="pageFilter">
+            <value>Magento_Widget_Model_Template_Filter</value>
+        </param>
+        <param name="blockFilter">
+            <value>Magento_Widget_Model_Template_Filter</value>
+        </param>
+    </type>
 </config>

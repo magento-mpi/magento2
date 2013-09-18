@@ -19,9 +19,9 @@
 class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
 {
     /**
-     * @var Magento_Filter_Template
+     * @var Magento_Cms_Model_Template_FilterProvider
      */
-    protected $_blockTemplateFilter;
+    protected $_filterProvider;
 
     /**
      * Storage for used widgets
@@ -29,20 +29,20 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
      * @var array
      */
     static protected $_widgetUsageMap = array();
-    
+
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Filter_Template $blockTemplateFilter
+     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Filter_Template $blockTemplateFilter,
+        Magento_Cms_Model_Template_FilterProvider $filterProvider,
         array $data = array()
     ) {
-        $this->_blockTemplateFilter = $blockTemplateFilter;
+        $this->_filterProvider = $filterProvider;
         parent::__construct($coreData, $context, $data);
     }   
 
@@ -69,7 +69,9 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
                 ->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
-                $this->setText($this->_blockTemplateFilter->setStoreId($storeId)->filter($block->getContent()));
+                $this->setText(
+                    $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent())
+                );
             }
         }
 

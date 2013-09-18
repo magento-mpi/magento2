@@ -56,8 +56,10 @@ class Magento_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCase
         );
         $this->_customerSession->expects($this->any())->method('getCustomerGroupId')->will($this->returnValue(4));
 
-        $templateFilterMock = $this->getMock('Magento_Filter_Template');
-        $templateFilterMock->expects($this->any())->method('filter')->will($this->returnArgument(0));
+        $pageFilterMock = $this->getMock('Magento_Cms_Model_Template_Filter', array(), array(), '', false);
+        $pageFilterMock->expects($this->any())->method('filter')->will($this->returnArgument(0));
+        $filterProviderMock = $this->getMock('Magento_Cms_Model_Template_FilterProvider', array(), array(), '', false);
+        $filterProviderMock->expects($this->any())->method('getPageFilter')->will($this->returnValue($pageFilterMock));
 
         $currentStore = new Magento_Object(array('id' => 42));
         $currentWebsite = new Magento_Object(array('id' => 57));
@@ -74,7 +76,7 @@ class Magento_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCase
             $this->getMock('Magento_Core_Model_Session', array(), array(), '', false),
             $this->_checkoutSession,
             $this->_customerSession,
-            $templateFilterMock,
+            $filterProviderMock,
             $storeManager,
             array(
                 'types' => array('footer', 'header'),

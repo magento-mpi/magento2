@@ -77,7 +77,21 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      */
     protected $_relatedCacheTypes;
 
-    
+    /**
+     * @param Magento_Widget_Helper_Data $widgetData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Widget_Model_Config_Reader $reader
+     * @param Magento_Widget_Model_Widget $widgetModel
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $relatedCacheTypes
+     * @param array $data
+     */
     public function __construct(
         Magento_Widget_Helper_Data $widgetData,
         Magento_Core_Helper_Data $coreData,
