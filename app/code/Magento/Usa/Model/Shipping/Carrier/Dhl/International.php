@@ -236,8 +236,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
-            $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
         );
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';

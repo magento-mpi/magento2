@@ -23,12 +23,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     protected $_coreRegistry = null;
 
     /**
-     * @var Magneto_Data_CollectionFactory
+     * @var Magento_Data_CollectionFactory
      */
     protected $_dataCollectionFactory;
 
     /**
-     * @param Magneto_Data_CollectionFactory $dataCollectionFactory
+     * @param Magento_Data_CollectionFactory $dataCollectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -37,7 +37,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
      * @param array $data
      */
     public function __construct(
-        Magneto_Data_CollectionFactory $dataCollectionFactory,
+        Magento_Data_CollectionFactory $dataCollectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,

@@ -152,8 +152,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
         $this->_coreString = $coreString;
         $this->_usaData = $usaData;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
-            $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
         );
     }
 

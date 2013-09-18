@@ -158,8 +158,9 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $this->_productCollFactory = $productCollFactory;
         $this->_xmlElFactory = $xmlElFactory;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
-            $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
         );
     }
 

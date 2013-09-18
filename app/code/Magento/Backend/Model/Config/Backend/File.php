@@ -48,6 +48,8 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_File_UploaderFactory $uploaderFactory,
