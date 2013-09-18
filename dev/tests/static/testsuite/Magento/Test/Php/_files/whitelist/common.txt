@@ -83,6 +83,8 @@ app/code/Magento/Core/Helper/Abstract.php
 app/code/Magento/Core/sql/core_setup/upgrade-1.6.0.3-1.6.0.4.php
 app/code/Magento/Directory/Helper
 app/code/Magento/Customer/Block/Account/{Authorization,Register}Link.php
+app/code/Magento/Customer/Model/Address/Config
+app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/Directory/Model/Resource/Region
 app/code/Magento/DesignEditor

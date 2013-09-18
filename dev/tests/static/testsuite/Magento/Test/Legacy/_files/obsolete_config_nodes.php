@@ -41,4 +41,5 @@ return array(
         => 'Use /config/group[@name="wishlist_item"] of catalog_attributes.xml',
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
+    '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
 );
