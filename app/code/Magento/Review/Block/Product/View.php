@@ -17,7 +17,42 @@
  */
 class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_View
 {
+    /**
+     * @var Magento_Review_Model_Resource_Review_Collection
+     */
     protected $_reviewsCollection;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Review_Model_Resource_Review_CollectionFactory $collectionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Helper_String $coreString,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Review_Model_Resource_Review_CollectionFactory $collectionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_reviewsCollection = $collectionFactory->create();
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreRegistry, $coreString, $taxData, $catalogData, $coreData, $context, $data);
+    }
 
     /**
      * Render block HTML
@@ -56,8 +91,8 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
     public function getReviewsCollection()
     {
         if (null === $this->_reviewsCollection) {
-            $this->_reviewsCollection = Mage::getModel('Magento_Review_Model_Review')->getCollection()
-                ->addStoreFilter(Mage::app()->getStore()->getId())
+            $this->_reviewsCollection
+                ->addStoreFilter($this->_storeManager->getStore()->getId())
                 ->addStatusFilter(Magento_Review_Model_Review::STATUS_APPROVED)
                 ->addEntityFilter('product', $this->getProduct()->getId())
                 ->setDateOrder();

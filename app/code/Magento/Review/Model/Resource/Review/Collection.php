@@ -67,18 +67,35 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     protected $_reviewData = null;
 
     /**
+     * @var Magento_Rating_Model_Rating_Option_VoteFactory
+     */
+    protected $_voteFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Review_Helper_Data $reviewData,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_reviewData = $reviewData;
+        $this->_voteFactory = $voteFactory;
+        $this->_storeManager = $storeManager;
+
         parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
@@ -94,7 +111,6 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
         $this->_reviewStatusTable   = $this->getTable('review_status');
         $this->_reviewEntityTable   = $this->getTable('review_entity');
         $this->_reviewStoreTable    = $this->getTable('review_store');
-
     }
 
     /**
@@ -221,11 +237,11 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+            $votesCollection = $this->_voteFactory->create()
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
-                ->addRatingInfo(Mage::app()->getStore()->getId())
+                ->setStoreFilter($this->_storeManager->getStore()->getId())
+                ->addRatingInfo($this->_storeManager->getStore()->getId())
                 ->load();
             $item->setRatingVotes($votesCollection);
         }

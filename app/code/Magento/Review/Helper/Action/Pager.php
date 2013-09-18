@@ -28,6 +28,23 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     protected $_items = null;
 
     /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Backend_Model_Session $backendSession
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Backend_Model_Session $backendSession
+    ) {
+        $this->_backendSession = $backendSession;
+        parent::__construct($context);
+    }
+
+    /**
      * Set storage id
      *
      * @param $storageId
@@ -113,7 +130,7 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     protected function _getStorageKey()
     {
         if (!$this->_storageId) {
-            Mage::throwException(__('Storage key was not set'));
+            throw new Magento_Core_Exception(__('Storage key was not set'));
         }
 
         return self::STORAGE_PREFIX . $this->_storageId;
@@ -126,6 +143,6 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Session');
+        return $this->_backendSession;
     }
 }

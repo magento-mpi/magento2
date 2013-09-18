@@ -46,6 +46,71 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     const STATUS_PENDING        = 2;
     const STATUS_NOT_APPROVED   = 3;
 
+    /**
+     * @var Magento_Review_Model_Resource_Review_Product_CollectionFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Review_Model_Resource_Review_Status_CollectionFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @var Magento_Review_Model_Resource_Review_Summary_CollectionFactory
+     */
+    protected $_summaryFactory;
+
+    /**
+     * @var Magento_Review_Model_Review_Summary
+     */
+    protected $_reviewSummary;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_urlModel;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $productFactory
+     * @param Magento_Review_Model_Resource_Review_Status_CollectionFactory $statusFactory
+     * @param Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryFactory
+     * @param Magento_Review_Model_Review_Summary $reviewSummary
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlInterface $urlModel
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Review_Model_Resource_Review_Product_CollectionFactory $productFactory,
+        Magento_Review_Model_Resource_Review_Status_CollectionFactory $statusFactory,
+        Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryFactory,
+        Magento_Review_Model_Review_Summary $reviewSummary,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlInterface $urlModel,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_statusFactory = $statusFactory;
+        $this->_summaryFactory = $summaryFactory;
+        $this->_reviewSummary = $reviewSummary;
+        $this->_storeManager = $storeManager;
+        $this->_urlModel = $urlModel;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_Review_Model_Resource_Review');
@@ -53,12 +118,12 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
 
     public function getProductCollection()
     {
-        return Mage::getResourceModel('Magento_Review_Model_Resource_Review_Product_Collection');
+        return $this->_productFactory->create();
     }
 
     public function getStatusCollection()
     {
-        return Mage::getResourceModel('Magento_Review_Model_Resource_Review_Status_Collection');
+        return $this->_statusFactory->create();
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
@@ -74,7 +139,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
 
     public function getEntitySummary($product, $storeId=0)
     {
-        $summaryData = Mage::getModel('Magento_Review_Model_Review_Summary')
+        $summaryData = $this->_summaryFactory->create()
             ->setStoreId($storeId)
             ->load($product->getId());
         $summary = new Magento_Object();
@@ -89,7 +154,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
 
     public function getReviewUrl()
     {
-        return Mage::getUrl('review/product/view', array('id' => $this->getReviewId()));
+        return $this->_urlModel->getUrl('review/product/view', array('id' => $this->getReviewId()));
     }
 
     public function validate()
@@ -142,9 +207,9 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
             return $this;
         }
 
-        $summaryData = Mage::getResourceModel('Magento_Review_Model_Resource_Review_Summary_Collection')
+        $summaryData = $this->_summaryFactory->create()
             ->addEntityFilter($entityIds)
-            ->addStoreFilter(Mage::app()->getStore()->getId())
+            ->addStoreFilter($this->_storeManager->getStore()->getId())
             ->load();
 
         foreach ($collection->getItems() as $_item ) {
@@ -182,7 +247,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
      */
     public function isAvailableOnStore($store = null)
     {
-        $store = Mage::app()->getStore($store);
+        $store = $this->_storeManager->getStore($store);
         if ($store) {
             return in_array($store->getId(), (array)$this->getStores());
         }

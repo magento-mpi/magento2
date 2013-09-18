@@ -22,6 +22,35 @@ class Magento_Review_Block_Helper extends Magento_Core_Block_Template
         'short'   => 'helper/summary_short.phtml'
     );
 
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Review_Model_ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Review_Model_ReviewFactory $reviewFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Review_Model_ReviewFactory $reviewFactory,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_reviewFactory = $reviewFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getSummaryHtml($product, $templateType, $displayIfNoReviews)
     {
         // pick template among available
@@ -33,8 +62,7 @@ class Magento_Review_Block_Helper extends Magento_Core_Block_Template
         $this->setDisplayIfEmpty($displayIfNoReviews);
 
         if (!$product->getRatingSummary()) {
-            Mage::getModel('Magento_Review_Model_Review')
-               ->getEntitySummary($product, Mage::app()->getStore()->getId());
+            $this->_reviewFactory->create()->getEntitySummary($product, $this->_storeManager->getStore()->getId());
         }
         $this->setProduct($product);
 
@@ -53,7 +81,7 @@ class Magento_Review_Block_Helper extends Magento_Core_Block_Template
 
     public function getReviewsUrl()
     {
-        return Mage::getUrl('review/product/list', array(
+        return $this->getUrl('review/product/list', array(
            'id'        => $this->getProduct()->getId(),
            'category'  => $this->getProduct()->getCategoryId()
         ));
