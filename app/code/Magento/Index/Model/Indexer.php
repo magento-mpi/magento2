@@ -58,7 +58,15 @@ class Magento_Index_Model_Indexer
         $this->_resourceProcess = $resourceProcess;
         $this->_eventManager = $eventManager;
         $this->_indexEventFactory = $indexEventFactory;
-        $this->_processesCollection = $this->_resProcColFactory->create();
+        $this->_processesCollection = $this->_createCollection();
+    }
+
+    /**
+     * @return Magento_Index_Model_Resource_Process_Collection
+     */
+    private function _createCollection()
+    {
+        return $this->_resProcColFactory->create();
     }
 
     /**
@@ -213,7 +221,7 @@ class Magento_Index_Model_Indexer
      */
     public function reindexAll()
     {
-        $this->_reindexCollection($this->_resProcColFactory->create());
+        $this->_reindexCollection($this->_createCollection());
     }
 
     /**
@@ -221,7 +229,7 @@ class Magento_Index_Model_Indexer
      */
     public function reindexRequired()
     {
-        $collection = $this->_resProcColFactory->create();
+        $collection = $this->_createCollection();
         $collection->addFieldToFilter('status', Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         $this->_reindexCollection($collection);
     }

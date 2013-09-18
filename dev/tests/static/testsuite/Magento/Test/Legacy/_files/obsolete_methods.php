@@ -799,5 +799,4 @@ return array(
     array('printException', 'Mage', 'magePrintException'),
     array('_getIndexer', 'Magento_Index_Model_Shell'),
     array('_getApi', 'Magento_Ogone_Block_Placeform'),
-    array('_createCollection', 'Magento_Index_Model_Indexer'),
 );
