@@ -80,7 +80,7 @@ class Magento_Persistent_Model_Persistent_Config
                 Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
             }
             $xml = file_get_contents($filePath);
-            /** @var Magento_Config_DomFactory $configDom */
+            /** @var Magento_Config_Dom $configDom */
             $configDom = $this->_domFactory->createDom(
                 array(
                     'xml' => $xml,
@@ -98,14 +98,16 @@ class Magento_Persistent_Model_Persistent_Config
     }
 
     /**
-     * Get blocks by xpath
-     * @param string $xpath
+     * Get block's persistent config info.
+     *
+     * @param Magento_Core_Block_Abstract $block
      * @return $array
      */
-    public function getBlocks($xpath)
+    public function getBlockConfigInfo(Magento_Core_Block_Abstract $block)
     {
+        $xPath = '//instances/blocks/*[block_type="' . get_class($block) . '"]';
         $domXPath = new DOMXPath($this->_getConfigDomDocument());
-        $blocks = $domXPath->query($xpath);
+        $blocks = $domXPath->query($xPath);
         return $this->_converter->convertBlocks($blocks);
     }
 

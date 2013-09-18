@@ -31,38 +31,20 @@ class Magento_Persistent_Model_Persistent_Config_Converter implements Magento_Co
         $blocksArray = array();
         foreach ($blocks as $reference) {
             $referenceAttributes = $reference->attributes;
-            $widgetArray = array('@' => array());
             $id = $referenceAttributes->getNamedItem('id')->nodeValue;
-            $referenceArray = array();
+            $blocksArray[$id] = array();
             /** @var $referenceSubNode DOMNode */
             foreach ($reference->childNodes as $referenceSubNode) {
                 switch ($referenceSubNode->nodeName) {
                     case 'name_in_layout':
-                        $referenceArray[$referenceSubNode->nodeName] = $referenceSubNode->nodeValue;
-                        break;
                     case 'class':
-                        $referenceArray[$referenceSubNode->nodeName] = $referenceSubNode->nodeValue;
-                        break;
                     case 'method':
-                        $referenceArray[$referenceSubNode->nodeName] = $referenceSubNode->nodeValue;
-                        break;
                     case 'block_type':
-                        $referenceArray[$referenceSubNode->nodeName] = $referenceSubNode->nodeValue;
-                        break;
-                    case "#text":
-                        break;
-                    case '#comment':
+                        $blocksArray[$id][$referenceSubNode->nodeName] = $referenceSubNode->nodeValue;
                         break;
                     default:
-                        throw new LogicException(
-                            sprintf(
-                                "Unsupported child xml node '%s' found in the 'reference' node",
-                                $referenceSubNode->nodeName
-                            )
-                        );
                 }
             }
-            $blocksArray[$id] = $referenceArray;
         }
         return $blocksArray;
     }

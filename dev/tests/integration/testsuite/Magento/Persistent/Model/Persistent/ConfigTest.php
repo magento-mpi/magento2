@@ -14,10 +14,13 @@ class Magento_Persistent_Model_Persistent_ConfigTest extends PHPUnit_Framework_T
      */
     protected $_model;
 
+    /** @var  Magento_ObjectManager */
+    protected $_objectManager;
+
     public function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $objectManager->create('Magento_Persistent_Model_Persistent_Config');
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_model = $this->_objectManager->create('Magento_Persistent_Model_Persistent_Config');
     }
 
     public function testCollectInstancesToEmulate()
@@ -28,12 +31,21 @@ class Magento_Persistent_Model_Persistent_ConfigTest extends PHPUnit_Framework_T
         $this->assertEquals($expected, $result);
     }
 
-    public function testGetBlocks()
+    public function testGetBlockConfigInfo()
     {
         $this->_model->setConfigFilePath(__DIR__ . '/_files/persistent.xml');
-        $blocks = $this->_model->getBlocks('//instances/blocks/*[block_type="Magento_Sales_Block_Reorder_Sidebar"]');
+        $block = $this->_objectManager->create('Magento_Sales_Block_Reorder_Sidebar');
+        $blocks = $this->_model->getBlockConfigInfo($block);
         $expected = include '_files/expectedBlocksArray.php';
         $this->assertEquals($expected, $blocks);
+    }
+
+    public function testGetBlockConfigInfoNotConfigured()
+    {
+        $this->_model->setConfigFilePath(__DIR__ . '/_files/persistent.xml');
+        $block = $this->_objectManager->create('Magento_Catalog_Block_Product_Compare_List');
+        $blocks = $this->_model->getBlockConfigInfo($block);
+        $this->assertEquals(array(), $blocks);
     }
 
 }
