@@ -55,10 +55,7 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function getCallbacksDataProvider()
     {
         return array(
-            'generic_key_exist' => array(
-                array('callbacks' => array(
-                    'group' => 'value')
-                ), 'value'),
+            'generic_key_exist' => array(array('callbacks' => array('group' => 'value')), 'value'),
             'return_default_value' => array(array('key_one' =>'value'), array()),
         );
     }
@@ -76,11 +73,8 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function getDeniedAclResourcesDataProvider()
     {
         return array(
-            'generic_key_exist' => array(
-                array('acl' => array(
-                    'level' => 'value')
-                ), 'value'),
-            'return_default_value' => array(array('key_one' =>'value'), array()),
+            'generic_key_exist' => array(array('acl' => array('level' => 'value')), 'value'),
+            'return_default_value' => array(array('key_one' => 'value'), array()),
         );
     }
 }
