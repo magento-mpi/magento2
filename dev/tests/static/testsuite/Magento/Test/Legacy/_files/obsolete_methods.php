@@ -348,7 +348,6 @@ return array(
     array('getHandles', 'Magento_Core_Model_Layout_Update', 'Magento_Core_Model_Layout_Merge'),
     array('getHeaderCssClass', 'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
     array('getHeaderText', 'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
-    array('getHelper', 'Magento_Cms_Model_Wysiwyg_Images_Storage'),
     array('getHelperClassName', 'Magento_Core_Model_Config'),
     array('getHtmlFormat', 'Magento_Customer_Model_Address_Abstract'),
     array('getInitParam', 'Magento_Core_Model_App'),

@@ -20,6 +20,9 @@
         </param>
     </type>
     <type name="Magento_Cms_Model_Wysiwyg_Config">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
         <param name="windowSize">
             <value>
                 <height type="int">600</height>
@@ -78,12 +81,7 @@
     <type name="Magento_Cms_Model_Page">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
-        </param>
-    </type>
-    <type name="Magento_Cms_Model_Wysiwyg_Config">
-        <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
-        </param>
+        </param>       
     </type>
     <type name="Magento_Core_Helper_Data">
         <param name="eventManager">
