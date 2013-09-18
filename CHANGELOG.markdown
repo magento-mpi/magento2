@@ -38,6 +38,8 @@
 * Added I18n tools for translation dictionary generation and language package generation
 * Eliminated Mage::helper and Mage::dispatchEvent in code
 * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl, Mage::printException in /lib and /pub
+* Eliminated Mage:: static methods in Magento_Widget
+* Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
 * Eliminated of "Mage" class usages from module "Magento_Sendfriend"
 * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
 * Static method `getObjectManager` of Mage class was eliminated
