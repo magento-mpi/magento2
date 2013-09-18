@@ -238,8 +238,6 @@ class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
             ->method('getMessages')
             ->will($this->returnValue($messages));
 
-        $request = new Magento_Object(array('server' => array('HTTP_X_FORWARDED_FOR')));
-
         $loggingEventMock = $this->getMockBuilder('Magento_Logging_Model_Event')
             ->setMethods(array('setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save'))
             ->disableOriginalConstructor()
