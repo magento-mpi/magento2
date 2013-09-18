@@ -30,7 +30,7 @@ try {
     $stylesheet->preserveWhiteSpace = true;
     $stylesheet->load($opt->processor);
 
-    $formater = new \Tools\Layout\Formatter();
+    $formater = new \Magento\Tools\Layout\Formatter();
 
     $xslt = new XSLTProcessor();
     $xslt->registerPHPFunctions();
