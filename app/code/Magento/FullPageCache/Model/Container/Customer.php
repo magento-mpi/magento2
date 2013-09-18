@@ -21,20 +21,29 @@ class Magento_FullPageCache_Model_Container_Customer extends Magento_FullPageCac
     /**
      * Constructor
      *
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_FullPageCache_Model_Cache $fpcCache
      * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_FullPageCache_Helper_Url $urlHelper
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_FullPageCache_Model_Cache $fpcCache,
         Magento_FullPageCache_Model_Container_Placeholder $placeholder,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_FullPageCache_Helper_Url $urlHelper,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig
     ) {
         parent::__construct(
+            $eventManager,
             $fpcCache,
             $placeholder,
+            $coreRegistry,
+            $urlHelper,
             $coreStoreConfig
         );
         $this->_coreConfig = $coreConfig;
