@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,15 +9,26 @@
 
 /**
  * Catalog Product Flat Indexer Resource Model
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_Model_Resource_Abstract
 {
     const XML_NODE_MAX_INDEX_COUNT  = 'global/catalog/product/flat/max_index_count';
-    const XML_NODE_ATTRIBUTE_NODES  = 'global/catalog/product/flat/attribute_nodes';
+    const XML_NODE_ATTRIBUTE_GROUPS = 'global/catalog/product/flat/attribute_groups';
+
+    /**
+     * @var Magento_Core_Model_ConfigInterface
+     */
+    private $_config;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    private $_eavConfig;
+
+    /**
+     * @var Magento_Catalog_Model_Attribute_Config
+     */
+    private $_attributeConfig;
 
     /**
      * Attribute codes for flat
@@ -111,21 +120,30 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_productType;
 
     /**
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Catalog_Model_Product_Type $productType
-     * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Helper_Data $coreData,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Attribute_Config $attributeConfig,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Catalog_Model_Product_Type $productType,
-        Magento_Core_Model_Resource $resource
+        Magento_Catalog_Model_Product_Type $productType
     ) {
         $this->_eventManager = $eventManager;
+        $this->_config = $config;
         $this->_coreData = $coreData;
+        $this->_eavConfig = $eavConfig;
+        $this->_attributeConfig = $attributeConfig;
         $this->_catalogProductFlat = $catalogProductFlat;
         $this->_productType = $productType;
         parent::__construct($resource);
@@ -188,15 +206,13 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     public function getAttributeCodes()
     {
         if ($this->_attributeCodes === null) {
-            $adapter               = $this->_getReadAdapter();
+            $adapter = $this->_getReadAdapter();
             $this->_attributeCodes = array();
 
-            $attributeNodes = Mage::getConfig()
-                ->getNode(self::XML_NODE_ATTRIBUTE_NODES)
-                ->children();
-            foreach ($attributeNodes as $node) {
-                $attributes = Mage::getConfig()->getNode((string)$node)->asArray();
-                $attributes = array_keys($attributes);
+            $attributeGroupNodes = $this->_config->getNode(self::XML_NODE_ATTRIBUTE_GROUPS);
+            foreach ($attributeGroupNodes as $attributeGroupNode) {
+                $attributeGroupName = (string)$attributeGroupNode;
+                $attributes = $this->_attributeConfig->getAttributeNames($attributeGroupName);
                 $this->_systemAttributes = array_unique(array_merge($attributes, $this->_systemAttributes));
             }
 
@@ -220,13 +236,12 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                 $adapter->quoteInto('main_table.attribute_code IN(?)', $this->_systemAttributes)
             );
             if ($this->getFlatHelper()->isAddFilterableAttributes()) {
-               $whereCondition[] = $adapter->quoteInto('additional_table.is_filterable > ?', 0);
+                $whereCondition[] = $adapter->quoteInto('additional_table.is_filterable > ?', 0);
             }
 
             $select->where(implode(' OR ', $whereCondition));
             $attributesData = $adapter->fetchAll($select, $bind);
-            Mage::getSingleton('Magento_Eav_Model_Config')
-                ->importAttributesData($this->getEntityType(), $attributesData);
+            $this->_eavConfig->importAttributesData($this->getEntityType(), $attributesData);
 
             foreach ($attributesData as $data) {
                 $this->_attributeCodes[$data['attribute_id']] = $data['attribute_code'];
@@ -271,12 +286,12 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         if ($this->_attributes === null) {
             $this->_attributes = array();
             $attributeCodes    = $this->getAttributeCodes();
-            $entity = Mage::getSingleton('Magento_Eav_Model_Config')
+            $entity = $this->_eavConfig
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
 
             foreach ($attributeCodes as $attributeCode) {
-                $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
+                $attribute = $this->_eavConfig
                     ->getAttribute($this->getEntityType(), $attributeCode)
                     ->setEntity($entity);
                 try {
@@ -310,7 +325,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             if (!$attribute->getId()) {
                 Mage::throwException(__('Invalid attribute %1', $attributeCode));
             }
-            $entity = Mage::getSingleton('Magento_Eav_Model_Config')
+            $entity = $this->_eavConfig
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
             $attribute->setEntity($entity);
@@ -588,7 +603,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         // Extract indexes we need to have in flat table
         $indexesNeed  = $this->getFlatIndexes();
 
-        $maxIndex = Mage::getConfig()->getNode(self::XML_NODE_MAX_INDEX_COUNT);
+        $maxIndex = $this->_config->getNode(self::XML_NODE_MAX_INDEX_COUNT);
         if (count($indexesNeed) > $maxIndex) {
             Mage::throwException(__("Please make sure you don\'t have too many filterable and sortable attributes. You now have %1\$d. The Flat Catalog module allows only %2\$d.", count($indexesNeed), $maxIndex));
         }
