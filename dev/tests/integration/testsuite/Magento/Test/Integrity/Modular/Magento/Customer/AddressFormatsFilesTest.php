@@ -16,7 +16,8 @@ class Magento_Test_Integrity_Modular_Magento_Customer_AddressFormatsFilesTest ex
     protected function setUp()
     {
         /** @var Magento_Customer_Model_Address_Config_SchemaLocator $schemaLocator */
-        $schemaLocator = Mage::getObjectManager()->get('Magento_Customer_Model_Address_Config_SchemaLocator');
+        $schemaLocator = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Customer_Model_Address_Config_SchemaLocator');
         $this->_schemaFile = $schemaLocator->getSchema();
     }
 

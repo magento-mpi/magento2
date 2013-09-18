@@ -15,7 +15,8 @@ class Magento_Test_Integrity_Modular_Magento_Catalog_AttributeConfigFilesTest ex
     protected function setUp()
     {
         /** @var Magento_Catalog_Model_Attribute_Config_SchemaLocator $schemaLocator */
-        $schemaLocator = Mage::getObjectManager()->get('Magento_Catalog_Model_Attribute_Config_SchemaLocator');
+        $schemaLocator = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Attribute_Config_SchemaLocator');
         $this->_schemaFile = $schemaLocator->getSchema();
     }
 
