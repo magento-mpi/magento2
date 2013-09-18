@@ -49,6 +49,11 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_viewUrl;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -63,17 +68,20 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_coreStoreConfig;
     
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
+        $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
     }
@@ -503,7 +511,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
             $value = parent::filter($value);
         } catch (Exception $e) {
             $value = '';
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $value;
     }

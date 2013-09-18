@@ -33,6 +33,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -42,10 +43,11 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_downloadableFile = $downloadableFile;
-        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $data);
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
     /**

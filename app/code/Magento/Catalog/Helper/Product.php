@@ -74,6 +74,11 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
@@ -95,6 +100,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
+        $this->_logger = $context->getLogger();
         parent::__construct($context);
     }
 
@@ -393,7 +399,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
                 'controller_action' => $controller
             ));
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             return false;
         }
 
