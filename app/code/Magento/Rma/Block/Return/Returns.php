@@ -30,6 +30,12 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
     protected $_customerSession;
 
     /**
+     * @var Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory
+     */
+    protected $_gridCollFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $gridCollFactory
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
@@ -38,6 +44,7 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $gridCollFactory,
         Magento_Customer_Model_Session $customerSession,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
@@ -45,6 +52,7 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_gridCollFactory = $gridCollFactory;
         $this->_customerSession = $customerSession;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
@@ -57,7 +65,8 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
         if ($this->_rmaData->isEnabled()) {
             $this->setTemplate('return/returns.phtml');
 
-            $returns = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
+            $returns = $this->_gridCollFactory
+                ->create()
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', $this->_coreRegistry->registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');

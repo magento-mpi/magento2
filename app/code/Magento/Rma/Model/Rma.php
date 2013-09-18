@@ -75,9 +75,31 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      * @var Magento_Core_Model_Translate
      */
     protected $_translate;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
     protected $_eavConfig;
 
     /**
+     * @var Magento_Rma_Model_Resource_Item_CollectionFactory
+     */
+    protected $_itemCollFactory;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_Item_CollectionFactory
+     */
+    protected $_salesCollFactory;
+
+    /**
+     * @var Magento_Rma_Model_Resource_ItemFactory
+     */
+    protected $_rmaItemFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory
+     * @param Magento_Sales_Model_Resource_Order_Item_CollectionFactory $salesCollFactory
+     * @param Magento_Rma_Model_Resource_Item_CollectionFactory $itemCollFactory
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Session $coreSession
@@ -91,6 +113,9 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory,
+        Magento_Sales_Model_Resource_Order_Item_CollectionFactory $salesCollFactory,
+        Magento_Rma_Model_Resource_Item_CollectionFactory $itemCollFactory,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Session $coreSession,
@@ -103,6 +128,9 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_rmaItemFactory = $rmaItemFactory;
+        $this->_salesCollFactory = $salesCollFactory;
+        $this->_itemCollFactory = $itemCollFactory;
         $this->_eavConfig = $eavConfig;
         $this->_translate = $translate;
         $this->_coreSession = $coreSession;
@@ -522,7 +550,8 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         if (!$this->getIsUpdate()) {
             $availableItems = $this->_rmaData->getOrderItems($orderId);
         } else {
-            $availableItems = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+            $availableItems = $this->_rmaItemFactory
+                ->create()
                 ->getOrderItemsCollection($orderId);
         }
 
@@ -810,12 +839,14 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     {
         $found      = false;
 
-        $rmaItems   = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+        $rmaItems   = $this->_rmaItemFactory
+            ->create()
             ->getAuthorizedItems($this->getId())
         ;
 
         if (!empty($rmaItems)) {
-            $quoteItemsCollection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Item_Collection')
+            $quoteItemsCollection = $this->_salesCollFactory
+                ->create()
                 ->addFieldToFilter('item_id', array('in' => array_keys($rmaItems)))
                 ->getData()
             ;
@@ -1029,7 +1060,8 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     protected function _isItemsAvailableForPrintLabel()
     {
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        $collection = $this->_itemCollFactory
+            ->create()
             ->addFieldToFilter('rma_entity_id', $this->getEntityId());
 
         $return = false;
@@ -1060,7 +1092,8 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     public function getItemsForDisplay($withoutAttributes = false)
     {
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        $collection = $this->_itemCollFactory
+            ->create()
             ->addFieldToFilter('rma_entity_id', $this->getEntityId())
             ->setOrder('order_item_id')
             ->setOrder('entity_id');
@@ -1091,7 +1124,8 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     public function _isItemsNotInPendingStatus()
     {
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        $collection = $this->_itemCollFactory
+            ->create()
             ->addFieldToFilter('rma_entity_id', $this->getEntityId());
 
         foreach ($collection as $item) {

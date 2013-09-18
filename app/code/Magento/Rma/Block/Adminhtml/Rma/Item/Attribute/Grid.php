@@ -20,6 +20,33 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
     extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
 {
     /**
+     * @var Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory
+     */
+    protected $_attrCollFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory $attrCollFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Model_Resource_Item_Attribute_CollectionFactory $attrCollFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_attrCollFactory = $attrCollFactory;
+        parent::__construct(
+            $coreData, $context, $storeManager, $urlModel, $data
+        );
+    }
+
+    /**
      * Initialize grid, set grid Id
      *
      */
@@ -37,7 +64,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Attribute_Collection')
+        $collection = $this->_attrCollFactory
+            ->create()
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);

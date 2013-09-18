@@ -50,6 +50,12 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rma_Model_Resource_Itemfactory
+     */
+    protected $_rmaItemFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_Itemfactory $rmaItemFactory
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -59,6 +65,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Itemfactory $rmaItemFactory,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -67,6 +74,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_rmaItemFactory = $rmaItemFactory;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -95,7 +103,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
 
         /** @var $collection Magento_Rma_Model_Resource_Item */
 
-        $orderItemsCollection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+        $orderItemsCollection = $this->_rmaItemFactory
+            ->create()
             ->getOrderItemsCollection($orderId);
 
         $this->setCollection($orderItemsCollection);
@@ -114,10 +123,12 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _afterLoadCollection()
     {
         $orderId = $this->_coreRegistry->registry('current_order')->getId();
-        $itemsInActiveRmaArray = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+        $itemsInActiveRmaArray = $this->_rmaItemFactory
+            ->create()
             ->getItemsIdsByOrder($orderId);
 
-        $fullItemsCollection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+        $fullItemsCollection = $this->_rmaItemFactory
+            ->create()
             ->getOrderItemsCollection($orderId);
         /**
          * contains data that defines possibility of return for an order item

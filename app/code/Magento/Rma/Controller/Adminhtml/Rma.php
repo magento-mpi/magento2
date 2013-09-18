@@ -18,13 +18,29 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rma_Model_Resource_ItemFactory
+     */
+    protected $_rmaItemFactory;
+
+    /**
+     * @var Magento_Rma_Model_Resource_ShippingFactory
+     */
+    protected $_rmaShippingFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory
+     * @param Magento_Rma_Model_Resource_ShippingFactory $rmaShippingFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory,
+        Magento_Rma_Model_Resource_ShippingFactory $rmaShippingFactory,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_rmaItemFactory = $rmaItemFactory;
+        $this->_rmaShippingFactory = $rmaShippingFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -743,7 +759,9 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         try {
             if ($orderId && $itemId) {
                 /** @var $items Magento_Rma_Model_Resource_Item */
-                $items = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')->getOrderItems($orderId, $itemId);
+                $items = $this->_rmaItemFactory
+                    ->create()
+                    ->getOrderItems($orderId, $itemId);
                 if (empty($items)) {
                     Mage::throwException(__('No items for bundle product'));
                 }
@@ -1146,7 +1164,9 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 $carrierCode = $carrier->getCarrierCode();
                 $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
-                    Mage::getResourceModel('Magento_Rma_Model_Resource_Shipping')->deleteTrackingNumbers($model);
+                    $this->_rmaShippingFactory
+                        ->create()
+                        ->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {
                         Mage::getModel('Magento_Rma_Model_Shipping')
                             ->setTrackNumber($trackingNumber)

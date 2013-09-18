@@ -24,6 +24,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
     protected $_orderConfig;
 
     /**
+     * @var Magento_Sales_Model_Resource_Order_Grid_CollectionFactory
+     */
+    protected $_gridCollFactory;
+
+    /**
+     * @param Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $gridCollFactory
      * @param Magento_Sales_Model_Order_Config $orderConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -32,6 +38,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $gridCollFactory,
         Magento_Sales_Model_Order_Config $orderConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -39,6 +46,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
         Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
+        $this->_gridCollFactory = $gridCollFactory;
         $this->_orderConfig = $orderConfig;
         parent::__construct(
             $coreData, $context, $storeManager, $urlModel, $data
@@ -64,7 +72,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
     protected function _prepareCollection()
     {
         /** @var $collection Magento_Sales_Model_Resource_Order_Grid_Collection */
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
+        $collection = $this->_gridCollFactory
+            ->create()
             ->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();

@@ -42,6 +42,12 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rma_Model_Resource_Item_CollectionFactory
+     */
+    protected $_itemCollFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_Item_CollectionFactory $itemCollFactory
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -51,6 +57,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Item_CollectionFactory $itemCollFactory,
         Magento_Rma_Helper_Eav $rmaEav,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -59,6 +66,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_itemCollFactory = $itemCollFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
@@ -104,7 +112,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _prepareCollection()
     {
         /** @var $collection Magento_Rma_Model_Resource_Item_Collection */
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection');
+        $collection = $this->_itemCollFactory->create();
         $collection->addAttributeToSelect('*');
         $collection->addAttributeToFilter('entity_id', NULL);
 

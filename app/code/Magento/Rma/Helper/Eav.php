@@ -31,13 +31,21 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     protected $_coreResource;
 
     /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory
+     */
+    protected $_optionCollFactory;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $optionCollFactory
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $optionCollFactory,
         Magento_Core_Model_Resource $coreResource,
         Magento_Core_Helper_Context $context
     ) {
+        $this->_optionCollFactory = $optionCollFactory;
         $this->_coreResource = $coreResource;
         parent::__construct($context);
     }
@@ -191,7 +199,8 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $optionCollection = $this->_optionCollFactory
+                ->create()
                 ->setStoreFilter($storeId, $useDefaultValue);
 
             $optionCollection

@@ -85,6 +85,12 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_customerSession;
 
     /**
+     * @var Magento_Rma_Model_Resource_ItemFactory
+     */
+    protected $_rmaItemFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory
      * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Helper_Data $coreData
@@ -95,6 +101,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Directory_Model_RegionFactory $regionFactory
      */
     public function __construct(
+        Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory,
         Magento_Backend_Model_Auth_Session $authSession,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Helper_Data $coreData,
@@ -104,6 +111,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_RegionFactory $regionFactory
     ) {
+        $this->_rmaItemFactory = $rmaItemFactory;
         $this->_authSession = $authSession;
         $this->_customerSession = $customerSession;
         $this->_coreData = $coreData;
@@ -158,7 +166,8 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
             Mage::throwException(__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
-            $this->_orderItems[$orderId] = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+            $this->_orderItems[$orderId] = $this->_rmaItemFactory
+                ->create()
                 ->getOrderItems($orderId);
         }
 

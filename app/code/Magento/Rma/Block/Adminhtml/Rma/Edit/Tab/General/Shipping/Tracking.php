@@ -38,6 +38,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
     protected $_shippingConfig;
 
     /**
+     * @var Magento_Rma_Model_Resource_Shipping_CollectionFactory
+     */
+    protected $_shippingCollFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_Shipping_CollectionFactory $shippingCollFactory
      * @param Magento_Shipping_Model_Config $shippingConfig
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
@@ -46,6 +52,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Shipping_CollectionFactory $shippingCollFactory,
         Magento_Shipping_Model_Config $shippingConfig,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
@@ -53,6 +60,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_shippingCollFactory = $shippingCollFactory;
         $this->_shippingConfig = $shippingConfig;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
@@ -86,7 +94,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      */
     public function getAllTracks()
     {
-        return Mage::getResourceModel('Magento_Rma_Model_Resource_Shipping_Collection')
+        return $this->_shippingCollFactory
+            ->create()
             ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
             ->addFieldToFilter('is_admin', array("neq" => Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
         ;
