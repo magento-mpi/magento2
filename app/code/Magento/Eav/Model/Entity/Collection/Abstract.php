@@ -1045,7 +1045,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
             $query = $this->getSelect();
             $rows = $this->_fetchAll($query);
         } catch (Exception $e) {
-            magePrintException($e, $query);
+            Mage::printException($e, $query);
             $this->printLogQuery(true, true, $query);
             throw $e;
         }
@@ -1112,7 +1112,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
                     $select = implode(' UNION ALL ', $selects);
                     $values = $this->getConnection()->fetchAll($select);
                 } catch (Exception $e) {
-                    magePrintException($e, $select);
+                    Mage::printException($e, $select);
                     $this->printLogQuery(true, true, $select);
                     throw $e;
                 }

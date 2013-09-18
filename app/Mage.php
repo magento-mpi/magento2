@@ -119,13 +119,6 @@ final class Mage
     static private $_config;
 
     /**
-     * Object manager interface
-     *
-     * @var Magento_ObjectManager
-     */
-    static private $_objectManager;
-
-    /**
      * Object cache instance
      *
      * @var Magento_Object_Cache
@@ -248,7 +241,6 @@ final class Mage
         self::$_isDownloader    = false;
         self::$_loggers         = array();
         self::$_design          = null;
-        self::$_objectManager   = null;
         // do not reset $headersSentThrowsException
     }
 
@@ -308,7 +300,8 @@ final class Mage
      */
     public static function getModuleDir($type, $moduleName)
     {
-        return self::getObjectManager()->get('Magento_Core_Model_Config_Modules_Reader')
+        return Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Core_Model_Config_Modules_Reader')
             ->getModuleDir($type, $moduleName);
     }
 
@@ -362,7 +355,9 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return self::getObjectManager()->create('Magento_Core_Model_Url')->getUrl($route, $params);
+        return Magento_Core_Model_ObjectManager::getInstance()
+            ->create('Magento_Core_Model_Url')
+            ->getUrl($route, $params);
     }
 
     /**
@@ -376,7 +371,7 @@ final class Mage
     public static function getConfig()
     {
         if (!self::$_config) {
-            self::$_config = self::getObjectManager()->get('Magento_Core_Model_Config');
+            self::$_config = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Config');
         }
         return self::$_config;
     }
@@ -393,7 +388,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return self::getObjectManager()->create($modelClass, $arguments);
+        return Magento_Core_Model_ObjectManager::getInstance()->create($modelClass, $arguments);
     }
 
     /**
@@ -405,38 +400,13 @@ final class Mage
     public static function getSingleton($modelClass = '')
     {
         $registryKey = '_singleton/' . $modelClass;
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
         /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
         if (!$registryObject->registry($registryKey)) {
-            $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
+            $registryObject->register($registryKey, $objectManager->get($modelClass));
         }
         return $registryObject->registry($registryKey);
-    }
-
-    /**
-     * Retrieve object manager
-     *
-     * @static
-     * @return Magento_ObjectManager
-     */
-    public static function getObjectManager()
-    {
-        return self::$_objectManager;
-    }
-
-    /**
-     * Set application object manager
-     *
-     * @param Magento_ObjectManager $objectManager
-     * @throws LogicException
-     */
-    public static function setObjectManager(Magento_ObjectManager $objectManager)
-    {
-        if (!self::$_objectManager) {
-            self::$_objectManager = $objectManager;
-        } else {
-            throw new LogicException('Only one object manager can be used in application');
-        }
     }
 
     /**
@@ -451,7 +421,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return self::getObjectManager()->create($modelClass, $arguments);
+        return Magento_Core_Model_ObjectManager::getInstance()->create($modelClass, $arguments);
     }
 
     /**
@@ -462,11 +432,12 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '')
     {
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
         /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
         $registryKey = '_resource_singleton/' . $modelClass;
         if (!$registryObject->registry($registryKey)) {
-            $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
+            $registryObject->register($registryKey, $objectManager->get($modelClass));
         }
         return $registryObject->registry($registryKey);
     }
@@ -491,7 +462,7 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = self::getObjectManager()
+        $connectionModel = Magento_Core_Model_ObjectManager::getInstance()
             ->get('Magento_Core_Model_Config_Resource')
             ->getResourceConnectionModel('core');
 
@@ -500,12 +471,13 @@ final class Mage
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
         }
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
         /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
         $key = 'resourceHelper/' . $connection;
         if (!$registryObject->registry($key)) {
             $registryObject->register(
-                $key, self::getObjectManager()->create($helperClassName, array('modulePrefix' => $connection))
+                $key, $objectManager->create($helperClassName, array('modulePrefix' => $connection))
             );
         }
         return $registryObject->registry($key);
@@ -548,7 +520,7 @@ final class Mage
     public static function app()
     {
         if (null === self::$_app) {
-            self::$_app = self::getObjectManager()->get('Magento_Core_Model_App');
+            self::$_app = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
         }
         return self::$_app;
     }
@@ -585,7 +557,7 @@ final class Mage
             $key = $file;
         }
         /** @var $logger Magento_Core_Model_Logger */
-        $logger = self::$_objectManager->get('Magento_Core_Model_Logger');
+        $logger = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Logger');
         if ($forceLog && !$logger->hasLog($key)) {
             $logger->addStreamLog($key, $file);
         }
@@ -599,7 +571,7 @@ final class Mage
      */
     public static function logException(Exception $exception)
     {
-        self::$_objectManager->get('Magento_Core_Model_Logger')->logException($exception);
+        Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Logger')->logException($exception);
     }
 
     /**
@@ -610,7 +582,7 @@ final class Mage
      */
     public static function getIsDeveloperMode()
     {
-        $objectManager = self::getObjectManager();
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
         if (!$objectManager) {
             return false;
         }
@@ -622,6 +594,54 @@ final class Mage
 
         $mode = $appState->getMode();
         return $mode == Magento_Core_Model_App_State::MODE_DEVELOPER;
+    }
+
+    /**
+     * Display exception
+     *
+     * @param Exception $e
+     * @param string $extra
+     */
+    public static function printException(Exception $e, $extra = '')
+    {
+        if (self::getIsDeveloperMode()) {
+            print '<pre>';
+
+            if (!empty($extra)) {
+                print $extra . "\n\n";
+            }
+
+            print $e->getMessage() . "\n\n";
+            print $e->getTraceAsString();
+            print '</pre>';
+        } else {
+
+            $reportData = array(
+                !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
+                $e->getTraceAsString()
+            );
+
+            // retrieve server data
+            if (isset($_SERVER)) {
+                if (isset($_SERVER['REQUEST_URI'])) {
+                    $reportData['url'] = $_SERVER['REQUEST_URI'];
+                }
+                if (isset($_SERVER['SCRIPT_NAME'])) {
+                    $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
+                }
+            }
+
+            // attempt to specify store as a skin
+            try {
+                $storeCode = self::app()->getStore()->getCode();
+                $reportData['skin'] = $storeCode;
+            } catch (Exception $e) {
+            }
+
+            require_once(self::getBaseDir(Magento_Core_Model_Dir::PUB) . DS . 'errors' . DS . 'report.php');
+        }
+
+        die();
     }
 
     /**

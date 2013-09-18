@@ -41,6 +41,11 @@ class Magento_Core_Model_Observer
     protected $_assetFileFactory;
 
     /**
+     * @var Magento_Core_Model_Theme_Registration
+     */
+    protected  $_registration;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
@@ -51,6 +56,7 @@ class Magento_Core_Model_Observer
      * @param Magento_Core_Model_Page $page
      * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory
+     * @param Magento_Core_Model_Theme_Registration $registration
      * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
@@ -59,6 +65,7 @@ class Magento_Core_Model_Observer
         Magento_Core_Model_Page $page,
         Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory,
+        Magento_Core_Model_Theme_Registration $registration,
         Magento_Core_Model_Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
@@ -66,6 +73,7 @@ class Magento_Core_Model_Observer
         $this->_pageAssets = $page->getAssets();
         $this->_config = $config;
         $this->_assetFileFactory = $assetFileFactory;
+        $this->_registration = $registration;
         $this->_logger = $logger;
     }
 
@@ -95,7 +103,7 @@ class Magento_Core_Model_Observer
         $baseDir = $observer->getEvent()->getBaseDir();
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
-            Mage::getObjectManager()->get('Magento_Core_Model_Theme_Registration')->register($baseDir, $pathPattern);
+            $this->_registration->register($baseDir, $pathPattern);
         } catch (Magento_Core_Exception $e) {
             $this->_logger->logException($e);
         }

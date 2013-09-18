@@ -25,13 +25,36 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
     /**#@-*/
 
     /**
+     * @var Magento_File_Size
+     */
+    protected $_fileSize;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_File_Size $fileSize
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_File_Size $fileSize
+    ) {
+        $this->_fileSize = $fileSize;
+        parent::__construct($eventManager, $coreHttp, $context, $config);
+    }
+
+    /**
      * Get maximum upload size message
      *
      * @return string
      */
     public function getMaxUploadSizeMessage()
     {
-        $maxImageSize = Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSizeInMb();
+        $maxImageSize = $this->_fileSize->getMaxFileSizeInMb();
         if ($maxImageSize) {
             $message = __('The total size of the uploadable files can\'t be more that %1M', $maxImageSize);
         } else {
