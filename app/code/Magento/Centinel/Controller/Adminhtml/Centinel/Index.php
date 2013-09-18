@@ -18,6 +18,13 @@
 class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Cart
+     *
+     * @var Magento_Checkout_Model_Cart_Interface
+     */
+    protected $_checkoutCart;
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -26,12 +33,15 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
 
     /**
      * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Checkout_Model_Cart_Interface $checkoutCart
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
+        Magento_Checkout_Model_Cart_Interface $checkoutCart,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_checkoutCart = $checkoutCart;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -105,8 +115,7 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
      */
     private function _getPayment()
     {
-        $model = Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
-        return $model->getQuote()->getPayment();
+        return $this->_checkoutCart->getQuote()->getPayment();
     }
 
     /**
