@@ -84,6 +84,11 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
     protected $_customerAddress = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
@@ -92,9 +97,13 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
      * @param Magento_Customer_Helper_Address $customerAddress
      */
     public function __construct(
-        Magento_Customer_Helper_Address $customerAddress
+        Magento_Customer_Helper_Address $customerAddress,
+        Magento_Core_Model_Logger $logger,
+        array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;
+        $this->_logger = $logger;
+        parent::__construct($data);
     }
 
     /**

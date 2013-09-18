@@ -135,7 +135,7 @@ class Magento_Logging_Model_Processor
 
     /**
      * Constructor: initialize configuration model, controller and model handler
-     *
+     * 
      * @param Magento_Logging_Model_Config $config
      * @param Magento_Logging_Model_Handler_Models $modelsHandler
      * @param Magento_Backend_Model_Auth_Session $authSession
