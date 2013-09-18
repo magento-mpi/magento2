@@ -9,7 +9,7 @@
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:redefine schemaLocation="export.xsd">
-        <xs:complexType name="menuLayoutDeclaration">
+        <xs:complexType name="entityDeclaration">
             <xs:complexContent>
                 <xs:restriction base="entityDeclaration">
                     <xs:attribute name="label" type="xs:string" use="required" />

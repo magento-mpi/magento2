@@ -19,7 +19,7 @@
 class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
-     * @var Magento_Index_Model_Indexer_Config
+     * @var Magento_Index_Model_Indexer_ConfigInterface
      */
     protected $_indexerConfig;
 
@@ -30,7 +30,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Index_Model_Indexer_Config $indexerConfig
+     * @param Magento_Index_Model_Indexer_ConfigInterface $indexerConfig
      * @param string $resourceName
      */
     public function __construct(
@@ -40,7 +40,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Index_Model_Indexer_Config $indexerConfig,
+        Magento_Index_Model_Indexer_ConfigInterface $indexerConfig,
         $resourceName
     ) {
         parent::__construct(

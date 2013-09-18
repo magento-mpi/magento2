@@ -86,7 +86,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Index_Model_Indexer_Config
+     * @var Magento_Index_Model_Indexer_ConfigInterface
      */
     protected $_indexerConfig;
 
@@ -98,7 +98,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Index_Model_Indexer_Config $indexerConfig
+     * @param Magento_Index_Model_Indexer_ConfigInterface $indexerConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Index_Model_Lock_Storage $lockStorage
      * @param Magento_Index_Model_EventRepository $eventRepository
@@ -110,7 +110,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
-        Magento_Index_Model_Indexer_Config $indexerConfig,
+        Magento_Index_Model_Indexer_ConfigInterface $indexerConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Index_Model_Lock_Storage $lockStorage,
         Magento_Index_Model_EventRepository $eventRepository,

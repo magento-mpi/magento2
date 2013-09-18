@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_IndexerConfigFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_EavAttributesConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Index_Model_Indexer_Config_Reader
+     * @var Magento_Eav_Model_Entity_Attribute_Config_Reader
      */
     protected $_model;
 
@@ -16,7 +16,7 @@ class Magento_Test_Integrity_Modular_IndexerConfigFilesTest extends PHPUnit_Fram
     {
         // List of all available import.xml
         $xmlFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles(
-            '{*/indexers.xml,indexers.xml}',
+            '{*/eav_attributes.xml,eav_attributes.xml}',
             array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
             false
         );
@@ -28,7 +28,7 @@ class Magento_Test_Integrity_Modular_IndexerConfigFilesTest extends PHPUnit_Fram
         $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($xmlFiles));
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $this->_model = $objectManager->create('Magento_Index_Model_Indexer_Config_Reader', array(
+        $this->_model = $objectManager->create('Magento_Eav_Model_Entity_Attribute_Config_Reader', array(
             'fileResolver' => $fileResolverMock,
             'validationState' => $validationStateMock,
         ));
