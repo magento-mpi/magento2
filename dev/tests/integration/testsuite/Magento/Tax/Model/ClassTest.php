@@ -77,7 +77,7 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
         /** @var $registry \Magento\Core\Model\Registry */
         $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
         /** @var $taxRule \Magento\Tax\Model\Calculation\Rule */
-        $taxRule = $registry->registry('_fixture/\Magento\Tax\Model\Calculation\Rule');
+        $taxRule = $registry->registry('_fixture/Magento\Tax\Model\Calculation\Rule');
         $customerClasses = $taxRule->getCustomerTaxClasses();
 
         /** @var $model \Magento\Tax\Model\ClassModel */
@@ -97,7 +97,7 @@ class Magento_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
         /** @var $registry \Magento\Core\Model\Registry */
         $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
         /** @var $taxRule \Magento\Tax\Model\Calculation\Rule */
-        $taxRule = $registry->registry('_fixture/\Magento\Tax\Model\Calculation\Rule');
+        $taxRule = $registry->registry('_fixture/Magento\Tax\Model\Calculation\Rule');
         $productClasses = $taxRule->getProductTaxClasses();
 
         /** @var $model \Magento\Tax\Model\ClassModel */
