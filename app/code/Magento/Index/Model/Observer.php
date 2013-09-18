@@ -15,6 +15,9 @@ class Magento_Index_Model_Observer
      */
     protected $_indexIndexer;
 
+    /**
+     * @param Magento_Index_Model_Indexer $indexIndexer
+     */
     public function __construct(
         Magento_Index_Model_Indexer $indexIndexer
     ) {
