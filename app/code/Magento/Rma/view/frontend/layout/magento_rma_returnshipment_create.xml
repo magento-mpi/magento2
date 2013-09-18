@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Return Create" type="page" parent="magento_rma_return_create_handle">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Return Create" type="page" parent="magento_rma_returns_create_handle">
     <update handle="customer_account"/>
     <reference name="customer_account_navigation">
         <action method="setActive">
