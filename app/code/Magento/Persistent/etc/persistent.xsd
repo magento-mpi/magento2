@@ -16,7 +16,7 @@
         </xs:annotation>
         <xs:complexType>
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="instances" type="instancesType"/>
+                <xs:element name="instances" type="instancesType" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -28,7 +28,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="blocks" type="blocksType"/>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="blocks" type="blocksType" />
         </xs:sequence>
     </xs:complexType>
 
@@ -39,7 +39,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="reference" type="referenceType"/>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="reference" type="referenceType" />
         </xs:sequence>
     </xs:complexType>
 
@@ -50,12 +50,12 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="name_in_layout" type="xs:NMTOKEN"/>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="class" type="xs:NMTOKEN"/>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="method" type="xs:NMTOKEN"/>
-            <xs:element minOccurs="1" maxOccurs="unbounded" name="block_type" type="xs:NMTOKEN"/>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="name_in_layout" type="xs:NMTOKEN" />
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="class" type="xs:NMTOKEN" />
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="method" type="xs:NMTOKEN" />
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="block_type" type="xs:NMTOKEN" />
         </xs:sequence>
-        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="id" type="xs:ID" use="required" />
     </xs:complexType>
 
 </xs:schema>
