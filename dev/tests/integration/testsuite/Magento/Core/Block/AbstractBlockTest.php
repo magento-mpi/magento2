@@ -700,8 +700,8 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
     protected function _createBlockWithLayout($name = 'block', $alias = null,
         $type = 'Magento\Core\Block\AbstractBlock'
     ) {
-        $className = array_pop(explode('\\', $type));
-        $mockClass = $className . 'Mock';
+        $typePart = explode('\\', $type);
+        $mockClass = array_pop($typePart) . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {
             self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, array(
                     Mage::getSingleton('Magento\Core\Block\Context'),

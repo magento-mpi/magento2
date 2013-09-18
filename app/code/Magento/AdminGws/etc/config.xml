@@ -245,9 +245,9 @@
                     <adminhtml__tax_rate__delete>blockTaxChange</adminhtml__tax_rate__delete>
                     <adminhtml__tax_rate__ajaxSave>blockTaxChange</adminhtml__tax_rate__ajaxSave>
                     <adminhtml__tax_rate__ajaxDelete>blockTaxChange</adminhtml__tax_rate__ajaxDelete>
-                    <adminhtml__tax_class_customer__ajaxDelete>blockTaxChange</adminhtml__tax_class_customer__ajaxDelete>
-                    <adminhtml__tax_class_product__ajaxDelete>blockTaxChange</adminhtml__tax_class_product__ajaxDelete>
-                    <adminhtml__tax_class__ajaxSave>blockTaxChange</adminhtml__tax_class__ajaxSave>
+                    <adminhtml__tax_classtax_customer__ajaxDelete>blockTaxChange</adminhtml__tax_classtax_customer__ajaxDelete>
+                    <adminhtml__tax_classtax_product__ajaxDelete>blockTaxChange</adminhtml__tax_classtax_product__ajaxDelete>
+                    <adminhtml__tax_classtax__ajaxSave>blockTaxChange</adminhtml__tax_classtax__ajaxSave>
                     <adminhtml__giftregistry_customer__add>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__add>
                     <adminhtml__giftregistry_customer__edit>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__edit>
                     <adminhtml__giftregistry_customer__delete>validateGiftregistryEntityAction</adminhtml__giftregistry_customer__delete>

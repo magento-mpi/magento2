@@ -29,7 +29,7 @@ class Observer
     const XML_PATH_HISTORY_SUCCESS          = 'system/cron/history_success_lifetime';
     const XML_PATH_HISTORY_FAILURE          = 'system/cron/history_failure_lifetime';
 
-    const REGEX_RUN_MODEL = '#^([a-z0-9_]+)::([a-z0-9_]+)$#i';
+    const REGEX_RUN_MODEL = '#^([a-z0-9_\\\\]+)::([a-z0-9_\\\\]+)$#i';
 
     protected $_pendingSchedules;
 

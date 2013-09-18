@@ -1050,7 +1050,7 @@
         <group name="tax_customer_tax_classes">
             <label translate="true">Customer Tax Classes</label>
             <expected_models>
-                <expected_model class="Magento\Tax\Model\Class" />
+                <expected_model class="Magento\Tax\Model\ClassModel" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_tax_class_ajaxDelete"
@@ -1064,7 +1064,7 @@
         <group name="tax_product_tax_classes">
             <label translate="true">Catalog Product Tax Classes</label>
             <expected_models>
-                <expected_model class="Magento\Tax\Model\Class" />
+                <expected_model class="Magento\Tax\Model\ClassModel" />
             </expected_models>
         </group>
         <group name="tax_rules">
