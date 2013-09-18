@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!--
 /**
+ * Admin menu settings for oAuth module.
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Magento_Oauth
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <menu>
-        <add id="Magento_Oauth::system_api_oauth_consumer" title="Add-On Management"
+        <add id="Magento_Oauth::system_oauth_consumer" title="Add-On Management"
              module="Magento_Oauth" sortOrder="13" parent="Magento_Webapi::system_webapi"
              action="adminhtml/oauth_consumer/index" resource="Magento_Oauth::oauth"/>
     </menu>

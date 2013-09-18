@@ -29,7 +29,6 @@ interface Magento_Oauth_Service_OauthV1Interface
     const ERR_PERMISSION_UNKNOWN = 14;
     const ERR_PERMISSION_DENIED = 15;
     const ERR_METHOD_NOT_ALLOWED = 16;
-
     /**#@-*/
 
     /**#@+
@@ -37,6 +36,7 @@ interface Magento_Oauth_Service_OauthV1Interface
      */
     const SIGNATURE_SHA1 = 'HMAC-SHA1';
     const SIGNATURE_SHA256 = 'HMAC-SHA256';
+    /**#@-*/
 
     /**#@+
      * HTTP Response Codes
@@ -46,7 +46,6 @@ interface Magento_Oauth_Service_OauthV1Interface
     const HTTP_UNAUTHORIZED = 401;
     const HTTP_METHOD_NOT_ALLOWED = 405;
     const HTTP_INTERNAL_ERROR = 500;
-
     /**#@-*/
 
     /**

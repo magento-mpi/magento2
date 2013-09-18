@@ -72,8 +72,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Oauth::system_api_oauth_consumer');
+        $this->loadLayout()->_setActiveMenu('Magento_Oauth::system_oauth_consumer');
         return $this;
     }
 
@@ -233,7 +232,9 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Backend_
 
         $verifier = array();
         try {
-            $verifier = $this->_oauthService->postToConsumer($this->_oauthService->createConsumer($data));
+            $consumerData = $this->_oauthService->createConsumer($data);
+            $consumerId = $consumerData[self::DATA_ENTITY_ID];
+            $verifier = $this->_oauthService->postToConsumer($consumerData);
             $this->_getSession()->addSuccess(__('The add-on has been saved.'));
             $this->_setFormData(null);
         } catch (Magento_Core_Exception $e) {

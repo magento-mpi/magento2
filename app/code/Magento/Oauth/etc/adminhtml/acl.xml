@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
+ * ACL settings for oAuth module.
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
  */
