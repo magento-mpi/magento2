@@ -29,14 +29,17 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         parent::setUp();
     }
 
-    private function _runConsumerFixture(){
-
+    private function _runConsumerFixture()
+    {
         $url = 'http://magento.ll';
         $this->_consumerKey = md5(rand());
         $this->_consumerSecret = md5(rand());
 
-        /** @var  $token Magento_Oauth_Model_Consumer */
-        $consumer = Mage::getModel('Magento_Oauth_Model_Consumer');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        /** @var $consumer Magento_Oauth_Model_Consumer */
+        $consumer = $objectManager->create('Magento_Oauth_Model_Consumer');
         $consumer
             ->setCreatedAt('2012-12-31 23:59:59')
             ->setUpdatedAt('2012-12-31 23:59:59')
@@ -51,7 +54,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         $consumer->save();
 
         /** @var  $token Magento_Oauth_Model_Token */
-        $token = Mage::getModel('Magento_Oauth_Model_Token');
+        $token = $objectManager->create('Magento_Oauth_Model_Token');
         $token->createVerifierToken($consumer->getId(), $url);
 
         /**
@@ -59,7 +62,6 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
          * This is subsequently used for requesting access token
          */
         $this->_verifier = $token->getVerifier();
-
     }
 
     protected function tearDown()

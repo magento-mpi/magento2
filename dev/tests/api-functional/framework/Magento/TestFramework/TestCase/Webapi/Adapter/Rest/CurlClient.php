@@ -134,7 +134,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
     /**
      * Makes the REST api call using passed $curl object
      *
-     * @param string URL
+     * @param string $url
      * @param array $additionalCurlOpts cURL Options
      * @param array $headers
      * @return array

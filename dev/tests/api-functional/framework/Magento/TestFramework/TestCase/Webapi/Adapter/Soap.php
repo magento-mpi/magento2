@@ -7,7 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_TestCase_Webapi_Adapter_Soap implements Magento_TestFramework_TestCase_Webapi_AdapterInterface
+class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
+    implements Magento_TestFramework_TestCase_Webapi_AdapterInterface
 {
     const WSDL_BASE_PATH = '/soap?wsdl=1';
 
@@ -216,19 +217,19 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap implements Magento_Test
     protected function _soapResultToArray($soapResult)
     {
         if (is_object($soapResult) && null !== ($_data = get_object_vars($soapResult))) {
-            foreach ($_data as $key => $value) {
+            array_walk($_data, function ($value, $key) use (&$_data) {
                 if (is_object($value) || is_array($value)) {
                     $_data[$key] = $this->_soapResultToArray($value);
                 }
-            }
+            });
             return $_data;
-        } elseif (is_array($soapResult)) {
+        } else if (is_array($soapResult)) {
             $_data = array();
-            foreach ($soapResult as $key => $value) {
+            array_walk($soapResult, function ($value, $key) use (&$_data) {
                 if (is_object($value) || is_array($value)) {
                     $_data[$key] = $this->_soapResultToArray($value);
                 }
-            }
+            });
             return $_data;
         }
         return array();

@@ -33,6 +33,9 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Core_Model_App_State */
     protected $_appStateMock;
 
+    /** @var Magento_Webapi_Controller_Rest_Authentication */
+    protected $_authenticationMock;
+
     const SERVICE_METHOD = Magento_Webapi_Model_Rest_Config::KEY_METHOD;
     const SERVICE_ID = Magento_Webapi_Model_Rest_Config::KEY_CLASS;
 
@@ -71,17 +74,21 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->_authenticationMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Authentication')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         /** Init SUT. */
         $this->_restController = new Magento_Webapi_Controller_Rest(
             $this->_requestMock,
             $this->_responseMock,
             $this->_routerMock,
             $this->_objectManagerMock,
-            $this->_appStateMock
+            $this->_appStateMock,
+            $this->_authenticationMock
         );
 
-
-        //Set default expectations used by all tests
+        // Set default expectations used by all tests
         $this->_routeMock
             ->expects($this->any())->method('getServiceClass')->will($this->returnValue(self::SERVICE_ID));
 
@@ -106,6 +113,7 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
         unset($this->_responseMock);
         unset($this->_routerMock);
         unset($this->_objectManagerMock);
+        unset($this->_authenticationMock);
         unset($this->_appStateMock);
         parent::tearDown();
     }

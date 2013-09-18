@@ -242,7 +242,7 @@ class Magento_Webapi_Controller_ErrorProcessor
     protected function _saveFatalErrorReport($reportData)
     {
         $file = new Magento_Io_File();
-        $reportDir = BP . 'var/report/api';
+        $reportDir = BP . '/var/report/api';
         $file->checkAndCreateFolder($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
         $reportFile = "$reportDir/$reportId";

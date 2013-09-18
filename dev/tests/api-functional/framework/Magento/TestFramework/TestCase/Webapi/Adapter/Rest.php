@@ -7,7 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_TestCase_Webapi_Adapter_Rest implements Magento_TestFramework_TestCase_Webapi_AdapterInterface
+class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
+    implements Magento_TestFramework_TestCase_Webapi_AdapterInterface
 {
     /** @var Magento_Webapi_Model_Config */
     protected $_config;
