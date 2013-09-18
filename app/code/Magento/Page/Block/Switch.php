@@ -109,7 +109,7 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
             $rawStores = $this->getRawStores();
 
             $groups = array();
-            $localeCode = Mage::getStoreConfig('general/locale/code');
+            $localeCode = $this->_storeConfig->getConfig('general/locale/code');
             foreach ($rawGroups as $group) {
                 /* @var $group Magento_Core_Model_Store_Group */
                 if (!isset($rawStores[$group->getId()])) {

@@ -19,6 +19,11 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
     static protected $_conditionModels = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
@@ -40,6 +45,8 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
                 break;
             }
         }
+
+        $this->_logger = $context->getLogger();
     }
 
     /**
@@ -235,7 +242,7 @@ class Magento_Rule_Model_Condition_Combine extends Magento_Rule_Model_Condition_
                         $cond->loadArray($condArr, $key);
                     }
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }

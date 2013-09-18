@@ -45,6 +45,23 @@ abstract class Magento_ImportExport_Model_Abstract extends Magento_Object
     protected $_logTrace = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(Magento_Core_Model_Logger $logger, array $data = array())
+    {
+        $this->_logger = $logger;
+        parent::__construct($data);
+    }
+
+    /**
      * Log debug data to file.
      * Log file dir: var/log/import_export/%Y/%m/%d/%time%_%operation_type%_%entity_type%.log
      *

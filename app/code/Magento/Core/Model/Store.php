@@ -259,6 +259,18 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected $_dir;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -268,6 +280,8 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
      * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Store $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param bool $isCustomEntryPoint
@@ -283,12 +297,15 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Model_Resource_Config_Data $configDataResource,
         Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Store $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_urlModel = $urlModel;
         $this->_configCacheType = $configCacheType;
         $this->_appState = $appState;
@@ -296,19 +313,38 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         $this->_configDataResource = $configDataResource;
         $this->_isCustomEntryPoint = $isCustomEntryPoint;
         $this->_dir = $dir;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     public function __sleep()
     {
         $properties = parent::__sleep();
-        return array_diff($properties, array('_coreFileStorageDatabase'));
+        if (Mage::getIsSerializable()) {
+            $properties = array_diff($properties, array(
+                '_coreFileStorageDatabase',
+                '_eventDispatcher',
+                '_cacheManager',
+                '_coreStoreConfig',
+                '_coreConfig'
+            ));
+        }
+        return $properties;
     }
 
+    /**
+     * Init not serializable fields
+     */
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_coreFileStorageDatabase = Mage::getSingleton('Magento_Core_Helper_File_Storage_Database');
+        if (Mage::getIsSerializable()) {
+            $this->_eventDispatcher = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager    = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_CacheInterface');
+            $this->_coreStoreConfig = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Store_Config');
+            $this->_coreConfig = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Config');
+            $this->_coreFileStorageDatabase = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Helper_File_Storage_Database');
+        }
     }
 
     /**
@@ -416,7 +452,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      */
     public function setConfig($path, $value)
     {
-        Mage::getConfig()->setValue($path, $value, 'store', $this->getCode());
+        $this->_coreConfig->setValue($path, $value, 'store', $this->getCode());
         return $this;
     }
 
@@ -656,7 +692,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function isAdminUrlSecure()
     {
         if ($this->_isAdminSecure === null) {
-            $this->_isAdminSecure = (boolean) (int) (string) Mage::getConfig()
+            $this->_isAdminSecure = (boolean) (int) (string) $this->_coreConfig
                 ->getValue(Magento_Core_Model_Url::XML_PATH_SECURE_IN_ADMIN, 'default');
         }
         return $this->_isAdminSecure;
@@ -670,7 +706,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function isFrontUrlSecure()
     {
         if ($this->_isFrontSecure === null) {
-            $this->_isFrontSecure = Mage::getStoreConfigFlag(Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
+            $this->_isFrontSecure = $this->_coreStoreConfig->getConfigFlag(Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
                 $this->getId());
         }
         return $this->_isFrontSecure;
@@ -684,14 +720,14 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function isCurrentlySecure()
     {
         $standardRule = !empty($_SERVER['HTTPS']) && ('off' != $_SERVER['HTTPS']);
-        $offloaderHeader = trim((string) Mage::getConfig()->getValue(self::XML_PATH_OFFLOADER_HEADER, 'default'));
+        $offloaderHeader = trim((string) $this->_coreConfig->getValue(self::XML_PATH_OFFLOADER_HEADER, 'default'));
 
         if ((!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader])) || $standardRule) {
             return true;
         }
 
         if ($this->_appState->isInstalled()) {
-            $secureBaseUrl = Mage::getStoreConfig(Magento_Core_Model_Url::XML_PATH_SECURE_URL);
+            $secureBaseUrl = $this->_coreStoreConfig->getConfig(Magento_Core_Model_Url::XML_PATH_SECURE_URL);
 
             if (!$secureBaseUrl) {
                 return false;
@@ -1151,7 +1187,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      */
     public function resetConfig()
     {
-        Mage::getConfig()->reinit();
+        $this->_coreConfig->reinit();
         $this->_dirCache        = array();
         $this->_baseUrlCache    = array();
         $this->_urlCache        = array();
@@ -1181,7 +1217,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     public function getFrontendName()
     {
         if (is_null($this->_frontendName)) {
-            $storeGroupName = (string) Mage::getStoreConfig('general/store_information/name', $this);
+            $storeGroupName = (string) $this->_coreStoreConfig->getConfig('general/store_information/name', $this);
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }
         return $this->_frontendName;

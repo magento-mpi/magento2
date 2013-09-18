@@ -39,16 +39,18 @@ class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Mod
      *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_coreString = $coreString;
-        parent::__construct($data);
+        parent::__construct($coreStoreConfig, $data);
     }
 
     /**

@@ -25,6 +25,33 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
     protected $_template = 'Magento_Paypal::system/config/fieldset/store.phtml';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $coreData,
+            $context,
+            $data
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Render service JavaScript code
      *
      * @param Magento_Data_Form_Element_Abstract $element
@@ -56,7 +83,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
         $website = $this->getRequest()->getParam('website');
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {
-            $isEnabled = (int)  Mage::getConfig()->getValue($methodPath, 'website', $website);
+            $isEnabled = (int)  $this->_coreConfig->getValue($methodPath, 'website', $website);
             if ($isEnabled === 0) {
                 $disabledMethods[$methodId] = $isEnabled;
             }

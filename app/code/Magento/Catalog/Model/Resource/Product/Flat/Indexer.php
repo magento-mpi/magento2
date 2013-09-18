@@ -115,12 +115,18 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @var Magento_Catalog_Model_Product_Type
      */
     protected $_productType;
 
     /**
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Helper_Data $coreData
@@ -131,6 +137,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Helper_Data $coreData,
@@ -145,6 +152,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         $this->_eavConfig = $eavConfig;
         $this->_attributeConfig = $attributeConfig;
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_logger = $logger;
         $this->_productType = $productType;
         parent::__construct($resource);
     }
@@ -301,7 +309,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                     $attribute->getBackend();
                     $this->_attributes[$attributeCode] = $attribute;
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }

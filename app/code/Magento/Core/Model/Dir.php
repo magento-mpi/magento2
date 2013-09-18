@@ -234,10 +234,10 @@ class Magento_Core_Model_Dir
     /**
      * Directory path getter
      *
-     * @param string $code
+     * @param string $code One of self const
      * @return string|bool
      */
-    public function getDir($code)
+    public function getDir($code = self::ROOT)
     {
         return isset($this->_dirs[$code]) ? $this->_dirs[$code] : false;
     }

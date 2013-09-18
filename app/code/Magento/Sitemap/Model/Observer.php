@@ -45,6 +45,22 @@ class Magento_Sitemap_Model_Observer
     const XML_PATH_ERROR_RECIPIENT = 'sitemap/generate/error_email';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Generate sitemaps
      *
      * @param Magento_Cron_Model_Schedule $schedule
@@ -54,7 +70,7 @@ class Magento_Sitemap_Model_Observer
         $errors = array();
 
         // check if scheduled generation enabled
-        if (!Mage::getStoreConfigFlag(self::XML_PATH_GENERATION_ENABLED)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_GENERATION_ENABLED)) {
             return;
         }
 
@@ -71,7 +87,7 @@ class Magento_Sitemap_Model_Observer
             }
         }
 
-        if ($errors && Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT)) {
+        if ($errors && $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)) {
             $translate = Mage::getSingleton('Magento_Core_Model_Translate');
             /* @var $translate Magento_Core_Model_Translate */
             $translate->setTranslateInline(false);
@@ -80,9 +96,9 @@ class Magento_Sitemap_Model_Observer
             /* @var $emailTemplate Magento_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT),
                     null,
                     array('warnings' => join("\n", $errors))
                 );

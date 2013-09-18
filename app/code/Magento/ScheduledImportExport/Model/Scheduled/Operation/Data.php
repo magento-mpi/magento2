@@ -37,12 +37,21 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     protected $_importModel;
 
     /**
+     * @var Magento_ImportExport_Model_Config
+     */
+    protected $_config;
+
+    /**
      * Constructor
      *
+     * @param Magento_ImportExport_Model_Config $config
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_ImportExport_Model_Config $config,
+        array $data = array()
+    ) {
+        $this->_config = $config;
         $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
             : Mage::getModel('Magento_ImportExport_Model_Config');
         $this->_importModel = isset($data['import_model']) ? $data['import_model']
@@ -153,10 +162,10 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
      */
     public function getEntitiesOptionArray($type = null)
     {
-        $importEntities = Magento_ImportExport_Model_Config::getModelsArrayOptions(
+        $importEntities = $this->_config->getModelsArrayOptions(
             Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES
         );
-        $exportEntities = Magento_ImportExport_Model_Config::getModelsArrayOptions(
+        $exportEntities = $this->_config->getModelsArrayOptions(
             Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES
         );
         switch ($type) {

@@ -86,20 +86,30 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Downloadable_Helper_File $downloadableFile
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Downloadable_Helper_File $downloadableFile,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -325,6 +335,6 @@ class Magento_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
      */
     public function getContentDisposition($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_CONTENT_DISPOSITION, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_CONTENT_DISPOSITION, $store);
     }
 }

@@ -43,21 +43,29 @@ class Magento_Backend_Model_Auth
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+    
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Backend_Model_Auth_StorageInterface $authStorage
      * @param Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Backend_Helper_Data $backendData,
         Magento_Backend_Model_Auth_StorageInterface $authStorage,
-        Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
+        Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_authStorage = $authStorage;
         $this->_credentialStorage = $credentialStorage;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -106,7 +114,7 @@ class Magento_Backend_Model_Auth
      */
     protected function _initCredentialStorage()
     {
-        $areaConfig = Mage::getConfig()->getAreaConfig($this->_backendData->getAreaCode());
+        $areaConfig = $this->_coreConfig->getAreaConfig($this->_backendData->getAreaCode());
         $storage = Mage::getModel($areaConfig['auth']['credential_storage']);
 
         if ($storage instanceof Magento_Backend_Model_Auth_Credential_StorageInterface) {

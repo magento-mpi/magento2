@@ -25,10 +25,10 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
         $fileStorageDb = $this->getMockBuilder('Magento_Core_Helper_File_Storage_Database')
             ->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_model = new Magento_Downloadable_Model_Product_Type(
-            $eventManager, $downloadableFile, $coreData, $fileStorageDb, $filesystem, $coreRegistry
+            $eventManager, $downloadableFile, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger
         );
     }
 

@@ -125,17 +125,19 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * @param Magento_Usa_Helper_Data $usaData
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Usa_Helper_Data $usaData,
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
         $this->_xmlElFactory = $xmlElFactory;
-        parent::__construct($directoryData, $data);
+        parent::__construct($directoryData, $coreStoreConfig, $data);
     }
 
     /**
@@ -236,7 +238,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig(
+            $r->setOrigPostal($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -245,7 +247,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigCountryId()) {
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
-            $r->setOrigCountryId(Mage::getStoreConfig(
+            $r->setOrigCountryId($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             ));

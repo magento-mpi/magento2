@@ -73,7 +73,7 @@ class Magento_Wishlist_Controller_Index
             }
             $customerSession->setBeforeWishlistRequest($this->getRequest()->getParams());
         }
-        if (!Mage::getStoreConfigFlag('wishlist/general/active')) {
+        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag('wishlist/general/active')) {
             $this->norouteAction();
             return;
         }
@@ -234,7 +234,7 @@ class Magento_Wishlist_Controller_Index
         }
         catch (Exception $e) {
             $session->addError(__('An error occurred while adding item to wish list.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
 
         $this->_redirect('*', array('wishlist_id' => $wishlist->getId()));
@@ -279,7 +279,7 @@ class Magento_Wishlist_Controller_Index
             return;
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('We can\'t configure the product.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -333,7 +333,7 @@ class Magento_Wishlist_Controller_Index
             $session->addError($e->getMessage());
         } catch (Exception $e) {
             $session->addError(__('An error occurred while updating wish list.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
     }
@@ -383,7 +383,7 @@ class Magento_Wishlist_Controller_Index
                     try {
                         $item->delete();
                     } catch (Exception $e) {
-                        Mage::logException($e);
+                        $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                         Mage::getSingleton('Magento_Customer_Model_Session')->addError(
                             __('Can\'t delete item from wishlist')
                         );
@@ -674,8 +674,8 @@ class Magento_Wishlist_Controller_Index
             try {
                 foreach ($emails as $email) {
                     $emailModel->sendTransactional(
-                        Mage::getStoreConfig('wishlist/email/email_template'),
-                        Mage::getStoreConfig('wishlist/email/email_identity'),
+                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('wishlist/email/email_template'),
+                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('wishlist/email/email_identity'),
                         $email,
                         null,
                         array(

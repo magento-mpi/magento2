@@ -31,6 +31,33 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
     protected $_errors = array();
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Send Log Clean Warnings
      *
      * @return Magento_Log_Model_Cron
@@ -40,7 +67,7 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
         if (!$this->_errors) {
             return $this;
         }
-        if (!Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT)) {
+        if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT)) {
             return $this;
         }
 
@@ -52,9 +79,9 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
         /* @var $emailTemplate Magento_Core_Model_Email_Template */
         $emailTemplate->setDesignConfig(array('area' => 'backend', 'store' => Mage::app()->getStore()->getId()))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT),
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT),
                 null,
                 array('warnings' => join("\n", $this->_errors))
             );
@@ -71,7 +98,7 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
      */
     public function logClean()
     {
-        if (!Mage::getStoreConfigFlag(self::XML_PATH_LOG_CLEAN_ENABLED)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_LOG_CLEAN_ENABLED)) {
             return $this;
         }
 
