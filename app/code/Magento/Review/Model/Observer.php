@@ -24,12 +24,20 @@ class Magento_Review_Model_Observer
     protected $_review;
 
     /**
+     * @var Magento_Review_Model_Resource_Review
+     */
+    protected $_reviewResource;
+
+    /**
      * @param Magento_Review_Model_Review $review
+     * @param Magento_Review_Model_Resource_Review $reviewResource
      */
     public function __construct(
-        Magento_Review_Model_Review $review
+        Magento_Review_Model_Review $review,
+        Magento_Review_Model_Resource_Review $reviewResource
     ) {
         $this->_review = $review;
+        $this->_reviewResource = $reviewResource;
     }
 
     /**
@@ -56,8 +64,7 @@ class Magento_Review_Model_Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            Mage::getResourceSingleton('Magento_Review_Model_Resource_Review')
-                ->deleteReviewsByProductId($eventProduct->getId());
+            $this->_reviewResource->deleteReviewsByProductId($eventProduct->getId());
         }
 
         return $this;

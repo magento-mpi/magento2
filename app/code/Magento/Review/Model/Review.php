@@ -46,19 +46,37 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     const STATUS_PENDING        = 2;
     const STATUS_NOT_APPROVED   = 3;
 
+    /**
+     * @var Magento_Review_Model_Resource_Review_Summary_CollectionFactory
+     */
+    protected $_summaryCollFactory;
+
+    /**
+     * @param Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryCollFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryCollFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_summaryCollFactory = $summaryCollFactory;
+        parent::__construct(
+            $context, $registry, $resource, $resourceCollection, $data
+        );
+    }
+
+
     protected function _construct()
     {
         $this->_init('Magento_Review_Model_Resource_Review');
-    }
-
-    public function getProductCollection()
-    {
-        return Mage::getResourceModel('Magento_Review_Model_Resource_Review_Product_Collection');
-    }
-
-    public function getStatusCollection()
-    {
-        return Mage::getResourceModel('Magento_Review_Model_Resource_Review_Status_Collection');
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
@@ -142,7 +160,8 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
             return $this;
         }
 
-        $summaryData = Mage::getResourceModel('Magento_Review_Model_Resource_Review_Summary_Collection')
+        $summaryData = $this->_summaryCollFactory
+            ->create()
             ->addEntityFilter($entityIds)
             ->addStoreFilter(Mage::app()->getStore()->getId())
             ->load();

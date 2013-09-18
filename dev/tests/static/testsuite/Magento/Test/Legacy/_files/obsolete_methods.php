@@ -798,4 +798,6 @@ return array(
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
     array('printException', 'Mage', 'magePrintException'),
     array('_getSession', 'Magento_Review_Helper_Action_Pager'),
+    array('getStatusCollection', 'Magento_Review_Model_Review'),
+    array('getProductCollection', 'Magento_Review_Model_Review'),
 );

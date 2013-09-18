@@ -73,13 +73,21 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     protected $_coreDate;
 
     /**
+     * @var Magento_Rating_Model_Resource_Rating_Option
+     */
+    protected $_ratingOption;
+
+    /**
+     * @param Magento_Rating_Model_Resource_Rating_Option $ratingOption
      * @param Magento_Core_Model_Date $coreDate
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Rating_Model_Resource_Rating_Option $ratingOption,
         Magento_Core_Model_Date $coreDate,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_ratingOption = $ratingOption;
         $this->_coreDate = $coreDate;
         parent::__construct($resource);
     }
@@ -387,11 +395,9 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
         if ($ratingIds && !is_array($ratingIds)) {
             $ratingIds = array((int)$ratingIds);
         }
-        if ($ratingIds && $entityPkValue
-            && ($resource = Mage::getResourceSingleton('Magento_Rating_Model_Resource_Rating_Option'))
-            ) {
+        if ($ratingIds && $entityPkValue) {
             foreach ($ratingIds as $ratingId) {
-                $resource->aggregateEntityByRatingId(
+                $this->_ratingOption->aggregateEntityByRatingId(
                     $ratingId, $entityPkValue
                 );
             }
