@@ -69,15 +69,23 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
     ) {
         $this->_eventManager = $eventManager;
+        $this->_cacheTypeList = $cacheTypeList;
     }
 
     /**
@@ -255,11 +263,9 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      */
     public function clearCache()
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
         // clear cache for frontend
         foreach ($this->_cacheTypes as $cacheType) {
-            $cacheTypeList->invalidate($cacheType);
+            $this->_cacheTypeList->invalidate($cacheType);
         }
         return $this;
     }

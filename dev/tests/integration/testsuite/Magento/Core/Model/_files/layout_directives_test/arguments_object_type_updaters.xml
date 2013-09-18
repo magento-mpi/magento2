@@ -8,33 +8,31 @@
  */
 -->
 <layout>
-    <handle id="arguments_object_type_updaters">
-        <block class="Magento_Core_Block_Text" name="block_with_object_updater_args">
-            <arguments>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">Magento_Core_Model_DataSource</argument>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">0</argument>
-            </arguments>
-        </block>
-        <reference name="block_with_object_updater_args">
-            <arguments>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">
-                    <updater>Magento_Core_Model_LayoutArgumentObjectUpdater</updater>
-                    <updater>Magento_Core_Model_LayoutArgumentObjectUpdater</updater>
-                </argument>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">
-                    <updater>Magento_Core_Model_LayoutArgumentSimpleUpdater</updater>
-                </argument>
-            </arguments>
-        </reference>
-        <reference name="block_with_object_updater_args">
-            <arguments>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">
-                    <updater>Magento_Core_Model_LayoutArgumentObjectUpdater</updater>
-                </argument>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">
-                    <updater>Magento_Core_Model_LayoutArgumentSimpleUpdater</updater>
-                </argument>
-            </arguments>
-        </reference>
-    </handle>
+    <block class="Magento_Core_Block_Text" name="block_with_object_updater_args">
+        <arguments>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">Magento_Core_Model_DataSource</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">0</argument>
+        </arguments>
+    </block>
+    <reference name="block_with_object_updater_args">
+        <arguments>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">
+                <updater>Magento_Core_Model_LayoutArgumentObjectUpdater</updater>
+                <updater>Magento_Core_Model_LayoutArgumentObjectUpdater</updater>
+            </argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">
+                <updater>Magento_Core_Model_LayoutArgumentSimpleUpdater</updater>
+            </argument>
+        </arguments>
+    </reference>
+    <reference name="block_with_object_updater_args">
+        <arguments>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">
+                <updater>Magento_Core_Model_LayoutArgumentObjectUpdater</updater>
+            </argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">
+                <updater>Magento_Core_Model_LayoutArgumentSimpleUpdater</updater>
+            </argument>
+        </arguments>
+    </reference>
 </layout>

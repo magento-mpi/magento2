@@ -37,7 +37,7 @@ if (isset($options['p'])) {
 
 $utilityFiles = new Magento_TestFramework_Utility_Files($magentoBaseDir);
 $map = array();
-$compositeModules = getFilesCombinedArray(dirname(__FILE__) . '/AliasesMap', '/^composite_modules_.*\.php$/');
+$compositeModules = getFilesCombinedArray(__DIR__ . '/AliasesMap', '/^composite_modules_.*\.php$/');
 // PHP code
 foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
     $content = file_get_contents($file);

@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_errors">
-        <update handle="adminhtml_sku_errors_block"/>
-        <reference name="content">
-            <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_sku_errors_block"/>
+    <reference name="content">
+        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors" name="errors"/>
+    </reference>
 </layout>

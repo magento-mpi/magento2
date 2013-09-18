@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_review">
-        <reference name="root">
-            <container name="additional.product.info" after="order_review" label="Additional Product Info"/>
-        </reference>
-    </handle>
+    <reference name="root">
+        <container name="additional.product.info" after="order_review" label="Additional Product Info"/>
+    </reference>
 </layout>

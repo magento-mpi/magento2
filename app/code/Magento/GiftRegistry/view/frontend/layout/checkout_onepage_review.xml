@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_review">
-        <reference name="additional.product.info">
-            <block class="Magento_GiftRegistry_Block_Cart_Product_Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
-        </reference>
-    </handle>
+    <reference name="additional.product.info">
+        <block class="Magento_GiftRegistry_Block_Cart_Product_Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
+    </reference>
 </layout>

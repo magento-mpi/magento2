@@ -50,7 +50,6 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
     }
 
     /**
-     *
      * return Magento_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()

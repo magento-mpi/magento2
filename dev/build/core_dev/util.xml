@@ -15,6 +15,13 @@
     <property environment="env"/>
     <property name="phpunit" value="phpunit"/>
 
+    <target name="_server_info" description="Output server information">
+        <exec executable="php" failonerror="false">
+            <arg value="-r"/>
+            <arg value="echo 'PHP version: ', PHP_VERSION, PHP_EOL;"/>
+        </exec>
+    </target>
+
     <target name="_product_location" description="Detection of a product source code root directory">
         <condition property="product_root_dir" value="${basedir}">
             <not><isset property="product_root_dir"/></not>
