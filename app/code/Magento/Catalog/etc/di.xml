@@ -150,7 +150,7 @@
         </param>
     </type>
     <type name="Magento_Catalog_Model_Config_Source_ListPerPage">
-        <param name="perPageValues">
+        <param name="options">
             <value>5,10,15,20,25</value>
         </param>
     </type>

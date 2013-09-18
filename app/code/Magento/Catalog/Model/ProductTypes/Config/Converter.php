@@ -78,18 +78,14 @@ class Magento_Catalog_Model_ProductTypes_Config_Converter implements Magento_Con
     /**
      * Get attribute value
      *
-     * @param DOMNode $node
+     * @param DOMNode $input
      * @param string $attributeName
-     * @param mixed $defaultValue
+     * @param mixed $default
      * @return null|string
      */
-    protected function _getAttributeValue(DOMNode $node, $attributeName, $defaultValue = null)
+    protected function _getAttributeValue(DOMNode $input, $attributeName, $default = null)
     {
-        $attributeNode = $node->attributes->getNamedItem($attributeName);
-        $output = $defaultValue;
-        if ($attributeNode) {
-            $output = $attributeNode->nodeValue;
-        }
-        return $output;
+        $node = $input->attributes->getNamedItem($attributeName);
+        return $node ? $node->nodeValue : $default;
     }
 }

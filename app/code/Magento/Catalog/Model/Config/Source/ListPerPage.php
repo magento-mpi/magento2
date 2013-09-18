@@ -21,22 +21,22 @@ class Magento_Catalog_Model_Config_Source_ListPerPage implements Magento_Core_Mo
     /**
      * @var array
      */
-    protected $_options;
+    protected $_pagerOptions;
 
     /**
-     * @param string $perPageValues
+     * @param string $options
      */
-    public function __construct($perPageValues)
+    public function __construct($options)
     {
-        $this->_options = explode(',', $perPageValues);
+        $this->_pagerOptions = explode(',', $options);
     }
 
     public function toOptionArray()
     {
-        $result = array();
-        foreach ($this->_options as $option) {
-            $result[] = array('value' => $option, 'label' => $option);
+        $output = array();
+        foreach ($this->_pagerOptions as $option) {
+            $output[] = array('value' => $option, 'label' => $option);
         }
-        return $result;
+        return $output;
     }
 }
