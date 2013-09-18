@@ -85,6 +85,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $locale = $this->getMock('Magento_Core_Model_Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_model = $this->getMock(
             'Magento_GiftCard_Model_Catalog_Product_Type_Giftcard',
             $mockedMethods,
@@ -97,6 +98,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
                 $this->_storeManagerMock,
                 $locale,
                 $coreRegistry,
+                $logger,
                 $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false)
             )
         );

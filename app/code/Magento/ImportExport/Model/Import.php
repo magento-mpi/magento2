@@ -93,12 +93,14 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_ImportExport_Helper_Data $importExportData
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_ImportExport_Model_Config $config
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_ImportExport_Helper_Data $importExportData,
         Magento_Core_Model_Config $coreConfig,
         Magento_ImportExport_Model_Config $config,
@@ -107,7 +109,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         $this->_importExportData = $importExportData;
         $this->_coreConfig = $coreConfig;
         $this->_config = $config;
-        parent::__construct($data);
+        parent::__construct($logger, $data);
     }
 
     /**
@@ -125,7 +127,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
                 try {
                     $this->_entityAdapter = Mage::getModel($entityTypes[$this->getEntity()]['model']);
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     Mage::throwException(
                         __('Please enter a correct entity model')
                     );

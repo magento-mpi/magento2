@@ -87,19 +87,25 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+    
+    /**
      * Class constructor
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config $coreConfig
     ) {
-        parent::__construct(
-            $resource
-        );
+        parent::__construct($resource);
         $this->_coreConfig = $coreConfig;
+        $this->_logger = $logger;
     }
 
     /**
@@ -265,7 +271,7 @@ class Magento_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Mod
         } catch (Exception $e) {
             $adapter->rollback();
             $io->streamClose();
-            Mage::logException($e);
+            $this->_logger->logException($e);
             Mage::throwException(__('Something went wrong while importing table rates.'));
         }
 

@@ -47,6 +47,11 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
@@ -58,6 +63,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -65,6 +71,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
+        $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
     }
@@ -113,7 +120,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
             $this->_debug($debugData);
 
             if ($curlErrorNumber) {
-                Mage::logException(new Exception(
+                $this->_logger->logException(new Exception(
                     sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
                 ));
 

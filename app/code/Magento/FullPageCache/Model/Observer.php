@@ -110,6 +110,11 @@ class Magento_FullPageCache_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @var Magento_Core_Model_Cache_TypeListInterface
      */
     protected $_typeList;
@@ -127,6 +132,7 @@ class Magento_FullPageCache_Model_Observer
      * @param Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction
      * @param Magento_FullPageCache_Model_DesignPackage_Rules $designRules
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
@@ -143,6 +149,7 @@ class Magento_FullPageCache_Model_Observer
         Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
         Magento_FullPageCache_Model_DesignPackage_Rules $designRules,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Cache_TypeListInterface $typeList,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
@@ -160,6 +167,7 @@ class Magento_FullPageCache_Model_Observer
         $this->_requestIdentifier = $_requestIdentifier;
         $this->_designRules = $designRules;
         $this->_isEnabled = $this->_cacheState->isEnabled('full_page');
+        $this->_logger = $logger;
         $this->_typeList = $typeList;
     }
 
@@ -484,7 +492,7 @@ class Magento_FullPageCache_Model_Observer
                 Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')->registerIds($productIds);
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         // renew customer viewed product ids cookie

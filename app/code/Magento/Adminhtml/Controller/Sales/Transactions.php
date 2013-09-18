@@ -120,7 +120,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                 __('We can\'t update the transaction details.')
             );
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/sales_transactions/view', array('_current' => true));
     }

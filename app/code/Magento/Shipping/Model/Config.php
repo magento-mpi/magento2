@@ -22,22 +22,32 @@ class Magento_Shipping_Model_Config extends Magento_Object
     protected static $_carriers;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-
+    
     /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
     }
 
     /**
@@ -118,7 +128,7 @@ class Magento_Shipping_Model_Config extends Magento_Object
         try {
             $carrier = Mage::getModel($modelName);
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             return false;
         }
         $carrier->setId($code)->setStore($store);

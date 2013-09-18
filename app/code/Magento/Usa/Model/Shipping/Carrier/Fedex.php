@@ -102,10 +102,18 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      */
     protected $_storeManager;
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
 
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
     protected $_productCollFactory;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
@@ -125,6 +133,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Config_Modules_Reader $configReader,
         Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
@@ -153,6 +162,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';
         $this->_trackServiceWsdl = $wsdlBasePath . 'TrackService_v5.wsdl';
+        $this->_logger = $logger;
     }
 
     /**
@@ -445,7 +455,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                 $debugData['result'] = $response;
             } catch (Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         } else {
             $response = unserialize($response);
@@ -757,7 +767,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                 throw new Exception(__('Failed to parse xml document: %1', $xmlContent));
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             return false;
         }
     }
@@ -1038,7 +1048,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                 $debugData['result'] = $response;
             } catch (Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         } else {
             $response = unserialize($response);
