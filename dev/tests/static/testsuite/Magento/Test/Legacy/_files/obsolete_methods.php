@@ -493,6 +493,8 @@ return array(
     array('getTaxAmount', 'Magento_Sales_Model_Quote_Item_Abstract'),
     array('getTaxRatesByProductClass', '', '_getAllRatesByProductClass'),
     array('getTemplateFilename', '', 'getFilename'),
+    array('getTemplateProcessor', 'Magento_Newsletter_Helper_Data',
+        'Use directly model Magento_Newsletter_Model_Template_Filter'),
     array('getTempVarDir', 'Magento_Core_Model_Config', 'Magento_Core_Model_Dir::getDir()'),
     array('getTestsDir', 'Magento_TestFramework_Bootstrap'),
     array('getTheme', 'Magento_Widget_Model_Widget_Instance'),
