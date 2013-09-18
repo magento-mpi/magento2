@@ -103,15 +103,6 @@
                 </setup>
             </sales_setup>
         </resources>
-        <catalog>
-            <product>
-                <flat>
-                    <attribute_groups>
-                        <sales_quote_item>sales_quote_item</sales_quote_item>
-                    </attribute_groups>
-                </flat>
-            </product>
-        </catalog>
         <sales>
             <quote>
                 <totals>
@@ -158,7 +149,7 @@
             </quote>
             <order>
                 <!-- /**
-                      * @depraceted after 1.4.2, statuses are saved into sales_order_status table
+                      * @deprecated after 1.4.2, statuses are saved into sales_order_status table
                       */
                 -->
                 <statuses>

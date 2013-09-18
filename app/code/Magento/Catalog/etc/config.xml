@@ -41,21 +41,6 @@
                 </catalog_category_product>
             </indexer>
         </index>
-        <catalog>
-            <product>
-                <flat>
-                    <max_index_count>64</max_index_count>
-                    <attribute_groups>
-                        <catalog_product>catalog_product</catalog_product>
-                    </attribute_groups>
-                    <add_filterable_attributes>0</add_filterable_attributes>
-                    <add_child_data>0</add_child_data>
-                </flat>
-            </product>
-            <content>
-                <tempate_filter>Magento_Catalog_Model_Template_Filter</tempate_filter>
-            </content>
-        </catalog>
         <eav_attributes>
             <catalog_product>
                 <sku>
@@ -104,12 +89,6 @@
         <default>
             <router>catalog</router>
         </default>
-        <catalog>
-            <per_page_values>
-                <grid>9,15,30</grid>
-                <list>5,10,15,20,25</list>
-            </per_page_values>
-        </catalog>
     </frontend>
     <default>
         <catalog>

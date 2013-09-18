@@ -21,8 +21,31 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      * Catalog Product Flat Config
      */
     const XML_PATH_USE_PRODUCT_FLAT          = 'catalog/frontend/flat_catalog_product';
-    const XML_NODE_ADD_FILTERABLE_ATTRIBUTES = 'global/catalog/product/flat/add_filterable_attributes';
-    const XML_NODE_ADD_CHILD_DATA            = 'global/catalog/product/flat/add_child_data';
+
+    /**
+     * @var int
+     */
+    protected $_addFilterableAttrs;
+
+    /**
+     * @var int
+     */
+    protected $_addChildData;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param $addFilterableAttrs
+     * @param $addChildData
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        $addFilterableAttrs,
+        $addChildData
+    ) {
+        $this->_addFilterableAttrs = intval($addFilterableAttrs);
+        $this->_addChildData = intval($addChildData);
+        parent::__construct($context);
+    }
 
     /**
      * Catalog Flat Product index process code
@@ -102,7 +125,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      */
     public function isAddFilterableAttributes()
     {
-        return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_FILTERABLE_ATTRIBUTES));
+        return $this->_addFilterableAttrs;
     }
 
     /**
@@ -112,6 +135,6 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      */
     public function isAddChildData()
     {
-        return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_CHILD_DATA));
+        return $this->_addChildData;
     }
 }

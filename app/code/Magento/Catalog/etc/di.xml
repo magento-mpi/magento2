@@ -90,6 +90,14 @@
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
+        <param name="maxIndexCount">
+            <value type="int">64</value>
+        </param>
+        <param name="flatAttributeGroups">
+            <value>
+                <catalog_product>catalog_product</catalog_product>
+            </value>
+        </param>
     </type>
     <type name="Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract">
         <param name="eventManager">
@@ -121,6 +129,29 @@
         </param>
         <param name="scope">
             <value type="const">Magento_Core_Model_App_Area::AREA_GLOBAL</value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Helper_Product_Flat">
+        <param name="addFilterableAttrs">
+            <value type="int">0</value>
+        </param>
+        <param name="addChildData">
+            <value type="int">0</value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Helper_Data">
+        <param name="templateFilterModel">
+            <value>Magento_Catalog_Model_Template_Filter</value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Model_Config_Source_GridPerPage">
+        <param name="perPageValues">
+            <value>9,15,30</value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Model_Config_Source_ListPerPage">
+        <param name="perPageValues">
+            <value>5,10,15,20,25</value>
         </param>
     </type>
 </config>
