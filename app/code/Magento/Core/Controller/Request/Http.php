@@ -16,7 +16,6 @@
  */
 class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
 {
-    const XML_NODE_DIRECT_FRONT_NAMES = 'global/request/direct_front_name';
     const DEFAULT_HTTP_PORT = 80;
     const DEFAULT_HTTPS_PORT = 443;
 
@@ -55,6 +54,21 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * @var array
      */
     protected $_beforeForwardInfo = array();
+
+    /**
+     * @var Magento_Backend_Helper_DataProxy
+     */
+    protected $_helper;
+
+    /**
+     * @param Magento_Backend_Helper_DataProxy $helper
+     * @param null $uri
+     */
+    public function __construct(Magento_Backend_Helper_DataProxy $helper, $uri = null)
+    {
+        $this->_helper = $helper;
+        parent::__construct($uri);
+    }
 
     /**
      * Returns ORIGINAL_PATH_INFO.
@@ -132,7 +146,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected function _isFrontArea($storeCode)
     {
-        return $storeCode != Mage::getObjectManager()->get('Magento_Backend_Helper_Data')->getAreaFrontName();
+        return $storeCode != $this->_helper->getAreaFrontName();
     }
 
     /**
@@ -171,14 +185,6 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getDirectFrontNames()
     {
-        if (is_null($this->_directFrontNames)) {
-            $names = Mage::getConfig()->getNode(self::XML_NODE_DIRECT_FRONT_NAMES);
-            if ($names) {
-                $this->_directFrontNames = $names->asArray();
-            } else {
-                return array();
-            }
-        }
         return $this->_directFrontNames;
     }
 

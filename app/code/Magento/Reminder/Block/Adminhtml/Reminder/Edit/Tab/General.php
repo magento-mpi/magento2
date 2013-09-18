@@ -142,7 +142,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
     public function getChooserConfig()
     {
         return array(
-            'button' => array('open'=>'Select Rule...')
+            'button' => array('open' => __('Select Rule...'))
         );
     }
 }

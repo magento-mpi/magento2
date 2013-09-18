@@ -49,5 +49,4 @@ class Magento_Rss_Model_System_Config_Backend_Links extends Magento_Core_Model_C
             $this->_cacheTypeList->invalidate(Magento_Core_Block_Abstract::CACHE_GROUP);
         }
     }
-
 }

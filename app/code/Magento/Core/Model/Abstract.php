@@ -180,12 +180,10 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     public function __wakeup()
     {
         if (Mage::getIsSerializable()) {
-            $this->_eventDispatcher = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Event_Manager');
-            $this->_cacheManager    = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_CacheInterface');
-            $this->_coreRegistry    = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Registry');
+            $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+            $this->_eventDispatcher = $objectManager->get('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager = $objectManager->get('Magento_Core_Model_CacheInterface');
+            $this->_coreRegistry = $objectManager->get('Magento_Core_Model_Registry');
         }
     }
 

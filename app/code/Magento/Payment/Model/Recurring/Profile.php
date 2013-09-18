@@ -387,7 +387,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
      * Render label for specified period unit
      *
      * @param string $unit
-     * @return \Magento_Phrase|string
+     * @return string
      */
     public function getPeriodUnitLabel($unit)
     {

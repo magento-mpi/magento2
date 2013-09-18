@@ -77,11 +77,19 @@ class Magento_Core_Model_App_Area
     protected $_diConfigLoader;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $areaCode
      */
     public function __construct(
@@ -90,8 +98,10 @@ class Magento_Core_Model_App_Area
         Magento_Core_Model_Config $config,
         Magento_Core_Model_ObjectManager $objectManager,
         Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $areaCode
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_code = $areaCode;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
@@ -148,7 +158,7 @@ class Magento_Core_Model_App_Area
             return false;
         }
         try {
-            $expressions = Mage::getStoreConfig('design/theme/ua_regexp');
+            $expressions = $this->_coreStoreConfig->getConfig('design/theme/ua_regexp');
             if (!$expressions) {
                 return false;
             }

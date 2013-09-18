@@ -1,3 +1,6 @@
+* Install segment was moved from config.xml to di.xml for next configuration nodes:
+  * config/install/databases
+  * config/install/eula_file
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -28,6 +31,14 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
+  * Static method `getObjectManager` of Mage class was eliminated
+  * Static method `register` of Mage class was eliminated
+  * Static method `unregister` of Mage class was eliminated
+  * Static method `registry` of Mage class was eliminated
+  * Static method `resetRegistry` of Mage class was eliminated
+  * Static method `getConfig` of Mage class was eliminated
+  * Static method `getStoreConfig` of Mage class was eliminated
+  * Static method `getStoreConfigFlag` of Mage class was eliminated
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
@@ -187,9 +198,6 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
-  * Removed "translate" node from configuration XML files
-  * Added I18n tools for translation dictionary generation and language package generation
-  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers

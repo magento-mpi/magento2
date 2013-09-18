@@ -175,6 +175,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -183,8 +184,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         Magento_Core_Helper_String $coreString,
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        parent::__construct($directoryData, $coreStoreConfig, $data);
         $this->_coreData = $coreData;
         $this->_usaData = $usaData;
         $this->_coreString = $coreString;
@@ -192,7 +195,6 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }
-        parent::__construct($directoryData, $data);
     }
 
     /**
@@ -205,7 +207,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected function _getDefaultValue($origValue, $pathToValue)
     {
         if (!$origValue) {
-            $origValue = Mage::getStoreConfig(
+            $origValue = $this->_coreStoreConfig->getConfig(
                 $pathToValue,
                 $this->getStore()
             );
@@ -353,7 +355,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             ->setOrigCity($request->getOrigCity())
             ->setOrigPhoneNumber($request->getOrigPhoneNumber())
             ->setOrigPersonName($request->getOrigPersonName())
-            ->setOrigEmail(Mage::getStoreConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
+            ->setOrigEmail($this->_coreStoreConfig->getConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
             ->setOrigCity($request->getOrigCity())
             ->setOrigPostal($request->getOrigPostal())
             ->setOrigStreetLine2($request->getOrigStreetLine2())
@@ -361,7 +363,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             ->setDestPersonName($request->getDestPersonName())
             ->setDestCompanyName($request->getDestCompanyName());
 
-        $originStreet2 = Mage::getStoreConfig(
+        $originStreet2 = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
 
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
@@ -1129,7 +1131,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         $countryParams = $this->getCountryParams(
-            Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
+            $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
         );
         if (!$countryParams->getData()) {
             $this->_errors[] = __('Please, specify origin country');
@@ -1243,7 +1245,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $rawRequest = $this->_request;
 
         $originRegion = $this->getCountryParams(
-            Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
+            $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
         )->getRegion();
 
         if (!$originRegion) {

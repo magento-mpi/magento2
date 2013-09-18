@@ -243,13 +243,23 @@ class Magento_Paypal_Model_Config
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $params
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $params = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreData = $coreData;
         if ($params) {
             $method = array_shift($params);
@@ -308,7 +318,7 @@ class Magento_Paypal_Model_Config
     public function isMethodActive($method)
     {
         return $this->isMethodSupportedForCountry($method)
-            && Mage::getStoreConfigFlag("payment/{$method}/active", $this->_storeId);
+            && $this->_coreStoreConfig->getConfigFlag("payment/{$method}/active", $this->_storeId);
     }
 
     /**
@@ -388,7 +398,7 @@ class Magento_Paypal_Model_Config
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
         if ($path !== null) {
-            $value = Mage::getStoreConfig($path, $this->_storeId);
+            $value = $this->_coreStoreConfig->getConfig($path, $this->_storeId);
             $value = $this->_prepareValue($underscored, $value);
             $this->$key = $value;
             $this->$underscored = $value;
@@ -444,7 +454,7 @@ class Magento_Paypal_Model_Config
      */
     public function getMerchantCountry()
     {
-        $countryCode = Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
+        $countryCode = $this->_coreStoreConfig->getConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
         if (!$countryCode) {
             $countryCode = $this->_coreData->getDefaultCountry($this->_storeId);
         }
@@ -805,7 +815,7 @@ class Magento_Paypal_Model_Config
      */
     public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
     {
-        $configType = Mage::getStoreConfig($this->_mapGenericStyleFieldset('logo'), $this->_storeId);
+        $configType = $this->_coreStoreConfig->getConfig($this->_mapGenericStyleFieldset('logo'), $this->_storeId);
         if (!$configType) {
             return false;
         }

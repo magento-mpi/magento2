@@ -97,7 +97,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
 
         $newUrl = $this->_urlBuilder->getUrl('rss/catalog/special/store_id/' . $storeId);
         $title = __('%1 - Special Products', $this->_storeManager->getStore()->getFrontendName());
-        $lang = $this->_storeManager->getStore()->getConfig('general/locale/code');
+        $lang = $this->_storeConfig->getConfig('general/locale/code');
         /** @var $rssObj Magento_Rss_Model_Rss */
         $rssObj = $this->_rssFactory->create();
         $rssObj->_addHeader(array(

@@ -55,6 +55,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Catalog_Model_Resource_Product $product
      */
     public function __construct(
@@ -62,12 +63,13 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Catalog_Model_Resource_Product $product
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
         $this->setProductEntityTypeId($product->getTypeId());
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig);
     }
     /**
      * Set Type for COUNT SQL Select

@@ -10,7 +10,6 @@
 
 /**
  * Customer balance history block
- *
  */
 class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_Template
 {
@@ -22,13 +21,26 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     protected $_actionNames = null;
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Check if history can be shown to customer
      *
      * @return bool
      */
     public function canShow()
     {
-        return Mage::getStoreConfigFlag('customer/magento_customerbalance/show_history');
+        return $this->_storeConfig->getConfigFlag('customer/magento_customerbalance/show_history');
     }
 
     /**
@@ -54,20 +66,21 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     }
 
     /**
-     * Retreive action labels
+     * Retrieve action labels
      *
      * @return array
      */
     public function getActionNames()
     {
         if (is_null($this->_actionNames)) {
-            $this->_actionNames = Mage::getSingleton('Magento_CustomerBalance_Model_Balance_History')->getActionNamesArray();
+            $this->_actionNames = Mage::getSingleton('Magento_CustomerBalance_Model_Balance_History')
+                ->getActionNamesArray();
         }
         return $this->_actionNames;
     }
 
     /**
-     * Retreive action label
+     * Retrieve action label
      *
      * @param mixed $action
      * @return string

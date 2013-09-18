@@ -25,6 +25,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 
     /**
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $modulesConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
@@ -250,5 +251,15 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     public function getCoreData()
     {
         return $this->_coreData;
+    }
+
+    /**
+     * Get config model
+     *
+     * @return Magento_Core_Model_Config
+     */
+    public function getConfigModel()
+    {
+        return $this->_config;
     }
 }

@@ -36,7 +36,8 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract',
+        $this->_model = $this->getMockForAbstractClass(
+            'Magento_ImportExport_Model_Import_EntityAbstract',
             $this->_getModelDependencies()
         );
     }
@@ -54,10 +55,12 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
     protected function _getModelDependencies()
     {
         $coreHelper = $this->getMock('Magento_Core_Helper_Data', array('__construct'), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $stringHelper = $this->getMock('Magento_Core_Helper_String', array('__construct'), array(), '', false);
         $data = array(
             'coreData'   => $coreHelper,
             'coreString' => $stringHelper,
+            'coreStoreConfig' => $coreStoreConfig,
             'data'       => array(
                 'data_source_model'            => 'not_used',
                 'connection'                   => 'not_used',
