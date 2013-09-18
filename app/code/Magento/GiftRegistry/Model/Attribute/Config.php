@@ -1,80 +1,27 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_GiftRegistry
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Gift registry custom attribute config model
- */
-class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abstract
+* Gift registry attributes config model
+*
+* {license_notice}
+*
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+class Magento_GiftRegistry_Model_Attribute_Config implements Magento_GiftRegistry_Model_Attribute_ConfigInterface
 {
-    protected $_config = null;
-    protected $_staticTypes = null;
-
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
-     */
-    protected $_configCacheType;
-
-    /**
-     * @var Magento_Core_Model_Config_StorageInterface
-     */
-    protected $_configReader;
-
-    /**
-     * Pathes to attribute groups and types nodes
-     */
-    const XML_ATTRIBUTE_GROUPS_PATH = 'prototype/attribute_groups';
-    const XML_ATTRIBUTE_TYPES_PATH = 'prototype/attribute_types';
-
-    /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
-        array $data = array()
-    ) {
-        $this->_configCacheType = $configCacheType;
-        $this->_configReader = $configReader;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-    }
-
-    /**
-     * Load config from giftregistry.xml files and try to cache it
+     * Modules configuration model
      *
-     * @return Magento_Simplexml_Config
+     * @var Magento_GiftRegistry_Model_Config_Data
      */
-    public function getXmlConfig()
+    protected $_dataContainer;
+
+    /**
+     * @param Magento_GiftRegistry_Model_Config_Data $dataContainer
+     */
+    public function __construct(Magento_GiftRegistry_Model_Config_Data $dataContainer)
     {
-        if (is_null($this->_config)) {
-            $cachedXml = $this->_configCacheType->load('giftregistry_config');
-            if ($cachedXml) {
-                $xmlConfig = new Magento_Simplexml_Config($cachedXml);
-            } else {
-                $xmlConfig = new Magento_Simplexml_Config();
-                $xmlConfig->loadString('<?xml version="1.0"?><prototype></prototype>');
-                $this->_configReader->loadModulesConfiguration('giftregistry.xml', $xmlConfig);
-                $this->_configCacheType->save($xmlConfig->getXmlString(), 'giftregistry_config');
-            }
-            $this->_config = $xmlConfig;
-        }
-        return $this->_config;
+        $this->_dataContainer = $dataContainer;
     }
 
     /**
@@ -140,10 +87,8 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
      */
     public function getAttributeGroups()
     {
-        $groups = $this->getXmlConfig()->getNode(self::XML_ATTRIBUTE_GROUPS_PATH);
-        if ($groups) {
-            return $groups->asCanonicalArray();
-        }
+        $groups = $this->_dataContainer->get('attribute_groups');
+        return $groups;
     }
 
     /**
@@ -153,17 +98,14 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
      */
     public function getStaticTypes()
     {
-        if (is_null($this->_staticTypes)) {
-            $staticTypes = array();
-            foreach (array('registry', 'registrant') as $node) {
-                $node = $this->getXmlConfig()->getNode('prototype/' . $node . '/attributes/static');
-                if ($node) {
-                    $staticTypes = array_merge($staticTypes, $node->asCanonicalArray());
-                }
-            }
-            $this->_staticTypes = $staticTypes;
+        $staticTypes = array();
+
+        foreach (array('registry', 'registrant') as $section) {
+            $sectionArray = $this->_dataContainer->get($section);
+            $staticTypes = array_merge($staticTypes, $sectionArray['static_attributes']);
         }
-        return $this->_staticTypes;
+
+        return $staticTypes;
     }
 
     /**
@@ -199,7 +141,7 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
      */
     public function getStaticDateType()
     {
-        foreach ($this->getStaticTypes() as $code => $type) {
+        foreach ($this->getStaticTypes() as $code =>$type) {
             if (isset($type['type']) && $type['type'] == 'date') {
                 return $code;
             }
@@ -229,10 +171,10 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
      */
     public function getAttributeCustomTypesOptions()
     {
-        $types = $this->getXmlConfig()->getNode(self::XML_ATTRIBUTE_TYPES_PATH);
+        $types = $this->_dataContainer->get('attribute_types');
         $options = array();
 
-        foreach ($types->asCanonicalArray() as $code => $type) {
+        foreach ($types as $code => $type) {
             $options[] = array(
                 'value' => $code,
                 'label' => $type['label']
@@ -250,18 +192,17 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
     {
         $options = array();
         foreach ($this->getStaticTypes() as $code => $type) {
-            if (empty($type['visible'])) {
-                continue;
-            }
-            $valueParts = array($type['type'], $code);
-            if (!empty($type['group'])) {
-                $valueParts[] = $type['group'];
-            }
+            if ($type['visible']==='true') {
+                $valueParts = array($type['type'], $code);
+                if (!empty($type['group'])) {
+                    $valueParts[] = $type['group'];
+                }
 
-            $options[] = array(
-                'value' => implode(':', $valueParts),
-                'label' => $type['label']
-            );
+                $options[] = array(
+                    'value' => implode(':', $valueParts),
+                    'label' => $type['label']
+                );
+            }
         }
         return $options;
     }
