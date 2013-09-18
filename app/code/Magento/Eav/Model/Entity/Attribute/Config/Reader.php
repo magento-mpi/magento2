@@ -32,6 +32,6 @@ class Magento_Eav_Model_Entity_Attribute_Config_Reader extends Magento_Config_Re
         Magento_Eav_Model_Entity_Attribute_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState
     ) {
-        parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, 'attributes.xml', array());
+        parent::__construct($fileResolver, $converter, $schemaLocator, $validationState, 'eav_attributes.xml', array());
     }
 }

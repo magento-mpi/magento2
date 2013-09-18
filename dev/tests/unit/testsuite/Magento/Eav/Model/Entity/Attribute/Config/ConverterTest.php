@@ -29,9 +29,9 @@ class Magento_Eav_Model_Entity_Attribute_Config_ConverterTest extends PHPUnit_Fr
     public function testConvert()
     {
         $dom = new DOMDocument();
-        $path = $this->_filePath . 'attributes.xml';
+        $path = $this->_filePath . 'eav_attributes.xml';
         $dom->load($path);
-        $expectedData = include($this->_filePath . 'attributes.php');
+        $expectedData = include($this->_filePath . 'eav_attributes.php');
         $this->assertEquals($expectedData, $this->_model->convert($dom));
     }
 }
