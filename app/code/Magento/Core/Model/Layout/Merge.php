@@ -91,6 +91,11 @@ class Magento_Core_Model_Layout_Merge
     protected $_cache;
 
     /**
+     * @var Magento_Adminhtml_Model_LayoutUpdate_Validator
+     */
+    protected $_layoutValidator;
+
+    /**
      * Init merge model
      *
      * @param Magento_Core_Model_View_DesignInterface $design
@@ -108,6 +113,7 @@ class Magento_Core_Model_Layout_Merge
         Magento_Core_Model_Resource_Layout_Update $resource,
         Magento_Core_Model_App_State $appState,
         Magento_Cache_FrontendInterface $cache,
+        Magento_Adminhtml_Model_LayoutUpdate_Validator $validator,
         Magento_Core_Model_Theme $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -116,6 +122,7 @@ class Magento_Core_Model_Layout_Merge
         $this->_resource = $resource;
         $this->_appState = $appState;
         $this->_cache = $cache;
+        $this->_layoutValidator = $validator;
     }
 
     /**
@@ -387,6 +394,20 @@ class Magento_Core_Model_Layout_Merge
 
         foreach ($this->getHandles() as $handle) {
             $this->_merge($handle);
+        }
+
+        if ($this->_appState->getMode() === Magento_Core_Model_App_State::MODE_DEVELOPER) {
+            $layout = $this->asString();
+            if (!$this->_layoutValidator->isValid(
+                    $layout,
+                    Magento_Adminhtml_Model_LayoutUpdate_Validator::LAYOUT_SCHEMA_MERGED,
+                    false
+            )) {
+                $messages = $this->_layoutValidator->getMessages();
+                //Add first message to exception
+                $massage = array_shift($messages);
+                throw new Magento_Config_Dom_ValidationException($massage);
+            }
         }
 
         $this->_saveCache($this->asString(), $cacheId, $this->getHandles());
