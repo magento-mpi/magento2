@@ -79,9 +79,9 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
                 && in_array($argument['value']['object'], array(
                     'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
                     'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct',
-                    'Magento_Search_Model_Resource_Search_Grid_Collection',
+                    'Magento\Search\Model\Resource\Search\Grid\Collection',
                     'Magento\Wishlist\Model\Resource\Item\Collection\Grid',
-                    'Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection',
+                    'Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection',
                 ))
 
             // ignored helpers
@@ -93,7 +93,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
             // ignored options
             || isset($argument['value']['model'])
                 && in_array($argument['value']['model'], array(
-                    'Magento_Search_Model_Adminhtml_Search_Grid_Options',
+                    'Magento\Search\Model\Adminhtml\Search\Grid\Options',
                 ));
     }
 }
