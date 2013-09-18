@@ -26,8 +26,9 @@ class Magento_Catalog_Model_ProductOptions_Config_SchemaLocator implements Magen
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Catalog')
-            . DIRECTORY_SEPARATOR . 'product_options.xsd';
+        $etcDir = $moduleReader->getModuleDir('etc', 'Magento_Catalog');
+        $this->_schema = $etcDir . DIRECTORY_SEPARATOR . 'product_options_merged.xsd';
+        $this->_perFileSchema = $etcDir . DIRECTORY_SEPARATOR . 'product_options.xsd';
     }
 
     /**

@@ -29,11 +29,16 @@ class Magento_Catalog_Model_ProductTypes_Config_SchemaLocatorTest extends PHPUni
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'product_types.xsd', $this->_model->getSchema());
+        $this->assertEquals(
+            'schema_dir' . DIRECTORY_SEPARATOR . 'product_types_merged.xsd',
+            $this->_model->getSchema()
+        );
     }
 
     public function testGetPerFileSchema()
     {
-        $this->assertEquals(null, $this->_model->getPerFileSchema());
+        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'product_types.xsd',
+            $this->_model->getPerFileSchema()
+        );
     }
 }
