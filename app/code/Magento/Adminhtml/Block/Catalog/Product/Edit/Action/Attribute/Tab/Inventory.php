@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventor
      */
     public function getDefaultConfigValue($field)
     {
-        return Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field, $this->getStoreId());
+        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field, $this->getStoreId());
     }
 
     /**

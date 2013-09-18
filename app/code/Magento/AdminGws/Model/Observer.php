@@ -28,6 +28,27 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     protected $_controllersMap = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Initialize helper
+     *
+     * @param Magento_AdminGws_Model_Role $role
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_AdminGws_Model_Role $role,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $role
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Put websites/stores permissions data after loading admin role
      *
      * If all permissions are allowed, all possible websites / store groups / stores will be set
@@ -311,7 +332,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         /* @var $session Magento_Acl_Builder */
         $builder = Mage::getSingleton('Magento_Acl_Builder');
 
-        foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
+        foreach ($this->_coreConfig->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
             $builder->getAcl()->deny($session->getUser()->getAclRole(), $rule);
         }
         return $this;
@@ -402,7 +423,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
-            $children = Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')
+            $children = $this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')
                 ->children();
             foreach ($children as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
@@ -478,7 +499,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         // gather callbacks from mapper configuration
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
-            $callbacks = (array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
+            $callbacks = (array)$this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
             foreach ($callbacks as $className => $callback) {
                 $className = uc_words($className);
 

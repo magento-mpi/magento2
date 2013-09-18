@@ -161,7 +161,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
      */
     public function getFrameParam($param = '')
     {
-        return Mage::getStoreConfig('payment_services/pbridge_styling/' . $param);
+        return $this->_storeConfig->getConfig('payment_services/pbridge_styling/' . $param);
     }
 
     /**
@@ -185,7 +185,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
         if (!$this->getFrameParam('use_theme')) {
             return '';
         }
-        $shouldMergeCss = Mage::getStoreConfigFlag('dev/css/merge_css_files');
+        $shouldMergeCss = $this->_storeConfig->getConfigFlag('dev/css/merge_css_files');
         if (!is_object($this->getLayout()->getBlock('head'))) {
             return Mage::getSingleton('Magento_Pbridge_Model_Session')->getCssUrl();
         }

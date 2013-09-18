@@ -31,6 +31,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Buttons extends Magento_Adminhtml_B
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -38,10 +39,11 @@ class Magento_Rma_Block_Adminhtml_Order_View_Buttons extends Magento_Adminhtml_B
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($coreData, $context, $registry, $coreConfig, $data);
     }
 
     /**

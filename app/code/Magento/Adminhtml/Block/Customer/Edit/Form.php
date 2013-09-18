@@ -30,6 +30,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Form extends Magento_Adminhtml_Block
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
@@ -37,6 +38,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Form extends Magento_Adminhtml_Block
         Magento_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

@@ -27,6 +27,11 @@ class Magento_Logging_Model_Observer
     protected $_coreHttp = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Request
      *
      * @var Magento_Core_Controller_Request_Http
@@ -42,20 +47,23 @@ class Magento_Logging_Model_Observer
 
     /**
      * Construct
-     *
+     * 
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Logging_Model_Processor $processor
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Logging_Model_FlagFactory $flagFactory
      */
     public function __construct(
         Magento_Core_Helper_Http $coreHttp,
         Magento_Logging_Model_Processor $processor,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Controller_Request_Http $request,
         Magento_Logging_Model_FlagFactory $flagFactory
     ) {
         $this->_coreHttp = $coreHttp;
         $this->_processor = $processor;
+        $this->_coreConfig = $coreConfig;
         $this->_request = $request;
         $this->_flagFactory = $flagFactory;
     }
@@ -209,10 +217,10 @@ class Magento_Logging_Model_Observer
     {
         $lastRotationFlag = $this->_flagFactory->create()->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
-        $rotationFrequency = 3600 * 24 * (int)Mage::getConfig()->getValue('system/rotation/frequency', 'default');
+        $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
             Mage::getResourceModel('Magento_Logging_Model_Resource_Event')->rotate(
-                3600 * 24 *(int)Mage::getConfig()->getValue('system/rotation/lifetime', 'default')
+                3600 * 24 *(int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
             );
         }
         $lastRotationFlag->setFlagData(time())->save();

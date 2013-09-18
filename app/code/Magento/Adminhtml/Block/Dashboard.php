@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Dashboard extends Magento_Adminhtml_Block_Template
 
         $this->addChild('topSearches', 'Magento_Adminhtml_Block_Dashboard_Searches_Top');
 
-        if (Mage::getStoreConfig(self::XML_PATH_ENABLE_CHARTS)) {
+        if ($this->_storeConfig->getConfig(self::XML_PATH_ENABLE_CHARTS)) {
             $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Dashboard_Diagrams');
         } else {
             $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Template')

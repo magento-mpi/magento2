@@ -49,8 +49,16 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
              array('editorMode', 'navigation'),
              array('themeId', 1)
         )));
-        $this->_model = new Magento_DesignEditor_Model_Url_NavigationMode($this->_helper, $this->_coreData,
-            $this->_testData);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        
+        $this->_model = new Magento_DesignEditor_Model_Url_NavigationMode(
+            $this->_helper,
+            $this->_coreData,
+            $coreStoreConfig,
+            $coreConfig,
+            $this->_testData
+        );
         $this->_model->setRequest($requestMock);
     }
 
