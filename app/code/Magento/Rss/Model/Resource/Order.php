@@ -19,6 +19,19 @@
 class Magento_Rss_Model_Resource_Order
 {
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(Magento_Core_Model_Resource $resource)
+    {
+        $this->_resource = $resource;
+    }
+
+    /**
      * Retrieve order comments
      *
      * @param int $orderId
@@ -26,9 +39,7 @@ class Magento_Rss_Model_Resource_Order
      */
     public function getAllCommentCollection($orderId)
     {
-        /** @var $res Magento_Core_Model_Resource */
-        $res = Mage::getSingleton('Magento_Core_Model_Resource');
-        $read = $res->getConnection('core_read');
+        $read = $this->_resource->getConnection('core_read');
 
         $fields = array(
             'notified' => 'is_customer_notified',
@@ -37,8 +48,8 @@ class Magento_Rss_Model_Resource_Order
         );
         $commentSelects = array();
         foreach (array('invoice', 'shipment', 'creditmemo') as $entityTypeCode) {
-            $mainTable  = $res->getTableName('sales_flat_' . $entityTypeCode);
-            $slaveTable = $res->getTableName('sales_flat_' . $entityTypeCode . '_comment');
+            $mainTable  = $this->_resource->getTableName('sales_flat_' . $entityTypeCode);
+            $slaveTable = $this->_resource->getTableName('sales_flat_' . $entityTypeCode . '_comment');
             $select = $read->select()
                 ->from(array('main' => $mainTable), array(
                     'entity_id' => 'order_id',
@@ -49,7 +60,7 @@ class Magento_Rss_Model_Resource_Order
             $commentSelects[] = '(' . $select . ')';
         }
         $select = $read->select()
-            ->from($res->getTableName('sales_flat_order_status_history'), array(
+            ->from($this->_resource->getTableName('sales_flat_order_status_history'), array(
                 'entity_id' => 'parent_id',
                 'entity_type_code' => new Zend_Db_Expr("'order'")
             ) + $fields)
@@ -61,7 +72,7 @@ class Magento_Rss_Model_Resource_Order
             ->union($commentSelects, Zend_Db_Select::SQL_UNION_ALL);
 
         $select = $read->select()
-            ->from(array('orders' => $res->getTableName('sales_flat_order')), array('increment_id'))
+            ->from(array('orders' => $this->_resource->getTableName('sales_flat_order')), array('increment_id'))
             ->join(array('t' => $commentSelect),'t.entity_id = orders.entity_id')
             ->order('orders.created_at desc');
 
