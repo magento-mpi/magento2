@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:annotation>
+            <xs:documentation>
+                Specifies a configuration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="instances" type="instancesType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="instancesType">
+        <xs:annotation>
+            <xs:documentation>
+                The definition of the current instances.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="blocks" type="blocksType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="blocksType">
+        <xs:annotation>
+            <xs:documentation>
+                The set of blocks
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="reference" type="referenceType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="referenceType">
+        <xs:annotation>
+            <xs:documentation>
+                The definition of the block references
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="name_in_layout" type="xs:NMTOKEN"/>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="class" type="xs:NMTOKEN"/>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="method" type="xs:NMTOKEN"/>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="block_type" type="xs:NMTOKEN"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+
+</xs:schema>
