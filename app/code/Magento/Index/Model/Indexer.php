@@ -38,27 +38,27 @@ class Magento_Index_Model_Indexer
     protected $_indexEventFactory;
 
     /**
+     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     */
+    protected $_resProcColFactory;
+
+    /**
+     * @param Magento_Index_Model_Resource_Process_CollectionFactory $resProcColFactory
      * @param Magento_Index_Model_Resource_Process $resourceProcess
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Index_Model_EventFactory $indexEventFactory
      */
     public function __construct(
+        Magento_Index_Model_Resource_Process_CollectionFactory $resProcColFactory,
         Magento_Index_Model_Resource_Process $resourceProcess,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Index_Model_EventFactory $indexEventFactory
     ) {
+        $this->_resProcColFactory = $resProcColFactory;
         $this->_resourceProcess = $resourceProcess;
         $this->_eventManager = $eventManager;
         $this->_indexEventFactory = $indexEventFactory;
-        $this->_processesCollection = $this->_createCollection();
-    }
-
-    /**
-     * @return Magento_Index_Model_Resource_Process_Collection
-     */
-    private function _createCollection()
-    {
-        return Mage::getResourceModel('Magento_Index_Model_Resource_Process_Collection');
+        $this->_processesCollection = $this->_resProcColFactory->create();
     }
 
     /**
@@ -213,7 +213,7 @@ class Magento_Index_Model_Indexer
      */
     public function reindexAll()
     {
-        $this->_reindexCollection($this->_createCollection());
+        $this->_reindexCollection($this->_resProcColFactory->create());
     }
 
     /**
@@ -221,7 +221,7 @@ class Magento_Index_Model_Indexer
      */
     public function reindexRequired()
     {
-        $collection = $this->_createCollection();
+        $collection = $this->_resProcColFactory->create();
         $collection->addFieldToFilter('status', Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         $this->_reindexCollection($collection);
     }

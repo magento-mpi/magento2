@@ -32,6 +32,12 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     protected $_eventRepository;
 
     /**
+     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     */
+    protected $_resProcColFactory;
+
+    /**
+     * @param Magento_Index_Model_Resource_Process_CollectionFactory $resProcColFactory
      * @param Magento_Index_Model_Process $indexProcess
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -41,6 +47,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      * @param array $data
      */
     public function __construct(
+        Magento_Index_Model_Resource_Process_CollectionFactory $resProcColFactory,
         Magento_Index_Model_Process $indexProcess,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -52,6 +59,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_eventRepository = $eventRepository;
         $this->_indexProcess = $indexProcess;
+        $this->_resProcColFactory = $resProcColFactory;
     }
 
     /**
@@ -72,8 +80,7 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Index_Model_Resource_Process_Collection');
-        $this->setCollection($collection);
+        $this->setCollection($this->_resProcColFactory->create());
         parent::_prepareCollection();
 
         return $this;
