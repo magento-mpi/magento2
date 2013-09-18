@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient
+class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
 {
     /**
      * @var string REST URL base path

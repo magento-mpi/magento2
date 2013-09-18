@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAbstract
+class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestCase_WebapiAbstract
 {
     /** @var Magento_Webapi_Authentication_Rest_OauthClient[] */
     protected $_oAuthClients = array();
@@ -23,9 +23,6 @@ class Magento_Webapi_Authentication_RestTest extends Magento_Test_TestCase_Webap
     /** @var string */
     protected $_verifier;
 
-    /**
-     * @magentoDataFixture Magento/Webapi/Authentication/_files/oauth.php
-     */
     protected function setUp()
     {
         $this->_markTestAsRestOnly();
@@ -71,6 +68,10 @@ class Magento_Webapi_Authentication_RestTest extends Magento_Test_TestCase_Webap
         parent::tearDown();
     }
 
+    /**
+     * TODO: Fixture can be used now
+     * @ magentoApiDataFixture Magento/Oauth/_files/consumer.php
+     */
     public function testGetRequestToken()
     {
         $this->_runConsumerFixture();

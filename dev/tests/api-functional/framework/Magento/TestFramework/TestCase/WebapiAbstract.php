@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_TestCase
+abstract class Magento_TestFramework_TestCase_WebapiAbstract extends PHPUnit_Framework_TestCase
 {
     /** TODO: Reconsider implementation of fixture-management methods after implementing several tests */
     /**#@+
@@ -77,7 +77,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * The list of instantiated Web API adapters.
      *
-     * @var Magento_Test_TestCase_Webapi_AdapterInterface[]
+     * @var Magento_TestFramework_TestCase_Webapi_AdapterInterface[]
      */
     protected $_webApiAdapters;
 
@@ -87,8 +87,8 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      * @var array
      */
     protected $_webApiAdaptersMap = array(
-        self::ADAPTER_SOAP => 'Magento_Test_TestCase_Webapi_Adapter_Soap',
-        self::ADAPTER_REST => 'Magento_Test_TestCase_Webapi_Adapter_Rest'
+        self::ADAPTER_SOAP => 'Magento_TestFramework_TestCase_Webapi_Adapter_Soap',
+        self::ADAPTER_REST => 'Magento_TestFramework_TestCase_Webapi_Adapter_Rest'
     );
 
     /**
@@ -147,7 +147,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Perform Web API call to the system under test.
      *
-     * @see Magento_Test_TestCase_Webapi_AdapterInterface::call()
+     * @see Magento_TestFramework_TestCase_Webapi_AdapterInterface::call()
      * @param array $serviceInfo
      * @param array $arguments
      * @param string|null $webApiAdapterCode
@@ -230,7 +230,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      *
      * @param Magento_Core_Model_Abstract $model
      * @param bool $secure
-     * @return Magento_Test_TestCase_WebapiAbstract
+     * @return Magento_TestFramework_TestCase_WebapiAbstract
      */
     static public function callModelDelete($model, $secure = false)
     {
@@ -250,7 +250,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      *
      * @param Magento_Core_Model_Abstract $model
      * @param bool $secure
-     * @return Magento_Test_TestCase_WebapiAbstract
+     * @return Magento_TestFramework_TestCase_WebapiAbstract
      */
     public function addModelToDelete($model, $secure = false)
     {
@@ -265,7 +265,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      * Get Web API adapter (create if requested one does not exist).
      *
      * @param string $webApiAdapterCode
-     * @return Magento_Test_TestCase_Webapi_AdapterInterface
+     * @return Magento_TestFramework_TestCase_Webapi_AdapterInterface
      * @throws LogicException When requested Web API adapter is not declared
      */
     protected function _getWebApiAdapter($webApiAdapterCode)
@@ -340,7 +340,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Call delete models from list
      *
-     * @return Magento_Test_TestCase_WebapiAbstract
+     * @return Magento_TestFramework_TestCase_WebapiAbstract
      */
     protected function _callModelsDelete()
     {
@@ -445,7 +445,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      * @param bool $cleanAppCache       If TRUE application cache will be refreshed
      * @param bool $updateLocalConfig   If TRUE local config object will be updated too
      * @param bool $restore             If TRUE config value will be restored after test run
-     * @return Magento_Test_TestCase_WebapiAbstract
+     * @return Magento_TestFramework_TestCase_WebapiAbstract
      * @throws RuntimeException
      */
     protected function _updateAppConfig(

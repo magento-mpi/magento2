@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
+class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_TestFramework_TestCase_WebapiAbstract
 {
     protected function setUp()
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase_Webapi_AdapterInterface
+class Magento_TestFramework_TestCase_Webapi_Adapter_Soap implements Magento_TestFramework_TestCase_Webapi_AdapterInterface
 {
     const WSDL_BASE_PATH = '/soap?wsdl=1';
 

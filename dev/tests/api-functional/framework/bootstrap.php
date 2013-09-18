@@ -31,7 +31,7 @@ $invariantSettings = array(
 $bootstrap = new Magento_TestFramework_Bootstrap(
     new Magento_TestFramework_Bootstrap_Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
     new Magento_TestFramework_Bootstrap_Environment(),
-    new Magento_TestFramework_Bootstrap_DocBlock("{$testsBaseDir}/testsuite"),
+    new Magento_TestFramework_Bootstrap_WebapiDocBlock("{$integrationTestsDir}/testsuite"),
     new Magento_TestFramework_Bootstrap_Profiler(new Magento_Profiler_Driver_Standard()),
     new Magento_Shell(),
     $testsTmpDir
