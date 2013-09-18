@@ -9,18 +9,60 @@ require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAbstract
+class Magento_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAbstract
 {
-    /** @var Mage_Webapi_Authentication_Rest_OauthClient[] */
+    /** @var Magento_Webapi_Authentication_Rest_OauthClient[] */
     protected $_oAuthClients = array();
 
+    /** @var string */
+    protected $_consumerKey;
+
+    /** @var string */
+    protected $_consumerSecret;
+
+    /** @var string */
+    protected $_verifier;
+
+    /**
+     * @magentoDataFixture Magento/Webapi/Authentication/_files/oauth.php
+     */
     protected function setUp()
     {
-        // TODO: Uncomment tests
-        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
-
         $this->_markTestAsRestOnly();
         parent::setUp();
+    }
+
+    private function _runConsumerFixture(){
+
+        $url = 'http://magento.ll';
+        $this->_consumerKey = md5(rand());
+        $this->_consumerSecret = md5(rand());
+
+        /** @var  $token Magento_Oauth_Model_Consumer */
+        $consumer = Mage::getModel('Magento_Oauth_Model_Consumer');
+        $consumer
+            ->setCreatedAt('2012-12-31 23:59:59')
+            ->setUpdatedAt('2012-12-31 23:59:59')
+            ->setName('consumerName')
+            ->setKey($this->_consumerKey)
+            ->setSecret($this->_consumerSecret)
+            ->setCallbackUrl($url)
+            ->setRejectedCallbackUrl($url)
+            ->setHttpPostUrl($url);
+
+        $consumer->isObjectNew(true);
+        $consumer->save();
+
+        /** @var  $token Magento_Oauth_Model_Token */
+        $token = Mage::getModel('Magento_Oauth_Model_Token');
+        $token->createVerifierToken($consumer->getId(), $url);
+
+        /**
+         * Verifier is created when during the consumer creation and posting the credentials
+         * This is subsequently used for requesting access token
+         */
+        $this->_verifier = $token->getVerifier();
+
     }
 
     protected function tearDown()
@@ -31,17 +73,21 @@ class Mage_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAb
 
     public function testGetRequestToken()
     {
-        $oAuthClient = $this->_getOauthClient($this->_getValidConsumerKeyA(), $this->_getValidConsumerSecretA());
+        $this->_runConsumerFixture();
+        /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient*/
+        $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
 
         $this->assertNotEmpty($requestToken->getRequestToken(), "Request token value is not set");
         $this->assertNotEmpty($requestToken->getRequestTokenSecret(), "Request token secret is not set");
 
-        $this->assertNotEmpty($oAuthClient->getOauthVerifier(), "Oauth verifier is empty.");
+        //Oauth verifier is not expected for requestToken requests
+        //$this->assertNotEmpty($oAuthClient->getOauthVerifier(), "Oauth verifier is empty.");
     }
 
     public function testGetRequestTokenInvalidConsumerKey()
     {
+        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
         $oAuthClient = $this->_getOauthClient('invalid_key', '');
         // TODO: Set proper error message
         $this->setExpectedException('OAuth\Common\Http\Exception\TokenResponseException', "Error occurred: '???'");
@@ -50,22 +96,23 @@ class Mage_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAb
 
     public function testGetRequestTokenInvalidConsumerSecret()
     {
+        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
         $oAuthClient = $this->_getOauthClient($this->_getValidConsumerKeyA(), 'invalid_secret');
         // TODO: Set proper error message
         $this->setExpectedException('OAuth\Common\Http\Exception\TokenResponseException', "Error occurred: '???'");
         $oAuthClient->requestRequestToken();
     }
 
-    /**
-     * @depends testGetRequestToken
-     */
+
     public function testGetAccessToken()
     {
+        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
+        $this->_runConsumerFixture();
         $oAuthClient = $this->_getOauthClient($this->_getValidConsumerKeyA(), $this->_getValidConsumerSecretA());
         $requestToken = $oAuthClient->requestRequestToken();
         $accessToken = $oAuthClient->requestAccessToken(
             $requestToken->getRequestToken(),
-            $oAuthClient->getOauthVerifier(),
+            $this->_verifier,
             $requestToken->getRequestTokenSecret()
         );
         $this->assertNotEmpty($accessToken->getAccessToken(), "Access token value is not set.");
@@ -77,6 +124,7 @@ class Mage_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAb
      */
     public function testGetAccessTokenInvalidConsumerKey()
     {
+        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
         $oAuthClient = $this->_getOauthClient($this->_getValidConsumerKeyA(), $this->_getValidConsumerSecretA());
         $requestToken = $oAuthClient->requestRequestToken();
         // TODO: Set proper error message
@@ -93,6 +141,7 @@ class Mage_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAb
      */
     public function testGetAccessTokenInvalidConsumerSecret()
     {
+        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
         $oAuthClient = $this->_getOauthClient($this->_getValidConsumerKeyA(), $this->_getValidConsumerSecretA());
         $requestToken = $oAuthClient->requestRequestToken();
         // TODO: Set proper error message
@@ -109,6 +158,7 @@ class Mage_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAb
      */
     public function testGetAccessTokenInvalidVerifier()
     {
+        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
         $oAuthClient = $this->_getOauthClient($this->_getValidConsumerKeyA(), $this->_getValidConsumerSecretA());
         $requestToken = $oAuthClient->requestRequestToken();
         // TODO: Set proper error message
@@ -125,6 +175,7 @@ class Mage_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAb
      */
     public function testGetAccessTokenConsumerMismatch()
     {
+        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
         $oAuthClientA = $this->_getOauthClient($this->_getValidConsumerKeyA(), $this->_getValidConsumerSecretA());
         $requestTokenA = $oAuthClientA->requestRequestToken();
         $oAuthClientB = $this->_getOauthClient($this->_getValidConsumerKeyB(), $this->_getValidConsumerSecretB());
@@ -159,8 +210,8 @@ class Mage_Webapi_Authentication_RestTest extends Magento_Test_TestCase_WebapiAb
     protected function _getOauthClient($consumerKey, $consumerSecret)
     {
         if (!isset($this->_oAuthClients[$consumerKey])) {
-            $credentials = new OAuth\Common\Consumer\Credentials($consumerKey, $consumerSecret, '');
-            $this->_oAuthClients[$consumerKey] = new Mage_Webapi_Authentication_Rest_OauthClient($credentials);
+            $credentials = new OAuth\Common\Consumer\Credentials($consumerKey, $consumerSecret, 'http://magento.ll');
+            $this->_oAuthClients[$consumerKey] = new Magento_Webapi_Authentication_Rest_OauthClient($credentials);
         }
         return $this->_oAuthClients[$consumerKey];
     }

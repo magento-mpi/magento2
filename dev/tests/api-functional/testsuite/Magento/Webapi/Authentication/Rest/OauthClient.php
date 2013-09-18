@@ -1,12 +1,13 @@
 <?php
+
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Client\ClientInterface;
-use OAuth\Common\Http\Uri\UriInterface;
+use OAuth\Common\Http\Exception\TokenResponseException;
 use OAuth\Common\Http\Uri\Uri;
+use OAuth\Common\Http\Uri\UriInterface;
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\OAuth1\Service\AbstractService;
 use OAuth\OAuth1\Signature\SignatureInterface;
-use OAuth\Common\Http\Exception\TokenResponseException;
 use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\OAuth1\Token\TokenInterface;
 
@@ -20,7 +21,7 @@ require_once __DIR__ . '/../../../../../lib/OAuth/bootstrap.php';
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Authentication_Rest_OauthClient extends AbstractService
+class Magento_Webapi_Authentication_Rest_OauthClient extends AbstractService
 {
     /** @var string|null */
     protected $_oauthVerifier = null;
@@ -49,7 +50,7 @@ class Mage_Webapi_Authentication_Rest_OauthClient extends AbstractService
      */
     public function getRequestTokenEndpoint()
     {
-        return new Uri(TESTS_BASE_URL . '/oauth/authorize');
+        return new Uri(TESTS_BASE_URL . '/oauth/token/request');
     }
 
     /**
@@ -69,7 +70,7 @@ class Mage_Webapi_Authentication_Rest_OauthClient extends AbstractService
      */
     public function getAccessTokenEndpoint()
     {
-        return new Uri(TESTS_BASE_URL . '/oauth/token');
+        return new Uri(TESTS_BASE_URL . '/oauth/token/access');
     }
 
     /**
@@ -93,10 +94,9 @@ class Mage_Webapi_Authentication_Rest_OauthClient extends AbstractService
     protected function parseRequestTokenResponse($responseBody)
     {
         $data = $this->_parseResponseBody($responseBody);
-        if (!isset($data['oauth_verifier']) || isEmpty($data['oauth_verifier'])) {
-            throw new TokenResponseException("Oauth verifier is expected to be returned with request token.");
+        if (isset($data['oauth_verifier'])) {
+            $this->_oauthVerifier = $data['oauth_verifier'];
         }
-        $this->_oauthVerifier = $data['oauth_verifier'];
         return $this->_parseToken($responseBody);
     }
 

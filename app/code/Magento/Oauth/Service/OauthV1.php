@@ -228,7 +228,8 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             throw new Magento_Oauth_Exception('', self::ERR_TOKEN_REJECTED);
         }
 
-        $this->_validateVerifierParam($signedRequest['oauth_verifier'], $token->getVerifier());
+        //OAuth clients are not sending the verifier param for requestToken requests
+        //$this->_validateVerifierParam($signedRequest['oauth_verifier'], $token->getVerifier());
 
         $this->_validateSignature(
             $signedRequest,
@@ -237,7 +238,8 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             $signedRequest['request_url']
         );
 
-        $requestToken = $token->createRequestToken($consumer->getId(), null);
+        //TODO:Check if we need callback URL here. Currently it errors out if not supplied
+        $requestToken = $token->createRequestToken($consumer->getId(), $consumer->getCallBackUrl());
         return array('oauth_token' => $requestToken->getToken(), 'oauth_token_secret' => $requestToken->getSecret());
     }
 
@@ -426,9 +428,18 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             throw new Magento_Oauth_Exception('', self::ERR_SIGNATURE_METHOD_REJECTED);
         }
 
+        $allowedSignParams = array(
+            "oauth_callback",
+            "oauth_consumer_key",
+            "oauth_nonce",
+            "oauth_signature_method",
+            "oauth_timestamp",
+            "oauth_version"
+        );
+
         $util = new Zend_Oauth_Http_Utility();
         $calculatedSign = $util->sign(
-            $params,
+            array_intersect_key($params, array_flip($allowedSignParams)),
             $params['oauth_signature_method'],
             $consumerSecret,
             $tokenSecret,
@@ -696,9 +707,9 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
             $protocolParamsNotSet = !$protocolParams;
 
-            parse_str($requestBodyString, $protocolParams);
+            parse_str($requestBodyString, $protocolBodyParams);
 
-            foreach ($protocolParams as $bodyParamName => $bodyParamValue) {
+            foreach ($protocolBodyParams as $bodyParamName => $bodyParamValue) {
                 if (!$this->_isProtocolParameter($bodyParamName)) {
                     $protocolParams[$bodyParamName] = $bodyParamValue;
                 } elseif ($protocolParamsNotSet) {
