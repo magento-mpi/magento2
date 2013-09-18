@@ -141,5 +141,6 @@ return array(
     array('XML_NODE_BUNDLE_PRODUCT_TYPE', 'Magento_Bundle_Helper_Data'),
     array('XML_PATH_CONFIGURABLE_ALLOWED_TYPES', 'Magento_Catalog_Helper_Product_Configuration'),
     array('XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES', 'Magento_Catalog_Model_Config'),
+    array('PRODUCT_OPTIONS_GROUPS_PATH', 'Magento_Catalog_Model_Config_Source_Product_Options_Type'),
 
 );
