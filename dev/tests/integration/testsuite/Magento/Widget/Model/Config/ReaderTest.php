@@ -118,6 +118,8 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
                 'perFileSchema' => $perFileSchema
             )
         );
-        $model->read('global');
+        $output = $model->read('global');
+        $expected = include '_files/expectedMergedArray.php';
+        $this->assertEquals($expected, $output);
     }
 }
