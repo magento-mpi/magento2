@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Guest Order Create Return" id="magento_rma_guest_create" type="page" parent="magento_rma_return_create_handle">
+    <handle label="Guest Order Create Return" id="magento_rma_guest_create" type="page" parent="magento_rma_returnshipment_create_handle">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>
@@ -26,7 +26,7 @@
                 </action>
             </block>
         </reference>
-        <update handle="magento_rma_return_create_handle"/>
+        <update handle="magento_rma_returnshipment_create_handle"/>
         <reference name="sales.order.info">
             <action method="addLink">
                 <argument name="name" xsi:type="string">view</argument>

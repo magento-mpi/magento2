@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Return Create" id="magento_rma_return_create" type="page" parent="magento_rma_return_create_handle">
+    <handle label="Customer My Return Create" id="magento_rma_returnshipment_create" type="page" parent="magento_rma_return_create_handle">
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive">
@@ -25,6 +25,6 @@
                 </action>
             </block>
         </reference>
-        <update handle="magento_rma_return_create_handle"/>
+        <update handle="magento_rma_returnshipment_create_handle"/>
     </handle>
 </layout>
