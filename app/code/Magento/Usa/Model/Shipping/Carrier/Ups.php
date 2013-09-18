@@ -125,6 +125,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
      * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
      * @param array $data
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_LocaleInterface $locale,
