@@ -99,5 +99,6 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
         $model = $this->_createModel($this->_roleService, $collection);
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('Magento_Webapi_Model_Resource_Acl_Role', '_resourceModel', $result);  }
+        $this->assertAttributeEquals('Magento_Webapi_Model_Resource_Acl_Role', '_resourceModel', $result);
+    }
 }
