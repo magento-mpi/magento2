@@ -72,13 +72,21 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_taxData = null;
 
     /**
+     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     */
+    protected $_engineProvider;
+
+    /**
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Helper_Context $context
     ) {
+        $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
         parent::__construct($context);
     }
@@ -336,16 +344,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isActiveEngine()
     {
-        $engine = $this->getSearchConfigData('engine');
-
-        if ($engine) {
-            $model = Mage::getResourceSingleton($engine);
-            if ($model && $model->test() && $model->allowAdvancedIndex()) {
-                return true;
-            }
-        }
-
-        return false;
+        return is_object($this->_engineProvider->get());
     }
 
     /**

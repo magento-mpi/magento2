@@ -53,23 +53,32 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
     protected $_ctlgInventData = null;
 
     /**
-     * Initialize connect to Solr Client
-     *
      * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Search_Helper_ClientInterface $clientHelper
-     * @param  $options
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Search_Model_Resource_Index $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     * @param array $options
      */
     public function __construct(
         Magento_CatalogInventory_Helper_Data $ctlgInventData,
         Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Search_Helper_ClientInterface $clientHelper,
+        Magento_Core_Model_Registry $registry,
+        Magento_Search_Model_Resource_Index $resourceIndex,
+        Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
+        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
         $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;
-        parent::__construct($clientFactory, $logger, $clientHelper, $options);
+        parent::__construct(
+            $clientFactory, $logger, $clientHelper, $registry, $resourceIndex, $resourceFulltext, $attributeCollection,
+                $options
+        );
     }
 
     protected function _search($query, $params = array())

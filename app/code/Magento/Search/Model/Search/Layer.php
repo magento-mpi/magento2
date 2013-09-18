@@ -15,6 +15,11 @@
 class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Layer
 {
     /**
+     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     */
+    protected $_engineProvider;
+
+    /**
      * Search data
      *
      * @var Magento_Search_Helper_Data
@@ -22,22 +27,20 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
     protected $_searchData = null;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Search_Helper_Data $searchData,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         array $data = array()
     ) {
+        $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
         parent::__construct($coreRegistry, $catalogSearchData, $data);
     }
@@ -52,7 +55,7 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $collection = $this->_catalogSearchData->getEngine()->getResultCollection();
+            $collection = $this->_engineProvider->get()->getResultCollection();
             $collection->setStoreId($this->getCurrentCategory()->getStoreId());
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
@@ -79,7 +82,7 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
     /**
      * Get collection of all filterable attributes for layer products set
      *
-     * @return Magento_Catalog_Model_Resource_Attribute_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function getFilterableAttributes()
     {

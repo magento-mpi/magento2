@@ -18,6 +18,36 @@
 abstract class Magento_Search_Model_Adapter_Abstract
 {
     /**
+     * @var Magento_Search_Model_Resource_Index
+     */
+    protected $_resourceIndex;
+
+    /**
+     * @var Magento_CatalogSearch_Model_Resource_Fulltext
+     */
+    protected $_resourceFulltext;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     */
+    protected $_attributeCollection;
+
+    /**
+     * @param Magento_Search_Model_Resource_Index $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     */
+    function __construct(
+        Magento_Search_Model_Resource_Index $resourceIndex,
+        Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
+        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+    ) {
+        $this->_resourceIndex = $resourceIndex;
+        $this->_resourceFulltext = $resourceFulltext;
+        $this->_attributeCollection = $attributeCollection;
+    }
+
+    /**
      * Field to use to determine and enforce document uniqueness
      *
      */
@@ -267,8 +297,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
     {
         $result = array();
 
-        $categoryProductData = Mage::getResourceSingleton('Magento_Search_Model_Resource_Index')
-                ->getCategoryProductIndexData($storeId, $productId);
+        $categoryProductData = $this->_resourceIndex->getCategoryProductIndexData($storeId, $productId);
 
         if (isset($categoryProductData[$productId])) {
             $categoryProductData = $categoryProductData[$productId];
@@ -298,8 +327,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
     {
         $result = array();
 
-        $productPriceIndexData = Mage::getResourceSingleton('Magento_Search_Model_Resource_Index')
-            ->getPriceIndexData($productId, $storeId);
+        $productPriceIndexData = $this->_resourceIndex->getPriceIndexData($productId, $storeId);
 
         if (isset($productPriceIndexData[$productId])) {
             $productPriceIndexData = $productPriceIndexData[$productId];
@@ -536,7 +564,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
             return array();
         }
 
-        $this->_separator = Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Fulltext')->getSeparator();
+        $this->_separator = $this->_resourceFulltext->getSeparator();
 
         $docs = array();
         foreach ($docData as $productId => $productIndexData) {
@@ -1127,7 +1155,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected function _getIndexableAttributeParams()
     {
         if ($this->_indexableAttributeParams === null) {
-            $attributeCollection = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
+            $attributeCollection = $this->_attributeCollection
                     ->addToIndexFilter()
                     ->getItems();
 

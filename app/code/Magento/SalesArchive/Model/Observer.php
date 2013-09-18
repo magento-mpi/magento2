@@ -115,7 +115,7 @@ class Magento_SalesArchive_Model_Observer
         // Exclude archive records from default grid rows update
         $ids = array_diff($ids, $idsInArchive);
         // Check for newly created shipments, creditmemos, invoices
-        if ($archiveEntity != Magento_SalesArchive_Model_Archive::ORDER && !empty($ids)) {
+        if ($archiveEntity != Magento_SalesArchive_Model_ArchivalList::ORDER && !empty($ids)) {
             $relatedIds = $this->_archive->getRelatedIds($archiveEntity, $ids);
             $ids = array_diff($ids, $relatedIds);
             $idsInArchive = array_merge($idsInArchive, $relatedIds);

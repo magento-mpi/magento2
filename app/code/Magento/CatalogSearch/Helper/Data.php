@@ -324,33 +324,4 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
         }
         return join($separator, $_index);
     }
-
-    /**
-     * Get current search engine resource model
-     *
-     * @return object
-     */
-    public function getEngine()
-    {
-        if (!$this->_engine) {
-            $engine = Mage::getStoreConfig('catalog/search/engine');
-
-            /**
-             * This needed if there already was saved in configuration some none-default engine
-             * and module of that engine was disabled after that.
-             * Problem is in this engine in database configuration still set.
-             */
-            if ($engine) {
-                $model = Mage::getResourceSingleton($engine);
-                if ($model && $model->test()) {
-                    $this->_engine = $model;
-                }
-            }
-            if (!$this->_engine) {
-                $this->_engine = Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Fulltext_Engine');
-            }
-        }
-
-        return $this->_engine;
-    }
 }

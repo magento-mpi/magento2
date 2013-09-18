@@ -34,6 +34,25 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
     protected $_facets = array();
 
     /**
+     * @var Magento_Search_Model_Resource_Engine
+     */
+    protected $_resourceEngine;
+
+    /**
+     * @param Magento_Search_Model_Resource_Engine $resourceEngine
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Search_Model_Resource_Engine $resourceEngine,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_resourceEngine = $resourceEngine;
+        parent::__construct($coreRegistry, $data);
+    }
+
+    /**
      * Return cache tag for layered price filter
      *
      * @return string
@@ -50,8 +69,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
      */
     protected function _getFilterField()
     {
-        $engine = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine');
-        $priceField = $engine->getSearchEngineFieldName('price');
+        $priceField = $this->_resourceEngine->getSearchEngineFieldName('price');
 
         return $priceField;
     }
