@@ -70,6 +70,12 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
     protected $_rewardCustomer = null;
 
     /**
+     * @var Magento_Reward_Model_Reward
+     */
+    protected $_reward;
+
+    /**
+     * @param Magento_Reward_Model_Reward $reward
      * @param Magento_Reward_Helper_Customer $rewardCustomer
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Model_Context $context
@@ -79,6 +85,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Reward_Model_Reward $reward,
         Magento_Reward_Helper_Customer $rewardCustomer,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Model_Context $context,
@@ -87,6 +94,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_reward = $reward;
         $this->_rewardCustomer = $rewardCustomer;
         $this->_rewardData = $rewardData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -683,7 +691,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         $helper = $this->_rewardData;
         $amount = $helper
             ->getRateFromRatesArray($item->getPointsBalanceTotal(), $websiteId, $item->getCustomerGroupId());
-        $action = Mage::getSingleton('Magento_Reward_Model_Reward')->getActionInstance($item->getAction());
+        $action = $this->_reward->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),

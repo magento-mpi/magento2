@@ -33,13 +33,21 @@ class Magento_Reward_Model_Observer
     protected $_coreData = null;
 
     /**
+     * @var Magento_Reward_Model_Reward
+     */
+    protected $_reward;
+
+    /**
+     * @param Magento_Reward_Model_Reward $reward
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Reward_Helper_Data $rewardData
      */
     public function __construct(
+        Magento_Reward_Model_Reward $reward,
         Magento_Core_Helper_Data $coreData,
         Magento_Reward_Helper_Data $rewardData
     ) {
+        $this->_reward = $reward;
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
     }
@@ -694,8 +702,7 @@ class Magento_Reward_Model_Observer
                 ->load();
 
             foreach ($collection as $item) {
-                Mage::getSingleton('Magento_Reward_Model_Reward')
-                    ->sendBalanceWarningNotification($item, $website->getId());
+                $this->_reward->sendBalanceWarningNotification($item, $website->getId());
             }
 
             // mark records as sent

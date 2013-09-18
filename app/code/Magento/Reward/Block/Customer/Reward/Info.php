@@ -32,17 +32,25 @@ class Magento_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Templ
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
         $this->_rewardData = $rewardData;
         parent::__construct($coreData, $context, $data);
     }
@@ -54,7 +62,7 @@ class Magento_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Templ
      */
     protected function _toHtml()
     {
-        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        $customer = $this->_customerSession->getCustomer();
         if ($customer && $customer->getId()) {
             $this->_rewardInstance = Mage::getModel('Magento_Reward_Model_Reward')
                 ->setCustomer($customer)
