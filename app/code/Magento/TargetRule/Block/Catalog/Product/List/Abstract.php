@@ -24,7 +24,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      *
      * @var Magento_TargetRule_Model_Index
      */
-    protected $_index;
+    protected $_currentIndex;
 
     /**
      * Array of exclude Product Ids
@@ -133,10 +133,10 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      */
     protected function _getTargetRuleIndex()
     {
-        if (is_null($this->_index)) {
-            $this->_index = $this->_indexFactory->create();
+        if (is_null($this->_currentIndex)) {
+            $this->_currentIndex = $this->_indexFactory->create();
         }
-        return $this->_index;
+        return $this->_currentIndex;
     }
 
     /**
