@@ -58,7 +58,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $customers \Magento\Customer\Model\Customer[] */
         $customers = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento_ImportExport_Customer_Collection');
+            ->registry('_fixture/Magento\ImportExport\Customer\Collection');
         foreach ($customers as $key => $customer) {
             foreach ($expectedAttributes as $code) {
                 if (!in_array($code, $this->_model->getDisabledAttributes()) && isset($lines[$key][$code])) {
@@ -147,7 +147,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
          * Change created_at date of first customer for future filter test.
          */
         $customers = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento_ImportExport_Customer_Collection');
+            ->registry('_fixture/Magento\ImportExport\Customer\Collection');
         $customers[0]->setCreatedAt($createdAtDate);
         $customers[0]->save();
         /**

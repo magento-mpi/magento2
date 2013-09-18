@@ -17,7 +17,7 @@ class Magento_Rss_Controller_OrderTest extends Magento_TestFramework_TestCase_Co
     /**
      * Reuse URI for "new" action
      */
-    const NEW_ORDER_URI = 'rss/order/new';
+    const NEW_ORDER_URI = 'rss/order/neworder';
 
     public function testNewActionAuthorizationFailed()
     {
