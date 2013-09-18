@@ -98,4 +98,13 @@ class Magento_Test_Integrity_Magento_Persistent_ConfigTest extends Integrity_Con
     {
         $this->markTestSkipped('persistent.xml does not have a partial schema');
     }
+
+    public function testSchemaUsingInvalidXml()
+    {
+        $expectedErrors = array(
+            "Element 'welcome': This element is not expected.",
+            "Element 'models': This element is not expected.",
+        );
+        parent::testSchemaUsingInvalidXml($expectedErrors);
+    }
 }
