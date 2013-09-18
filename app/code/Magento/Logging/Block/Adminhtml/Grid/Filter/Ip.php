@@ -16,23 +16,23 @@ class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Backend_Blo
      *
      * @var Magento_Core_Model_Resource_Helper_Mysql4
      */
-    protected $_coreResourceHelper;
+    protected $_resourceHelper;
 
     /**
      * Construct
      *
      * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
-        Magento_Core_Model_Resource_Helper_Mysql4 $coreResourceHelper,
+        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
         array $data = array()
     ) {
         parent::__construct($context, $data);
 
-        $this->_coreResourceHelper = $coreResourceHelper;
+        $this->_resourceHelper = $resourceHelper;
     }
 
     /**
@@ -48,7 +48,7 @@ class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Backend_Blo
         }
 
         $fieldExpression = new Zend_Db_Expr('INET_NTOA(#?)');
-        $likeExpression = $this->_coreResourceHelper->addLikeEscape($value, array('position' => 'any'));
+        $likeExpression = $this->_resourceHelper->addLikeEscape($value, array('position' => 'any'));
         return array('field_expr' => $fieldExpression, 'like' => $likeExpression);
     }
 }
