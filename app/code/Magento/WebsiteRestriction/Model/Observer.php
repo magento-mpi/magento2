@@ -36,15 +36,24 @@ class Magento_WebsiteRestriction_Model_Observer
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_coreSession;
+
+
+    /**
+     * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
      */
     public function __construct(
+        Magento_Core_Model_Session $coreSession,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Customer_Helper_Data $customerData,
         Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
     ) {
+        $this->_coreSession = $coreSession;
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_websiteRestrictionData = $websiteRestrictionData;
@@ -149,10 +158,10 @@ class Magento_WebsiteRestriction_Model_Observer
                         } else {
                             $afterLoginUrl = Mage::getUrl();
                         }
-                        Mage::getSingleton('Magento_Core_Model_Session')->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
-                    } elseif (Mage::getSingleton('Magento_Core_Model_Session')->hasWebsiteRestrictionAfterLoginUrl()) {
+                        $this->_coreSession->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
+                    } elseif ($this->_coreSession->hasWebsiteRestrictionAfterLoginUrl()) {
                         $response->setRedirect(
-                            Mage::getSingleton('Magento_Core_Model_Session')->getWebsiteRestrictionAfterLoginUrl(true)
+                            $this->_coreSession->getWebsiteRestrictionAfterLoginUrl(true)
                         );
                         $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                     }
