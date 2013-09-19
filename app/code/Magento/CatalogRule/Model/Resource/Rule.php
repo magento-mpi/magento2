@@ -61,17 +61,33 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     protected $_eavConfig;
 
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @var Magento_Catalog_Model_Product_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Product_ConditionFactory $conditionFactory
+     * @param Magento_Core_Model_Date $coreDate
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_CatalogRule_Helper_Data $catalogRuleData
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Catalog_Model_Product_ConditionFactory $conditionFactory,
+        Magento_Core_Model_Date $coreDate,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_CatalogRule_Helper_Data $catalogRuleData,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_conditionFactory = $conditionFactory;
+        $this->_coreDate = $coreDate;
         $this->_eavConfig = $eavConfig;
         $this->_eventManager = $eventManager;
         $this->_catalogRuleData = $catalogRuleData;
@@ -531,7 +547,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
 
             $write->delete($this->getTable('catalogrule_group_website'), array());
 
-            $timestamp = Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp();
+            $timestamp = $this->_coreDate->gmtTimestamp();
 
             $select = $write->select()
                 ->distinct(true)
@@ -548,7 +564,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             throw $e;
         }
 
-        $productCondition = Mage::getModel('Magento_Catalog_Model_Product_Condition')
+        $productCondition = $this->_conditionFactory->create()
             ->setTable($this->getTable('catalogrule_affected_product'))
             ->setPkFieldName('product_id');
         $this->_eventManager->dispatch('catalogrule_after_apply', array(

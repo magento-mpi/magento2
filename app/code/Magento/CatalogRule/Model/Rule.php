@@ -128,6 +128,24 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_customerSession;
 
     /**
+     * @var Magento_CatalogRule_Model_Rule_Condition_CombineFactory
+     */
+    protected $_combineFactory;
+
+    /**
+     * @var Magento_CatalogRule_Model_Rule_Action_CollectionFactory
+     */
+    protected $_actionCollFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_CatalogRule_Model_Rule_Condition_CombineFactory $combineFactory
+     * @param Magento_CatalogRule_Model_Rule_Action_CollectionFactory $actionCollFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Model_Resource_Iterator $resourceIterator
      * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Customer_Model_Session $customerSession
@@ -142,6 +160,9 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogRule_Model_Rule_Condition_CombineFactory $combineFactory,
+        Magento_CatalogRule_Model_Rule_Action_CollectionFactory $actionCollFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Model_Resource_Iterator $resourceIterator,
         Magento_Index_Model_Indexer $indexer,
         Magento_Customer_Model_Session $customerSession,
@@ -155,6 +176,9 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_combineFactory = $combineFactory;
+        $this->_actionCollFactory = $actionCollFactory;
+        $this->_productFactory = $productFactory;
         $this->_resourceIterator = $resourceIterator;
         $this->_indexer = $indexer;
         $this->_customerSession = $customerSession;
@@ -181,7 +205,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_CatalogRule_Model_Rule_Condition_Combine');
+        return $this->_combineFactory->create();
     }
 
     /**
@@ -191,7 +215,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_CatalogRule_Model_Rule_Action_Collection');
+        return $this->_actionCollFactory->create();
     }
 
     /**
@@ -256,7 +280,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => Mage::getModel('Magento_Catalog_Model_Product'),
+                        'product'    => $this->_productFactory->create(),
                     )
                 );
             }
@@ -292,7 +316,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function applyToProduct($product, $websiteIds = null)
     {
         if (is_numeric($product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($product);
+            $product = $this->_productFactory->create()->load($product);
         }
         if (is_null($websiteIds)) {
             $websiteIds = $this->getWebsiteIds();

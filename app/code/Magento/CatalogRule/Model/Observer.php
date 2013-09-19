@@ -44,17 +44,41 @@ class Magento_CatalogRule_Model_Observer
     protected $_backendSession;
 
     /**
+     * @var Magento_CatalogRule_Model_RuleFactory
+     */
+    protected $_ruleFactory;
+
+    /**
+     * @var Magento_CatalogRule_Model_FlagFactory
+     */
+    protected $_flagFactory;
+
+    /**
+     * @var Magento_CatalogRule_Model_Resource_Rule_CollectionFactory
+     */
+    protected $_ruleCollFactory;
+
+    /**
+     * @param Magento_CatalogRule_Model_RuleFactory $ruleFactory
+     * @param Magento_CatalogRule_Model_Resource_Rule_CollectionFactory $ruleCollFactory
+     * @param Magento_CatalogRule_Model_FlagFactory $flagFactory
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_CatalogRule_Model_Rule_Product_Price $productPrice
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_CatalogRule_Model_RuleFactory $ruleFactory,
+        Magento_CatalogRule_Model_Resource_Rule_CollectionFactory $ruleCollFactory,
+        Magento_CatalogRule_Model_FlagFactory $flagFactory,
         Magento_Customer_Model_Session $customerSession,
         Magento_Backend_Model_Session $backendSession,
         Magento_CatalogRule_Model_Rule_Product_Price $productPrice,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_ruleFactory = $ruleFactory;
+        $this->_flagFactory = $flagFactory;
+        $this->_ruleCollFactory = $ruleCollFactory;
         $this->_customerSession = $customerSession;
         $this->_backendSession = $backendSession;
         $this->_productPrice = $productPrice;
@@ -76,7 +100,7 @@ class Magento_CatalogRule_Model_Observer
 
         $productWebsiteIds = $product->getWebsiteIds();
 
-        $rules = Mage::getModel('Magento_CatalogRule_Model_Rule')->getCollection()
+        $rules = $this->_ruleCollFactory->create()
             ->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
@@ -99,7 +123,8 @@ class Magento_CatalogRule_Model_Observer
     {
         $resource = Mage::getResourceSingleton('Magento_CatalogRule_Model_Resource_Rule');
         $resource->applyAllRulesForDateRange($resource->formatDate(mktime(0,0,0)));
-        Mage::getModel('Magento_CatalogRule_Model_Flag')->loadSelf()
+        $this->_flagFactory->create()
+            ->loadSelf()
             ->setState(0)
             ->save();
 
@@ -117,8 +142,9 @@ class Magento_CatalogRule_Model_Observer
      */
     public function processApplyAll(Magento_Event_Observer $observer)
     {
-        Mage::getModel('Magento_CatalogRule_Model_Rule')->applyAll();
-        Mage::getModel('Magento_CatalogRule_Model_Flag')->loadSelf()
+        $this->_ruleFactory->create()->applyAll();
+        $this->_flagFactory->create()
+            ->loadSelf()
             ->setState(0)
             ->save();
         return $this;
@@ -227,7 +253,7 @@ class Magento_CatalogRule_Model_Observer
             && $product->getConfigurablePrice() !== null
         ) {
             $configurablePrice = $product->getConfigurablePrice();
-            $productPriceRule = Mage::getModel('Magento_CatalogRule_Model_Rule')
+            $productPriceRule = $this->_ruleFactory->create()
                 ->calcProductPriceRule($product, $configurablePrice);
             if ($productPriceRule !== null) {
                 $product->setConfigurablePrice($productPriceRule);
@@ -312,7 +338,7 @@ class Magento_CatalogRule_Model_Observer
         }
 
         if ($disabledRulesCount) {
-            Mage::getModel('Magento_CatalogRule_Model_Rule')->applyAll();
+            $this->_ruleFactory->create()->applyAll();
             $this->_backendSession->addWarning(
                 __('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode)
             );
@@ -433,7 +459,7 @@ class Magento_CatalogRule_Model_Observer
             return;
         }
 
-        $rules = Mage::getModel('Magento_CatalogRule_Model_Rule')->getCollection()
+        $rules = $this->_ruleCollFactory->create()
             ->addFieldToFilter('is_active', 1);
 
         foreach ($rules as $rule) {
