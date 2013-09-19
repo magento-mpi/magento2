@@ -25,6 +25,11 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     protected $_eventManager;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @var Magento_Core_Controller_Request_HttpProxy
      */
     protected $_httpRequest;
@@ -43,8 +48,9 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
      * @var Magento_Core_Model_Fieldset_Config
      */
     protected $_fieldsetConfig;
-
+    
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_ModuleManager $moduleManager
      * @param Magento_Core_Controller_Request_HttpProxy $httpRequest
@@ -54,6 +60,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Translate $translator,
         Magento_Core_Model_ModuleManager $moduleManager,
         Magento_Core_Controller_Request_HttpProxy $httpRequest,
@@ -69,6 +76,7 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
         $this->_encryptorFactory = $encyptorFactory;
         $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
+        $this->_logger = $logger;
     }
 
     /**
@@ -125,5 +133,13 @@ class Magento_Core_Helper_Context implements Magento_ObjectManager_ContextInterf
     public function getFieldsetConfig()
     {
         return $this->_fieldsetConfig;
+    }
+    
+    /**
+     * @return Magento_Core_Model_Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
     }
 }

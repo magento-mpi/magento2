@@ -77,11 +77,11 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
             $paymentMethod->process($data);
             $result['success'] = 1;
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = $e->getMessage();
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = __('We couldn\'t process your order right now. Please try again later.');
         }
