@@ -33,9 +33,9 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     protected $_nextId = 0;
 
     /**
-     * @var Magento_ObjectManager
+     * @var Magento_Catalog_Model_ProductFactory
      */
-    protected $_objectManager;
+    protected $_productFactory;
 
     /**
      * Inner cache
@@ -50,14 +50,20 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     protected $_layoutFactory;
 
     /**
+     * @var Magento_GiftMessage_Model_MessageFactory
+     */
+    protected $_giftMessageFactory;
+
+    /**
      * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * @param Magento_GiftMessage_Model_MessageFactory $giftMessageFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LayoutFactory $layoutFactory
-     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
@@ -65,18 +71,20 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_GiftMessage_Model_MessageFactory $giftMessageFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LayoutFactory $layoutFactory,
-        Magento_ObjectManager $objectManager,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_storeManager = $storeManager;
+        $this->_giftMessageFactory = $giftMessageFactory;
         parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
     }
 
@@ -149,7 +157,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
-                    $this->_objectManager->get('Magento_Catalog_Model_Product')
+                    $this->_productFactory->create()
                         ->setStoreId($storeId)
                         ->load($entity->getProductId())
                         ->getGiftMessageAvailable()
@@ -310,7 +318,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      */
     public function getGiftMessage($messageId=null)
     {
-        $message = $this->_objectManager->get('Magento_GiftMessage_Model_Message');
+        $message = $this->_giftMessageFactory->create();
         if(!is_null($messageId)) {
             $message->load($messageId);
         }

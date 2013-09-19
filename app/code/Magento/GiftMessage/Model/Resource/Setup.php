@@ -19,12 +19,12 @@
 class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
     /**
-     * @var Magento_ObjectManager
+     * @var Magento_Catalog_Model_Resource_SetupFactory
      */
-    protected $_objectManager;
+    protected $_catalogSetupFactory;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -37,7 +37,7 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
      * @param $resourceName
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -49,15 +49,21 @@ class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resou
         Magento_Core_Model_CacheInterface $cache,
         $resourceName
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_catalogSetupFactory = $catalogSetupFactory;
         parent::__construct(
             $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
             $resource, $modulesReader, $cache, $resourceName
         );
     }
 
-    public function getObjectManager()
+    /**
+     * Create Catalog Setup Factory for GiftMessage
+     *
+     * @param array $data
+     * @return Magento_Catalog_Model_Resource_Setup
+     */
+    public function createGiftMessageSetup(array $data = array())
     {
-        return $this->_objectManager;
+        return $this->_catalogSetupFactory->create($data);
     }
 }

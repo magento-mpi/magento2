@@ -64,27 +64,28 @@ foreach ($entities as $entity) {
  * Add 'gift_message_available' attributes for entities
  */
 $installer->addAttribute('order_item', 'gift_message_available', $options);
-$installer->getObjectManager()->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'))
-    ->addAttribute(
-        Magento_Catalog_Model_Product::ENTITY, 'gift_message_available',
-        array(
-            'group'         => 'Gift Options',
-            'backend'       => 'Magento_Catalog_Model_Product_Attribute_Backend_Boolean',
-            'frontend'      => '',
-            'label'         => 'Allow Gift Message',
-            'input'         => 'select',
-            'class'         => '',
-            'source'        => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
-            'global'        => true,
-            'visible'       => true,
-            'required'      => false,
-            'user_defined'  => false,
-            'default'       => '',
-            'apply_to'      => '',
-            'input_renderer'   => 'Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config',
-            'is_configurable'  => 0,
-            'visible_on_front' => false
-        )
-    );
+$installer->createGiftMessageSetup(array('resourceName' => 'catalog_setup'));
+$installer->startSetup();
+$installer->addAttribute(
+    Magento_Catalog_Model_Product::ENTITY, 'gift_message_available',
+    array(
+        'group'         => 'Gift Options',
+        'backend'       => 'Magento_Catalog_Model_Product_Attribute_Backend_Boolean',
+        'frontend'      => '',
+        'label'         => 'Allow Gift Message',
+        'input'         => 'select',
+        'class'         => '',
+        'source'        => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
+        'global'        => true,
+        'visible'       => true,
+        'required'      => false,
+        'user_defined'  => false,
+        'default'       => '',
+        'apply_to'      => '',
+        'input_renderer'   => 'Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config',
+        'is_configurable'  => 0,
+        'visible_on_front' => false
+    )
+);
 
 $installer->endSetup();

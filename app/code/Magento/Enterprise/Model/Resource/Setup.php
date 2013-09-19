@@ -16,7 +16,7 @@ class Magento_Enterprise_Model_Resource_Setup extends Magento_Core_Model_Resourc
      *
      * @var Magento_Cms_Model_BlockFactory
      */
-    protected $_blockFactory;
+    protected $_modelBlockFactory;
 
     /**
      * Construct
@@ -49,16 +49,6 @@ class Magento_Enterprise_Model_Resource_Setup extends Magento_Core_Model_Resourc
         parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $config, $moduleList, $resource,
             $modulesReader, $cache, $resourceName);
 
-        $this->_blockFactory = $modelBlockFactory;
-    }
-
-    /**
-     * Get model block factory
-     *
-     * @return Magento_Cms_Model_BlockFactory
-     */
-    public function getBlockFactory()
-    {
-        return $this->_blockFactory;
+        $this->_modelBlockFactory = $modelBlockFactory;
     }
 }
