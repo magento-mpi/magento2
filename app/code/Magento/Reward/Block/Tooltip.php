@@ -41,7 +41,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
     /**
      * @var Magento_Customer_Model_Session
      */
-    protected $_session;
+    protected $_customerSession;
 
     /**
      * @var Magento_Reward_Model_Reward
@@ -72,7 +72,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
-        $this->_session = $session;
+        $this->_customerSession = $session;
         $this->_reward = $reward;
         $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
@@ -84,7 +84,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
             if (!$this->_rewardData->isEnabledOnFront()) {
                 return $this;
             }
-            $customer = $this->_session->getCustomer();
+            $customer = $this->_customerSession->getCustomer();
             $this->_rewardInstance = $this->_reward->setCustomer($customer)
                 ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
                 ->loadByCustomer();

@@ -116,7 +116,6 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
      * @param Magento_Reward_Model_Reward_HistoryFactory $historyFactory
      * @param Magento_Reward_Model_Reward_RateFactory $rateFactory
      * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
-     * @param Magento_Reward_Model_Reward $reward
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -133,7 +132,6 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         Magento_Reward_Model_Reward_HistoryFactory $historyFactory,
         Magento_Reward_Model_Reward_RateFactory $rateFactory,
         Magento_Core_Model_Email_TemplateFactory $templateFactory,
-        Magento_Reward_Model_Reward $reward,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -147,7 +145,6 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         $this->_historyFactory = $historyFactory;
         $this->_rateFactory = $rateFactory;
         $this->_templateFactory = $templateFactory;
-        $this->_reward = $reward;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -743,7 +740,8 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         $helper = $this->_rewardData;
         $amount = $helper
             ->getRateFromRatesArray($item->getPointsBalanceTotal(), $websiteId, $item->getCustomerGroupId());
-        $action = $this->_reward->getActionInstance($item->getAction());
+        $action = $this->getActionInstance($item->getAction());
+        //$action = $this->_reward->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
