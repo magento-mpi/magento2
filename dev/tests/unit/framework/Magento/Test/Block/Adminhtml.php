@@ -60,12 +60,6 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_cacheMock;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject */
-    protected $_storeConfigMock;
-
-    /** @var  \PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperFactoryMock;
-
     public function setUp()
     {
         // These mocks are accessed via context
@@ -82,8 +76,8 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_loggerMock          = $this->_makeMock('Magento\Core\Model\Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento\Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento\Core\Model\CacheInterface');
-        $this->_storeConfigMock     = $this->_makeMock('Magento\Core\Model\Store\Config');
-        $this->_helperFactoryMock   = $this->_makeMock('Magento\Core\Model\Factory\Helper');
+        $storeConfigMock            = $this->_makeMock('Magento\Core\Model\Store\Config');
+        $helperFactoryMock          = $this->_makeMock('Magento\Core\Model\Factory\Helper');
         $viewUrlMock                = $this->_makeMock('Magento\Core\Model\View\Url');
         $viewConfigMock             = $this->_makeMock('Magento\Core\Model\View\Config');
         $viewFileSystemMock         = $this->_makeMock('Magento\Core\Model\View\FileSystem');
@@ -105,9 +99,9 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $this->_cacheMock,
             $this->_designMock,
             $this->_sessionMock,
-            $this->_storeConfigMock,
+            $storeConfigMock,
             $this->_controllerMock,
-            $this->_helperFactoryMock,
+            $helperFactoryMock,
             $viewUrlMock,
             $viewConfigMock,
             $cacheStateMock,
