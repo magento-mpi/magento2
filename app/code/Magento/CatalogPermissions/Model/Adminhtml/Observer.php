@@ -34,13 +34,29 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
     protected $_catalogPermData = null;
 
     /**
+     * @var Magento_CatalogPermissions_Model_PermissionFactory
+     */
+    protected $_permissionFactory;
+
+    /**
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_CatalogPermissions_Model_PermissionFactory $permissionFactory
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_CatalogPermissions_Model_PermissionFactory $permissionFactory,
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
         Magento_AuthorizationInterface $authorization
     ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_permissionFactory = $permissionFactory;
         $this->_catalogPermData = $catalogPermData;
         $this->_authorization = $authorization;
     }
@@ -64,7 +80,7 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
                 ->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
         ) {
             foreach ($category->getData('permissions') as $data) {
-                $permission = Mage::getModel('Magento_CatalogPermissions_Model_Permission');
+                $permission = $this->_permissionFactory->create();
                 if (!empty($data['id'])) {
                     $permission->load($data['id']);
                 }
@@ -112,7 +128,8 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function reindexCategoryPermissionOnMove(Magento_Event_Observer $observer)
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category')
+        $category = $this->_categoryFactory
+            ->create()
             ->load($observer->getEvent()->getCategoryId());
         $this->_indexQueue[] = $category->getPath();
         return $this;

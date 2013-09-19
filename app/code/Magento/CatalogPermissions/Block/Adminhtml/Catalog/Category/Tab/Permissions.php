@@ -29,6 +29,24 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     protected $_catalogPermData = null;
 
     /**
+     * @var Magento_Customer_Model_Resource_Group_CollectionFactory
+     */
+    protected $_groupCollFactory;
+
+    /**
+     * @var Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory
+     */
+    protected $_permissionCollFactory;
+
+    /**
+     * @var Magento_CatalogPermissions_Model_Permission_IndexFactory
+     */
+    protected $_permIndexFactory;
+
+    /**
+     * @param Magento_CatalogPermissions_Model_Permission_IndexFactory $permIndexFactory
+     * @param Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory $permissionCollFactory
+     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -36,12 +54,18 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogPermissions_Model_Permission_IndexFactory $permIndexFactory,
+        Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory $permissionCollFactory,
+        Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_permIndexFactory = $permIndexFactory;
+        $this->_permissionCollFactory = $permissionCollFactory;
+        $this->_groupCollFactory = $groupCollFactory;
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($coreData, $context, $registry, $data);
     }
@@ -109,8 +133,8 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = Mage::getModel('Magento_CatalogPermissions_Model_Permission')
-                ->getCollection()
+            $collection = $this->_permissionCollFactory
+                ->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId())
                 ->setOrder('permission_id', 'asc');
             $this->setData('permisssion_collection', $collection);
@@ -137,7 +161,8 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
 
         $permissions = array();
         if ($categoryId) {
-            $index  = Mage::getModel('Magento_CatalogPermissions_Model_Permission_Index')
+            $index  = $this->_permIndexFactory
+                ->create()
                 ->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
@@ -150,7 +175,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         }
 
         $websites = Mage::app()->getWebsites(false);
-        $groups   = Mage::getModel('Magento_Customer_Model_Group')->getCollection()->getAllIds();
+        $groups   = $this->_groupCollFactory->create()->getAllIds();
 
         /* @var $helper Magento_CatalogPermissions_Helper_Data */
         $helper   = $this->_catalogPermData;
