@@ -30,14 +30,24 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -167,6 +177,6 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
      */
     public function getShouldRedirectToCart($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_REDIRECT_TO_CART, $store);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REDIRECT_TO_CART, $store);
     }
 }

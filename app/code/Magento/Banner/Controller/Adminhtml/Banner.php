@@ -149,7 +149,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                     __('We cannot save the banner.')
                 );
                 $redirectBack = true;
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
             if ($redirectBack) {
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
@@ -188,7 +188,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                     __('Something went wrong deleting banner data. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
                 );
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 // save data in session
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
@@ -231,7 +231,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                     __('Something went wrong mass-deleting banners. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
                 );
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 return;
             }
         }

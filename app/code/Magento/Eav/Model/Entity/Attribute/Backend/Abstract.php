@@ -62,6 +62,22 @@ abstract class Magento_Eav_Model_Entity_Attribute_Backend_Abstract
     protected $_defaultValue = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        array $data = array()
+    ) {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Set attribute instance
      *
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute

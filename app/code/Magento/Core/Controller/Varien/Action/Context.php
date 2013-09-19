@@ -47,6 +47,12 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     protected $_isRenderInherited;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
@@ -56,6 +62,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
      * @param $isRenderInherited
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
@@ -71,6 +78,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
         $this->_layout            = $layout;
         $this->_eventManager      = $eventManager;
         $this->_isRenderInherited = $isRenderInherited;
+        $this->_logger            = $logger;
     }
 
     /**
@@ -129,5 +137,13 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     public function getEventManager()
     {
         return $this->_eventManager;
+    }
+
+    /**
+     * @return Magento_Core_Model_Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
     }
 }

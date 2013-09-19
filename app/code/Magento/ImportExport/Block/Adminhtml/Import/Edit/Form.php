@@ -18,6 +18,33 @@
 class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Basic import model
+     *
+     * @var Magento_ImportExport_Model_Import
+     */
+    protected $_importModel;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_ImportExport_Model_Import $importModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_ImportExport_Model_Import $importModel,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_importModel = $importModel;
+    }
+
+    /**
      * Add fieldsets
      *
      * @return Magento_ImportExport_Block_Adminhtml_Import_Edit_Form
@@ -48,8 +75,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Back
         ));
 
         // add behaviour fieldsets
-        $importModel = Mage::getModel('Magento_ImportExport_Model_Import');
-        $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();
+        $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
             $fieldsets[$behaviorCode] = $form->addFieldset(
                 $behaviorCode . '_fieldset',

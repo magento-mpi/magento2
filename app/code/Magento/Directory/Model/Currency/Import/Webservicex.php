@@ -27,8 +27,20 @@ class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Direct
      */
     protected $_httpClient;
 
-    public function __construct()
-    {
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     *
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_httpClient = new Magento_HTTP_ZendClient();
     }
 
@@ -40,7 +52,7 @@ class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Direct
         try {
             $response = $this->_httpClient
                 ->setUri($url)
-                ->setConfig(array('timeout' => Mage::getStoreConfig('currency/webservicex/timeout')))
+                ->setConfig(array('timeout' => $this->_coreStoreConfig->getConfig('currency/webservicex/timeout')))
                 ->request('GET')
                 ->getBody();
 

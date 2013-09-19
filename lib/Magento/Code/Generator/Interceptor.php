@@ -205,7 +205,7 @@ class Magento_Code_Generator_Interceptor extends Magento_Code_Generator_EntityAb
             'docblock' => array(
                 'shortDescription' => 'Retrieve ObjectManager from the global scope',
             ),
-            'body' => '$this->_objectManager = Mage::getObjectManager();'
+            'body' => '$this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();'
                 . "\n\$this->_pluginList = \$this->_objectManager->get('Magento_Interception_PluginList');",
         );
 

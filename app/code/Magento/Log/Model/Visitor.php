@@ -49,9 +49,23 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_ignoredUserAgents;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $ignoredUserAgents
@@ -61,6 +75,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $ignoredUserAgents = array(),
@@ -68,6 +84,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     ) {
         $this->_ignoredUserAgents = $ignoredUserAgents;
         $this->_coreHttp = $coreHttp;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -123,9 +141,9 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      *
      * @return int Minutes Interval
      */
-    public static function getOnlineMinutesInterval()
+    public function getOnlineMinutesInterval()
     {
-        $configValue = Mage::getStoreConfig('customer/online_customers/online_minutes_interval');
+        $configValue = $this->_coreStoreConfig->getConfig('customer/online_customers/online_minutes_interval');
         return intval($configValue) > 0
             ? intval($configValue)
             : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
@@ -204,7 +222,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->save();
             $this->_getSession()->setVisitorData($this->getData());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $this;
     }
@@ -322,7 +340,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     public function isModuleIgnored($observer)
     {
-        $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
+        $ignores = $this->_coreConfig->getNode('global/ignoredModules/entities')->asArray();
 
         if (is_array($ignores) && $observer) {
             $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getRouteName();

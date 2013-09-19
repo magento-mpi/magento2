@@ -34,7 +34,6 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         parent::__construct($role);
     }
 
-
     /**
      * Put websites/stores permissions data after loading admin role
      *

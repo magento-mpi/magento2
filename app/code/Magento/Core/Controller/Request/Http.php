@@ -56,11 +56,18 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_beforeForwardInfo = array();
 
     /**
-     * @param string $uri
+     * @var Magento_Backend_Helper_DataProxy
+     */
+    protected $_helper;
+
+    /**
+     * @param Magento_Backend_Helper_DataProxy $helper
+     * @param null $uri
      * @param array $directFrontNames
      */
-    public function __construct($uri = null, $directFrontNames = array())
+    public function __construct(Magento_Backend_Helper_DataProxy $helper, $uri = null, $directFrontNames = array())
     {
+        $this->_helper = $helper;
         $this->_directFrontNames = $directFrontNames;
         parent::__construct($uri);
     }
@@ -141,7 +148,7 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     protected function _isFrontArea($storeCode)
     {
-        return $storeCode != Mage::getObjectManager()->get('Magento_Backend_Helper_Data')->getAreaFrontName();
+        return $storeCode != $this->_helper->getAreaFrontName();
     }
 
     /**

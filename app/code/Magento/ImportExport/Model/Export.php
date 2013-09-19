@@ -47,16 +47,17 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
      */
     protected $_exportConfig;
 
-
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        parent::__construct($logger, $data);
         $this->_exportConfig = $exportConfig;
     }
 
@@ -75,7 +76,7 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
                 try {
                     $this->_entityAdapter = Mage::getModel($entities[$this->getEntity()]['model']);
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     Mage::throwException(
                         __('Please enter a correct entity model')
                     );
@@ -120,7 +121,7 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
                 try {
                     $this->_writer = Mage::getModel($fileFormats[$this->getFileFormat()]['model']);
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     Mage::throwException(
                         __('Please enter a correct entity model')
                     );

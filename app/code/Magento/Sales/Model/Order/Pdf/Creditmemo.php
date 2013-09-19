@@ -121,8 +121,10 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
             $this->insertOrder(
                 $page,
                 $order,
-                Mage::getStoreConfigFlag(self::XML_PATH_SALES_PDF_CREDITMEMO_PUT_ORDER_ID, $order->getStoreId())
-            );
+                $this->_coreStoreConfig->getConfigFlag(
+                    self::XML_PATH_SALES_PDF_CREDITMEMO_PUT_ORDER_ID,
+                    $order->getStoreId()
+            ));
             /* Add document text and number */
             $this->insertDocumentNumber(
                 $page,
@@ -131,7 +133,7 @@ class Magento_Sales_Model_Order_Pdf_Creditmemo extends Magento_Sales_Model_Order
             /* Add table head */
             $this->_drawHeader($page);
             /* Add body */
-            foreach ($creditmemo->getAllItems() as $item){
+            foreach ($creditmemo->getAllItems() as $item) {
                 if ($item->getOrderItem()->getParentItem()) {
                     continue;
                 }

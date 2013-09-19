@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_shipping_method">
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method" template="sales/order/create/abstract.phtml" name="shipping_method">
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form" template="sales/order/create/shipping/method/form.phtml" name="order.create.shipping.method.form" as="form"/>
-            </block>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method" template="sales/order/create/abstract.phtml" name="shipping_method">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form" template="sales/order/create/shipping/method/form.phtml" name="order.create.shipping.method.form" as="form"/>
+        </block>
+    </reference>
 </layout>

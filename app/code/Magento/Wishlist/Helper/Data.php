@@ -78,20 +78,30 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreRegistry = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
+         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -179,10 +189,10 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     public function getItemCount()
     {
         $storedDisplayType = $this->_getCustomerSession()->getWishlistDisplayType();
-        $currentDisplayType = Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
+        $currentDisplayType = $this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
 
         $storedDisplayOutOfStockProducts = $this->_getCustomerSession()->getDisplayOutOfStockProducts();
-        $currentDisplayOutOfStockProducts = Mage::getStoreConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK);
+        $currentDisplayOutOfStockProducts = $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK);
         if (!$this->_getCustomerSession()->hasWishlistItemCount()
                 || ($currentDisplayType != $storedDisplayType)
                 || $this->_getCustomerSession()->hasDisplayOutOfStockProducts()
@@ -410,7 +420,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isAllow()
     {
-        if ($this->isModuleOutputEnabled() && Mage::getStoreConfig('wishlist/general/active')) {
+        if ($this->isModuleOutputEnabled() && $this->_coreStoreConfig->getConfig('wishlist/general/active')) {
             return true;
         }
         return false;
@@ -471,7 +481,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRssAllow()
     {
-        return Mage::getStoreConfigFlag('rss/wishlist/active');
+        return $this->_coreStoreConfig->getConfigFlag('rss/wishlist/active');
     }
 
     /**
@@ -507,14 +517,14 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         $count = 0;
         if ($this->getCustomer()) {
             $collection = $this->getWishlistItemCollection()->setInStockFilter(true);
-            if (Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
+            if ($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
                 $count = $collection->getItemsQty();
             } else {
                 $count = $collection->getSize();
             }
-            $session->setWishlistDisplayType(Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
+            $session->setWishlistDisplayType($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
             $session->setDisplayOutOfStockProducts(
-                Mage::getStoreConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK)
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK)
             );
         }
         $session->setWishlistItemCount($count);
@@ -529,6 +539,6 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isDisplayQty()
     {
-        return Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
     }
 }

@@ -95,7 +95,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @var Magento_CatalogRule_Helper_Data
      */
-    protected $_catalogRuleData = null;
+    protected $_catalogRuleData;
 
     /**
      * @var Magento_Core_Model_Cache_TypeListInterface
@@ -295,7 +295,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function applyAllRulesToProduct($product)
     {
-        $this->_getResource()->applyAllRulesForDateRange(NULL, NULL, $product);
+        $this->_getResource()->applyAllRulesForDateRange(null, null, $product);
         $this->_invalidateCache();
 
         if ($product instanceof Magento_Catalog_Model_Product) {
@@ -426,7 +426,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @return string
      */
-    public function toString($format='')
+    public function toString($format = '')
     {
         return '';
     }

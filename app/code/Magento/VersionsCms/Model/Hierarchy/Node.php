@@ -86,6 +86,13 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected $_hierarchyConfig;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * Meta node's types
      */
     const META_NODE_TYPE_CHAPTER = 'chapter';
@@ -100,12 +107,13 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * @var Magento_VersionsCms_Helper_Hierarchy
      */
     protected $_cmsHierarchy = null;
-    
+
     /**
      * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Model_Context $context
      * @param Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -115,12 +123,14 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         Magento_Core_Model_Context $context,
         Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
         $this->_hierarchyConfig = $hierarchyConfig;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
@@ -733,7 +743,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         }
         $layoutName = $rootParams['menu_layout'];
         if (!$layoutName) {
-            $layoutName = Mage::getStoreConfig('cms/hierarchy/menu_layout');
+            $layoutName = $this->_coreStoreConfig->getConfig('cms/hierarchy/menu_layout');
         }
         if (!$layoutName) {
             return null;

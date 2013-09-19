@@ -19,7 +19,7 @@ class Magento_Test_Legacy_Magento_Install_ConfigTest extends PHPUnit_Framework_T
         $path = '/config/check/php/extensions';
         $this->assertEmpty(
             $xml->xpath($path),
-            "Nodes from '{$path}' in install.xml have been moved module.xml"
+            "Nodes from '{$path}' in install_wizard.xml have been moved to module.xml"
         );
     }
 
@@ -28,6 +28,6 @@ class Magento_Test_Legacy_Magento_Install_ConfigTest extends PHPUnit_Framework_T
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('install.xml');
+        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('install_wizard.xml');
     }
 }

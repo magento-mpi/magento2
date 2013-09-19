@@ -117,16 +117,19 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
 
     /**
      * @param Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
         $this->_urlSecurityInfo = $urlSecurityInfo;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
     }
 
@@ -672,7 +675,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
         }
 
         if (isset($data['_store_to_url']) && (bool)$data['_store_to_url'] === true) {
-            if (!Mage::getStoreConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())
+            if (!$this->_coreStoreConfig->getConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())
                 && !Mage::app()->hasSingleStore()
             ) {
                 $this->setQueryParam('___store', $this->getStore()->getCode());

@@ -37,7 +37,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
      * @param Magento_GoogleOptimizer_Helper_Form $formHelper
-     * @param Magento_Data_Form $form
+     * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
@@ -47,7 +47,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
         Magento_Core_Model_Registry $registry,
         Magento_GoogleOptimizer_Helper_Code $codeHelper,
         Magento_GoogleOptimizer_Helper_Form $formHelper,
-        Magento_Data_Form $form,
+        Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -56,7 +56,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
         $this->_registry = $registry;
         $this->_codeHelper = $codeHelper;
         $this->_formHelper = $formHelper;
-        $this->setForm($form);
+        $this->setForm($formFactory->create());
     }
 
     /**

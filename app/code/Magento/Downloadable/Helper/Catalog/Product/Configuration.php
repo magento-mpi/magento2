@@ -26,14 +26,24 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
     protected $_productConfigur = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Catalog_Helper_Product_Configuration $productConfigur
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Configuration $productConfigur,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+    Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_productConfigur = $productConfigur;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -72,7 +82,7 @@ class Magento_Downloadable_Helper_Catalog_Product_Configuration extends Magento_
         if (strlen($title)) {
             return $title;
         }
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     /**

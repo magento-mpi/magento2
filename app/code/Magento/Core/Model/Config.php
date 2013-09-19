@@ -2,10 +2,6 @@
 /**
  * Application configuration object. Used to access configuration when application is initialized and installed.
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -14,7 +10,6 @@
 
 
 /**
- * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

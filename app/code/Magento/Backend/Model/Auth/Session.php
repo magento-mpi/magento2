@@ -37,21 +37,27 @@ class Magento_Backend_Model_Auth_Session
     protected $_aclBuilder;
 
     /**
-     * @param Magento_Acl_Builder $aclBuilder
      * @param Magento_Core_Model_Session_Validator $validator
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Acl_Builder $aclBuilder
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Acl_Builder $aclBuilder,
         Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Acl_Builder $aclBuilder,
         Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
-        parent::__construct($validator, $eventManager, $coreHttp, $data);
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('admin');
     }
 
@@ -134,7 +140,7 @@ class Magento_Backend_Model_Auth_Session
      */
     public function isLoggedIn()
     {
-        $lifetime = Mage::getStoreConfig(self::XML_PATH_SESSION_LIFETIME);
+        $lifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_SESSION_LIFETIME);
         $currentTime = time();
 
         /* Validate admin session lifetime that should be more than 60 seconds */

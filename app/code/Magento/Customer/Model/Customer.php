@@ -140,11 +140,22 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Eav_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Customer_Model_Resource_Customer $resource
      * @param Magento_Data_Collection_Db|null $resourceCollection
      * @param array $data
@@ -158,6 +169,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Eav_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Customer_Model_Resource_Customer $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -165,6 +177,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -636,7 +649,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         }
         if (self::$_isConfirmationRequired === null) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : null;
-            self::$_isConfirmationRequired = (bool)Mage::getStoreConfig(self::XML_PATH_IS_CONFIRM, $storeId);
+            self::$_isConfirmationRequired = (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_IS_CONFIRM, $storeId);
         }
 
         return self::$_isConfirmationRequired;
@@ -688,9 +701,9 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         $mailer->addEmailInfo($emailInfo);
 
         // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig($sender, $storeId));
+        $mailer->setSender($this->_coreStoreConfig->getConfig($sender, $storeId));
         $mailer->setStoreId($storeId);
-        $mailer->setTemplateId(Mage::getStoreConfig($template, $storeId));
+        $mailer->setTemplateId($this->_coreStoreConfig->getConfig($template, $storeId));
         $mailer->setTemplateParams($templateParams);
         $mailer->send();
         return $this;
@@ -747,7 +760,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     {
         if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
-            $groupId = Mage::getStoreConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId);
+            $groupId = $this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId);
             $this->setData('group_id', $groupId);
         }
         return $this->getData('group_id');

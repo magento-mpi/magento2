@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="MAP_popup">
-        <reference name="content">
-            <block class="Magento_Core_Block_Template" template="Magento_Catalog::msrp/popup.phtml" name="product.tooltip"/>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_Core_Block_Template" template="Magento_Catalog::msrp/popup.phtml" name="product.tooltip"/>
+    </reference>
 </layout>

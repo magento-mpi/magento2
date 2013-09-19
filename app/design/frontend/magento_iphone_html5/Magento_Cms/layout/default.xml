@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <remove name="mage-cms-widgets-css"/>
-        <remove name="header.callout"/>
-        <move element="cms_footer_links" destination="footer" before="footer_links"/>
-    </handle>
+    <remove name="mage-cms-widgets-css"/>
+    <remove name="header.callout"/>
+    <move element="cms_footer_links" destination="footer" before="footer_links"/>
 </layout>

@@ -25,6 +25,33 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
     extends Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
 {
     /**
+     * Basic import model
+     *
+     * @var Magento_ImportExport_Model_Import
+     */
+    protected $_importModel;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_ImportExport_Model_Import $importModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_ImportExport_Model_Import $importModel,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_importModel = $importModel;
+    }
+
+    /**
      * Prepare form for import operation
      *
      * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import
@@ -42,8 +69,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         $fieldset = $form->getElement('operation_settings');
 
         // add behaviour fields
-        $importModel = Mage::getModel('Magento_ImportExport_Model_Import');
-        $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();
+        $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
             /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
             $behaviorSource = Mage::getModel($behaviorClass);

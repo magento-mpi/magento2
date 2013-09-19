@@ -29,6 +29,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         $coreHttp = $this->getMock('Magento_Core_Helper_Http', array(), array(), '', false);
 
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
 
         $validatorMock = $this->getMock('Magento_Core_Model_Session_Validator', array(), array(), '', false);
 
@@ -36,7 +37,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
         $session = $this->getMock(
             'Magento_Checkout_Model_Session',
             array('init'),
-            array($validatorMock, $eventManager, $coreHttp, $orderFactory,),
+            array($validatorMock, $logger, $orderFactory, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig),
             ''
         );
         $session->setLastRealOrderId($orderId);

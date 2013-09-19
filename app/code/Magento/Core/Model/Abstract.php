@@ -114,6 +114,11 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -132,6 +137,7 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
         $this->_cacheManager = $context->getCacheManager();
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
+        $this->_logger = $context->getLogger();
 
         if ($this->_resource) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
@@ -180,12 +186,10 @@ abstract class Magento_Core_Model_Abstract extends Magento_Object
     public function __wakeup()
     {
         if (Mage::getIsSerializable()) {
-            $this->_eventDispatcher = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Event_Manager');
-            $this->_cacheManager    = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_CacheInterface');
-            $this->_coreRegistry    = Magento_Core_Model_ObjectManager::getInstance()
-                ->get('Magento_Core_Model_Registry');
+            $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+            $this->_eventDispatcher = $objectManager->get('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager = $objectManager->get('Magento_Core_Model_CacheInterface');
+            $this->_coreRegistry = $objectManager->get('Magento_Core_Model_Registry');
         }
     }
 

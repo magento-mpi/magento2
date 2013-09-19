@@ -34,6 +34,13 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
     protected $_categoryAttributeTabBlock;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -43,12 +50,15 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -103,7 +113,9 @@ class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
      */
     public function getSitemapValidPaths()
     {
-        return array_merge(Mage::getStoreConfig(self::XML_PATH_SITEMAP_VALID_PATHS),
-            $this->_coreData->getPublicFilesValidPath());
+        return array_merge(
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_SITEMAP_VALID_PATHS),
+            $this->_coreData->getPublicFilesValidPath()
+        );
     }
 }
