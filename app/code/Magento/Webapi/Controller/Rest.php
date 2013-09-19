@@ -24,7 +24,7 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
     /** @var Magento_Core_Model_App_State */
     protected $_appState;
 
-    /** @var Magento_Webapi_Controller_Rest_Authentication */
+    /** @var Magento_Webapi_Model_Authentication */
     protected $_authentication;
 
     /**
@@ -35,7 +35,7 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
      * @param Magento_Webapi_Controller_Rest_Router $router
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Webapi_Controller_Rest_Authentication $authentication
+     * @param Magento_Webapi_Model_Authentication $authentication
      */
     public function __construct(
         Magento_Webapi_Controller_Rest_Request $request,
@@ -43,7 +43,7 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
         Magento_Webapi_Controller_Rest_Router $router,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_App_State $appState,
-        Magento_Webapi_Controller_Rest_Authentication $authentication
+        Magento_Webapi_Model_Authentication $authentication
     ) {
         $this->_router = $router;
         $this->_request = $request;

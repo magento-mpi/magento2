@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Authentication
+class Magento_Webapi_Model_Authentication
 {
     /** @var Magento_Oauth_Service_OauthV1Interface */
     protected $_oauthService;
