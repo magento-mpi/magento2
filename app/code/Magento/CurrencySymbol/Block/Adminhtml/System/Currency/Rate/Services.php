@@ -18,6 +18,8 @@
  */
 class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services extends Magento_Backend_Block_Template
 {
+    protected $_template = 'system/currency/rate/services.phtml';
+
     /**
      * @var Magento_Backend_Model_Config_Source_Currency_Service
      */
@@ -46,8 +48,6 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
         $this->_srcCurrencyFactory = $srcCurrencyFactory;
         parent::__construct($coreData, $context, $data);
     }
-
-    protected $_template = 'system/currency/rate/services.phtml';
 
     /**
      * Create import services form select element
