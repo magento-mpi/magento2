@@ -16,4 +16,5 @@ require __DIR__ . '/../../../../../../../app/autoload.php';
     $rootDir . '/dev/tests/unit/framework/',
     $rootDir . '/app/code/',
     $rootDir . '/app'
-)); \Mage::setIsSerializable(false);
+));
+\Mage::setIsSerializable(false);

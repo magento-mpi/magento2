@@ -24,7 +24,8 @@ if (is_dir(TESTS_TEMP_DIR)) {
 mkdir(TESTS_TEMP_DIR);
 
 \Magento\Phrase::setRenderer(new \Magento\Phrase\Renderer\Placeholder());
- \Mage::setIsSerializable(false);
+
+\Mage::setIsSerializable(false);
 
 function tool_autoloader($className)
 {
