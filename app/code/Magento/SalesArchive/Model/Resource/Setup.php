@@ -55,6 +55,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
     protected $_salesHelper;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
@@ -65,6 +66,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $config,
@@ -76,7 +78,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
     ) {
         $this->_salesHelper = $salesHelper;
         parent::__construct(
-            $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
         );
     }
 
@@ -212,7 +214,8 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
-        $this->_salesHelper->changeColumnPosition($table, $column, $after, $first);
+        $helper = Mage::getResourceHelper('Magento_SalesArchive');
+        $helper->changeColumnPosition($table, $column, $after, $first);
 
         return $this;
     }
