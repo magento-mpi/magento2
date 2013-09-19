@@ -312,7 +312,7 @@ class Magento_TestFramework_Utility_Files
             return self::$_cache[$key];
         }
         $namespace = $module = $package = $theme = '*';
-        $pathes = array(
+        $paths = array(
             "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
             "{$this->_path}/app/design/{$area}/{$package}/{$theme}",
             "{$this->_path}/pub/lib/varien",
@@ -323,13 +323,15 @@ class Magento_TestFramework_Utility_Files
         );
 
         if ($area == 'adminhtml') {
-            $adminhtmlPathes = array(
-                "{$this->_path}/pub/lib/mage/adminhtml",
-                "{$this->_path}/pub/lib/mage/backend"
+            $adminhtmlPaths = array(
+                "{$this->_path}/pub/lib/mage/{adminhtml,backend}",
             );
             $files = array_merge($files, self::_getFiles($adminhtmlPathes, '*.js'));
         } else {
-            $frontendPathes = array("{$this->_path}/pub/lib/mage");
+            $frontendPaths = array("{$this->_path}/pub/lib/mage");
+            /* current structure of /pub/lib/mage directory contains frontend javascript in the root,
+               backend javascript in subdirectories. That's why script shouldn't go recursive throught subdirectories
+               to get js files for frontend */
             $files = array_merge($files, self::_getFiles($frontendPathes, '*.js', false));
         }
 
