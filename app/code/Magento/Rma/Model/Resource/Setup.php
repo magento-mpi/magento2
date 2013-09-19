@@ -31,6 +31,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     /**
      * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -40,10 +41,13 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
      * @param $resourceName
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -57,7 +61,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         $this->_migrationFactory = $migrationFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
         parent::__construct(
-            $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
+            $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
             $modulesReader, $cache, $resourceName
         );
     }
