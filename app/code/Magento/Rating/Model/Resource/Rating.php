@@ -39,20 +39,28 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     protected $_logger;
 
     /**
+     * @var Magento_Review_Model_Resource_Review_Summary
+     */
+    protected $_reviewSummary;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Rating_Helper_Data $ratingData
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Review_Model_Resource_Review_Summary $reviewSummary
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Rating_Helper_Data $ratingData,
         Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManager $storeManager
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Review_Model_Resource_Review_Summary $reviewSummary
     ) {
         $this->_ratingData = $ratingData;
         $this->_storeManager = $storeManager;
         $this->_logger = $logger;
+        $this->_reviewSummary = $reviewSummary;
         parent::__construct($resource);
     }
 
@@ -91,7 +99,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
         $adapter    = $this->_getReadAdapter();
 
         $table      = $this->getMainTable();
-        $storeId    = (int)Mage::app()->getStore()->getId();
+        $storeId    = (int)$this->_storeManager->getStore()->getId();
         $select     = parent::_getLoadSelect($field, $value, $object);
         $codeExpr   = $adapter->getIfNullSql('title.value', "{$table}.rating_code");
 
@@ -106,7 +114,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     /**
      * Actions after load
      *
-     * @param Magento_Rating_Model_Rating $object
+     * @param Magento_Core_Model_Abstract|Magento_Rating_Model_Rating $object
      * @return Magento_Rating_Model_Resource_Rating
      */
     protected function _afterLoad(Magento_Core_Model_Abstract $object)
@@ -152,7 +160,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     /**
      * Actions after save
      *
-     * @param Magento_Rating_Model_Rating $object
+     * @param Magento_Core_Model_Abstract|Magento_Rating_Model_Rating $object
      * @return Magento_Rating_Model_Resource_Rating
      */
     protected function _afterSave(Magento_Core_Model_Abstract $object)
@@ -264,7 +272,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
             $clone->addData($row);
             $summary[$clone->getStoreId()][$clone->getEntityPkValue()] = $clone;
         }
-        Mage::getResourceModel('Magento_Review_Model_Resource_Review_Summary')->reAggregate($summary);
+        $this->_reviewSummary->reAggregate($summary);
         return $this;
     }
 
@@ -281,18 +289,16 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
 
         if ($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if ($row['store_id']==Mage::app()->getStore()->getId()) {
+                if ($row['store_id'] == $this->_storeManager->getStore()->getId()) {
                     $object->addData($row);
                 }
             }
             return $object;
         }
 
+        $stores = $this->_storeManager->getStores();
+
         $result = array();
-
-        //$stores = Mage::app()->getStore()->getResourceCollection()->load();
-        $stores = Mage::getModel('Magento_Core_Model_Store')->getResourceCollection()->load();
-
         foreach ($data as $row) {
             $clone = clone $object;
             $clone->addData($row);
@@ -300,7 +306,6 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
         }
 
         $usedStoresId = array_keys($result);
-
         foreach ($stores as $store) {
             if (!in_array($store->getId(), $usedStoresId)) {
                 $clone = clone $object;
@@ -310,7 +315,6 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
                 $result[$store->getId()] = $clone;
             }
         }
-
         return array_values($result);
     }
 
@@ -400,7 +404,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
 
         if ($onlyForCurrentStore) {
             foreach ($data as $row) {
-                if ($row['store_id'] == Mage::app()->getStore()->getId()) {
+                if ($row['store_id'] == $this->_storeManager->getStore()->getId()) {
                     $object->addData($row);
                 }
             }
@@ -409,7 +413,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
 
         $result = array();
 
-        $stores = Mage::app()->getStore()->getResourceCollection()->load();
+        $stores = $this->_storeManager->getStore()->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;
