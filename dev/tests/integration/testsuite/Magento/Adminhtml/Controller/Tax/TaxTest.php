@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Tax_ClassTest extends Magento_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Tax_TaxTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @dataProvider ajaxSaveActionDataProvider
@@ -25,7 +25,7 @@ class Magento_Adminhtml_Controller_Tax_ClassTest extends Magento_Backend_Utility
     {
         $this->getRequest()->setPost($postData);
 
-        $this->dispatch('backend/admin/tax_classtax/ajaxSave');
+        $this->dispatch('backend/admin/tax_tax/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
         $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
