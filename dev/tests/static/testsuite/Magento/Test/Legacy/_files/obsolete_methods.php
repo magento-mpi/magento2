@@ -804,5 +804,4 @@ return array(
     array('_getBackendSession', 'Magento_Captcha_Model_Observer'),
     array('_resetAttempt', 'Magento_Captcha_Model_Observer'),
     array('getProductStatusModel', 'Magento_CatalogInventory_Model_Stock_Status'),
-    array('getItemCollection', 'Magento_CatalogInventory_Model_Stock'),
 );

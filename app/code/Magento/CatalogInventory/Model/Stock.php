@@ -39,12 +39,12 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
     protected $_catalogInventoryData;
 
     /**
-     * @var Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @var Magento_CatalogInventory_Model_Resource_Stock_Item_CollectionFactory
      */
-    protected $_resStockItemColl;
+    protected $_collectionFactory;
 
     /**
-     * @param Magento_CatalogInventory_Model_Resource_Stock_Item_Collection $resStockItemColl
+     * @param Magento_CatalogInventory_Model_Resource_Stock_Item_CollectionFactory $collectionFactory
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -53,7 +53,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogInventory_Model_Resource_Stock_Item_Collection $resStockItemColl,
+        Magento_CatalogInventory_Model_Resource_Stock_Item_CollectionFactory $collectionFactory,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -61,7 +61,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_resStockItemColl = $resStockItemColl;
+        $this->_collectionFactory = $collectionFactory;
         $this->_catalogInventoryData = $catalogInventoryData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -89,8 +89,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
      */
     public function addItemsToProducts($productCollection)
     {
-        $items = $this->_resStockItemColl
-            ->addStockFilter($this->getId())
+        $items = $this->getItemCollection()
             ->addProductsFilter($productCollection)
             ->joinStockStatus($productCollection->getStoreId())
             ->load();
@@ -107,6 +106,17 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve items collection object with stock filter
+     *
+     * @return unknown
+     */
+    public function getItemCollection()
+    {
+        return $this->_collectionFactory->create()
+            ->addStockFilter($this->getId());
     }
 
     /**
