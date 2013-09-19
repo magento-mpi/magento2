@@ -26,18 +26,34 @@ class Magento_GoogleAnalytics_Block_Ga extends Magento_Core_Block_Template
     protected $_googleAnalyticsData = null;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_ObjectManager $objectManager
      * @param Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_ObjectManager $objectManager,
         Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;
+        $this->_objectManager = $objectManager;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -96,7 +112,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
         if (empty($orderIds) || !is_array($orderIds)) {
             return;
         }
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+        $collection = $this->_objectManager->create('Magento_Sales_Model_Resource_Order_Collection')
             ->addFieldToFilter('entity_id', array('in' => $orderIds))
         ;
         $result = array();
@@ -108,7 +124,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
             }
             $result[] = sprintf("_gaq.push(['_addTrans', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s']);",
                 $order->getIncrementId(),
-                $this->jsQuoteEscape(Mage::app()->getStore()->getFrontendName()),
+                $this->jsQuoteEscape($this->_storeManager->getStore()->getFrontendName()),
                 $order->getBaseGrandTotal(),
                 $order->getBaseTaxAmount(),
                 $order->getBaseShippingAmount(),

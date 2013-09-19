@@ -2,62 +2,63 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
- * Gift Message resource setup
- *
- * @category    Magento
- * @package     Magento_GiftMessage
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Enterprise resource setup
  */
-class Magento_GiftMessage_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+class Magento_Enterprise_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
-     * @var Magento_ObjectManager
+     * Block model factory
+     *
+     * @var Magento_Cms_Model_BlockFactory
      */
-    protected $_objectManager;
+    protected $_blockFactory;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $modulesConfig
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
      * @param $resourceName
+     * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $modulesConfig,
+        Magento_Core_Model_Config $config,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
-        $resourceName
+        $resourceName,
+        Magento_Cms_Model_BlockFactory $modelBlockFactory
     ) {
-        $this->_objectManager = $objectManager;
-        parent::__construct(
-            $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $resourceName
-        );
+        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $config, $moduleList, $resource,
+            $modulesReader, $cache, $resourceName);
+
+        $this->_blockFactory = $modelBlockFactory;
     }
 
-    public function getObjectManager()
+    /**
+     * Get model block factory
+     *
+     * @return Magento_Cms_Model_BlockFactory
+     */
+    public function getBlockFactory()
     {
-        return $this->_objectManager;
+        return $this->_blockFactory;
     }
 }
