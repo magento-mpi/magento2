@@ -18,8 +18,15 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $coreHttp = $this->getMock('Magento_Core_Helper_Http', array(), array(), '', false);
         $contextMock = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
-        $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $this->_helper = new Magento_Core_Helper_Data($eventManager, $coreHttp, $contextMock, $configMock);
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_helper = new Magento_Core_Helper_Data(
+            $eventManager,
+            $coreHttp,
+            $contextMock,
+            $coreConfig,
+            $coreStoreConfig
+        );
     }
 
     /**

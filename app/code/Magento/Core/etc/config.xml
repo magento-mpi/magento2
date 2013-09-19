@@ -27,9 +27,6 @@
                 </http_user_agent_skip>
             </validation>
         </session>
-        <request>
-            <direct_front_name />
-        </request>
         <dev>
             <page_type>
                 <render_inherited>0</render_inherited>
@@ -205,16 +202,4 @@
             </customization>
         </theme>
     </default>
-    <crontab>
-        <jobs>
-            <core_clean_cache>
-                <schedule>
-                    <cron_expr>30 2 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Core_Model_Observer::cleanCache</model>
-                </run>
-            </core_clean_cache>
-        </jobs>
-    </crontab>
 </config>

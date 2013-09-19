@@ -16,7 +16,6 @@
  */
 class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
 {
-    const XML_NODE_DIRECT_FRONT_NAMES = 'global/request/direct_front_name';
     const DEFAULT_HTTP_PORT = 80;
     const DEFAULT_HTTPS_PORT = 443;
 
@@ -186,14 +185,6 @@ class Magento_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      */
     public function getDirectFrontNames()
     {
-        if (is_null($this->_directFrontNames)) {
-            $names = Mage::getConfig()->getNode(self::XML_NODE_DIRECT_FRONT_NAMES);
-            if ($names) {
-                $this->_directFrontNames = $names->asArray();
-            } else {
-                return array();
-            }
-        }
         return $this->_directFrontNames;
     }
 

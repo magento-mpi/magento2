@@ -48,9 +48,17 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
     protected $_design = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -59,11 +67,13 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_design = $design;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -175,8 +185,8 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
                 ->setDesignConfig(array('store' => $storeId, 'area' => $this->_design->getArea()));
             $customer = $this->getBalanceModel()->getCustomer();
             $email->sendTransactional(
-                Mage::getStoreConfig('customer/magento_customerbalance/email_template', $storeId),
-                Mage::getStoreConfig('customer/magento_customerbalance/email_identity', $storeId),
+                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_template', $storeId),
+                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_identity', $storeId),
                 $customer->getEmail(), $customer->getName(),
                 array(
                     'balance' => Mage::app()->getWebsite($this->getBalanceModel()->getWebsiteId())

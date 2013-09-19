@@ -34,15 +34,17 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_modelParams = array(
             'coreFileStorageDatabase' => $objectManager->get('Magento_Core_Helper_File_Storage_Database'),
-            'context' => $objectManager->get('Magento_Core_Model_Context'),
-            'registry' => $objectManager->get('Magento_Core_Model_Registry'),
-            'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
-            'urlModel' => $objectManager->get('Magento_Core_Model_Url'),
-            'appState' => $objectManager->get('Magento_Core_Model_App_State'),
-            'request' => $objectManager->get('Magento_Core_Controller_Request_Http'),
-            'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
-            'dir' => $objectManager->get('Magento_Core_Model_Dir'),
-            'resource' => $objectManager->get('Magento_Core_Model_Resource_Store'),
+            'context'                 => $objectManager->get('Magento_Core_Model_Context'),
+            'registry'                => $objectManager->get('Magento_Core_Model_Registry'),
+            'configCacheType'         => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
+            'urlModel'                => $objectManager->get('Magento_Core_Model_Url'),
+            'appState'                => $objectManager->get('Magento_Core_Model_App_State'),
+            'request'                 => $objectManager->get('Magento_Core_Controller_Request_Http'),
+            'configDataResource'      => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
+            'dir'                     => $objectManager->get('Magento_Core_Model_Dir'),
+            'coreStoreConfig'         => $objectManager->get('Magento_Core_Model_Store_Config'),
+            'coreStore'               => $objectManager->get('Magento_Core_Model_Config'),
+            'resource'                => $objectManager->get('Magento_Core_Model_Resource_Store'),
         );
 
         return $this->getMock(

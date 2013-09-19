@@ -52,6 +52,7 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
      * Apply custom design
      *
      * @param string $design
+     * @return $this
      * @return Magento_Catalog_Model_Design
      */
     public function applyCustomDesign($design)

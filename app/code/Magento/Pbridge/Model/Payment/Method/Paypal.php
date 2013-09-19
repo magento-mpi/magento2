@@ -56,6 +56,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
      * @param array $data
@@ -63,12 +64,13 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+        parent::__construct($eventManager, $moduleList, $paymentData, $coreStoreConfig, $data);
         $this->_pro->setPaymentMethod($this);
     }
 
@@ -145,7 +147,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

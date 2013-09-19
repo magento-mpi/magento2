@@ -75,7 +75,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
         if ($type == 'items') {
             $items = $entity->getAllItems();
             if(!is_array($items) || empty($items)) {
-                return Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+                return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
             }
             if($entity instanceof Magento_Sales_Model_Quote) {
                 $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
@@ -119,7 +119,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
                 $store
             );
         } else {
-            return Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
+            return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
         }
 
         return false;
@@ -134,7 +134,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
     {
-        $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+        $result = $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
         if ($productGiftMessageAllow === '' || is_null($productGiftMessageAllow)) {
             return $result;
         } else {
