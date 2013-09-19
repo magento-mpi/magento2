@@ -82,7 +82,7 @@ class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase
     /**
      * Returns an array of phrases that can be used by JS files.
      *
-     * @return array[string]
+     * @return string[]
      */
     protected function _getRegisteredPhrases()
     {
