@@ -11,32 +11,15 @@ class Magento_Catalog_Model_ProductTypes_Config
 {
     /**
      * @param Magento_Catalog_Model_ProductTypes_Config_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
      * @param Magento_Config_CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
         Magento_Catalog_Model_ProductTypes_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
         Magento_Config_CacheInterface $cache,
         $cacheId = 'product_types_config'
     ) {
-        parent::__construct($reader, $configScope, $cache, $cacheId);
-    }
-
-    /**
-     * Load config data
-     */
-    protected function _loadScopedData()
-    {
-        if (empty($this->_data)) {
-            $data = $this->_cache->get('global', $this->_cacheId);
-            if (false === $data) {
-                $data = $this->_reader->read('global');
-                $this->_cache->put($data, 'global', $this->_cacheId);
-            }
-            $this->merge($data);
-        }
+        parent::__construct($reader, $cache, $cacheId);
     }
 
     /**

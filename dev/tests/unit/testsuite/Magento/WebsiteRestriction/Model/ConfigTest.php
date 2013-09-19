@@ -42,7 +42,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
         $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
         $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $cacheId = null;
-        
+
         $this->_model = new Magento_WebsiteRestriction_Model_Config(
             $this->_readerMock,
             $this->_configScopeMock,
@@ -57,7 +57,7 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
      */
     public function testGetGenericActions($value, $expected)
     {
-        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue($value));
+        $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(serialize($value)));
 
         $this->assertEquals($expected, $this->_model->getGenericActions());
     }
@@ -75,8 +75,8 @@ class Magento_WebsiteRestriction_Model_ConfigTest extends PHPUnit_Framework_Test
      */
     public function testGetRegisterActions($value, $expected)
     {
-        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue($value));
-        
+        $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(serialize($value)));
+
         $this->assertEquals($expected, $this->_model->getRegisterActions());
     }
 

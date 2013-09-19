@@ -33,7 +33,7 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
         $cacheId = null;
-        
+
         $this->_model = new Magento_AdminGws_Model_Config(
             $this->_readerMock,
             $this->_configScopeMock,
@@ -47,7 +47,7 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCallbacks($value, $expected)
     {
-        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue($value));
+        $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(serialize($value)));
 
         $this->assertEquals($expected, $this->_model->getCallbacks('group'));
     }
@@ -65,8 +65,8 @@ class Magento_AdminGws_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDeniedAclResources($value, $expected)
     {
-        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue($value));
-        
+        $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(serialize($value)));
+
         $this->assertEquals($expected, $this->_model->getDeniedAclResources('level'));
     }
 
