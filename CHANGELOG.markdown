@@ -59,6 +59,9 @@
 * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
 * Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_User module
 * Eliminated Mage::getSingleton from Magento_WebsiteRestriction module
+* Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Review module
+* Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_Reward module
+* Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_Rma module
 * Static method `getObjectManager` of Mage class was eliminated
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
