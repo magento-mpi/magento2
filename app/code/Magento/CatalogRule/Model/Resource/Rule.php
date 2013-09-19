@@ -71,6 +71,12 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     protected $_conditionFactory;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Model_Product_ConditionFactory $conditionFactory
      * @param Magento_Core_Model_Date $coreDate
      * @param Magento_Eav_Model_Config $eavConfig
@@ -79,6 +85,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_Product_ConditionFactory $conditionFactory,
         Magento_Core_Model_Date $coreDate,
         Magento_Eav_Model_Config $eavConfig,
@@ -86,6 +93,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
         Magento_CatalogRule_Helper_Data $catalogRuleData,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_storeManager = $storeManager;
         $this->_conditionFactory = $conditionFactory;
         $this->_coreDate = $coreDate;
         $this->_eavConfig = $eavConfig;
@@ -367,7 +375,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
         );
 
         if ($websiteId !== null) {
-            $website  = Mage::app()->getWebsite($websiteId);
+            $website  = $this->_storeManager->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
             if ($defaultGroup instanceof Magento_Core_Model_Store_Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
@@ -391,7 +399,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
                 array($fieldAlias=>$tableAlias.'.value')
             );
         } else {
-            foreach (Mage::app()->getWebsites() as $website) {
+            foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId  = $website->getId();
                 $defaultGroup = $website->getDefaultGroup();
                 if ($defaultGroup instanceof Magento_Core_Model_Store_Group) {
@@ -469,7 +477,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
              * Update products rules prices per each website separately
              * because of max join limit in mysql
              */
-            foreach (Mage::app()->getWebsites(false) as $website) {
+            foreach ($this->_storeManager->getWebsites(false) as $website) {
                 $productsStmt = $this->_getRuleProductsStmt(
                    $fromDate,
                    $toDate,
@@ -602,7 +610,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
             $ruleData['action_amount'],
             $productPrice);
 
-        return Mage::app()->getStore()->roundPrice($productPrice);
+        return $this->_storeManager->getStore()->roundPrice($productPrice);
     }
 
     /**

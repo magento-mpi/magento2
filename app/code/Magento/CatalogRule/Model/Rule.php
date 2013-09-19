@@ -143,6 +143,24 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_productFactory;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_CatalogRule_Model_Rule_Condition_CombineFactory $combineFactory
      * @param Magento_CatalogRule_Model_Rule_Action_CollectionFactory $actionCollFactory
      * @param Magento_Catalog_Model_ProductFactory $productFactory
@@ -158,8 +176,13 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param Magento_CatalogRule_Model_Resource_Rule $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_CatalogRule_Model_Rule_Condition_CombineFactory $combineFactory,
         Magento_CatalogRule_Model_Rule_Action_CollectionFactory $actionCollFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
@@ -176,6 +199,9 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_productCollFactory = $productCollFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
         $this->_combineFactory = $combineFactory;
         $this->_actionCollFactory = $actionCollFactory;
         $this->_productFactory = $productFactory;
@@ -268,7 +294,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
 
             if ($this->getWebsiteIds()) {
                 /** @var $productCollection Magento_Catalog_Model_Resource_Product_Collection */
-                $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+                $productCollection = $this->_productCollFactory->create();
                 $productCollection->addWebsiteFilter($this->getWebsiteIds());
                 if ($this->_productsFilter) {
                     $productCollection->addIdFilter($this->_productsFilter);
@@ -378,13 +404,13 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         $priceRules = null;
         $productId  = $product->getId();
         $storeId    = $product->getStoreId();
-        $websiteId  = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId  = $this->_storeManager->getStore($storeId)->getWebsiteId();
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
             $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
-        $dateTs     = Mage::app()->getLocale()->storeTimeStamp($storeId);
+        $dateTs     = $this->_locale->storeTimeStamp($storeId);
         $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
 
         if (!array_key_exists($cacheKey, self::$_priceRulesData)) {
