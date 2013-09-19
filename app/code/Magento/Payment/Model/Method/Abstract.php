@@ -106,8 +106,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
-     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
@@ -407,7 +407,9 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
              $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
          }
          if (!$this->canUseForCountry($billingCountry)) {
-             throw new Magento_Core_Exception(__('You can\'t use the payment type you selected to make payments to the billing country.'));
+             throw new Magento_Core_Exception(
+                 __('You can\'t use the payment type you selected to make payments to the billing country.')
+             );
          }
          return $this;
     }

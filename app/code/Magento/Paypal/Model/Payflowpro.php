@@ -103,18 +103,19 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
     /**
      * Construct
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Centinel_Model_Service $service
-     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Helper_Data $coreData,
@@ -123,7 +124,6 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Centinel_Model_Service $service,
-        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

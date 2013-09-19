@@ -31,15 +31,16 @@ class Magento_Payment_Model_Method_Factory
     /**
      * Creates new instances of payment method models
      *
-     * @param $className
+     * @param string $className
+     * @param array $data
      * @return mixed
-     * @throws InvalidArgumentException
+     * @throws Magento_Core_Exception
      */
-    public function create($className)
+    public function create($className, $data= array())
     {
-        $method = $this->_objectManager->create($className);
+        $method = $this->_objectManager->create($className, $data);
         if (!($method instanceof Magento_Payment_Model_Method_Abstract)) {
-            throw new InvalidArgumentException(sprintf("Payment method has wrong type",
+            throw new Magento_Core_Exception(sprintf("%s class doesn't extend Magento_Payment_Model_Method_Abstract",
                 $className));
         }
         return $method;

@@ -44,20 +44,23 @@ class Magento_Payment_Model_Config
     protected $_methodFactory;
 
     /**
-     * Constructor
+     * Construct
      *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Payment_Model_Method_Factory $paymentMethodFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Payment_Model_Method_Factory $paymentMethodFactory
+        Magento_Payment_Model_Method_Factory $paymentMethodFactory,
+        Magento_Core_Model_LocaleInterface $locale
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_methodFactory = $paymentMethodFactory;
+        $this->_locale = $locale;
     }
 
     /**

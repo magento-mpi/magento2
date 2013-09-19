@@ -41,6 +41,8 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     protected $_logger;
 
     /**
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -62,11 +64,11 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
         Magento_Centinel_Model_Service $service,
         array $data = array()
     ) {
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
         $this->_moduleList = $moduleList;
         $this->_logger = $logger;
         $this->_locale = $locale;
         $this->_centinelService = $service;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
     }
 
     /**
@@ -333,13 +335,12 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
      */
     public function getCentinelValidator()
     {
-        $validator = $this->_centinelService;
-        $validator
+        $this->_centinelService
             ->setIsModeStrict($this->getConfigData('centinel_is_mode_strict'))
             ->setCustomApiEndpointUrl($this->getConfigData('centinel_api_url'))
             ->setStore($this->getStore())
             ->setIsPlaceOrder($this->_isPlaceOrder());
-        return $validator;
+        return $this->_centinelService;
     }
 
     /**

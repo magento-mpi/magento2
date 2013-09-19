@@ -39,7 +39,7 @@ class Magento_Payment_Model_Method_FactoryTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException Magento_Core_Exception
      */
     public function testWrongTypeException()
     {

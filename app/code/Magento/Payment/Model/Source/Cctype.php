@@ -30,7 +30,7 @@ class Magento_Payment_Model_Source_Cctype
      *
      * @param Magento_Payment_Model_Config $paymentConfig
      */
-    function __construct(Magento_Payment_Model_Config $paymentConfig)
+    public function __construct(Magento_Payment_Model_Config $paymentConfig)
     {
         $this->_paymentConfig = $paymentConfig;
     }

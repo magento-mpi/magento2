@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +20,7 @@ class Magento_Payment_Model_Config_Source_Cctype implements Magento_Core_Model_O
      *
      * @param Magento_Payment_Model_Config $paymentConfig
      */
-    function __construct(Magento_Payment_Model_Config $paymentConfig)
+    public function __construct(Magento_Payment_Model_Config $paymentConfig)
     {
         $this->_paymentConfig = $paymentConfig;
     }

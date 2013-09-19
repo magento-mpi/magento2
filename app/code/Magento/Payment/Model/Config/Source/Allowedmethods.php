@@ -16,6 +16,12 @@ class Magento_Payment_Model_Config_Source_Allowedmethods
      */
     protected $_paymentConfig;
 
+    /**
+     * Construct
+     *
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Payment_Model_Config $paymentConfig
+     */
     public function __construct(
         Magento_Payment_Helper_Data $paymentData,
         Magento_Payment_Model_Config $paymentConfig
