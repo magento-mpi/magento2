@@ -28,13 +28,34 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_configFileName = 'persistent.xml';
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $storeConfig
+    ) {
+        parent::__construct($context);
+        $this->_config = $config;
+        $this->_storeConfig = $storeConfig;
+    }
+
+
+    /**
      * Retrieve path for config file
      *
      * @return string
      */
     public function getPersistentConfigFilePath()
     {
-        return Mage::getConfig()->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
+        return $this->_config->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
     }
 
     /**
@@ -45,7 +66,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isWishlistPersist($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_WISHLIST, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_WISHLIST, $store);
     }
 
     /**
@@ -56,7 +77,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isOrderedItemsPersist($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_ORDERED_ITEMS, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_ORDERED_ITEMS, $store);
     }
 
     /**
@@ -67,7 +88,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isCompareProductsPersist($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_COMPARE_PRODUCTS, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_COMPARE_PRODUCTS, $store);
     }
 
     /**
@@ -78,7 +99,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isComparedProductsPersist($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_COMPARED_PRODUCTS, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_COMPARED_PRODUCTS, $store);
     }
 
     /**
@@ -89,7 +110,7 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isViewedProductsPersist($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_VIEWED_PRODUCTS, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_VIEWED_PRODUCTS, $store);
     }
 
     /**
@@ -100,6 +121,6 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isCustomerAndSegmentsPersist($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_CUSTOMER_AND_SEGM, $store);
+        return $this->_storeConfig->getConfigFlag(self::XML_PATH_PERSIST_CUSTOMER_AND_SEGM, $store);
     }
 }
