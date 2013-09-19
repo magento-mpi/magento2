@@ -14,11 +14,15 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Subselect
 {
     /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_SalesRule_Model_Rule_Condition_Product $ruleConditionProduct
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_SalesRule_Model_Rule_Condition_Product $ruleConditionProduct,
+        array $data = array()
+    ) {
+        parent::__construct($context, $ruleConditionProduct, $data);
         $this->setType('Magento_SalesRule_Model_Rule_Condition_Product_Subselect')
             ->setValue(null);
     }
@@ -100,8 +104,13 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Subselect
      */
     public function asHtml()
     {
-        $html = $this->getTypeElement()->getHtml()
-            . __("If %1 %2 %3 for a subselection of items in cart matching %4 of these conditions:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
+        $html = $this->getTypeElement()->getHtml() . __(
+            "If %1 %2 %3 for a subselection of items in cart matching %4 of these conditions:",
+            $this->getAttributeElement()->getHtml(),
+            $this->getOperatorElement()->getHtml(),
+            $this->getValueElement()->getHtml(),
+            $this->getAggregatorElement()->getHtml()
+        );
         if ($this->getId() != '1') {
             $html .= $this->getRemoveLinkHtml();
         }

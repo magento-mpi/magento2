@@ -215,7 +215,6 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
         $this->_salesHelper->changeColumnPosition($table, $column, $after, $first);
-
         return $this;
     }
 

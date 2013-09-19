@@ -12,12 +12,22 @@
 class Magento_SalesRule_Model_Rule_Condition_Product_Combine extends Magento_Rule_Model_Condition_Combine
 {
     /**
+     * @var Magento_SalesRule_Model_Rule_Condition_Product
+     */
+    protected $_ruleConditionProd;
+
+    /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_SalesRule_Model_Rule_Condition_Product $ruleConditionProduct
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        Magento_SalesRule_Model_Rule_Condition_Product $ruleConditionProduct,
+        array $data = array())
     {
         parent::__construct($context, $data);
+        $this->_ruleConditionProd = $ruleConditionProduct;
         $this->setType('Magento_SalesRule_Model_Rule_Condition_Product_Combine');
     }
 
@@ -26,8 +36,7 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Combine extends Magento_Rul
      */
     public function getNewChildSelectOptions()
     {
-        $productCondition = Mage::getModel('Magento_SalesRule_Model_Rule_Condition_Product');
-        $productAttributes = $productCondition->loadAttributeOptions()->getAttributeOption();
+        $productAttributes = $this->_ruleConditionProd->loadAttributeOptions()->getAttributeOption();
         $pAttributes = array();
         $iAttributes = array();
         foreach ($productAttributes as $code=>$label) {
@@ -56,6 +65,10 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Combine extends Magento_Rul
         return $conditions;
     }
 
+    /**
+     * @param $productCollection
+     * @return $this
+     */
     public function collectValidatedAttributes($productCollection)
     {
         foreach ($this->getConditions() as $condition) {

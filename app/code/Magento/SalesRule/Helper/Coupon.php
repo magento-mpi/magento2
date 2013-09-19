@@ -52,14 +52,22 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $config
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $config
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_config = $config;
         parent::__construct($context);
     }
 
@@ -135,7 +143,7 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getCharset($format)
     {
-        return str_split((string) Mage::app()->getConfig()->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
+        return str_split((string) $this->_config->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
     }
 
     /**
@@ -145,6 +153,6 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getCodeSeparator()
     {
-        return (string)Mage::app()->getConfig()->getNode(Magento_SalesRule_Helper_Coupon::XML_CHARSET_SEPARATOR);
+        return (string)$this->_config->getNode(Magento_SalesRule_Helper_Coupon::XML_CHARSET_SEPARATOR);
     }
 }

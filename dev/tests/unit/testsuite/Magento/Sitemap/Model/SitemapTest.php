@@ -38,17 +38,23 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     {
         $this->_helperMockCore = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
 
-        $this->_helperMockSitemap = $this->getMock('Magento_Sitemap_Helper_Data', array(
-            'getCategoryChangefreq',
-            'getProductChangefreq',
-            'getPageChangefreq',
-            'getCategoryPriority',
-            'getProductPriority',
-            'getPagePriority',
-            'getMaximumLinesNumber',
-            'getMaximumFileSize',
-            'getEnableSubmissionRobots'
-         ), array(), '', false, false
+        $this->_helperMockSitemap = $this->getMock(
+            'Magento_Sitemap_Helper_Data',
+            array(
+                'getCategoryChangefreq',
+                'getProductChangefreq',
+                'getPageChangefreq',
+                'getCategoryPriority',
+                'getProductPriority',
+                'getPagePriority',
+                'getMaximumLinesNumber',
+                'getMaximumFileSize',
+                'getEnableSubmissionRobots'
+            ),
+            array(),
+            '',
+            false,
+            false
         );
         $this->_helperMockSitemap->expects($this->any())
             ->method('getCategoryChangefreq')
