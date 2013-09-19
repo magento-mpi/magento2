@@ -147,12 +147,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="htmlTagType">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[a-z]+"/>
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="htmlIdentifierType">
         <xs:restriction base="xs:string">
             <xs:pattern value="[a-zA-Z][a-zA-Z\d\-_]*"/>
@@ -287,7 +281,7 @@
             <xs:element ref="referenceContainer" minOccurs="0"/>
             <xs:element ref="update" minOccurs="0" />
         </xs:choice>
-        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="elementNameType" name="name" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="containerReferenceType" mixed="true">
@@ -300,6 +294,27 @@
             <xs:element ref="referenceBlock" minOccurs="0" />
             <xs:element ref="update" minOccurs="0" />
         </xs:choice>
-        <xs:attribute type="xs:string" name="name" use="required"/>
+        <xs:attribute type="elementNameType" name="name" use="required"/>
+        <xs:attribute type="htmlTagType" name="htmlTag"/>
+        <xs:attribute type="htmlClassType" name="htmlClass"/>
+        <xs:attribute type="htmlIdentifierType" name="htmlId"/>
+        <xs:attribute type="xs:string" name="label"/>
     </xs:complexType>
+
+    <xs:simpleType name="htmlTagType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="dd"/>
+            <xs:enumeration value="div"/>
+            <xs:enumeration value="dl"/>
+            <xs:enumeration value="fieldset"/>
+            <xs:enumeration value="header"/>
+            <xs:enumeration value="hgroup"/>
+            <xs:enumeration value="ol"/>
+            <xs:enumeration value="p"/>
+            <xs:enumeration value="section"/>
+            <xs:enumeration value="table"/>
+            <xs:enumeration value="tfoot"/>
+            <xs:enumeration value="ul"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

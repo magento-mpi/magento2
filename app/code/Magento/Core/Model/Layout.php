@@ -909,6 +909,16 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $this->_structure->setAttribute($name, self::CONTAINER_OPT_LABEL, $label);
         unset($options[self::CONTAINER_OPT_LABEL]);
         unset($options['type']);
+        $allowedTags = array(
+            'dd', 'div', 'dl', 'fieldset', 'header', 'hgroup', 'ol', 'p', 'section','table', 'tfoot', 'ul'
+        );
+        if (!empty($options[self::CONTAINER_OPT_HTML_TAG])
+            && !in_array($options[self::CONTAINER_OPT_HTML_TAG], $allowedTags)
+        ) {
+            throw new Magento_Exception(
+                __('Html tag "%1" is forbidden for usage in containers as a wrapper. Consider to use one of the allowed: %2.',
+                $options[self::CONTAINER_OPT_HTML_TAG], implode(', ', $allowedTags)));
+        }
         if (empty($options[self::CONTAINER_OPT_HTML_TAG])
             && (!empty($options[self::CONTAINER_OPT_HTML_ID]) || !empty($options[self::CONTAINER_OPT_HTML_CLASS]))
         ) {
