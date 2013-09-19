@@ -28,7 +28,7 @@ class Test
     /**
      * @return Magento_SomeModule_Block_Proxy
      */
-    public function test(ModelFactory $factory)
+    public function testHelper(ModelFactory $factory)
     {
         return \Mage::getModel('Magento_SomeModule_BlockFactory', array('data' => $factory));
     }
