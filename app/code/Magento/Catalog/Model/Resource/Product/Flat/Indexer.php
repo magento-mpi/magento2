@@ -112,17 +112,21 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_flatAttributeGroups;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param int $maxIndexCount
+     * @param $maxIndexCount
      * @param array $flatAttributeGroups
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Eav_Model_Config $eavConfig,
@@ -138,6 +142,8 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         $this->_catalogProductFlat = $catalogProductFlat;
         $this->_maxIndexCount = intval($maxIndexCount);
         $this->_flatAttributeGroups = $flatAttributeGroups;
+        $this->_logger = $logger;
+        $this->_productType = $productType;
         parent::__construct($resource);
     }
 
@@ -291,7 +297,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                     $attribute->getBackend();
                     $this->_attributes[$attributeCode] = $attribute;
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }
@@ -1012,7 +1018,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             $this->_productTypes = array();
             $productEmulator     = new Magento_Object();
 
-            foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+            foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
                 $this->_productTypes[$typeId] = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
                     ->factory($productEmulator);

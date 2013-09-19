@@ -25,12 +25,25 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($data);
     }
 
     protected function _getApi($area)
@@ -220,7 +233,7 @@ class Magento_GoogleCheckout_Model_Api extends Magento_Object
     public function getDebugFlag()
     {
         if (!$this->hasData('debug_flag')) {
-            $this->setData('debug_flag', Mage::getStoreConfig('google/checkout/debug', $this->getStoreId()));
+            $this->setData('debug_flag', $this->_coreStoreConfig->getConfig('google/checkout/debug', $this->getStoreId()));
         }
         return $this->getData('debug_flag');
     }

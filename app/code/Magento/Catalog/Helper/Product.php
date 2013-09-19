@@ -52,7 +52,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -70,12 +69,31 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_attributeConfig;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
-     * @param string $typeSwitcherLabel
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param $typeSwitcherLabel
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -83,14 +101,18 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Model_Attribute_Config $attributeConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         $typeSwitcherLabel
     ) {
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
         $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
-        parent::__construct($context);
         $this->_viewUrl = $viewUrl;
+        $this->_coreConfig = $coreConfig;
+        $this->_logger = $context->getLogger();
+        parent::__construct($context);        
     }
 
     /**
@@ -243,7 +265,9 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = Mage::getStoreConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
+            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(
+                self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId
+            );
         }
         return $this->_productUrlSuffix[$storeId];
     }
@@ -256,7 +280,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
     }
 
     /**
@@ -386,7 +410,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
                 'controller_action' => $controller
             ));
         } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             return false;
         }
 
@@ -526,7 +550,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getFieldsAutogenerationMasks()
     {
-        return Mage::getConfig()
+        return $this->_coreConfig
             ->getValue(Magento_Catalog_Helper_Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
     }
 

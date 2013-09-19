@@ -49,10 +49,13 @@ class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framewor
              array('editorMode', 'navigation'),
              array('themeId', 1)
         )));
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        
         $this->_model = new Magento_DesignEditor_Model_Url_NavigationMode(
             $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface'),
             $this->_helper,
             $this->_coreData,
+            $coreStoreConfig,
             $this->_testData
         );
         $this->_model->setRequest($requestMock);

@@ -84,6 +84,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Widget_Model_Config_Reader $reader
      * @param Magento_Widget_Model_Widget $widgetModel
      * @param Magento_Core_Model_Config $coreConfig
@@ -99,6 +100,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Widget_Model_Config_Reader $reader,
         Magento_Widget_Model_Widget $widgetModel,
         Magento_Core_Model_Config $coreConfig,
@@ -109,13 +111,14 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     ) {
         $this->_widgetData = $widgetData;
         $this->_coreData = $coreData;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
+        $this->_productType = $productType;
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -136,7 +139,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
             'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
         );
-        foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+        foreach (array_keys($this->_productType->getTypes()) as $typeId) {
             $layoutHandle = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE);
             $this->_layoutHandles[$typeId . '_products'] = $layoutHandle;
             $this->_specificEntitiesLayoutHandles[$typeId . '_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;
@@ -367,8 +370,8 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             if (isset($configTemplates['values'])) {
                 foreach ($configTemplates['values'] as $name => $template) {
                     $templates[(string)$name] = array(
-                        'value' => (string)$template['value'],
-                        'label' => __((string)$template['label'])->render()
+                        'value' => $template['value'],
+                        'label' => __((string)$template['label'])
                     );
                 }
             }

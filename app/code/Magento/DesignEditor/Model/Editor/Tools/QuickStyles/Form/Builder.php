@@ -14,7 +14,7 @@
 class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
 {
     /**
-     * @var Magento_Data_FormFactory
+     * @var Magento_Data_Form_Factory
      */
     protected $_formFactory;
 
@@ -41,13 +41,13 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Constructor
      *
-     * @param Magento_Data_FormFactory $formFactory
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
      * @param Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      */
     public function __construct(
-        Magento_Data_FormFactory $formFactory,
+        Magento_Data_Form_Factory $formFactory,
         Magento_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
         Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
         Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory

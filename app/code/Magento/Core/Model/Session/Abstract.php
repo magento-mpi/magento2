@@ -45,6 +45,11 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     protected $_skipSessionIdFlag   = false;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core http
      *
      * @var Magento_Core_Helper_Http
@@ -65,19 +70,41 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
 
     /**
      * @param Magento_Core_Model_Session_Validator $validator
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @param Magento_Core_Model_Session_Validator $validator
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_validator = $validator;
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
+        $this->_logger = $logger;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($data);
     }
 
@@ -161,7 +188,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
         $this->setSessionId();
 
         Magento_Profiler::start('session_start');
-        $sessionCacheLimiter = Mage::getConfig()->getNode('global/session_cache_limiter');
+        $sessionCacheLimiter = $this->_coreConfig->getNode('global/session_cache_limiter');
         if ($sessionCacheLimiter) {
             session_cache_limiter((string)$sessionCacheLimiter);
         }
@@ -340,8 +367,8 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
             $exception->getMessage(),
             "\n",
             $exception->getTraceAsString());
-        $file = Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
-        Mage::log($message, Zend_Log::DEBUG, $file);
+        $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
+        $this->_logger->logFile($message, Zend_Log::DEBUG, $file);
 
         $this->addMessage(Mage::getSingleton('Magento_Core_Model_Message')->error($alternativeText));
         return $this;
@@ -484,7 +511,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     {
 
         if (null === $id
-            && (Mage::app()->getStore()->isAdmin() || Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID))
+            && (Mage::app()->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
         ) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam]) && Mage::getSingleton('Magento_Core_Model_Url')->isOwnOriginUrl()) {
@@ -521,7 +548,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function getSessionIdQueryParam()
     {
         $sessionName = $this->getSessionName();
-        if ($sessionName && $queryParam = (string)Mage::getConfig()->getNode($sessionName . '/session/query_param')) {
+        if ($sessionName && $queryParam = (string)$this->_coreConfig->getNode($sessionName . '/session/query_param')) {
             return $queryParam;
         }
         return self::SESSION_ID_QUERY_PARAM;
@@ -661,7 +688,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function getSessionSaveMethod()
     {
-        if (Mage::isInstalled() && $sessionSave = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE)) {
+        if (Mage::isInstalled() && $sessionSave = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE)) {
             return (string) $sessionSave;
         }
         return 'files';
@@ -674,7 +701,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
      */
     public function getSessionSavePath()
     {
-        if (Mage::isInstalled() && $sessionSavePath = Mage::getConfig()->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
+        if (Mage::isInstalled() && $sessionSavePath = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
             return $sessionSavePath;
         }
         return Mage::getBaseDir('session');
@@ -688,7 +715,7 @@ class Magento_Core_Model_Session_Abstract extends Magento_Object
     public function renewSession()
     {
         if (headers_sent()) {
-            Mage::log('Can not regenerate session id because HTTP headers already sent.');
+            $this->_logger->log('Can not regenerate session id because HTTP headers already sent.');
             return $this;
         }
         session_regenerate_id(true);

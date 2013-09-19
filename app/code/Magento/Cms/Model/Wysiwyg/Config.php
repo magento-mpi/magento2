@@ -60,6 +60,13 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var array
      */
     protected $_windowSize;
@@ -71,6 +78,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Variable_Config $variableConfig
      * @param Magento_Widget_Model_Widget_Config $widgetConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $windowSize
      * @param array $data
      */
@@ -81,11 +89,13 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Variable_Config $variableConfig,
         Magento_Widget_Model_Widget_Config $widgetConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $windowSize = array(),
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
@@ -180,7 +190,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      */
     public function isEnabled()
     {
-        $wysiwygState = Mage::getStoreConfig('cms/wysiwyg/enabled', $this->getStoreId());
+        $wysiwygState = $this->_coreStoreConfig->getConfig('cms/wysiwyg/enabled', $this->getStoreId());
         return in_array($wysiwygState, array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
     }
 
@@ -191,6 +201,6 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      */
     public function isHidden()
     {
-        return Mage::getStoreConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
+        return $this->_coreStoreConfig->getConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
     }
 }

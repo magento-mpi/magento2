@@ -79,7 +79,6 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     protected $_dirs;
 
-
     /**
      * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb

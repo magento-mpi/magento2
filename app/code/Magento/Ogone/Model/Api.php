@@ -171,22 +171,27 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected $_coreString = null;
 
     /**
+     * Core string
+     *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Ogone_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @var Magento_Ogone_Model_Config $config
      * @param Magento_Payment_Helper_Data $paymentData
      * @param array $data
+     * @return Magento_Ogone_Model_Api
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Ogone_Model_Config $config,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
         $this->_config = $config;
-        parent::__construct($eventManager, $paymentData, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
     }
 
     /**
@@ -373,11 +378,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      */
     protected function _translate($text)
     {
-        $flags = ENT_COMPAT;
-        if (defined('ENT_HTML401')) { // Constant is defined in PHP 5.4 only
-            $flags |= ENT_HTML401;
-        }
-        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), $flags, 'ISO-8859-1');
+        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
     }
 
     /**

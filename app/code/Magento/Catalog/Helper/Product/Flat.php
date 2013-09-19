@@ -31,22 +31,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      * @var int
      */
     protected $_addChildData;
-
-    /**
-     * @param Magento_Core_Helper_Context $context
-     * @param $addFilterableAttrs
-     * @param $addChildData
-     */
-    public function __construct(
-        Magento_Core_Helper_Context $context,
-        $addFilterableAttrs,
-        $addChildData
-    ) {
-        $this->_addFilterableAttrs = intval($addFilterableAttrs);
-        $this->_addChildData = intval($addChildData);
-        parent::__construct($context);
-    }
-
+    
     /**
      * Catalog Flat Product index process code
      */
@@ -83,6 +68,24 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     protected $_flagObject;
 
     /**
+     * @param Magento_Core_Helper_Context $context
+     * @param $addFilterableAttrs
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param $addChildData
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        $addFilterableAttrs,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        $addChildData
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_addFilterableAttrs = intval($addFilterableAttrs);
+        $this->_addChildData = intval($addChildData);
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve Catalog Product Flat Flag object
      *
      * @return Magento_Catalog_Model_Product_Flat_Flag
@@ -105,7 +108,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT);
     }
 
     /**

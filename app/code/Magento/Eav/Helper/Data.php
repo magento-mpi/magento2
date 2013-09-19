@@ -30,11 +30,14 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
+        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_attributeConfig = $attributeConfig;
         parent::__construct($context);
     }
@@ -127,6 +130,6 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getInputTypesValidatorData()
     {
-        return Mage::getStoreConfig(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES);
     }
 }

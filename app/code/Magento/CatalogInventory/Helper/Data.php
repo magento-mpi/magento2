@@ -39,14 +39,24 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_config;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Catalog_Model_ProductTypes_ConfigInterface $config
     ) {
         $this->_config = $config;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -119,7 +129,7 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isShowOutOfStock()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_SHOW_OUT_OF_STOCK);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_SHOW_OUT_OF_STOCK);
     }
 
     /**
@@ -128,7 +138,7 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isAutoReturnEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ITEM_AUTO_RETURN);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ITEM_AUTO_RETURN);
     }
 
     /**
@@ -139,6 +149,6 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isDisplayProductStockStatus()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS);
     }
 }

@@ -62,11 +62,15 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $widgetData = $this->getMockBuilder('Magento_Widget_Helper_Data')
             ->disableOriginalConstructor()
             ->getMock();
+        $productType = $this->getMockBuilder('Magento_Catalog_Model_Product_Type')
+            ->disableOriginalConstructor()
+            ->getMock();
+        /** @var Magento_Widget_Model_Widget_Instance _model */
         $this->_model = $this->getMock(
             'Magento_Widget_Model_Widget_Instance',
             array('_construct'),
             array($widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock,
-                $this->_cacheTypesListMock, $this->_readerMock, $this->_widgetModelMock, $this->_coreConfigMock),
+                $this->_cacheTypesListMock, $this->_readerMock, $this->_widgetModelMock, $this->_coreConfigMock, $productType),
             '',
             true
         );

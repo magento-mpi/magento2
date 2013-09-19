@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +9,6 @@
 
 /**
  * Stock resource model
- *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_Resource_Db_Abstract
 {
@@ -72,18 +66,40 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * Stock model factory
+     *
+     * @var Magento_CatalogInventory_Model_StockFactory
+     */
+    protected $_stockFactory;
+    
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_CatalogInventory_Model_StockFactory $stockFactory
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_CatalogInventory_Model_StockFactory $stockFactory
     ) {
-        $this->_catalogInventoryData = $catalogInventoryData;
         parent::__construct($resource);
+        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_stockFactory = $stockFactory;
     }
 
     /**
@@ -185,7 +201,8 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
      */
     public function setInStockFilterToCollection($collection)
     {
-        $manageStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        $manageStock = $this->_coreStoreConfig
+            ->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         $cond = array(
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0',
@@ -222,11 +239,11 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
             );
 
             foreach ($configMap as $field => $const) {
-                $this->$field = (int)Mage::getStoreConfig($const);
+                $this->$field = (int)$this->_coreStoreConfig->getConfig($const);
             }
 
             $this->_isConfig = true;
-            $this->_stock = Mage::getModel('Magento_CatalogInventory_Model_Stock');
+            $this->_stock = $this->_stockFactory->create();
             $this->_configTypeIds = array_keys($this->_catalogInventoryData->getIsQtyTypeIds(true));
         }
     }

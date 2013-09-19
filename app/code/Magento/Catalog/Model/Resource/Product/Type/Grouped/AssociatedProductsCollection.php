@@ -36,6 +36,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Registry $coreRegistry,
@@ -43,11 +45,12 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_config = $config;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig);
     }
 
     /**

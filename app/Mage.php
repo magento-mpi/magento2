@@ -119,13 +119,6 @@ final class Mage
     static private $_config;
 
     /**
-     * Object manager interface
-     *
-     * @var Magento_ObjectManager
-     */
-    static private $_objectManager;
-
-    /**
      * Object cache instance
      *
      * @var Magento_Object_Cache
@@ -243,12 +236,10 @@ final class Mage
     {
         self::$_appRoot         = null;
         self::$_app             = null;
-        self::$_config          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
         self::$_loggers         = array();
         self::$_design          = null;
-        self::$_objectManager   = null;
         // do not reset $headersSentThrowsException
     }
 
@@ -308,37 +299,9 @@ final class Mage
      */
     public static function getModuleDir($type, $moduleName)
     {
-        return self::getObjectManager()->get('Magento_Core_Model_Config_Modules_Reader')
+        return Magento_Core_Model_ObjectManager::getInstance()
+            ->get('Magento_Core_Model_Config_Modules_Reader')
             ->getModuleDir($type, $moduleName);
-    }
-
-    /**
-     * Retrieve config value for store by path
-     *
-     * @param string $path
-     * @param mixed $store
-     * @return mixed
-     */
-    public static function getStoreConfig($path, $store = null)
-    {
-        return self::app()->getStore($store)->getConfig($path);
-    }
-
-    /**
-     * Retrieve config flag for store by path
-     *
-     * @param string $path
-     * @param mixed $store
-     * @return bool
-     */
-    public static function getStoreConfigFlag($path, $store = null)
-    {
-        $flag = strtolower(self::getStoreConfig($path, $store));
-        if (!empty($flag) && 'false' !== $flag) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -362,23 +325,9 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return self::getObjectManager()->create('Magento_Core_Model_Url')->getUrl($route, $params);
-    }
-
-    /**
-     * Retrieve a config instance
-     *
-     * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
-     * to Mage::getConfig() will be removed in favor of config dependency injection.
-     *
-     * @return Magento_Core_Model_Config
-     */
-    public static function getConfig()
-    {
-        if (!self::$_config) {
-            self::$_config = self::getObjectManager()->get('Magento_Core_Model_Config');
-        }
-        return self::$_config;
+        return Magento_Core_Model_ObjectManager::getInstance()
+            ->create('Magento_Core_Model_Url')
+            ->getUrl($route, $params);
     }
 
     /**
@@ -393,7 +342,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return self::getObjectManager()->create($modelClass, $arguments);
+        return Magento_Core_Model_ObjectManager::getInstance()->create($modelClass, $arguments);
     }
 
     /**
@@ -405,38 +354,13 @@ final class Mage
     public static function getSingleton($modelClass = '')
     {
         $registryKey = '_singleton/' . $modelClass;
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
         /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
         if (!$registryObject->registry($registryKey)) {
-            $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
+            $registryObject->register($registryKey, $objectManager->get($modelClass));
         }
         return $registryObject->registry($registryKey);
-    }
-
-    /**
-     * Retrieve object manager
-     *
-     * @static
-     * @return Magento_ObjectManager
-     */
-    public static function getObjectManager()
-    {
-        return self::$_objectManager;
-    }
-
-    /**
-     * Set application object manager
-     *
-     * @param Magento_ObjectManager $objectManager
-     * @throws LogicException
-     */
-    public static function setObjectManager(Magento_ObjectManager $objectManager)
-    {
-        if (!self::$_objectManager) {
-            self::$_objectManager = $objectManager;
-        } else {
-            throw new LogicException('Only one object manager can be used in application');
-        }
     }
 
     /**
@@ -451,7 +375,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return self::getObjectManager()->create($modelClass, $arguments);
+        return Magento_Core_Model_ObjectManager::getInstance()->create($modelClass, $arguments);
     }
 
     /**
@@ -462,11 +386,12 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '')
     {
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
         /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
         $registryKey = '_resource_singleton/' . $modelClass;
         if (!$registryObject->registry($registryKey)) {
-            $registryObject->register($registryKey, self::getObjectManager()->get($modelClass));
+            $registryObject->register($registryKey, $objectManager->get($modelClass));
         }
         return $registryObject->registry($registryKey);
     }
@@ -491,7 +416,7 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = self::getObjectManager()
+        $connectionModel = Magento_Core_Model_ObjectManager::getInstance()
             ->get('Magento_Core_Model_Config_Resource')
             ->getResourceConnectionModel('core');
 
@@ -500,12 +425,13 @@ final class Mage
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
         }
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
         /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = self::getObjectManager()->get('Magento_Core_Model_Registry');
+        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
         $key = 'resourceHelper/' . $connection;
         if (!$registryObject->registry($key)) {
             $registryObject->register(
-                $key, self::getObjectManager()->create($helperClassName, array('modulePrefix' => $connection))
+                $key, $objectManager->create($helperClassName, array('modulePrefix' => $connection))
             );
         }
         return $registryObject->registry($key);
@@ -548,7 +474,7 @@ final class Mage
     public static function app()
     {
         if (null === self::$_app) {
-            self::$_app = self::getObjectManager()->get('Magento_Core_Model_App');
+            self::$_app = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
         }
         return self::$_app;
     }
@@ -565,44 +491,6 @@ final class Mage
     }
 
     /**
-     * log a message to system log or arbitrary file
-     *
-     * @param string $message
-     * @param integer $level
-     * @param string $file
-     * @param bool $forceLog
-     */
-    public static function log($message, $level = null, $file = 'system.log', $forceLog = false)
-    {
-        $level = is_null($level) ? Zend_Log::DEBUG : $level;
-        if (empty($file) || $file == 'system.log') {
-            $file = 'system.log';
-            $key = Magento_Core_Model_Logger::LOGGER_SYSTEM;
-        } elseif ($file == 'exception.log') {
-            $key = Magento_Core_Model_Logger::LOGGER_EXCEPTION;
-        } else {
-            $forceLog = true;
-            $key = $file;
-        }
-        /** @var $logger Magento_Core_Model_Logger */
-        $logger = self::$_objectManager->get('Magento_Core_Model_Logger');
-        if ($forceLog && !$logger->hasLog($key)) {
-            $logger->addStreamLog($key, $file);
-        }
-        $logger->log($message, $level, $key);
-    }
-
-    /**
-     * Write exception to log
-     *
-     * @param Exception $exception
-     */
-    public static function logException(Exception $exception)
-    {
-        self::$_objectManager->get('Magento_Core_Model_Logger')->logException($exception);
-    }
-
-    /**
      * Retrieve enabled developer mode
      *
      * @return bool
@@ -610,7 +498,7 @@ final class Mage
      */
     public static function getIsDeveloperMode()
     {
-        $objectManager = self::getObjectManager();
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
         if (!$objectManager) {
             return false;
         }

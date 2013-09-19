@@ -20,9 +20,6 @@
             </enterprise_setup>
         </resources>
     </global>
-    <install>
-        <eula_file>LICENSE_EE.html</eula_file>
-    </install>
     <default>
         <design>
             <head>

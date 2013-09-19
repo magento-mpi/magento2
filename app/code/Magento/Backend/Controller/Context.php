@@ -35,6 +35,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     protected $_translator;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
@@ -50,6 +51,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
@@ -62,8 +64,8 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_Translate $translator
     ) {
-        parent::__construct(
-            $request, $response, $objectManager, $frontController, $layout, $eventManager, $isRenderInherited
+        parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
+            $isRenderInherited
         );
         $this->_session = $session;
         $this->_helper = $helper;

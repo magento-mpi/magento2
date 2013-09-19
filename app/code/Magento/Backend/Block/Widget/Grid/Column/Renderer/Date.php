@@ -41,7 +41,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Date
                     );
                 }
                 catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
             $format = self::$_format;
