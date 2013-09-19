@@ -42,7 +42,6 @@ class Magento_Cms_Model_Resource_Page extends Magento_Core_Model_Resource_Db_Abs
         parent::__construct($resource);
     }
 
-
     /**
      * Initialize resource model
      *
