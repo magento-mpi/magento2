@@ -26,8 +26,8 @@ class Magento_Cron_Model_Config_Reader_Xml extends Magento_Config_Reader_Filesys
      * Initialize parameters
      *
      * @param Magento_Config_FileResolverInterface    $fileResolver
-     * @param Magento_Config_ConverterInterface       $converter
-     * @param Magento_Config_SchemaLocatorInterface   $schemaLocator
+     * @param Magento_Cron_Model_Config_Converter_Xml $converter
+     * @param Magento_Cron_Model_Config_SchemaLocator $schemaLocator
      * @param Magento_Config_ValidationStateInterface $validationState
      * @param string                                  $fileName
      * @param array                                   $idAttributes
@@ -35,8 +35,8 @@ class Magento_Cron_Model_Config_Reader_Xml extends Magento_Config_Reader_Filesys
      */
     public function __construct(
         Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Config_ConverterInterface $converter,
-        Magento_Config_SchemaLocatorInterface $schemaLocator,
+        Magento_Cron_Model_Config_Converter_Xml $converter,
+        Magento_Cron_Model_Config_SchemaLocator $schemaLocator,
         Magento_Config_ValidationStateInterface $validationState,
         $fileName = 'crontab.xml',
         $idAttributes = array(),

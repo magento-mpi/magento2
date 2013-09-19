@@ -10,6 +10,10 @@
 
 /**
  * Backup Observer
+ *
+ * @category   Magento
+ * @package    Magento_Backup
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backup_Model_Observer
 {
@@ -39,6 +43,11 @@ class Magento_Backup_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -57,17 +66,20 @@ class Magento_Backup_Model_Observer
      * 
      * @param Magento_Backup_Helper_Data $backupData
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Backup_Helper_Data $backupData,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Dir $dir
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;
+        $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dir = $dir;
     }
@@ -104,12 +116,13 @@ class Magento_Backup_Model_Observer
             }
 
             $backupManager->create();
-            Mage::log($this->_backupData->getCreateSuccessMessageByType($type));
+            $message = $this->_backupData->getCreateSuccessMessageByType($type);
+            $this->_logger->log($message);
         } catch (Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
-            Mage::log($e->getMessage(), Zend_Log::ERR);
-            Mage::logException($e);
+            $this->_logger->log($e->getMessage(), Zend_Log::ERR);
+            $this->_logger->logException($e);
         }
 
         if ($this->_coreStoreConfig->getConfigFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE)) {

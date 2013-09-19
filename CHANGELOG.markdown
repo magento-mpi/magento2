@@ -40,12 +40,17 @@
   * Static method `getConfig` of Mage class was eliminated
   * Static method `getStoreConfig` of Mage class was eliminated
   * Static method `getStoreConfigFlag` of Mage class was eliminated
+  * Static method `log` of Mage class was eliminated
+  * Static method `logException` of Mage class was eliminated
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
 * XML Validation
   * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
   * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
+  * Altered format of `install.xml`
+    * Renamed to `install_wizard.xml`
+    * Added `install_wizard.xsd` to allow for validation of XML files.
 * Removed "translate" node from configuration XML files
 * Added I18n tools for translation dictionary generation and language package generation
 * Eliminated Mage::helper and Mage::dispatchEvent in code

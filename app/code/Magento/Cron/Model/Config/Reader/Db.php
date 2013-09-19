@@ -29,11 +29,11 @@ class Magento_Cron_Model_Config_Reader_Db
      * Initialize parameters
      *
      * @param Magento_Core_Model_Config_Section_Reader_DefaultReader $defaultReader
-     * @param Magento_Config_ConverterInterface                      $converter
+     * @param Magento_Cron_Model_Config_Converter_Db                 $converter
      */
     public function __construct(
         Magento_Core_Model_Config_Section_Reader_DefaultReader $defaultReader,
-        Magento_Config_ConverterInterface $converter
+        Magento_Cron_Model_Config_Converter_Db $converter
     ) {
         $this->_defaultReader = $defaultReader;
         $this->_converter = $converter;

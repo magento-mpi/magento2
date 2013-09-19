@@ -27,6 +27,7 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
     protected $_coreApp;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Widget_Model_Resource_Widget $widgetResource
      * @param Magento_Core_Model_App $coreApp
@@ -35,6 +36,7 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Widget_Model_Widget $widget,
         Magento_Widget_Model_Resource_Widget $widgetResource,
         Magento_Core_Model_App $coreApp,
@@ -45,7 +47,7 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
         $this->_widget = $widget;
         $this->_widgetResource = $widgetResource;
         $this->_coreApp = $coreApp;
-        parent::__construct($coreData, $viewUrl, $coreStoreConfig);
+        parent::__construct($logger, $coreData, $viewUrl, $coreStoreConfig);
     }
     /**
      * Generate widget

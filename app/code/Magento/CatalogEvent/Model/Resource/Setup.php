@@ -21,6 +21,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
     /**
      * Construct
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -33,6 +34,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
      * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -44,8 +46,8 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
         $resourceName,
         Magento_Cms_Model_BlockFactory $modelBlockFactory
     ) {
-        parent::__construct($coreData, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader,
-            $cache, $resourceName);
+        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $config, $moduleList, $resource,
+            $modulesReader, $cache, $resourceName);
 
         $this->_blockFactory = $modelBlockFactory;
     }

@@ -147,7 +147,7 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -175,7 +175,7 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
                 return;
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
 
