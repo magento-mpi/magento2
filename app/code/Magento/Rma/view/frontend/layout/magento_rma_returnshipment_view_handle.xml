@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="RMA Return View Image" id="magento_rma_returnshipment_view_handle" type="page" parent="magento_rma_return_create_handle">
+    <handle label="RMA Return View Image" id="magento_rma_returns_view_handle" type="page" parent="magento_rma_returns_create_handle">
         <reference name="content">
             <block class="Magento\CustomAttribute\Block\Form\Template" name="magento_rma_item_form_template">
                 <action method="addRenderer">

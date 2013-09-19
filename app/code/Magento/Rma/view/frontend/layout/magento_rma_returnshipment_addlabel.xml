@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="RMA Return Add Label" id="magento_rma_returnshipment_addlabel" type="fragment" owner="magento_rma_return_view">
+    <handle label="RMA Return Add Label" id="magento_rma_returns_addlabel" type="fragment" owner="magento_rma_returns_view">
         <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
-            <block class="Magento\Rma\Block\ReturnShipment\Tracking" name="tracking" template="return/tracking.phtml"/>
+            <block class="Magento\Rma\Block\Returns\Tracking" name="tracking" template="return/tracking.phtml"/>
         </block>
     </handle>
 </layout>

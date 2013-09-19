@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Guest Order View Return" id="magento_rma_guest_view" type="page" parent="magento_rma_returnshipment_view_handle">
+    <handle label="Guest Order View Return" id="magento_rma_guest_view" type="page" parent="magento_rma_returns_view_handle">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">1column.phtml</argument>
@@ -16,17 +16,17 @@
         </reference>
         <update handle="customer_account"/>
         <reference name="content">
-            <block class="Magento\Rma\Block\ReturnShipment\Info" as="info" name="sales.order.info">
+            <block class="Magento\Rma\Block\Returns\Info" as="info" name="sales.order.info">
                 <block class="Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons">
                     <block class="Magento\Rma\Block\Order\Button" name="enterprise.rma.info.button" template="order/button.phtml"/>
                 </block>
             </block>
-            <block class="Magento\Rma\Block\ReturnShipment\View" name="rma.return.history">
-                <container name="rma.return.history.info" as="info" label="View Return"/>
+            <block class="Magento\Rma\Block\Returns\View" name="rma.returns.history">
+                <container name="rma.returns.history.info" as="info" label="View Return"/>
             </block>
-            <block class="Magento\Rma\Block\ReturnShipment\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
+            <block class="Magento\Rma\Block\Returns\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
         </reference>
-        <update handle="magento_rma_returnshipment_view_handle"/>
+        <update handle="magento_rma_returns_view_handle"/>
         <reference name="sales.order.info">
             <action method="addLink">
                 <argument name="name" xsi:type="string">view</argument>
@@ -54,6 +54,6 @@
                 <argument translate="true" name="label" xsi:type="string">Returns</argument>
             </action>
         </reference>
-        <block class="Magento\Rma\Block\ReturnShipment\Tracking" name="rma.return.tracking" as="tracking"/>
+        <block class="Magento\Rma\Block\Returns\Tracking" name="rma.returns.tracking" as="tracking"/>
     </handle>
 </layout>

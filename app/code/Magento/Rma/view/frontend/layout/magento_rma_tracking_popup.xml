@@ -8,14 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Shipment Tracking Popup" id="magento_rma_tracking_popup" type="page" parent="magento_rma_returnshipment_view">
+    <handle label="Shipment Tracking Popup" id="magento_rma_tracking_popup" type="page" parent="magento_rma_returns_view">
         <reference name="root">
             <action method="setTemplate">
                 <argument name="template" xsi:type="string">popup.phtml</argument>
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento\Rma\Block\ReturnShipment\Tracking\Popup" name="rma.tracking.popup" template="Magento_Shipping::tracking/popup.phtml"/>
+            <block class="Magento\Rma\Block\Returns\Tracking\Popup" name="rma.tracking.popup" template="Magento_Shipping::tracking/popup.phtml"/>
         </reference>
     </handle>
 </layout>

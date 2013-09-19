@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Block\ReturnShipment;
+namespace Magento\Rma\Block\Returns;
 
 class History extends \Magento\Core\Block\Template
 {

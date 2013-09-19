@@ -9,7 +9,7 @@
  */
 
 
-namespace Magento\Rma\Block\ReturnShipment;
+namespace Magento\Rma\Block\Returns;
 
 class Info extends \Magento\Core\Block\Template
 {

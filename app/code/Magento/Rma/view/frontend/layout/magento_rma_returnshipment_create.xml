@@ -8,15 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Return Create" id="magento_rma_returnshipment_create" type="page" parent="magento_rma_returnshipment_create_handle">
+    <handle label="Customer My Return Create" id="magento_rma_returns_create" type="page" parent="magento_rma_returns_create_handle">
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive">
-                <argument name="path" xsi:type="string">rma/returnshipment/history/</argument>
+                <argument name="path" xsi:type="string">rma/returns/history/</argument>
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block class="Magento\Rma\Block\ReturnShipment\Create" as="create" name="rma.return.create" template="return/create.phtml">
+            <block class="Magento\Rma\Block\Returns\Create" as="create" name="rma.returns.create" template="return/create.phtml">
                 <action method="setFormCode">
                     <argument name="code" xsi:type="string">default</argument>
                 </action>
@@ -25,6 +25,6 @@
                 </action>
             </block>
         </reference>
-        <update handle="magento_rma_returnshipment_create_handle"/>
+        <update handle="magento_rma_returns_create_handle"/>
     </handle>
 </layout>
