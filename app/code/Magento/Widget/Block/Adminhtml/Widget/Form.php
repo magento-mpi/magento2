@@ -19,12 +19,12 @@
 class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var Magento_Widget_Model_WidgetFactory
      */
-    protected $_widget;
+    protected $_widgetFactory;
 
     /**
-     * @param Magento_Widget_Model_Widget $widget
+     * @param Magento_Widget_Model_WidgetFactory $widgetFactory
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -32,14 +32,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Backend_Block_W
      * @param array $data
      */
     public function __construct(
-        Magento_Widget_Model_Widget $widget,
+        Magento_Widget_Model_WidgetFactory $widgetFactory,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_widget = $widget;
+        $this->_widgetFactory = $widgetFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -110,7 +110,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Backend_Block_W
     {
         if (!$this->hasData('available_widgets')) {
             $result = array();
-            $allWidgets = $this->_widget->create()->getWidgetsArray();
+            $allWidgets = $this->_widgetFactory->create()->getWidgetsArray();
             $skipped = $this->_getSkippedWidgets();
             foreach ($allWidgets as $widget) {
                 if (is_array($skipped) && in_array($widget['type'], $skipped)) {
