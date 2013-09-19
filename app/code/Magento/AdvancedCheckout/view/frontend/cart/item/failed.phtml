@@ -22,9 +22,10 @@ if ($_item->getQtyMaxAllowed()) {
     $maxQuantity = $_item->getQtyMaxAllowed();
 }
 
-if ($_item->getCode() == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK) {
-    $maxQuantity = 0;
-}
+// disable the qty field if there is no product associated with the sku (i.e. invalid sku) or if sku failed for
+// out of stock scenario
+$qtyDisabled = !$this->hasProductUrl() ||
+        $_item->getCode() == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
 ?>
 <tr data-mage-init='{orderBySkuFailure:{}}'>
     <td>
@@ -41,14 +42,16 @@ if ($_item->getCode() == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_F
     <td class="a-right"<?php if ($displayBothPrices): ?> colspan="2"<?php endif; ?>></td>
     <td class="a-center">
         <?php $validateItemQuantityCheck = false; ?>
-        <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>" size="4"
-               title="<?php echo __('Qty') ?>" class="input-text qty disabled" maxlength="12" disabled="disabled"
-               data-role="input-qty" data-validate="{'validate-item-quantity': {
-               <?php if ($_item->getQtyMinAllowed()): ?>'minAllowed': <?php echo $_item->getQtyMinAllowed(); $validateItemQuantityCheck = true; ?><?php endif ?>
-               <?php if ($maxQuantity > 0): ?><?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'maxAllowed': <?php echo $maxQuantity; $validateItemQuantityCheck = true; ?><?php endif ?>
-               <?php if ($_item->getQtyIncrements() > 0): ?>
-                   <?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'qtyIncrements': <?php echo $_item->getQtyIncrements() ?>
-               <?php endif ?>}}" />
+        <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>"
+                size="4" class="input-text qty <?php if ($qtyDisabled): ?>disabled<?php endif ?>" maxlength="12"
+                title="<?php echo __('Qty') ?>" data-role="input-qty"
+                <?php if ($qtyDisabled): ?>disabled="disabled"<?php endif ?>
+                data-validate="{'required': true,'validate-greater-than-zero': true, 'validate-item-quantity': {
+                <?php if ($_item->getQtyMinAllowed()): ?>'minAllowed': <?php echo $_item->getQtyMinAllowed(); $validateItemQuantityCheck = true; ?><?php endif ?>
+                <?php if ($maxQuantity > 0): ?><?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'maxAllowed': <?php echo $maxQuantity; $validateItemQuantityCheck = true; ?><?php endif ?>
+                <?php if ($_item->getQtyIncrements() > 0): ?>
+                    <?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'qtyIncrements': <?php echo $_item->getQtyIncrements() ?>
+                <?php endif ?>}}" />
     </td>
     <td class="a-center last"><a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo __('Remove item')?>" class="btn-remove btn-remove2"><?php echo __('Remove item')?></a></td>
 </tr>

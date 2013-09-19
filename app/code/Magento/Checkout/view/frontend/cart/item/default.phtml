@@ -13,18 +13,8 @@
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $canApplyMsrp = $this->helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item->getProduct(), Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
-
-// determine the maximum quantity for items
-$maxQuantity = -1;
-if ($_item->getQtyMaxAllowed()) {
-    $maxQuantity = $_item->getQtyMaxAllowed();
-}
-
-if ($_item->getCode() == 'failed_out_of_stock') {
-    $maxQuantity = 0;
-}
 ?>
-<tr <?php if (!$_item->getId()): ?>data-mage-init='{orderBySkuFailure:{}}'<?php endif; ?>>
+<tr>
     <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
     <td>
         <h2 class="product-name">
@@ -186,17 +176,7 @@ if ($_item->getCode() == 'failed_out_of_stock') {
         <?php endif; ?>
     <?php endif; ?>
     <td class="a-center">
-        <?php $validateItemQuantityCheck = false; ?>
-        <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>"
-                size="4" class="input-text qty <?php if ($maxQuantity == 0): ?>disabled<?php endif ?>" maxlength="12"
-                title="<?php echo __('Qty') ?>" data-role="input-qty"
-                <?php if ($maxQuantity == 0): ?>disabled="disabled"<?php endif ?>
-                data-validate="{'required': true,'validate-greater-than-zero': true, 'validate-item-quantity': {
-                <?php if ($_item->getQtyMinAllowed()): ?>'minAllowed': <?php echo $_item->getQtyMinAllowed(); $validateItemQuantityCheck = true; ?><?php endif ?>
-                <?php if ($maxQuantity > 0): ?><?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'maxAllowed': <?php echo $maxQuantity; $validateItemQuantityCheck = true; ?><?php endif ?>
-                <?php if ($_item->getQtyIncrements() > 0): ?>
-                    <?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'qtyIncrements': <?php echo $_item->getQtyIncrements() ?>
-                <?php endif ?>}}" />
+        <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo __('Qty') ?>" class="input-text qty" maxlength="12" data-validate="{required:true,'validate-greater-than-zero':true}"/>
     </td>
     <?php if (($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
     <td class="a-right">
