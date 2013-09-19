@@ -138,13 +138,13 @@ class JmeterTest extends \PHPUnit_Framework_TestCase
             'scenario failure in report' => array(
                 "$fixtureDir/scenario_failure.jmx",
                 "$fixtureDir/scenario_failure.jtl",
-                '\Magento\TestFramework\Performance\Scenario\FailureException',
+                'Magento\TestFramework\Performance\Scenario\FailureException',
                 'fixture failure message',
             ),
             'scenario error in report' => array(
                 "$fixtureDir/scenario_error.jmx",
                 "$fixtureDir/scenario_error.jtl",
-                '\Magento\TestFramework\Performance\Scenario\FailureException',
+                'Magento\TestFramework\Performance\Scenario\FailureException',
                 'fixture error message',
             ),
         );

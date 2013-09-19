@@ -145,7 +145,7 @@ class Download extends \Magento\Core\Controller\Front\Action
             $this->_getCustomerSession()->addNotice(__("We can't find the link you requested."));
             return $this->_redirect('*/customer/products');
         }
-        if (!$this->_objectManager->get('\Magento\Downloadable\Helper\Data')->getIsShareable($linkPurchasedItem)) {
+        if (!$this->_objectManager->get('Magento\Downloadable\Helper\Data')->getIsShareable($linkPurchasedItem)) {
             $customerId = $this->_getCustomerSession()->getCustomerId();
             if (!$customerId) {
                 $product = \Mage::getModel('Magento\Catalog\Model\Product')->load($linkPurchasedItem->getProductId());

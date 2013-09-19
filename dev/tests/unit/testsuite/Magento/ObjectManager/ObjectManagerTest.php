@@ -100,7 +100,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child'
             )
         ));
-        $this->_object->create('\Magento\Test\Di\Aggregate\AggregateParent');
+        $this->_object->create('Magento\Test\Di\Aggregate\AggregateParent');
     }
 
     public function testCreateResolvesScalarParametersAutomatically()
@@ -200,7 +200,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'preferences' => array(
-                'Magento\Test\Di\DiInterface' => '\Magento\Test\Di\DiParent',
+                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\DiParent',
                 'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child\Circular'
             ),
         ));

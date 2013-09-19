@@ -50,10 +50,10 @@ class TestsuiteTest extends \PHPUnit_Framework_TestCase
             $this->_fixtureDir . '/app_base_dir'
         );
         $this->_application = $this->getMock(
-            '\Magento\TestFramework\Application', array('applyFixtures'), array($this->_config, $shell)
+            'Magento\TestFramework\Application', array('applyFixtures'), array($this->_config, $shell)
         );
         $this->_handler = $this->getMockForAbstractClass(
-            '\Magento\TestFramework\Performance\Scenario\HandlerInterface');
+            'Magento\TestFramework\Performance\Scenario\HandlerInterface');
         $this->_object =
             new \Magento\TestFramework\Performance\Testsuite($this->_config, $this->_application, $this->_handler);
     }
@@ -85,7 +85,7 @@ class TestsuiteTest extends \PHPUnit_Framework_TestCase
             ->method('run')
             ->with(
                 $this->logicalAnd(
-                    $this->isInstanceOf('\Magento\TestFramework\Performance\Scenario'),
+                    $this->isInstanceOf('Magento\TestFramework\Performance\Scenario'),
                     $this->objectHasAttribute('_title', $scenarioTitle),
                     $this->objectHasAttribute('_file', $scenarioFilePath)
                 ),
@@ -117,7 +117,7 @@ class TestsuiteTest extends \PHPUnit_Framework_TestCase
             ->method('run')
             ->with(
                 $this->logicalAnd(
-                    $this->isInstanceOf('\Magento\TestFramework\Performance\Scenario'),
+                    $this->isInstanceOf('Magento\TestFramework\Performance\Scenario'),
                     $this->objectHasAttribute('_title', $scenarioTitle),
                     $this->objectHasAttribute('_file', $scenarioFilePath)
                 ),

@@ -450,7 +450,7 @@ class Account extends \Magento\Core\Controller\Front\Action
         );
         if ($this->_isVatValidationEnabled()) {
             // Show corresponding VAT message to customer
-            $configAddressType = $this->_objectManager->get('\Magento\Customer\Helper\Address')->getTaxCalculationAddressType();
+            $configAddressType = $this->_objectManager->get('Magento\Customer\Helper\Address')->getTaxCalculationAddressType();
             $editAddersUrl = \Mage::getUrl('customer/address/edit');
             switch ($configAddressType) {
                 case \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING:

@@ -526,7 +526,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             }
             if (! $model instanceof \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType) {
                 \Mage::throwException(__('Entity type model must be an instance of '
-                    . '\Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType'));
+                    . 'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType'));
             }
             if ($model->isSuitable()) {
                 $this->_productTypeModels[$type] = $model;

@@ -56,7 +56,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->_shell = $this->getMock('Magento\Shell', array('execute'));
 
         $this->_object = $this->getMock(
-            '\Magento\TestFramework\Application',
+            'Magento\TestFramework\Application',
             array('_bootstrap', '_cleanupMage', '_reindex', '_updateFilesystemPermissions'),
             array($this->_config, $this->_shell)
         );
