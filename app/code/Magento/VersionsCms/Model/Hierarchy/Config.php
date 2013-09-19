@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_VersionsCms_Model_Hierarchy_Config extends Magento_Config_Data
+class Magento_VersionsCms_Model_Hierarchy_Config extends Magento_Config_Data_Scoped
     implements Magento_VersionsCms_Model_Hierarchy_ConfigInterface
 {
     /**
