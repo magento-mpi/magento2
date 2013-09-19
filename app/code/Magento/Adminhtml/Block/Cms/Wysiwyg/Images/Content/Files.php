@@ -30,17 +30,25 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     protected $_imageStorage;
 
     /**
+     * @var Magento_Cms_Helper_Wysiwyg_Images
+     */
+    protected $_imageHelper;
+
+    /**
      * @param Magento_Cms_Model_Wysiwyg_Images_Storage $imageStorage
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Cms_Helper_Wysiwyg_Images $imageHelper
      * @param array $data
      */
     public function __construct(
         Magento_Cms_Model_Wysiwyg_Images_Storage $imageStorage,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Cms_Helper_Wysiwyg_Images $imageHelper,
         array $data = array()
     ) {
+        $this->_imageHelper = $imageHelper;
         $this->_imageStorage = $imageStorage;
         parent::__construct($coreData, $context, $data);
     }
@@ -54,7 +62,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     {
         if (! $this->_filesCollection) {
             $this->_filesCollection = $this->_imageStorage->getFilesCollection(
-                    Mage::helper('Magento_Cms_Helper_Wysiwyg_Images')->getCurrentPath(), $this->_getMediaType()
+                    $this->_imageHelper->getCurrentPath(), $this->_getMediaType()
                 );
         }
 

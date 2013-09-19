@@ -11,7 +11,6 @@
 
 class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var string
      */
@@ -60,7 +59,15 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         $imageFactory = $objectManager->get('Magento_Core_Model_Image_AdapterFactory');
         $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
         $imageHelper = $objectManager->get('Magento_Cms_Helper_Wysiwyg_Images');
-        $model = new Magento_Cms_Model_Wysiwyg_Images_Storage($filesystem, $imageFactory, $viewUrl, $imageHelper);
+        $coreFileStorageDb = $objectManager->get('Magento_Core_Helper_File_Storage_Database');
+
+        $model = new Magento_Cms_Model_Wysiwyg_Images_Storage(
+            $imageHelper,
+            $coreFileStorageDb,
+            $filesystem,
+            $imageFactory,
+            $viewUrl
+        );
         $this->assertStringStartsWith(
             realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()
