@@ -23,7 +23,7 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
     protected $_widgetResource;
 
     /**
-     * @var Magento_Catalog_Model_Layer
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -37,14 +37,14 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Widget_Model_Resource_Widget $widgetResource
      * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Catalog_Model_Layer $layout
+     * @param Magento_Core_Model_Layout $layout
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Widget_Model_Resource_Widget $widgetResource,
         Magento_Widget_Model_Widget $widget,
-        Magento_Catalog_Model_Layer $layout
+        Magento_Core_Model_Layout $layout
     ) {
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
