@@ -35,25 +35,17 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Backend_Model_Url
-     */
-    protected $_backendUrl;
-
-    /**
-     * @param Magento_Backend_Model_Url $backendUrl
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Url $backendUrl,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_backendUrl = $backendUrl;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -67,7 +59,7 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
         parent::_construct();
         $this->_addButton('back', array(
             'label'   => __('Back'),
-            'onclick' => "setLocation('" . $this->_backendUrl->getUrl('*/*/') . "')",
+            'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('*/*/') . "')",
             'class'   => 'back'
         ));
     }

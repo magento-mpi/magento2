@@ -44,6 +44,9 @@ class Magento_Logging_Model_Handler_Controllers
      */
     protected $_session;
 
+    /**
+     * @var Magento_Backend_Model_Config_Structure
+     */
     protected $_structureConfig;
 
     /**

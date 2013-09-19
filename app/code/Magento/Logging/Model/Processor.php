@@ -516,41 +516,6 @@ class Magento_Logging_Model_Processor
     }
 
     /**
-     * Get callback function for logAction and modelActionAfter functions
-     *
-     * @param string $srtCallback
-     * @param object $defaultHandler
-     * @param string $defaultFunction
-     * @return array Contains two values 'handler' and 'callback' that indicate what callback function should be applied
-     */
-    protected function _getCallbackFunction($srtCallback, $defaultHandler, $defaultFunction)
-    {
-        $return = array('handler' => $defaultHandler, 'callback' => $defaultFunction);
-        if (empty($srtCallback)) {
-            return $return;
-        }
-
-        try {
-            $classPath = explode('::', $srtCallback);
-            if (count($classPath) == 2) {
-                $return['handler'] = $this->_objectManager->get(str_replace('__', '/', $classPath[0]));
-                $return['callback'] = $classPath[1];
-            } else {
-                $return['callback'] = $classPath[0];
-            }
-            if (!$return['handler'] || !$return['callback'] || !method_exists($return['handler'],
-                $return['callback'])) {
-                Mage::throwException("Unknown callback function: {$srtCallback}");
-            }
-        } catch (Exception $e) {
-            $return['handler'] = false;
-            $this->_logger->logException($e);
-        }
-
-        return $return;
-    }
-
-    /**
      * Add new event changes
      *
      * @param Magento_Logging_Model_Event_Changes $eventChange

@@ -34,7 +34,6 @@ class Magento_Logging_Helper_Data extends Magento_Core_Helper_Abstract
         parent::__construct($context);
     }
 
-
     /**
      * Join array into string except empty values
      *

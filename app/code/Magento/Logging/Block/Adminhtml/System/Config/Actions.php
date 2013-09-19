@@ -39,7 +39,6 @@ class Magento_Logging_Block_Adminhtml_System_Config_Actions
         parent::__construct($coreData, $context, $application, $data);
     }
 
-
     /**
      * Action group labels getter
      *

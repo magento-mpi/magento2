@@ -803,4 +803,5 @@ return array(
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
     array('_getIndexer', 'Magento_Index_Model_Shell'),
     array('_getApi', 'Magento_Ogone_Block_Placeform'),
+    array('_getCallbackFunction', 'Magento_Logging_Model_Processor'),
 );
