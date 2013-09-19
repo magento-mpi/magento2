@@ -27,6 +27,31 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
 
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Define resource model
      *
      */
@@ -98,12 +123,12 @@ class Magento_Cms_Model_Resource_Page_Collection extends Magento_Core_Model_Reso
                             continue;
                         }
                         if ($result[$item->getData('page_id')] == 0) {
-                            $stores = Mage::app()->getStores(false, true);
+                            $stores = $this->_storeManager->getStores(false, true);
                             $storeId = current($stores)->getId();
                             $storeCode = key($stores);
                         } else {
                             $storeId = $result[$item->getData('page_id')];
-                            $storeCode = Mage::app()->getStore($storeId)->getCode();
+                            $storeCode = $this->_storeManager->getStore($storeId)->getCode();
                         }
                         $item->setData('_first_store_id', $storeId);
                         $item->setData('store_code', $storeCode);
