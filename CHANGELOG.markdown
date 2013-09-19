@@ -4,12 +4,11 @@
      * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
      * New configuration files are validated with XSD
      * Format of the configuration changed to make possible its validation
-     * Appropriate loaders are implemented for the segments
   * Improved configuration in `widget.xml`, `fieldset.xml` and `install.xml` files:
      * `install.xml` was renamed to `install_wizard.xml`
      * The configuration is validated with XSD
      * Format of the configuration changed to make possible its validation
-  * Newsletter configuration segment was eliminated and replaced by DI configuration for Newsletter Template Filter
+  * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
