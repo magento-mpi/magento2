@@ -52,7 +52,6 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-
     /**
      * Init model
      */

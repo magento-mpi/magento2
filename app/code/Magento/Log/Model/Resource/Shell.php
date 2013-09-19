@@ -30,7 +30,6 @@ class Magento_Log_Model_Resource_Shell
         $this->_resource = $resource;
     }
 
-
     /**
      * Retrieves information about log tables
      *
