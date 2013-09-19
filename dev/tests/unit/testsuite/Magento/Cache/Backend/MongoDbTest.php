@@ -284,7 +284,7 @@ class MongoDbTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        include_once(__DIR__ . '/_files/\MongoBinData.php');
+        include_once(__DIR__ . '/_files/MongoBinData.php');
 
         $inputAssertion = $this->logicalAnd(
             $this->arrayHasKey('_id'),
