@@ -10,8 +10,6 @@
 
 /**
  * Converts gift registry attributes from DOMDocument to array
- *
- * @class Magento_GiftRegistry_Model_Config_Converter
  */
 class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_ConverterInterface
 {
@@ -20,7 +18,6 @@ class Magento_GiftRegistry_Model_Config_Converter implements Magento_Config_Conv
      *
      * @param mixed $source
      * @return array
-     * @throws LogicException
      */
     public function convert($source)
     {

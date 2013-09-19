@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 interface Magento_GiftRegistry_Model_Attribute_ConfigInterface
 {
     /**

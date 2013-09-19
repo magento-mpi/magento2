@@ -9,6 +9,7 @@
 * @copyright   {copyright}
 * @license     {license_link}
 */
+
 class Magento_GiftRegistry_Model_Attribute_Config implements Magento_GiftRegistry_Model_Attribute_ConfigInterface
 {
     /**
@@ -89,8 +90,7 @@ class Magento_GiftRegistry_Model_Attribute_Config implements Magento_GiftRegistr
      */
     public function getAttributeGroups()
     {
-        $groups = $this->_dataContainer->get('attribute_groups');
-        return $groups;
+        return $this->_dataContainer->get('attribute_groups');;
     }
 
     /**
@@ -194,17 +194,18 @@ class Magento_GiftRegistry_Model_Attribute_Config implements Magento_GiftRegistr
     {
         $options = array();
         foreach ($this->getStaticTypes() as $code => $type) {
-            if ($type['visible']==='true') {
-                $valueParts = array($type['type'], $code);
-                if (!empty($type['group'])) {
-                    $valueParts[] = $type['group'];
-                }
-
-                $options[] = array(
-                    'value' => implode(':', $valueParts),
-                    'label' => $type['label']
-                );
+            if ($type['visible'] !== 'true') {
+                continue;
             }
+            $valueParts = array($type['type'], $code);
+            if (!empty($type['group'])) {
+                $valueParts[] = $type['group'];
+            }
+
+            $options[] = array(
+                'value' => implode(':', $valueParts),
+                'label' => $type['label']
+            );
         }
         return $options;
     }
