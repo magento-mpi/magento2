@@ -43,26 +43,26 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     /**#@+
      * Token types
      */
-    const TYPE_REQUEST  = 'request';
-    const TYPE_ACCESS   = 'access';
+    const TYPE_REQUEST = 'request';
+    const TYPE_ACCESS = 'access';
     const TYPE_VERIFIER = 'verifier';
     /**#@- */
 
     /**#@+
      * Lengths of token fields
      */
-    const LENGTH_TOKEN    = 32;
-    const LENGTH_SECRET   = 32;
+    const LENGTH_TOKEN = 32;
+    const LENGTH_SECRET = 32;
     const LENGTH_VERIFIER = 32;
     /**#@- */
 
     /**#@+
      * Customer types
      */
-    const USER_TYPE_ADMIN    = 'admin';
+    const USER_TYPE_ADMIN = 'admin';
     const USER_TYPE_CUSTOMER = 'customer';
 
-     /** @var Magento_Oauth_Helper_Data */
+    /** @var Magento_Oauth_Helper_Data */
     protected $_oauthData;
 
     /** @var Magento_Oauth_Model_Consumer_Factory */
@@ -203,12 +203,12 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     public function createRequestToken($entityId, $callbackUrl)
     {
         $this->setData(array(
-            'entity_id'  => $entityId,
-            'type'         => self::TYPE_REQUEST,
-            'token'        => $this->_oauthData->generateToken(),
-            'secret'       => $this->_oauthData->generateTokenSecret(),
-            'callback_url' => $callbackUrl
-        ));
+               'entity_id' => $entityId,
+               'type' => self::TYPE_REQUEST,
+               'token' => $this->_oauthData->generateToken(),
+               'secret' => $this->_oauthData->generateTokenSecret(),
+               'callback_url' => $callbackUrl
+           ));
         $this->save();
 
         return $this;

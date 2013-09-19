@@ -16,18 +16,18 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     /**#@+
      * Endpoint types with appropriate routes
      */
-    const ENDPOINT_AUTHORIZE_CUSTOMER        = 'oauth/authorize';
-    const ENDPOINT_AUTHORIZE_ADMIN           = 'adminhtml/oauth_authorize';
+    const ENDPOINT_AUTHORIZE_CUSTOMER = 'oauth/authorize';
+    const ENDPOINT_AUTHORIZE_ADMIN = 'adminhtml/oauth_authorize';
     const ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE = 'oauth/authorize/simple';
-    const ENDPOINT_AUTHORIZE_ADMIN_SIMPLE    = 'adminhtml/oauth_authorize/simple';
-    const ENDPOINT_INITIATE                  = 'oauth/initiate';
-    const ENDPOINT_TOKEN                     = 'oauth/token';
+    const ENDPOINT_AUTHORIZE_ADMIN_SIMPLE = 'adminhtml/oauth_authorize/simple';
+    const ENDPOINT_INITIATE = 'oauth/initiate';
+    const ENDPOINT_TOKEN = 'oauth/token';
     /**#@-*/
 
     /**#@+
      * Cleanup xpath config settings
      */
-    const XML_PATH_CLEANUP_PROBABILITY       = 'oauth/cleanup/cleanup_probability';
+    const XML_PATH_CLEANUP_PROBABILITY = 'oauth/cleanup/cleanup_probability';
     const XML_PATH_CLEANUP_EXPIRATION_PERIOD = 'oauth/cleanup/expiration_period';
     /**#@-*/
 
@@ -54,6 +54,94 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         self::ENDPOINT_INITIATE,
         self::ENDPOINT_TOKEN
     );
+
+    /**#@+
+     * OAuth result statuses
+     */
+    const ERR_OK = 0;
+    const ERR_VERSION_REJECTED = 1;
+    const ERR_PARAMETER_ABSENT = 2;
+    const ERR_PARAMETER_REJECTED = 3;
+    const ERR_TIMESTAMP_REFUSED = 4;
+    const ERR_NONCE_USED = 5;
+    const ERR_SIGNATURE_METHOD_REJECTED = 6;
+    const ERR_SIGNATURE_INVALID = 7;
+    const ERR_CONSUMER_KEY_REJECTED = 8;
+    const ERR_TOKEN_USED = 9;
+    const ERR_TOKEN_EXPIRED = 10;
+    const ERR_TOKEN_REVOKED = 11;
+    const ERR_TOKEN_REJECTED = 12;
+    const ERR_VERIFIER_INVALID = 13;
+    const ERR_PERMISSION_UNKNOWN = 14;
+    const ERR_PERMISSION_DENIED = 15;
+    const ERR_METHOD_NOT_ALLOWED = 16;
+    /**#@-*/
+
+    /**#@+
+     * Signature Methods
+     */
+    const SIGNATURE_SHA1 = 'HMAC-SHA1';
+    const SIGNATURE_SHA256 = 'HMAC-SHA256';
+    /**#@-*/
+
+    /**#@+
+     * HTTP Response Codes
+     */
+    const HTTP_OK = 200;
+    const HTTP_BAD_REQUEST = 400;
+    const HTTP_UNAUTHORIZED = 401;
+    const HTTP_METHOD_NOT_ALLOWED = 405;
+    const HTTP_INTERNAL_ERROR = 500;
+    /**#@-*/
+
+    /**
+     * Error code to error messages pairs
+     *
+     * @var array
+     */
+    protected $_errors = array(
+        self::ERR_VERSION_REJECTED => 'version_rejected',
+        self::ERR_PARAMETER_ABSENT => 'parameter_absent',
+        self::ERR_PARAMETER_REJECTED => 'parameter_rejected',
+        self::ERR_TIMESTAMP_REFUSED => 'timestamp_refused',
+        self::ERR_NONCE_USED => 'nonce_used',
+        self::ERR_SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
+        self::ERR_SIGNATURE_INVALID => 'signature_invalid',
+        self::ERR_CONSUMER_KEY_REJECTED => 'consumer_key_rejected',
+        self::ERR_TOKEN_USED => 'token_used',
+        self::ERR_TOKEN_EXPIRED => 'token_expired',
+        self::ERR_TOKEN_REVOKED => 'token_revoked',
+        self::ERR_TOKEN_REJECTED => 'token_rejected',
+        self::ERR_VERIFIER_INVALID => 'verifier_invalid',
+        self::ERR_PERMISSION_UNKNOWN => 'permission_unknown',
+        self::ERR_PERMISSION_DENIED => 'permission_denied',
+        self::ERR_METHOD_NOT_ALLOWED => 'method_not_allowed'
+    );
+
+    /**
+     * TODO: Possible combine both the error objects
+     * Error code to HTTP error code
+     *
+     * @var array
+     */
+    protected $_errorsToHttpCode = array(
+        self::ERR_VERSION_REJECTED => self::HTTP_BAD_REQUEST,
+        self::ERR_PARAMETER_ABSENT => self::HTTP_BAD_REQUEST,
+        self::ERR_PARAMETER_REJECTED => self::HTTP_BAD_REQUEST,
+        self::ERR_TIMESTAMP_REFUSED => self::HTTP_BAD_REQUEST,
+        self::ERR_NONCE_USED => self::HTTP_UNAUTHORIZED,
+        self::ERR_SIGNATURE_METHOD_REJECTED => self::HTTP_BAD_REQUEST,
+        self::ERR_SIGNATURE_INVALID => self::HTTP_UNAUTHORIZED,
+        self::ERR_CONSUMER_KEY_REJECTED => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_USED => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_EXPIRED => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_REVOKED => self::HTTP_UNAUTHORIZED,
+        self::ERR_TOKEN_REJECTED => self::HTTP_UNAUTHORIZED,
+        self::ERR_VERIFIER_INVALID => self::HTTP_UNAUTHORIZED,
+        self::ERR_PERMISSION_UNKNOWN => self::HTTP_UNAUTHORIZED,
+        self::ERR_PERMISSION_DENIED => self::HTTP_UNAUTHORIZED
+    );
+
 
     /**
      * Core data
@@ -103,13 +191,14 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (function_exists('openssl_random_pseudo_bytes')) {
             // use openssl lib if it is install. It provides a better randomness.
-            $bytes = openssl_random_pseudo_bytes(ceil($length/2), $strong);
+            $bytes = openssl_random_pseudo_bytes(ceil($length / 2), $strong);
             $hex = bin2hex($bytes); // hex() doubles the length of the string
             $randomString = substr($hex, 0, $length); // truncate at most 1 char if length parameter is an odd number
         } else {
             // fallback to mt_rand() if openssl is not installed
             $randomString = $this->_coreData->getRandomString(
-                $length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS
+                $length,
+                Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS
             );
         }
 
@@ -174,7 +263,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     public function isCleanupProbability()
     {
         // Safe get cleanup probability value from system configuration
-        $configValue = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
+        $configValue = (int)$this->_store->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
         return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
     }
 
@@ -185,7 +274,198 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCleanupExpirationPeriod()
     {
-        $minutes = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
+        $minutes = (int)$this->_store->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
+    }
+
+
+    /**
+     *
+     * Process HTTP request object and prepare for token validation
+     *
+     * @param Zend_Controller_Request_Http $httpRequest
+     * @return array <pre>
+     * array (
+     * 'request_url' => 'http://magento.ll/oauth/token/access',
+     * 'http_method' => 'POST',
+     * 'request_parameters' =>
+     *       array (
+     *          'oauth_header' => 'OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1",
+     *          oauth_token="a6aa81cc3e65e2960a487939244sssss", oauth_verifier="a6aa81cc3e65e2960a487939244vvvvv",
+     *          oauth_nonce="rI7PSWxTZRHWU3R", oauth_timestamp="1377183099",
+     *          oauth_consumer_key="a6aa81cc3e65e2960a4879392445e718",
+     *          oauth_signature="VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D"',
+     *
+     *          'content_type' => 'text/plain; charset=UTF-8',
+     *          'request_body' => false,
+     *       )
+     * )
+     * </pre>
+     */
+    public function _prepareTokenRequest($httpRequest)
+    {
+        $requestArray = array();
+
+        //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
+        $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
+            $httpRequest->getRequestUri();
+
+        $requestArray['request_url'] = $requestUrl;
+        $requestArray['http_method'] = $httpRequest->getMethod();
+
+        //Fetch and populate protocol information from request body and header into this controller class variables
+        $requestParams = array();
+
+        $requestParams['oauth_header'] = $httpRequest->getHeader('Authorization');
+        $requestParams['content_type'] = $httpRequest->getHeader(Zend_Http_Client::CONTENT_TYPE);
+        $requestParams['request_body'] = $httpRequest->getRawBody();
+
+        $requestArray['request_parameters'] = $requestParams;
+
+        return $requestArray;
+    }
+
+    /**
+     * Process token requests to extract Request parameters
+     *
+     * @param $request
+     * @return array
+     */
+    public function _processTokenRequest($request)
+    {
+        $requestParamArray = $request['request_parameters'];
+        $params = $this->_processRequest($requestParamArray['oauth_header'],
+                                         $requestParamArray['content_type'],
+                                         $requestParamArray['request_body'],
+                                         $request['request_url']);
+        unset($request['request_parameters']);
+        return array_merge($request, $params);
+    }
+
+    /**
+     * Process oauth related protocol information and return as an array
+     *
+     * @param $authHeaderValue
+     * @param $contentTypeHeader
+     * @param $requestBodyString
+     * @param $requestUrl
+     * @return array
+     */
+    protected function _processRequest($authHeaderValue, $contentTypeHeader, $requestBodyString, $requestUrl)
+    {
+        $protocolParams = array();
+
+        if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
+            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
+
+            foreach (explode(',', $authHeaderValue) as $paramStr) {
+                $nameAndValue = explode('=', trim($paramStr), 2);
+
+                if (count($nameAndValue) < 2) {
+                    continue;
+                }
+                if ($this->_isProtocolParameter($nameAndValue[0])) {
+                    $protocolParams[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
+                }
+            }
+        }
+
+        if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
+            $protocolParamsNotSet = !$protocolParams;
+
+            parse_str($requestBodyString, $protocolBodyParams);
+
+            foreach ($protocolBodyParams as $bodyParamName => $bodyParamValue) {
+                if (!$this->_isProtocolParameter($bodyParamName)) {
+                    $protocolParams[$bodyParamName] = $bodyParamValue;
+                } elseif ($protocolParamsNotSet) {
+                    $protocolParams[$bodyParamName] = $bodyParamValue;
+                }
+            }
+        }
+        $protocolParamsNotSet = !$protocolParams;
+
+        if (($queryString = Zend_Uri_Http::fromString($requestUrl)->getQuery())) {
+            foreach (explode('&', $queryString) as $paramToValue) {
+                $paramData = explode('=', $paramToValue);
+
+                if (2 === count($paramData) && !$this->_isProtocolParameter($paramData[0])) {
+                    $protocolParams[rawurldecode($paramData[0])] = rawurldecode($paramData[1]);
+                }
+            }
+        }
+        if ($protocolParamsNotSet) {
+            $this->_fetchProtocolParamsFromQuery($protocolParams, $queryString);
+        }
+
+        // Combine request and header parameters
+        return $protocolParams;
+    }
+
+    /**
+     * Create response string for problem during request and set HTTP error code
+     *
+     * @param Exception $exception
+     * @param Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
+     * @return string
+     */
+    public function reportProblem(
+        Exception $exception,
+        Zend_Controller_Response_Http $response = null
+    ) {
+        $errorMap = $this->_errors;
+        $errorsToHttpCode = $this->_errorsToHttpCode;
+
+        $eMsg = $exception->getMessage();
+
+        if ($exception instanceof Magento_Oauth_Exception) {
+            $eCode = $exception->getCode();
+
+            if (isset($errorMap[$eCode])) {
+                $errorMsg = $errorMap[$eCode];
+                $responseCode = $errorsToHttpCode[$eCode];
+            } else {
+                $errorMsg = 'unknown_problem&code=' . $eCode;
+                $responseCode = self::HTTP_INTERNAL_ERROR;
+            }
+            if (Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT == $eCode) {
+                $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
+            } elseif ($eMsg) {
+                $errorMsg .= '&message=' . $eMsg;
+            }
+        } else {
+            $errorMsg = 'internal_error&message=' . ($eMsg ? $eMsg : 'empty_message');
+            $responseCode = self::HTTP_INTERNAL_ERROR;
+        }
+
+        $response->setHttpResponseCode($responseCode);
+        return array('oauth_problem' => $errorMsg);
+    }
+
+
+    /**
+     * Retrieve protocol parameters from query string
+     *
+     * @param $protocolParams
+     * @param $queryString
+     */
+    protected function _fetchProtocolParamsFromQuery(&$protocolParams, $queryString)
+    {
+        foreach ($queryString as $queryParamName => $queryParamValue) {
+            if ($this->_isProtocolParameter($queryParamName)) {
+                $protocolParams[$queryParamName] = $queryParamValue;
+            }
+        }
+    }
+
+    /**
+     * Check if attribute is oAuth related
+     *
+     * @param string $attrName
+     * @return bool
+     */
+    protected function _isProtocolParameter($attrName)
+    {
+        return (bool)preg_match('/oauth_[a-z_-]+/', $attrName);
     }
 }
