@@ -75,7 +75,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $service, $data);
         $this->_pro->setPaymentMethod($this);
     }

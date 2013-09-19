@@ -87,7 +87,7 @@ class Magento_Pbridge_Model_Payment_Method_Authorizenet extends Magento_Payment_
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $service, $data);
     }
 

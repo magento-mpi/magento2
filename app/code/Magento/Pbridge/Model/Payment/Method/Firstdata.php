@@ -87,7 +87,7 @@ class Magento_Pbridge_Model_Payment_Method_Firstdata extends Magento_Payment_Mod
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $service, $data);
     }
 

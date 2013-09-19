@@ -91,7 +91,7 @@ class Magento_Pbridge_Model_Payment_Method_Braintree_Basic extends Magento_Payme
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $service, $data);
     }
 

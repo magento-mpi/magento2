@@ -127,7 +127,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $service, $data);
     }
 

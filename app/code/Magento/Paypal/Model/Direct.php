@@ -71,7 +71,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
         Magento_Centinel_Model_Service $service,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $service, $data);
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {

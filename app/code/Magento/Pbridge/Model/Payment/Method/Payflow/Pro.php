@@ -71,8 +71,8 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData, $logAdapterFactory,
-            $locale, $service, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData,
+            $logAdapterFactory, $locale, $service, $data);
     }
 
     /**
