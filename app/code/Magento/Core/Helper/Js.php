@@ -54,7 +54,7 @@ class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
      */
     public function getTranslateJson()
     {
-        return $this->_coreData->jsonEncode($this->_getTranslateData());
+        return $this->_coreData->jsonEncode($this->getTranslateData());
     }
 
     /**
@@ -95,7 +95,7 @@ class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
      *
      * @return array
      */
-    protected function _getTranslateData()
+    public function getTranslateData()
     {
         if ($this->_translateData === null) {
             $this->_initTranslateData();
