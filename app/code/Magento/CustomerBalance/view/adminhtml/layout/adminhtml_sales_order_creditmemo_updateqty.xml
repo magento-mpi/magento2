@@ -12,6 +12,6 @@
         <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/customerbalance.phtml" after="-"/>
     </referenceBlock>
     <referenceContainer name="submit_before">
-        <block class="Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls" name="customerbalance" template="sales/creditmemo/refund.phtml"/>
+        <block class="Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls" name="customerbalance.creditmemo" template="sales/creditmemo/refund.phtml"/>
     </referenceContainer>
 </layout>

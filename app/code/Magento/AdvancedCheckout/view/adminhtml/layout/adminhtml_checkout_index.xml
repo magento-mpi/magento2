@@ -44,6 +44,5 @@
             </block>
             <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
         </block>
-        <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
     </referenceContainer>
 </layout>

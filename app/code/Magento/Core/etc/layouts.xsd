@@ -275,41 +275,31 @@
         <xs:attribute type="elementPositionType" name="before" use="optional"/>
     </xs:complexType>
 
-    <xs:complexType name="referenceType" abstract="true" mixed="true">
-        <xs:annotation>
-            <xs:documentation>
-                This element is used to link an already defined block in layout.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-            <xs:element ref="block" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="remove" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="move" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="referenceBlock" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element ref="update" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute type="elementNameType" name="name" use="required"/>
-    </xs:complexType>
-
     <xs:complexType name="blockReferenceType" mixed="true">
-        <xs:complexContent>
-            <xs:extension base="referenceType">
-                <xs:sequence minOccurs="0">
-                    <xs:element ref="action" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element ref="arguments" minOccurs="0" maxOccurs="1"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="action" minOccurs="0" />
+            <xs:element ref="arguments" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="block" minOccurs="0"/>
+            <xs:element ref="container" minOccurs="0"/>
+            <xs:element ref="remove" minOccurs="0" />
+            <xs:element ref="move" minOccurs="0" />
+            <xs:element ref="referenceBlock" minOccurs="0" />
+            <xs:element ref="referenceContainer" minOccurs="0"/>
+            <xs:element ref="update" minOccurs="0" />
+        </xs:choice>
+        <xs:attribute type="xs:string" name="name" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="containerReferenceType" mixed="true">
-        <xs:complexContent>
-            <xs:extension base="referenceType">
-                <xs:sequence minOccurs="0">
-                    <xs:element ref="referenceContainer" minOccurs="0" maxOccurs="unbounded"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="referenceContainer" minOccurs="0" />
+            <xs:element ref="block" minOccurs="0" />
+            <xs:element ref="container" minOccurs="0" />
+            <xs:element ref="remove" minOccurs="0" />
+            <xs:element ref="move" minOccurs="0" />
+            <xs:element ref="referenceBlock" minOccurs="0" />
+            <xs:element ref="update" minOccurs="0" />
+        </xs:choice>
+        <xs:attribute type="xs:string" name="name" use="required"/>
     </xs:complexType>
 </xs:schema>

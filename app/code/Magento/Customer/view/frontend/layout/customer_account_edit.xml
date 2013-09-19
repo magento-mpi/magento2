@@ -17,9 +17,4 @@
     <referenceContainer name="my.account.wrapper">
         <block class="Magento_Customer_Block_Form_Edit" name="customer_edit" template="form/edit.phtml"/>
     </referenceContainer>
-    <referenceContainer name="left">
-        <action method="unsetChild">
-            <argument name="name" xsi:type="string">left.permanent.callout</argument>
-        </action>
-    </referenceContainer>
 </layout>

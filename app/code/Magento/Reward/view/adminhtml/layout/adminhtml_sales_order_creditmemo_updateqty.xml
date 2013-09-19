@@ -16,6 +16,6 @@
         </block>
     </referenceBlock>
     <referenceContainer name="submit_before">
-        <block class="Magento_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward" name="reward_points" template="sales/order/creditmemo/reward.phtml"/>
+        <block class="Magento_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward" name="reward_points_creditmemo" template="sales/order/creditmemo/reward.phtml"/>
     </referenceContainer>
 </layout>

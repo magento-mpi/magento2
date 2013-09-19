@@ -36,9 +36,11 @@ class Magento_Catalog_Helper_Category_FlatTest extends PHPUnit_Framework_TestCas
         $this->assertTrue($this->_helper->isEnabled());
     }
 
-    /**
-     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category 1
-     */
+    public function testIsRebuilt()
+    {
+        $this->assertFalse($this->_helper->isRebuilt());
+    }
+
     public function testIsBuilt()
     {
         $this->assertEquals($this->_helper->isBuilt(), $this->_helper->isEnabled(true));

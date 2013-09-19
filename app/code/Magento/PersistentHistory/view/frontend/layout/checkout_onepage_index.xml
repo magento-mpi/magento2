@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="persistent.remember.me.tooltip">
+    <referenceBlock name="checkout.onepage.billing.persistent.remember.me.tooltip">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Magento_PersistentHistory::remember_me_tooltip.phtml</argument>
         </action>

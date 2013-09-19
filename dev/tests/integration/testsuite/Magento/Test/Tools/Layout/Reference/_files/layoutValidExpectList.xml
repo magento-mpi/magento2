@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<list>
-    <item type="reference" value="block"/>
-    <item type="reference" value="container"/>
-    <item type="block" value="another.block"/>
-    <item type="block" value="block"/>
-    <item type="container" value="another.container"/>
-    <item type="container" value="container"/>
-</list>

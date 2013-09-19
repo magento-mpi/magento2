@@ -8,11 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceContainer name="left">
-        <action method="setIsCollapsed">
-            <argument name="value" xsi:type="string">true</argument>
-        </action>
-    </referenceContainer>
     <referenceBlock name="root">
         <block class="Magento_Rma_Block_Adminhtml_Rma_Create" name="content">
             <block class="Magento_Rma_Block_Adminhtml_Rma_Create_Form" template="create/form.phtml" name="form">

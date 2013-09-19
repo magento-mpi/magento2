@@ -14,11 +14,6 @@
             <argument translate="true" name="id" xsi:type="string">order-header</argument>
         </action>
     </referenceBlock>
-    <referenceContainer name="left">
-        <action method="setIsCollapsed">
-            <argument name="value" xsi:type="string">true</argument>
-        </action>
-    </referenceContainer>
     <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-create-scripts-js">
             <arguments>

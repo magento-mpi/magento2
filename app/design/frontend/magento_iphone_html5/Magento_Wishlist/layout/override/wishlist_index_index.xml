@@ -36,9 +36,4 @@
             </container>
         </block>
     </referenceContainer>
-    <referenceContainer name="right">
-        <action method="unsetChild">
-            <argument name="name" xsi:type="string">wishlist_customer_sidebar</argument>
-        </action>
-    </referenceContainer>
 </layout>

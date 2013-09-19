@@ -23,10 +23,5 @@
             </block>
         </block>
     </referenceContainer>
-    <referenceContainer name="left">
-        <action method="unsetChild">
-            <argument name="name" xsi:type="string">left.permanent.callout</argument>
-        </action>
-    </referenceContainer>
     <update handle="customer_form_template_handle"/>
 </layout>

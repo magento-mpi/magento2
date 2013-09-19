@@ -41,7 +41,7 @@ class Processor
      * @param Formatter $formatter
      * @param string $referencesFile
      */
-    function __construct(Formatter $formatter, $referencesFile)
+    public function __construct(Formatter $formatter, $referencesFile)
     {
         $this->_formatter = $formatter;
         $this->_referencesFile = $referencesFile;

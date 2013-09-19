@@ -14,7 +14,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="right">
-        <action method="unsetChildren"/>
         <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlId="checkout-progress-wrapper">
             <block class="Magento_Checkout_Block_Onepage_Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
         </container>

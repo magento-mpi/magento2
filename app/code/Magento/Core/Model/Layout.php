@@ -464,6 +464,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * Traverse through all elements of specified XML-node and schedule structural elements of it
      *
      * @param Magento_Core_Model_Layout_Element $parent
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _readStructure($parent)
     {
