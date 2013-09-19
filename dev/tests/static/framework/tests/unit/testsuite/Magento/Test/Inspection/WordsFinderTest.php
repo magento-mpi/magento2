@@ -59,7 +59,8 @@ class WordsFinderTest extends \PHPUnit_Framework_TestCase
      */
     public function testFindWords($configFiles, $file, $expected)
     {
-        $wordsFinder = new \Magento\TestFramework\Inspection\WordsFinder($configFiles, __DIR__ . '/_files/words_finder');
+        $wordsFinder = new \Magento\TestFramework\Inspection\WordsFinder($configFiles,
+            __DIR__ . '/_files/words_finder');
         $actual = $wordsFinder->findWords($file);
         $this->assertEquals($expected, $actual);
     }
