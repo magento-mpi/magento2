@@ -7,10 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 namespace Magento;
+
+/*
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+*/
 
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
