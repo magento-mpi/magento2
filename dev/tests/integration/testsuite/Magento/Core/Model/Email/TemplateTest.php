@@ -35,7 +35,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
                 $objectManager->create('Magento_Filesystem'),
                 $objectManager->create('Magento_Core_Model_View_Url'),
                 $objectManager->create('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_DesignInterface')
+                $objectManager->get('Magento_Core_Model_View_DesignInterface'),
+                $objectManager->get('Magento_Core_Model_Email_Template_Config'),
             ))
             ->getMock();
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
@@ -71,18 +72,6 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_model->getOrigTemplateVariables());
         $this->assertInternalType('array', Zend_Json::decode($this->_model->getOrigTemplateVariables()));
         $this->assertNotEmpty($this->_model->getTemplateStyles());
-    }
-
-    public function testDefaultTemplateAsOptionsArray()
-    {
-        $options = $this->_model->getDefaultTemplatesAsOptionsArray();
-        $this->assertInternalType('array', $options);
-        $this->assertNotEmpty($options);
-        foreach ($options as $option) {
-            $this->assertArrayHasKey('value', $option);
-            $this->assertArrayHasKey('label', $option);
-            $this->assertArrayHasKey('group', $option);
-        }
     }
 
     /**
@@ -200,11 +189,12 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException UnexpectedValueException
+     * @expectedExceptionMessage Email template 'wrong_id' is not defined
      */
     public function testSendTransactionalWrongId()
     {
-        $this->_model->sendTransactional('wrong_id' . uniqid(),
+        $this->_model->sendTransactional('wrong_id',
             array('name' => 'Sender Name', 'email' => 'sender@example.com'), 'recipient@example.com', 'Recipient Name'
         );
     }

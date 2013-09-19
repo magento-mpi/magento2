@@ -14,22 +14,24 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
     /**
      * Go through all declared templates and check if base files indeed exist in the respective module
      *
-     * @param string $module
-     * @param string $filename
+     * @param string $templateId
      * @dataProvider loadBaseContentsDataProvider
      */
-    public function testLoadBaseContents($module, $filename)
+    public function testLoadBaseContents($templateId)
     {
-        $model = Mage::getModel('Magento_Core_Model_Email_Template');
-        $this->assertNotEmpty($model->loadBaseContents($module, $filename));
+        /** @var Magento_Core_Model_Email_Template_Config $emailConfig */
+        $emailConfig = Mage::getModel('Magento_Core_Model_Email_Template_Config');
+        $templateFilename = $emailConfig->getTemplateFilename($templateId);
+        $this->assertFileExists($templateFilename, 'Email template file, specified in the configuration, must exist');
     }
 
     public function loadBaseContentsDataProvider()
     {
         $data = array();
-        $config = Mage::getConfig();
-        foreach (Magento_Core_Model_Email_Template::getDefaultTemplates() as $row) {
-            $data[] = array($config->determineOmittedNamespace($row['@']['module'], true), $row['file']);
+        /** @var Magento_Core_Model_Email_Template_Config $emailConfig */
+        $emailConfig = Mage::getModel('Magento_Core_Model_Email_Template_Config');
+        foreach ($emailConfig->getAvailableTemplates() as $templateId) {
+            $data[$templateId] = array($templateId);
         }
         return $data;
     }

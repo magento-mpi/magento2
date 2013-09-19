@@ -8,65 +8,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_Data
+class Magento_Catalog_Model_Attribute_Config_Data extends Magento_Config_Data_SingleScope
 {
-    /**
-     * @var Magento_Config_ReaderInterface
-     */
-    private $_reader;
-
-    /**
-     * @var Magento_Config_CacheInterface
-     */
-    private $_cache;
-
-    /**
-     * @var string
-     */
-    private $_cacheId;
-
-    /**
-     * @var string
-     */
-    private $_scope;
-
-    /**
-     * @var array
-     */
-    private $_data;
-
     /**
      * @param Magento_Catalog_Model_Attribute_Config_Reader $reader
      * @param Magento_Config_CacheInterface $cache
-     * @param string $cacheId
-     * @param string $scope
      */
     public function __construct(
         Magento_Catalog_Model_Attribute_Config_Reader $reader,
-        Magento_Config_CacheInterface $cache,
-        $cacheId,
-        $scope
+        Magento_Config_CacheInterface $cache
     ) {
-        $this->_reader = $reader;
-        $this->_cache = $cache;
-        $this->_cacheId = $cacheId;
-        $this->_scope = $scope;
-    }
-
-    /**
-     * Retrieve data from the storage
-     *
-     * @return array
-     */
-    public function getData()
-    {
-        if ($this->_data === null) {
-            $this->_data = $this->_cache->get($this->_scope, $this->_cacheId);
-            if ($this->_data === false) {
-                $this->_data = $this->_reader->read($this->_scope);
-                $this->_cache->put($this->_data, $this->_scope, $this->_cacheId);
-            }
-        }
-        return $this->_data;
+        parent::__construct($reader, $cache, 'catalog_attributes', Magento_Core_Model_App_Area::AREA_GLOBAL);
     }
 }

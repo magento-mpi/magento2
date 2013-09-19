@@ -56,7 +56,6 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     /**
      * Configuration path for default email templates
      */
-    const XML_PATH_TEMPLATE_EMAIL               = 'global/template/email';
     const XML_PATH_SENDING_SET_RETURN_PATH      = 'system/smtp/set_return_path';
     const XML_PATH_SENDING_RETURN_PATH_EMAIL    = 'system/smtp/return_path_email';
     const XML_PATH_DESIGN_EMAIL_LOGO            = 'design/email/logo';
@@ -88,7 +87,10 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     protected $_viewFileSystem;
 
-    static protected $_defaultTemplates;
+    /**
+     * @var Magento_Core_Model_Email_Template_Config
+     */
+    private $_emailConfig;
 
     /**
      * @param Magento_Core_Model_Context $context
@@ -97,6 +99,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param array $data
      */
     public function __construct(
@@ -106,11 +109,13 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_emailConfig = $emailConfig;
         parent::__construct($design, $context, $registry, $data);
     }
 
@@ -216,16 +221,12 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function loadDefault($templateId)
     {
-        $defaultTemplates = self::getDefaultTemplates();
-        if (!isset($defaultTemplates[$templateId])) {
-            return $this;
-        }
+        $templateFile = $this->_emailConfig->getTemplateFilename($templateId);
+        $templateType = $this->_emailConfig->getTemplateType($templateId);
+        $templateTypeCode = $templateType == 'html' ? self::TYPE_HTML : self::TYPE_TEXT;
+        $this->setTemplateType($templateTypeCode);
 
-        $data = &$defaultTemplates[$templateId];
-        $this->setTemplateType($data['type'] == 'html' ? self::TYPE_HTML : self::TYPE_TEXT);
-
-        $module = Mage::getConfig()->determineOmittedNamespace($data['@']['module'], true);
-        $templateText = $this->loadBaseContents($module, $data['file']);
+        $templateText = $this->_filesystem->read($templateFile);
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {
             $this->setTemplateSubject($matches[1]);
@@ -251,68 +252,6 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $this->setId($templateId);
 
         return $this;
-    }
-
-    /**
-     * Look for base template and read its contents
-     *
-     * @param string $module A fully qualified module name (<Namespace>_<Name>)
-     * @param string $filename File path relative to module/view folder
-     * @return string
-     * @throws Exception if the requested filename is not found
-     */
-    public function loadBaseContents($module, $filename)
-    {
-        $includeFilename = Mage::getConfig()->getModuleDir('view', $module) . DIRECTORY_SEPARATOR . $filename;
-        $contents = $this->_filesystem->read($includeFilename);
-        if (!$contents) {
-            throw new Exception(sprintf('Failed to include file "%s".', $includeFilename));
-        }
-        return $contents;
-    }
-
-    /**
-     * Retrieve default templates from config
-     *
-     * @return array
-     */
-    static public function getDefaultTemplates()
-    {
-        if (is_null(self::$_defaultTemplates)) {
-            self::$_defaultTemplates = Mage::getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
-        }
-
-        return self::$_defaultTemplates;
-    }
-
-    /**
-     * Get default templates as options array
-     *
-     * @return array
-     */
-    static public function getDefaultTemplatesAsOptionsArray()
-    {
-        $options = array(array('value' => '', 'label' => '', 'group' => ''));
-        $groups = array();
-        foreach (self::getDefaultTemplates() as $templateId => $row) {
-            $module = $row['@']['module'];
-            $moduleFullName = Mage::getConfig()->determineOmittedNamespace($module, true);
-            $options[] = array(
-                'value' => $templateId,
-                'label' => __($row['label']),
-                'group' => $moduleFullName,
-            );
-            $groups[$module] = 1;
-        }
-        uasort($options, function ($firstElement, $secondElement) {
-            $key = 'label';
-            if ($firstElement[$key] == $secondElement[$key]) {
-                return 0;
-            }
-            return ($firstElement[$key] < $secondElement[$key]) ? -1 : 1;
-        });
-
-        return $options;
     }
 
     /**

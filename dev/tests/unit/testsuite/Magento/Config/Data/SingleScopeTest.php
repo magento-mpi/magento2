@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_DataTest extends PHPUnit_Framework_TestCase
+class Magento_Config_Data_SingleScopeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_Data
+     * @var Magento_Config_Data_SingleScope
      */
     protected $_model;
 
@@ -29,18 +29,16 @@ class Magento_Catalog_Model_Attribute_Config_DataTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_configReader = $this->getMock(
-            'Magento_Catalog_Model_Attribute_Config_Reader', array('read'), array(), '', false
-        );
+        $this->_configReader = $this->getMock('Magento_Config_ReaderInterface');
         $this->_configCache = $this->getMock('Magento_Config_CacheInterface');
-        $this->_model = new Magento_Catalog_Model_Attribute_Config_Data(
+        $this->_model = new Magento_Config_Data_SingleScope(
             $this->_configReader, $this->_configCache, 'fixture_cache_id', 'fixture_scope'
         );
     }
 
     public function testGetData()
     {
-        $fixtureConfigData = require __DIR__ . '/_files/attributes_config_merged.php';
+        $fixtureConfigData = new stdClass();
         $this->_configCache
             ->expects($this->once())
             ->method('get')
@@ -50,7 +48,7 @@ class Magento_Catalog_Model_Attribute_Config_DataTest extends PHPUnit_Framework_
         $this->_configCache
             ->expects($this->once())
             ->method('put')
-            ->with($fixtureConfigData, 'fixture_scope', 'fixture_cache_id')
+            ->with($this->identicalTo($fixtureConfigData), 'fixture_scope', 'fixture_cache_id')
         ;
         $this->_configReader
             ->expects($this->once())
@@ -58,8 +56,8 @@ class Magento_Catalog_Model_Attribute_Config_DataTest extends PHPUnit_Framework_
             ->with('fixture_scope')
             ->will($this->returnValue($fixtureConfigData))
         ;
-        $this->assertEquals($fixtureConfigData, $this->_model->getData('group_one'));
+        $this->assertSame($fixtureConfigData, $this->_model->getData());
         // Makes sure the value is calculated only once
-        $this->assertEquals($fixtureConfigData, $this->_model->getData('group_one'));
+        $this->assertSame($fixtureConfigData, $this->_model->getData());
     }
 }

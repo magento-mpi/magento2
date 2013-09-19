@@ -2,45 +2,35 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * Config config system template source
- *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
     implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
-     * Core registry
-     *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    private $_coreRegistry;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @var Magento_Core_Model_Email_Template_Config
+     */
+    private $_emailConfig;
+
+    /**
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($data);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_emailConfig = $emailConfig;
     }
 
     /**
@@ -53,23 +43,16 @@ class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
         if (!$collection = $this->_coreRegistry->registry('config_system_email_template')) {
             $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Email_Template_Collection')
                 ->load();
-
             $this->_coreRegistry->register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
-        $templateName = __('Default Template');
-        $nodeName = str_replace('/', '_', $this->getPath());
-        $templateLabelNode = Mage::app()->getConfig()->getNode(
-            Magento_Core_Model_Email_Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'
-        );
-        if ($templateLabelNode) {
-            $templateName = __('%1 (Default)', __((string)$templateLabelNode));
-        }
+        $templateId = str_replace('/', '_', $this->getPath());
+        $templateLabel = $this->_emailConfig->getTemplateLabel($templateId);
+        $templateLabel = __('%1 (Default)', $templateLabel);
         array_unshift( $options, array(
-            'value' => $nodeName,
-            'label' => $templateName
+            'value' => $templateId,
+            'label' => $templateLabel
         ));
         return $options;
     }
-
 }

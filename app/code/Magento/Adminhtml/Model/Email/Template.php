@@ -30,6 +30,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param Magento_Core_Model_Config $config
      * @param array $data
      */
@@ -40,11 +41,12 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
         Magento_Core_Model_Config $config,
         array $data = array()
     ) {
         $this->_config = $config;
-        parent::__construct($context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $data);
+        parent::__construct($context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $emailConfig, $data);
     }
 
     /**

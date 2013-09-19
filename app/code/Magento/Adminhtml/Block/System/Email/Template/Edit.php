@@ -34,6 +34,11 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected $_configStructure;
 
     /**
+     * @var Magento_Core_Model_Email_Template_Config
+     */
+    private $_emailConfig;
+
+    /**
      * Template file
      *
      * @var string
@@ -46,6 +51,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Model_Menu_Config $menuConfig
      * @param Magento_Backend_Model_Config_Structure $configStructure
+     * @param Magento_Core_Model_Email_Template_Config $emailConfig
      * @param array $data
      */
     public function __construct(
@@ -54,11 +60,13 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         Magento_Core_Model_Registry $registry,
         Magento_Backend_Model_Menu_Config $menuConfig,
         Magento_Backend_Model_Config_Structure $configStructure,
+        Magento_Core_Model_Email_Template_Config $emailConfig,
         array $data = array()
     ) {
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
+        $this->_emailConfig = $emailConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -175,13 +183,40 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected function _beforeToHtml()
     {
         $groupedOptions = array();
-        foreach (Magento_Core_Model_Email_Template::getDefaultTemplatesAsOptionsArray() as $option) {
+        foreach ($this->_getDefaultTemplatesAsOptionsArray() as $option) {
             $groupedOptions[$option['group']][] = $option;
         }
         ksort($groupedOptions);
         $this->setData('template_options', $groupedOptions);
 
         return parent::_beforeToHtml();
+    }
+
+    /**
+     * Get default templates as options array
+     *
+     * @return array
+     */
+    protected function _getDefaultTemplatesAsOptionsArray()
+    {
+        $options = array(array('value' => '', 'label' => '', 'group' => ''));
+        foreach ($this->_emailConfig->getAvailableTemplates() as $templateId) {
+            $templateModule = $this->_emailConfig->getTemplateModule($templateId);
+            $options[] = array(
+                'value' => $templateId,
+                'label' => $this->_emailConfig->getTemplateLabel($templateId),
+                'group' => $templateModule,
+            );
+        }
+        uasort($options, function ($firstElement, $secondElement) {
+            $key = 'label';
+            if ($firstElement[$key] == $secondElement[$key]) {
+                return 0;
+            }
+            return ($firstElement[$key] < $secondElement[$key]) ? -1 : 1;
+        });
+
+        return $options;
     }
 
     public function getBackButtonHtml()
