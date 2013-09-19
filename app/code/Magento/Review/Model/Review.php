@@ -57,7 +57,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     protected $_statusFactory;
 
     /**
-     * @var Magento_Review_Model_Resource_Review_Summary_CollectionFactory
+     * @var Magento_Review_Model_Review_SummaryFactory
      */
     protected $_summaryFactory;
 
@@ -81,7 +81,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $productFactory
      * @param Magento_Review_Model_Resource_Review_Status_CollectionFactory $statusFactory
-     * @param Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryFactory
+     * @param Magento_Review_Model_Review_SummaryFactory $summaryFactory
      * @param Magento_Review_Model_Review_Summary $reviewSummary
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_UrlInterface $urlModel
@@ -94,7 +94,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
         Magento_Core_Model_Registry $registry,
         Magento_Review_Model_Resource_Review_Product_CollectionFactory $productFactory,
         Magento_Review_Model_Resource_Review_Status_CollectionFactory $statusFactory,
-        Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryFactory,
+        Magento_Review_Model_Review_SummaryFactory $summaryFactory,
         Magento_Review_Model_Review_Summary $reviewSummary,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_UrlInterface $urlModel,
