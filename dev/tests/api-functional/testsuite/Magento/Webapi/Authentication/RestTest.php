@@ -44,9 +44,10 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $this->_consumer = $objectManager->get('Magento_Oauth_Model_Consumer')->load(self::CONSUMER_KEY,'key');
+        $this->_consumer = $objectManager->get('Magento_Oauth_Model_Consumer')->load(self::CONSUMER_KEY, 'key');
 
-        $this->_token = $objectManager->get('Magento_Oauth_Model_Token')->load($this->_consumer->getId(),'consumer_id');
+        $this->_token = $objectManager->get('Magento_Oauth_Model_Token')
+            ->load($this->_consumer->getId(), 'consumer_id');
 
         $this->_consumerKey = $this->_consumer->getKey();
         $this->_consumerSecret = $this->_consumer->getSecret();
@@ -86,20 +87,20 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
 
     public function testGetRequestTokenInvalidConsumerKey()
     {
-        try{
+        try {
             $oAuthClient = $this->_getOauthClient('invalid_key', $this->_consumerSecret);
             $oAuthClient->requestRequestToken();
-        } catch(Exception $exception){
+        } catch (Exception $exception) {
             $this->assertContains('HTTP/1.1 401 Authorization Required', $exception->getMessage());
         }
     }
 
     public function testGetRequestTokenInvalidConsumerSecret()
     {
-        try{
+        try {
             $oAuthClient = $this->_getOauthClient($this->_consumerKey, 'invalid_secret');
             $oAuthClient->requestRequestToken();
-        } catch(Exception $exception){
+        } catch (Exception $exception) {
             $this->assertContains('HTTP/1.1 401 Authorization Required', $exception->getMessage());
         }
     }
@@ -150,7 +151,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
      */
     public function testGetAccessTokenInvalidVerifier()
     {
-        try{
+        try {
             $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
             $requestToken = $oAuthClient->requestRequestToken();
             $oAuthClient->requestAccessToken(
@@ -158,7 +159,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
                 'invalid verifier',
                 $requestToken->getRequestTokenSecret()
             );
-        } catch(Exception $exception){
+        } catch (Exception $exception) {
             $this->assertContains('HTTP/1.1 401 Authorization Required', $exception->getMessage());
         }
     }
@@ -187,7 +188,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
      */
     public function testAccessApiInvalidAccessToken()
     {
-        try{
+        try {
             $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
             $requestToken = $oAuthClient->requestRequestToken();
             $accessToken = $oAuthClient->requestAccessToken(
@@ -198,7 +199,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
             $accessToken->setAccessToken('invalid');
             $oAuthClient->validateAccessToken($accessToken);
 
-        } catch(Exception $exception){
+        } catch (Exception $exception) {
             //TODO : Need to update once error handling is fixed
             $this->assertContains('HTTP/1.1 400 Bad Request', $exception->getMessage());
         }
