@@ -1,5 +1,12 @@
 <?php
 /**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
  * Wrapper to pass method calls and arguments to mockup inside it
  */
 namespace Magento\Core\Model\Route;
