@@ -83,8 +83,8 @@ class Magento_Core_Block_Template_Context extends Magento_Core_Block_Context
         Magento_Core_Model_TemplateEngine_Factory $engineFactory
     ) {
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache,
-            $design, $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState
+            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session,
+            $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger
         );
 
         $this->_dirs = $dirs;

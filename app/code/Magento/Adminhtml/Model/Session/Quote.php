@@ -48,6 +48,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     protected $_order   = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -55,13 +56,14 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('adminhtml_quote');
         if (Mage::app()->hasSingleStore()) {
             $this->setStoreId(Mage::app()->getStore(true)->getId());

@@ -117,7 +117,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')
                 ->addError(__('We can\'t refresh recent statistics.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {
@@ -148,7 +148,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')
                 ->addError(__('We can\'t refresh lifetime statistics.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {

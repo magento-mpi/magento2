@@ -226,7 +226,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->save();
             $this->_getSession()->setVisitorData($this->getData());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $this;
     }

@@ -69,6 +69,21 @@ abstract class Magento_Eav_Model_Attribute_Data_Abstract
     protected $_dateFilterFormat;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Set attribute instance
      *
      * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute

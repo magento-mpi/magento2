@@ -491,44 +491,6 @@ final class Mage
     }
 
     /**
-     * log a message to system log or arbitrary file
-     *
-     * @param string $message
-     * @param integer $level
-     * @param string $file
-     * @param bool $forceLog
-     */
-    public static function log($message, $level = null, $file = 'system.log', $forceLog = false)
-    {
-        $level = is_null($level) ? Zend_Log::DEBUG : $level;
-        if (empty($file) || $file == 'system.log') {
-            $file = 'system.log';
-            $key = Magento_Core_Model_Logger::LOGGER_SYSTEM;
-        } elseif ($file == 'exception.log') {
-            $key = Magento_Core_Model_Logger::LOGGER_EXCEPTION;
-        } else {
-            $forceLog = true;
-            $key = $file;
-        }
-        /** @var $logger Magento_Core_Model_Logger */
-        $logger = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Logger');
-        if ($forceLog && !$logger->hasLog($key)) {
-            $logger->addStreamLog($key, $file);
-        }
-        $logger->log($message, $level, $key);
-    }
-
-    /**
-     * Write exception to log
-     *
-     * @param Exception $exception
-     */
-    public static function logException(Exception $exception)
-    {
-        Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Logger')->logException($exception);
-    }
-
-    /**
      * Retrieve enabled developer mode
      *
      * @return bool
