@@ -81,7 +81,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $invalidAppDir = __DIR__;
         new \Magento\TestFramework\Application(
-            new \Magento\TestFramework\Performance\Config($this->_fixtureConfigData, $this->_fixtureDir, $invalidAppDir),
+            new \Magento\TestFramework\Performance\Config($this->_fixtureConfigData, $this->_fixtureDir,
+                $invalidAppDir),
             $this->_shell
         );
     }
