@@ -8,9 +8,11 @@
  * @license     {license_link}
  */
 
-
 class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
+    /**
+     * @var array
+     */
     protected $_appliedTaxes = array();
 
     /**
@@ -28,26 +30,36 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Tax_Model_Calculation
+     */
+    protected $_calculation;
+
+    /**
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Tax_Model_Calculation $calculation
      */
     public function __construct(
         Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Tax_Model_Calculation $calculation
     ) {
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_calculation = $calculation;
         $this->setCode('tax');
     }
 
+    /**
+     * @param Magento_Sales_Model_Quote_Address $address
+     * @return $this|Magento_Sales_Model_Quote_Address_Total_Abstract
+     */
     public function collect(Magento_Sales_Model_Quote_Address $address)
     {
         $store = $address->getQuote()->getStore();
 
         $address->setTaxAmount(0);
         $address->setBaseTaxAmount(0);
-        //$address->setShippingTaxAmount(0);
-        //$address->setBaseShippingTaxAmount(0);
         $address->setAppliedTaxes(array());
 
         $items = $address->getAllItems();
@@ -56,7 +68,7 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         }
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
 
-        $taxCalculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
+        $taxCalculationModel = $this->_calculation;
         /* @var $taxCalculationModel Magento_Tax_Model_Calculation */
         $request = $taxCalculationModel->getRateRequest(
             $address,
@@ -116,8 +128,7 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
                 $address->setTaxAmount($address->getTaxAmount() + $itemTaxAmount);
                 $itemBaseTaxAmount = $item->getBaseTaxAmount() + $item->getBaseDiscountTaxCompensation();
                 $address->setBaseTaxAmount($address->getBaseTaxAmount() + $itemBaseTaxAmount);
-            }
-            else {
+            } else {
                 $discountBefore = $item->getDiscountAmount();
                 $baseDiscountBefore = $item->getBaseDiscountAmount();
 
@@ -160,17 +171,20 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
             }
         }
 
-
-        $shippingTaxClass = $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
+        $shippingTaxClass = $this->_coreStoreConfig->getConfig(
+            Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
+            $store
+        );
 
         $shippingTax      = 0;
         $shippingBaseTax  = 0;
 
         if ($shippingTaxClass) {
-            if ($rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass))) {
+            $rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass));
+            if ($rate) {
                 if (!$this->_taxData->shippingPriceIncludesTax()) {
-                    $shippingTax    = $address->getShippingAmount() * $rate/100;
-                    $shippingBaseTax= $address->getBaseShippingAmount() * $rate/100;
+                    $shippingTax    = $address->getShippingAmount() * $rate / 100;
+                    $shippingBaseTax= $address->getBaseShippingAmount() * $rate / 100;
                 } else {
                     $shippingTax    = $address->getShippingTaxAmount();
                     $shippingBaseTax= $address->getBaseShippingTaxAmount();
@@ -202,6 +216,13 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         return $this;
     }
 
+    /**
+     * @param Magento_Sales_Model_Quote_Address $address
+     * @param array $applied
+     * @param int $amount
+     * @param int $baseAmount
+     * @param int $rate
+     */
     protected function _saveAppliedTaxes(Magento_Sales_Model_Quote_Address $address, $applied, $amount, $baseAmount, $rate)
     {
         $previouslyAppliedTaxes = $address->getAppliedTaxes();
@@ -219,8 +240,8 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
                 $row['percent'] = $row['percent'] ? $row['percent'] : 1;
                 $rate = $rate ? $rate : 1;
 
-                $appliedAmount = $amount/$rate*$row['percent'];
-                $baseAppliedAmount = $baseAmount/$rate*$row['percent'];
+                $appliedAmount = $amount / $rate * $row['percent'];
+                $baseAppliedAmount = $baseAmount / $rate * $row['percent'];
             } else {
                 $appliedAmount = 0;
                 $baseAppliedAmount = 0;
@@ -241,18 +262,22 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         $address->setAppliedTaxes($previouslyAppliedTaxes);
     }
 
+    /**
+     * @param Magento_Sales_Model_Quote_Address $address
+     * @return $this
+     */
     public function fetch(Magento_Sales_Model_Quote_Address $address)
     {
         $applied = $address->getAppliedTaxes();
         $store = $address->getQuote()->getStore();
         $amount = $address->getTaxAmount();
 
-        if (($amount!=0) || ($this->_taxData->displayZeroTax($store))) {
+        if (($amount != 0) || ($this->_taxData->displayZeroTax($store))) {
             $address->addTotal(array(
-                'code'=>$this->getCode(),
-                'title'=>__('Tax'),
-                'full_info'=>$applied ? $applied : array(),
-                'value'=>$amount
+                'code' => $this->getCode(),
+                'title' => __('Tax'),
+                'full_info' => $applied ? $applied : array(),
+                'value' => $amount
             ));
         }
         return $this;

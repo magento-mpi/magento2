@@ -24,10 +24,6 @@
  * @method Magento_Sales_Model_Order_Status_History setStatus(string $value)
  * @method string getCreatedAt()
  * @method Magento_Sales_Model_Order_Status_History setCreatedAt(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstract
 {
@@ -42,6 +38,40 @@ class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstr
 
     protected $_eventPrefix = 'sales_order_status_history';
     protected $_eventObject = 'status_history';
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $coreLocale
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $coreLocale,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $coreLocale,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_storeManager = $storeManager;
+    }
 
     /**
      * Initialize resource model
@@ -106,7 +136,7 @@ class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstr
      */
     public function getStatusLabel()
     {
-        if($this->getOrder()) {
+        if ($this->getOrder()) {
             return $this->getOrder()->getConfig()->getStatusLabel($this->getStatus());
         }
     }
@@ -114,14 +144,14 @@ class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstr
     /**
      * Get store object
      *
-     * @return unknown
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
         if ($this->getOrder()) {
             return $this->getOrder()->getStore();
         }
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**

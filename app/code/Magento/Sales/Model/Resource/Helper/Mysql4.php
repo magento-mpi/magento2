@@ -8,17 +8,29 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Mysql resource helper model
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
     implements Magento_Sales_Model_Resource_Helper_Interface
 {
+    /**
+     * @var Magento_Reports_Model_Resource_Helper_Mysql4
+     */
+    protected $_reportsResourceHelper;
+
+    /**
+     * @param Magento_Reports_Model_Resource_Helper_Mysql4 $reportsResourceHelper
+     * @param string $modulePrefix
+     */
+    public function __construct(
+        Magento_Reports_Model_Resource_Helper_Mysql4 $reportsResourceHelper,
+        $modulePrefix = 'sales'
+    ) {
+        parent::__construct($modulePrefix);
+        $this->_reportsResourceHelper = $reportsResourceHelper;
+    }
+
     /**
      * Update rating position
      *
@@ -32,7 +44,7 @@ class Magento_Sales_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Reso
         $mainTable, $aggregationTable
     ) {
         /** @var $reportsHelper Magento_Reports_Model_Resource_Helper_Interface */
-        $reportsHelper = Mage::getResourceHelper('Magento_Reports');
+        $reportsHelper = $this->_reportsResourceHelper;
 
         if ($aggregation == $aggregationAliases['monthly']) {
             $reportsHelper->updateReportRatingPos('month', 'qty_ordered', $mainTable, $aggregationTable);

@@ -47,6 +47,56 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
     protected $_eventObject = 'track';
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Shipping_Model_Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @var Magento_Sales_Model_Order_Shipment
+     */
+    protected $_shipmentFactory;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $coreLocale
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Shipping_Model_Config $shippingConfig
+     * @param Magento_Sales_Model_Order_Shipment $shipmentFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $coreLocale,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Shipping_Model_Config $shippingConfig,
+        Magento_Sales_Model_Order_Shipment $shipmentFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $coreLocale,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_storeManager = $storeManager;
+        $this->_shippingConfig = $shippingConfig;
+        $this->_shipmentFactory = $shipmentFactory;
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -95,7 +145,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
     public function getShipment()
     {
         if (!($this->_shipment instanceof Magento_Sales_Model_Order_Shipment)) {
-            $this->_shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->load($this->getParentId());
+            $this->_shipment = $this->_shipmentFactory->create()->load($this->getParentId());
         }
 
         return $this->_shipment;
@@ -128,8 +178,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Magento_Shipping_Model_Config')
-            ->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = $this->_shippingConfig->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title'] = $this->getTitle();
@@ -139,7 +188,8 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
             $carrierInstance->setStore($this->getStore());
         }
 
-        if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getNumber())) {
+        $trackingInfo = $carrierInstance->getTrackingInfo($this->getNumber());
+        if (!$trackingInfo) {
             return __('No detail for number "%1"', $this->getNumber());
         }
 
@@ -156,7 +206,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
         if ($this->getShipment()) {
             return $this->getShipment()->getStore();
         }
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**

@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-
 /**
  * Billing agreements resource collection
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Billing_Agreement_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+class Magento_Sales_Model_Resource_Billing_Agreement_Collection
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Mapping for fields
@@ -32,8 +28,28 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection extends Magento_
     ));
 
     /**
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_customerResource;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Customer_Model_Resource_Customer $customerResource
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Customer_Model_Resource_Customer $customerResource,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+        $this->_customerResource = $customerResource;
+    }
+
+    /**
      * Collection initialization
-     *
      */
     protected function _construct()
     {
@@ -41,7 +57,7 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection extends Magento_
     }
 
     /**
-     * Add cutomer details(email, firstname, lastname) to select
+     * Add customer details(email, firstname, lastname) to select
      *
      * @return Magento_Sales_Model_Resource_Billing_Agreement_Collection
      */
@@ -53,7 +69,7 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection extends Magento_
             array('customer_email' => 'email')
         );
 
-        $customer = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
+        $customer = $this->_customerResource;
         $adapter  = $this->getConnection();
         $attr     = $customer->getAttribute('firstname');
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND '

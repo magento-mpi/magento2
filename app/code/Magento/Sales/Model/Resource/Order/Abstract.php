@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Flat sales resource abstract
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales_Model_Resource_Abstract
 {
@@ -82,14 +77,22 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Eav_Model_Entity_TypeFactory
+     */
+    protected $_eavEntityTypeFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Entity_TypeFactory $eavEntityTypeFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Entity_TypeFactory $eavEntityTypeFactory
     ) {
         $this->_eventManager = $eventManager;
+        $this->_eavEntityTypeFactory = $eavEntityTypeFactory;
         parent::__construct($resource);
     }
 
@@ -101,13 +104,14 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
      * @param array $joinCondition
      * @param string $column
      * @return Magento_Sales_Model_Resource_Order_Abstract
+     * @throws Magento_Core_Exception
      */
     public function addVirtualGridColumn($alias, $table, $joinCondition, $column)
     {
         $table = $this->getTable($table);
 
         if (!in_array($alias, $this->getGridColumns())) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Please specify a valid grid column alias name that exists in the grid table.')
             );
         }
@@ -329,6 +333,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
      * @param Magento_Core_Model_Abstract $object
      * @param string $attribute
      * @return Magento_Sales_Model_Resource_Order_Abstract
+     * @throws Exception
      */
     public function saveAttribute(Magento_Core_Model_Abstract $object, $attribute)
     {
@@ -351,8 +356,8 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
 
                 $updateArray = $this->_prepareDataForTable($data, $this->getMainTable());
                 $this->_postSaveFieldsUpdate($object, $updateArray);
-                if (!$object->getForceUpdateGridRecords() &&
-                    count(array_intersect($this->getGridColumns(), $attribute)) > 0
+                if (!$object->getForceUpdateGridRecords()
+                    && count(array_intersect($this->getGridColumns(), $attribute)) > 0
                 ) {
                     $this->updateGridRecords($object->getId());
                 }
@@ -370,14 +375,14 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     /**
      * Perform actions before object save
      *
-     * @param Magento_Object $object
+     * @param \Magento_Core_Model_Abstract|\Magento_Object $object
      * @return Magento_Sales_Model_Resource_Order_Abstract
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType Magento_Eav_Model_Entity_Type */
-            $entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode($this->_entityTypeForIncrementId);
+            $entityType = $this->_eavEntityTypeFactory->create()->loadByCode($this->_entityTypeForIncrementId);
             $object->setIncrementId($entityType->fetchNewIncrementId($object->getStoreId()));
         }
         parent::_beforeSave($object);
@@ -396,7 +401,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
         if ($object->getId() && !empty($data)) {
             $table = $this->getMainTable();
             $this->_getWriteAdapter()->update($table, $data,
-                array($this->getIdFieldName() . '=?' => (int) $object->getId())
+                array($this->getIdFieldName() . '=?' => (int)$object->getId())
             );
             $object->addData($data);
         }

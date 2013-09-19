@@ -50,14 +50,22 @@ class Magento_Sales_Block_Order_Invoice_Items extends Magento_Sales_Block_Items_
         return $this->_coreRegistry->registry('current_order');
     }
 
+    /**
+     * @param object $invoice
+     * @return string
+     */
     public function getPrintInvoiceUrl($invoice)
     {
-        return Mage::getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
+        return $this->getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getPrintAllInvoicesUrl($order)
     {
-        return Mage::getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
     }
 
     /**

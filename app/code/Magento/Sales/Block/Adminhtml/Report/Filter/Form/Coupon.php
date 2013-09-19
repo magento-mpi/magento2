@@ -25,6 +25,33 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
     protected $_renderDependentElement = false;
 
     /**
+     * @var Magento_SalesRule_Model_Resource_Report_RuleFactory
+     */
+    protected $_reportRule;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Sales_Model_Order_ConfigFactory $orderConfig
+     * @param Magento_SalesRule_Model_Resource_Report_RuleFactory $reportRule
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Sales_Model_Order_ConfigFactory $orderConfig,
+        Magento_SalesRule_Model_Resource_Report_RuleFactory $reportRule,
+        array $data = array()
+    ) {
+        $this->_reportRule = $reportRule;
+        parent::__construct($registry, $formFactory, $coreData, $context, $orderConfig, $data);
+    }
+
+    /**
      * Prepare form
      *
      * @return Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon
@@ -47,7 +74,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
                 'label'   => __('Shopping Cart Price Rule'),
             ));
 
-            $rulesList = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
+            $rulesList = $this->_reportRule->create()->getUniqRulesNamesList();
 
             $rulesListOptions = array();
 

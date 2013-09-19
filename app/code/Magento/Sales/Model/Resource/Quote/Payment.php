@@ -28,12 +28,28 @@ class Magento_Sales_Model_Resource_Quote_Payment extends Magento_Sales_Model_Res
     );
 
     /**
+     * @var Magento_Sales_Model_Payment_Method_Converter
+     */
+    protected $_paymentConverter;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Sales_Model_Payment_Method_Converter $paymentConverter
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Sales_Model_Payment_Method_Converter $paymentConverter
+    ) {
+        parent::__construct($resource);
+        $this->_paymentConverter = $paymentConverter;
+    }
+
+    /**
      * Main table and field initialization
-     *
      */
     protected function _construct()
     {
-        $this->_converter = Mage::getSingleton('Magento_Sales_Model_Payment_Method_Converter');
+        $this->_converter = $this->_paymentConverter;
         $this->_init('sales_flat_quote_payment', 'payment_id');
     }
 }

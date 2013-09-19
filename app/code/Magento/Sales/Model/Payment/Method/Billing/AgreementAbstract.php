@@ -10,8 +10,6 @@
 
 /**
  * Sales Billing Agreement Payment Method Abstract model
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
     extends Magento_Payment_Model_Method_Abstract
@@ -33,6 +31,34 @@ abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
     protected $_isAvailable = null;
 
     /**
+     * @var Magento_Sales_Model_Billing_AgreementFactory
+     */
+    protected $_agreementFactory;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $eventManager,
+            $paymentData,
+            $coreStoreConfig,
+            $data
+        );
+        $this->_agreementFactory = $agreementFactory;
+    }
+
+    /**
      * Check whether method is available
      *
      * @param Magento_Sales_Model_Quote $quote
@@ -42,7 +68,7 @@ abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
     {
         if (is_null($this->_isAvailable)) {
             if (is_object($quote) && $quote->getCustomer()) {
-                $availableBA = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->getAvailableCustomerBillingAgreements(
+                $availableBA = $this->_agreementFactory->create()->getAvailableCustomerBillingAgreements(
                     $quote->getCustomer()->getId()
                 );
                 $isAvailableBA = count($availableBA) > 0;
@@ -74,7 +100,7 @@ abstract class Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract
         }
         if ($id) {
             $info = $this->getInfoInstance();
-            $ba = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->load($id);
+            $ba = $this->_agreementFactory->create()->load($id);
             if ($ba->getId() && $ba->getCustomerId() == $info->getQuote()->getCustomer()->getId()) {
                 $info->setAdditionalInformation($key, $id)
                     ->setAdditionalInformation(self::PAYMENT_INFO_REFERENCE_ID, $ba->getReferenceId());

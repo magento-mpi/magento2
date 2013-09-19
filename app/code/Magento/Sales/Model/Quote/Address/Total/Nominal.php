@@ -10,22 +10,35 @@
 
 /**
  * Nominal items total
+ *
  * Collects only items segregated by isNominal property
  * Aggregates row totals per item
  */
 class Magento_Sales_Model_Quote_Address_Total_Nominal extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
+     * @var Magento_Sales_Model_Quote_Address_Total_Nominal_CollectorFactory
+     */
+    protected $_collectorFactory;
+
+    /**
+     * @param Magento_Sales_Model_Quote_Address_Total_Nominal_CollectorFactory $collectorFactory
+     */
+    public function __construct(Magento_Sales_Model_Quote_Address_Total_Nominal_CollectorFactory $collectorFactory)
+    {
+        $this->_collectorFactory = $collectorFactory;
+    }
+
+    /**
      * Invoke collector for nominal items
      *
      * @param Magento_Sales_Model_Quote_Address $address
      * @param Magento_Sales_Model_Quote_Address_Total_Nominal
+     * @return $this|\Magento_Sales_Model_Quote_Address_Total_Abstract
      */
     public function collect(Magento_Sales_Model_Quote_Address $address)
     {
-        $collector = Mage::getModel('Magento_Sales_Model_Quote_Address_Total_Nominal_Collector',
-            array('store' => $address->getQuote()->getStore())
-        );
+        $collector = $this->_collectorFactory->create(array('store' => $address->getQuote()->getStore()));
 
         // invoke nominal totals
         foreach ($collector->getCollectors() as $model) {

@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Bestsellers report resource model
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Model_Resource_Report_Abstract
 {
@@ -23,8 +18,32 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
     const AGGREGATION_YEARLY  = 'yearly';
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_productResource;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Helper_Mysql4
+     */
+    protected $_salesResourceHelper;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Sales_Model_Resource_Helper_Mysql4 $salesResourceHelper
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Sales_Model_Resource_Helper_Mysql4 $salesResourceHelper
+    ) {
+        parent::__construct($resource);
+        $this->_productResource = $productResource;
+        $this->_salesResourceHelper = $salesResourceHelper;
+    }
+
+    /**
      * Model initialization
-     *
      */
     protected function _construct()
     {
@@ -107,7 +126,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
                 ->where('source_table.state != ?', Magento_Sales_Model_Order::STATE_CANCELED);
 
             /** @var Magento_Catalog_Model_Resource_Product $product */
-            $product  = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
+            $product  = $this->_productResource;
 
             $productTypes = array(
                 Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
@@ -238,7 +257,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
             'monthly' => self::AGGREGATION_MONTHLY,
             'yearly'  => self::AGGREGATION_YEARLY
         );
-        Mage::getResourceHelper('Magento_Sales')->getBestsellersReportUpdateRatingPos(
+        $this->_salesResourceHelper->getBestsellersReportUpdateRatingPos(
             $aggregation,
             $aggregationAliases,
             $this->getMainTable(),
