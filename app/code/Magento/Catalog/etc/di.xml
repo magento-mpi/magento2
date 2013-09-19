@@ -22,6 +22,12 @@
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
+        <param name="messageModels">
+            <value>
+                <catalog>Magento_Catalog_Model_Session</catalog>
+                <checkout>Magento_Checkout_Model_Session</checkout>
+            </value>
+        </param>
     </type>
     <type name="Magento_Catalog_Helper_Product">
         <param name="eventManager">

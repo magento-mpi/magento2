@@ -48,16 +48,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <magento>
-            <giftcardaccount>
-                <separator>-</separator>
-                <charset>
-                    <alphanum>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</alphanum>
-                    <alpha>ABCDEFGHIJKLMNOPQRSTUVWXYZ</alpha>
-                    <num>0123456789</num>
-                </charset>
-            </giftcardaccount>
-        </magento>
         <template>
             <email>
                 <giftcard_giftcardaccount_email_template translate="label" module="Magento_GiftCardAccount">

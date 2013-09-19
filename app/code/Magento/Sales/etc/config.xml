@@ -359,11 +359,6 @@
             </totals>
         </pdf>
     </global>
-    <frontend>
-        <secure_url>
-            <sales>/sales/</sales>
-        </secure_url>
-    </frontend>
     <default>
         <sales>
             <totals_sort>

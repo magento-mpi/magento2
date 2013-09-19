@@ -81,6 +81,11 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected $_scopeId = self::NODE_SCOPE_DEFAULT_ID;
 
     /**
+     * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
+     */
+    protected $_hierarchyConfig;
+
+    /**
      * Meta node's types
      */
     const META_NODE_TYPE_CHAPTER = 'chapter';
@@ -95,10 +100,11 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      * @var Magento_VersionsCms_Helper_Hierarchy
      */
     protected $_cmsHierarchy = null;
-
+    
     /**
      * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Model_Context $context
+     * @param Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -107,12 +113,14 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     public function __construct(
         Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Model_Context $context,
+        Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig,
         Magento_Core_Model_Registry $registry,
         Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
+        $this->_hierarchyConfig = $hierarchyConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
@@ -237,21 +245,12 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     }
 
     /**
-     * Retrieve Resource instance wrapper
-     *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node
-     */
-    protected function _getResource()
-    {
-        return parent::_getResource();
-    }
-
-    /**
      * Collect and save tree
      *
      * @param array $data       modified nodes data array
      * @param array $remove     the removed node ids
      * @return Magento_VersionsCms_Model_Hierarchy_Node
+     * @throws Exception
      */
     public function collectTree($data, $remove)
     {
@@ -732,15 +731,15 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         if (!array_key_exists('menu_layout', $rootParams)) {
             return null;
         }
-        $layoutCode = $rootParams['menu_layout'];
-        if (!$layoutCode) {
-            $layoutCode = Mage::getStoreConfig('cms/hierarchy/menu_layout');
+        $layoutName = $rootParams['menu_layout'];
+        if (!$layoutName) {
+            $layoutName = Mage::getStoreConfig('cms/hierarchy/menu_layout');
         }
-        if (!$layoutCode) {
+        if (!$layoutName) {
             return null;
         }
-        $layout = Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayout($layoutCode);
-        return is_object($layout) ? $layout : null;
+        $layout = $this->_hierarchyConfig->getContextMenuLayout($layoutName);
+        return ($layout) ? $layout : null;
     }
 
     /**

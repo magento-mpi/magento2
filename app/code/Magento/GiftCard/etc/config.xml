@@ -29,11 +29,6 @@
             </email>
         </template>
     </global>
-    <frontend>
-        <secure_url>
-            <giftcard_customer>/giftcard/customer/</giftcard_customer>
-        </secure_url>
-    </frontend>
     <adminhtml>
         <sales>
             <order>

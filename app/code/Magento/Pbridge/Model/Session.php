@@ -18,18 +18,20 @@
 class Magento_Pbridge_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
+     * @param Magento_Core_Model_Session_Validator $validator
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
-     * @param array $data
      * @param string $sessionName
+     * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
-        array $data = array(),
-        $sessionName = null
+        $sessionName = null,
+        array $data = array()
     ) {
-        parent::__construct($eventManager, $coreHttp, $data);
+        parent::__construct($validator, $eventManager, $coreHttp, $data);
         $this->init('magento_pbridge', $sessionName);
     }
 }

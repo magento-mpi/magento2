@@ -99,7 +99,10 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
 
+        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
+
         $this->_model = new Magento_Backend_Model_Url(
+            $securityInfoMock,
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,
@@ -174,7 +177,10 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
 
+        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
+
         $urlModel = new Magento_Backend_Model_Url(
+            $securityInfoMock,
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,
@@ -210,7 +216,10 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
 
+        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
+
         $urlModel = new Magento_Backend_Model_Url(
+            $securityInfoMock,
             $helperMock,
             $this->_coreHelperMock,
             $this->_coreSessionMock,

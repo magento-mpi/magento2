@@ -60,12 +60,18 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_eventManager = null;
 
     /**
+     * @var array
+     */
+    protected $_windowSize;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Variable_Config $variableConfig
      * @param Magento_Widget_Model_Widget_Config $widgetConfig
+     * @param array $windowSize
      * @param array $data
      */
     public function __construct(
@@ -75,6 +81,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Variable_Config $variableConfig,
         Magento_Widget_Model_Widget_Config $widgetConfig,
+        array $windowSize = array(),
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -83,6 +90,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
         $this->_widgetConfig = $widgetConfig;
+        $this->_windowSize = $windowSize;
         parent::__construct($data);
     }
 
@@ -133,8 +141,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
                 'add_images' => true,
                 'files_browser_window_url' => Mage::getSingleton('Magento_Backend_Model_Url')
                     ->getUrl('*/cms_wysiwyg_images/index'),
-                'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
-                'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
+                'files_browser_window_width' => $this->_windowSize['width'],
+                'files_browser_window_height'=> $this->_windowSize['height'],
             ));
         }
 

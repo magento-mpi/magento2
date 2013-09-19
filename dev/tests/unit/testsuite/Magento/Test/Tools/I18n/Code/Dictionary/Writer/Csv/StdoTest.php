@@ -17,6 +17,7 @@ class StdoTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-11950');
         $this->_handler = STDOUT;
     }
 

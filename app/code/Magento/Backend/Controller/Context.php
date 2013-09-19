@@ -40,9 +40,10 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Controller_Varien_Front $frontController
      * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param bool $isRenderInherited
      * @param Magento_Backend_Model_Session $session
      * @param Magento_Backend_Helper_Data $helper
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_Translate $translator
      *
@@ -55,12 +56,15 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
         Magento_Core_Controller_Varien_Front $frontController,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_Event_Manager $eventManager,
+        $isRenderInherited,
         Magento_Backend_Model_Session $session,
         Magento_Backend_Helper_Data $helper,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_Translate $translator
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layout, $eventManager);
+        parent::__construct(
+            $request, $response, $objectManager, $frontController, $layout, $eventManager, $isRenderInherited
+        );
         $this->_session = $session;
         $this->_helper = $helper;
         $this->_authorization = $authorization;

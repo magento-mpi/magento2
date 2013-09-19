@@ -17,11 +17,18 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     /**
      * @var Magento_Core_Model_Url
      */
-    protected  $_model;
+    protected $_model;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_securityInfoMock;
 
     protected function setUp()
     {
+        $this->_securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
         $this->_model = new Magento_Core_Model_Url(
+            $this->_securityInfoMock,
             $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false)
         );
     }

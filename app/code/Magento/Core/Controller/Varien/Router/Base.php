@@ -73,11 +73,19 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_routes;
 
     /**
+     * Url security information.
+     *
+     * @var Magento_Core_Model_Url_SecurityInfoInterface
+     */
+    protected $_urlSecurityInfo;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -89,19 +97,21 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Url_SecurityInfoInterface $urlSecurityInfo,
         $areaCode,
         $baseController,
         $routerId
     ) {
         parent::__construct($controllerFactory);
 
-        $this->_app            = $app;
-        $this->_filesystem     = $filesystem;
-        $this->_areaCode       = $areaCode;
-        $this->_baseController = $baseController;
-        $this->_configScope    = $configScope;
-        $this->_routeConfig    = $routeConfig;
-        $this->_routerId       = $routerId;
+        $this->_app             = $app;
+        $this->_filesystem      = $filesystem;
+        $this->_areaCode        = $areaCode;
+        $this->_baseController  = $baseController;
+        $this->_configScope     = $configScope;
+        $this->_routeConfig     = $routeConfig;
+        $this->_routerId        = $routerId;
+        $this->_urlSecurityInfo = $urlSecurityInfo;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");
@@ -616,7 +626,8 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     }
 
     /**
-     * Check whether URL for corresponding path should use https protocol
+     * Check whether given path should be secure according to configuration security requirements for URL
+     * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
      *
      * @param string $path
      * @return bool
@@ -626,6 +637,6 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         return substr(Mage::getStoreConfig('web/unsecure/base_url'), 0, 5) === 'https'
             || Mage::getStoreConfigFlag('web/secure/use_in_frontend')
                 && substr(Mage::getStoreConfig('web/secure/base_url'), 0, 5) == 'https'
-                && Mage::getConfig()->shouldUrlBeSecure($path);
+                && $this->_urlSecurityInfo->isSecure($path);
     }
 }

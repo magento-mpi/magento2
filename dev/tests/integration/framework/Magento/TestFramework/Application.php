@@ -200,6 +200,11 @@ class Magento_TestFramework_Application
             $objectManager->configure(
                 $objectManager->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global')
             );
+            $objectManager->configure(array(
+                'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy' => array(
+                    'parameters' => array('canSaveMap' => false)
+                ),
+            ));
         }
         Magento_TestFramework_Helper_Bootstrap::setObjectManager($objectManager);
         $objectManager->get('Magento_Core_Model_Resource')

@@ -41,16 +41,6 @@
                 </nominal_totals>
             </quote>
         </sales>
-        <salesrule>
-            <coupon>
-                <separator>-</separator>
-                <charset>
-                    <alphanum>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</alphanum>
-                    <alpha>ABCDEFGHIJKLMNOPQRSTUVWXYZ</alpha>
-                    <num>0123456789</num>
-                </charset>
-            </coupon>
-        </salesrule>
     </global>
     <crontab>
         <jobs>

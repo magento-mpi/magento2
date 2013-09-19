@@ -39,6 +39,7 @@ app/code/Magento/Centinel/Model/State/Jcb.php
 app/code/Magento/Checkout/Block/Cart/Link.php
 app/code/Magento/Checkout/Block/Link.php
 app/code/Magento/Cms/Controller/Router.php
+app/code/Magento/Cms/Model/Template/FilterProvider.php
 app/code/Magento/Core/Block/Abstract.php
 app/code/Magento/Core/Controller/Varien/ActionAbstract.php
 app/code/Magento/Core/Controller/Varien/Action/Factory.php

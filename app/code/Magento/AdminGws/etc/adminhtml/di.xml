@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento_AdminGws_Model_ConfigInterface" type="Magento_AdminGws_Model_Config" />
     <type name="Magento_Catalog_Model_Resource_Category">
         <plugin name="admingws_category_resource_plugin" type="Magento_AdminGws_Model_Plugin_CategoryResource"/>
     </type>

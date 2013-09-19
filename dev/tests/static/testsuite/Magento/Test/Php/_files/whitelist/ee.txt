@@ -21,3 +21,6 @@ app/code/Magento/SalesArchive/Model/Order
 app/code/Magento/Search/Model/Plugin
 app/code/Magento/VersionsCms/Model/Plugin
 app/code/Magento/WebsiteRestriction/Model/Plugin
+app/code/Magento/VersionsCms/Model/Hierarchy/Config
+app/code/Magento/VersionsCms/Model/Hierarchy/Config.php
+app/code/Magento/VersionsCms/Model/Hierarchy/ConfigInterface.php

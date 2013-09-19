@@ -11,7 +11,6 @@
 
 class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var string
      */
@@ -55,7 +54,20 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public function testGetThumbsPath()
     {
-        $model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
+        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $imageFactory = $objectManager->get('Magento_Core_Model_Image_AdapterFactory');
+        $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
+        $imageHelper = $objectManager->get('Magento_Cms_Helper_Wysiwyg_Images');
+        $coreFileStorageDb = $objectManager->get('Magento_Core_Helper_File_Storage_Database');
+
+        $model = new Magento_Cms_Model_Wysiwyg_Images_Storage(
+            $imageHelper,
+            $coreFileStorageDb,
+            $filesystem,
+            $imageFactory,
+            $viewUrl
+        );
         $this->assertStringStartsWith(
             realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()

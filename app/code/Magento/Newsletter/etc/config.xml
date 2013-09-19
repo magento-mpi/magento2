@@ -41,11 +41,6 @@
             <tempate_filter>Magento_Newsletter_Model_Template_Filter</tempate_filter>
         </newsletter>
     </global>
-    <frontend>
-        <secure_url>
-            <newsletter_manage>/newsletter/manage/</newsletter_manage>
-        </secure_url>
-    </frontend>
     <default>
         <newsletter>
             <subscription>

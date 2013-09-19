@@ -20,6 +20,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract',
             array(
+                Mage::getObjectManager()->get('Magento_Core_Model_Session_Validator'),
                 Mage::getObjectManager()->get('Magento_Core_Model_Event_Manager'),
                 Mage::getObjectManager()->get('Magento_Core_Helper_Http'),
             ));
@@ -73,18 +74,6 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
         $this->_model->unsetAll();
 
         $this->assertEquals(array(), $this->_model->getData());
-    }
-
-    public function testValidate()
-    {
-        $this->assertInstanceOf('Magento_Core_Model_Session_Abstract', $this->_model->validate());
-    }
-
-    public function testGetValidateHttpUserAgentSkip()
-    {
-        $agents = $this->_model->getValidateHttpUserAgentSkip();
-        $this->assertContains('Shockwave Flash', $agents);
-        $this->assertContains('Adobe Flash Player\s{1,}\w{1,10}', $agents);
     }
 
     public function testSetSessionId()

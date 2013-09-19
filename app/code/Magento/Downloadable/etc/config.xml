@@ -39,12 +39,6 @@
             </order>
         </sales>
     </adminhtml>
-    <frontend>
-        <secure_url>
-            <downloadable>/downloadable/customer/</downloadable>
-            <downloadable_download>/downloadable/download/</downloadable_download>
-        </secure_url>
-    </frontend>
     <default>
         <catalog>
             <downloadable>
