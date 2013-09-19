@@ -87,7 +87,9 @@ class SectionPoolTest extends \PHPUnit_Framework_TestCase
             ->with(array('data' => $this->_configData))
             ->will($this->returnValue(new \Magento\Core\Model\Config\TestConfigClass()));
 
-        $this->assertInstanceOf('Magento\Core\Model\Config\TestConfigClass', $this->_model->getSection($this->_scopeType, $this->_scopeCode));
+        $this->assertInstanceOf('Magento\Core\Model\Config\TestConfigClass',
+            $this->_model->getSection($this->_scopeType, $this->_scopeCode)
+        );
     }
 
     /**

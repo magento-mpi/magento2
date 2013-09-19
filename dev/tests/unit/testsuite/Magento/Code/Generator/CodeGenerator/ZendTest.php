@@ -248,8 +248,9 @@ class ZendTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedData
      * @param \Zend\Code\Generator\AbstractMemberGenerator $actualObject
      */
-    protected function _assertVisibility(array $expectedData, \Zend\Code\Generator\AbstractMemberGenerator $actualObject)
-    {
+    protected function _assertVisibility(array $expectedData,
+        \Zend\Code\Generator\AbstractMemberGenerator $actualObject
+    ) {
         $expectedVisibility = isset($expectedData['visibility']) ? $expectedData['visibility'] : 'public';
         $this->assertEquals($expectedVisibility, $actualObject->getVisibility());
     }
