@@ -33,7 +33,7 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Core_Model_App_State */
     protected $_appStateMock;
 
-    /** @var Magento_Webapi_Controller_Rest_Authentication */
+    /** @var Magento_Webapi_Model_Authentication */
     protected $_authenticationMock;
 
     const SERVICE_METHOD = Magento_Webapi_Model_Rest_Config::KEY_METHOD;
@@ -74,7 +74,7 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_authenticationMock = $this->getMockBuilder('Magento_Webapi_Controller_Rest_Authentication')
+        $this->_authenticationMock = $this->getMockBuilder('Magento_Webapi_Model_Authentication')
             ->disableOriginalConstructor()
             ->getMock();
 
