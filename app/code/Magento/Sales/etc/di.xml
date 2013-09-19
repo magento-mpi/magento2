@@ -94,4 +94,23 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Sales_Model_Order_Pdf_Config_Data">
+        <param name='reader'>
+            <instance type="Magento_Sales_Model_Order_Pdf_Config_Reader" />
+        </param>
+        <param name="cacheId">
+            <value>sales_pdf_config</value>
+        </param>
+    </type>
+    <type name="Magento_Sales_Model_Order_Pdf_Config_Reader">
+        <param name="fileName">
+            <value>pdf.xml</value>
+        </param>
+        <param name="converter">
+            <instance type="Magento_Sales_Model_Order_Pdf_Config_Converter" />
+        </param>
+        <param name="schemaLocator">
+            <instance type="Magento_Sales_Model_Order_Pdf_Config_SchemaLocator" />
+        </param>
+    </type>
 </config>
