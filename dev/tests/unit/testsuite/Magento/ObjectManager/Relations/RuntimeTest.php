@@ -36,8 +36,8 @@ class RuntimeTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('Magento\Test\Di\DiInterface', array()),
-            array('Magento\Test\Di\Parent', array(null, 'Magento\Test\Di\DiInterface')),
-            array('Magento\Test\Di\Child', array('Magento\Test\Di\Parent', 'Magento\Test\Di\ChildInterface')),
+            array('Magento\Test\Di\DiParent', array(null, 'Magento\Test\Di\DiInterface')),
+            array('Magento\Test\Di\Child', array('Magento\Test\Di\DiParent', 'Magento\Test\Di\ChildInterface')),
         );
     }
 }
