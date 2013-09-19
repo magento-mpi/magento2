@@ -120,7 +120,7 @@ class Magento_Persistent_Model_Observer
             ->setConfigFilePath($configFilePath);
 
         foreach ($persistentConfig->getBlockConfigInfo($block) as $persistentConfigInfo) {
-            $persistentConfig->fireOne($persistentConfigInfo, $block);
+            $persistentConfig->fireOne($persistentConfigInfo, get_class($block));
         }
 
         return $this;

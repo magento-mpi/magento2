@@ -28,29 +28,23 @@ class Magento_Persistent_Model_Persistent_Config
     /** @var Magento_Config_DomFactory  */
     protected $_domFactory;
 
-    /** @var Magento_Persistent_Model_Persistent_Config_Converter  */
-    protected $_converter;
-
     /** @var Magento_Core_Model_Config_Modules_Reader  */
     protected $_moduleReader;
 
-    /** @var DOMDocument  */
-    protected $_configDomDocument = null;
+    /** @var DOMXPath  */
+    protected $_configDomXPath = null;
 
     /**
      * Constructor
      *
      * @param Magento_Config_DomFactory $domFactory
-     * @param Magento_Persistent_Model_Persistent_Config_Converter $converter
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
         Magento_Config_DomFactory $domFactory,
-        Magento_Persistent_Model_Persistent_Config_Converter $converter,
         Magento_Core_Model_Config_Modules_Reader $moduleReader
     ) {
         $this->_domFactory = $domFactory;
-        $this->_converter = $converter;
         $this->_moduleReader = $moduleReader;
     }
 
@@ -67,14 +61,14 @@ class Magento_Persistent_Model_Persistent_Config
     }
 
     /**
-     * Load persistent XML config
+     * Get persistent XML config xpath
      *
-     * @return DOMDocument
+     * @return DOMXPath
      * @throws Magento_Core_Exception
      */
-    protected function _getConfigDomDocument()
+    protected function _getConfigDomXPath()
     {
-        if (is_null($this->_configDomDocument)) {
+        if (is_null($this->_configDomXPath)) {
             $filePath = $this->_configFilePath;
             if (!is_file($filePath) || !is_readable($filePath)) {
                 Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
@@ -91,24 +85,23 @@ class Magento_Persistent_Model_Persistent_Config
                         ->getModuleDir('etc', 'Magento_Persistent') . '/persistent.xsd'
                 )
             );
-            $this->_configDomDocument = $configDom->getDom();
+            $this->_configDomXPath = new DOMXPath($configDom->getDom());
         }
-        return $this->_configDomDocument;
+        return $this->_configDomXPath;
 
     }
 
     /**
      * Get block's persistent config info.
      *
-     * @param Magento_Core_Block_Abstract $block
+     * @param string $block
      * @return $array
      */
     public function getBlockConfigInfo(Magento_Core_Block_Abstract $block)
     {
-        $xPath = '//instances/blocks/*[block_type="' . get_class($block) . '"]';
-        $domXPath = new DOMXPath($this->_getConfigDomDocument());
-        $blocks = $domXPath->query($xPath);
-        return $this->_converter->convertBlocks($blocks);
+        $xPath = '//instances/blocks/*[block_type="' . $block . '"]';
+        $blocks = $this->_getConfigDomXPath()->query($xPath);
+        return $this->_convertBlocksToArray($blocks);
     }
 
     /**
@@ -118,7 +111,39 @@ class Magento_Persistent_Model_Persistent_Config
      */
     public function collectInstancesToEmulate()
     {
-        return $this->_converter->convert($this->_getConfigDomDocument());
+        $xPath = '/config/instances/blocks/reference';
+        $blocks = $this->_getConfigDomXPath()->query($xPath);
+        $blocksArray = $this->_convertBlocksToArray($blocks);
+        return array('blocks' => $blocksArray);
+    }
+
+    /**
+     * Convert Blocks
+     *
+     * @param DomNodeList $blocks
+     * @return array
+     */
+    protected function _convertBlocksToArray($blocks)
+    {
+        $blocksArray = array();
+        foreach ($blocks as $reference) {
+            $referenceAttributes = $reference->attributes;
+            $id = $referenceAttributes->getNamedItem('id')->nodeValue;
+            $blocksArray[$id] = array();
+            /** @var $referenceSubNode DOMNode */
+            foreach ($reference->childNodes as $referenceSubNode) {
+                switch ($referenceSubNode->nodeName) {
+                    case 'name_in_layout':
+                    case 'class':
+                    case 'method':
+                    case 'block_type':
+                        $blocksArray[$id][$referenceSubNode->nodeName] = $referenceSubNode->nodeValue;
+                        break;
+                    default:
+                }
+            }
+        }
+        return $blocksArray;
     }
 
     /**

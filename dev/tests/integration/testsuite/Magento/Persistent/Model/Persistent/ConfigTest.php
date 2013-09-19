@@ -34,8 +34,7 @@ class Magento_Persistent_Model_Persistent_ConfigTest extends PHPUnit_Framework_T
     public function testGetBlockConfigInfo()
     {
         $this->_model->setConfigFilePath(__DIR__ . '/_files/persistent.xml');
-        $block = $this->_objectManager->create('Magento_Sales_Block_Reorder_Sidebar');
-        $blocks = $this->_model->getBlockConfigInfo($block);
+        $blocks = $this->_model->getBlockConfigInfo('Magento_Sales_Block_Reorder_Sidebar');
         $expected = include '_files/expectedBlocksArray.php';
         $this->assertEquals($expected, $blocks);
     }
@@ -43,8 +42,7 @@ class Magento_Persistent_Model_Persistent_ConfigTest extends PHPUnit_Framework_T
     public function testGetBlockConfigInfoNotConfigured()
     {
         $this->_model->setConfigFilePath(__DIR__ . '/_files/persistent.xml');
-        $block = $this->_objectManager->create('Magento_Catalog_Block_Product_Compare_List');
-        $blocks = $this->_model->getBlockConfigInfo($block);
+        $blocks = $this->_model->getBlockConfigInfo('Magento_Catalog_Block_Product_Compare_List');
         $this->assertEquals(array(), $blocks);
     }
 
