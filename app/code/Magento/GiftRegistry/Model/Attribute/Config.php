@@ -1,15 +1,16 @@
 <?php
 /**
-* Gift registry attributes config model
-*
-* {license_notice}
-*
-* @category    Magento
-* @package     Magento_GiftRegistry
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
+/**
+ * Gift registry attributes config model
+ */
 class Magento_GiftRegistry_Model_Attribute_Config implements Magento_GiftRegistry_Model_Attribute_ConfigInterface
 {
     /**
