@@ -36,9 +36,15 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
+     * @var Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     */
+    protected $_resStockItemColl;
+
+    /**
+     * @param Magento_CatalogInventory_Model_Resource_Stock_Item_Collection $resStockItemColl
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -47,6 +53,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogInventory_Model_Resource_Stock_Item_Collection $resStockItemColl,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -54,6 +61,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_resStockItemColl = $resStockItemColl;
         $this->_catalogInventoryData = $catalogInventoryData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -76,42 +84,36 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
     /**
      * Add stock item objects to products
      *
-     * @param   collection $products
-     * @return  Magento_CatalogInventory_Model_Stock
+     * @param $productCollection
+     * @return $this
      */
     public function addItemsToProducts($productCollection)
     {
-        $items = $this->getItemCollection()
+        $items = $this->_resStockItemColl
+            ->addStockFilter($this->getId())
             ->addProductsFilter($productCollection)
             ->joinStockStatus($productCollection->getStoreId())
             ->load();
+
         $stockItems = array();
         foreach ($items as $item) {
             $stockItems[$item->getProductId()] = $item;
         }
+
         foreach ($productCollection as $product) {
             if (isset($stockItems[$product->getId()])) {
                 $stockItems[$product->getId()]->assignProduct($product);
             }
         }
-        return $this;
-    }
 
-    /**
-     * Retrieve items collection object with stock filter
-     *
-     * @return unknown
-     */
-    public function getItemCollection()
-    {
-        return Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock_Item_Collection')
-            ->addStockFilter($this->getId());
+        return $this;
     }
 
     /**
      * Prepare array($productId=>$qty) based on array($productId => array('qty'=>$qty, 'item'=>$stockItem))
      *
      * @param array $items
+     * @return array
      */
     protected function _prepareProductQtys($items)
     {
@@ -161,8 +163,8 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
     }
 
     /**
-     *
      * @param unknown_type $items
+     * @return $this
      */
     public function revertProductsSale($items)
     {
@@ -191,8 +193,7 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
                     $stockItem->save();
                 }
             }
-        }
-        else {
+        } else {
             Mage::throwException(__('We cannot specify a product identifier for the order item.'));
         }
         return $this;
