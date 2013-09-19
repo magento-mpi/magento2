@@ -35,7 +35,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg extends Magento_Adminhtml_Control
         } catch (Exception $e) {
             $image->open(Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->getSkinImagePlaceholderUrl());
             $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
     }
 }

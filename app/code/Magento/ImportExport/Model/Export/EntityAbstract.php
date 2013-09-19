@@ -156,18 +156,27 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     protected $_byPagesIterator;
 
     /**
-     * Constructor
+     * Core store config
      *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $data = array()
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
         $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
             : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']
-            : (static::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
+            : (static::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
             : Mage::getResourceModel('Magento_ImportExport_Model_Resource_CollectionByPagesIterator');
     }
