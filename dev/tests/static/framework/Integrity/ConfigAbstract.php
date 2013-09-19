@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
+namespace Integrity;
+
+abstract class ConfigAbstract extends \PHPUnit_Framework_TestCase
 {
     /** indicator no config file found */
     const NO_CONFIG_FILE = 'no config file';
@@ -24,8 +26,8 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
                 'There is no config file to test.'
             );
         }
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
-        $fileSchema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getXsd();
+        $fileSchema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getFileXsd();
         $this->_validateFileExpectSuccess($configFile, $schema, $fileSchema);
     }
 
@@ -34,42 +36,42 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     public function configFilesDataProvider()
     {
-        $fileList = Magento_TestFramework_Utility_Files::init()->getConfigFiles($this->_getXmlName());
+        $fileList = \Magento\TestFramework\Utility\Files::init()->getConfigFiles($this->_getXmlName());
         return empty($fileList) ? array(self::NO_CONFIG_FILE => array(self::NO_CONFIG_FILE)) : $fileList;
     }
 
     public function testSchemaUsingValidXml()
     {
         $xmlFile = $this->_getKnownValidXml();
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getXsd();
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
 
     public function testSchemaUsingInvalidXml()
     {
         $xmlFile = $this->_getKnownInvalidXml();
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getXsd();
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
     public function testFileSchemaUsingPartialXml()
     {
         $xmlFile = $this->_getKnownValidPartialXml();
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getFileXsd();
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
 
     public function testFileSchemaUsingInvalidXml()
     {
         $xmlFile = $this->_getKnownInvalidPartialXml();
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getFileXsd();
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
     public function testSchemaUsingPartialXml()
     {
         $xmlFile = $this->_getKnownValidPartialXml();;
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getXsd();
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
@@ -84,7 +86,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     protected function _validateFileExpectSuccess($xmlFile, $schemaFile, $fileSchemaFile=null)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $errors = \Magento\Config\Dom::validateDomDocument($dom, $schemaFile);
         if ($errors) {
@@ -111,7 +113,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     protected function _validateFileExpectFailure($xmlFile, $schemaFile)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
         $errors = \Magento\Config\Dom::validateDomDocument($dom, $schemaFile);
         if (!$errors) {

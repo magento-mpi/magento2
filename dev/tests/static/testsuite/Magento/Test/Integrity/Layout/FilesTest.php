@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Layout;
+
+class FilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -18,7 +20,7 @@ class Magento_Test_Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_schemaFile = Magento_TestFramework_Utility_Files::init()->getModuleFile(
+        $this->_schemaFile = \Magento\TestFramework\Utility\Files::init()->getModuleFile(
             'Magento', 'Core', 'etc' . DIRECTORY_SEPARATOR . 'layouts.xsd'
         );
     }
@@ -28,7 +30,7 @@ class Magento_Test_Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
      */
     public function testLayouts($layout)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($layout));
         $errors = $this->_validateDomDocument($dom, $this->_schemaFile);
         $this->assertTrue(empty($errors), print_r($errors, true));
@@ -37,19 +39,19 @@ class Magento_Test_Integrity_Layout_FilesTest extends PHPUnit_Framework_TestCase
     /**
      * @see self::testValidateLayouts
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     public function validateDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 
     /**
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @param $schemaFileName
      * @return array
      */
-    protected function _validateDomDocument(DOMDocument $dom, $schemaFileName)
+    protected function _validateDomDocument(\DOMDocument $dom, $schemaFileName)
     {
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($schemaFileName);

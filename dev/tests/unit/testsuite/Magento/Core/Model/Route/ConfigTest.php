@@ -11,18 +11,18 @@ namespace Magento\Core\Model\Route;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-    * @var \Magento\Core\Model\Route\Config
-    */
+     * @var \Magento\Core\Model\Route\Config
+     */
     protected $_config;
 
     /**
-    * @var Wrapper
-    */
+     * @var Wrapper
+     */
     protected $_readerMock;
 
     /**
-    * @var Wrapper
-    */
+     * @var Wrapper
+     */
     protected $_cacheMock;
 
     protected function setUp()

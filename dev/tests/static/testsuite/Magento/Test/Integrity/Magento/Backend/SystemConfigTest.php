@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Backend_SystemConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Backend;
+
+class SystemConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $configFile
@@ -15,9 +17,9 @@ class Magento_Test_Integrity_Magento_Backend_SystemConfigTest extends PHPUnit_Fr
      */
     public function testSchema($configFile)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($configFile));
-        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() .
+        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
             '/app/code/Magento/Backend/etc/system_file.xsd';
         $errors = \Magento\Config\Dom::validateDomDocument($dom, $schema);
         if ($errors) {
@@ -30,6 +32,6 @@ class Magento_Test_Integrity_Magento_Backend_SystemConfigTest extends PHPUnit_Fr
      */
     public function schemaDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('adminhtml/system.xml', array());
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('adminhtml/system.xml', array());
     }
 }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Layout_BlocksTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Layout;
+
+class BlocksTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array
@@ -24,10 +26,10 @@ class Magento_Test_Integrity_Layout_BlocksTest extends PHPUnit_Framework_TestCas
      */
     public static function setUpBeforeClass()
     {
-        foreach (Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(), false) as $file) {
+        foreach (\Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array(), false) as $file) {
             $xml = simplexml_load_file($file);
             $elements = $xml->xpath('/layout//*[self::container or self::block]') ?: array();
-            /** @var $node SimpleXMLElement */
+            /** @var $node \SimpleXMLElement */
             foreach ($elements as $node) {
                 $alias = (string)$node['as'];
                 if (empty($alias)) {
@@ -49,7 +51,7 @@ class Magento_Test_Integrity_Layout_BlocksTest extends PHPUnit_Framework_TestCas
      *
      * @param string $alias
      * @param string $file
-     * @throws Exception|PHPUnit_Framework_ExpectationFailedException
+     * @throws \Exception|PHPUnit_Framework_ExpectationFailedException
      * @dataProvider getChildBlockDataProvider
      */
     public function testBlocksNotContainers($alias, $file)
@@ -79,8 +81,8 @@ class Magento_Test_Integrity_Layout_BlocksTest extends PHPUnit_Framework_TestCas
     public function getChildBlockDataProvider()
     {
         $result = array();
-        foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, true, false) as $file) {
-            $aliases = Magento_TestFramework_Utility_Classes::getAllMatches(file_get_contents($file),
+        foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, false, true, false) as $file) {
+            $aliases = \Magento\TestFramework\Utility\Classes::getAllMatches(file_get_contents($file),
                 '/\->getChildBlock\(\'([^\']+)\'\)/x');
             foreach ($aliases as $alias) {
                 $result[$file] = array($alias, $file);

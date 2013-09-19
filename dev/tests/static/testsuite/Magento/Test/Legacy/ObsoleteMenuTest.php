@@ -12,7 +12,9 @@
 /**
  * Legacy tests to find obsolete menu declaration
  */
-class Magento_Test_Legacy_ObsoleteMenuTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class ObsoleteMenuTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $menuFile
@@ -33,6 +35,6 @@ class Magento_Test_Legacy_ObsoleteMenuTest extends PHPUnit_Framework_TestCase
      */
     public function menuFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles();
     }
 }

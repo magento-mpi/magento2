@@ -12,7 +12,9 @@ use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
 /**
  * Scan source code for detects invocations of outdated __() method
  */
-class Magento_Test_Integrity_Phrase_Legacy_SignatureTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
+namespace Magento\Test\Integrity\Phrase\Legacy;
+
+class SignatureTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 {
     /**
      * @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector

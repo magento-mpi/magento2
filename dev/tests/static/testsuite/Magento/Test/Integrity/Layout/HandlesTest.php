@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Layout;
+
+class HandlesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Pattern for attribute elements, compatible with HTML ID
@@ -26,7 +28,7 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
         $issues = array();
         $xml = simplexml_load_file($file);
         $handles = $xml->xpath('/layout/*');
-        /** @var $node SimpleXMLElement */
+        /** @var $node \SimpleXMLElement */
         foreach ($handles as $node) {
             $handleMessage = "Handle '{$node->getName()}':";
             $type = $node['type'];
@@ -79,7 +81,7 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
         $xml = simplexml_load_file($file);
         $containers = $xml->xpath('/layout//container') ?: array();
         $errors = array();
-        /** @var SimpleXMLElement $node */
+        /** @var \SimpleXMLElement $node */
         foreach ($containers as $node) {
             $nodeErrors = array();
             $attr = $node->attributes();
@@ -149,6 +151,6 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
      */
     public function layoutFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 }

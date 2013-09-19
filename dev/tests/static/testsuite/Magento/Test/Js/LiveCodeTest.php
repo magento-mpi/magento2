@@ -11,7 +11,9 @@
 /**
  * JSHint static code analysis tests for javascript files
  */
-class Magento_Test_Js_LiveCodeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Js;
+
+class LiveCodeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -39,8 +41,8 @@ class Magento_Test_Js_LiveCodeTest extends PHPUnit_Framework_TestCase
             return array($path);
         }
         $path = $path == '' ? dirname(__FILE__) : $path;
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
-        $regexIterator = new RegexIterator($iterator, '/\\.js$/');
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+        $regexIterator = new \RegexIterator($iterator, '/\\.js$/');
         $filePaths = array();
         foreach ($regexIterator as $filePath) {
             $filePaths[] = $filePath->getPathname();
@@ -54,7 +56,7 @@ class Magento_Test_Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        $reportDir = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/dev/tests/static/report';
+        $reportDir = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/dev/tests/static/report';
         if (!is_dir($reportDir)) {
             mkdir($reportDir, 0777);
         }
@@ -80,11 +82,11 @@ class Magento_Test_Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     public function testCodeJsHint($filename)
     {
-        $cmd = new Magento_TestFramework_Inspection_JsHint_Command($filename, self::$_reportFile);
+        $cmd = new \Magento\TestFramework\Inspection\JsHint\Command($filename, self::$_reportFile);
         $result = false;
         try {
             $result = $cmd->canRun();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->markTestSkipped($e->getMessage());
         }
         if ($result) {
@@ -120,7 +122,7 @@ class Magento_Test_Js_LiveCodeTest extends PHPUnit_Framework_TestCase
             $result = array_merge($result, file($list));
         }
         $map = function($value) {
-            return trim($value) ? Magento_TestFramework_Utility_Files::init()->getPathToSource() . DIRECTORY_SEPARATOR .
+            return trim($value) ? \Magento\TestFramework\Utility\Files::init()->getPathToSource() . DIRECTORY_SEPARATOR .
                 str_replace('/', DIRECTORY_SEPARATOR, trim($value)) : '';
         };
         return array_filter(array_map($map, $result), 'file_exists');

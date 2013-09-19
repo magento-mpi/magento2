@@ -12,7 +12,9 @@
 /**
  * Tests usage of \Magento\Core\Block\AbstractBlock
  */
-class Magento_Test_Legacy_Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy\Magento\Core\Block;
+
+class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests if methods are used with correct count of parameters
@@ -22,7 +24,7 @@ class Magento_Test_Legacy_Magento_Core_Block_AbstractBlockTest extends PHPUnit_F
      */
     public function testGetChildHtml($file)
     {
-        $result = Magento_TestFramework_Utility_Classes::getAllMatches(
+        $result = \Magento\TestFramework\Utility\Classes::getAllMatches(
             file_get_contents($file),
             "/(->getChildHtml\([^,()]+, ?[^,()]+,)/i"
         );
@@ -30,7 +32,7 @@ class Magento_Test_Legacy_Magento_Core_Block_AbstractBlockTest extends PHPUnit_F
             $result,
             "3rd parameter is not needed anymore for getChildHtml() in '$file': " . print_r($result, true)
         );
-        $result = Magento_TestFramework_Utility_Classes::getAllMatches(
+        $result = \Magento\TestFramework\Utility\Classes::getAllMatches(
             file_get_contents($file),
             "/(->getChildChildHtml\([^,()]+, ?[^,()]+, ?[^,()]+,)/i"
         );
@@ -42,6 +44,6 @@ class Magento_Test_Legacy_Magento_Core_Block_AbstractBlockTest extends PHPUnit_F
 
     public function phpFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getPhpFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getPhpFiles();
     }
 }

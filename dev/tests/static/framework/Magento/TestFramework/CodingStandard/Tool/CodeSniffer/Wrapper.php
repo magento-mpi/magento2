@@ -12,7 +12,9 @@
 /**
  * PHP Code Sniffer Cli wrapper
  */
-class Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper extends PHP_CodeSniffer_CLI
+namespace Magento\TestFramework\CodingStandard\Tool\CodeSniffer;
+
+class Wrapper extends \PHP_CodeSniffer_CLI
 {
     /**
      * Emulate console arguments
