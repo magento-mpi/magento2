@@ -167,19 +167,6 @@ class Price extends \Magento\Core\Model\Resource\Db\AbstractDb
         $response = new \Magento\Object();
         $response->setAdditionalCalculations(array());
 
-        // prepare event arguments
-        $eventArgs = array(
-            'select'          => $select,
-            'table'           => $this->_getIndexTableAlias(),
-            'store_id'        => $filter->getStoreId(),
-            'response_object' => $response
-        );
-
-        /**
-         * @since 1.4
-         */
-        \Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
-
         return $response;
     }
 
