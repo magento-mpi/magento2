@@ -43,7 +43,18 @@ interface Magento_Oauth_Service_OauthV1Interface
     /**
      * Issue a pre-authorization request token to the caller
      *
-     * @param array $request - Parameters including consumer key, nonce, signature, signature method, etc.
+     * @param array $request array containing parameters necessary for requesting Request Token
+     * <pre>
+     * array (
+     *         'oauth_version' => '1.0',
+     *         'oauth_signature_method' => 'HMAC-SHA1',
+     *         'oauth_nonce' => 'rI7PSWxTZRHWU3R', oauth_timestamp => '1377183099',
+     *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
+     *         'request_url' => 'http://magento.ll/oauth/token/access',
+     *         'http_method' => 'POST'
+     * )
+     * </pre>
      * @return array - The request token/secret pair.
      * @throws Magento_Oauth_Exception
      */
@@ -55,50 +66,42 @@ interface Magento_Oauth_Service_OauthV1Interface
      * @param array $request array containing parameters necessary for requesting Access Token
      * <pre>
      * array (
-     * 'request_url' => 'http://magento.ll/oauth/token/access',
-     * 'http_method' => 'POST',
-     * 'request_parameters' =>
-     *       array (
-     *          'oauth_header' => 'OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1",
-     *          oauth_token="a6aa81cc3e65e2960a487939244sssss", oauth_verifier="a6aa81cc3e65e2960a487939244vvvvv",
-     *          oauth_nonce="rI7PSWxTZRHWU3R", oauth_timestamp="1377183099",
-     *          oauth_consumer_key="a6aa81cc3e65e2960a4879392445e718",
-     *          oauth_signature="VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D"',
-     *
-     *          'content_type' => 'text/plain; charset=UTF-8',
-     *          'request_body' => false,
-     *       )
+     *         'oauth_version' => '1.0',
+     *         'oauth_signature_method' => 'HMAC-SHA1',
+     *         'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
+     *         'oauth_nonce' => 'rI7PSWxTZRHWU3R', 
+     *         'oauth_timestamp' => '1377183099',
+     *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
+     *         'request_url' => 'http://magento.ll/oauth/token/access',
+     *         'http_method' => 'POST'
      * )
      * </pre>
      * @return array - The access token/secret pair.
+     * @throws Magento_Oauth_Exception
      */
     public function getAccessToken($request);
 
 
     /**
-     * Validate a requested access token
+     * Validate an access token
      *
      * @param array $request containing parameters necessary for validating Access Token
      * <pre>
      * array (
-     * 'request_url' => 'http://magento.ll/oauth/token/access',
-     * 'http_method' => 'POST',
-     * 'request_parameters' =>
-     *       array (
-     *          'oauth_header' => 'OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1",
-     *          oauth_token="a6aa81cc3e65e2960a487939244sssss", oauth_verifier="a6aa81cc3e65e2960a487939244vvvvv",
-     *          oauth_nonce="rI7PSWxTZRHWU3R", oauth_timestamp="1377183099",
-     *          oauth_consumer_key="a6aa81cc3e65e2960a4879392445e718",
-     *          oauth_signature="VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D"',
-     *
-     *          'content_type' => 'text/plain; charset=UTF-8',
-     *          'request_body' => false,
-     *       )
+     *         'oauth_version' => '1.0',
+     *         'oauth_signature_method' => 'HMAC-SHA1',
+     *         'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
+     *         'oauth_verifier' => 'a6aa81cc3e65e2960a487939244vvvvv',
+     *         'oauth_nonce' => 'rI7PSWxTZRHWU3R', oauth_timestamp => '1377183099',
+     *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
+     *         'request_url' => 'http://magento.ll/oauth/token/access',
+     *         'http_method' => 'POST'
      * )
      * </pre>
      * @return boolean true if requested access token is valid
      * @throws Magento_Oauth_Exception
-     *
      */
     public function validateAccessToken($request);
 }

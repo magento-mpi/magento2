@@ -26,9 +26,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     /** @var  Magento_Oauth_Model_Token_Factory */
     private $_tokenFactory;
 
-    /** @var  Magento_Oauth_Helper_Data */
-    protected $_helper;
-
     /** @var  Magento_Core_Model_StoreManagerInterface */
     protected $_storeManager;
 
@@ -39,7 +36,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Model_Nonce_Factory $nonceFactory
      * @param Magento_Oauth_Model_Token_Factory $tokenFactory
-     * @param Magento_Oauth_Helper_Data $helper
      * @param Magento_Core_Model_StoreManagerInterface
      * @param Magento_HTTP_ZendClient
      */
@@ -47,14 +43,12 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
         Magento_Oauth_Model_Nonce_Factory $nonceFactory,
         Magento_Oauth_Model_Token_Factory $tokenFactory,
-        Magento_Oauth_Helper_Data $helper,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_HTTP_ZendClient $httpClient
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
-        $this->_helper = $helper;
         $this->_store = $storeManager->getStore();
         $this->_httpClient = $httpClient;
     }
@@ -130,8 +124,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
      */
     public function getRequestToken($signedRequest)
     {
-        $signedRequest = $this->_helper->_processTokenRequest($signedRequest);
-
         $this->_validateVersionParam($signedRequest['oauth_version']);
 
         $consumer = $this->_getConsumerByKey($signedRequest['oauth_consumer_key']);
@@ -178,7 +170,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             "oauth_token",
             "oauth_verifier"
         );
-        $request = $this->_helper->_processTokenRequest($request);
 
         // Make generic validation of request parameters
         $this->_validateProtocolParams($request, $required);
@@ -237,8 +228,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             "oauth_timestamp",
             "oauth_token"
         );
-
-        $request = $this->_helper->_processTokenRequest($request);
 
         $oauthToken = $request['oauth_token'];
         $requestUrl = $request['request_url'];

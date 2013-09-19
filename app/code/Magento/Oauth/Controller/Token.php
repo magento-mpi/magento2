@@ -11,7 +11,6 @@
  */
 class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Action
 {
-
     /**#@+
      * HTTP Response Codes
      */
@@ -28,9 +27,14 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
     /** @var  Magento_Oauth_Helper_Data */
     protected $_helper;
 
+    /**
+     * @param Magento_Oauth_Service_OauthV1Interface $oauthService
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Oauth_Helper_Data $helper
+     */
     public function __construct(
-        Magento_Oauth_Service_OauthV1Interface $oauthService,
         Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Oauth_Service_OauthV1Interface $oauthService,
         Magento_Oauth_Helper_Data $helper
     ) {
         parent::__construct($context);
@@ -39,34 +43,18 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
     }
 
     /**
-     * TODO: Check if this is needed
-     * Dispatch event before action
-     *
-     * @return void
+     *  Initiate RequestToken request operation
      */
-    public function preDispatch()
-    {
-        $this->setFlag('', self::FLAG_NO_START_SESSION, 1);
-        $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, 1);
-        $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, 0);
-        $this->setFlag('', self::FLAG_NO_PRE_DISPATCH, 1);
-
-        parent::preDispatch();
-    }
-
-    /**
-     * Action to intercept and process Access Token requests
-     */
-    public function accessAction()
+    public function requestAction()
     {
         try {
-            $accessTokenReqArray = $this->_helper->_prepareTokenRequest($this->getRequest());
+            $request = $this->_helper->_prepareServiceRequest($this->getRequest());
 
-            //Request access token in exchange of a pre-authorized token
-            $response = $this->_oauthService->getAccessToken($accessTokenReqArray);
+            //Request request token
+            $response = $this->_oauthService->getRequestToken($request);
 
         } catch (Exception $exception) {
-            $response = $this->_helper->reportProblem(
+            $response = $this->_helper->_prepareErrorResponse(
                 $exception,
                 $this->getResponse()
             );
@@ -75,21 +63,18 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
     }
 
     /**
-     * TODO: Do we need to rename this operation to pre-authorize :
-     * https://wiki.corp.x.com/display/MDS/Web+API+Authentication?focusedCommentId=80728936#comment-80728936
-     * Action to intercept and process Request Token requests
+     * Initiate AccessToken request operation
      */
-    public function requestAction()
+    public function accessAction()
     {
         try {
-
-            $signedRequest = $this->_helper->_prepareTokenRequest($this->getRequest());
+            $request = $this->_helper->_prepareServiceRequest($this->getRequest());
 
             //Request access token in exchange of a pre-authorized token
-            $response = $this->_oauthService->getRequestToken($signedRequest);
+            $response = $this->_oauthService->getAccessToken($request);
 
         } catch (Exception $exception) {
-            $response = $this->_helper->reportProblem(
+            $response = $this->_helper->_prepareErrorResponse(
                 $exception,
                 $this->getResponse()
             );

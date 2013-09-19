@@ -280,66 +280,27 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
 
 
     /**
-     *
      * Process HTTP request object and prepare for token validation
      *
      * @param Zend_Controller_Request_Http $httpRequest
-     * @return array <pre>
-     * array (
-     * 'request_url' => 'http://magento.ll/oauth/token/access',
-     * 'http_method' => 'POST',
-     * 'request_parameters' =>
-     *       array (
-     *          'oauth_header' => 'OAuth oauth_version="1.0", oauth_signature_method="HMAC-SHA1",
-     *          oauth_token="a6aa81cc3e65e2960a487939244sssss", oauth_verifier="a6aa81cc3e65e2960a487939244vvvvv",
-     *          oauth_nonce="rI7PSWxTZRHWU3R", oauth_timestamp="1377183099",
-     *          oauth_consumer_key="a6aa81cc3e65e2960a4879392445e718",
-     *          oauth_signature="VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D"',
-     *
-     *          'content_type' => 'text/plain; charset=UTF-8',
-     *          'request_body' => false,
-     *       )
-     * )
-     * </pre>
+     * @return array
      */
-    public function _prepareTokenRequest($httpRequest)
+    public function _prepareServiceRequest($httpRequest)
     {
-        $requestArray = array();
-
         //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
         $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
             $httpRequest->getRequestUri();
 
-        $requestArray['request_url'] = $requestUrl;
-        $requestArray['http_method'] = $httpRequest->getMethod();
+        $serviceRequest = array();
+        $serviceRequest['request_url'] = $requestUrl;
+        $serviceRequest['http_method'] = $httpRequest->getMethod();
 
-        //Fetch and populate protocol information from request body and header into this controller class variables
-        $requestParams = array();
+        $oauthParams = $this->_processRequest($httpRequest->getHeader('Authorization'),
+                                              $httpRequest->getHeader(Zend_Http_Client::CONTENT_TYPE),
+                                              $httpRequest->getRawBody(),
+                                              $requestUrl);
 
-        $requestParams['oauth_header'] = $httpRequest->getHeader('Authorization');
-        $requestParams['content_type'] = $httpRequest->getHeader(Zend_Http_Client::CONTENT_TYPE);
-        $requestParams['request_body'] = $httpRequest->getRawBody();
-
-        $requestArray['request_parameters'] = $requestParams;
-
-        return $requestArray;
-    }
-
-    /**
-     * Process token requests to extract Request parameters
-     *
-     * @param $request
-     * @return array
-     */
-    public function _processTokenRequest($request)
-    {
-        $requestParamArray = $request['request_parameters'];
-        $params = $this->_processRequest($requestParamArray['oauth_header'],
-                                         $requestParamArray['content_type'],
-                                         $requestParamArray['request_body'],
-                                         $request['request_url']);
-        unset($request['request_parameters']);
-        return array_merge($request, $params);
+        return array_merge($serviceRequest, $oauthParams);
     }
 
     /**
@@ -409,7 +370,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
      * @return string
      */
-    public function reportProblem(
+    public function _prepareErrorResponse(
         Exception $exception,
         Zend_Controller_Response_Http $response = null
     ) {
@@ -428,7 +389,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
                 $errorMsg = 'unknown_problem&code=' . $eCode;
                 $responseCode = self::HTTP_INTERNAL_ERROR;
             }
-            if (Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT == $eCode) {
+            if (self::ERR_PARAMETER_ABSENT == $eCode) {
                 $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
             } elseif ($eMsg) {
                 $errorMsg .= '&message=' . $eMsg;

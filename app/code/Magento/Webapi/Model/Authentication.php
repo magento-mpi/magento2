@@ -38,11 +38,11 @@ class Magento_Webapi_Model_Authentication
     public function authenticate($httpRequest)
     {
         try {
-            $this->_oauthService->validateAccessToken($this->_helper->_prepareTokenRequest($httpRequest));
+            $this->_oauthService->validateAccessToken($this->_helper->_prepareServiceRequest($httpRequest));
         } catch (Exception $e) {
             throw new Magento_Webapi_Exception(
                 $e, //TODO : Fix this to report oAUth problem appropriately
-                //$this->_oauthServer->reportProblem($e),
+                //$this->_oauthServer->_prepareErrorResponse($e),
                 Magento_Webapi_Exception::HTTP_UNAUTHORIZED
             );
         }
