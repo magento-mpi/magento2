@@ -799,4 +799,8 @@ return array(
     array('printException', 'Mage', 'magePrintException'),
     array('_getIndexer', 'Magento_Index_Model_Shell'),
     array('_getApi', 'Magento_Ogone_Block_Placeform'),
+    array('_getHelper', 'Magento_Captcha_Model_Default'),
+    array('getSession', 'Magento_Captcha_Model_Default'),
+    array('_getBackendSession', 'Magento_Captcha_Model_Observer'),
+    array('_resetAttempt', 'Magento_Captcha_Model_Observer'),
 );
