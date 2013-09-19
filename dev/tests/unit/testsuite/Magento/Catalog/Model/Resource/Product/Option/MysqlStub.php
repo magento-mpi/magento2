@@ -12,8 +12,8 @@
 namespace Magento\Catalog\Model\Resource\Product\Option;
 
 /*
-* Extend \Magento\DB\Adapter\Pdo\Mysql and stub needed methods
-*/
+ * Extend \Magento\DB\Adapter\Pdo\Mysql and stub needed methods
+ */
 class MysqlStub extends \Magento\DB\Adapter\Pdo\Mysql
 {
     /**

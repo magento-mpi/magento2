@@ -14,8 +14,8 @@ namespace Magento\Catalog\Model\Resource\Product\Option;
 class ValueStub extends \Magento\Catalog\Model\Resource\Product\Option\Value
 {
     /**
-    * Stub parent constructor
-    */
+     * Stub parent constructor
+     */
     public function __construct()
     {
         $this->_connections = array(
