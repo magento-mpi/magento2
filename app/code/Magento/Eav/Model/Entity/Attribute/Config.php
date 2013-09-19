@@ -33,7 +33,7 @@ class Magento_Eav_Model_Entity_Attribute_Config extends Magento_Config_Data
         );
 
         $lockedFields = array();
-        foreach ($allFields as $fieldCode => $fieldConfig) {
+        foreach (array_keys($allFields) as $fieldCode) {
             $lockedFields[$fieldCode] = $fieldCode;
         }
 
