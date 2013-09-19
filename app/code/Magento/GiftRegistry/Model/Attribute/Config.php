@@ -91,7 +91,7 @@ class Magento_GiftRegistry_Model_Attribute_Config implements Magento_GiftRegistr
      */
     public function getAttributeGroups()
     {
-        return $this->_dataContainer->get('attribute_groups');;
+        return $this->_dataContainer->get('attribute_groups');
     }
 
     /**

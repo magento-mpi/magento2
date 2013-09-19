@@ -1,11 +1,15 @@
 <?php
 /**
- * GiftRegistry configuration data container
- *
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * GiftRegistry configuration data container
  */
 class Magento_GiftRegistry_Model_Config_Data extends Magento_Config_Data
 {
@@ -26,7 +30,7 @@ class Magento_GiftRegistry_Model_Config_Data extends Magento_Config_Data
         Magento_GiftRegistry_Model_Config_Reader $reader,
         Magento_Config_ScopeInterface $configScope,
         Magento_Config_CacheInterface $cache,
-        $cacheId = "giftregistry_config_cache"
+        $cacheId = 'giftregistry_config_cache'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);
     }

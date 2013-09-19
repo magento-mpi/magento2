@@ -8,9 +8,6 @@
  */
 -->
 <config>
-    <registrant>
-        <label translate="true">Role</label>
-    </registrant>
     <attribute_type>
         <label translate="true">Text</label>
     </attribute_type>

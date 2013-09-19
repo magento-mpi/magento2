@@ -26,6 +26,14 @@ return array(
                 'visible' => 'true',
                 'label' => 'Event Country'
             )
+        ),
+        'custom_attributes' => array(
+            'my_event_special' => array(
+                'type' => 'country',
+                'group' => 'event_information',
+                'visible' => 'true',
+                'label' => 'My event special'
+            )
         )
     ),
     'registrant' => array(
@@ -35,6 +43,14 @@ return array(
                 'group' => 'registrant',
                 'visible' => 'true',
                 'label' => 'Role'
+            )
+        ),
+        'custom_attributes' => array(
+            'my_special_attribute' => array(
+                'type' => 'country',
+                'group' => 'registrant',
+                'visible' => 'true',
+                'label' => 'My special attribute'
             )
         )
     )

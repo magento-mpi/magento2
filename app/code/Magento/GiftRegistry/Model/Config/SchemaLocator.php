@@ -1,11 +1,15 @@
 <?php
 /**
- * GiftRegistry configuration schema locator
- *
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * * GiftRegistry configuration schema locator
  */
 class Magento_GiftRegistry_Model_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
 {

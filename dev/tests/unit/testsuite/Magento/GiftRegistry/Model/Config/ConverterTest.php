@@ -2,9 +2,12 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /**
  * Check Config Reader and Converter to receive the right array of data
  *
@@ -65,15 +68,39 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
             $converted['registry']['static_attributes']['event_country']['label']
         );
         $this->assertInstanceOf('Magento_Phrase', $converted['registrant']['static_attributes']['role']['label']);
+        $this->assertInstanceOf(
+            'Magento_Phrase',
+            $converted['registry']['custom_attributes']['my_event_special']['label']
+        );
+        $this->assertInstanceOf(
+            'Magento_Phrase',
+            $converted['registrant']['custom_attributes']['my_special_attribute']['label']
+        );
     }
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Attribute "name" of one of "attribute_type"s does not exist
+     * @param string $invalidConfigFileName
+     * @dataProvider invalidConfigFilesDataProvider
      */
-    public function testConvertThrowsExceptionWhenDomIsInvalid()
+    public function testConvertThrowsExceptionWhenDomIsInvalid($invalidConfigFileName)
     {
-        $this->_source->loadXML(file_get_contents($this->_filePath . 'giftregistry_config_invalid.xml'));
+        $this->_source->loadXML(file_get_contents($this->_filePath . $invalidConfigFileName));
         $this->_model->convert($this->_source);
+    }
+
+    /**
+     * Data provider for testConvertThrowsExceptionWhenDomIsInvalid
+     *
+     * @return array
+     */
+    public function invalidConfigFilesDataProvider()
+    {
+        return array(
+            array('giftregistry_config_invalid1.xml'),
+            array('giftregistry_config_invalid2.xml'),
+            array('giftregistry_config_invalid3.xml'),
+            array('giftregistry_config_invalid4.xml')
+        );
     }
 }

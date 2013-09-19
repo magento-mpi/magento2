@@ -2,9 +2,12 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_GiftRegistry_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -30,8 +33,8 @@ class Magento_GiftRegistry_Model_Config_DataTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento_GiftRegistry_Model_Config_Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
+        $this->_configScopeMock = $this->getMock('Magento_Core_Model_Config_Scope');
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_Cache_Type_Config');
         $this->_model = new Magento_GiftRegistry_Model_Config_Data(
             $this->_readerMock,
             $this->_configScopeMock,
