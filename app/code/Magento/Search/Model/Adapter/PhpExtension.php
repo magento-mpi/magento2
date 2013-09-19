@@ -33,8 +33,9 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
     protected $_ctlgInventData = null;
 
     /**
-     * Initialize connect to Solr Client
-     *
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
      * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
@@ -47,6 +48,9 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
      * @throws Exception
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
         Magento_CatalogInventory_Helper_Data $ctlgInventData,
         Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
@@ -62,8 +66,8 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
             throw new Exception('Solr extension not enabled!');
         }
         parent::__construct(
-            $clientFactory, $logger, $clientHelper, $registry, $resourceIndex, $resourceFulltext, $attributeCollection,
-            $options
+            $eavConfig, $customerSession, $filterPrice, $clientFactory, $logger, $clientHelper, $registry,
+            $resourceIndex, $resourceFulltext, $attributeCollection, $options
         );
     }
 

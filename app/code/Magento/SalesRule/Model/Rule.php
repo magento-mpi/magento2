@@ -199,16 +199,6 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
     }
 
     /**
-     * Returns code mass generator instance for auto generated specific coupons
-     *
-     * @return Magento_SalesRule_Model_Coupon_MassgneratorInterface
-     */
-    public static function getCouponMassGenerator()
-    {
-        return Mage::getSingleton('Magento_SalesRule_Model_Coupon_Massgenerator');
-    }
-
-    /**
      * Set coupon code and uses per coupon
      *
      * @return Magento_SalesRule_Model_Rule

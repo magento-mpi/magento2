@@ -85,7 +85,7 @@ class Magento_SalesArchive_Model_ArchivalList
      * @param string $entity
      * @return string|bool
      */
-    public function _getClassByEntity($entity)
+    protected function _getClassByEntity($entity)
     {
         return isset($this->_entities[$entity]) ? $this->_entities[$entity]['resource_model'] : false;
     }

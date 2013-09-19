@@ -8,10 +8,21 @@
  * @license     {license_link}
  */
 
-
 class Magento_SalesRule_Model_Observer
 {
-    protected $_validator;
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @param Magento_Backend_Model_Session $backendSession
+     */
+    function __construct(
+        Magento_Backend_Model_Session $backendSession
+    ) {
+        $this->_backendSession = $backendSession;
+    }
 
     public function salesOrderAfterPlace($observer)
     {
@@ -112,7 +123,7 @@ class Magento_SalesRule_Model_Observer
         }
 
         if ($disabledRulesCount) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(
+            $this->_backendSession->addWarning(
                 __('%1 Shopping Cart Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 

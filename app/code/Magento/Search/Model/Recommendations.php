@@ -32,13 +32,21 @@ class Magento_Search_Model_Recommendations
     protected $_searchData = null;
 
     /**
+     * @var Magento_Search_Model_Search_Layer
+     */
+    protected $_searchLayer;
+
+    /**
+     * @param Magento_Search_Model_Search_Layer $searchLayer
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      */
     public function __construct(
+        Magento_Search_Model_Search_Layer $searchLayer,
         Magento_Search_Helper_Data $searchData,
         Magento_CatalogSearch_Helper_Data $catalogSearchData
     ) {
+        $this->_searchLayer = $searchLayer;
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
     }
@@ -50,7 +58,7 @@ class Magento_Search_Model_Recommendations
      */
     public function getSearchRecommendations()
     {
-        $productCollection = Mage::getSingleton('Magento_Search_Model_Search_Layer')->getProductCollection();
+        $productCollection = $this->_searchLayer->getProductCollection();
         $searchQueryText = $this->_catalogSearchData->getQuery()->getQueryText();
 
         $params = array(

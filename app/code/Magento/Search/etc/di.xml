@@ -12,4 +12,19 @@
     <type name="Magento_CatalogSearch_Model_Fulltext">
         <plugin name="fulltextIndexRebuild" type="Magento_Search_Model_Plugin_FulltextIndexRebuild" />
     </type>
+    <type name="Magento_Search_Block_Suggestions">
+        <param name="suggestions">
+            <instance type="Magento_Search_Model_Suggestions_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Search_Block_Catalog_Layer_View">
+        <param name="searchLayer">
+            <instance type="Magento_Search_Model_Search_Layer_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Search_Block_Catalogsearch_Layer">
+        <param name="searchLayer">
+            <instance type="Magento_Search_Model_Search_Layer_Proxy" />
+        </param>
+    </type>
 </config>

@@ -20,13 +20,6 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
     protected $_engineProvider;
 
     /**
-     * Catalog search layer
-     *
-     * @var Magento_CatalogSearch_Model_Layer
-     */
-    protected $_catalogSearchLayer = null;
-
-    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -41,7 +34,7 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
     protected $_catalogSearchData = null;
 
     /**
-     * @param Magento_CatalogSearch_Model_Layer $catalogSearchLayer
+     * @param Magento_CatalogSearch_Model_Layer $layer
      * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Helper_Data $coreData
@@ -50,7 +43,7 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogSearch_Model_Layer $catalogSearchLayer,
+        Magento_CatalogSearch_Model_Layer $layer,
         Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
@@ -58,11 +51,10 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_catalogSearchLayer = $catalogSearchLayer;
         $this->_engineProvider = $engineProvider;
         $this->_coreRegistry = $registry;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($layer, $coreData, $context, $data);
     }
 
     /**
@@ -82,16 +74,6 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
         parent::_initBlocks();
 
         $this->_attributeFilterBlockName = 'Magento_CatalogSearch_Block_Layer_Filter_Attribute';
-    }
-
-    /**
-     * Get layer object
-     *
-     * @return Magento_Catalog_Model_Layer
-     */
-    public function getLayer()
-    {
-        return $this->_catalogSearchLayer;
     }
 
     /**

@@ -22,19 +22,19 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      *
      * @var Magento_Search_Helper_Data
      */
-    protected $_searchData = null;
+    protected $_searchData;
 
     /**
-     * Search search layer
+     * Extended search layer
      *
      * @var Magento_Search_Model_Search_Layer
      */
-    protected $_searchSearchLayer;
+    protected $_searchLayer;
 
     /**
-     * @param Magento_Search_Model_Search_Layer $searchSearchLayer
      * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_CatalogSearch_Model_Layer $catalogSearchLayer
+     * @param Magento_Search_Model_Search_Layer $searchLayer
+     * @param Magento_CatalogSearch_Model_Layer $layer
      * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Helper_Data $coreData
@@ -43,9 +43,9 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Model_Search_Layer $searchSearchLayer,
         Magento_Search_Helper_Data $searchData,
-        Magento_CatalogSearch_Model_Layer $catalogSearchLayer,
+        Magento_Search_Model_Search_Layer $searchLayer,
+        Magento_CatalogSearch_Model_Layer $layer,
         Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
@@ -54,9 +54,9 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        $this->_searchSearchLayer = $searchSearchLayer;
+        $this->_searchLayer = $searchLayer;
         parent::__construct(
-            $catalogSearchLayer, $engineProvider, $catalogSearchData, $coreData, $context, $registry, $data
+            $layer, $engineProvider, $catalogSearchData, $coreData, $context, $registry, $data
         );
     }
 
@@ -145,7 +145,7 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
     public function getLayer()
     {
         if ($this->_searchData->isThirdPartSearchEngine() && $this->_searchData->isActiveEngine()) {
-            return $this->_searchSearchLayer;
+            return $this->_searchLayer;
         }
 
         return parent::getLayer();

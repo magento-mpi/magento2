@@ -39,15 +39,23 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
     protected $_resourceEngine;
 
     /**
+     * @var Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     */
+    protected $_priceAlgorithm;
+
+    /**
+     * @param Magento_Catalog_Model_Layer_Filter_Price_Algorithm $priceAlgorithm
      * @param Magento_Search_Model_Resource_Engine $resourceEngine
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Layer_Filter_Price_Algorithm $priceAlgorithm,
         Magento_Search_Model_Resource_Engine $resourceEngine,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_priceAlgorithm = $priceAlgorithm;
         $this->_resourceEngine = $resourceEngine;
         parent::__construct($coreRegistry, $data);
     }
@@ -232,8 +240,6 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
 
         $cachedData = Mage::app()->loadCache($cacheKey);
         if (!$cachedData) {
-            /** @var $algorithmModel Magento_Catalog_Model_Layer_Filter_Price_Algorithm */
-            $algorithmModel = Mage::getSingleton('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
             $statistics = $this->getLayer()->getProductCollection()->getStats($this->_getFilterField());
             $statistics = $statistics[$this->_getFilterField()];
 
@@ -244,13 +250,13 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
                 || $appliedInterval[0] == $appliedInterval[1]
                 || $appliedInterval[1] === '0')
             ) {
-                $algorithmModel->setPricesModel($this)->setStatistics(0, 0, 0, 0);
+                $this->_priceAlgorithm->setPricesModel($this)->setStatistics(0, 0, 0, 0);
                 $this->_divisible = false;
             } else {
                 if ($appliedInterval) {
-                    $algorithmModel->setLimits($appliedInterval[0], $appliedInterval[1]);
+                    $this->_priceAlgorithm->setLimits($appliedInterval[0], $appliedInterval[1]);
                 }
-                $algorithmModel->setPricesModel($this)->setStatistics(
+                $this->_priceAlgorithm->setPricesModel($this)->setStatistics(
                     round($statistics['min'] * $this->getCurrencyRate(), 2),
                     round($statistics['max'] * $this->getCurrencyRate(), 2),
                     $statistics['stddev'] * $this->getCurrencyRate(),
@@ -259,7 +265,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
             }
 
             $cachedData = array();
-            foreach ($algorithmModel->calculateSeparators() as $separator) {
+            foreach ($this->_priceAlgorithm->calculateSeparators() as $separator) {
                 $cachedData[] = $separator['from'] . '-' . $separator['to'];
             }
             $cachedData = implode(',', $cachedData);

@@ -33,15 +33,31 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected $_attributeCollection;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Search_Model_Catalog_Layer_Filter_Price
+     */
+    protected $_filterPrice;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
      * @param Magento_Search_Model_Resource_Index $resourceIndex
      * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
      * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
      */
     function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
         Magento_Search_Model_Resource_Index $resourceIndex,
         Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
         Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_filterPrice = $filterPrice;
         $this->_resourceIndex = $resourceIndex;
         $this->_resourceFulltext = $resourceFulltext;
         $this->_attributeCollection = $attributeCollection;
@@ -194,7 +210,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
         /**
          * Cleaning MAXPRICE cache
          */
-        $cacheTag = Mage::getSingleton('Magento_Search_Model_Catalog_Layer_Filter_Price')->getCacheTag();
+        $cacheTag = $this->_filterPrice->getCacheTag();
         Mage::app()->cleanCache(array($cacheTag));
 
         $this->_indexNeedsOptimization = true;
@@ -271,7 +287,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
     public function getPriceFieldName($customerGroupId = null, $websiteId = null)
     {
         if ($customerGroupId === null) {
-            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
         if ($websiteId === null) {
             $websiteId = Mage::app()->getStore()->getWebsiteId();

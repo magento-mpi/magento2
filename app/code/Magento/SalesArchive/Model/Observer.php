@@ -15,33 +15,51 @@
 class Magento_SalesArchive_Model_Observer
 {
     /**
-     * Archive model
-     * @var Magento_SalesArchive_Model_Archive
+     * @var Magento_SalesArchive_Model_ArchiveFactory
      */
-    protected $_archive;
+    protected $_archiveFactory;
 
     /**
-     * Archive config model
+     * @var Magento_SalesArchive_Model_ArchivalList
+     */
+    protected $_archivalList;
+
+    /**
      * @var Magento_SalesArchive_Model_Config
      */
     protected $_config;
 
     /**
-     * Adminhtml data
-     *
      * @var Magento_Backend_Helper_Data
      */
-    protected $_backendData = null;
+    protected $_backendData;
 
     /**
+     * @param Magento_SalesArchive_Model_ArchiveFactory $archiveFactory
+     * @param Magento_SalesArchive_Model_ArchivalList $archivalList
+     * @param Magento_SalesArchive_Model_Config $config
      * @param Magento_Backend_Helper_Data $backendData
      */
     public function __construct(
+        Magento_SalesArchive_Model_ArchiveFactory $archiveFactory,
+        Magento_SalesArchive_Model_ArchivalList $archivalList,
+        Magento_SalesArchive_Model_Config $config,
         Magento_Backend_Helper_Data $backendData
     ) {
         $this->_backendData = $backendData;
-        $this->_archive = Mage::getModel('Magento_SalesArchive_Model_Archive');
-        $this->_config  = Mage::getSingleton('Magento_SalesArchive_Model_Config');
+        $this->_archiveFactory = $archiveFactory;
+        $this->_archivalList = $archivalList;
+        $this->_config = $config;
+    }
+
+    /**
+     * Get archive instance
+     *
+     * @return Magento_SalesArchive_Model_Archive
+     */
+    protected function _getArchive()
+    {
+        return $this->_archiveFactory->create();
     }
 
     /**
@@ -52,7 +70,7 @@ class Magento_SalesArchive_Model_Observer
     public function archiveOrdersByCron()
     {
         if ($this->_config->isArchiveActive()) {
-            $this->_archive->archiveOrders();
+            $this->_getArchive()->archiveOrders();
         }
 
         return $this;
@@ -70,12 +88,13 @@ class Magento_SalesArchive_Model_Observer
             return $this;
         }
         $object = $observer->getEvent()->getDataObject();
-        $archiveEntity = $this->_archive->detectArchiveEntity($object);
+        $archive = $this->_getArchive();
+        $archiveEntity = $this->_archivalList->getEntityByObject($object);
 
         if (!$archiveEntity) {
             return $this;
         }
-        $ids = $this->_archive->getIdsInArchive($archiveEntity, $object->getId());
+        $ids = $archive->getIdsInArchive($archiveEntity, $object->getId());
         $object->setIsArchived(!empty($ids));
 
         if ($object->getIsArchived()) {
@@ -104,19 +123,20 @@ class Magento_SalesArchive_Model_Observer
 
         $proxy = $observer->getEvent()->getProxy();
 
-        $archiveEntity = $this->_archive->detectArchiveEntity($proxy->getResource());
+        $archive = $this->_getArchive();
+        $archiveEntity = $this->_archivalList->getEntityByObject($proxy->getResource());
 
         if (!$archiveEntity) {
             return $this;
         }
 
         $ids = $proxy->getIds();
-        $idsInArchive = $this->_archive->getIdsInArchive($archiveEntity, $ids);
+        $idsInArchive = $archive->getIdsInArchive($archiveEntity, $ids);
         // Exclude archive records from default grid rows update
         $ids = array_diff($ids, $idsInArchive);
         // Check for newly created shipments, creditmemos, invoices
         if ($archiveEntity != Magento_SalesArchive_Model_ArchivalList::ORDER && !empty($ids)) {
-            $relatedIds = $this->_archive->getRelatedIds($archiveEntity, $ids);
+            $relatedIds = $archive->getRelatedIds($archiveEntity, $ids);
             $ids = array_diff($ids, $relatedIds);
             $idsInArchive = array_merge($idsInArchive, $relatedIds);
         }
@@ -124,7 +144,7 @@ class Magento_SalesArchive_Model_Observer
         $proxy->setIds($ids);
 
         if (!empty($idsInArchive)) {
-            $this->_archive->updateGridRecords($archiveEntity, $idsInArchive);
+            $archive->updateGridRecords($archiveEntity, $idsInArchive);
         }
 
         return $this;

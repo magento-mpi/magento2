@@ -796,4 +796,9 @@ return array(
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('getObjectManager', 'Mage'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
+    array('getCouponMassGenerator', 'Magento_SalesRule_Model_Rule', 'Magento_SalesRule_Model_Coupon_Massgenerator'),
+    array('getEntityResourceModel', 'Magento_SalesArchive_Model_Archive',
+        'Magento_SalesArchive_Model_ArchivalList::getResource'),
+    array('detectArchiveEntity', 'Magento_SalesArchive_Model_Archive',
+        'Magento_SalesArchive_Model_ArchivalList::getEntityByObject'),
 );

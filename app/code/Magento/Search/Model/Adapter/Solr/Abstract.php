@@ -77,6 +77,14 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig = null;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Search_Helper_ClientInterface $clientHelper
@@ -87,6 +95,9 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      * @param array $options
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
         Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Search_Helper_ClientInterface $clientHelper,
@@ -96,11 +107,12 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
         $options = array()
     ) {
+        $this->_eavConfig = $eavConfig;
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
         $this->_log = $logger;
         $this->_clientFactory = $clientFactory;
-        parent::__construct($resourceIndex, $resourceFulltext, $attributeCollection);
+        parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection);
         try {
             $this->_connect($options);
         } catch (Exception $e) {
@@ -350,7 +362,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
                 $sortBy = 'position_category_' . $this->_coreRegistry->registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
                 $websiteId       = Mage::app()->getStore()->getWebsiteId();
-                $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+                $customerGroupId = $this->_customerSession->getCustomerGroupId();
 
                 $sortBy = 'price_'. $customerGroupId .'_'. $websiteId;
             }
@@ -430,9 +442,8 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
                 return $this->getPriceFieldName();
             }
 
-            $eavConfig  = Mage::getSingleton('Magento_Eav_Model_Config');
-            $entityType = $eavConfig->getEntityType('catalog_product');
-            $attribute  = $eavConfig->getAttribute($entityType, $attribute);
+            $entityType = $this->_eavConfig->getEntityType('catalog_product');
+            $attribute  = $this->_eavConfig->getAttribute($entityType, $attribute);
         }
 
         // Field type defining
