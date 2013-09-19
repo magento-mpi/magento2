@@ -31,7 +31,6 @@ class Magento_Rating_Model_Observer
         $this->_rating = $rating;
     }
 
-
     /**
      * Cleanup product ratings after product delete
      *

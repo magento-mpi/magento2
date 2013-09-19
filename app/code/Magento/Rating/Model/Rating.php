@@ -59,7 +59,6 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-
     /**
      * Define resource model
      *
