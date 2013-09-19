@@ -802,4 +802,6 @@ return array(
     array('getObjectManager', 'Mage'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
     array('getStabilityOptions', 'Magento_Connect_Model_Extension'),
+    array('_getSession', 'Magento_Centinel_Model_Service'),
+    array('_getValidationStateModel', 'Magento_Centinel_Model_Service'),
 );
