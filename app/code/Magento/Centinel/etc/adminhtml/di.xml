@@ -32,7 +32,7 @@
             <instance type="Magento_Core_Model_Url" />
         </param>
         <param name="centinelSession">
-            <instance type="Magento_Core_Model_Session_Generic" />
+            <instance type="Magento_Core_Model_Session" />
         </param>
     </type>
 </config>
