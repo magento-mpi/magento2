@@ -294,6 +294,7 @@ return array(
     array('getAllEntityTypeCommentIds', 'Magento_Rss_Model_Resource_Order'),
     array('getAllOrderEntityIds', 'Magento_Rss_Model_Resource_Order'),
     array('getAllOrderEntityTypeIds', 'Magento_Rss_Model_Resource_Order'),
+    array('getAllowedEntityTypes', 'Magento_GiftMessage_Model_Message'),
     array('getAnonSuffix'),
     array('getAttributesJson', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config', 'getAttributes'),
     array('getBaseTaxAmount', 'Magento_Sales_Model_Quote_Item_Abstract'),

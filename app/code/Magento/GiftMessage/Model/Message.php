@@ -30,42 +30,27 @@
 class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
 {
     /**
-     * Allowed types of entities for using of gift messages
-     *
-     * @var array
+     * @var Magento_GiftMessage_Model_TypeFactory
      */
-    static protected $_allowedEntityTypes = array(
-        'order'         => 'Magento_Sales_Model_Order',
-        'order_item'    => 'Magento_Sales_Model_Order_Item',
-        'order_address' => 'Magento_Sales_Model_Order_Address',
-        'quote'         => 'Magento_Sales_Model_Quote',
-        'quote_item'    => 'Magento_Sales_Model_Quote_Item',
-        'quote_address' => 'Magento_Sales_Model_Quote_Address',
-        'quote_address_item' => 'Magento_Sales_Model_Quote_Address_Item'
-    );
+    protected $_typeFactory;
 
     /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
-     * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
+     * @param Magento_GiftMessage_Model_TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
+        Magento_GiftMessage_Model_TypeFactory $typeFactory,
         array $data = array()
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_typeFactory = $typeFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -78,16 +63,12 @@ class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
      * Return model from entity type
      *
      * @param string $type
+     *
      * @return Magento_Eav_Model_Entity_Abstract
      */
     public function getEntityModelByType($type)
     {
-        $types = self::getAllowedEntityTypes();
-        if(!isset($types[$type])) {
-            throw new Magento_Core_Exception(__('Unknown entity type'));
-        }
-
-        return $this->_objectManager->get($types[$type]);
+        return $this->_typeFactory->createType($type);
     }
 
     /**
@@ -99,15 +80,4 @@ class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
     {
         return trim($this->getMessage()) == '';
     }
-
-    /**
-     * Return list of allowed entities for using in gift messages
-     *
-     * @return array
-     */
-    static public function getAllowedEntityTypes()
-    {
-        return self::$_allowedEntityTypes;
-    }
-
 }
