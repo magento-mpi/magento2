@@ -44,6 +44,12 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     protected $_permIndexFactory;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CatalogPermissions_Model_Permission_IndexFactory $permIndexFactory
      * @param Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory $permissionCollFactory
      * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
@@ -54,6 +60,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogPermissions_Model_Permission_IndexFactory $permIndexFactory,
         Magento_CatalogPermissions_Model_Resource_Permission_CollectionFactory $permissionCollFactory,
         Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
@@ -63,6 +70,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_permIndexFactory = $permIndexFactory;
         $this->_permissionCollFactory = $permissionCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
@@ -108,8 +116,8 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
             }
         }
 
-        $config['single_mode']  = Mage::app()->hasSingleStore();
-        $config['website_id']   = Mage::app()->getStore(true)->getWebsiteId();
+        $config['single_mode']  = $this->_storeManager->hasSingleStore();
+        $config['website_id']   = $this->_storeManager->getStore(true)->getWebsiteId();
         $config['parent_vals']  = $this->getParentPermissions();
 
         $config['use_parent_allow'] = __('(Allow)');
@@ -174,7 +182,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
             }
         }
 
-        $websites = Mage::app()->getWebsites(false);
+        $websites = $this->_storeManager->getWebsites(false);
         $groups   = $this->_groupCollFactory->create()->getAllIds();
 
         /* @var $helper Magento_CatalogPermissions_Helper_Data */

@@ -59,18 +59,30 @@ class Magento_CatalogPermissions_Model_Observer
      * @var Magento_CatalogPermissions_Model_Permission_Index
      */
     protected $_permissionIndex;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
     protected $_customerSession;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_CatalogPermissions_Model_Permission_Index $permissionIndex
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Customer_Model_Session $customerSession,
         Magento_CatalogPermissions_Model_Permission_Index $permissionIndex,
         Magento_CatalogPermissions_Helper_Data $catalogPermData
     ) {
+        $this->_storeManager    = $storeManager;
         $this->_catalogPermData = $catalogPermData;
         $this->_permissionIndex = $permissionIndex;
         $this->_customerSession = $customerSession;
@@ -202,7 +214,7 @@ class Magento_CatalogPermissions_Model_Observer
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect($this->_catalogPermData->getLandingPageUrl());
 
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('You may need more permissions to access this category.')
             );
         }
@@ -322,11 +334,11 @@ class Magento_CatalogPermissions_Model_Observer
         if ($product->getDisableAddToCart() && !$quoteItem->isDeleted()) {
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('You cannot add "%1" to the cart.', $parentItem->getName())
                 );
             } else {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('You cannot add "%1" to the cart.', $quoteItem->getName())
                 );
             }
@@ -413,7 +425,7 @@ class Magento_CatalogPermissions_Model_Observer
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect($this->_catalogPermData->getLandingPageUrl());
 
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('You may need more permissions to access this product.')
             );
         }
@@ -546,7 +558,7 @@ class Magento_CatalogPermissions_Model_Observer
      */
     protected function _getWebsiteId()
     {
-        return Mage::app()->getStore()->getWebsiteId();
+        return $this->_storeManager->getStore()->getWebsiteId();
     }
 
     /**

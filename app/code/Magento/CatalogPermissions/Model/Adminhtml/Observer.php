@@ -49,6 +49,12 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
     protected $_indexer;
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_coreApp;
+
+    /**
+     * @param Magento_Core_Model_App $coreApp
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param Magento_CatalogPermissions_Model_PermissionFactory $permissionFactory
      * @param Magento_Index_Model_Indexer $indexer
@@ -56,12 +62,14 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
+        Magento_Core_Model_App $coreApp,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         Magento_CatalogPermissions_Model_PermissionFactory $permissionFactory,
         Magento_Index_Model_Indexer $indexer,
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
         Magento_AuthorizationInterface $authorization
     ) {
+        $this->_coreApp = $coreApp;
         $this->_indexer = $indexer;
         $this->_categoryFactory = $categoryFactory;
         $this->_permissionFactory = $permissionFactory;
@@ -166,7 +174,7 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
                 Magento_CatalogPermissions_Model_Permission_Index::ENTITY_CATEGORY,
                 Magento_CatalogPermissions_Model_Permission_Index::EVENT_TYPE_REINDEX_PRODUCTS
             );
-            Mage::app()->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
+            $this->_coreApp->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
         }
 
         if (!empty($this->_indexProductQueue)) {
@@ -196,7 +204,7 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function cleanCacheOnConfigChange()
     {
-        Mage::app()->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
+        $this->_coreApp->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
         $this->_indexer->processEntityAction(
             new Magento_Object(),
             Magento_CatalogPermissions_Model_Permission_Index::ENTITY_CONFIG,

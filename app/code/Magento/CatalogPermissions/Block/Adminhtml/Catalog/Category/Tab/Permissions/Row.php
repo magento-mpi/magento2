@@ -31,6 +31,12 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     protected $_websiteCollFactory;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory
      * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -39,6 +45,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory,
         Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
         Magento_Core_Helper_Data $coreData,
@@ -46,6 +53,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_websiteCollFactory = $websiteCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
         parent::__construct($coreData, $context, $registry, $data);
@@ -71,7 +79,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
      */
     public function canEditWebsites()
     {
-        return !Mage::app()->hasSingleStore();
+        return !$this->_storeManager->hasSingleStore();
     }
 
     /**
@@ -86,7 +94,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
 
     public function getDefaultWebsiteId()
     {
-        return Mage::app()->getStore(true)->getWebsiteId();
+        return $this->_storeManager->getStore(true)->getWebsiteId();
     }
 
     /**
