@@ -22,6 +22,7 @@ class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_
      * @var Magento_Catalog_Model_ProductFactory
      */
     protected $_productFactory;
+
     /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
