@@ -15,13 +15,6 @@
 class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
-     * Checkout session
-     *
-     * @var Magento_Checkout_Model_Session
-     */
-    protected $_checkoutSession;
-
-    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
@@ -30,15 +23,12 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
 
     /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Model_Registry $coreRegistry
     ) {
-        $this->_checkoutSession = $checkoutSession;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -87,7 +77,7 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
      */
     private function _getPayment()
     {
-        return $this->_checkoutSession->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento_Checkout_Model_Session')->getQuote()->getPayment();
     }
 
     /**
