@@ -25,30 +25,30 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -97,7 +97,7 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
     {
         if (!$value = $this->getData('groups/options/fields/base/value')) {
             $value = $this->_config->getValue(
-                Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                 $this->getScope(),
                 $this->getScopeId()
             );
@@ -114,7 +114,7 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
     {
         if (!$value = $this->getData('groups/options/fields/default/value')) {
             $value = $this->_config->getValue(
-                Magento_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT,
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
                 $this->getScope(),
                 $this->getScopeId()
             );

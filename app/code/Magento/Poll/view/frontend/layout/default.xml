@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="right">
-        <block class="Magento_Poll_Block_ActivePoll" name="right.poll">
+        <block class="Magento\Poll\Block\ActivePoll" name="right.poll">
             <action method="setPollTemplate">
                 <argument name="template" xsi:type="string">active.phtml</argument>
                 <argument name="type" xsi:type="string">poll</argument>

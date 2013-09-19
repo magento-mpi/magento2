@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Sales_Block_Recurring_Profile_Grid
+ * Test class for \Magento\Sales\Block\Recurring\Profile\Grid
  */
 class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_TestCase
 {
@@ -26,13 +26,13 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
 
     public function testPrepareLayout()
     {
-        $customer = $this->getMockBuilder('Magento_Customer_Model_Customer')
+        $customer = $this->getMockBuilder('Magento\Customer\Model\Customer')
             ->disableOriginalConstructor()
             ->setMethods(array('getId'))
             ->getMock();
         $customer->expects($this->once())->method('getId')->will($this->returnValue(1));
 
-        $registry = $this->getMockBuilder('Magento_Core_Model_Registry')
+        $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->setMethods(array('registry'))
             ->getMock();
@@ -41,11 +41,11 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
             ->with('current_customer')
             ->will($this->returnValue($customer));
 
-        $store = $this->getMockBuilder('Magento_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $collectionElement = $this->getMockBuilder('Magento_Sales_Model_Recurring_Profile')
+        $collectionElement = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
             ->setMethods(array('setStore', 'setLocale', 'renderData', 'getReferenceId'))
             ->getMock();
@@ -57,7 +57,7 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
         $collectionElement->expects($this->atLeastOnce())->method('renderData')
             ->will($this->returnValue(2));
 
-        $collection = $this->getMockBuilder('Magento_Sales_Model_Resource_Recurring_Profile_Collection')
+        $collection = $this->getMockBuilder('Magento\Sales\Model\Resource\Recurring\Profile\Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('addFieldToFilter', 'addFieldToSelect', 'setOrder'))
             ->getMock();
@@ -69,14 +69,14 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
         $collection->expects($this->once())->method('setOrder')
             ->will($this->returnValue(array($collectionElement)));
 
-        $profile = $this->getMockBuilder('Magento_Sales_Model_Recurring_Profile')
+        $profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
             ->setMethods(array('getCollection', 'getFieldLabel'))
             ->getMock();
         $profile->expects($this->once())->method('getCollection')
             ->will($this->returnValue($collection));
 
-        $storeManager = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMock();
@@ -86,7 +86,7 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
         $context = $this->_getContext();
 
         $block = $this->_objectManagerHelper->getObject(
-            'Magento_Sales_Block_Recurring_Profile_Grid',
+            'Magento\Sales\Block\Recurring\Profile\Grid',
             array(
                 'context' => $context,
                 'profile' => $profile,
@@ -95,7 +95,7 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
             )
         );
 
-        $pagerBlock = $this->getMockBuilder('Magento_Page_Block_Html_Pager')
+        $pagerBlock = $this->getMockBuilder('Magento\Page\Block\Html\Pager')
             ->disableOriginalConstructor()
             ->setMethods(array('setCollection'))
             ->getMock();
@@ -110,7 +110,7 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
         $block->setLayout($layout);
 
         $this->assertNotEmpty($block->getGridColumns());
-        $expectedResult = array(new Magento_Object(array(
+        $expectedResult = array(new \Magento\Object(array(
             'reference_id' => 1,
             'reference_id_link_url' => null,
             'state'       => 2,
@@ -124,11 +124,11 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
     /**
      * Get layout mock
      *
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     protected function _getMockLayout()
     {
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $layout = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->setMethods(array('createBlock', 'getChildName', 'setChild'))
             ->getMock();
@@ -139,26 +139,26 @@ class Magento_Sales_Block_Recurring_Profile_GridTest extends PHPUnit_Framework_T
     /**
      * Get context object
      *
-     * @return Magento_Core_Block_Template_Context
+     * @return \Magento\Core\Block\Template\Context
      */
     protected function _getContext()
     {
-        $helper = $this->getMockBuilder('Magento_Customer_Helper_Data')
+        $helper = $this->getMockBuilder('Magento\Customer\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('formatDate'))
             ->getMock();
         $helper->expects($this->once())->method('formatDate')
             ->will($this->returnValue('11-11-1999'));
 
-        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        /** @var  Magento_Core_Block_Template_Context $context */
+        /** @var  \Magento\Core\Block\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
-            'Magento_Core_Block_Template_Context',
+            'Magento\Core\Block\Template\Context',
             array('helperFactory' => $helperFactory)
         );
         return $context;

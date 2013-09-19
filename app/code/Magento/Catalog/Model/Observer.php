@@ -42,7 +42,7 @@ class Observer
     protected $_catalogCategory = null;
     
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -52,13 +52,13 @@ class Observer
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Catalog_Helper_Category $catalogCategory,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Catalog\Helper\Category $catalogCategory,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreConfig = $coreConfig;
         $this->_catalogCategory = $catalogCategory;
@@ -101,7 +101,7 @@ class Observer
         $store = $observer->getEvent()->getStore();
         \Mage::app()->reinitStores();
         $this->_coreConfig->reinit();
-        /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
+        /** @var $categoryFlatHelper \Magento\Catalog\Helper\Category\Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             \Mage::getResourceModel('Magento\Catalog\Model\Resource\Category\Flat')

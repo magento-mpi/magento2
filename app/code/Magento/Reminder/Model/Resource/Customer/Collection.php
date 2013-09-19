@@ -30,13 +30,13 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Fieldset_Config $fieldsetConfig,
+        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;

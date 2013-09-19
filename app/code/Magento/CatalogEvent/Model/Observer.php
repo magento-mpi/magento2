@@ -37,21 +37,21 @@ class Observer
     /**
      * Store manager model
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Event collection factory
      *
-     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
      */
     protected $_eventCollectionFactory;
 
     /**
      * Event model factory
      *
-     * @var Magento_CatalogEvent_Model_Resource_EventFactory
+     * @var \Magento\CatalogEvent\Model\Resource\EventFactory
      */
     protected $_eventFactory;
 
@@ -60,16 +60,16 @@ class Observer
      * 
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
-     * @param Magento_CatalogEvent_Model_Resource_EventFactory $eventFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
+     * @param \Magento\CatalogEvent\Model\Resource\EventFactory $eventFactory
      */
     public function __construct(
-        Magento_CatalogEvent_Helper_Data $catalogEventData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
-        Magento_CatalogEvent_Model_Resource_EventFactory $eventFactory    
+        \Magento\CatalogEvent\Helper\Data $catalogEventData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
+        \Magento\CatalogEvent\Model\Resource\EventFactory $eventFactory    
     ) {
         $this->_catalogEventData = $catalogEventData;
         $this->_coreRegistry = $coreRegistry;
@@ -155,8 +155,8 @@ class Observer
     {
         $event = $observer->getEvent()->getProduct()->getEvent();
         if ($event && in_array($event->getStatus(), array(
-            Magento_CatalogEvent_Model_Event::STATUS_CLOSED,
-            Magento_CatalogEvent_Model_Event::STATUS_UPCOMING
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED,
+            \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING
         ))) {
             $observer->getEvent()->getSalable()->setIsSalable(false);
         }
@@ -294,7 +294,7 @@ class Observer
             } elseif ($categoryEvent === null) {
                 // If product assigned to category without event
                 return null;
-            } elseif ($categoryEvent->getStatus() == Magento_CatalogEvent_Model_Event::STATUS_OPEN) {
+            } elseif ($categoryEvent->getStatus() == \Magento\CatalogEvent\Model\Event::STATUS_OPEN) {
                 $event = $categoryEvent;
             } else {
                 $noOpenEvent = $categoryEvent;
@@ -353,7 +353,7 @@ class Observer
      */
     protected function _getEventCollection(array $categoryIds = null)
     {
-        /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $collection */
+        /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $collection */
         $collection = $this->_eventCollectionFactory->create();
         if ($categoryIds !== null) {
             $collection->addFieldToFilter('category_id',

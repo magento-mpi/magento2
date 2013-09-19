@@ -61,44 +61,44 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Directory model
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Dir $dir
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogEvent_Model_Resource_Event $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Dir $dir
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogEvent\Model\Resource\Event $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Dir $dir,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogEvent_Model_Resource_Event $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Dir $dir,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogEvent\Model\Resource\Event $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -168,7 +168,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * Set store id
      *
      * @param int $storeId
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function setStoreId($storeId = null)
     {
@@ -200,7 +200,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\File\Uploader) {
-            $value->save($this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DS . strtr(self::IMAGE_PATH, '/', DS));
+            $value->save($this->_dir->getDir(\Magento\Core\Model\Dir::MEDIA) . DS . strtr(self::IMAGE_PATH, '/', DS));
             $value = $value->getUploadedFileName();
         }
 
@@ -216,7 +216,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     public function getImageUrl()
     {
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . '/'
+            return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . '/'
                    . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
@@ -321,7 +321,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * Before save. Validation of data, and applying status, if needed.
      *
      * @return \Magento\CatalogEvent\Model\Event
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
@@ -331,7 +331,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         foreach (array('date_start' , 'date_end') as $dateType) {
             $date = $this->getData($dateType);
             if (empty($date)) { // Date fields is required.
-                throw new Magento_Core_Exception(__('%1 is required.', $fieldTitles[$dateType]));
+                throw new \Magento\Core\Exception(__('%1 is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;
@@ -430,8 +430,8 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     public function setStoreDateStart($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, Magento_Date::DATETIME_INTERNAL_FORMAT);
-        $this->setData('date_start', $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
+        $date = $this->_locale->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_start', $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -445,8 +445,8 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     public function setStoreDateEnd($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, Magento_Date::DATETIME_INTERNAL_FORMAT);
-        $this->setData('date_end', $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
+        $date = $this->_locale->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_end', $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -466,7 +466,7 @@ class Event extends \Magento\Core\Model\AbstractModel
                 return null;
             }
             $date = $this->_locale->storeDate($store, $value, true);
-            return $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
+            return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_start');
@@ -488,7 +488,7 @@ class Event extends \Magento\Core\Model\AbstractModel
                 return null;
             }
             $date = $this->_locale->storeDate($store, $value, true);
-            return $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
+            return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_end');

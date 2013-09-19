@@ -66,8 +66,8 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_aclMock = $this->getMock('Magento_AuthorizationInterface');
-        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_aclMock = $this->getMock('Magento\AuthorizationInterface');
+        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $this->_menuFactoryMock = $this
             ->getMock('Magento\Backend\Model\MenuFactory', array('create'), array(), '', false);
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);

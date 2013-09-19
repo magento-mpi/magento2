@@ -80,12 +80,12 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_importExportData = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @var Magento_ImportExport_Model_Config
+     * @var \Magento\ImportExport\Model\Config
      */
     protected $_config;
 
@@ -96,14 +96,14 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * attributes This behavior may change in child classes
      *
      * @param \Magento\ImportExport\Helper\Data $importExportData
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_ImportExport_Model_Config $config
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\ImportExport\Model\Config $config
      * @param array $data
      */
     public function __construct(
         \Magento\ImportExport\Helper\Data $importExportData,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_ImportExport_Model_Config $config,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\ImportExport\Model\Config $config,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;

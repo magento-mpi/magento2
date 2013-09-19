@@ -36,7 +36,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_filesystem;
 
     /**
-     * @var Magento_File_Size
+     * @var \Magento\File\Size
      */
     protected $_fileSize;
 
@@ -55,19 +55,19 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_File_Size $fileSize
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Filesystem $filesystem,
-        Magento_File_Size $fileSize,
+        \Magento\File\Size $fileSize,
         $data = array()
     ) {
         $this->_coreData = $coreData;

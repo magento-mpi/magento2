@@ -38,8 +38,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 
-        /** @var $formFactory Magento_Data_Form_Factory */
-        $formFactory = $objectManager->get('Magento_Data_Form_Factory');
+        /** @var $formFactory \Magento\Data\Form\Factory */
+        $formFactory = $objectManager->get('Magento\Data\Form\Factory');
         $form = $formFactory->create();
         $fieldset = $form->addFieldset('test_fieldset', array());
         $arguments = array(

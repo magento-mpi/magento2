@@ -9,9 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="customer.form.register.fields.before">
-        <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
+        <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
             <arguments>
-                <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_Register</argument>
+                <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Register</argument>
             </arguments>
             <action method="setWrapperClass">
                 <argument name="class" xsi:type="string">reward-register</argument>
@@ -20,9 +20,9 @@
                 <argument translate="true" name="message" xsi:type="string">Register on our site now and earn %1.</argument>
             </action>
         </block>
-        <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
+        <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
             <arguments>
-                <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
+                <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Newsletter</argument>
             </arguments>
             <action method="setWrapperClass">
                 <argument name="class" xsi:type="string">reward-newsletter</argument>

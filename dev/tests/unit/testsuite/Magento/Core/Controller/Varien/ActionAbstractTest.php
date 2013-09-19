@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class \Magento\Core\Controller\Varien\ActionAbstract
+ * Test class Magento_Core_Controller_Varien_ActionAbstract
  */
 class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -36,10 +36,10 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      */
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
+            'Magento\Backend\Helper\DataProxy', false);
         $this->_request = $this->getMock(
-            'Magento_Core_Controller_Request_Http',
+            'Magento\Core\Controller\Request\Http',
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'),
             array($helperMock),
             '',
@@ -82,10 +82,10 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
     {
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        $request = new Magento_Core_Controller_Request_Http($helperMock);
-        $response = new Magento_Core_Controller_Response_Http($eventManager);
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
+            'Magento\Backend\Helper\DataProxy', false);
+        $request = new \Magento\Core\Controller\Request\Http($helperMock);
+        $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
         $action = new \Magento\Core\Controller\Varien\Action\Forward($request, $response);
 

@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class \Magento\Backend\Controller\Router\DefaultRouter
+ * Test class Magento_Backend_Controller_Router_DefaultRouter
  * @magentoAppArea adminhtml
  */
 class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Framework_TestCase

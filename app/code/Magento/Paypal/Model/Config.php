@@ -247,18 +247,18 @@ class Config
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $params
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $params = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

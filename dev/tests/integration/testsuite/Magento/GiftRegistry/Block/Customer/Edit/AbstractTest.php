@@ -18,7 +18,7 @@ class Magento_GiftRegistry_Block_Customer_Edit_AbstractTest
     /**
      * Stub class name
      */
-    const STUB_CLASS = 'Magento_GiftRegistry_Block_Customer_Edit_Abstract_Stub';
+    const STUB_CLASS = 'Magento_GiftRegistry_Block_Customer_Edit_AbstractEdit_Stub';
 
     public function testGetCalendarDateHtml()
     {

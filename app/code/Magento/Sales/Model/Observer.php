@@ -63,7 +63,7 @@ class Observer
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -73,15 +73,15 @@ class Observer
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Customer_Helper_Address $customerAddress,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Helper\Address $customerAddress,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;

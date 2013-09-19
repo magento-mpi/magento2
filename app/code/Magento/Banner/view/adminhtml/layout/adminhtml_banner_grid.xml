@@ -10,5 +10,5 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="root"/>
     <update handle="formkey"/>
-    <block class="Magento_Banner_Block_Adminhtml_Banner_Grid" name="banner_grid" output="1"/>
+    <block class="Magento\Banner\Block\Adminhtml\Banner\Grid" name="banner_grid" output="1"/>
 </layout>

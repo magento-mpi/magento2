@@ -81,9 +81,9 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         );
 
         // test data to verify routers match logic
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        $matchedRequest = $this->getMock('Magento_Core_Controller_Request_Http',
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
+            'Magento\Backend\Helper\DataProxy', false);
+        $matchedRequest = $this->getMock('Magento\Core\Controller\Request\Http',
             $silencedMethods,
             array($helperMock, $vdeUrl)
         );
@@ -115,7 +115,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         return array(
             'not vde request' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($helperMock, $notVdeUrl)
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($helperMock, $notVdeUrl)
                 ),
                 '$isVde'           => false,
                 '$isLoggedIn'      => true,
@@ -123,7 +123,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             ),
             'not logged as admin' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($helperMock, $vdeUrl)
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => false,
@@ -131,7 +131,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             ),
             'no matched routers' => array(
                 '$request' => $this->getMock(
-                    'Magento_Core_Controller_Request_Http', $silencedMethods, array($helperMock, $vdeUrl)
+                    'Magento\Core\Controller\Request\Http', $silencedMethods, array($helperMock, $vdeUrl)
                 ),
                 '$isVde'           => true,
                 '$isLoggedIn'      => true,
@@ -210,10 +210,10 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
             $objectManager,
             $filesystem,
             $app,
-            $this->getMock('Magento_Core_Model_Config_Scope', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Route_Config', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
-            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Config\Scope', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
             'frontend',
             'Magento\Core\Controller\Varien\Action',
             'vde'

@@ -175,18 +175,18 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Core string
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @var Magento_Ogone_Model_Config $config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @var \Magento\Ogone\Model\Config $config
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
-     * @return Magento_Ogone_Model_Api
+     * @return \Magento\Ogone\Model\Api
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\String $coreString,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Ogone\Model\Config $config,
         \Magento\Payment\Helper\Data $paymentData,
         array $data = array()

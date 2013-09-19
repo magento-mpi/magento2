@@ -68,17 +68,17 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreConfig = $coreConfig;

@@ -34,19 +34,19 @@ class Observer
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\AuthorizationInterface $authorization
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_authorization = $authorization;

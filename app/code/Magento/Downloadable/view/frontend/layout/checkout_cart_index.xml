@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="checkout.cart">
-        <block class="Magento_Downloadable_Block_Checkout_Cart_Item_Renderer" as="downloadable" template="checkout/cart/item/default.phtml"/>
+        <block class="Magento\Downloadable\Block\Checkout\Cart\Item\Renderer" as="downloadable" template="checkout/cart/item/default.phtml"/>
     </reference>
 </layout>

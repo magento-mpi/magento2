@@ -56,10 +56,10 @@ abstract class AbstractDb
 
 
     /**
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      * @param array $dbExtensions
      */
-    public function __construct(Magento_Core_Model_Resource $resource, array $dbExtensions = array())
+    public function __construct(\Magento\Core\Model\Resource $resource, array $dbExtensions = array())
     {
         $this->_resource = $resource;
         $this->_dbExtensions = $dbExtensions;

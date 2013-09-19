@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile" name="customer.recurring.profile.grid" output="1"/>
+    <block class="Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Profile" name="customer.recurring.profile.grid" output="1"/>
 </layout>

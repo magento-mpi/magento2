@@ -28,7 +28,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Application cache model.
      *
-     * @var Magento_Core_Model_Cache
+     * @var \Magento\Core\Model\Cache
      */
     protected $_appCache;
 
@@ -228,13 +228,13 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Call safe delete for model
      *
-     * @param Magento_Core_Model_Abstract $model
+     * @param \Magento\Core\Model\AbstractModel $model
      * @param bool $secure
      * @return Magento_Test_TestCase_WebapiAbstract
      */
     static public function callModelDelete($model, $secure = false)
     {
-        if ($model instanceof Magento_Core_Model_Abstract && $model->getId()) {
+        if ($model instanceof \Magento\Core\Model\AbstractModel && $model->getId()) {
             if ($secure) {
                 self::_enableSecureArea();
             }
@@ -248,7 +248,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Call safe delete for model
      *
-     * @param Magento_Core_Model_Abstract $model
+     * @param \Magento\Core\Model\AbstractModel $model
      * @param bool $secure
      * @return Magento_Test_TestCase_WebapiAbstract
      */
@@ -346,7 +346,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     {
         if ($this->_modelsToDelete) {
             foreach ($this->_modelsToDelete as $key => $modelData) {
-                /** @var $model Magento_Core_Model_Abstract */
+                /** @var $model \Magento\Core\Model\AbstractModel */
                 $model = $modelData['model'];
                 $this->callModelDelete($model, $modelData['secure']);
                 unset($this->_modelsToDelete[$key]);
@@ -403,24 +403,24 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     /**
      * Get application cache model
      *
-     * @return Magento_Core_Model_Cache
+     * @return \Magento\Core\Model\Cache
      */
     protected function _getAppCache()
     {
         if (null === $this->_appCache) {
             //set application path
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-            /** @var Magento_Core_Model_Config $config */
-            $config = $objectManager->get('Magento_Core_Model_Config');
+            /** @var \Magento\Core\Model\Config $config */
+            $config = $objectManager->get('Magento\Core\Model\Config');
             $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
-            /** @var Magento_Core_Model_Dir $dir */
-            $dir = $objectManager->get('Magento_Core_Model_Dir');
-            $options->setCacheDir($dir->getDir(Magento_Core_Model_Dir::ROOT) . '/var/cache');
-            $options->setEtcDir($dir->getDir(Magento_Core_Model_Dir::ROOT) . '/app/etc');
+            /** @var \Magento\Core\Model\Dir $dir */
+            $dir = $objectManager->get('Magento\Core\Model\Dir');
+            $options->setCacheDir($dir->getDir(\Magento\Core\Model\Dir::ROOT) . '/var/cache');
+            $options->setEtcDir($dir->getDir(\Magento\Core\Model\Dir::ROOT) . '/app/etc');
 
-            $this->_appCache = $objectManager->get('Magento_Core_Model_Cache');
+            $this->_appCache = $objectManager->get('Magento\Core\Model\Cache');
 
             //revert paths options
             $options->setCacheDir($currentCacheDir);
@@ -467,22 +467,22 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
         }
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $config Magento_Backend_Model_Config */
-        $config = Mage::getModel('Magento_Backend_Model_Config');
+        /** @var $config \Magento\Backend\Model\Config */
+        $config = Mage::getModel('Magento\Backend\Model\Config');
         $data[$group]['fields'][$node]['value'] = $value;
         $config->setSection($section)
             ->setGroups($data)
             ->save();
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
-            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento_Core_Model_Config')
+            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento\Core\Model\Config')
                 ->getNode($path, 'default');
         }
 
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
-                $objectManager->get('Magento_Core_Model_Config')->reinit();
+                $objectManager->get('Magento\Core\Model\Config')->reinit();
                 Mage::app()->reinitStores();
             }
 

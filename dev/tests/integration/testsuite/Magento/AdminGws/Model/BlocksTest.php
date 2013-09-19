@@ -17,18 +17,18 @@ class Magento_AdminGws_Model_BlocksTest extends Magento_TestFramework_TestCase_C
     protected function setUp()
     {
         parent::setUp();
-        /** @var $auth Magento_Backend_Model_Auth */
-        $this->_objectManager->get('Magento_Backend_Model_Url')->turnOffSecretKey();
-        $auth = $this->_objectManager->get('Magento_Backend_Model_Auth');
+        /** @var $auth \Magento\Backend\Model\Auth */
+        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $auth->login('admingws_user', 'admingws_password1');
     }
 
     protected function tearDown()
     {
-        /** @var $auth Magento_Backend_Model_Auth */
-        $auth = $this->_objectManager->get('Magento_Backend_Model_Auth');
+        /** @var $auth \Magento\Backend\Model\Auth */
+        $auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $auth->logout();
-        $this->_objectManager->get('Magento_Backend_Model_Url')->turnOnSecretKey();
+        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }
 

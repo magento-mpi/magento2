@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var Magento_CatalogEvent_Model_Resource_Setup $this */
+/** @var \Magento\CatalogEvent\Model\Resource\Setup $this */
 
 $cmsBlock = array(
     'title'      => 'Catalog Events Lister',
@@ -15,6 +15,6 @@ $cmsBlock = array(
     'stores'     => 0,
 );
 
-/** @var Magento_Cms_Model_Block $block */
+/** @var \Magento\Cms\Model\Block $block */
 $block = $this->getBlockFactory()->create();
 $block->setData($cmsBlock)->save();

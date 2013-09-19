@@ -42,16 +42,16 @@ class Session
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Core\Helper\Http $coreHttp,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;

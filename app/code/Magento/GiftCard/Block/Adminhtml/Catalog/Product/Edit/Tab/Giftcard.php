@@ -122,7 +122,7 @@ class Giftcard
             return $this->_coreRegistry->registry('product')->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
+        return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
     }
 
     /**
@@ -157,7 +157,7 @@ class Giftcard
 
     public function getConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
+        return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
     }
 
     /**

@@ -39,18 +39,18 @@ class Data
     protected $_importModel;
 
     /**
-     * @var Magento_ImportExport_Model_Config
+     * @var \Magento\ImportExport\Model\Config
      */
     protected $_config;
 
     /**
      * Constructor
      *
-     * @param Magento_ImportExport_Model_Config $config
+     * @param \Magento\ImportExport\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_ImportExport_Model_Config $config,
+        \Magento\ImportExport\Model\Config $config,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -165,10 +165,10 @@ class Data
     public function getEntitiesOptionArray($type = null)
     {
         $importEntities = $this->_config->getModelsArrayOptions(
-            Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES
+            \Magento\ImportExport\Model\Import::CONFIG_KEY_ENTITIES
         );
         $exportEntities = $this->_config->getModelsArrayOptions(
-            Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES
+            \Magento\ImportExport\Model\Export::CONFIG_KEY_ENTITIES
         );
         switch ($type) {
             case 'import':

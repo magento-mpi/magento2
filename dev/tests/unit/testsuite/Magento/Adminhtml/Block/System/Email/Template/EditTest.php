@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
             'configStructure' => $this->_configStructureMock,
         );
         $arguments = $objectManager->getConstructArguments(
-            'Magento_Adminhtml_Block_System_Email_Template_Edit',
+            'Magento\Adminhtml\Block\System\Email\Template\Edit',
             $params
         );
 

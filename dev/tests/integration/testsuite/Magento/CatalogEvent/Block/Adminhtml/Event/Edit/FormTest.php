@@ -20,8 +20,8 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_F
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        /** @var $event Magento_CatalogEvent_Model_Event */
-        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_CatalogEvent_Model_Event');
+        /** @var $event \Magento\CatalogEvent\Model\Event */
+        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\CatalogEvent\Model\Event');
         $event->setCategoryId(1)->setId(1);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();

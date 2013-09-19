@@ -15,7 +15,7 @@
             <salesarchive_setup>
                 <setup>
                     <module>Magento_SalesArchive</module>
-                    <class>Magento_SalesArchive_Model_Resource_Setup</class>
+                    <class>Magento\SalesArchive\Model\Resource\Setup</class>
                 </setup>
             </salesarchive_setup>
         </resources>
@@ -36,7 +36,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_SalesArchive_Model_Observer::archiveOrdersByCron</model>
+                    <model>Magento\SalesArchive\Model\Observer::archiveOrdersByCron</model>
                 </run>
             </magento_salesarchive_archive_orders>
         </jobs>

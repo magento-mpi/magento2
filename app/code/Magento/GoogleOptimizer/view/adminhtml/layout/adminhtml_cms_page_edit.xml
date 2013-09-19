@@ -11,7 +11,7 @@
     <reference name="cms_page_edit_tabs">
         <action method="addTab">
             <argument name="name" xsi:type="string">google-experiment</argument>
-            <argument name="block" xsi:type="string">Magento_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer</argument>
+            <argument name="block" xsi:type="string">Magento\GoogleOptimizer\Block\Adminhtml\Cms\Page\Edit\Tab\Googleoptimizer</argument>
         </action>
     </reference>
 </layout>

@@ -9,19 +9,19 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="checkout.onepage.billing">
-        <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
+        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">checkout_register</argument>
             </action>
         </block>
-        <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
+        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">customer_register_address</argument>
             </action>
         </block>
     </reference>
     <reference name="checkout.onepage.shipping">
-        <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
+        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">customer_register_address</argument>
             </action>

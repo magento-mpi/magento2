@@ -103,12 +103,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -117,16 +117,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Customer_Helper_Address $customerAddress,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Customer\Helper\Address $customerAddress,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
@@ -230,7 +230,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
         if (!$referer && !$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
-            && !Mage::getSingleton('Magento_Customer_Model_Session')->getNoReferer()
+            && !\Mage::getSingleton('Magento\Customer\Model\Session')->getNoReferer()
         ) {
             $referer = \Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
             $referer = $this->_coreData->urlEncode($referer);
@@ -446,7 +446,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDefaultCustomerGroupId($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
+        return (int)$this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $store);
     }
 
     /**

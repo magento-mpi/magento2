@@ -18,7 +18,7 @@ class Magento_Adminhtml_Block_Newsletter_SubscriberTest extends PHPUnit_Framewor
     {
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');
-        /** @var $block Magento_Adminhtml_Block_Newsletter_Subscriber */
+        /** @var $block \Magento\Adminhtml\Block\Newsletter\Subscriber */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Newsletter\Subscriber', 'block');
         /** @var $childBlock \Magento\Core\Block\Template */
         $childBlock = $layout->addBlock('Magento\Core\Block\Template', 'grid', 'block');

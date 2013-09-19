@@ -28,7 +28,7 @@ class LogoUploader
     protected $_themeContext;
 
     /**
-     * @var Magento_Theme_Model_Config_Customization
+     * @var \Magento\Theme\Model\Config\Customization
      */
     protected $_customization;
 
@@ -48,14 +48,14 @@ class LogoUploader
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
-     * @param Magento_Theme_Model_Config_Customization $customization
+     * @param \Magento\Theme\Model\Config\Customization $customization
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        Magento_Theme_Model_Config_Customization $customization,
+        \Magento\Theme\Model\Config\Customization $customization,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;

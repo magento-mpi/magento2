@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Configure Cart Item Failed" type="page" parent="checkout_cart_configure">
     <update handle="catalog_product_view"/>
     <reference name="product.info">
-        <block class="Magento_AdvancedCheckout_Block_Cart_Item_Configure" name="checkout.cart.item.configure.block"/>
+        <block class="Magento\AdvancedCheckout\Block\Cart\Item\Configure" name="checkout.cart.item.configure.block"/>
     </reference>
     <reference name="product.info.addtocart">
         <action method="setTemplate">

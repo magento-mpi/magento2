@@ -60,7 +60,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        /** @var $rule Magento_Reminder_Model_Rule */
+        /** @var $rule \Magento\Reminder\Model\Rule */
         $rule = $this->_coreRegistry->registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
             $confirm = __('Are you sure you want to match this rule now?');

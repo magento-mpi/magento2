@@ -64,7 +64,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     protected $_websiteRestricData = null;
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -72,7 +72,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
      * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestricData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -81,7 +81,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
         \Magento\WebsiteRestriction\Helper\Data $websiteRestricData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

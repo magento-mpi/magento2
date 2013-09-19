@@ -39,13 +39,13 @@ return array(
     array('DEFAULT_CURRENCY', 'Magento\Core\Model\Locale', 'Magento\Core\Model\LocaleInterface::DEFAULT_CURRENCY'),
     array('DEFAULT_ERROR_HANDLER', 'Magento\Core\Model\App', 'Mage::DEFAULT_ERROR_HANDLER'),
     array('DEFAULT_LOCALE', 'Magento\Core\Model\Locale', 'Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE'),
-    array('DEFAULT_THEME_NAME', 'Magento_Core_Model_Design_PackageInterface'),
-    array('DEFAULT_THEME_NAME', 'Magento_Core_Model_Design_Package'),
+    array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design_PackageInterface'),
+    array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design_Package'),
     array('DEFAULT_TIMEZONE', 'Magento\Core\Model\Locale', 'Mage::DEFAULT_TIMEZONE'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Magento\Review\Model\Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
-    array('FALLBACK_MAP_DIR', 'Magento_Core_Model_Design_PackageInterface'),
+    array('FALLBACK_MAP_DIR', 'Magento\Core\Model\Design_PackageInterface'),
     array('FORMAT_TYPE_FULL', 'Magento\Core\Model\Locale', 'Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL'),
     array('FORMAT_TYPE_LONG', 'Magento\Core\Model\Locale', 'Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG'),
     array('FORMAT_TYPE_MEDIUM', 'Magento\Core\Model\Locale', 'Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM'),
@@ -67,16 +67,16 @@ return array(
     array('LOCALE_CACHE_TAG', 'Magento\Adminhtml\Block\Page\Footer'),
     array('PATH_PREFIX_CUSTOMIZATION', 'Magento\Core\Model\Theme'),
     array('PATH_PREFIX_CUSTOMIZED', 'Magento\Core\Model\Theme\Files'),
-    array('PUBLIC_BASE_THEME_DIR', 'Magento_Core_Model_Design_PackageInterface'),
-    array('PUBLIC_CACHE_TAG', 'Magento_Core_Model_Design_PackageInterface'),
-    array('PUBLIC_MODULE_DIR', 'Magento_Core_Model_Design_PackageInterface',
-        'Magento_Core_Model_Design_Package::PUBLIC_MODULE_DIR'
+    array('PUBLIC_BASE_THEME_DIR', 'Magento\Core\Model\Design_PackageInterface'),
+    array('PUBLIC_CACHE_TAG', 'Magento\Core\Model\Design_PackageInterface'),
+    array('PUBLIC_MODULE_DIR', 'Magento\Core\Model\Design_PackageInterface',
+        'Magento\Core\Model\Design_Package::PUBLIC_MODULE_DIR'
     ),
-    array('PUBLIC_THEME_DIR', 'Magento_Core_Model_Design_PackageInterface',
-        'Magento_Core_Model_Design_Package::PUBLIC_THEME_DIR'
+    array('PUBLIC_THEME_DIR', 'Magento\Core\Model\Design_PackageInterface',
+        'Magento\Core\Model\Design_Package::PUBLIC_THEME_DIR'
     ),
-    array('PUBLIC_VIEW_DIR', 'Magento_Core_Model_Design_PackageInterface',
-        'Magento_Core_Model_Design_Package::PUBLIC_VIEW_DIR'
+    array('PUBLIC_VIEW_DIR', 'Magento\Core\Model\Design_PackageInterface',
+        'Magento\Core\Model\Design_Package::PUBLIC_VIEW_DIR'
     ),
     array('REGISTRY_FORM_PARAMS_KEY', null, 'direct value'),
     array('SCOPE_TYPE_GROUP', 'Magento\Core\Model\App', 'Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_GROUP'),
@@ -100,8 +100,8 @@ return array(
     ),
     array('XML_PATH_ALLOW_CURRENCIES_INSTALLED', 'Magento\Core\Model\Locale',
         'Magento\Core\Model\LocaleInterface::XML_PATH_ALLOW_CURRENCIES_INSTALLED'),
-    array('XML_PATH_ALLOW_DUPLICATION', 'Magento_Core_Model_Design_PackageInterface',
-        'Magento_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
+    array('XML_PATH_ALLOW_DUPLICATION', 'Magento\Core\Model\Design_PackageInterface',
+        'Magento\Core\Model\Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Mage_Core_Model_Design_PackageInterface'),
     array('XML_PATH_BACKEND_FRONTNAME', 'Mage_Backend_Helper_Data'),
@@ -122,13 +122,13 @@ return array(
         'Mage_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
     ),
     array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento\Core\Helper\Data',
-        'Magento_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
+        'Magento\Core\Model\Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
     ),
-    array('XML_PATH_THEME', 'Magento_Core_Model_Design_PackageInterface',
-        'Magento_Core_Model_Design_Package::XML_PATH_THEME'
+    array('XML_PATH_THEME', 'Magento\Core\Model\Design_PackageInterface',
+        'Magento\Core\Model\Design_Package::XML_PATH_THEME'
     ),
-    array('XML_PATH_THEME_ID', 'Magento_Core_Model_Design_PackageInterface',
-        'Magento_Core_Model_Design_Package::XML_PATH_THEME_ID'
+    array('XML_PATH_THEME_ID', 'Magento\Core\Model\Design_PackageInterface',
+        'Magento\Core\Model\Design_Package::XML_PATH_THEME_ID'
     ),
     array('XML_STORE_ROUTERS_PATH', 'Mage_Core_Controller_Varien_Front'),
     array('XML_PATH_THEME'),

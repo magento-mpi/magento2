@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="adminhtml_customersegment_block"/>
     <reference name="content">
-        <block class="Magento_CustomerSegment_Block_Adminhtml_Customersegment" name="customersegment.container"/>
+        <block class="Magento\CustomerSegment\Block\Adminhtml\Customersegment" name="customersegment.container"/>
     </reference>
 </layout>

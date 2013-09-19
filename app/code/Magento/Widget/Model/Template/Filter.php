@@ -34,15 +34,15 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Core\Model\App $coreApp
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Widget_Model_Widget $widget,
-        Magento_Widget_Model_Resource_Widget $widgetResource,
-        Magento_Core_Model_App $coreApp,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Widget\Model\Widget $widget,
+        \Magento\Widget\Model\Resource\Widget $widgetResource,
+        \Magento\Core\Model\App $coreApp,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_widget = $widget;
         $this->_widgetResource = $widgetResource;

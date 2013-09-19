@@ -32,7 +32,7 @@ class Webservicex extends \Magento\Directory\Model\Currency\Import\AbstractImpor
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -40,10 +40,10 @@ class Webservicex extends \Magento\Directory\Model\Currency\Import\AbstractImpor
      *
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_httpClient = new Magento_HTTP_ZendClient();
+        $this->_httpClient = new \Magento\HTTP\ZendClient();
     }
 
     protected function _convert($currencyFrom, $currencyTo, $retry=0)

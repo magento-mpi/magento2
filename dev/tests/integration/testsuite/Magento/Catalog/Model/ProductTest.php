@@ -13,8 +13,8 @@
  * Tests product model:
  * - general behaviour is tested (external interaction and pricing is not tested there)
  *
- * @see Magento_Catalog_Model_ProductExternalTest
- * @see Magento_Catalog_Model_ProductPriceTest
+ * @see \Magento\Catalog\Model\ProductExternalTest
+ * @see \Magento\Catalog\Model\ProductPriceTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
 class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase

@@ -5,14 +5,15 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
+namespace Magento\Core\Model;
 
-interface Magento_Core_Model_EncryptionInterface
+interface EncryptionInterface
 {
     /**
      * Set helper instance
      *
-     * @param Magento_Core_Helper_Data|string $helper
-     * @return Magento_Core_Model_Encryption
+     * @param \Magento\Core\Helper\Data|string $helper
+     * @return \Magento\Core\Model\Encryption
      * @throws InvalidArgumentException
      */
     public function setHelper($helper);
@@ -69,7 +70,7 @@ interface Magento_Core_Model_EncryptionInterface
      * Return crypt model, instantiate if it is empty
      *
      * @param string $key
-     * @return Magento_Crypt
+     * @return \Magento\Crypt
      */
     public function validateKey($key);
 }

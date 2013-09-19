@@ -54,7 +54,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -62,7 +62,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -71,7 +71,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -203,7 +203,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
     /**
      * Add vote to poll
      *
-     * @param Magento_Poll_Model_Poll_Vote $vote
+     * @param \Magento\Poll\Model\Poll\Vote $vote
      * @return unknown
      */
     public function addVote(\Magento\Poll\Model\Poll\Vote $vote)

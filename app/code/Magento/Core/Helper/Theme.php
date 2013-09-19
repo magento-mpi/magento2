@@ -82,14 +82,14 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
         /**
          * XPath selector to get CSS files from layout added for HEAD block directly
          */
-        $xpathSelectorBlocks = '//block[@class="Magento_Page_Block_Html_Head"]'
-            . '/block[@class="Magento_Page_Block_Html_Head_Css"]/arguments/argument[@name="file"]';
+        $xpathSelectorBlocks = '//block[@class="Magento\Page\Block\Html\Head"]'
+            . '/block[@class="Magento\Page\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
 
         /**
          * XPath selector to get CSS files from layout added for HEAD block using reference
          */
         $xpathSelectorRefs = '//reference[@name="head"]'
-            . '/block[@class="Magento_Page_Block_Html_Head_Css"]/arguments/argument[@name="file"]';
+            . '/block[@class="Magento\Page\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
 
         $elements = array_merge(
             $layoutElement->xpath($xpathSelectorBlocks) ?: array(),

@@ -120,20 +120,20 @@ class User
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_User_Helper_Data $userData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Sender $sender
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\User\Helper\Data $userData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      *
@@ -146,7 +146,7 @@ class User
         \Magento\Core\Model\Sender $sender,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -184,13 +184,13 @@ class User
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_eventManager = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Event_Manager');
-        $this->_sender       = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Sender');
-        $this->_coreData     = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Helper_Data');
-        $this->_userData     = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_User_Helper_Data');
-        $this->_coreStoreConfig = Magento_Core_Model_ObjectManager::getInstance()
-            ->get('Magento_Core_Model_Store_Config');
-        $this->_coreRegistry = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Registry');
+        $this->_eventManager = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Event\Manager');
+        $this->_sender       = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Sender');
+        $this->_coreData     = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Helper\Data');
+        $this->_userData     = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\User\Helper\Data');
+        $this->_coreStoreConfig = \Magento\Core\Model\ObjectManager::getInstance()
+            ->get('Magento\Core\Model\Store\Config');
+        $this->_coreRegistry = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Registry');
     }
 
     /**

@@ -43,14 +43,14 @@ class Observer
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Directory model
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
@@ -59,14 +59,14 @@ class Observer
      * 
      * @param \Magento\Backup\Helper\Data $backupData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Dir $dir
+        \Magento\Backup\Helper\Data $backupData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Dir $dir
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;
@@ -100,7 +100,7 @@ class Observer
 
             $this->_coreRegistry->register('backup_manager', $backupManager);
 
-            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
+            if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
                 $backupManager->setRootDir($this->_dir->getDir())
                     ->addIgnorePaths($this->_backupData->getBackupIgnorePaths());
             }

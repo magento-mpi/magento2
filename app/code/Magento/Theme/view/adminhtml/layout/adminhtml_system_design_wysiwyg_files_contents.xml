@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files" name="wysiwyg_files.files" template="browser/content/files.phtml" output="1"/>
+    <block class="Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Files" name="wysiwyg_files.files" template="browser/content/files.phtml" output="1"/>
 </layout>

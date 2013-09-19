@@ -12,15 +12,15 @@ class QuoteItem
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -58,7 +58,7 @@ class QuoteItem
         // set lifetime
         if ($product->getUseConfigLifetime()) {
             $lifetime = $this->_coreStoreConfig->getConfig(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_LIFETIME,
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME,
                 $orderItem->getStore()
             );
         } else {
@@ -69,7 +69,7 @@ class QuoteItem
         // set is_redeemable
         if ($product->getUseConfigIsRedeemable()) {
             $isRedeemable = $this->_coreStoreConfig->getConfigFlag(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE,
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE,
                 $orderItem->getStore()
             );
         } else {
@@ -80,7 +80,7 @@ class QuoteItem
         // set email_template
         if ($product->getUseConfigEmailTemplate()) {
             $emailTemplate = $this->_coreStoreConfig->getConfig(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE,
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE,
                 $orderItem->getStore()
             );
         } else {

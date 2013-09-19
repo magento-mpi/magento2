@@ -14,7 +14,7 @@
         </action>
         <action method="addDatabaseBlock">
             <argument name="type" xsi:type="string">mysql4</argument>
-            <argument name="block" xsi:type="string">Magento_Install_Block_Db_Type_Mysql4</argument>
+            <argument name="block" xsi:type="string">Magento\Install\Block\Db\Type\Mysql4</argument>
             <argument name="template" xsi:type="string">db/mysql4.phtml</argument>
         </action>
     </reference>

@@ -69,12 +69,12 @@ class Design implements \Magento\Core\Model\View\DesignInterface
     protected $_themeFactory;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     private $_storeConfig;
 
@@ -90,15 +90,15 @@ class Design implements \Magento\Core\Model\View\DesignInterface
      *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param array $themes
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $storeConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $storeConfig,
         array $themes
     ) {
         $this->_storeManager = $storeManager;

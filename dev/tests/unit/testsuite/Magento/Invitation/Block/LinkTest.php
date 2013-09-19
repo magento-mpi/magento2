@@ -21,7 +21,7 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
     {
         $url = 'http://test.exmaple.com/test';
 
-        $invitationHelper = $this->getMockBuilder('Magento_Invitation_Helper_Data')
+        $invitationHelper = $this->getMockBuilder('Magento\Invitation\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -30,7 +30,7 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
         );
 
         $block = $this->_objectManagerHelper->getObject(
-            'Magento_Invitation_Block_Link',
+            'Magento\Invitation\Block\Link',
             array(
                 'invitationHelper' => $invitationHelper,
             )
@@ -57,17 +57,17 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
      */
     public function testToHtml($isLoggedIn, $isEnabledOnFront)
     {
-        /** @var Magento_Customer_Model_Session $customerSession |PHPUnit_Framework_MockObject_MockObject */
-        $customerSession = $this->getMockBuilder('Magento_Customer_Model_Session')
+        /** @var \Magento\Customer\Model\Session $customerSession |PHPUnit_Framework_MockObject_MockObject */
+        $customerSession = $this->getMockBuilder('Magento\Customer\Model\Session')
             ->disableOriginalConstructor()->getMock();
 
-        /** @var Magento_Invitation_Model_Config $invitationConfig |PHPUnit_Framework_MockObject_MockObject */
-        $invitationConfig = $this->getMockBuilder('Magento_Invitation_Model_Config')
+        /** @var \Magento\Invitation\Model\Config $invitationConfig |PHPUnit_Framework_MockObject_MockObject */
+        $invitationConfig = $this->getMockBuilder('Magento\Invitation\Model\Config')
             ->disableOriginalConstructor()->getMock();
 
-        /** @var Magento_Invitation_Block_Link $block */
+        /** @var \Magento\Invitation\Block\Link $block */
         $block = $this->_objectManagerHelper->getObject(
-            'Magento_Invitation_Block_Link',
+            'Magento\Invitation\Block\Link',
             array(
                 'customerSession' => $customerSession,
                 'invitationConfiguration' => $invitationConfig,

@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="One Page Checkout Progress" type="fragment" owner="checkout_onepage_index">
-    <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-        <block class="Magento_Checkout_Block_Onepage_Progress" name="progress" template="onepage/progress.phtml">
-            <block class="Magento_Checkout_Block_Onepage_Payment_Info" name="payment_info">
+    <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
+        <block class="Magento\Checkout\Block\Onepage\Progress" name="progress" template="onepage/progress.phtml">
+            <block class="Magento\Checkout\Block\Onepage\Payment\Info" name="payment_info">
                 <action method="setInfoTemplate">
                     <argument name="method" xsi:type="string"/>
                     <argument name="template" xsi:type="string"/>

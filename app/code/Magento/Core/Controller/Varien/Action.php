@@ -202,12 +202,12 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
      * @param   bool $generateBlocks
      * @param   bool $generateXml
      * @return  $this
-     * @throws  RuntimeException
+     * @throws  \RuntimeException
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
         if ($this->_isLayoutLoaded) {
-            throw new RuntimeException('Layout must be loaded only once.');
+            throw new \RuntimeException('Layout must be loaded only once.');
         }
         // if handles were specified in arguments load them first
         if (false !== $handles && '' !== $handles) {
@@ -549,7 +549,7 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
         $this->_initDesign();
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
-            && $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/browser_capabilities/cookies')
+            && $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('web/browser_capabilities/cookies')
         ) {
             $this->_forward('noCookies', 'index', 'core');
             return;
@@ -905,7 +905,7 @@ class Action extends \Magento\Core\Controller\Varien\ActionAbstract
         $controller = $this->getRequest()->getControllerName();
         $action = $this->getRequest()->getActionName();
 
-        $rewrite = $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/routers/' . $route . '/rewrite/' . $controller);
+        $rewrite = $this->_objectManager->get('Magento\Core\Model\Config')->getNode('global/routers/' . $route . '/rewrite/' . $controller);
         if (!$rewrite) {
             return false;
         }

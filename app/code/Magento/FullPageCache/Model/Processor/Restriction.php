@@ -63,7 +63,9 @@ class Restriction
             return false;
         }
 
-        if ($this->_environment->hasCookie(self::NO_CACHE_COOKIE)) {
+        if ($this->_environment->hasCookie(
+              \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
+        ) {
             return false;
         }
 

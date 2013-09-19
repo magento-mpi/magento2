@@ -73,30 +73,30 @@ class Stock extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Stock model factory
      *
-     * @var Magento_CatalogInventory_Model_StockFactory
+     * @var \Magento\CatalogInventory\Model\StockFactory
      */
     protected $_stockFactory;
     
     /**
      * Construct
      * 
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_CatalogInventory_Model_StockFactory $stockFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\CatalogInventory\Model\StockFactory $stockFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
+        \Magento\Core\Model\Resource $resource,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_CatalogInventory_Model_StockFactory $stockFactory
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\CatalogInventory\Model\StockFactory $stockFactory
     ) {
         parent::__construct($resource);
         $this->_catalogInventoryData = $catalogInventoryData;
@@ -204,7 +204,7 @@ class Stock extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function setInStockFilterToCollection($collection)
     {
         $manageStock = $this->_coreStoreConfig
-            ->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+            ->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK);
         $cond = array(
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0',

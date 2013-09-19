@@ -44,12 +44,12 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * attributes This behavior may change in child classes
      *
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Directory\Helper\Data $directoryData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_directoryData = $directoryData;
@@ -82,7 +82,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     {
         $result = $this->getTracking($tracking);
 
-        if ($result instanceof Magento_Shipping_Model_Tracking_Result) {
+        if ($result instanceof \Magento\Shipping\Model\Tracking\Result) {
             $trackings = $result->getAllTrackings();
             if ($trackings) {
                 return $trackings[0];

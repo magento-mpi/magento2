@@ -61,20 +61,20 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\Core\Model\View\FileSystem');
 
-        /** @var $configModel Magento_Core_Model_Config */
-        $configModel = $objectManager->get('Magento_Core_Model_Config');
+        /** @var $configModel \Magento\Core\Model\Config */
+        $configModel = $objectManager->get('Magento\Core\Model\Config');
         $configModel->setModuleDir('Magento_Core', 'i18n', __DIR__ . '/_files/Magento/Core/i18n');
         $configModel->setModuleDir('Magento_Catalog', 'i18n',
             __DIR__ . '/_files/Magento/Catalog/i18n');
 
-        /** @var Magento_Core_Model_View_Design _designModel */
+        /** @var \Magento\Core\Model\View\Design _designModel */
         $this->_designModel = $this->getMock('Magento\Core\Model\View\Design',
             array('getDesignTheme'),
             array(
-                $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
-                $objectManager->get('Magento_Core_Model_Theme_FlyweightFactory'),
-                $objectManager->get('Magento_Core_Model_Config'),
-                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
+                $objectManager->get('Magento\Core\Model\Theme\FlyweightFactory'),
+                $objectManager->get('Magento\Core\Model\Config'),
+                $objectManager->get('Magento\Core\Model\Store\Config'),
                 array('frontend' => 'test_default')
             )
         );

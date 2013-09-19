@@ -9,9 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="checkout.cart.top_methods">
-        <block class="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.top" template="link.phtml" before="-"/>
+        <block class="Magento\GoogleCheckout\Block\Link" name="checkout.cart.methods.googlecheckout.top" template="link.phtml" before="-"/>
     </reference>
     <reference name="checkout.cart.methods">
-        <block class="Magento_GoogleCheckout_Block_Link" name="checkout.cart.methods.googlecheckout.bottom" template="link.phtml"/>
+        <block class="Magento\GoogleCheckout\Block\Link" name="checkout.cart.methods.googlecheckout.bottom" template="link.phtml"/>
     </reference>
 </layout>

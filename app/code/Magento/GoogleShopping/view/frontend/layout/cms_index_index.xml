@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="head">
-        <block class="Magento_GoogleShopping_Block_SiteVerification"/>
+        <block class="Magento\GoogleShopping\Block\SiteVerification"/>
     </reference>
 </layout>

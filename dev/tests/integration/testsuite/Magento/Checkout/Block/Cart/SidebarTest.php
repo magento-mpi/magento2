@@ -8,13 +8,13 @@
 class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Checkout_Block_Cart_Sidebar
+     * @var \Magento\Checkout\Block\Cart\Sidebar
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Checkout_Block_Cart_Sidebar');
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Checkout\Block\Cart\Sidebar');
     }
 
     public function testGetCacheKeyInfo()
@@ -24,7 +24,7 @@ class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
             'default',
             $this->_block->getTemplateFile(),
             'template' => null,
-            'item_renders' => 'default|Magento_Checkout_Block_Cart_Item_Renderer|cart/item/default.phtml',
+            'item_renders' => 'default|Magento\Checkout\Block\Cart\Item\Renderer|cart/item/default.phtml',
         ), $this->_block->getCacheKeyInfo());
     }
 }

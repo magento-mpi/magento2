@@ -38,7 +38,7 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        if ($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('rss/config/active')) {
+        if ($this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('rss/config/active')) {
             $this->loadLayout();
             $this->renderLayout();
         } else {
@@ -66,7 +66,7 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function wishlistAction()
     {
-        if ($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('rss/wishlist/active')) {
+        if ($this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('rss/wishlist/active')) {
             $wishlist = $this->_getWishlist();
             if ($wishlist && ($wishlist->getVisibility()
                 || \Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)

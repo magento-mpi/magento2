@@ -29,17 +29,17 @@ class Observer
     protected $_pageCacheData = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * @param \Magento\PageCache\Helper\Data $pageCacheData
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_PageCache_Helper_Data $pageCacheData,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\PageCache\Helper\Data $pageCacheData,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_pageCacheData = $pageCacheData;
         $this->_coreConfig = $coreConfig;

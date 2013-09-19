@@ -31,7 +31,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     /**
      * Event collection factory
      *
-     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
      */
     protected $_eventCollectionFactory;
     
@@ -40,17 +40,17 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      * 
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
-     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
+     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_CatalogEvent_Helper_Data $catalogEventData,
-        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $eventCollectionFactory,
+        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $locale, $data);
@@ -103,7 +103,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
             }
 
             if (!empty($allIds)) {
-                /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $eventCollection */
+                /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $eventCollection */
                 $eventCollection = $this->_eventCollectionFactory->create();
                 $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
                     ->addVisibilityFilter()

@@ -12,7 +12,7 @@
  * Class to work with gz archives
  *
  * @category    Magento
- * @package     Magento_Archive
+ * @package     \Magento\Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Archive;

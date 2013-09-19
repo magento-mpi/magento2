@@ -16,14 +16,14 @@
             <value type="argument">Mage::PARAM_MODE</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Config_Modules">
+    <type name="Magento\Core\Model\Config_Modules">
         <!-- Comment within type node -->
         <param name="storage">
             <!-- Comment within param node -->
-            <instance type="Magento_Core_Model_Config_Storage_Modules" shared="false" />
+            <instance type="Magento\Core\Model\Config\Storage_Modules" shared="false" />
         </param>
-        <plugin name="simple_modules_plugin" type="Magento_Core_Model_Config_Modules_Plugin" disabled="true" sortOrder="10" />
-        <plugin name="simple_modules_plugin_advanced" type="Magento_Core_Model_Config_Modules_PluginAdvanced" />
+        <plugin name="simple_modules_plugin" type="Magento\Core\Model\Config_Modules_Plugin" disabled="true" sortOrder="10" />
+        <plugin name="simple_modules_plugin_advanced" type="Magento\Core\Model\Config_Modules_PluginAdvanced" />
         <plugin name="overridden_plugin" sortOrder="30" disabled="true" />
     </type>
     <type name="Magento_Http_Handler_Composite" shared="false">

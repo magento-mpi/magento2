@@ -101,7 +101,7 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
         if ($head) {
             $head->addChild(
                 'jquery-fileUploader-css-jquery-fileupload-ui-css',
-                'Magento_Page_Block_Html_Head_Css',
+                'Magento\Page\Block\Html\Head\Css',
                 array(
                     'file' => 'jquery/fileUploader/css/jquery.fileupload-ui.css'
                 )

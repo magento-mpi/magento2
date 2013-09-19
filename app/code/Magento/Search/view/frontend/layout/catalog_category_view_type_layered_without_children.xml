@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="left">
         <remove name="catalog.leftnav"/>
-        <block class="Magento_Search_Block_Catalog_Layer_View" name="magentocatalog.leftnav" before="-" template="Magento_Catalog::layer/view.phtml"/>
+        <block class="Magento\Search\Block\Catalog\Layer\View" name="magentocatalog.leftnav" before="-" template="Magento_Catalog::layer/view.phtml"/>
     </reference>
 </layout>

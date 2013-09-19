@@ -32,12 +32,12 @@ class Data extends \Magento\Core\Helper\Data
     protected $_coreData = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Http $coreHttp
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Helper\Http $coreHttp
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
@@ -45,7 +45,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Helper\Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem
     ) {

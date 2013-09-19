@@ -104,7 +104,7 @@ class Factory
         /** @var $config \Magento\DesignEditor\Model\Config\Control\AbstractControl */
         $config = $this->_objectManager->create($class, array('configFiles' => $files));
         return $this->_objectManager->create(
-            'Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration', array(
+            'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration', array(
                 'configuration' => $config,
                 'theme'         => $theme,
                 'parentTheme'   => $parentTheme

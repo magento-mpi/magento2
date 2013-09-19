@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_giftregistry_grid_block"/>
     <reference name="content">
-        <block class="Magento_GiftRegistry_Block_Adminhtml_Giftregistry" name="adminhtml.giftregistry.grid.container"/>
+        <block class="Magento\GiftRegistry\Block\Adminhtml\Giftregistry" name="adminhtml.giftregistry.grid.container"/>
     </reference>
 </layout>

@@ -8,16 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Website Closed Stub Page" type="page" parent="cms_page_view">
-    <block class="Magento_Page_Block_Html" name="root" output="1" template="1column.phtml">
+    <block class="Magento\Page\Block\Html" name="root" output="1" template="1column.phtml">
         <container name="after_body_start" as="after_body_start" label="Page Top"/>
-        <block class="Magento_Page_Block_Html_Head" name="head" as="head"/>
-        <block class="Magento_Core_Block_Messages" name="global_messages" as="global_messages"/>
-        <block class="Magento_Core_Block_Messages" name="messages" as="messages"/>
+        <block class="Magento\Page\Block\Html\Head" name="head" as="head"/>
+        <block class="Magento\Core\Block\Messages" name="global_messages" as="global_messages"/>
+        <block class="Magento\Core\Block\Messages" name="messages" as="messages"/>
         <container name="content" as="content" label="Main Content Area">
             <container name="cms.wrapper" label="CMS Content Wrapper" htmlTag="div" htmlClass="std">
-                <block class="Magento_WebsiteRestriction_Block_Cms_Stub" name="cms_page"/>
+                <block class="Magento\WebsiteRestriction\Block\Cms\Stub" name="cms_page"/>
             </container>
         </container>
-        <block class="Magento_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml"/>
+        <block class="Magento\Page\Block\Html\Footer" name="footer" as="footer" template="html/footer.phtml"/>
     </block>
 </layout>

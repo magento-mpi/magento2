@@ -13,12 +13,12 @@ class ProductTaxClass
     implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Tax_Model_Resource_TaxClass_CollectionFactory
+     * @var \Magento\Tax\Model\Resource\TaxClass\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Tax_Model_Resource_TaxClass_CollectionFactory $collectionFactory
+     * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $collectionFactory
      */
     public function __construct(\Magento\Tax\Model\Resource\TaxClass\CollectionFactory $collectionFactory)
     {

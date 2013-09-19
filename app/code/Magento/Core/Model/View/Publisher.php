@@ -39,11 +39,6 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
     /**#@-*/
 
     /**
-     * @var Magento_Filesystem
-     */
-    const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
-
-    /**
      * @var \Magento\Filesystem
      */
     protected $_filesystem;
@@ -82,10 +77,10 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
      * @param bool $allowFilesDuplication
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Helper_Css $cssHelper,
-        Magento_Core_Model_View_Service $viewService,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Helper\Css $cssHelper,
+        \Magento\Core\Model\View\Service $viewService,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
         $allowFilesDuplication
     ) {
         $this->_filesystem = $filesystem;

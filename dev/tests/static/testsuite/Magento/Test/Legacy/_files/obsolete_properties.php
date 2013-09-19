@@ -23,7 +23,7 @@ return array(
     array('_childrenHtmlCache', 'Magento\Core\Block\AbstractBlock'),
     array('_childGroups', 'Magento\Core\Block\AbstractBlock'),
     array('_combineHistory'),
-    array('_config', 'Magento_Core_Model_Design_Package'),
+    array('_config', 'Magento\Core\Model\Design_Package'),
     array('_config', 'Magento\Core\Model\Logger', '_dirs'),
     array('_configModel', 'Magento\Backend\Model\Menu\DirectorAbstract'),
     array('_configuration', 'Magento\Index\Model\Lock\Storage', '_dirs'),

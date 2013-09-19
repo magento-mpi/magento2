@@ -9,15 +9,15 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Adminhtml_Block_Cms_Block" name="cms_block">
-            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.cms.block.grid" as="grid">
+        <block class="Magento\Adminhtml\Block\Cms\Block" name="cms_block">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.cms.block.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">cmsBlockGrid</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_Cms_Model_Resource_Block_Grid_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Block\Grid\Collection</argument>
                     <argument name="default_sort" xsi:type="string">block_identifier</argument>
                     <argument name="default_dir" xsi:type="string">ASC</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.cms.block.grid.columnSet" as="grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.cms.block.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <argument name="id" xsi:type="string">cmsBlockGrid</argument>
                         <argument name="rowUrl" xsi:type="array">
@@ -27,21 +27,21 @@
                             </item>
                         </argument>
                     </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="title">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="title">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Title</argument>
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="index" xsi:type="string">title</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="identifier">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="identifier">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Identifier</argument>
                             <argument name="align" xsi:type="string">left</argument>
                             <argument name="index" xsi:type="string">identifier</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="store_id">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Store View</argument>
                             <argument name="index" xsi:type="string">store_id</argument>
@@ -51,7 +51,7 @@
                             <argument name="sortable" xsi:type="string">0</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_active">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="is_active">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Status</argument>
                             <argument name="index" xsi:type="string">is_active</argument>
@@ -68,7 +68,7 @@
                             </argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="creation_time">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="creation_time">
                             <arguments>
                                 <argument name="header" xsi:type="string" translate="true">Identifier</argument>
                                 <argument name="align" xsi:type="string">left</argument>
@@ -109,7 +109,7 @@
                             <argument name="index" xsi:type="string">creation_time</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="update_time">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="update_time">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Modified</argument>
                             <argument name="type" xsi:type="string">datetime</argument>

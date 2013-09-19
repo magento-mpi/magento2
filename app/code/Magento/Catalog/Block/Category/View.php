@@ -64,12 +64,12 @@ class View extends \Magento\Core\Block\Template
                 $headBlock->setKeywords($keywords);
             }
             //@todo: move canonical link to separate block
-            if ($this->helper('Magento_Catalog_Helper_Category')->canUseCanonicalTag()
+            if ($this->helper('Magento\Catalog\Helper\Category')->canUseCanonicalTag()
                 && !$headBlock->getChildBlock('magento-page-head-category-canonical-link')
             ) {
                 $headBlock->addChild(
                     'magento-page-head-category-canonical-link',
-                    'Magento_Page_Block_Html_Head_Link',
+                    'Magento\Page\Block\Html\Head\Link',
                     array(
                         'url' => $category->getUrl(),
                         'properties' => array('attributes' => array('rel' => 'canonical'))
@@ -142,7 +142,7 @@ class View extends \Magento\Core\Block\Template
      */
     public function isProductMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode() == Magento_Catalog_Model_Category::DM_PRODUCT;
+        return $this->getCurrentCategory()->getDisplayMode() == \Magento\Catalog\Model\Category::DM_PRODUCT;
     }
 
     /**
@@ -151,7 +151,7 @@ class View extends \Magento\Core\Block\Template
      */
     public function isMixedMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode() == Magento_Catalog_Model_Category::DM_MIXED;
+        return $this->getCurrentCategory()->getDisplayMode() == \Magento\Catalog\Model\Category::DM_MIXED;
     }
 
     /**

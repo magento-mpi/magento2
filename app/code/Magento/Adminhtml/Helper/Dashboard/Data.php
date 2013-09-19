@@ -72,7 +72,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getChartDataHash($data)
     {
-        $secret = (string)$this->_config->getNode(Magento_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE);
+        $secret = (string)$this->_config->getNode(\Magento\Core\Model\Config\Primary::XML_PATH_INSTALL_DATE);
         return md5($data . $secret);
     }
 }

@@ -64,7 +64,7 @@ class DefaultRenderer
      * Retrive format type object
      *
      * @param  \Magento\Object $type
-     * @return Magento_Customer_Model_Address_Renderer_Default
+     * @return \Magento\Customer\Model\Address_Renderer_Default
      */
     public function setType(\Magento\Object $type)
     {

@@ -26,7 +26,7 @@ class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Fra
     }
 
     /**
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @param array $expectedResult
      * @dataProvider parseDataProvider
      */

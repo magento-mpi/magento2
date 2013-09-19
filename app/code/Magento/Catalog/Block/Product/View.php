@@ -86,13 +86,13 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
                 $headBlock->setDescription($this->_coreString->substr($product->getDescription(), 0, 255));
             }
             //@todo: move canonical link to separate block
-            if ($this->helper('Magento_Catalog_Helper_Product')->canUseCanonicalTag()
+            if ($this->helper('Magento\Catalog\Helper\Product')->canUseCanonicalTag()
                 && !$headBlock->getChildBlock('magento-page-head-product-canonical-link')
             ) {
                 $params = array('_ignore_category'=>true);
                 $headBlock->addChild(
                     'magento-page-head-product-canonical-link',
-                    'Magento_Page_Block_Html_Head_Link',
+                    'Magento\Page\Block\Html\Head\Link',
                     array(
                         'url' => $product->getUrlModel()->getUrl($product, $params),
                         'properties' => array('attributes' => array('rel' => 'canonical'))

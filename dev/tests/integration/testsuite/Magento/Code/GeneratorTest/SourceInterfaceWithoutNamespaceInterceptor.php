@@ -1,6 +1,6 @@
 <?php
 /**
- * Interceptor class for Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace
+ * Interceptor class for \Magento\Code\GeneratorTest_SourceInterfaceWithoutNamespace
  *
  * {license_notice}
  *
@@ -8,7 +8,7 @@
  * @license   {license_link}
  */
 class Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor
-    implements \Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace
+    implements Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace
 {
     /**
      * Object Manager factory
@@ -34,7 +34,7 @@ class Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor
     /**
      * Subject
      *
-     * @var \Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace
+     * @var \\Magento\Code\GeneratorTest_SourceInterfaceWithoutNamespace
      */
     protected $_subject = null;
 
@@ -142,8 +142,8 @@ class Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespaceInterceptor
      */
     public function __wakeup()
     {
-        $this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        $this->_pluginList = $this->_objectManager->get('Magento_Interception_PluginList');
+        $this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $this->_pluginList = $this->_objectManager->get('Magento\Interception\PluginList');
     }
 
     /**

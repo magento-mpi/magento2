@@ -63,17 +63,17 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Url $coreUrl,
-        Magento_Checkout_Helper_Data $checkoutData,
-        Magento_Persistent_Helper_Session $persistentSession,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Persistent\Helper\Session $persistentSession,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;

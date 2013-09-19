@@ -263,7 +263,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
                 if (is_array($options)) {
                     if (isset($options['start_datetime'])) {
                         $startDatetime = new \Zend_Date($options['start_datetime'],
-                            Magento_Date::DATETIME_INTERNAL_FORMAT);
+                            \Magento\Date::DATETIME_INTERNAL_FORMAT);
                         $this->setNearestStartDatetime($startDatetime);
                     }
                 }

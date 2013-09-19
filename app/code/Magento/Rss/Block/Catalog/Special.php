@@ -64,8 +64,8 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
             ->addAttributeToSort('name', 'asc')
         ;
 
-        $newurl = Mage::getUrl('rss/catalog/special/store_id/' . $storeId);
-        $title = __('%1 - Special Products', Mage::app()->getStore()->getFrontendName());
+        $newurl = \Mage::getUrl('rss/catalog/special/store_id/' . $storeId);
+        $title = __('%1 - Special Products', \Mage::app()->getStore()->getFrontendName());
         $lang = $this->_storeConfig->getConfig('general/locale/code');
 
         $rssObj = \Mage::getModel('Magento\Rss\Model\Rss');

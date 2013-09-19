@@ -47,9 +47,9 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
     {
         $files = array();
         foreach (glob(__DIR__ . '/_files/layout/*.xml') as $filename) {
-            $files[] = new Magento_Core_Model_Layout_File($filename, 'Magento_Core');
+            $files[] = new \Magento\Core\Model\Layout\File($filename, 'Magento_Core');
         }
-        $fileSource = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
+        $fileSource = $this->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
         $fileSource->expects($this->any())->method('getFiles')->will($this->returnValue($files));
 
         $design = $this->getMockForAbstractClass('Magento\Core\Model\View\DesignInterface');
@@ -70,7 +70,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->_theme->expects($this->any())->method('getArea')->will($this->returnValue('area'));
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(100));
 
-        $this->_model = new Magento_Core_Model_Layout_Merge(
+        $this->_model = new \Magento\Core\Model\Layout\Merge(
             $design,
             $storeManager,
             $fileSource,

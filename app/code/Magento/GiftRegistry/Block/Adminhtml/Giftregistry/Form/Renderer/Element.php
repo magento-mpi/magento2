@@ -64,7 +64,7 @@ class Element
     /**
      * Disable field in default value using case
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Fieldset_Element
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry_Form_Renderer_Fieldset_Element
      */
     public function checkFieldDisable()
     {

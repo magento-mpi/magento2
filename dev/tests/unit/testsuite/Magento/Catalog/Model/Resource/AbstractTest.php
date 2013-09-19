@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Entity_Attribute_Set
+ * Test class for \Magento\Catalog\Model\Entity\Attribute_Set
  */
 class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_TestCase
 {

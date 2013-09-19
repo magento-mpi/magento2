@@ -110,7 +110,7 @@ class Config implements \Magento\Core\Model\ConfigInterface
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -121,17 +121,17 @@ class Config implements \Magento\Core\Model\ConfigInterface
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Core\Model\Config\SectionPool $sectionPool
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_ObjectManager $objectManager,
-        Magento_Core_Model_Config_StorageInterface $storage,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Core_Model_Config_SectionPool $sectionPool,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\ObjectManager $objectManager,
+        \Magento\Core\Model\Config\StorageInterface $storage,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Core\Model\Config\SectionPool $sectionPool,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         \Magento\Profiler::start('config_load');
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -349,7 +349,7 @@ class Config implements \Magento\Core\Model\ConfigInterface
      */
     public function shouldUrlBeSecure($url)
     {
-        if (!$this->_coreStoreConfig->getConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND)) {
             return false;
         }
 

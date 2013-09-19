@@ -168,18 +168,18 @@ class Translate
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
      * @param \Magento\Core\Model\ModuleList $moduleList
      * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Locale_Hierarchy_Config $config,
-        Magento_Core_Model_Translate_Factory $translateFactory,
-        Magento_Cache_FrontendInterface $cache,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Phrase_Renderer_Placeholder $placeholderRender,
-        Magento_Core_Model_ModuleList $moduleList,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\Core\Model\Locale\Hierarchy\Config $config,
+        \Magento\Core\Model\Translate\Factory $translateFactory,
+        \Magento\Cache\FrontendInterface $cache,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Phrase\Renderer\Placeholder $placeholderRender,
+        \Magento\Core\Model\ModuleList $moduleList,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -285,7 +285,7 @@ class Translate
      */
     public function processAjaxPost($translate)
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
         $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\Core\Model\Cache\TypeListInterface');
         $cacheTypeList->invalidate(\Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER);
         /** @var $parser \Magento\Core\Model\Translate\InlineParser */

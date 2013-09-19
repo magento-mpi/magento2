@@ -16,22 +16,22 @@ namespace Magento\GiftRegistry\Block;
 class Link extends \Magento\Page\Block\Link\Current
 {
     /**
-     * @var Magento_GiftRegistry_Helper_Data
+     * @var \Magento\GiftRegistry\Helper\Data
      *
      * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftHelper = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_GiftRegistry_Helper_Data $giftHelper
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Helper\Data $giftHelper
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        Magento_GiftRegistry_Helper_Data $giftHelper,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Helper\Data $giftHelper,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

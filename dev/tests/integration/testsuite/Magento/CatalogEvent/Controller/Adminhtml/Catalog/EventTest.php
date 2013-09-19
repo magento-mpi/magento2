@@ -24,9 +24,9 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Magent
      */
     public function testEditActionMultipleStore()
     {
-        /** @var $event Magento_CatalogEvent_Model_Event */
-        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_CatalogEvent_Model_Event');
-        $event->load(Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE, 'display_state');
+        /** @var $event \Magento\CatalogEvent\Model\Event */
+        $event = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\CatalogEvent\Model\Event');
+        $event->load(\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE, 'display_state');
         $this->dispatch('backend/admin/catalog_event/edit/id/' . $event->getId());
         $body = $this->getResponse()->getBody();
 

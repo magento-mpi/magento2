@@ -9,13 +9,13 @@
 class Magento_Filter_Template_SimpleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Filter_Template_Simple
+     * @var \Magento\Filter\Template\Simple
      */
     protected $_filter;
 
     protected function setUp()
     {
-        $this->_filter = new Magento_Filter_Template_Simple;
+        $this->_filter = new \Magento\Filter\Template\Simple;
     }
 
     public function testFilter()

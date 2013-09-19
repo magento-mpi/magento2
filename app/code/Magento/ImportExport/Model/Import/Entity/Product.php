@@ -304,7 +304,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -315,7 +315,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ImportExport\Helper\Data $importExportData
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -325,7 +325,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Core\Helper\String $coreString,
         \Magento\Core\Helper\Data $coreData,
         \Magento\ImportExport\Helper\Data $importExportData,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -534,7 +534,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             }
             if (! $model instanceof \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType) {
                 \Mage::throwException(__('Entity type model must be an instance of '
-                    . '\Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType'));
+                    . 'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType'));
             }
             if ($model->isSuitable()) {
                 $this->_productTypeModels[$type] = $model;

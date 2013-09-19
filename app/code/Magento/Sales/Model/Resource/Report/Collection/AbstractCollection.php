@@ -31,7 +31,7 @@ class AbstractCollection
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Sales_Model_Resource_Report $resource
+     * @param \Magento\Sales\Model\Resource\Report $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,

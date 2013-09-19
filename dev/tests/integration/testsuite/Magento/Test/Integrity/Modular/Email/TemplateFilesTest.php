@@ -27,8 +27,8 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
     public function loadBaseContentsDataProvider()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $templateModel = $objectManager->create('Magento_Core_Model_Email_Template');
-        $configModel = $objectManager->get('Magento_Core_Model_Config');
+        $templateModel = $objectManager->create('Magento\Core\Model\Email\Template');
+        $configModel = $objectManager->get('Magento\Core\Model\Config');
         
         $data = array();
         foreach ($templateModel->getDefaultTemplates() as $row) {

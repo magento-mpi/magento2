@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="head">
-        <block class="Magento_Page_Block_Html_Head_Script" name="magento-authorizenet-js-directpost-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="magento-authorizenet-js-directpost-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Pbridge::js/pbridge.js</argument>
             </arguments>

@@ -30,7 +30,7 @@ class Serializer extends \Magento\Core\Block\Template
         if (is_string($grid)) {
             $grid = $this->getLayout()->getBlock($grid);
         }
-        if ($grid instanceof Magento_Backend_Block_Widget_Grid) {
+        if ($grid instanceof \Magento\Backend\Block\Widget\Grid) {
             $this->setGridBlock($grid)
                 ->setSerializeData($grid->{$this->getCallback()}());
         }

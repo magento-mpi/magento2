@@ -47,7 +47,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * @return Magento_Checkout_Controller_Onepage|null
+     * @return \Magento\Checkout\Controller\Onepage|null
      */
     public function preDispatch()
     {
@@ -188,8 +188,8 @@ class Onepage extends \Magento\Checkout\Controller\Action
             return;
         }
         if (!$quote->validateMinimumAmount()) {
-            $error = $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('sales/minimum_order/error_message') ?
-                $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('sales/minimum_order/error_message') :
+            $error = $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('sales/minimum_order/error_message') ?
+                $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('sales/minimum_order/error_message') :
                 __('Subtotal must exceed minimum order amount');
 
             \Mage::getSingleton('Magento\Checkout\Model\Session')->addError($error);

@@ -48,7 +48,7 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_model->apply(
             $objectManager->get('Magento_TestFramework_Request'),
-            Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text')
+            Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
         );
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
@@ -61,9 +61,6 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
         $request = $objectManager->get('Magento_TestFramework_Request');
         $request->setParam('cat', 3);
         $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
-
-        /** @var $category Magento_Catalog_Model_Category */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = $objectManager->get('Magento\Core\Model\Registry')->registry('current_category_filter');

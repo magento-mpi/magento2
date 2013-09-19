@@ -547,10 +547,10 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         if ($allowDuplication !== null) {
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             $publisher = $objectManager->create(
-                'Magento_Core_Model_View_Publisher',
+                'Magento\Core\Model\View\Publisher',
                 array('allowFilesDuplication' => $allowDuplication)
             );
-            $objectManager->addSharedInstance($publisher, 'Magento_Core_Model_View_Publisher');
+            $objectManager->addSharedInstance($publisher, 'Magento\Core\Model\View\Publisher');
         }
 
         // Reinit model with new directories

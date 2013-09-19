@@ -21,7 +21,7 @@ class Container extends \Magento\Eav\Model\Entity\Attribute\Source\Config
 {
     protected $_configNodePath;
 
-    public function __construct(Magento_Core_Model_Config $coreConfig)
+    public function __construct(\Magento\Core\Model\Config $coreConfig)
     {
         parent::__construct($coreConfig);
         $this->_configNodePath = 'global/catalog/product/design/options_container';

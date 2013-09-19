@@ -122,7 +122,7 @@ class DefaultRenderer extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     /**
      * Initialize gift message for entity
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Edit_Items_Grid_Renderer_Name_Giftmessage
+     * @return \Magento\Adminhtml\Block\Sales\Order_Edit_Items_Grid_Renderer_Name_Giftmessage
      */
     protected function _initMessage()
     {

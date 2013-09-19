@@ -34,7 +34,7 @@ class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCa
      * Register themes by pattern
      * Use this method only with database isolation
      *
-     * @return Magento_Core_Model_Theme_RegistrationTest
+     * @return \Magento\Core\Model\Theme\RegistrationTest
      */
     protected function registerThemes()
     {

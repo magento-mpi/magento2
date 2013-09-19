@@ -115,19 +115,19 @@ class Configurable
     protected $_superAttrValuesCombs = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Object constructor.
      *
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $params
-     * @return \Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
+     * @return \\Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
      */
     public function __construct(
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         array $params
     ) {
         parent::__construct($params);

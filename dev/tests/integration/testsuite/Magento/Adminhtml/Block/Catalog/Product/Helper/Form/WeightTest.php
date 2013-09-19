@@ -12,19 +12,19 @@
 class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Data_Form_Factory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
     protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_formFactory = $this->_objectManager->create('Magento_Data_Form_Factory');
+        $this->_formFactory = $this->_objectManager->create('Magento\Data\Form\Factory');
     }
 
     /**
@@ -33,11 +33,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
      */
     public function testIsVirtualChecked($type)
     {
-        /** @var $currentProduct Magento_Catalog_Model_Product */
-        $currentProduct = $this->_objectManager->create('Magento_Catalog_Model_Product');
+        /** @var $currentProduct \Magento\Catalog\Model\Product */
+        $currentProduct = $this->_objectManager->create('Magento\Catalog\Model\Product');
         $currentProduct->setTypeInstance($this->_objectManager->create($type));
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight */
-        $block = $this->_objectManager->create('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight */
+        $block = $this->_objectManager->create('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight');
         $form = $this->_formFactory->create();
         $form->setDataObject($currentProduct);
         $block->setForm($form);
@@ -63,12 +63,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
      */
     public function testIsVirtualUnchecked($type)
     {
-        /** @var $currentProduct Magento_Catalog_Model_Product */
-        $currentProduct = $this->_objectManager->create('Magento_Catalog_Model_Product');
+        /** @var $currentProduct \Magento\Catalog\Model\Product */
+        $currentProduct = $this->_objectManager->create('Magento\Catalog\Model\Product');
         $currentProduct->setTypeInstance($this->_objectManager->create($type));
 
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight */
-        $block = $this->_objectManager->create('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight */
+        $block = $this->_objectManager->create('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight');
         $form = $this->_formFactory->create();
         $form->setDataObject($currentProduct);
         $block->setForm($form);

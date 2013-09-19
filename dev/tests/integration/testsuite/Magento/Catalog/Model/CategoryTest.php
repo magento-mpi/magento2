@@ -13,7 +13,7 @@
  * Test class for \Magento\Catalog\Model\Category.
  * - general behaviour is tested
  *
- * @see Magento_Catalog_Model_CategoryTreeTest
+ * @see \Magento\Catalog\Model\CategoryTreeTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
 class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase

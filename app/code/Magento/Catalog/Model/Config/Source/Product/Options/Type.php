@@ -22,17 +22,17 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
     const PRODUCT_OPTIONS_GROUPS_PATH = 'global/catalog/product/options/custom/groups';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreConfig = $coreConfig;
     }

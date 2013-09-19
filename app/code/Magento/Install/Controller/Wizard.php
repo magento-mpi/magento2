@@ -416,8 +416,8 @@ class Wizard extends \Magento\Install\Controller\Action
     {
         $this->_checkIfInstalled();
 
-        $date = (string)$this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/install/date');
-        if ($date !== Magento_Install_Model_Installer_Config::TMP_INSTALL_DATE_VALUE) {
+        $date = (string)$this->_objectManager->get('Magento\Core\Model\Config')->getNode('global/install/date');
+        if ($date !== \Magento\Install\Model\Installer\Config::TMP_INSTALL_DATE_VALUE) {
             $this->_redirect('*/*');
             return;
         }

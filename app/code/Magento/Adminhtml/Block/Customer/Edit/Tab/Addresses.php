@@ -115,7 +115,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 
         $addressModel = \Mage::getModel('Magento\Customer\Model\Address');
         $addressModel->setCountryId($this->_coreData->getDefaultCountry($customer->getStore()));
-        /** @var $addressForm Magento_Customer_Model_Form */
+        /** @var $addressForm \Magento\Customer\Model\Form */
         $addressForm = \Mage::getModel('Magento\Customer\Model\Form');
         $addressForm->setFormCode('adminhtml_customer_address')
             ->setEntity($addressModel)

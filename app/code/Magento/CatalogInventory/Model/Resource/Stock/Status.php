@@ -19,28 +19,28 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Website model factory
      *
-     * @var Magento_Core_Model_WebsiteFactory
+     * @var \Magento\Core\Model\WebsiteFactory
      */
     protected $_websiteFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_WebsiteFactory $websiteFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_WebsiteFactory $websiteFactory
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\WebsiteFactory $websiteFactory
     ) {
         parent::__construct($resource);
 
@@ -166,7 +166,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getWebsiteStores()
     {
-        /** @var \Magento_Core_Model_Website $website */
+        /** @var \\Magento\Core\Model\Website $website */
         $website = $this->_websiteFactory->create();
         return $this->_getReadAdapter()->fetchPairs($website->getDefaultStoresSelect(false));
     }

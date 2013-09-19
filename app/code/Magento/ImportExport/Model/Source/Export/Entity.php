@@ -20,14 +20,14 @@ namespace Magento\ImportExport\Model\Source\Export;
 class Entity
 {
     /**
-     * @var Magento_ImportExport_Model_Config
+     * @var \Magento\ImportExport\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_ImportExport_Model_Config $config
+     * @param \Magento\ImportExport\Model\Config $config
      */
-    public function __construct(Magento_ImportExport_Model_Config $config)
+    public function __construct(\Magento\ImportExport\Model\Config $config)
     {
         $this->_config = $config;
     }
@@ -40,7 +40,7 @@ class Entity
     public function toOptionArray()
     {
         return $this->_config->getModelsComboOptions(
-            Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES, true
+            \Magento\ImportExport\Model\Export::CONFIG_KEY_ENTITIES, true
         );
     }
 }

@@ -15,7 +15,7 @@
             <index_setup>
                 <setup>
                     <module>Magento_Index</module>
-                    <class>Magento_Index_Model_Resource_Setup</class>
+                    <class>Magento\Index\Model\Resource\Setup</class>
                 </setup>
             </index_setup>
         </resources>

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="customer-account-navigation">
-        <block class="Magento_Page_Block_Link_Current"
+        <block class="Magento\Page\Block\Link\Current"
                name="customer-account-navigation-newsletter-subscriptions-link">
             <arguments>
                 <argument name="path" xsi:type="string">newsletter/manage</argument>

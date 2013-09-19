@@ -75,7 +75,7 @@ class Index
             }
             $customerSession->setBeforeWishlistRequest($this->getRequest()->getParams());
         }
-        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag('wishlist/general/active')) {
+        if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag('wishlist/general/active')) {
             $this->norouteAction();
             return;
         }
@@ -676,8 +676,8 @@ class Index
             try {
                 foreach ($emails as $email) {
                     $emailModel->sendTransactional(
-                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('wishlist/email/email_template'),
-                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('wishlist/email/email_identity'),
+                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('wishlist/email/email_template'),
+                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('wishlist/email/email_identity'),
                         $email,
                         null,
                         array(

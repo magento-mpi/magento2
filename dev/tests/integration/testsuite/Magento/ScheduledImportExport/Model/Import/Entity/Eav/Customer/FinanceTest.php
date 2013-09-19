@@ -22,7 +22,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        /** @var $testWebsite Magento_Core_Model_Website */
+        /** @var $testWebsite \Magento\Core\Model\Website */
         $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('Magento\ScheduledImportExport\Model\Website');
         if ($testWebsite) {
@@ -51,7 +51,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        /** @var $testWebsite Magento_Core_Model_Website */
+        /** @var $testWebsite \Magento\Core\Model\Website */
         $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('Magento\ScheduledImportExport\Model\Website');
         Mage::app()->getWebsite($testWebsite->getId());
@@ -162,7 +162,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
 
         $expectedRewards = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento\ScheduledImportExport\Customers\ExpectedRewards');
-        /** @var $reward Magento_Reward_Model_Reward */
+        /** @var $reward \Magento\Reward\Model\Reward */
         foreach ($rewards as $reward) {
             $this->assertEquals(
                 $reward->getPointsBalance(),

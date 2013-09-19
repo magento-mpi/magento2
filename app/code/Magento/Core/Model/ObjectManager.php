@@ -28,13 +28,13 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
      * Temporary solution for removing Mage God Object, removed when Serialization problem has resolved
      *
      * @deprecated
-     * @return Magento_ObjectManager
-     * @throws RuntimeException
+     * @return \Magento\ObjectManager
+     * @throws \RuntimeException
      */
     public static function getInstance()
     {
-        if (!self::$_instance instanceof Magento_ObjectManager) {
-            throw new RuntimeException('ObjectManager isn\'t initialized');
+        if (!self::$_instance instanceof \Magento\ObjectManager) {
+            throw new \RuntimeException('ObjectManager isn\'t initialized');
         }
         return self::$_instance;
     }
@@ -42,10 +42,10 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
     /**
      * Set object manager instance
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @throws LogicException
      */
-    public static function setInstance(Magento_ObjectManager $objectManager)
+    public static function setInstance(\Magento\ObjectManager $objectManager)
     {
         self::$_instance = $objectManager;
     }

@@ -6,22 +6,24 @@
  * @license     {license_link}
  */
 
+namespace Magento\GoogleShopping\Block;
+
 /**
  * Google site verification <meta> tag
  */
-class Magento_GoogleShopping_Block_SiteVerification extends Magento_Core_Block_Abstract
+class SiteVerification extends \Magento\Core\Block\AbstractBlock
 {
-    /** @var Magento_GoogleShopping_Model_Config */
+    /** @var \Magento\GoogleShopping\Model\Config */
     protected $_config;
 
     /**
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_GoogleShopping_Model_Config $config
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\GoogleShopping\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_GoogleShopping_Model_Config $config,
+        \Magento\Core\Block\Context $context,
+        \Magento\GoogleShopping\Model\Config $config,
         array $data = array()
     ) {
         parent::__construct($context, $data);

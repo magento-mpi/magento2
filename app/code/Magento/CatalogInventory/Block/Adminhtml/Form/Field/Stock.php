@@ -34,7 +34,7 @@ class Stock extends \Magento\Data\Form\Element\Select
     /**
      * Text element factory
      *
-     * @var Magento_Data_Form_Element_TextFactory
+     * @var \Magento\Data\Form\Element\TextFactory
      */
     protected $_factoryText;
 
@@ -44,14 +44,14 @@ class Stock extends \Magento\Data\Form\Element\Select
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param Magento_Data_Form_Element_TextFactory $factoryText
+     * @param \Magento\Data\Form\Element\TextFactory $factoryText
      * @param array $attributes
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        Magento_Data_Form_Element_TextFactory $factoryText,
+        \Magento\Data\Form\Element\TextFactory $factoryText,
         array $attributes = array()
     ) {
         $this->_factoryText = $factoryText;
@@ -68,7 +68,7 @@ class Stock extends \Magento\Data\Form\Element\Select
      */
     protected function _createQtyElement()
     {
-        /** @var \Magento_Data_Form_Element_Text $element */
+        /** @var \\Magento\Data\Form\Element\Text $element */
         $element = $this->_factoryText->create();
         $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty')->addClass('validate-number input-text');
         return $element;

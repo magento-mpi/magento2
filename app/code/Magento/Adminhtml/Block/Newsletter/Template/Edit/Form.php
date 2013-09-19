@@ -38,7 +38,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         $model  = $this->getModel();
-        $identity = $this->_storeConfig->getConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY);
+        $identity = $this->_storeConfig->getConfig(\Magento\Newsletter\Model\Subscriber::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY);
         $identityName = $this->_storeConfig->getConfig('trans_email/ident_'.$identity.'/name');
         $identityEmail = $this->_storeConfig->getConfig('trans_email/ident_'.$identity.'/email');
 

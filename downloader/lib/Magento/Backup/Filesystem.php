@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Class to work with filesystem backups
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup;
@@ -160,7 +160,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Get backup type
      *
-     * @see Magento_Backup_BackupInterface::getType()
+     * @see \Magento\Backup\BackupInterface::getType()
      * @return string
      */
     public function getType()
@@ -203,7 +203,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Set directory where backups saved and add it to ignore paths
      *
-     * @see Magento_Backup_AbstractBackup::setBackupsDir()
+     * @see \Magento\Backup\AbstractBackupBackup::setBackupsDir()
      * @param string $backupsDir
      * @return \Magento\Backup\Filesystem
      */

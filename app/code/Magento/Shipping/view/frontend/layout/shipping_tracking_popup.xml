@@ -14,6 +14,6 @@
         </action>
     </reference>
     <reference name="content">
-        <block class="Magento_Shipping_Block_Tracking_Popup" name="shipping.tracking.popup" template="tracking/popup.phtml"/>
+        <block class="Magento\Shipping\Block\Tracking\Popup" name="shipping.tracking.popup" template="tracking/popup.phtml"/>
     </reference>
 </layout>

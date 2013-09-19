@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed" template="sales/order/create/sidebar/items.phtml" name="sidebar_pviewed"/>
+        <block class="Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Pviewed" template="sales/order/create/sidebar/items.phtml" name="sidebar_pviewed"/>
     </reference>
 </layout>

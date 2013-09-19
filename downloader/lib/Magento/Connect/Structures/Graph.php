@@ -44,7 +44,7 @@ class Graph
     /**
      * Add node to list
      *
-     * @param Magento_Connect_Structures_Graph_Node $newNode
+     * @param \Magento\Connect\Structures\Graph_Node $newNode
      * @return void
      */
     public function addNode(&$newNode)
@@ -63,7 +63,7 @@ class Graph
 
     /**
      * Remove a Node from the Graph
-     * @param  Magento_Connect_Structures_Graph_Node  $node
+     * @param  \Magento\Connect\Structures\Graph_Node  $node
      */
     public function removeNode(&$node)
     {

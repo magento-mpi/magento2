@@ -69,7 +69,7 @@ class SourceClassWithNamespaceProxy extends \Magento\Code\GeneratorTest\SourceCl
      */
     public function __wakeup()
     {
-        $this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();
     }
 
     /**

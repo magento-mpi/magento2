@@ -73,9 +73,9 @@ class Head extends \Magento\Core\Block\Template
      * @param \Magento\Core\Helper\Data $coreData
      * @param \\Magento\Core\Block\Template\Context $context
      * @param \\Magento\ObjectManager $objectManager
-     * @param \Magento_Core_Model_Page $page
-     * @param \Magento_Core_Model_Page_Asset_MergeService $assetMergeService
-     * @param \Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
+     * @param \\Magento\Core\Model\Page $page
+     * @param \\Magento\Core\Model\Page\Asset\MergeService $assetMergeService
+     * @param \\Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
      * @param array $data
      */
     public function __construct(
@@ -121,9 +121,9 @@ class Head extends \Magento\Core\Block\Template
     public function getCssJsHtml()
     {
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
-            /** @var $block Magento_Core_Block_Abstract */
-            if ($block instanceof Magento_Page_Block_Html_Head_AssetBlock) {
-                /** @var Magento_Core_Model_Page_Asset_AssetInterface $asset */
+            /** @var $block \Magento\Core\Block\AbstractBlock */
+            if ($block instanceof \Magento\Page\Block\Html\Head\AssetBlock) {
+                /** @var \Magento\Core\Model\Page\Asset\AssetInterface $asset */
                 $asset = $block->getAsset();
                 $this->_pageAssets->add(
                     $block->getNameInLayout(),
@@ -372,10 +372,10 @@ class Head extends \Magento\Core\Block\Template
      */
     protected function _getFaviconFile()
     {
-        $folderName = Magento_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
+        $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
         $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
-        $faviconFile = Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
-        $absolutePath = Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
+        $faviconFile = \Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
+        $absolutePath = \Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
 
         if (!is_null($storeConfig) && $this->_isFile($absolutePath)) {
             $url = $faviconFile;

@@ -19,26 +19,26 @@ class Action extends \Magento\Core\Controller\Varien\Action
     protected $_configScope;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_viewDesign;
 
     /**
-     * @var Magento_Core_Model_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Theme\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Config\Scope $configScope
-     * @param Magento_Core_Model_View_DesignInterface $viewDesign
-     * @param Magento_Core_Model_Theme_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Theme_CollectionFactory $collectionFactory
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
     ) {
         $this->_configScope = $configScope;
         $this->_viewDesign = $viewDesign;
@@ -78,10 +78,9 @@ class Action extends \Magento\Core\Controller\Varien\Action
      */
     protected function _initDefaultTheme($areaCode)
     {
-        /** @var $themesCollection Magento_Core_Model_Theme_Collection */
+        /** @var $themesCollection \Magento\Core\Model\Theme\Collection */
         $themesCollection = $this->_collectionFactory->create();
         /** @var $themesCollection \Magento\Core\Model\Theme\Collection */
-        $themesCollection = \Mage::getObjectManager()->create('Magento\Core\Model\Theme\Collection');
         $themeModel = $themesCollection->addDefaultPattern($areaCode)
             ->addFilter('theme_path', $this->_viewDesign->getConfigurationDesignTheme($areaCode))
             ->getFirstItem();

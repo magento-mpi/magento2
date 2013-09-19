@@ -53,7 +53,7 @@ class Sku
     /**
      * Initialize value select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Sku
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist_Sku
      */
     public function loadValueOptions()
     {

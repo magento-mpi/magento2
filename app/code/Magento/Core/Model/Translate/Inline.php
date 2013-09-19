@@ -47,24 +47,24 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
     protected $_isScriptInserted    = false;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_backendUrl;
 
     /**
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_url;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -72,19 +72,19 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
      * Initialize inline translation model
      *
      * @param \Magento\Core\Model\Translate\InlineParser $parser
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Backend_Model_Url $backendUrl
-     * @param Magento_Core_Model_Url $url
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Translate_InlineParser $parser,
-        Magento_Core_Model_Translate $translate,
-        Magento_Backend_Model_Url $backendUrl,
-        Magento_Core_Model_Url $url,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Translate\InlineParser $parser,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Core\Model\Url $url,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_parser = $parser;
@@ -172,7 +172,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
 
         $store = $this->_parser->getStoreManager()->getStore();
         if ($store->isAdmin()) {
-            $urlPrefix = Magento_Backend_Helper_Data::BACKEND_AREA_CODE;
+            $urlPrefix = \Magento\Backend\Helper\Data::BACKEND_AREA_CODE;
             $urlModel = $this->_backendUrl;
         } else {
             $urlPrefix = 'core';
@@ -181,8 +181,8 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure' => $store->isCurrentlySecure()));
 
-        /** @var $block Magento_Core_Block_Template */
-        $block = $this->_layout->createBlock('Magento_Core_Block_Template');
+        /** @var $block \Magento\Core\Block\Template */
+        $block = $this->_layout->createBlock('Magento\Core\Block\Template');
 
         $block->setAjaxUrl($ajaxUrl);
 

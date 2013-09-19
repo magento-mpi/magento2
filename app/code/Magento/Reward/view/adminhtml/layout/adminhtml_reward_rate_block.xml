@@ -9,12 +9,12 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="reward.rate.container">
-        <block class="Magento_Backend_Block_Widget_Grid" name="reward.rate.grid" as="grid">
+        <block class="Magento\Backend\Block\Widget\Grid" name="reward.rate.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">rewardRatesGrid</argument>
-                <argument name="dataSource" xsi:type="object">Magento_Reward_Model_Resource_Reward_Rate_Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Reward\Model\Resource\Reward\Rate\Collection</argument>
             </arguments>
-            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="reward.rate.grid.columnSet">
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="reward.rate.grid.columnSet">
                 <arguments>
                     <argument name="id" xsi:type="string">rewardRatesGrid</argument>
                     <argument name="rowUrl" xsi:type="array">
@@ -24,7 +24,7 @@
                         </item>
                     </argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="rate_id">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="rate_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">ID</argument>
                         <argument name="align" xsi:type="string">left</argument>
@@ -32,29 +32,29 @@
                         <argument name="index" xsi:type="string">rate_id</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website_id">
+                <block class="Magento\Backend\Block\Widget\Grid\Column\Multistore" as="website_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Website</argument>
                         <argument name="index" xsi:type="string">website_id</argument>
                         <argument name="type" xsi:type="string">options</argument>
-                        <argument name="options" xsi:type="options" model="Magento_Reward_Model_Source_Website"/>
+                        <argument name="options" xsi:type="options" model="Magento\Reward\Model\Source\Website"/>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="customer_group_id">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="customer_group_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Customer Group</argument>
                         <argument name="index" xsi:type="string">customer_group_id</argument>
                         <argument name="type" xsi:type="string">options</argument>
-                        <argument name="options" xsi:type="options" model="Magento_Reward_Model_Source_Customer_Groups"/>
+                        <argument name="options" xsi:type="options" model="Magento\Reward\Model\Source\Customer\Groups"/>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="rate">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="rate">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Rate</argument>
                         <argument name="filter" xsi:type="string">0</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="html_declarator" xsi:type="string">nobr</argument>
-                        <argument name="renderer" xsi:type="string">Magento_Reward_Block_Adminhtml_Reward_Rate_Grid_Column_Renderer_Rate</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Reward\Block\Adminhtml\Reward\Rate\Grid\Column\Renderer\Rate</argument>
                     </arguments>
                 </block>
             </block>

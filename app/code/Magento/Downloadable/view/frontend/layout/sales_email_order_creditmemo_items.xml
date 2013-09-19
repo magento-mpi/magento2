@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="items">
-        <block class="Magento_Downloadable_Block_Sales_Order_Email_Items_Downloadable" as="downloadable" template="email/order/items/creditmemo/downloadable.phtml"/>
+        <block class="Magento\Downloadable\Block\Sales\Order\Email\Items\Downloadable" as="downloadable" template="email/order/items/creditmemo/downloadable.phtml"/>
     </reference>
 </layout>

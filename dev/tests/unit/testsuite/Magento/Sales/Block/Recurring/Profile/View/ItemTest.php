@@ -10,17 +10,17 @@
  */
 
 /**
- * Test class for Magento_Sales_Block_Recurring_Profile_View_Item
+ * Test class for \Magento\Sales\Block\Recurring\Profile\View\Item
  */
 class Magento_Sales_Block_Recurring_Profile_View_ItemTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Block_Recurring_Profile_View_Item
+     * @var \Magento\Sales\Block\Recurring\Profile\View\Item
      */
     protected $_block;
 
     /**
-     * @var Magento_Sales_Model_Recurring_Profile
+     * @var \Magento\Sales\Model\Recurring\Profile
      */
     protected $_profile;
 
@@ -28,14 +28,14 @@ class Magento_Sales_Block_Recurring_Profile_View_ItemTest extends PHPUnit_Framew
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $this->_profile = $this->getMockBuilder('Magento_Sales_Model_Recurring_Profile')
+        $this->_profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
             ->setMethods(array('setStore', 'setLocale', 'getFieldLabel'))
             ->getMock();
         $this->_profile->expects($this->once())->method('setStore')->will($this->returnValue($this->_profile));
         $this->_profile->expects($this->once())->method('setLocale')->will($this->returnValue($this->_profile));
 
-        $registry = $this->getMockBuilder('Magento_Core_Model_Registry')
+        $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->setMethods(array('registry'))
             ->getMock();
@@ -44,11 +44,11 @@ class Magento_Sales_Block_Recurring_Profile_View_ItemTest extends PHPUnit_Framew
             ->with('current_recurring_profile')
             ->will($this->returnValue($this->_profile));
 
-        $store = $this->getMockBuilder('Magento_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $storeManager = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMock();
@@ -56,14 +56,14 @@ class Magento_Sales_Block_Recurring_Profile_View_ItemTest extends PHPUnit_Framew
             ->will($this->returnValue($store));
 
         $this->_block = $objectManager->getObject(
-            'Magento_Sales_Block_Recurring_Profile_View_Item',
+            'Magento\Sales\Block\Recurring\Profile\View\Item',
             array(
                 'registry' => $registry,
                 'storeManager' => $storeManager,
             )
         );
 
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $layout = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->setMethods(array('helper'))
             ->getMock();

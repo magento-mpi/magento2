@@ -9,42 +9,42 @@ class Magento_Reward_Block_TooltipTest extends PHPUnit_Framework_TestCase
 {
     public function testPrepareLayout()
     {
-        $store = $this->getMockBuilder('Magento_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
-        $rewardAction = $this->getMockBuilder('Magento_Reward_Model_Action_Abstract')
+        $rewardAction = $this->getMockBuilder('Magento\Reward\Model\Action\AbstractAction')
             ->disableOriginalConstructor()
             ->getMock();
-        $rewardHelper = $this->getMockBuilder('Magento_Reward_Helper_Data')
+        $rewardHelper = $this->getMockBuilder('Magento\Reward\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('isEnabledOnFront'))
             ->getMock();
-        $customerSession = $this->getMockBuilder('Magento_Customer_Model_Session')
+        $customerSession = $this->getMockBuilder('Magento\Customer\Model\Session')
             ->disableOriginalConstructor()
             ->getMock();
-        $rewardInstance = $this->getMockBuilder('Magento_Reward_Model_Reward')
+        $rewardInstance = $this->getMockBuilder('Magento\Reward\Model\Reward')
             ->disableOriginalConstructor()
             ->setMethods(array('setWebsiteId', 'setCustomer', 'getActionInstance'))
             ->getMock();
-        $storeManager = $this->getMockBuilder('Magento_Core_Model_StoreManager')
+        $storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore', 'getWebsiteId'))
             ->getMock();
 
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        /** @var $block Magento_Reward_Block_Tooltip */
+        /** @var $block \Magento\Reward\Block\Tooltip */
         $block = $objectManager->getObject(
-            'Magento_Reward_Block_Tooltip',
+            'Magento\Reward\Block\Tooltip',
             array(
-                'data' => array('reward_type' => 'Magento_Reward_Model_Action_OrderExtra'),
+                'data' => array('reward_type' => 'Magento\Reward\Model\Action\OrderExtra'),
                 'customerSession' => $customerSession,
                 'rewardHelper' => $rewardHelper,
                 'rewardInstance' => $rewardInstance,
                 'storeManager' => $storeManager
             )
         );
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
 
         $rewardHelper->expects($this->any())
             ->method('isEnabledOnFront')
@@ -65,7 +65,7 @@ class Magento_Reward_Block_TooltipTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($rewardInstance));
         $rewardInstance->expects($this->any())
             ->method('getActionInstance')
-            ->with('Magento_Reward_Model_Action_OrderExtra')
+            ->with('Magento\Reward\Model\Action\OrderExtra')
             ->will($this->returnValue($rewardAction));
 
         $block->setLayout($layout);

@@ -338,7 +338,7 @@ class Urlrewrite extends \Magento\Adminhtml\Controller\Action
         $generateTarget = true;
         if ($this->_objectManager->get('Magento\Core\Helper\Url\Rewrite')->hasRedirectOptions($model)) {
             /** @var $rewriteResource \Magento\Catalog\Model\Resource\Url */
-            $rewriteResource = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Url');
+            $rewriteResource = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Url');
             /** @var $rewrite \Magento\Core\Model\Url\Rewrite */
             $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
             if (!$rewrite) {

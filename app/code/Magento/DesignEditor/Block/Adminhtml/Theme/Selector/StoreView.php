@@ -35,9 +35,9 @@ class StoreView extends \Magento\Backend\Block\Template
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Resource\Website\Collection $websiteCollection
-     * @param Magento_Theme_Model_Config_Customization $customizationConfig
+     * @param \Magento\Theme\Model\Config\Customization $customizationConfig
      * @param array $data
-     * @internal param \Magento_Theme_Model_Config $themeConfig
+     * @internal param \\Magento\Theme\Model\Config $themeConfig
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,

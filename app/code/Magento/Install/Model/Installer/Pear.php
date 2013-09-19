@@ -22,7 +22,7 @@ class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
     {
         $packages = array(
             'pear/PEAR-stable',
-            'connect.magentocommerce.com/core/Magento_Pear_Helpers',
+            'connect.magentocommerce.com/core/\Magento\Pear_Helpers',
             'connect.magentocommerce.com/core/Lib_ZF',
             'connect.magentocommerce.com/core/Lib_Varien',
             'connect.magentocommerce.com/core/Magento_All',

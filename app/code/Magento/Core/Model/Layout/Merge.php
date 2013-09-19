@@ -101,7 +101,7 @@ class Merge
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param Magento_Core_Helper_Data $helper
+     * @param \Magento\Core\Helper\Data $helper
      * @param \Magento\Core\Model\Theme $theme Non-injectable theme instance
      */
     public function __construct(
@@ -643,10 +643,10 @@ class Merge
     /**
      * Return attributes of XML node rendered as a string
      *
-     * @param SimpleXMLElement $node
+     * @param \SimpleXMLElement $node
      * @return string
      */
-    protected function _renderXmlAttributes(SimpleXMLElement $node)
+    protected function _renderXmlAttributes(\SimpleXMLElement $node)
     {
         $result = '';
         foreach ($node->attributes() as $attributeName => $attributeValue) {

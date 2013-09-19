@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Core_Block_Template" name="external.pagecache.cookie" template="Magento_PageCache::cookie.phtml"/>
+        <block class="Magento\Core\Block\Template" name="external.pagecache.cookie" template="Magento_PageCache::cookie.phtml"/>
     </reference>
 </layout>

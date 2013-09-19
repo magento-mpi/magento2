@@ -41,7 +41,7 @@ class Type
     const DEFAULT_PRICE_MODEL   = 'Magento\Catalog\Model\Product\Type\Price';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
@@ -74,9 +74,9 @@ class Type
     protected $_typesPriority;
 
     /**
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(Magento_Core_Model_Config $config)
+    public function __construct(\Magento\Core\Model\Config $config)
     {
         $this->_config = $config;
     }

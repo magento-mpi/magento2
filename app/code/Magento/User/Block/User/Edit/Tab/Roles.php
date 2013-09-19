@@ -109,7 +109,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         if ( $this->getRequest()->getParam('user_roles') != "" ) {
             return $this->getRequest()->getParam('user_roles');
         }
-        /* @var $user Magento_User_Model_User */
+        /* @var $user \Magento\User\Model\User */
         $user = $this->_coreRegistry->registry('permissions_user');
         //checking if we have this data and we
         //don't need load it through resource model

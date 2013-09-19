@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class \Magento\Core\Controller\Varien\Action\Forward
+ * Test class Magento_Core_Controller_Varien_Action_Forward
  */
 class Magento_Core_Controller_Varien_Action_ForwardTest extends PHPUnit_Framework_TestCase
 {
@@ -31,11 +31,11 @@ class Magento_Core_Controller_Varien_Action_ForwardTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        $this->_request  = new Magento_Core_Controller_Request_Http($helperMock);
-        $this->_response = new Magento_Core_Controller_Response_Http(
-            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
+            'Magento\Backend\Helper\DataProxy', false);
+        $this->_request  = new \Magento\Core\Controller\Request\Http($helperMock);
+        $this->_response = new \Magento\Core\Controller\Response\Http(
+            $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );
 
         $this->_object = new \Magento\Core\Controller\Varien\Action\Forward($this->_request, $this->_response);

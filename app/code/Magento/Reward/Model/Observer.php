@@ -37,19 +37,19 @@ class Observer
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Reward_Helper_Data $rewardData,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -454,7 +454,7 @@ class Observer
                 ->setWebsiteId($quote->getStore()->getWebsiteId())
                 ->loadByCustomer();
             $minPointsBalance = (int)$this->_coreStoreConfig->getConfig(
-                Magento_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
+                \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
                 $quote->getStoreId()
             );
 

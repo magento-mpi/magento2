@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\FormTest
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Framework_TestCase

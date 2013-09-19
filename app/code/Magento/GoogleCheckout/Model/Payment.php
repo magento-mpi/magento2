@@ -55,7 +55,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Authorize
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return  \Magento\GoogleCheckout\Model\Payment
      */
@@ -70,7 +70,7 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Capture payment
      *
-     * @param Magento_Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return  \Magento\GoogleCheckout\Model\Payment
      */

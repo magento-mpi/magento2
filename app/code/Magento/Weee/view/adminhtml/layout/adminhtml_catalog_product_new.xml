@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="head">
-        <block class="Magento_Page_Block_Html_Head_Script" name="mage-weee-js-fpt-attribute-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="mage-weee-js-fpt-attribute-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Weee::js/fpt-attribute.js</argument>
             </arguments>

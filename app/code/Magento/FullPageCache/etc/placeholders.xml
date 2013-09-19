@@ -61,8 +61,8 @@
         <block instance="Magento\Sales\Block\Reorder\Sidebar" />
     </placeholder>
     <placeholder name="wishlist_links" code="WISHLISTLINKS" cacheLifeTime="86400">
-        <container instance="Magento_FullPageCache_Model_Container_Wishlistlinks" />
-        <block instance="Magento_Wishlist_Block_Link" />
+        <container instance="Magento\FullPageCache\Model\Container\Wishlistlinks" />
+        <block instance="Magento\Wishlist\Block\Link" />
     </placeholder>
     <placeholder name="poll_activepoll" code="POLL" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Sidebar\Poll" />
@@ -82,10 +82,10 @@
     </placeholder>
     <placeholder name="catalog_product_list_related" code="CATALOG_PRODUCT_LIST_RELATED" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\CatalogProductList" />
-        <block instance="Magento\Catalog\Block\Product\List\Related" name="catalog.product.related" />
+        <block instance="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" />
     </placeholder>
     <placeholder name="catalog_product_list_upsell" code="CATALOG_PRODUCT_LIST_UPSELL" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\CatalogProductList" />
-        <block instance="Magento\Catalog\Block\Product\List\Upsell" name="product.info.upsell" />
+        <block instance="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell" />
     </placeholder>
 </config>

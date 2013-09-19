@@ -9,7 +9,7 @@
  */
 ?>
 <?php
-/** @var $_item Magento_Sales_Model_Quote_Item */
+/** @var $_item \Magento\Sales\Model\Quote\Item */
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_item->getProduct(), \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM);

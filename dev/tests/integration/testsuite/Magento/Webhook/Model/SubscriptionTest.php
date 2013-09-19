@@ -60,8 +60,8 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $aclCache->clean();
         // add new hooks for the tests
 
-        /** @var $configModel Magento_Core_Model_Config */
-        $configModel = $this->_objectManager->get('Magento_Core_Model_Config');
+        /** @var $configModel \Magento\Core\Model\Config */
+        $configModel = $this->_objectManager->get('Magento\Core\Model\Config');
         $configModel->setNode('global/webhook/webhooks/test/hook/label', 'Test Hook');
         $configModel->setNode('global/webhook/webhooks/test/two/label', 'Test Hook Two');
     }

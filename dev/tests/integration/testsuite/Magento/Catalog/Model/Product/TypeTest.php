@@ -12,14 +12,14 @@
 class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_productType;
 
     protected function setUp()
     {
         $this->_productType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Model_Product_Type');
+            ->get('Magento\Catalog\Model\Product\Type');
     }
 
     /**
@@ -120,12 +120,12 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     public function testGetOptionArray()
     {
         $options = $this->_productType->getOptionArray();
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, $options);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, $options);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $options);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $options);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $options);
-        $this->assertArrayHasKey(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $options);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $options);
+        $this->assertArrayHasKey(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $options);
     }
 
     public function testGetAllOption()
@@ -173,12 +173,12 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     public function testGetTypes()
     {
         $types = $this->_productType->getTypes();
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE, $types);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL, $types);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_GROUPED, $types);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $types);
-        $this->assertArrayHasKey(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $types);
-        $this->assertArrayHasKey(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $types);
+        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $types);
+        $this->assertArrayHasKey(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $types);
         foreach ($types as $type) {
             $this->assertArrayHasKey('label', $type);
             $this->assertArrayHasKey('model', $type);

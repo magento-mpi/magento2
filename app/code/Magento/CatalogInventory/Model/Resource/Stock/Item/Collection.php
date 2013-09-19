@@ -16,23 +16,23 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($eventManager, $fetchStrategy, $resource);
 
@@ -131,7 +131,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param string $comparisonMethod
      * @param float $qty
      * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function addQtyFilter($comparisonMethod, $qty)
     {
@@ -144,7 +144,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             '<>' => 'neq'
         );
         if (!isset($methods[$comparisonMethod])) {
-            throw new Magento_Core_Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
+            throw new \Magento\Core\Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
         }
 
         return $this->addFieldToFilter('main_table.qty', array($methods[$comparisonMethod] => $qty));

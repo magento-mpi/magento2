@@ -51,7 +51,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $websiteCode = $website->getCode();
             // CSV data

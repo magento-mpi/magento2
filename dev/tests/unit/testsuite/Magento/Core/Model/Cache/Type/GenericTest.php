@@ -7,7 +7,7 @@
  */
 
 /**
- * The test covers Magento_Core_Model_Cache_Type_* classes all at once, as all of them are similar
+ * The test covers \Magento\Core\Model\Cache_Type_* classes all at once, as all of them are similar
  */
 class Magento_Core_Model_Cache_Type_GenericTest extends PHPUnit_Framework_TestCase
 {

@@ -6,30 +6,32 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Order;
+
 /**
  * "Returns" link
  */
-class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
+class Link extends \Magento\Sales\Block\Order\Link
 {
     /**
-     * @var Magento_Rma_Helper_Data
+     * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaHelper;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Rma_Helper_Data $rmaHelper
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Rma\Helper\Data $rmaHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Rma_Helper_Data $rmaHelper,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Rma\Helper\Data $rmaHelper,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_rmaHelper = $rmaHelper;
@@ -55,7 +57,7 @@ class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
     protected function _isRmaAviable()
     {
         if ($this->_rmaHelper->isEnabled()) {
-            $returns = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
+            $returns = \Mage::getResourceModel('Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', $this->_registry->registry('current_order')->getId())
                 ->count();

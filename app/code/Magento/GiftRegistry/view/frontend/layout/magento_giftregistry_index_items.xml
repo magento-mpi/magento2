@@ -15,13 +15,13 @@
         </action>
     </reference>
     <reference name="my.account.wrapper">
-        <block class="Magento_GiftRegistry_Block_Items" name="giftregistry.customer.items" template="customer/items.phtml">
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Grouped" as="grouped" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+        <block class="Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml">
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+            <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_GiftRegistry::customer/items/default.phtml"/>
         </block>
     </reference>
 </layout>

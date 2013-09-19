@@ -8,33 +8,33 @@
 
 class Magento_GoogleShopping_Block_SiteVerificationTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_GoogleShopping_Block_SiteVerification */
+    /** @var \Magento\GoogleShopping\Block\SiteVerification */
     protected $_object;
 
-    /** @var Magento_GoogleShopping_Model_Config */
+    /** @var \Magento\GoogleShopping\Model\Config */
     protected $_config;
 
     protected function setUp()
     {
         $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
-        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $coreHelper->expects($this->any())
             ->method('escapeHtml')->with('Valor & Honor')->will($this->returnValue('Valor &amp; Honor'));
-        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($coreHelper));
         $layout->expects($this->any())
-            ->method('helper')->with('Magento_Core_Helper_Data')->will($this->returnValue($coreHelper));
-        $context = $objectHelper->getObject('Magento_Core_Block_Context', array(
-            'eventManager' => $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
+            ->method('helper')->with('Magento\Core\Helper\Data')->will($this->returnValue($coreHelper));
+        $context = $objectHelper->getObject('Magento\Core\Block\Context', array(
+            'eventManager' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             'layout' => $layout,
             'helperFactory' => $helperFactory
         ));
-        $this->_config = $this->getMock('Magento_GoogleShopping_Model_Config', array(), array(), '', false);
-        $this->_block = new Magento_GoogleShopping_Block_SiteVerification($context, $this->_config);
+        $this->_config = $this->getMock('Magento\GoogleShopping\Model\Config', array(), array(), '', false);
+        $this->_block = new \Magento\GoogleShopping\Block\SiteVerification($context, $this->_config);
     }
 
     public function testToHtmlWithContent()

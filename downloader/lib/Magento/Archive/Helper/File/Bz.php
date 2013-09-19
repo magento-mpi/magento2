@@ -12,7 +12,7 @@
 * Helper class that simplifies bz2 files stream reading and writing
 *
 * @category    Magento
-* @package     Magento_Archive
+* @package     \Magento\Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
 namespace Magento\Archive\Helper\File;

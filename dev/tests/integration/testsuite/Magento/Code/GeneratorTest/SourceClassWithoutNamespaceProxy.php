@@ -8,7 +8,7 @@
  * @license   {license_link}
  */
 class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
-    extends \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+    extends Magento_Code_GeneratorTest_SourceClassWithoutNamespace
 {
     /**
      * Object Manager instance
@@ -27,7 +27,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
     /**
      * Proxied instance
      *
-     * @var \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+     * @var Magento_Code_GeneratorTest_SourceClassWithoutNamespace
      */
     protected $_subject = null;
 
@@ -68,7 +68,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
      */
     public function __wakeup()
     {
-        $this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();
     }
 
     /**
@@ -82,7 +82,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
     /**
      * Get proxied instance
      *
-     * @return \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+     * @return Magento_Code_GeneratorTest_SourceClassWithoutNamespace
      */
     protected function _getSubject()
     {

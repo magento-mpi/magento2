@@ -14,6 +14,6 @@
         </action>
     </reference>
     <reference name="content">
-        <block class="Magento_Checkout_Block_Onepage_Failure" name="checkout.failure" template="onepage/failure.phtml"/>
+        <block class="Magento\Checkout\Block\Onepage\Failure" name="checkout.failure" template="onepage/failure.phtml"/>
     </reference>
 </layout>

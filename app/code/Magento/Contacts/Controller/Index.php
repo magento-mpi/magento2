@@ -31,7 +31,7 @@ class Index extends \Magento\Core\Controller\Front\Action
     {
         parent::preDispatch();
 
-        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag(self::XML_PATH_ENABLED)) {
+        if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag(self::XML_PATH_ENABLED)) {
             $this->norouteAction();
         }
     }
@@ -99,9 +99,9 @@ class Index extends \Magento\Core\Controller\Front\Action
                 ))
                     ->setReplyTo($post['email'])
                     ->sendTransactional(
-                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_TEMPLATE),
-                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_SENDER),
-                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_RECIPIENT),
+                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig(self::XML_PATH_EMAIL_TEMPLATE),
+                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig(self::XML_PATH_EMAIL_SENDER),
+                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig(self::XML_PATH_EMAIL_RECIPIENT),
                         null,
                         array('data' => $postObject)
                     );

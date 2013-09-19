@@ -9,5 +9,5 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="root"/>
-    <block class="Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid" name="oauth_authorizedTokens.grid" output="1"/>
+    <block class="Magento\Oauth\Block\Adminhtml\Oauth\AuthorizedTokens\Grid" name="oauth_authorizedTokens.grid" output="1"/>
 </layout>

@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Anchor Catalog Category" type="page" parent="catalog_category_view">
     <reference name="left">
-        <block class="Magento_Catalog_Block_Layer_View" name="catalog.leftnav" after="currency" template="layer/view.phtml"/>
+        <block class="Magento\Catalog\Block\Layer\View" name="catalog.leftnav" after="currency" template="layer/view.phtml"/>
     </reference>
 </layout>

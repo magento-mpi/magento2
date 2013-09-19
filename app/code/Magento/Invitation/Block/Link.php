@@ -19,11 +19,11 @@ namespace Magento\Invitation\Block;
 class Link extends \Magento\Page\Block\Link
 {
     /**
-     * @var Magento_Invitation_Helper_Data
+     * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationConfiguration;
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
     /**
@@ -32,19 +32,19 @@ class Link extends \Magento\Page\Block\Link
     protected $_invitationHelper;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Invitation_Helper_Data $invitationHelper
-     * @param Magento_Invitation_Model_Config $invitationConfiguration
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Invitation\Helper\Data $invitationHelper
+     * @param \Magento\Invitation\Model\Config $invitationConfiguration
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Invitation_Helper_Data $invitationHelper,
-        Magento_Invitation_Model_Config $invitationConfiguration,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Invitation\Helper\Data $invitationHelper,
+        \Magento\Invitation\Model\Config $invitationConfiguration,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

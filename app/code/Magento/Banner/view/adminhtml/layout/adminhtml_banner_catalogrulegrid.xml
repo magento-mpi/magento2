@@ -9,5 +9,5 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <remove name="root"/>
-    <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid" output="1"/>
+    <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule" name="banner_catalogrule_grid" output="1"/>
 </layout>

@@ -15,6 +15,6 @@ class Link extends \Magento\Page\Block\Link
      */
     public function getHref()
     {
-        return $this->helper('Magento_Customer_Helper_Data')->getAccountUrl();
+        return $this->helper('Magento\Customer\Helper\Data')->getAccountUrl();
     }
 }

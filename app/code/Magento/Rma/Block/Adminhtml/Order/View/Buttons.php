@@ -33,7 +33,7 @@ class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -41,7 +41,7 @@ class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;

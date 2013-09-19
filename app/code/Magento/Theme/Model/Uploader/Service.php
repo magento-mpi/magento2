@@ -59,7 +59,7 @@ class Service
     protected $_uploaderFactory;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -69,13 +69,13 @@ class Service
      * @param \Magento\Io\File $fileIo
      * @param \Magento\File\Size $fileSize
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Io_File $fileIo,
-        Magento_File_Size $fileSize,
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Io\File $fileIo,
+        \Magento\File\Size $fileSize,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_fileIo = $fileIo;
         $this->_fileSize = $fileSize;

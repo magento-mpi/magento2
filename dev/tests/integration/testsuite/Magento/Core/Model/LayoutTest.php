@@ -12,9 +12,9 @@
 /**
  * Layout integration tests
  *
- * Note that some methods are not covered here, see the Magento_Core_Model_LayoutDirectivesTest
+ * Note that some methods are not covered here, see the \Magento\Core\Model\LayoutDirectivesTest
  *
- * @see Magento_Core_Model_LayoutDirectivesTest
+ * @see \Magento\Core\Model\LayoutDirectivesTest
  */
 class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 {
@@ -100,8 +100,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * A smoke test for generating elements
      *
-     * See sophisticated tests at Magento_Core_Model_LayoutDirectivesTest
-     * @see Magento_Core_Model_LayoutDirectivesTest
+     * See sophisticated tests at \Magento\Core\Model\LayoutDirectivesTest
+     * @see \Magento\Core\Model\LayoutDirectivesTest
      * @magentoAppIsolation enabled
      */
     public function testGenerateGetAllBlocks()

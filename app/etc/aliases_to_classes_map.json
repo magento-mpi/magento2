@@ -1,8 +1,8 @@
 {
     "Model_Resource":{
-        "customer\/entity_address_attribute_backend_street":"Magento_Eav_Model_Entity_Attribute_Backend_Default",
-        "customer\/entity_address_attribute_backend_region":"Magento_Customer_Model_Resource_Address_Attribute_Backend_Region",
-        "customer\/entity_address_attribute_source_country":"Magento_Customer_Model_Resource_Address_Attribute_Source_Country",
-        "customer\/entity_address_attribute_source_region":"Magento_Customer_Model_Resource_Address_Attribute_Backend_Region"
+        "customer\/entity_address_attribute_backend_street":"Magento\Eav\Model\Entity\Attribute\Backend\DefaultBackend",
+        "customer\/entity_address_attribute_backend_region":"Magento\Customer\Model\Resource\Address\Attribute\Backend\Region",
+        "customer\/entity_address_attribute_source_country":"Magento\Customer\Model\Resource\Address\Attribute\Source\Country",
+        "customer\/entity_address_attribute_source_region":"Magento\Customer\Model\Resource\Address\Attribute\Backend\Region"
     }
 }

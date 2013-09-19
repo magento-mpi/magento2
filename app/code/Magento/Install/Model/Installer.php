@@ -62,7 +62,7 @@ class Installer extends \Magento\Object
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Resource_SetupFactory
+     * @var \Magento\Core\Model\Resource\SetupFactory
      */
     protected $_setupFactory;
 
@@ -73,7 +73,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param Magento_Core_Model_Resource_SetupFactory $setupFactory
+     * @param \Magento\Core\Model\Resource\SetupFactory $setupFactory
      * @param array $data
      */
     public function __construct(
@@ -83,7 +83,7 @@ class Installer extends \Magento\Object
         \Magento\Core\Model\CacheInterface $cache,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
-        Magento_Core_Model_Resource_SetupFactory $setupFactory,
+        \Magento\Core\Model\Resource\SetupFactory $setupFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -219,9 +219,9 @@ class Installer extends \Magento\Object
         /**
          * Saving host information into DB
          */
-        /** @var $setupModel Magento_Core_Model_Resource_Setup */
+        /** @var $setupModel \Magento\Core\Model\Resource\Setup */
         $setupModel = $this->_setupFactory->create(
-            'Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup')
+            'Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup')
         );
 
         if (!empty($data['use_rewrites'])) {

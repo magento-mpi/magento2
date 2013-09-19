@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="shipment_items">
-        <block class="Magento_GiftCard_Block_Sales_Order_Item_Renderer" as="giftcard" template="Magento_Sales::order/shipment/items/renderer/default.phtml"/>
+        <block class="Magento\GiftCard\Block\Sales\Order\Item\Renderer" as="giftcard" template="Magento_Sales::order/shipment/items/renderer/default.phtml"/>
     </reference>
 </layout>

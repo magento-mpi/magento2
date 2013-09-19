@@ -43,21 +43,21 @@ class Observer
     /**
      * Stock item factory
      *
-     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
      */
     protected $_stockItemFactory;
 
     /**
      * Stock model factory
      *
-     * @var Magento_CatalogInventory_Model_StockFactory
+     * @var \Magento\CatalogInventory\Model\StockFactory
      */
     protected $_stockFactory;
 
     /**
      * Stock status factory
      *
-     * @var Magento_CatalogInventory_Model_Stock_StatusFactory
+     * @var \Magento\CatalogInventory\Model\Stock\StatusFactory
      */
     protected $_stockStatusFactory;
 
@@ -65,15 +65,15 @@ class Observer
      * Construct
      * 
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
-     * @param Magento_CatalogInventory_Model_StockFactory $stockFactory
-     * @param Magento_CatalogInventory_Model_Stock_StatusFactory $stockStatusFactory
+     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\CatalogInventory\Model\StockFactory $stockFactory
+     * @param \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
      */
     public function __construct(
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
-        Magento_CatalogInventory_Model_StockFactory $stockFactory,
-        Magento_CatalogInventory_Model_Stock_StatusFactory $stockStatusFactory
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\CatalogInventory\Model\StockFactory $stockFactory,
+        \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
     ) {
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_stockItemFactory = $stockItemFactory;
@@ -314,7 +314,7 @@ class Observer
      *
      * @param  \Magento\Event\Observer $observer
      * @return \Magento\CatalogInventory\Model\Observer
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function checkQuoteItemQty($observer)
     {
@@ -403,7 +403,7 @@ class Observer
 
                 /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
                 if (!$stockItem instanceof \Magento\CatalogInventory\Model\Stock\Item) {
-                    throw new Magento_Core_Exception(__('The stock item for Product in option is not valid.'));
+                    throw new \Magento\Core\Exception(__('The stock item for Product in option is not valid.'));
                 }
 
                 /**
@@ -467,9 +467,9 @@ class Observer
                 $stockItem->unsIsChildItem();
             }
         } else {
-            /* @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
-            if (!$stockItem instanceof Magento_CatalogInventory_Model_Stock_Item) {
-                throw new Magento_Core_Exception(__('The stock item for Product is not valid.'));
+            /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
+            if (!$stockItem instanceof \Magento\CatalogInventory\Model\Stock\Item) {
+                throw new \Magento\Core\Exception(__('The stock item for Product is not valid.'));
             }
 
             /**

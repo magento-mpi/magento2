@@ -160,21 +160,21 @@ abstract class EntityAbstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
-        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : \Mage::app();
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : \Mage::app();
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
             : \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']

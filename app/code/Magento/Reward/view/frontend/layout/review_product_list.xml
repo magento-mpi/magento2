@@ -9,9 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="product.review.form.fields.before">
-        <block class="Magento_Reward_Block_Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">
+        <block class="Magento\Reward\Block\Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">
             <arguments>
-                <argument name="reward_type" xsi:type="string">Magento_Reward_Model_Action_Review</argument>
+                <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Review</argument>
             </arguments>
             <action method="setWrapperClass">
                 <argument name="class" xsi:type="string">reward-review</argument>

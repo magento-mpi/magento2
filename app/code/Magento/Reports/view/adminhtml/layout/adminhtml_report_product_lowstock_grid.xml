@@ -9,13 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="adminhtml.report.grid.container">
-        <block class="Magento_Adminhtml_Block_Report_Product_Lowstock_Grid" name="adminhtml.block.report.product.lowstock.grid" as="grid">
+        <block class="Magento\Adminhtml\Block\Report\Product\Lowstock\Grid" name="adminhtml.block.report.product.lowstock.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">gridLowstock</argument>
                 <argument name="use_ajax" xsi:type="string">0</argument>
-                <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Product_Lowstock_Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Reports\Model\Resource\Product\Lowstock\Collection</argument>
             </arguments>
-            <block class="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.block.report.product.lowstock.export" as="grid.export">
+            <block class="Magento\Backend\Block\Widget\Grid\Export" name="adminhtml.block.report.product.lowstock.export" as="grid.export">
                 <arguments>
                     <argument name="exportTypes" xsi:type="array">
                         <item name="csv" xsi:type="array">
@@ -29,8 +29,8 @@
                     </argument>
                 </arguments>
             </block>
-            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.report.product.lowstock.grid.columnSet">
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.block.report.product.lowstock.grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Product</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
@@ -39,7 +39,7 @@
                         <argument name="column_css_class" xsi:type="string">col-product</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="sku">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="sku">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">SKU</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
@@ -48,10 +48,10 @@
                         <argument name="column_css_class" xsi:type="string">col-sku</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="qty">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="qty">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Stock Quantity</argument>
-                        <argument name="filter" xsi:type="string">Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Range</argument>
+                        <argument name="filter" xsi:type="string">Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Range</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="index" xsi:type="string">qty</argument>
                         <argument name="type" xsi:type="string">number</argument>

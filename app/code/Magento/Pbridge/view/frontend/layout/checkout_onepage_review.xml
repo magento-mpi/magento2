@@ -10,13 +10,13 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="checkout.onepage.review.button">
         <action method="setTemplate">
-            <argument name="template" xsi:type="helper" helper="Magento_Pbridge_Helper_Data::getReviewButtonTemplate">
+            <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getReviewButtonTemplate">
                 <param name="name">Magento_Pbridge::checkout/review/button.phtml</param>
                 <param name="block">checkout.onepage.review.button</param>
             </argument>
         </action>
     </reference>
     <reference name="checkout.onepage.review.info.items.after">
-        <block class="Magento_Pbridge_Block_Checkout_Payment_Review_Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml"/>
+        <block class="Magento\Pbridge\Block\Checkout\Payment\Review\Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml"/>
     </reference>
 </layout>

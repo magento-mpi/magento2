@@ -81,7 +81,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -90,7 +90,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $options
      */
     public function __construct(
@@ -98,7 +98,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Core\Model\Logger $logger,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $options = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -184,10 +184,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     {
         if (!isset($this->_dateFormats[$storeId])) {
             $timezone = $this->_coreStoreConfig->getConfig(
-                Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
+                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
             );
             $locale   = $this->_coreStoreConfig->getConfig(
-                Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
             );
             $locale   = new \Zend_Locale($locale);
 

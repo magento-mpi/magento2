@@ -55,27 +55,27 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Helper_Translate
+     * @var \Magento\Core\Helper\Translate
      */
     protected $_translate;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param Magento_Core_Helper_Translate $translate
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Translate $translate
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param $locale
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        Magento_Core_Helper_Translate $translate,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Helper\Translate $translate,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $locale = null
     ) {
         $this->_eventManager = $eventManager;
@@ -104,7 +104,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = $this->_coreStoreConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            $locale = $this->_coreStoreConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             if (!$locale) {
                 $locale = \Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE;
             }
@@ -665,12 +665,12 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     {
         if ($storeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = new Zend_Locale(
+            $this->_locale = new \Zend_Locale(
                 $this->_coreStoreConfig->getConfig(
-                    Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+                    \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
             ));
             $this->_localeCode = $this->_locale->toString();
-            $this->_translate->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_FRONTEND, true);
+            $this->_translate->initTranslate($this->_localeCode, \Magento\Core\Model\App\Area::AREA_FRONTEND, true);
         } else {
             $this->_emulatedLocales[] = false;
         }
@@ -686,7 +686,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
         if ($locale) {
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
-            $this->_translate->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_ADMINHTML, true);
+            $this->_translate->initTranslate($this->_localeCode, \Magento\Core\Model\App\Area::AREA_ADMINHTML, true);
         }
     }
 

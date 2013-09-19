@@ -9,24 +9,24 @@
 -->
 <config>
     <event name="controller_action_predispatch">
-        <observer name="magento_logging" instance="Magento_Logging_Model_Observer" method="controllerPredispatch" />
+        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="controllerPredispatch" />
     </event>
     <event name="controller_action_postdispatch_adminhtml">
-        <observer name="magento_logging" instance="Magento_Logging_Model_Observer" method="controllerPostdispatch" />
+        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="controllerPostdispatch" />
     </event>
     <event name="model_save_after">
-        <observer name="magento_logging" instance="Magento_Logging_Model_Observer" method="modelSaveAfter" />
+        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="modelSaveAfter" />
     </event>
     <event name="model_delete_after">
-        <observer name="magento_logging" instance="Magento_Logging_Model_Observer" method="modelDeleteAfter" />
+        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="modelDeleteAfter" />
     </event>
     <event name="model_load_after">
-        <observer name="magento_logging" instance="Magento_Logging_Model_Observer" method="modelLoadAfter" />
+        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="modelLoadAfter" />
     </event>
     <event name="backend_auth_user_login_success">
-        <observer name="magento_logging" instance="Magento_Logging_Model_Observer" method="adminSessionLoginSuccess" />
+        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="adminSessionLoginSuccess" />
     </event>
     <event name="backend_auth_user_login_failed">
-        <observer name="magento_logging" instance="Magento_Logging_Model_Observer" method="adminSessionLoginFailed" />
+        <observer name="magento_logging" instance="Magento\Logging\Model\Observer" method="adminSessionLoginFailed" />
     </event>
 </config>

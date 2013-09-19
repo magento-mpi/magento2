@@ -28,7 +28,7 @@ class Magento_Core_Utility_Layout
      * Retrieve new layout update model instance with XML data from a fixture file
      *
      * @param string|array $layoutUpdatesFile
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
@@ -43,7 +43,7 @@ class Magento_Core_Utility_Layout
         $fileSource->expects(PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
             ->will(PHPUnit_Framework_TestCase::returnValue($files));
-        $cache = $this->_testCase->getMockForAbstractClass('Magento_Cache_FrontendInterface');
+        $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         return $objectManager->create(
             'Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
         );
@@ -85,7 +85,7 @@ class Magento_Core_Utility_Layout
             'argumentProcessor'  => $objectManager->create('Magento\Core\Model\Layout\Argument\Processor', array()),
             'scheduledStructure' => $objectManager->create('Magento\Core\Model\Layout\ScheduledStructure', array()),
             'dataServiceGraph'   => $objectManager->create('Magento\Core\Model\DataService\Graph', array()),
-            'coreStoreConfig'    => $objectManager->create('Magento_Core_Model_Store_Config'),
+            'coreStoreConfig'    => $objectManager->create('Magento\Core\Model\Store\Config'),
         );
     }
 }

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Class to work with full filesystem and database backups
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup;
@@ -79,7 +79,7 @@ class Snapshot extends \Magento\Backup\Filesystem
      * Overlap getType
      *
      * @return string
-     * @see Magento_Backup_BackupInterface::getType()
+     * @see \Magento\Backup\BackupInterface::getType()
      */
     public function getType()
     {
@@ -93,7 +93,7 @@ class Snapshot extends \Magento\Backup\Filesystem
      */
     protected function _createDbBackupInstance()
     {
-        return Magento_Backup::getBackupInstance(\Magento\Backup\Helper\Data::TYPE_DB)
+        return \Magento\Backup::getBackupInstance(\Magento\Backup\Helper\Data::TYPE_DB)
             ->setBackupExtension('gz')
             ->setTime($this->getTime())
             ->setBackupsDir(\Mage::getBaseDir("var"))

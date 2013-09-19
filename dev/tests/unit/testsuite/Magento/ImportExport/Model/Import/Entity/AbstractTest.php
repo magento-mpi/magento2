@@ -61,7 +61,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
             ->will($this->returnValue($coreRegisterMock));
 
         Mage::reset();
-        Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
+        \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
 
         return $helper;
     }

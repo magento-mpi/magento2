@@ -18,12 +18,12 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
             ->method('get')
             ->with($this->stringContains('Data'))
             ->will($this->returnValue($this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         /**
          * @var \Magento\Core\Model\Encryption
          */
-        $model = new Magento_Core_Model_Encryption($objectManager, $coreConfig);
+        $model = new \Magento\Core\Model\Encryption($objectManager, $coreConfig);
         $model->setHelper($input);
         $model->getHash('password', 1);
     }
@@ -45,12 +45,12 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
     public function testSetHelperException()
     {
         $objectManager = $this->getMock('Magento\ObjectManager');
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         /**
          * @var \Magento\Core\Model\Encryption
          */
-        $model = new Magento_Core_Model_Encryption($objectManager, $coreConfig);
+        $model = new \Magento\Core\Model\Encryption($objectManager, $coreConfig);
         /** Mock object is not instance of Magento_Code_Helper_Data and should not pass validation */
         $input = $this->getMock('Magento\Code\Helper\Data', array(), array(), '', false);
         $model->setHelper($input);

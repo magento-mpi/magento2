@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="items">
-        <block class="Magento_Bundle_Block_Sales_Order_Items_Renderer" as="bundle" template="email/order/items/invoice/default.phtml"/>
+        <block class="Magento\Bundle\Block\Sales\Order\Items\Renderer" as="bundle" template="email/order/items/invoice/default.phtml"/>
     </reference>
 </layout>

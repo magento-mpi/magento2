@@ -14,13 +14,13 @@
         </action>
     </reference>
     <reference name="head">
-        <block class="Magento_Page_Block_Html_Head_Script" name="varien-product-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="varien-product-js">
             <arguments>
                 <argument name="file" xsi:type="string">varien/product.js</argument>
             </arguments>
         </block>
     </reference>
     <reference name="content">
-        <block class="Magento_Sendfriend_Block_Send" name="sendfriend.send" template="send.phtml"/>
+        <block class="Magento\Sendfriend\Block\Send" name="sendfriend.send" template="send.phtml"/>
     </reference>
 </layout>

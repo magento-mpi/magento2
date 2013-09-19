@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="adminhtml_user_role_grid_block"/>
     <reference name="content">
-        <block class="Magento_User_Block_Role" name="adminhtml.user.role.container"/>
+        <block class="Magento\User\Block\Role" name="adminhtml.user.role.container"/>
     </reference>
 </layout>

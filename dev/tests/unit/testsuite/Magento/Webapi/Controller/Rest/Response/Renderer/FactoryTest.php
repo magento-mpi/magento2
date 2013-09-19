@@ -67,7 +67,7 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_FactoryTest extends PHPUn
             ->getMock();
         /** Mock object to return mocked renderer. */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
-            '\Magento\Webapi\Controller\Rest\Response\Renderer\Json'
+            'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
         )->will($this->returnValue($rendererMock));
         $this->_factory->get();
     }
@@ -79,11 +79,11 @@ class Magento_Webapi_Controller_Rest_Response_Renderer_FactoryTest extends PHPUn
         <renders>
             <default>
                 <type>*/*</type>
-                <model>\Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
+                <model>Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
             </default>
             <application_json>
                 <type>application/json</type>
-                <model>\Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
+                <model>Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
             </application_json>
         </renders>
 XML;
@@ -128,7 +128,7 @@ XML;
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
         /** Mock object to return \Magento\Object */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
-            '\Magento\Webapi\Controller\Rest\Response\Renderer\Json'
+            'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
         )->will($this->returnValue(new \Magento\Object()));
 
         $this->setExpectedException(

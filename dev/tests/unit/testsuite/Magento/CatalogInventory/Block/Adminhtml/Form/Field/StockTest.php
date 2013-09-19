@@ -7,7 +7,7 @@
  */
 
 /**
- * Class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest
+ * Class \Magento\CatalogInventory\Block\Adminhtml\Form\Field\StockTest
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit_Framework_TestCase
@@ -15,27 +15,27 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     const ATTRIBUTE_NAME = 'quantity_and_stock_status';
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelperMock;
 
     /**
-     * @var Magento_Data_Form_Element_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Data\Form\Element\Factory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryElementMock;
 
     /**
-     * @var Magento_Data_Form_Element_CollectionFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Data\Form\Element\CollectionFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_collectionFactoryMock;
     
     /**
-     * @var Magento_Data_Form_Element_Text|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Data\Form\Element\Text|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_qtyMock;
 
     /**
-     * @var Magento_Data_Form_Element_TextFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Data\Form\Element\TextFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryTextMock;
     
@@ -46,16 +46,16 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
 
     protected function setUp()
     {
-        $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);        
-        $this->_factoryElementMock = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $this->_collectionFactoryMock = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(),
+        $this->_coreHelperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);        
+        $this->_factoryElementMock = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $this->_collectionFactoryMock = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array(),
             array(), '', false);
-        $this->_qtyMock = $this->getMock('Magento_Data_Form_Element_Text', array('setForm', 'setValue', 'setName'),
+        $this->_qtyMock = $this->getMock('Magento\Data\Form\Element\Text', array('setForm', 'setValue', 'setName'),
             array(), '', false);
-        $this->_factoryTextMock = $this->getMock('Magento_Data_Form_Element_TextFactory', array('create'));
+        $this->_factoryTextMock = $this->getMock('Magento\Data\Form\Element\TextFactory', array('create'));
 
         $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $objectManagerHelper->getObject('Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
+        $this->_block = $objectManagerHelper->getObject('Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock',
             array(
                 'coreData' => $this->_coreHelperMock,
                 'factoryElement' => $this->_factoryElementMock,
@@ -72,9 +72,9 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
     public function testSetForm()
     {
         $this->_qtyMock->expects($this->once())->method('setForm')
-            ->with($this->isInstanceOf('Magento_Data_Form_Element_Abstract'));
+            ->with($this->isInstanceOf('Magento\Data\Form\Element\AbstractElement'));
 
-        $this->_block->setForm(new Magento_Data_Form_Element_Text(
+        $this->_block->setForm(new \Magento\Data\Form\Element\Text(
             $this->_coreHelperMock, 
             $this->_factoryElementMock, 
             $this->_collectionFactoryMock

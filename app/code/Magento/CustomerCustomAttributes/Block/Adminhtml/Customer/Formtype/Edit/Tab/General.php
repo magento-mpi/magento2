@@ -35,7 +35,7 @@ class General
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_Eav_Model_Form_Type */
+        /* @var $model \Magento\Eav\Model\Form\Type */
         $model      = $this->_coreRegistry->registry('current_form_type');
 
         /** @var \Magento\Data\Form $form */

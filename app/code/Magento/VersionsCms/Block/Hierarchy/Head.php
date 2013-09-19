@@ -56,7 +56,7 @@ class Head extends \Magento\Core\Block\AbstractBlock
     {
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
-        /* @var $head Magento_Page_Block_Html_Head */
+        /* @var $head \Magento\Page\Block\Html\Head */
         $head = $this->getLayout()->getBlock('head');
 
         if ($this->_cmsHierarchy->isMetadataEnabled() && $node && $head) {
@@ -71,11 +71,11 @@ class Head extends \Magento\Core\Block\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-chapter-link',
-                            'Magento_Page_Block_Html_Head_Link',
+                            'Magento\Page\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
-                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER
                                 ))
                             )
                         );
@@ -87,11 +87,11 @@ class Head extends \Magento\Core\Block\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-section-link',
-                            'Magento_Page_Block_Html_Head_Link',
+                            'Magento\Page\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
-                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION
                                 ))
                             )
                         );
@@ -105,11 +105,11 @@ class Head extends \Magento\Core\Block\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-next-link',
-                            'Magento_Page_Block_Html_Head_Link',
+                            'Magento\Page\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
-                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT
                                 ))
                             )
                         );
@@ -121,11 +121,11 @@ class Head extends \Magento\Core\Block\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-previous-link',
-                            'Magento_Page_Block_Html_Head_Link',
+                            'Magento\Page\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
-                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS
                                 ))
                             )
                         );
@@ -139,11 +139,11 @@ class Head extends \Magento\Core\Block\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-first-link',
-                            'Magento_Page_Block_Html_Head_Link',
+                            'Magento\Page\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
-                                    'rel' => Magento_VersionsCms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST
+                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST
                                 ))
                             )
                         );

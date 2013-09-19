@@ -75,8 +75,8 @@ class Currency extends \Magento\Adminhtml\Controller\Action
                 throw new \Exception(__('Please specify a correct Import Service.'));
             }
             try {
-                $importModel = Mage::getModel(
-                    $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/currency/import/services/' . $service . '/model')->asArray()
+                $importModel = \Mage::getModel(
+                    $this->_objectManager->get('Magento\Core\Model\Config')->getNode('global/currency/import/services/' . $service . '/model')->asArray()
                 );
             } catch (\Exception $e) {
                 \Mage::throwException(__('We can\'t initialize the import model.'));

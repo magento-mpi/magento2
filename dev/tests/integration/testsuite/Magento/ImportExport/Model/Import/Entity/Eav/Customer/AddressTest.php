@@ -285,7 +285,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // get not default address
         $customers = $objectManager->get('Magento\Core\Model\Registry')->registry($this->_fixtureKey);
-        /** @var $notDefaultAddress Magento_Customer_Model_Address */
+        /** @var $notDefaultAddress \Magento\Customer\Model\Address */
         $notDefaultAddress = null;
         /** @var $addressCustomer \Magento\Customer\Model\Customer */
         $addressCustomer = null;

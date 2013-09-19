@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="wishlist_delete_commit_after">
-        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerWishlistChange" />
+        <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="registerWishlistChange" />
     </event>
     <event name="wishlist_save_commit_after">
-        <observer name="magento_fullpagecache" instance="Magento_FullPageCache_Model_Observer" method="registerWishlistListChange" />
+        <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="registerWishlistListChange" />
     </event>
 </config>

@@ -54,11 +54,11 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
         $this->assertNotEmpty($lines['data'], 'No data was exported');
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $customers \Magento\Customer\Model\Customer[] */
         $customers = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('_fixture/Magento\ImportExport\Customer\Collection');
+            ->registry('_fixture/Magento_ImportExport_Customer_Collection');
         foreach ($customers as $key => $customer) {
             foreach ($expectedAttributes as $code) {
                 if (!in_array($code, $this->_model->getDisabledAttributes()) && isset($lines[$key][$code])) {
@@ -140,7 +140,6 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     public function testFilterEntityCollection()
     {
         $createdAtDate = '2038-01-01';
-
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 

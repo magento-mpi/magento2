@@ -39,8 +39,8 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
         /** @var Magento_TestFramework_ObjectManager $objectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        /** @var Magento_Core_Model_Config $coreConfig */
-        $coreConfig = $objectManager->create('Magento_Core_Model_Config', array('storage' => $this->_mockConfig()));
+        /** @var \Magento\Core\Model\Config $coreConfig */
+        $coreConfig = $objectManager->create('Magento\Core\Model\Config', array('storage' => $this->_mockConfig()));
         $coreConfig->setNode(
             'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
             'Some_Class'
@@ -50,10 +50,10 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
             $this->_testEntity['label']
         );
 
-        /** @var $config Magento_ImportExport_Model_Config */
-        $config = $objectManager->create('Magento_ImportExport_Model_Config', array('coreConfig' => $coreConfig));
+        /** @var $config \Magento\ImportExport\Model\Config */
+        $config = $objectManager->create('Magento\ImportExport\Model\Config', array('coreConfig' => $coreConfig));
         $this->_sourceModel = $objectManager->create(
-            'Magento_ImportExport_Model_Source_Import_Entity',
+            'Magento\ImportExport\Model\Source\Import\Entity',
             array('config' => $config)
         );
     }
@@ -63,7 +63,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      */
     protected function _mockConfig()
     {
-        $storage = $this->getMock('Magento_Core_Model_Config_Storage', array('getConfiguration'), array(), '', false);
+        $storage = $this->getMock('Magento\Core\Model\Config\Storage', array('getConfiguration'), array(), '', false);
         $configObject = new \Magento\Core\Model\Config\Base(new \Magento\Simplexml\Element('<config></config>'));
         $configObject->setNode(
             'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',

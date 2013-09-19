@@ -13,7 +13,7 @@
  * Test class for \Magento\Catalog\Model\Category.
  * - tree knowledge is tested
  *
- * @see Magento_Catalog_Model_CategoryTest
+ * @see \Magento\Catalog\Model\CategoryTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
 class Magento_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase

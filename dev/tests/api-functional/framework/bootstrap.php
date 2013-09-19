@@ -17,7 +17,7 @@ $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 
-Magento_Autoload_IncludePath::addIncludePath(array(
+\Magento\Autoload\IncludePath::addIncludePath(array(
     "{$testsBaseDir}/framework",
     "{$testsBaseDir}/testsuite",
     "{$integrationTestsDir}/framework"
@@ -31,8 +31,8 @@ $bootstrap = new Magento_TestFramework_Bootstrap(
     new Magento_TestFramework_Bootstrap_Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
     new Magento_TestFramework_Bootstrap_Environment(),
     new Magento_TestFramework_Bootstrap_DocBlock("{$testsBaseDir}/testsuite"),
-    new Magento_TestFramework_Bootstrap_Profiler(new Magento_Profiler_Driver_Standard()),
-    new Magento_Shell(),
+    new Magento_TestFramework_Bootstrap_Profiler(new \Magento\Profiler\Driver\Standard()),
+    new \Magento\Shell(),
     $testsTmpDir
 );
 $bootstrap->runBootstrap();

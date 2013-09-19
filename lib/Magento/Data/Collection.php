@@ -528,13 +528,13 @@ class Collection implements \IteratorAggregate, \Countable
      * Set collection item class name
      *
      * @param  string $className
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      * @throws InvalidArgumentException
      */
     function setItemObjectClass($className)
     {
-        if (!is_a($className, 'Magento_Object', true)) {
-            throw new InvalidArgumentException($className . ' does not extend Magento_Object');
+        if (!is_a($className, 'Magento\Object', true)) {
+            throw new \InvalidArgumentException($className . ' does not extend \Magento\Object');
         }
         $this->_itemObjectClass = $className;
         return $this;

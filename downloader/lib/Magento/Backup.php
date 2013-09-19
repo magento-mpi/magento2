@@ -12,7 +12,7 @@
  * Class to work with backups
  *
  * @category    Magento
- * @package     Magento_Backup
+ * @package     \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento;
@@ -34,7 +34,7 @@ class Backup
      */
     static public function getBackupInstance($type)
     {
-        $class = 'Magento_Backup_' . ucfirst($type);
+        $class = 'Magento\Backup_' . ucfirst($type);
 
         if (!in_array($type, self::$_allowedBackupTypes) || !class_exists($class, true)){
             throw new \Magento\Exception('Current implementation not supported this type (' . $type . ') of backup.');

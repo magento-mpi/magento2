@@ -131,19 +131,19 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_typeList;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -161,27 +161,27 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_FullPageCache_Model_Processor_RestrictionInterface $restriction,
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Cache_SubProcessorFactory $subProcessorFactory,
-        Magento_FullPageCache_Model_Container_PlaceholderFactory $placeholderFactory,
-        Magento_FullPageCache_Model_ContainerFactory $containerFactory,
-        Magento_FullPageCache_Model_Environment $environment,
-        Magento_FullPageCache_Model_Request_Identifier $requestIdentifier,
-        Magento_FullPageCache_Model_DesignPackage_Info $designInfo,
-        Magento_FullPageCache_Model_Metadata $metadata,
-        Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Cache_TypeListInterface $typeList,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Cache\SubProcessorFactory $subProcessorFactory,
+        \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
+        \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
+        \Magento\FullPageCache\Model\Environment $environment,
+        \Magento\FullPageCache\Model\Request\Identifier $requestIdentifier,
+        \Magento\FullPageCache\Model\DesignPackage\Info $designInfo,
+        \Magento\FullPageCache\Model\Metadata $metadata,
+        \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cache\TypeListInterface $typeList,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;

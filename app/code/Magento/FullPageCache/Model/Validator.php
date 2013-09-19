@@ -27,19 +27,19 @@ class Validator
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_typeList;
 
     /**
      * Constructor dependency injection
      *
-     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Cache_TypeListInterface $typeList,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Cache\TypeListInterface $typeList,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_typeList = $typeList;
         $this->_config = $coreConfig;

@@ -164,7 +164,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     public function canReturnToStock()
     {
         $canReturnToStock = $this->_storeConfig->getConfig(
-            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
         );
         if ($canReturnToStock) {
             return true;
@@ -181,7 +181,7 @@ class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
     {
         if (is_null($this->_canReturnToStock)) {
             $this->_canReturnToStock = $this->_storeConfig->getConfig(
-                Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
             );
             if ($this->_canReturnToStock) {
                 $canReturnToStock = false;

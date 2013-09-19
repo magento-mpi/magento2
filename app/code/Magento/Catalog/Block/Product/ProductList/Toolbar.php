@@ -145,7 +145,7 @@ class Toolbar extends \Magento\Core\Block\Template
     {
         parent::_construct();
         $this->_orderField  = $this->_storeConfig->getConfig(
-            Magento_Catalog_Model_Config::XML_PATH_LIST_DEFAULT_SORT_BY
+            \Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY
         );
 
         $this->_availableOrder = $this->_getConfig()->getAttributeUsedForSortByArray();

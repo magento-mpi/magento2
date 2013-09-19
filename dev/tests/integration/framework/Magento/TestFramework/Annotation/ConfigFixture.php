@@ -47,12 +47,12 @@ class Magento_TestFramework_Annotation_ConfigFixture
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         if ($storeCode === false) {
-            /** @var Magento_Core_Model_Config $configModel */
-            $configModel = $objectManager->get('Magento_Core_Model_Config');
+            /** @var \Magento\Core\Model\Config $configModel */
+            $configModel = $objectManager->get('Magento\Core\Model\Config');
             $result = $configModel->getNode($configPath);
         } else {
-            /** @var Magento_Core_Model_Store_Config $storeConfig */
-            $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+            /** @var \Magento\Core\Model\Store\Config $storeConfig */
+            $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
             $result = $storeConfig->getConfig($configPath, $storeCode);
         }
         if ($result instanceof SimpleXMLElement) {
@@ -72,17 +72,17 @@ class Magento_TestFramework_Annotation_ConfigFixture
     {
         if ($storeCode === false) {
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-            /** @var $configModel Magento_Core_Model_Config */
-            $configModel = $objectManager->get('Magento_Core_Model_Config');
+            /** @var $configModel \Magento\Core\Model\Config */
+            $configModel = $objectManager->get('Magento\Core\Model\Config');
             // @todo refactor this method when all types of configuration are represented by array
             if (strpos($configPath, 'default/') === 0) {
                 $configPath = substr($configPath, 8);
                 $configModel->setValue($configPath, $value);
-                $objectManager->get('Magento_Core_Model_Config')->setValue($configPath, $value);
+                $objectManager->get('Magento\Core\Model\Config')->setValue($configPath, $value);
             } else {
                 $configModel->setNode($configPath, $value);
-                $objectManager->get('Magento_Core_Model_Config')->setNode($configPath, $value);
-                $objectManager->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
+                $objectManager->get('Magento\Core\Model\Config')->setNode($configPath, $value);
+                $objectManager->get('Magento\Core\Model\Config\Primary')->setNode($configPath, $value);
             }
         } else {
             Mage::app()->getStore($storeCode)->setConfig($configPath, $value);

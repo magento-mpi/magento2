@@ -23,24 +23,24 @@ class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategor
     /**
      * Category model factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $registry, $data);
@@ -60,7 +60,7 @@ class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategor
     {
         $result = array();
         if ($parentId) {
-            /** @var Magento_Catalog_Model_Category $category */
+            /** @var \Magento\Catalog\Model\Category $category */
             $category = $this->_categoryFactory->create()->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));

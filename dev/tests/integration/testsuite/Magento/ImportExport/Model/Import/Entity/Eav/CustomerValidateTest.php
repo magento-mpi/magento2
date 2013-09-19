@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for class \Magento\ImportExport\Model\Import\Entity\Eav\Customer which covers validation logic
+ * Test for class Magento_ImportExport_Model_Import_Entity_Eav_Customer which covers validation logic
  *
  * @magentoDataFixture Magento/ImportExport/_files/customers.php
  */

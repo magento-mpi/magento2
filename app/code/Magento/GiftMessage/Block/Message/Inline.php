@@ -53,7 +53,7 @@ class Inline extends \Magento\Core\Block\Template
      * Set entity
      *
      * @param $entity
-     * @return Magento_GiftMessage_Block_Message_Inline
+     * @return \Magento\GiftMessage\Block\Message\Inline
      */
     public function setEntity($entity)
     {
@@ -64,7 +64,7 @@ class Inline extends \Magento\Core\Block\Template
     /**
      * Get entity
      *
-     * @return Magento_GiftMessage_Block_Message_Inline
+     * @return \Magento\GiftMessage\Block\Message\Inline
      */
     public function getEntity()
     {

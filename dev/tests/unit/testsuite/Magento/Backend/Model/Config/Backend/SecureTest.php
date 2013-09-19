@@ -19,9 +19,9 @@ class Magento_Backend_Model_Config_Backend_SecureTest extends PHPUnit_Framework_
             ->will($this->returnValue($resource));
         $resourceCollection = $this->getMock('Magento\Data\Collection\Db', array(), array(), '', false);
         $mergeService = $this->getMock('Magento\Core\Model\Page\Asset\MergeService', array(), array(), '', false);
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
         $model = $this->getMock(
             'Magento\Backend\Model\Config\Backend\Secure',

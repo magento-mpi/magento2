@@ -20,14 +20,14 @@ namespace Magento\ImportExport\Model\Source\Export;
 class Format
 {
     /**
-     * @var Magento_ImportExport_Model_Config
+     * @var \Magento\ImportExport\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_ImportExport_Model_Config $config
+     * @param \Magento\ImportExport\Model\Config $config
      */
-    public function __construct(Magento_ImportExport_Model_Config $config)
+    public function __construct(\Magento\ImportExport\Model\Config $config)
     {
         $this->_config = $config;
     }
@@ -39,7 +39,7 @@ class Format
      */
     public function toOptionArray()
     {
-        $formats = Magento_ImportExport_Model_Export::CONFIG_KEY_FORMATS;
+        $formats = \Magento\ImportExport\Model\Export::CONFIG_KEY_FORMATS;
         return $this->_config->getModelsComboOptions($formats);
     }
 }

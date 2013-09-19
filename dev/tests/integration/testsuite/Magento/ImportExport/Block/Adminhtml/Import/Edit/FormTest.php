@@ -10,7 +10,7 @@
  */
 
 /**
- * Tests for block Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest
+ * Tests for block \Magento\ImportExport\Block\Adminhtml\Import\Edit\FormTest
  * @magentoAppArea adminhtml
  */
 class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_Framework_TestCase
@@ -33,7 +33,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
     protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $importModel = $objectManager->create('Magento_ImportExport_Model_Import');
+        $importModel = $objectManager->create('Magento\ImportExport\Model\Import');
 
         $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();
         foreach (array_keys($uniqueBehaviors) as $behavior) {

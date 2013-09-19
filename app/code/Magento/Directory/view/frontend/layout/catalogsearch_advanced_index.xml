@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="left">
-        <block class="Magento_Directory_Block_Currency" name="right_currency" before="-" template="currency.phtml"/>
+        <block class="Magento\Directory\Block\Currency" name="right_currency" before="-" template="currency.phtml"/>
     </reference>
 </layout>

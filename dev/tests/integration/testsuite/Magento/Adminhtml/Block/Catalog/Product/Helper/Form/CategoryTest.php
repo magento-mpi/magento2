@@ -14,15 +14,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends P
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $layout = Mage::getModel(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            'Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
 
-        $block = $objectManager->create('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category',
+        $block = $objectManager->create('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Category',
             array('layout' => $layout));
 
-        /** @var $formFactory Magento_Data_Form_Factory */
-        $formFactory = $objectManager->get('Magento_Data_Form_Factory');
+        /** @var $formFactory \Magento\Data\Form\Factory */
+        $formFactory = $objectManager->get('Magento\Data\Form\Factory');
         $form = $formFactory->create();
         $block->setForm($form);
 

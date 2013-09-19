@@ -13,12 +13,12 @@
             <value>install</value>
         </param>
     </virtualType>
-    <type name="Magento_Install_Block_Begin">
+    <type name="Magento\Install\Block\Begin">
         <param name="eulaFile">
             <value>LICENSE.html</value>
         </param>
     </type>
-    <type name="Magento_Install_Model_Installer_Db">
+    <type name="Magento\Install\Model\Installer\Db">
         <param name="dbConfig">
             <value>
                 <mysql4>
@@ -29,7 +29,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Install_Model_Installer_Db_Abstract">
+    <type name="Magento\Install\Model\Installer\Db\AbstractDb">
         <param name="dbExtensions">
             <value>
                 <mysql4>

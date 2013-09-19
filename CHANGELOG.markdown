@@ -169,8 +169,8 @@
   * Implemented explicit usage of cache types in translations
   * Implemented explicit usage of cache types in layouts
   * Removed ability to set limits on maximal amount of categories, products, websites, stores, store views and admin users as an unusable feature
-  * Improved and simplified path normalization methods in `Magento_Filesystem` component
-  * Implemented proper exceptions instead of PHP warnings in `Magento_Filesystem` component
+  * Improved and simplified path normalization methods in `\Magento\Filesystem` component
+  * Implemented proper exceptions instead of PHP warnings in `\Magento\Filesystem` component
   * Introduced `Mage_Core_Model_ModuleManager` to provide "enabled" information about modules
   * Enabled following cache types in integration tests to improve performance: configuration, layouts, translations, EAV
   * Improved and refreshed design for backend
@@ -495,7 +495,7 @@
   * Several fixes for problems with cleaning cache in tag scope
   * Fixed invalid link problem in Gift Card email
   * Fixed problem with deleting selected product category after changing attribute set
-  * Fixed theme management for Windows by adopting `Magento_Filesystem` abstraction to access directories
+  * Fixed theme management for Windows by adopting `\Magento\Filesystem` abstraction to access directories
   * Fixed cart rendering in case of empty cart
   * Remove duplicate "Link to Store Front" link from admin, made obsolete by "Customer View" link
   * Removed "Flat Rate" from pre-installed shipping methods
@@ -511,7 +511,7 @@
 * Bug fixes:
   * Fixed JavaScript and markup issues on product editing page in backend that caused erroneous sending of AJAX-queries and not rendering validation messages
   * Fixed issues of application initialization in cases when `var` directory doesn't have writable permissions. Writable directories are validated at an early stage of initialization
-  * Fixed array sorting issues in test `Magento_Filesystem_Adapter_LocalTest::testGetNestedKeys()` that caused occasional failures
+  * Fixed array sorting issues in test `\Magento\Filesystem\Adapter\LocalTest::testGetNestedKeys()` that caused occasional failures
 
 2.0.0.0-dev42
 =============
@@ -654,7 +654,7 @@
   * Added ability to generate proxy and factory classes on-the-fly for use with DI implementations. Generators can be managed in DI configuration
   * Implemented tools (shell scripts) that allow generating skeletons of factory and proxy classes for use with DI implementations
   * Added ability to set preferences to object manager and specify them through configuration
-* Refactored the following modules to utilize `Magento_Filesystem` library instead of using built-in PHP core functions directly: `Mage_Adminhtml`, `Mage_Backend`, `Mage_Backup`, `Mage_Captcha`, `Magento_Catalog`, `Mage_Cms`, `Mage_Connect`, `Mage_Core`, `Mage_Install`
+* Refactored the following modules to utilize `\Magento\Filesystem` library instead of using built-in PHP core functions directly: `Mage_Adminhtml`, `Mage_Backend`, `Mage_Backup`, `Mage_Captcha`, `Magento_Catalog`, `Mage_Cms`, `Mage_Connect`, `Mage_Core`, `Mage_Install`
 * Bug fixes:
   * Fixed bug with incorrect order processing in `Mage_Authorizenet_Model_Directpost`
   * Fixed bug with unnecessary "loading" image on Category field during product editing in backend
@@ -675,11 +675,11 @@
 * Changed application initialization procedure
   * Application can be started with specific initial configuration data. `Mage_Core_Model_Config::loadBase()` merges this configuration with the highest priority
   * `Mage` class is no longer responsible for application installation status. `Mage_Core_Model_App` has this responsibility (`Mage_Core_Model_App::isInstalled()`)
-* Implemented new library component `Magento_Filesystem` for working with file system
+* Implemented new library component `\Magento\Filesystem` for working with file system
   * New component has more abstract layer of interaction with file system, better path isolation
-  * Introduced interface Magento_Filesystem_AdapterInterface for file operations. Added concrete implementation in `Magento_Filesystem_Adapter_Local`
-  * Introduced interface Magento_Filesystem_StreamInterface for stream operations with content. Added concrete implementation in `Magento_Filesystem_Stream_Local`
-  * Added special class `Magento_Filesystem_Stream_Mode` to set parameters of stream on opening (read-only, write-only etc.)
+  * Introduced interface \Magento\Filesystem\AdapterInterface for file operations. Added concrete implementation in `\Magento\Filesystem\Adapter\Local`
+  * Introduced interface \Magento\Filesystem\StreamInterface for stream operations with content. Added concrete implementation in `\Magento\Filesystem\Stream\Local`
+  * Added special class `\Magento\Filesystem\Stream\Mode` to set parameters of stream on opening (read-only, write-only etc.)
 * Added an ability to skip some service functions for lighter launch of application in `app/bootstrap.php`
 * Improved batch tool for launching automated tests. Tool has an ability to run specified test types. Tool was moved from `dev/tools/batch_tests` to `dev/tools/tests.php`
 * Improved integration test Mage_Adminhtml_DashboardControllerTest to skip test case when Google service is unavailable
@@ -700,7 +700,7 @@
 * Moved `Mage_Adminhtml_Utility_Controller` to `Backend` and changed all child classes
 * Changes in Profiler system:
   * Created separate component for handling Profiler Driver selection logic
-  * Extended `Magento_Profiler::start()` calls with tags as second argument
+  * Extended `\Magento\Profiler::start()` calls with tags as second argument
 * Bug fix - Added additional validation into `Mage_Adminhtml_Catalog_CategoryController` to prevent saving new category with any id using firebug
 
 2.0.0.0-dev36
@@ -749,7 +749,7 @@
   * Added support of describing validation rules in a module's configuration file - `validation.xml` in the module's `etc` directory
   * Added `Mage_Core_Model_Validator_Factory`
   * Added new validators to Magento Validator library
-  * Added `Magento_Translate_Adapter` as a translator for the validators
+  * Added `\Magento\Translate\Adapter` as a translator for the validators
   * New approach is utilized in `Mage_Customer`, `Mage_Eav` and `Mage_Webapi` modules
 * Added profiling of DB and cache requests
 * Minor Improvements:
@@ -804,7 +804,7 @@
   * Custom logger in `Mage_Backend_Menu` subsystem is removed due to usage of regular one
 * Changes made in autoload process
   * Fixed autoload to prevent `class_exists()` from causing fatal error
-  * The `Magento_Autoload` library was divided into 2 classes: `Magento_Autoload_IncludePath` is responsible for loading from include path, `Magento_Autoload_ClassMap` from a class map. Stacked "class map" loader on top of "include path" loader in application bootstrap.
+  * The `Magento_Autoload` library was divided into 2 classes: `\Magento\Autoload\IncludePath` is responsible for loading from include path, `\Magento\Autoload\ClassMap` from a class map. Stacked "class map" loader on top of "include path" loader in application bootstrap.
 * Implemented new jQuery form widget. Its responsibility is to prepare form for submission (change form attributes if needed)
   * Replaced usage of different instances of `varienForm` with a new form widget (`productForm`, `categoryForm`, instances of type "onclick declaration", "as child component", "instantiation only")
   * Replaced prototype validation with jQuery analog
@@ -1076,7 +1076,7 @@
 * Implemented console utility `dev/tools/migration/get_aliases_map.php`, which generates map file "M1 class alias" to "M2 class name"
 * Implemented automatic data upgrades for replacing "M1 class aliases" to "M2 class names" in a database
 * Implemented recursive `chmod` in the library class `Varien_Io_File`
-* Improved verbosity of the library class `Magento_Shell`
+* Improved verbosity of the library class `\Magento\Shell`
 * Migrated client-side translation mechanism to jQuery
 * Performance tests:
   * Improved assertion for number of created orders for the checkout performance testing scenario
@@ -1098,7 +1098,7 @@
     * Enforced a log writer model to be an instance of `Zend_Log_Writer_Stream`
   * [#49](https://github.com/magento/magento2/pull/49)
     * Fixed sorting of totals according to "before" and "after" properties
-    * Introduced `Magento_Data_Graph` library class and utilized it for finding cycles in "before" and "after" declarations
+    * Introduced `\Magento\Data\Graph` library class and utilized it for finding cycles in "before" and "after" declarations
     * Implemented tests for totals sorting including the ambiguous cases
 
 2.0.0.0-dev22
@@ -1135,7 +1135,7 @@
   * Implementation is not bound to backend area anymore and moved to `Mage_Core` module
   * Covered backwards-incompatible changes with additional migration tool (`dev/tools/migration/Acl`)
 * Implemented "move" layout directive and slightly modified behavior of "remove"
-* A failure in DB cleanup by integration testing framework is articulated more clearly by throwing `Magento_Exception`
+* A failure in DB cleanup by integration testing framework is articulated more clearly by throwing `\Magento\Exception`
 * Fixed security vulnerability of exploiting Magento "cookie restriction" feature
 * Fixed caching mechanism of loading modules declaration to not cause additional performance overhead
 * Adjusted include path in unit tests to use the original include path at the end, rather than at the beginning
@@ -1322,7 +1322,7 @@
 * Implemented support of ImageMagick library for processing images
 * Distinguished "Page Fragments" and "Pages" in layout handles declaration
 * Reduced performance drop caused by introducing containers
-* Implemented `Magento_Data_Structure` library which is used to handle structure of layout elements
+* Implemented `\Magento\Data\Structure` library which is used to handle structure of layout elements
 * Fixed some issues:
   * Fixed error on saving newsletter template
   * Fixed some checkout issues:

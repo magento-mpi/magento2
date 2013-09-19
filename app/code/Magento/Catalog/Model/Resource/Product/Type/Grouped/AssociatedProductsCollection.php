@@ -32,19 +32,19 @@ class AssociatedProductsCollection
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @internal param $Magento_Data_Collection_Db_Fet chStrategyInterface $fetchStrategy* chStrategyInterface $fetchStrategy
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @internal param $\Magento\Data\Collection\Db_Fet chStrategyInterface $fetchStrategy* chStrategyInterface $fetchStrategy
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreConfig = $coreConfig;
@@ -70,7 +70,7 @@ class AssociatedProductsCollection
 
         $allowProductTypes = array();
         $allowProductTypeNodes = $this->_coreConfig
-            ->getNode(Magento_Catalog_Model_Config::XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES)->children();
+            ->getNode(\Magento\Catalog\Model\Config::XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES)->children();
         foreach ($allowProductTypeNodes as $type) {
             $allowProductTypes[] = $type->getName();
         }

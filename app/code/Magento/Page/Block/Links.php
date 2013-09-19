@@ -6,16 +6,18 @@
  * @license     {license_link}
  */
 
+namespace Magento\Page\Block;
+
 /**
  * Links list block
  */
-class Magento_Page_Block_Links extends Magento_Core_Block_Template
+class Links extends \Magento\Core\Block\Template
 {
     /** @var string */
     protected $_template = 'Magento_Page::links.phtml';
 
     /**
-     * @return Magento_Page_Block_Link[]
+     * @return \Magento\Page\Block\Link[]
      */
     public function getLinks()
     {
@@ -25,10 +27,10 @@ class Magento_Page_Block_Links extends Magento_Core_Block_Template
     /**
      * Render Block
      *
-     * @param Magento_Core_Block_Abstract $link
+     * @param \Magento\Core\Block\AbstractBlock $link
      * @return string
      */
-    public function renderLink(Magento_Core_Block_Abstract $link)
+    public function renderLink(\Magento\Core\Block\AbstractBlock $link)
     {
         return $this->_layout->renderElement($link->getNameInLayout());
     }

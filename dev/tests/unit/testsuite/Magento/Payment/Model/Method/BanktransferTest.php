@@ -20,8 +20,8 @@ class Magento_Payment_Model_Method_BanktransferTest extends PHPUnit_Framework_Te
     {
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_object = new Magento_Payment_Model_Method_Banktransfer(
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_object = new \Magento\Payment\Model\Method\Banktransfer(
             $eventManager,
             $paymentDataMock,
             $coreStoreConfig

@@ -66,17 +66,17 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
@@ -85,7 +85,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -96,7 +96,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Check if Payment Bridge supports Payment Profiles
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return bool
      */
     public function arePaymentProfilesEnables($store = null)
@@ -272,7 +272,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if ($this->_encryptor === null) {
             $key = trim((string)$this->_coreStoreConfig->getConfig('payment/pbridge/transferkey', $this->_storeId));
-            $this->_encryptor = Mage::getModel('Magento_Pbridge_Model_Encryption', array('key' => $key));
+            $this->_encryptor = \Mage::getModel('Magento\Pbridge\Model\Encryption', array('key' => $key));
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;

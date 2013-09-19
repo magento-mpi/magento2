@@ -9,16 +9,16 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Category (Non-Anchor)" type="page" parent="default">
     <reference name="left">
-        <block class="Magento_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
+        <block class="Magento\Catalog\Block\Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
     </reference>
     <reference name="breadcrumbs.container">
-        <block class="Magento_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
+        <block class="Magento\Catalog\Block\Category\View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
     </reference>
     <reference name="content">
-        <block class="Magento_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
-            <block class="Magento_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
-                <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                    <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
+        <block class="Magento\Catalog\Block\Category\View" name="category.products" template="category/view.phtml">
+            <block class="Magento\Catalog\Block\Product\ListProduct" name="product_list" template="product/list.phtml">
+                <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                    <block class="Magento\Page\Block\Html\Pager" name="product_list_toolbar_pager"/>
                 </block>
                 <action method="setToolbarBlockName">
                     <argument name="name" xsi:type="string">product_list_toolbar</argument>

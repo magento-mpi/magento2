@@ -43,7 +43,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     protected $_template = 'system/email/template/edit.phtml';
 
     /**
-     * @var Magento_Core_Model_Email_Template
+     * @var \Magento\Core\Model\Email\Template
      */
     protected $_templateModel;
     
@@ -53,7 +53,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param Magento_Core_Model_Email_Template $templateModel
+     * @param \Magento\Core\Model\Email\Template $templateModel
      * @param array $data
      */
     public function __construct(
@@ -62,7 +62,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
         \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        Magento_Core_Model_Email_Template $templateModel,
+        \Magento\Core\Model\Email\Template $templateModel,
         array $data = array()
     ) {
         $this->_registryManager = $registry;

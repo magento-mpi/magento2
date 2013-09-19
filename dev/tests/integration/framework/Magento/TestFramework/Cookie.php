@@ -15,18 +15,18 @@
 class Magento_TestFramework_Cookie extends \Magento\Core\Model\Cookie
 {
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Controller\Response\Http $response
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Controller_Request_Http $request = null,
-        Magento_Core_Controller_Response_Http $response = null
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Controller\Request\Http $request = null,
+        \Magento\Core\Controller\Response\Http $response = null
     ) {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $request = $request ?: $objectManager->get('Magento_Core_Controller_Request_Http');
-        $response = $response ?: $objectManager->get('Magento_Core_Controller_Response_Http');
+        $request = $request ?: $objectManager->get('Magento\Core\Controller\Request\Http');
+        $response = $response ?: $objectManager->get('Magento\Core\Controller\Response\Http');
         parent::__construct($request, $response, $coreStoreConfig);
     }
 

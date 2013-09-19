@@ -107,7 +107,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->getConfigFlag(Magento_Rma_Model_Rma::XML_PATH_ENABLED);
+        return $this->_storeConfig->getConfigFlag(\Magento\Rma\Model\Rma::XML_PATH_ENABLED);
     }
 
     /**
@@ -200,7 +200,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         }
 
         if (!$format) {
-            $path = sprintf('%s%s', Magento_Customer_Model_Address_Config::XML_PATH_ADDRESS_TEMPLATE, $formatCode);
+            $path = sprintf('%s%s', \Magento\Customer\Model\Address\Config::XML_PATH_ADDRESS_TEMPLATE, $formatCode);
             $format = $this->_storeConfig->getConfig($path, $storeId);
         }
 
@@ -217,14 +217,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getReturnContactName($storeId = null)
     {
-        $contactName = new Magento_Object();
-        if ($this->_storeConfig->getConfigFlag(Magento_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
-            $admin = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
+        $contactName = new \Magento\Object();
+        if ($this->_storeConfig->getConfigFlag(\Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
+            $admin = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());
         } else {
-            $name = $this->_storeConfig->getConfig(Magento_Rma_Model_Shipping::XML_PATH_CONTACT_NAME, $storeId);
+            $name = $this->_storeConfig->getConfig(\Magento\Rma\Model\Shipping::XML_PATH_CONTACT_NAME, $storeId);
             $contactName->setFirstName('');
             $contactName->setLastName($name);
             $contactName->setName($name);
@@ -475,7 +475,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             case \Magento\Rma\Model\Product\Source::ATTRIBUTE_ENABLE_RMA_NO:
                 return false;
             default: //Use config and NULL
-                return $this->_storeConfig->getConfig(Magento_Rma_Model_Product_Source::XML_PATH_PRODUCTS_ALLOWED, $storeId);
+                return $this->_storeConfig->getConfig(\Magento\Rma\Model\Product\Source::XML_PATH_PRODUCTS_ALLOWED, $storeId);
         }
     }
 

@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="sales.order.print">
-        <block class="Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable" as="downloadable" template="sales/order/items/renderer/downloadable.phtml"/>
+        <block class="Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable" as="downloadable" template="sales/order/items/renderer/downloadable.phtml"/>
     </reference>
 </layout>

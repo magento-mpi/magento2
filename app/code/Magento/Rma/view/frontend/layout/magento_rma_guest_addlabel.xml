@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Guest Add Label" type="fragment" owner="magento_rma_guest_view">
-    <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-        <block class="Magento_Rma_Block_Return_Tracking" name="tracking" template="return/tracking.phtml"/>
+    <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
+        <block class="Magento\Rma\Block\ReturnShipment\Tracking" name="tracking" template="return/tracking.phtml"/>
     </block>
 </layout>

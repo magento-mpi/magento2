@@ -136,7 +136,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_headerColumns = array();
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -144,11 +144,11 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * Constructor
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Collection $collection,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Catalog\Model\Resource\Product\Collection $collection,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_entityCollection = $collection;
         $this->_coreConfig = $coreConfig;

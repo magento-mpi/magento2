@@ -23,13 +23,13 @@ class History extends \Magento\Core\Block\Template
     protected $_actionNames = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -75,7 +75,7 @@ class History extends \Magento\Core\Block\Template
     public function getActionNames()
     {
         if (is_null($this->_actionNames)) {
-            $this->_actionNames = Mage::getSingleton('Magento_CustomerBalance_Model_Balance_History')
+            $this->_actionNames = \Mage::getSingleton('Magento\CustomerBalance\Model\Balance\History')
                 ->getActionNamesArray();
         }
         return $this->_actionNames;

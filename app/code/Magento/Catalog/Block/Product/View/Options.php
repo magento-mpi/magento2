@@ -25,7 +25,7 @@ class Options extends \Magento\Core\Block\Template
     /**
      * Product option
      *
-     * @var Magento_Catalog_Model_Product_Option
+     * @var \Magento\Catalog\Model\Product\Option
      */
     protected $_option;
 
@@ -47,7 +47,7 @@ class Options extends \Magento\Core\Block\Template
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
@@ -55,7 +55,7 @@ class Options extends \Magento\Core\Block\Template
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        Magento_Catalog_Model_Product_Option $option,
+        \Magento\Catalog\Model\Product\Option $option,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {

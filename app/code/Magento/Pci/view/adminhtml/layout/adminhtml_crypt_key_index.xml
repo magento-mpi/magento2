@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Pci_Block_Adminhtml_Crypt_Key_Edit" name="pci.crypt.key.edit" as="crypt_key_edit" template="Magento_Backend::widget/form/container.phtml">
-            <block class="Magento_Pci_Block_Adminhtml_Crypt_Key_Form" name="pci.crypt.key.form" as="form"/>
+        <block class="Magento\Pci\Block\Adminhtml\Crypt\Key\Edit" name="pci.crypt.key.edit" as="crypt_key_edit" template="Magento_Backend::widget/form/container.phtml">
+            <block class="Magento\Pci\Block\Adminhtml\Crypt\Key\Form" name="pci.crypt.key.form" as="form"/>
         </block>
     </reference>
 </layout>

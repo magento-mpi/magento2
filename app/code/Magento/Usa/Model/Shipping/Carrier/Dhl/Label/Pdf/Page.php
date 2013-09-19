@@ -30,7 +30,7 @@ class Page extends \Zend_Pdf_Page
      * Dhl International Label Creation Class Pdf Page constructor
      * Create/Make a copy of pdf page
      *
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page|string $param1
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page|string $param1
      * @param null $param2
      * @param null $param3
      */
@@ -40,7 +40,7 @@ class Page extends \Zend_Pdf_Page
      * Create/Make a copy of pdf page
      *
      * @param \Magento\Core\Helper\String $coreString
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page|string $param1
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page|string $param1
      * @param null $param2
      * @param null $param3
      */

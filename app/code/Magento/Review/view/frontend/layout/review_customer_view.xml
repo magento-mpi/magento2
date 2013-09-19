@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Review Details" type="page" parent="review_customer_index">
     <update handle="customer_account"/>
     <reference name="my.account.wrapper">
-        <block class="Magento_Review_Block_Customer_View" name="customers_review"/>
+        <block class="Magento\Review\Block\Customer\View" name="customers_review"/>
     </reference>
 </layout>

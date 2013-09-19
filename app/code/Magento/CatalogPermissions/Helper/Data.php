@@ -40,19 +40,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -67,23 +67,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isEnabled()
     {
         return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED);
-    }
-
-    /**
-     * Check category permission is allowed
-     *
-     * @param \Magento\Catalog\Model\Category $category
-     * @return boolean
-     */
-    public function isAllowedCategory($category)
-    {
-        $options = new \Magento\Object();
-        $options->setCategory($category);
-        $options->setIsAllowed(true);
-
-        \Mage::dispatchEvent('magento_catalog_permissions_is_allowed_category', array('options' => $options));
-
-        return $options->getIsAllowed();
     }
 
     /**

@@ -39,19 +39,19 @@ class DefaultStock
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($resource);
@@ -115,12 +115,12 @@ class DefaultStock
      * @throws \Magento\Core\Exception
      *
      * @return string
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            throw new Magento_Core_Exception(__('Undefined product type'));
+            throw new \Magento\Core\Exception(__('Undefined product type'));
         }
         return $this->_typeId;
     }
@@ -154,7 +154,7 @@ class DefaultStock
      */
     protected function _isManageStock()
     {
-        return $this->_coreStoreConfig->getConfigFlag(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        return $this->_coreStoreConfig->getConfigFlag(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK);
     }
 
     /**

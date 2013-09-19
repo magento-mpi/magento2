@@ -27,7 +27,7 @@ class Magento_Test_Tools_Di_Code_Scanner_PluginScannerTest extends PHPUnit_Frame
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Magento_Core_Model_Cache_TagPlugin',
+            'Magento\Core\Model\Cache\TagPlugin',
             'Magento_Core_Model_Action_Plugin',
             'Custom_PageCache_Model_Action_Plugin',
         );

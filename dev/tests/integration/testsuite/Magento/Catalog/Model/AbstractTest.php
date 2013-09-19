@@ -14,7 +14,7 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     /**
      * Stub class name for class under test
      */
-    const STUB_CLASS = 'Magento_Catalog_Model_Abstract_Stub';
+    const STUB_CLASS = 'Magento_Catalog_Model_AbstractModel_Stub';
 
     /**
      * @var \Magento\Catalog\Model\AbstractModel

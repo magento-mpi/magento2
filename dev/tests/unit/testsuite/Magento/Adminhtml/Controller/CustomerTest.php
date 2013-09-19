@@ -10,7 +10,7 @@
  */
 
 /**
- * Class Magento_Adminhtml_Controller_CustomerTest
+ * Class \Magento\Adminhtml\Controller\CustomerTest
  */
 class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCase
 {

@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="adminhtml_tax_rate_block"/>
     <reference name="content">
-        <block class="Magento_Adminhtml_Block_Tax_Rate_Toolbar_Add" name="adminhtml.tax.rate.container"/>
+        <block class="Magento\Adminhtml\Block\Tax\Rate\Toolbar\Add" name="adminhtml.tax.rate.container"/>
     </reference>
 </layout>

@@ -44,11 +44,11 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $ctlgRuleHlprMock = $this->getMock('Magento\CatalogRule\Helper\Data',
             array('__construct'), array(), '', false);
-        $cacheTypeList = $this->getMock('Magento_Core_Model_Cache_TypeListInterface', array(), array(), '', false);
-        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        /** @var $catalogRule Magento_CatalogRule_Model_Rule */
+        $cacheTypeList = $this->getMock('Magento\Core\Model\Cache\TypeListInterface', array(), array(), '', false);
+        $config = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+        /** @var $catalogRule \Magento\CatalogRule\Model\Rule */
         $catalogRule = $this->getMock(
-            'Magento_CatalogRule_Model_Rule',
+            'Magento\CatalogRule\Model\Rule',
             array('_getRulesFromProduct'),
             array(
                 $ctlgRuleHlprMock,

@@ -9,7 +9,7 @@
  */
 
 /**
- * Class Magento_Banner_Block_Adminhtml_Banner_Edit_Form
+ * Class \Magento\Banner\Block\Adminhtml\Banner\Edit\Form
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */

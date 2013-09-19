@@ -16,17 +16,17 @@ namespace Magento\GiftCard\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Layout $layout
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Layout $layout
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Layout $layout
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Layout $layout
     ) {
         $this->_layout = $layout;
         parent::__construct($context);
@@ -38,8 +38,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getEmailGeneratedItemsBlock()
     {
-        /** @var $block Magento_Core_Block_Template */
-        $block = $this->_layout->createBlock('Magento_Core_Block_Template');
+        /** @var $block \Magento\Core\Block\Template */
+        $block = $this->_layout->createBlock('Magento\Core\Block\Template');
         $block->setTemplate('Magento_GiftCard::email/generated.phtml');
         return $block;
     }

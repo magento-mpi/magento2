@@ -9,19 +9,19 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product View (Gift Card)" type="page" parent="catalog_product_view">
     <reference name="product.info">
-        <block class="Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml">
+        <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">giftcard</argument>
                 <argument name="block" xsi:type="string">Magento\GiftCard\Block\Catalog\Product\Price</argument>
                 <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
             </action>
-            <block class="Magento_CatalogInventory_Block_Stockqty_Default" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
+            <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
         </block>
     </reference>
     <reference name="product.clone_prices">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">giftcard</argument>
-            <argument name="block" xsi:type="string">Magento_GiftCard_Block_Catalog_Product_Price</argument>
+            <argument name="block" xsi:type="string">Magento\GiftCard\Block\Catalog\Product\Price</argument>
             <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
         </action>
     </reference>

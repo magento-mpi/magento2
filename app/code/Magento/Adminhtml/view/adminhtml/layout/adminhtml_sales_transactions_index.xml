@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Transactions" name="sales_transactions.grid.container"/>
+        <block class="Magento\Adminhtml\Block\Sales\Transactions" name="sales_transactions.grid.container"/>
     </reference>
 </layout>

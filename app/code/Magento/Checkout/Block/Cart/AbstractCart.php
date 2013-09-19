@@ -61,7 +61,7 @@ class AbstractCart extends \Magento\Core\Block\Template
         if (!$this->getChildBlock(self::DEFAULT_TYPE)) {
             $this->addChild(
                 self::DEFAULT_TYPE,
-                'Magento_Checkout_Block_Cart_Item_Renderer',
+                'Magento\Checkout\Block\Cart\Item\Renderer',
                 array('template' => 'cart/item/default.phtml')
             );
         }
@@ -72,14 +72,14 @@ class AbstractCart extends \Magento\Core\Block\Template
      * Get renderer block instance by product type code
      *
      * @param  string $type
-     * @throws RuntimeException
-     * @return Magento_Core_Block_Abstract
+     * @throws \RuntimeException
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getItemRenderer($type)
     {
         $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
-        if (!$renderer instanceof Magento_Core_Block) {
-            throw new RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        if (!$renderer instanceof \Magento\Core\Block) {
+            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
         $renderer->setRenderedBlock($this);
         return $renderer;

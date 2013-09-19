@@ -23,8 +23,8 @@ class Magento_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framewor
         /** @var $block \Magento\Adminhtml\Block\Widget\Form\Container */
         $block = $this->getMock('Magento\Adminhtml\Block\Widget\Form\Container', array('_prepareLayout'),
             array(
-                $objectManager->create('Magento_Core_Helper_Data'),
-                $objectManager->create('Magento_Backend_Block_Template_Context'),
+                $objectManager->create('Magento\Core\Helper\Data'),
+                $objectManager->create('Magento\Backend\Block\Template\Context'),
             )
         );
 

@@ -81,27 +81,27 @@ class AbstractSession extends \Magento\Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -190,7 +190,7 @@ class AbstractSession extends \Magento\Object
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId();
 
-        Magento_Profiler::start('session_start');
+        \Magento\Profiler::start('session_start');
         $sessionCacheLimiter = $this->_coreConfig->getNode('global/session_cache_limiter');
         if ($sessionCacheLimiter) {
             session_cache_limiter((string)$sessionCacheLimiter);
@@ -482,7 +482,7 @@ class AbstractSession extends \Magento\Object
             "\n",
             $exception->getTraceAsString());
         $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
-        Mage::log($message, Zend_Log::DEBUG, $file);
+        \Mage::log($message, \Zend_Log::DEBUG, $file);
 
         $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->error($alternativeText));
         return $this;
@@ -625,7 +625,7 @@ class AbstractSession extends \Magento\Object
     {
 
         if (null === $id
-            && (Mage::app()->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
+            && (\Mage::app()->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
         ) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam]) && \Mage::getSingleton('Magento\Core\Model\Url')->isOwnOriginUrl()) {
@@ -802,7 +802,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionSaveMethod()
     {
-        if (Mage::isInstalled() && $sessionSave = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE)) {
+        if (\Mage::isInstalled() && $sessionSave = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE)) {
             return (string) $sessionSave;
         }
         return 'files';
@@ -815,7 +815,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getSessionSavePath()
     {
-        if (Mage::isInstalled() && $sessionSavePath = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
+        if (\Mage::isInstalled() && $sessionSavePath = $this->_coreConfig->getNode(self::XML_NODE_SESSION_SAVE_PATH)) {
             return $sessionSavePath;
         }
         return \Mage::getBaseDir('session');

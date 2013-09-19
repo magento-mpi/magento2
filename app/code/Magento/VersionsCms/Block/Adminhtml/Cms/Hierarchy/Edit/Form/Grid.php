@@ -37,7 +37,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare Cms Page Collection for Grid
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages_Grid
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit_Tab_Pages_Grid
      */
     protected function _prepareCollection()
     {
@@ -55,7 +55,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare Grid columns
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages_Grid
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit_Tab_Pages_Grid
      */
     protected function _prepareColumns()
     {

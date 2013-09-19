@@ -23,9 +23,10 @@ class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        $coreStoreConfig = $this->getMockBuilder('Magento_Core_Model_Store_Config')
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $coreStoreConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = new Magento_TestFramework_Cookie(

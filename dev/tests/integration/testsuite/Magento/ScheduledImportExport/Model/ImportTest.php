@@ -15,26 +15,26 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
     {
         /** @var Magento_TestFramework_ObjectManager $objectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $productModel = $objectManager->create('Magento_Catalog_Model_Product');
+        $productModel = $objectManager->create('Magento\Catalog\Model\Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
-        /** @var Magento_ImportExport_Model_Import $model */
+        /** @var \Magento\ImportExport\Model\Import $model */
         $model = $this->getMock(
-            'Magento_ScheduledImportExport_Model_Import',
+            'Magento\ScheduledImportExport\Model\Import',
             array('reindexAll'),
             array(
-                'importExportData' => $objectManager->get('Magento_ImportExport_Helper_Data'),
-                'coreConfig' => $objectManager->create('Magento_Core_Model_Config'),
-                'config' => $objectManager->create('Magento_ImportExport_Model_Config'),
+                'importExportData' => $objectManager->get('Magento\ImportExport\Helper\Data'),
+                'coreConfig' => $objectManager->create('Magento\Core\Model\Config'),
+                'config' => $objectManager->create('Magento\ImportExport\Model\Config'),
                 'data' => array('entity' => 'catalog_product', 'behavior' => 'append')
         ));
         $model->expects($this->once())
             ->method('reindexAll')
             ->will($this->returnSelf());
 
-        $operation = $objectManager->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $operation = $objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
         $operation->setFileInfo(array(
             'file_name' => __DIR__ . '/../_files/product.csv',
             'server_type' => 'file',

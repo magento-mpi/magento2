@@ -47,7 +47,7 @@ class Url extends \Magento\Core\Helper\Url
         $params = is_array($params) ? $params : array();
 
         if ($this->_getRequest()->getAlias('rewrite_request_path')) {
-            $url = Mage::app()->getStore()->getBaseUrl() . $this->_getRequest()->getAlias('rewrite_request_path');
+            $url = \Mage::app()->getStore()->getBaseUrl() . $this->_getRequest()->getAlias('rewrite_request_path');
         } else {
             $url = $this->getCurrentUrl();
         }

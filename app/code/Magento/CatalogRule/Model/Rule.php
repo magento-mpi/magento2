@@ -105,12 +105,12 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_catalogRuleData;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -119,9 +119,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_CatalogRule_Model_Resource_Rule $resource
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\CatalogRule\Model\Resource\Rule $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -130,8 +130,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Data\Form\Factory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Core\Model\Config $coreConfig,
         \Magento\CatalogRule\Model\Resource\Rule $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

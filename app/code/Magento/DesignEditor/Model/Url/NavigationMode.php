@@ -39,17 +39,17 @@ class NavigationMode extends \Magento\Core\Model\Url
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_DesignEditor_Helper_Data $helper
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\Core\Helper\Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_helper = $helper;

@@ -21,19 +21,19 @@ class Config extends \Magento\Sales\Model\Order\Total\Config\Base
     protected $_collectorsCacheKey = 'sorted_order_creditmemo_collectors';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         parent::__construct($configCacheType, $coreConfig->getNode('global/sales/order_creditmemo'));
         $this->_coreConfig = $coreConfig;

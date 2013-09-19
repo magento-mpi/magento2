@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Sales_Block_Guest_Link
+ * Test class for \Magento\Sales\Block\Guest\Link
  */
 class Magento_Sales_Block_Guest_LinkTest extends PHPUnit_Framework_TestCase
 {
@@ -18,8 +18,8 @@ class Magento_Sales_Block_Guest_LinkTest extends PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $context = $objectManagerHelper->getObject('Magento_Core_Block_Template_Context');
-        $session = $this->getMockBuilder('Magento_Customer_Model_Session')
+        $context = $objectManagerHelper->getObject('Magento\Core\Block\Template\Context');
+        $session = $this->getMockBuilder('Magento\Customer\Model\Session')
             ->disableOriginalConstructor()
             ->setMethods(array('isLoggedIn'))
             ->getMock();
@@ -27,9 +27,9 @@ class Magento_Sales_Block_Guest_LinkTest extends PHPUnit_Framework_TestCase
             ->method('isLoggedIn')
             ->will($this->returnValue(true));
 
-        /** @var Magento_Sales_Block_Guest_Link $link */
+        /** @var \Magento\Sales\Block\Guest\Link $link */
         $link = $objectManagerHelper->getObject(
-            'Magento_Sales_Block_Guest_Link',
+            'Magento\Sales\Block\Guest\Link',
             array(
                 'context' => $context,
                 'customerSession' => $session,

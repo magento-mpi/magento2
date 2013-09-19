@@ -59,7 +59,7 @@ class Engine
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -71,7 +71,7 @@ class Engine
     protected function _canHoldCommit()
     {
         $commitMode = $this->_coreStoreConfig->getConfig(
-            Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
         );
 
         return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
@@ -86,7 +86,7 @@ class Engine
     protected function _canAllowCommit()
     {
         $commitMode = $this->_coreStoreConfig->getConfig(
-            Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
         );
 
         return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
@@ -111,12 +111,12 @@ class Engine
     /**
      * Set search engine adapter
      *
-     * @param Magento_Search_Model_AdapterInterface $adapter
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Search\Model\AdapterInterface $adapter
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Search_Model_AdapterInterface $adapter,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Search\Model\AdapterInterface $adapter,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_adapter = $adapter;

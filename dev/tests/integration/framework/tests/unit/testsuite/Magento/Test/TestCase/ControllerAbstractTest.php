@@ -27,8 +27,9 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
             ->add(new \Magento\Core\Model\Message\Notice('some_notice'))
         ;
         $session = new \Magento\Object(array('messages' => $messagesCollection));
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
+            ->disableOriginalConstructor()
+            ->getMock();
         $request = new Magento_TestFramework_Request($helperMock);
         $response = new Magento_TestFramework_Response(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
@@ -107,7 +108,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
     public function testAssertRedirect()
     {
         /*
-         * Prevent calling Magento_Core_Controller_Response_Http::setRedirect() because it dispatches event,
+         * Prevent calling \Magento\Core\Controller\Response\Http::setRedirect() because it dispatches event,
          * which requires fully initialized application environment intentionally not available
          * for unit tests
          */

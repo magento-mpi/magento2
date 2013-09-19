@@ -93,12 +93,12 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
         $this->assertSame(array(),
             $layoutXml->xpath(
-                '//block[@class="Magento_Page_Block_Html_Head_Css" '
-                    . 'or @class="Magento_Page_Block_Html_Head_Link" '
-                    . 'or @class="Magento_Page_Block_Html_Head_Script"]'
+                '//block[@class="Magento\Page\Block\Html\Head\Css" '
+                    . 'or @class="Magento\Page\Block\Html\Head\Link" '
+                    . 'or @class="Magento\Page\Block\Html\Head\Script"]'
                     . '/parent::*[not(' . $selectorHeadBlock . ')]'
             ),
-            'Blocks Magento_Page_Block_Html_Head_{Css,Link,Script} are allowed within the "head" block only. '
+            'Blocks \Magento\Page\Block\Html\Head_{Css,Link,Script} are allowed within the "head" block only. '
                 . 'Verify integrity of the nodes nesting.'
         );
         $this->assertSame(array(),
@@ -118,7 +118,7 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             );
         }
         $this->assertSame(array(),
-            $layoutXml->xpath('/layout//block[@class="Magento_Core_Block_Text_List"]'),
+            $layoutXml->xpath('/layout//block[@class="Magento\Core\Block\Text\List"]'),
             'The class Magento_Core_Block_Text_List is not supposed to be used in layout anymore.'
         );
     }

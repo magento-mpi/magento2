@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Oauth_Block_Adminhtml_Oauth_Consumer" name="oauth_consumer"/>
+        <block class="Magento\Oauth\Block\Adminhtml\Oauth\Consumer" name="oauth_consumer"/>
     </reference>
 </layout>

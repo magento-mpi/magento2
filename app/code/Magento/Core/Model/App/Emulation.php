@@ -20,55 +20,55 @@ namespace Magento\Core\Model\App;
 class Emulation extends \Magento\Object
 {
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Design
+     * @var \Magento\Core\Model\Design
      */
     protected $_design;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
     /**
-     * @var Magento_Core_Helper_Translate
+     * @var \Magento\Core\Helper\Translate
      */
     protected $_helperTranslate;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_App $app
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_View_DesignInterface $viewDesign
-     * @param Magento_Core_Model_Design $design
-     * @param Magento_Core_Model_Translate $translate
-     * @param Magento_Core_Helper_Translate $helperTranslate
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\View\DesignInterface $viewDesign
+     * @param \Magento\Core\Model\Design $design
+     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Core\Helper\Translate $helperTranslate
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_App $app,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_View_DesignInterface $viewDesign,
-        Magento_Core_Model_Design $design,
-        Magento_Core_Model_Translate $translate,
-        Magento_Core_Helper_Translate $helperTranslate,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\View\DesignInterface $viewDesign,
+        \Magento\Core\Model\Design $design,
+        \Magento\Core\Model\Translate $translate,
+        \Magento\Core\Helper\Translate $helperTranslate,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -149,7 +149,7 @@ class Emulation extends \Magento\Object
         if (is_null($storeId)) {
             $newTranslateInline = false;
         } else {
-            if ($area == Magento_Core_Model_App_Area::AREA_ADMIN) {
+            if ($area == \Magento\Core\Model\App\Area::AREA_ADMIN) {
                 $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active_admin', $storeId);
             } else {
                 $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active', $storeId);
@@ -180,7 +180,7 @@ class Emulation extends \Magento\Object
         $storeTheme = $this->_viesDesign->getConfigurationDesignTheme($area, array('store' => $storeId));
         $this->_viesDesign->setDesignTheme($storeTheme, $area);
 
-        if ($area == Magento_Core_Model_App_Area::AREA_FRONTEND) {
+        if ($area == \Magento\Core\Model\App\Area::AREA_FRONTEND) {
             $designChange = $this->_design->loadChange($storeId);
             if ($designChange->getData()) {
                 $this->_viesDesign->setDesignTheme($designChange->getDesign(), $area);
@@ -202,7 +202,7 @@ class Emulation extends \Magento\Object
     {
         $initialLocaleCode = $this->_app->getLocale()->getLocaleCode();
         $newLocaleCode = $this->_coreStoreConfig->getConfig(
-            Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
             $storeId
         );
         $this->_app->getLocale()->setLocaleCode($newLocaleCode);

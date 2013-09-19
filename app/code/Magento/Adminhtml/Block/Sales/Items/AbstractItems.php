@@ -98,13 +98,13 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      *
      * @param string $type
      * @return \Magento\Core\Block\AbstractBlock
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function getItemRenderer($type)
     {
         $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
-        if (!$renderer instanceof Magento_Core_Block) {
-            throw new RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        if (!$renderer instanceof \Magento\Core\Block) {
+            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
         foreach ($this->_columnRenders as $columnType => $columnRenderer) {
             $renderer->addColumnRender(
@@ -510,7 +510,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
      */
 
     public function canReturnToStock() {
-        if ($this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
+        if ($this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;
@@ -525,7 +525,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     public function canReturnItemToStock($item = null)
     {
         $canReturnToStock = $this->_storeConfig->getConfig(
-            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
         );
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
@@ -549,7 +549,7 @@ class AbstractItems extends \Magento\Adminhtml\Block\Template
     public function canParentReturnToStock($item = null)
     {
         $canReturnToStock = $this->_storeConfig->getConfig(
-            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
         );
         if (!is_null($item)) {
             if ( $item->getCreditmemo()->getOrder()->hasCanReturnToStock() ) {

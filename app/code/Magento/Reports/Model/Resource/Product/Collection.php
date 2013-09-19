@@ -57,7 +57,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Resource\Product $product
      */
     public function __construct(
@@ -65,7 +65,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Resource\Product $product
     ) {
         $this->setProductEntityId($product->getEntityIdField());
@@ -89,7 +89,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Set product entity id
      *
      * @param $entityId
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function setProductEntityId($entityId)
     {

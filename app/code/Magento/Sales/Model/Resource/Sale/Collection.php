@@ -63,7 +63,7 @@ class Collection extends \Magento\Data\Collection\Db
      *
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Sales_Model_Resource_Order $resource
+     * @param \Magento\Sales\Model\Resource\Order $resource
      * @todo: incorrect constructor
      */
     public function __construct(

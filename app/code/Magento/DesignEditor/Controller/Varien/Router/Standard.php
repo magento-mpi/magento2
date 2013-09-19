@@ -31,8 +31,8 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Config\Scope $configScope
      * @param \Magento\Core\Model\Route\Config $routeConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $config
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -46,8 +46,8 @@ class Standard extends \Magento\Core\Controller\Varien\Router\Base
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Config\Scope $configScope,
         \Magento\Core\Model\Route\Config $routeConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $config,
         $areaCode,
         $baseController,
         $routerId

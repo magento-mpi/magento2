@@ -34,22 +34,22 @@ class View
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @var Magento_Log_Model_Visitor
+     * @var \Magento\Log\Model\Visitor
      */
     protected $_modelVisitor;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Log_Model_Visitor $modelVisitor
+     * @param \Magento\Log\Model\Visitor $modelVisitor
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Log_Model_Visitor $modelVisitor,
+        \Magento\Log\Model\Visitor $modelVisitor,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

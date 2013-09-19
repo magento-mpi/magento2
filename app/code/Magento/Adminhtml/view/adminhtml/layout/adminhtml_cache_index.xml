@@ -11,7 +11,7 @@
     <update handle="formkey"/>
     <update handle="adminhtml_cache_block"/>
     <reference name="content">
-        <block class="Magento_Adminhtml_Block_Cache" name="adminhtml.cache.container"/>
-        <block class="Magento_Adminhtml_Block_Cache_Additional" name="cache.additional" template="system/cache/additional.phtml"/>
+        <block class="Magento\Adminhtml\Block\Cache" name="adminhtml.cache.container"/>
+        <block class="Magento\Adminhtml\Block\Cache\Additional" name="cache.additional" template="system/cache/additional.phtml"/>
     </reference>
 </layout>

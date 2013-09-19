@@ -22,7 +22,7 @@ class Labels
     protected $_storeManager;
     
     /**
-     * @param Magento_Data_Form_Factory $formFactory
+     * @param \Magento\Data\Form\Factory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager

@@ -11,7 +11,7 @@
  */
 namespace Magento\Wishlist\Block;
 
-class Magento_Wishlist_Block_Link extends Magento_Page_Block_Link
+class Link extends \Magento\Page\Block\Link
 {
     /**
      * @return string

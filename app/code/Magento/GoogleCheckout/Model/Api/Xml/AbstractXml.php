@@ -27,18 +27,18 @@ abstract class AbstractXml extends \Magento\Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Core\Model\Translate $translator
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Translate $translator,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -245,6 +245,6 @@ abstract class AbstractXml extends \Magento\Object
      */
     protected function _getTaxClassForShipping($quote)
     {
-        return $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $quote->getStoreId());
+        return $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $quote->getStoreId());
     }
 }

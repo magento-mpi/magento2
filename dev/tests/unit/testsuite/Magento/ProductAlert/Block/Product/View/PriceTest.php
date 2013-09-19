@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_ProductAlert_Block_Product_View_Price
+ * Test class for \Magento\ProductAlert\Block\Product\View\Price
  */
 class Magento_ProductAlert_Block_Product_View_PriceTest extends PHPUnit_Framework_TestCase
 {
@@ -26,21 +26,21 @@ class Magento_ProductAlert_Block_Product_View_PriceTest extends PHPUnit_Framewor
 
     public function testPrepareLayoutUrlIsSet()
     {
-        $helper = $this->getMockBuilder('Magento_ProductAlert_Helper_Data')
+        $helper = $this->getMockBuilder('Magento\ProductAlert\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('isPriceAlertAllowed', 'getSaveUrl'))
             ->getMock();
         $helper->expects($this->once())->method('isPriceAlertAllowed')->will($this->returnValue(true));
         $helper->expects($this->once())->method('getSaveUrl')->with('price')->will($this->returnValue('http://url'));
 
-        $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->setMethods(array('getCanShowPrice', 'getId'))
             ->getMock();
         $product->expects($this->once())->method('getId')->will($this->returnValue(1));
         $product->expects($this->once())->method('getCanShowPrice')->will($this->returnValue(true));
 
-        $registry = $this->getMockBuilder('Magento_Core_Model_Registry')
+        $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->setMethods(array('registry'))
             ->getMock();
@@ -50,14 +50,14 @@ class Magento_ProductAlert_Block_Product_View_PriceTest extends PHPUnit_Framewor
             ->will($this->returnValue($product));
 
         $block = $this->_objectManager->getObject(
-            'Magento_ProductAlert_Block_Product_View_Price',
+            'Magento\ProductAlert\Block\Product\View\Price',
             array(
                 'helper' => $helper,
                 'registry' => $registry,
             )
         );
 
-        $layout = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $layout = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -70,7 +70,7 @@ class Magento_ProductAlert_Block_Product_View_PriceTest extends PHPUnit_Framewor
 
     public function testPrepareLayoutTemplateReseted()
     {
-        $block = $this->_objectManager->getObject('Magento_ProductAlert_Block_Product_View_Price');
+        $block = $this->_objectManager->getObject('Magento\ProductAlert\Block\Product\View\Price');
         $this->assertEquals('', $block->getTemplate());
     }
 }

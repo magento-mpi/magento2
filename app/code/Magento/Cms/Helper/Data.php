@@ -24,19 +24,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     const XML_NODE_BLOCK_TEMPLATE_FILTER    = 'global/cms/block/tempate_filter';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         parent::__construct(
             $context
@@ -52,7 +52,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getPageTemplateProcessor()
     {
         $model = (string)$this->_coreConfig->getNode(self::XML_NODE_PAGE_TEMPLATE_FILTER);
-        return Mage::getModel($model);
+        return \Mage::getModel($model);
     }
 
     /**
@@ -63,6 +63,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getBlockTemplateProcessor()
     {
         $model = (string)$this->_coreConfig->getNode(self::XML_NODE_BLOCK_TEMPLATE_FILTER);
-        return Mage::getModel($model);
+        return \Mage::getModel($model);
     }
 }

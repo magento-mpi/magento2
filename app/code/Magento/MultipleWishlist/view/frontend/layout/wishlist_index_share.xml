@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="my.account.wrapper">
-        <block class="Magento_MultipleWishlist_Block_Customer_Sharing" name="wishlist.sharing" template="Magento_Wishlist::sharing.phtml"/>
+        <block class="Magento\MultipleWishlist\Block\Customer\Sharing" name="wishlist.sharing" template="Magento_Wishlist::sharing.phtml"/>
     </reference>
 </layout>

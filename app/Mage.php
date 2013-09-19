@@ -299,8 +299,8 @@ final class Mage
      */
     public static function getModuleDir($type, $moduleName)
     {
-        return Magento_Core_Model_ObjectManager::getInstance()
-            ->get('Magento_Core_Model_Config_Modules_Reader')
+        return \Magento\Core\Model\ObjectManager::getInstance()
+            ->get('Magento\Core\Model\Config\Modules\Reader')
             ->getModuleDir($type, $moduleName);
     }
 
@@ -325,15 +325,8 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return Magento_Core_Model_ObjectManager::getInstance()
-            ->create('Magento_Core_Model_Url')
-     *
-     * @return \Magento\Core\Model\Config
-     */
-    public static function getConfig()
-    {
-        if (!self::$_config) {
-            self::$_config = self::getObjectManager()->get('Magento\Core\Model\Config');
+        return \Magento\Core\Model\ObjectManager::getInstance()
+            ->create('Magento\Core\Model\Url')
             ->getUrl($route, $params);
     }
 
@@ -349,7 +342,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return Magento_Core_Model_ObjectManager::getInstance()->create($modelClass, $arguments);
+        return \Magento\Core\Model\ObjectManager::getInstance()->create($modelClass, $arguments);
     }
 
     /**
@@ -361,9 +354,9 @@ final class Mage
     public static function getSingleton($modelClass = '')
     {
         $registryKey = '_singleton/' . $modelClass;
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        /** @var \Magento\Core\Model\Registry $registryObject */
+        $registryObject = $objectManager->get('Magento\Core\Model\Registry');
         if (!$registryObject->registry($registryKey)) {
             $registryObject->register($registryKey, $objectManager->get($modelClass));
         }
@@ -382,7 +375,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return Magento_Core_Model_ObjectManager::getInstance()->create($modelClass, $arguments);
+        return \Magento\Core\Model\ObjectManager::getInstance()->create($modelClass, $arguments);
     }
 
     /**
@@ -393,9 +386,9 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '')
     {
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        /** @var \Magento\Core\Model\Registry $registryObject */
+        $registryObject = $objectManager->get('Magento\Core\Model\Registry');
         $registryKey = '_resource_singleton/' . $modelClass;
         if (!$registryObject->registry($registryKey)) {
             $registryObject->register($registryKey, $objectManager->get($modelClass));
@@ -423,8 +416,8 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = Magento_Core_Model_ObjectManager::getInstance()
-            ->get('Magento_Core_Model_Config_Resource')
+        $connectionModel = \Magento\Core\Model\ObjectManager::getInstance()
+            ->get('Magento\Core\Model\Config\Resource')
             ->getResourceConnectionModel('core');
 
         $helperClassName = str_replace('_', '\\', $moduleName) . '\\Model\\Resource\\Helper\\'
@@ -433,9 +426,9 @@ final class Mage
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);
         }
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        /** @var \Magento\Core\Model\Registry $registryObject */
+        $registryObject = $objectManager->get('Magento\Core\Model\Registry');
         $key = 'resourceHelper/' . $connection;
         if (!$registryObject->registry($key)) {
             $registryObject->register(
@@ -483,7 +476,7 @@ final class Mage
     public static function app()
     {
         if (null === self::$_app) {
-            self::$_app = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
+            self::$_app = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App');
         }
         return self::$_app;
     }
@@ -519,8 +512,8 @@ final class Mage
             $forceLog = true;
             $key = $file;
         }
-        /** @var $logger Magento_Core_Model_Logger */
-        $logger = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Logger');
+        /** @var $logger \Magento\Core\Model\Logger */
+        $logger = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Logger');
         if ($forceLog && !$logger->hasLog($key)) {
             $logger->addStreamLog($key, $file);
         }
@@ -534,7 +527,7 @@ final class Mage
      */
     public static function logException(Exception $exception)
     {
-        Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Logger')->logException($exception);
+        \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\Logger')->logException($exception);
     }
 
     /**
@@ -545,7 +538,7 @@ final class Mage
      */
     public static function getIsDeveloperMode()
     {
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
         if (!$objectManager) {
             return false;
         }

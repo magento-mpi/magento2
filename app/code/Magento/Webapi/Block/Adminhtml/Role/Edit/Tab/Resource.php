@@ -22,7 +22,7 @@ class Resource extends \Magento\Backend\Block\Widget\Form
     const RESOURCES_TREE_ROOT_ID = '__root__';
 
     /**
-     * @var Magento_Acl_Resource_ProviderInterface
+     * @var \Magento\Acl\Resource\ProviderInterface
      */
     protected $_resourceProvider;
 

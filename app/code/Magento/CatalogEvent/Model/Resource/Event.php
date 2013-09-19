@@ -34,28 +34,28 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Category collection factory
      *
-     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
     protected $_categoryCollectionFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
     ) {
         parent::__construct($resource);
 
@@ -102,7 +102,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $rootCategoryId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
 
-        /* @var $select Magento_DB_Select */
+        /* @var $select \Magento\DB\Select */
         $select = $this->_categoryCollectionFactory->create()
             ->setStoreId($this->_storeManager->getStore($storeId)->getId())
             ->addIsActiveFilter()

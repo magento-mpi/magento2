@@ -211,7 +211,7 @@ class Grid
 
         $this->addColumn('product_name', array(
             'header'   => __('Product'),
-            'renderer' => '\Magento\Rma\Block\Adminhtml\Product\Bundle\Product',
+            'renderer' => 'Magento\Rma\Block\Adminhtml\Product\Bundle\Product',
             'index'    => 'name',
             'escape'   => true,
             'header_css_class'  => 'col-product',
@@ -239,7 +239,7 @@ class Grid
             'header'=> __('Remaining'),
             'type'  => 'text',
             'index' => 'available_qty',
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
             'filter' => false,
             'sortable' => false,
             'header_css_class'  => 'col-qty',

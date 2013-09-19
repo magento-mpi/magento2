@@ -34,7 +34,7 @@ class Dashboard extends \Magento\Adminhtml\Block\Template
         $this->addChild('topSearches', 'Magento\Adminhtml\Block\Dashboard\Searches\Top');
 
         if ($this->_storeConfig->getConfig(self::XML_PATH_ENABLE_CHARTS)) {
-            $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Dashboard_Diagrams');
+            $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Dashboard\Diagrams');
         } else {
             $block = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Template')
                 ->setTemplate('dashboard/graph/disabled.phtml')

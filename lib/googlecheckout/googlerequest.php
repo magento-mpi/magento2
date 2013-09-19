@@ -610,11 +610,11 @@
       $session = curl_init($url);
       $this->log->LogRequest($postargs);
 
-      /** @var $configModel Magento_Core_Model_Store_Config */
-      $configModel = Mage::getSingleton('Magento_Core_Model_Store_Config');
+      /** @var $configModel \Magento\Core\Model\Store\Config */
+      $configModel = Mage::getSingleton('Magento\Core\Model\Store\Config');
       if ($configModel->getConfig('google/checkout/debug')) {
             $file = "payment_googlecheckout.log";
-            $debug = Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => $file));
+            $debug = Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => $file));
             $debug->log(
                 array(
                     'url' => $url,

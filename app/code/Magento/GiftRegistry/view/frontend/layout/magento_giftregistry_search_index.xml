@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Search Form" type="page" parent="magento_giftregistry_index_index">
     <update handle="page_calendar"/>
     <reference name="content">
-        <block class="Magento_GiftRegistry_Block_Search_Form" name="giftregistry.search.form" template="search/form.phtml"/>
+        <block class="Magento\GiftRegistry\Block\Search\Form" name="giftregistry.search.form" template="search/form.phtml"/>
     </reference>
 </layout>

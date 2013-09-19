@@ -126,26 +126,26 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @var Magento_Core_Model_Config
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $coreRegistry,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -827,8 +827,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            } catch (Magento_Core_Exception $e){
-            catch (\Magento\Core\Exception $e){
+            } catch (\Magento\Core\Exception $e){
                 $this->getSession()->addError($e->getMessage());
             } catch (\Exception $e){
                 return $e;

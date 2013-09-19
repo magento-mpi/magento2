@@ -16,7 +16,7 @@ class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLogoSrc()
     {
-        $storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
         $storeConfig->expects($this->once())
             ->method('getConfig')
             ->will($this->returnValue('default/image.gif'));

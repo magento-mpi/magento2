@@ -9,7 +9,7 @@
  */
 
 /**
- * @var Magento_Banner_Model_Resource_Setup $install
+ * @var \Magento\Banner\Model\Resource\Setup $install
  */
 $install = $this;
 

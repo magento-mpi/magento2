@@ -12,7 +12,7 @@
     <reference name="sales.order.grid">
         <arguments>
             <argument name="id" xsi:type="string">sales_order_grid_archive</argument>
-            <argument name="dataSource" xsi:type="object">Magento_SalesArchive_Model_Resource_Order_Collection</argument>
+            <argument name="dataSource" xsi:type="object">Magento\SalesArchive\Model\Resource\Order\Collection</argument>
             <argument name="default_sort" xsi:type="string">0</argument>
             <argument name="grid_url" xsi:type="url" path="*/*/ordersgrid"/>
             <argument name="rssList" xsi:type="string">null</argument>
@@ -20,7 +20,7 @@
         <reference name="sales.order.grid.massaction">
             <arguments>
                 <argument name="options" xsi:type="array">
-                    <updater>Magento_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater</updater>
+                    <updater>Magento\SalesArchive\Model\Order\Archive\Grid\Massaction\ItemsUpdater</updater>
                     <item name="cancel_order" xsi:type="array">
                         <item name="url" xsi:type="string">*/sales_archive/massCancel</item>
                     </item>
@@ -56,7 +56,7 @@
             <arguments>
                 <argument name="id" xsi:type="string">sales_order_grid_archive</argument>
                 <argument name="rowUrl" xsi:type="array">
-                    <item name="generatorClass" xsi:type="string">Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator</item>
+                    <item name="generatorClass" xsi:type="string">Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator</item>
                 </argument>
             </arguments>
         </reference>

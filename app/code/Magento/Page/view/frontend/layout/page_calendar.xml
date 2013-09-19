@@ -9,18 +9,18 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="head">
-        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-jquery-ui-timepicker-addon-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-jquery-ui-timepicker-addon-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jquery-ui-timepicker-addon.js</argument>
             </arguments>
         </block>
-        <block class="Magento_Page_Block_Html_Head_Script" name="magento-calendar-js">
+        <block class="Magento\Page\Block\Html\Head\Script" name="magento-calendar-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/calendar.js</argument>
             </arguments>
         </block>
     </reference>
     <reference name="content">
-        <block class="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
+        <block class="Magento\Core\Block\Html\Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
     </reference>
 </layout>

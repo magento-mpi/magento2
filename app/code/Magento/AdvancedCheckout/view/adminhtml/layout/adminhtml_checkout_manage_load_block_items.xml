@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items" name="items" template="manage/items.phtml"/>
+        <block class="Magento\AdvancedCheckout\Block\Adminhtml\Manage\Items" name="items" template="manage/items.phtml"/>
     </reference>
 </layout>

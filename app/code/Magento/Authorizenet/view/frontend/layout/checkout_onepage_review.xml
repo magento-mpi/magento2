@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="checkout.onepage.review.info.items.after">
-        <block class="Magento_Authorizenet_Block_Directpost_Form" name="payment.form.directpost" template="directpost/form.phtml">
+        <block class="Magento\Authorizenet\Block\Directpost\Form" name="payment.form.directpost" template="directpost/form.phtml">
             <action method="setMethodInfo"/>
         </block>
     </reference>

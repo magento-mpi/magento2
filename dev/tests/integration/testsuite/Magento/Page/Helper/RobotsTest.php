@@ -25,7 +25,7 @@ class Magento_Page_Helper_RobotsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Page_Helper_RobotsTest::getRobotsDefaultCustomInstructions
+     * @covers \Magento\Page\Helper\RobotsTest::getRobotsDefaultCustomInstructions
      */
     public function testGetRobotsDefaultCustomInstructions()
     {

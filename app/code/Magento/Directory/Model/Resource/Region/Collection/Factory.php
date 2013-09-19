@@ -9,26 +9,28 @@
 /**
  * Factory for region resource collections
  */
-class Magento_Directory_Model_Resource_Region_Collection_Factory
+namespace Magento\Directory\Model\Resource\Region\Collection;
+
+class Factory
 {
     /**
      * Object Manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
 
     /**
      * @param array $data
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento_Directory_Model_Resource_Region_Collection', $data);
+        return $this->_objectManager->create('Magento\Directory\Model\Resource\Region\Collection', $data);
     }
 }

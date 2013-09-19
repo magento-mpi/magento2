@@ -23,7 +23,7 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
     protected $_event;
 
     /**
-     * @var Magento_Event_ObserverFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Event\ObserverFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerFactory;
 

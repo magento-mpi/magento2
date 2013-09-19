@@ -131,7 +131,7 @@ class Connect
                 $this->_sconfig=$cache;
             }
             $this->_config->magento_root = dirname(__DIR__).DS.'..';
-            Magento_Connect_Command::setConfigObject($this->_config);
+            \Magento\Connect\Command::setConfigObject($this->_config);
         }
         return $this->_config;
     }

@@ -11,6 +11,6 @@
     <update handle="formkey"/>
     <update handle="adminhtml_report_customer_customersegment_detail_block"/>
     <reference name="content">
-        <block class="Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail" name="report.customersegment.detail.grid.container" template="report/detail/grid/container.phtml"/>
+        <block class="Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail" name="report.customersegment.detail.grid.container" template="report/detail/grid/container.phtml"/>
     </reference>
 </layout>

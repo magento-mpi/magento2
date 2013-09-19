@@ -56,7 +56,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      *
      * @param string $file
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function readFile($file)
     {

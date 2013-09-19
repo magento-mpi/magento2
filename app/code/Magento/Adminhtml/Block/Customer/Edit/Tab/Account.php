@@ -43,7 +43,7 @@ class Account extends \Magento\Backend\Block\Widget\Form\Generic
         ));
 
         $customer = $this->_coreRegistry->registry('current_customer');
-        /** @var $customerForm Magento_Customer_Model_Form */
+        /** @var $customerForm \Magento\Customer\Model\Form */
         $customerForm = $this->_initCustomerForm($customer);
         $attributes = $this->_initCustomerAttributes($customerForm);
         $this->_setFieldset($attributes, $fieldset, array(self::DISABLE_ATTRIBUTE_NAME));

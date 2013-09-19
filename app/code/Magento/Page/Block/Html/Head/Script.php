@@ -8,29 +8,31 @@
  * @license     {license_link}
  */
 
+namespace Magento\Page\Block\Html\Head;
+
 /**
  * Script page block
  */
-class Magento_Page_Block_Html_Head_Script extends Magento_Core_Block_Abstract
-    implements Magento_Page_Block_Html_Head_AssetBlock
+class Script extends \Magento\Core\Block\AbstractBlock
+    implements \Magento\Page\Block\Html\Head\AssetBlock
 {
     /**
      * Contructor
      *
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_Page_Asset_ViewFileFactory $viewFileFactory
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\Page\Asset\ViewFileFactory $viewFileFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_Page_Asset_ViewFileFactory $viewFileFactory,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\Page\Asset\ViewFileFactory $viewFileFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->setAsset(
             $viewFileFactory->create(array(
                 'file' => (string)$this->getFile(),
-                'contentType' => Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS
+                'contentType' => \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS
             ))
         );
     }
@@ -38,7 +40,7 @@ class Magento_Page_Block_Html_Head_Script extends Magento_Core_Block_Abstract
     /**
      * Get block asset
      *
-     * @return Magento_Core_Model_Page_Asset_AssetInterface
+     * @return \Magento\Core\Model\Page\Asset\AssetInterface
      */
     public function getAsset()
     {

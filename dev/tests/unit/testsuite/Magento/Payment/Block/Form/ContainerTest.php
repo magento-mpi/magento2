@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Payment_Block_Form_ContainerAbstract
+ * Test class for \Magento\Payment\Block\Form\ContainerAbstract
  */
 class Magento_Payment_Block_Form_ContainerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Payment_Block_Form_ContainerAbstract::getChildBlock
+     * @covers \Magento\Payment\Block\Form\ContainerAbstract::getChildBlock
      */
     public function testSetMethodFormTemplate()
     {

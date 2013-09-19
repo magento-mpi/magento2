@@ -31,7 +31,7 @@ class Config extends \Magento\Simplexml\Config
 
     /**
      * @param \Magento\Core\Model\Config\Modules\Reader $configReader
-     * @param string|Magento_Simplexml_Element|null $sourceData
+     * @param string|\Magento\Simplexml\Element|null $sourceData
      */
     public function __construct(\Magento\Core\Model\Config\Modules\Reader $configReader, $sourceData = null)
     {

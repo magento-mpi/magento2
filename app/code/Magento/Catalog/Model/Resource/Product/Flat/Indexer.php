@@ -108,12 +108,12 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_productType;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -121,17 +121,17 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
-     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param \Magento\Catalog\Model\Product\Type $productType
      * @param \Magento\Core\Model\Resource $resource
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        Magento_Catalog_Model_Product_Type $productType,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Catalog\Model\Product\Type $productType,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;

@@ -8,7 +8,7 @@
 class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Data_BackendModelPoolTest
+     * @var \Magento\Core\Model\Config\Data\BackendModelPoolTest
      */
     protected $_model;
 

@@ -104,7 +104,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
     }
 
     /**
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param \Magento\Core\Model\Layout\Element $node
      * @param $expected array
      * @dataProvider parseDataProvider
      */
@@ -159,7 +159,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
                 $layout->xpath('//argument[@name="testArrayWithUpdater"]'),
                 array(
                     'type' => 'array',
-                    'updaters' => array('Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater'),
+                    'updaters' => array('Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater'),
                     'value' => array(
                         'add' => 'array',
                     ),

@@ -34,8 +34,8 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
         $resource = $this->_model->getConnectionTypeInstance('pdo_mysql');
         $this->assertEquals('Magento\Core\Model\Resource\Entity\Table', $resource->getEntityClass(), 'Entity class');
 
-        /** @var $configModel Magento_Core_Model_Config */
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        /** @var $configModel \Magento\Core\Model\Config */
+        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         $resource->setName('test');
         $this->assertEquals('test', $resource->getName(), 'Set/Get name');
 
@@ -48,8 +48,8 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 
     public function testCreateConnection()
     {
-        /** @var $configModel Magento_Core_Model_Config */
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        /** @var $configModel \Magento\Core\Model\Config */
+        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         $this->assertFalse($this->_model->createConnection('test_false', 'test', 'test'));
         $this->assertInstanceOf(
             'Magento\DB\Adapter\Pdo\Mysql',

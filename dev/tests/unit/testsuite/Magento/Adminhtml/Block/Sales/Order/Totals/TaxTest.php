@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest
+ * Test class for \Magento\Adminhtml\Block\Sales\Order\Totals\TaxTest
  */
 class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framework_TestCase
 {
@@ -82,9 +82,9 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
             ->setConstructorArgs(array(
                 'coreData' => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
                 'context' => $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false),
-                'coreRegistry' => $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
-                'coreStoreConfig' => $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
-                'taxConfig' => $this->getMock('Magento_Tax_Model_Config', array(), array(), '', false)
+                'coreRegistry' => $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+                'coreStoreConfig' => $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+                'taxConfig' => $this->getMock('Magento\Tax\Model\Config', array(), array(), '', false)
             ))
             ->setMethods(null)
             ->getMock();

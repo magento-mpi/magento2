@@ -13,8 +13,8 @@
  * Tests product model:
  * - pricing behaviour is tested
  *
- * @see Magento_Catalog_Model_ProductTest
- * @see Magento_Catalog_Model_ProductExternalTest
+ * @see \Magento\Catalog\Model\ProductTest
+ * @see \Magento\Catalog\Model\ProductExternalTest
  */
 class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
 {

@@ -15,7 +15,7 @@ class Collection
     extends \Magento\Webhook\Model\Resource\Subscription\Collection
 {
     /**
-     * @param Magento_Webhook_Model_Subscription_Config $subscriptionConfig
+     * @param \Magento\Webhook\Model\Subscription\Config $subscriptionConfig
      * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy

@@ -53,8 +53,8 @@ class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_Te
      */
     public function testGetRequiredExtensions($config, $dbExtensions, $expectedResult)
     {
-        $resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false);
-        $installer = new Magento_Install_Model_Installer_Db_Mysql4($resourceMock, $dbExtensions);
+        $resourceMock = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
+        $installer = new \Magento\Install\Model\Installer\Db\Mysql4($resourceMock, $dbExtensions);
         $installer->setConfig($config);
         $this->assertEquals($expectedResult, $installer->getRequiredExtensions());
     }

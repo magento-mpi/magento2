@@ -22,8 +22,8 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
-        $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
-        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+        $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
 
         Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $collection = Mage::getModel('Magento\Core\Model\Resource\Theme\Collection');
@@ -45,17 +45,17 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
-                $objectManager->get('Magento_Core_Model_Registry'),
-                $objectManager->get('Magento_Filesystem'),
-                $objectManager->get('Magento_Core_Model_View_Url'),
-                $objectManager->get('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_Design'),
-                $objectManager->get('Magento_Core_Model_Store_Config'),
-                $objectManager->get('Magento_Core_Model_Config')
+                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Filesystem'),
+                $objectManager->get('Magento\Core\Model\View\Url'),
+                $objectManager->get('Magento\Core\Model\View\FileSystem'),
+                $objectManager->get('Magento\Core\Model\View\Design'),
+                $objectManager->get('Magento\Core\Model\Store\Config'),
+                $objectManager->get('Magento\Core\Model\Config')
             )
         );
 
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $coreStoreConfig = new ReflectionProperty($emailTemplate, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($emailTemplate, $storeConfig);
@@ -87,18 +87,18 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
-                $objectManager->get('Magento_Core_Model_Registry'),
-                $objectManager->get('Magento_Filesystem'),
-                $objectManager->get('Magento_Core_Model_View_Url'),
-                $objectManager->get('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_Design'),
-                $objectManager->get('Magento_Core_Model_Store_Config'),
-                $objectManager->get('Magento_Core_Model_Config')
+                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Filesystem'),
+                $objectManager->get('Magento\Core\Model\View\Url'),
+                $objectManager->get('Magento\Core\Model\View\FileSystem'),
+                $objectManager->get('Magento\Core\Model\View\Design'),
+                $objectManager->get('Magento\Core\Model\Store\Config'),
+                $objectManager->get('Magento\Core\Model\Config')
             )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
 
-        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $coreStoreConfig = new ReflectionProperty($template, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($template, $storeConfig);

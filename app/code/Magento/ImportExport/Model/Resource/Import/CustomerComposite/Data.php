@@ -42,7 +42,7 @@ class Data
      * @param array $arguments
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
+        \Magento\Core\Model\Resource $resource,
         \Magento\Core\Helper\Data $coreHelper,
         array $arguments = array()
     ) {

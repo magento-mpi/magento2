@@ -10,7 +10,7 @@
 namespace Magento\Webapi\Model\Authorization\Loader;
 
 /**
- * Class Magento_Webapi_Model_Authorization_Loader_Resource
+ * Class \Magento\Webapi\Model\Authorization\Loader\Resource
  */
 class Resource extends \Magento\Acl\Loader\Resource
 {

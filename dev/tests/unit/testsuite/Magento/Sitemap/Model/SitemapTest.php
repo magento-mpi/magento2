@@ -22,7 +22,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected $_helperMockSitemap;
 
     /**
-     * @var Magento_Sitemap_Model_Resource_Sitemap
+     * @var \Magento\Sitemap\Model\Resource\Sitemap
      */
     protected $_resourceMock;
 
@@ -97,7 +97,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_coreRegistryMock));
 
         Mage::reset();
-        Magento_Core_Model_ObjectManager::setInstance($objectManagerMock);
+        \Magento\Core\Model\ObjectManager::setInstance($objectManagerMock);
     }
 
     /**

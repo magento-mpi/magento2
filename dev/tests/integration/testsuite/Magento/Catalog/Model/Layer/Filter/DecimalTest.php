@@ -49,7 +49,7 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
         $request = $objectManager->get('Magento_TestFramework_Request');
         $this->_model->apply(
             $request,
-            Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text')
+            Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('range'));

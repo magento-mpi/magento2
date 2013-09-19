@@ -15,7 +15,7 @@ class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCa
      * Source and result class parameters
      */
     const SOURCE_CLASS     = 'Magento\Object';
-    const RESULT_CLASS     = 'Magento_Object_MyResult';
+    const RESULT_CLASS     = 'Magento\Object_MyResult';
     const RESULT_FILE      = 'MyResult/MyResult.php';
     const RESULT_DIRECTORY = 'MyResult';
     /**#@-*/

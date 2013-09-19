@@ -21,7 +21,7 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $this->_objectManager->create('Magento_Core_Model_RouterList');
+        $this->_model = $this->_objectManager->create('Magento\Core\Model\RouterList');
     }
 
     public function testGetRouterByRoute()

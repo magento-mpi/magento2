@@ -105,11 +105,11 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
             array(), '', false
         );
         $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $this->_cacheTypeList = $this->getMock('Magento_Core_Model_Cache_TypeListInterface');
+        $this->_cacheTypeList = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         $this->_model = new  \Magento\FullPageCache\Model\Processor(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),

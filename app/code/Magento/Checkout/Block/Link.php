@@ -9,23 +9,25 @@
 /**
  * "Checkout" link
  */
-class Magento_Checkout_Block_Link extends Magento_Page_Block_Link
+namespace Magento\Checkout\Block;
+
+class Link extends \Magento\Page\Block\Link
 {
     /**
-     * @var Magento_Core_Model_ModuleManager
+     * @var \Magento\Core\Model\ModuleManager
      */
     protected $_moduleManager;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_ModuleManager $moduleManager
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\ModuleManager $moduleManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_ModuleManager $moduleManager,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\ModuleManager $moduleManager,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -47,7 +49,7 @@ class Magento_Checkout_Block_Link extends Magento_Page_Block_Link
      */
     protected function _toHtml()
     {
-        if (!$this->helper('Magento_Checkout_Helper_Data')->canOnepageCheckout()
+        if (!$this->helper('Magento\Checkout\Helper\Data')->canOnepageCheckout()
             || !$this->_moduleManager->isOutputEnabled('Magento_Checkout')
         ) {
             return '';

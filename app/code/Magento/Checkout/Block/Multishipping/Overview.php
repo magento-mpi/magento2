@@ -33,7 +33,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         if (!$this->getChildBlock($rowItemType)) {
             $this->addChild(
                 $rowItemType,
-                'Magento_Checkout_Block_Cart_Item_Renderer',
+                'Magento\Checkout\Block\Cart\Item\Renderer',
                 array('template' => 'multishipping/overview/item.phtml')
             );
         }
@@ -48,11 +48,11 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Get multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
     }
 
     public function getBillingAddress()
@@ -259,7 +259,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     protected function _getRowItemRenderer($type)
     {
         $renderer = $this->getChildBlock($this->_getRowItemType($type));
-        if ($renderer instanceof Magento_Core_Block) {
+        if ($renderer instanceof \Magento\Core\Block) {
             $renderer->setRenderedBlock($this);
             return $renderer;
         }

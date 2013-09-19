@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="customer_edit_tabs">
-        <block class="Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma" name="customer_edit_tab_rma" after="orders">
-            <block class="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
+        <block class="Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma" name="customer_edit_tab_rma" after="orders">
+            <block class="Magento\Rma\Block\Adminhtml\Rma" name="magento_rma"/>
         </block>
         <action method="addTabAfter">
             <argument name="name" xsi:type="string">customer_edit_tab_rma</argument>

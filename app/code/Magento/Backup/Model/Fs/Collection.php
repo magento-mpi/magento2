@@ -35,28 +35,28 @@ class Collection extends \Magento\Data\Collection\Filesystem
     /**
      * Directory model
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir;
 
     /**
      * Set collection specific parameters and make sure backups folder will exist
      *
-     * @param Magento_Backup_Helper_Data $backupData
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Backup\Helper\Data $backupData
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dir
+        \Magento\Backup\Helper\Data $backupData,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Dir $dir
     ) {
         parent::__construct();
 
         $this->_backupData = $backupData;
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
-        $this->_baseDir = $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'backups';
+        $this->_baseDir = $this->_dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . 'backups';
 
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($this->_baseDir);

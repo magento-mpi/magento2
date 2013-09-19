@@ -62,7 +62,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      * Assign WEEE taxes to product data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  Magento_Catalog_Model_Product_Attribute_Backend_Weee
+     * @return  \Magento\Catalog\Model\Product_Attribute_Backend_Weee
      */
     public function afterLoad($object)
     {

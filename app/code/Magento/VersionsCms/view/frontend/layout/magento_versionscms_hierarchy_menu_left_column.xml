@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="left">
-        <block class="Magento_VersionsCms_Block_Hierarchy_Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
+        <block class="Magento\VersionsCms\Block\Hierarchy\Menu" name="hierarchy_menu" template="hierarchy/menu.phtml" before="-"/>
     </reference>
 </layout>

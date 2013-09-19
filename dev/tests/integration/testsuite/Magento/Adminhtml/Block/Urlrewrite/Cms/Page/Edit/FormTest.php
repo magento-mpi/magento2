@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\FormTest
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Framework_TestCase
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_
         $args = array();
         if ($cmsPageData) {
             $args['cms_page'] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-                'Magento_Cms_Model_Page', array('data' => $cmsPageData)
+                'Magento\Cms\Model\Page', array('data' => $cmsPageData)
             );
         }
         $form = $this->_getFormInstance($args);

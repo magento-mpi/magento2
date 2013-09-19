@@ -77,8 +77,8 @@ class Sales extends \Magento\Backend\Block\Template
 
     public function _beforeToHtml()
     {
-        $this->_currency = Mage::getModel('Magento_Directory_Model_Currency')
-            ->load($this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE));
+        $this->_currency = \Mage::getModel('Magento\Directory\Model\Currency')
+            ->load($this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE));
 
         $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Sale\Collection')
             ->setCustomerFilter($this->_coreRegistry->registry('current_customer'))

@@ -84,7 +84,7 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
         try {
             // this will merge all xml files and validate them
             $this->_reader->read('global');
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $this->fail($e->getMessage());
         }
     }

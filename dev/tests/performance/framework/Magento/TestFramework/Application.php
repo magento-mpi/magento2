@@ -33,7 +33,7 @@ class Magento_TestFramework_Application
     protected $_shell;
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
@@ -185,12 +185,12 @@ class Magento_TestFramework_Application
     protected function _bootstrap()
     {
         if (!$this->_objectManager) {
-            $this->_objectManager = new Magento_Core_Model_ObjectManager(
-                new Magento_Core_Model_Config_Primary(BP, $_SERVER)
+            $this->_objectManager = new \Magento\Core\Model\ObjectManager(
+                new \Magento\Core\Model\Config\Primary(BP, $_SERVER)
             );
         }
-        /** @var $app Magento_Core_Model_App */
-        $this->_objectManager->get('Magento_Core_Model_App');
+        /** @var $app \Magento\Core\Model\App */
+        $this->_objectManager->get('Magento\Core\Model\App');
         return $this;
     }
 

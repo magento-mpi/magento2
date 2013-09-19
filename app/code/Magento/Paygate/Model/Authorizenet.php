@@ -186,7 +186,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Paygate\Helper\Data $paygateData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
      */
@@ -194,7 +194,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Paygate\Helper\Data $paygateData,
         \Magento\Core\Model\ModuleListInterface $moduleList,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
         array $data = array()
     ) {
@@ -1078,7 +1078,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Object $response
      * @param $orderPayment
-     * @throws Magento_Payment_Model_Info_Exception
+     * @throws \Magento\Payment\Model\Info\Exception
      * @return bool
      */
     protected function _processPartialAuthorizationResponse($response, $orderPayment)
@@ -1160,8 +1160,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Prepare request to gateway
      *
      * @link http://www.authorize.net/support/AIM_guide.pdf
-     * @param \\Magento\Object|\Magento_Payment_Model_Info $payment
-     * @return Magento_Paygate_Model_Authorizenet_Request
+     * @param \\Magento\Object|\\Magento\Payment\Model\Info $payment
+     * @return \Magento\Paygate\Model\Authorizenet\Request
      */
     protected function _buildRequest(\Magento\Object $payment)
     {

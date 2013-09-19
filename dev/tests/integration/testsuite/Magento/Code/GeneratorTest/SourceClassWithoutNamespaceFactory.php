@@ -41,7 +41,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+     * @return Magento_Code_GeneratorTest_SourceClassWithoutNamespace
      */
     public function create(array $data = array())
     {

@@ -220,7 +220,7 @@ abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
         return !$this->getFlag('', self::FLAG_IS_URLS_CHECKED)
             && !$this->getRequest()->getParam('forwarded')
             && !$this->_getSession()->getIsUrlNotice(true)
-            && !$this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/can_use_base_url');
+            && !$this->_objectManager->get('Magento\Core\Model\Config')->getNode('global/can_use_base_url');
     }
 
     /**

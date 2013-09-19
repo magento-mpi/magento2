@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class \Magento\Core\Controller\Varien\Action\Factory
+ * Test class Magento_Core_Controller_Varien_Action_Factory
  */
 class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framework_TestCase
 {

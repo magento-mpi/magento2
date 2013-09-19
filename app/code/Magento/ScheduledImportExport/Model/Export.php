@@ -36,11 +36,11 @@ class Export extends \Magento\ImportExport\Model\Export
     /**
      * Constructor
      *
-     * @param Magento_ImportExport_Model_Config $config
+     * @param \Magento\ImportExport\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_ImportExport_Model_Config $config,
+        \Magento\ImportExport\Model\Config $config,
         array $data = array())
     {
         parent::__construct($config, $data);

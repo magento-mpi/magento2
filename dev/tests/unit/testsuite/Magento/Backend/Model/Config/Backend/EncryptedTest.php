@@ -22,9 +22,9 @@ class Magento_Backend_Model_Config_Backend_EncryptedTest extends PHPUnit_Framewo
             array(), '', false);
         $collectionMock = $this->getMock('Magento\Data\Collection\Db', array(), array(), '', false);
         $registry = $this->getMock('Magento\Core\Model\Registry');
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $this->_model = new Magento_Backend_Model_Config_Backend_Encrypted(
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+        $this->_model = new \Magento\Backend\Model\Config\Backend\Encrypted(
             $this->_helperMock, $contextMock, $registry, $storeManager, $coreConfig, $resourceMock, $collectionMock
         );
 

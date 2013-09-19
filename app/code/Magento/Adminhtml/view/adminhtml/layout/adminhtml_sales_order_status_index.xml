@@ -9,16 +9,16 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Status" name="sales_order_status.grid.container">
-            <block class="Magento_Backend_Block_Widget_Grid" name="sales_order_status.grid" as="grid">
+        <block class="Magento\Adminhtml\Block\Sales\Order\Status" name="sales_order_status.grid.container">
+            <block class="Magento\Backend\Block\Widget\Grid" name="sales_order_status.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">sales_order_status_grid</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_Sales_Model_Resource_Status_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Sales\Model\Resource\Status\Collection</argument>
                     <argument name="default_sort" xsi:type="string">state</argument>
                     <argument name="default_dir" xsi:type="string">desc</argument>
                     <argument name="pager_visibility" xsi:type="string">0</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales_order_status.grid.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="sales_order_status.grid.columnSet">
                     <arguments>
                         <argument name="rowUrl" xsi:type="array">
                             <item name="path" xsi:type="string">*/sales_order_status/edit</item>
@@ -28,13 +28,13 @@
                         </argument>
                         <argument name="filter_visibility" xsi:type="string">1</argument>
                     </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="label">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="label">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Status</argument>
                             <argument name="index" xsi:type="string">label</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Status Code</argument>
                             <argument name="index" xsi:type="string">status</argument>
@@ -43,7 +43,7 @@
                             <argument name="width" xsi:type="string">200</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="is_default">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="is_default">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Default Status</argument>
                             <argument name="index" xsi:type="string">is_default</argument>
@@ -62,7 +62,7 @@
                             </argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Sales_Block_Status_Grid_Column_State" as="state">
+                    <block class="Magento\Sales\Block\Status\Grid\Column\State" as="state">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">State Code and Title</argument>
                             <argument name="index" xsi:type="string">state</argument>
@@ -70,7 +70,7 @@
                             <argument name="width" xsi:type="string">250</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Sales_Block_Status_Grid_Column_Unassign" as="unassign">
+                    <block class="Magento\Sales\Block\Status\Grid\Column\Unassign" as="unassign">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Action</argument>
                             <argument name="index" xsi:type="string">unassign</argument>

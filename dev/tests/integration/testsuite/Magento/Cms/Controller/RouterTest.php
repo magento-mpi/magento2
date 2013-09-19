@@ -38,7 +38,7 @@ class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-3393');
         $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Request_Http');
+            ->create('Magento\Core\Controller\Request\Http');
         //Open Node
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Controller\Response\Http')
             ->headersSentThrowsException = Mage::$headersSentThrowsException;

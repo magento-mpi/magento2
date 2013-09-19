@@ -82,7 +82,7 @@ abstract class AbstractType
      * Object constructor.
      *
      * @param array $params
-     * @return \Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @return \\Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     public function __construct(array $params)
     {

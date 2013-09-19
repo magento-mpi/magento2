@@ -29,20 +29,20 @@ class Watermark
     protected $_elementFactory;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Backend\Block\Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Backend\Block\Context $context,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;

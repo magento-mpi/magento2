@@ -28,12 +28,12 @@ class Magento_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_catalogCategory = $this->getMock('\Magento\Catalog\Helper\Category', array(), array(), '', false);
+        $this->_catalogCategory = $this->getMock('Magento\Catalog\Helper\Category', array(), array(), '', false);
         $this->_catalogData = $this->getMock('Magento\Catalog\Helper\Data', array(), array(), '', false);
         $this->_catalogCategoryFlat = $this->getMock(
             'Magento\Catalog\Helper\Category\Flat', array(), array(), '', false
         );
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $this->_model = new \Magento\Catalog\Model\Observer(
             $this->_catalogCategory,
             $this->_catalogData,

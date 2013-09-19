@@ -84,24 +84,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Cache_Config
+     * @var \Magento\Core\Model\Cache\Config
      */
     protected $_cacheConfig;
 
     /**
-     * @var Magento_Core_Model_EncryptionFactory
+     * @var \Magento\Core\Model\EncryptionFactory
      */
     protected $_encryptorFactory;
 
     /**
-     * @var Magento_Core_Model_Fieldset_Config
+     * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -110,14 +110,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Config $config
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Helper\Http $coreHttp,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
@@ -130,7 +130,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     }
 
     /**
-     * @return Magento_Core_Model_EncryptionInterface
+     * @return \Magento\Core\Model\EncryptionInterface
      */
     public function getEncryptor()
     {

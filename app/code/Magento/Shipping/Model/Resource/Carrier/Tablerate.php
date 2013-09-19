@@ -84,19 +84,19 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_conditionFullNames  = array();
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         parent::__construct(
             $resource

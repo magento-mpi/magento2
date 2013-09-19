@@ -12,7 +12,7 @@
 Mage::app()->getStore()->setConfig('dev/log/active', 1);
 Mage::app()->getStore()->setConfig('dev/log/exception_file', 'save_category_without_image.log');
 Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->get('Magento_Core_Model_Config')
+    ->get('Magento\Core\Model\Config')
     ->setNode(
         'global/log/core/writer_model',
         'Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest'

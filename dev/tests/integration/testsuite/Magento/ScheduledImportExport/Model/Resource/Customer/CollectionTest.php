@@ -42,7 +42,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         $customer = reset($items);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
                 . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
@@ -71,7 +71,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         $customer = reset($items);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
                 . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::

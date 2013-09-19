@@ -12,7 +12,7 @@
  * First part of \Magento\Core\Model\Config testing:
  * - general behaviour is tested
  *
- * @see Magento_Core_Model_ConfigFactoryTest
+ * @see \Magento\Core\Model\ConfigFactoryTest
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */

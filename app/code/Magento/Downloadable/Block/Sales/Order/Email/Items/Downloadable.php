@@ -43,7 +43,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
         if ($this->_purchased->getLinkSectionTitle()) {
             return $this->_purchased->getLinkSectionTitle();
         }
-        return $this->_storeConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 
     public function getPurchasedLinkUrl($item)

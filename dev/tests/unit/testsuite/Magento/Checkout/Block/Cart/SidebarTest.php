@@ -17,9 +17,9 @@ class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
 
     public function testDeserializeRenders()
     {
-        $childBlock = $this->getMock('Magento_Core_Block_Abstract', array(), array(), '', false);
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(
+        $childBlock = $this->getMock('Magento\Core\Block\AbstractBlock', array(), array(), '', false);
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(
             'createBlock', 'getChildName', 'setChild'
         ), array(), '', false);
         $layout->expects($this->once())
@@ -38,9 +38,9 @@ class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
             ->method('setChild')
             ->with(null, null, 'some-template');
 
-        /** @var $block Magento_Checkout_Block_Cart_Sidebar */
-        $block = $this->_objectManager->getObject('Magento_Checkout_Block_Cart_Sidebar', array(
-            'context' => $this->_objectManager->getObject('Magento_Backend_Block_Template_Context', array(
+        /** @var $block \Magento\Checkout\Block\Cart\Sidebar */
+        $block = $this->_objectManager->getObject('Magento\Checkout\Block\Cart\Sidebar', array(
+            'context' => $this->_objectManager->getObject('Magento\Backend\Block\Template\Context', array(
                 'layout' => $layout,
             ))
         ));

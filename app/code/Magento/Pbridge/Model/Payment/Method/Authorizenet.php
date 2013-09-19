@@ -71,7 +71,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
      */
@@ -79,7 +79,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Model\ModuleListInterface $moduleList,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
         array $data = array()
     ) {
@@ -295,7 +295,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function setStore($store)
     {

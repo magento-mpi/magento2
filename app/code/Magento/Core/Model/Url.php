@@ -113,12 +113,12 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
@@ -129,14 +129,14 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
      * attributes This behavior may change in child classes
      *
      * @param \Magento\Core\Helper\Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -341,7 +341,7 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
         }
 
         if (!$this->hasData('secure')) {
-            if ($this->getType() == Magento_Core_Model_Store::URL_TYPE_LINK && !$store->isAdmin()) {
+            if ($this->getType() == \Magento\Core\Model\Store::URL_TYPE_LINK && !$store->isAdmin()) {
                 $pathSecure = $this->_coreConfig->shouldUrlBeSecure('/' . $this->getActionPath());
                 $this->setData('secure', $pathSecure);
             } else {
@@ -687,8 +687,8 @@ class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
         }
 
         if (isset($data['_store_to_url']) && (bool)$data['_store_to_url'] === true) {
-            if (!$this->_coreStoreConfig->getConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())
-                && !Mage::app()->hasSingleStore()
+            if (!$this->_coreStoreConfig->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, $this->getStore())
+                && !\Mage::app()->hasSingleStore()
             ) {
                 $this->setQueryParam('___store', $this->getStore()->getCode());
             }

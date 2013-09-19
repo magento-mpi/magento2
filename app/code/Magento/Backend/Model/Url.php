@@ -62,21 +62,21 @@ class Url extends \Magento\Core\Model\Url
     protected $_menuConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Backend_Helper_Data $backendHelper
-     * @param Magento_Core_Model_Session $coreSession
-     * @param Magento_Backend_Model_Menu_Config $menuConfig
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Backend\Helper\Data $backendHelper
+     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Backend\Model\Menu\Config $menuConfig
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Backend_Helper_Data $backendHelper,
-        Magento_Core_Model_Session $coreSession,
-        Magento_Backend_Model_Menu_Config $menuConfig,
-        Magento_Core_Helper_Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Backend\Helper\Data $backendHelper,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\Backend\Model\Menu\Config $menuConfig,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         parent::__construct($coreData, $coreStoreConfig, $coreConfig, $data);

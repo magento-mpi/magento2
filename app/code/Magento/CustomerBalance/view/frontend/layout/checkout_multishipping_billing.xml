@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="payment_methods_before">
-        <block class="Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional" template="checkout/multishipping/payment.phtml" name="customerbalance"/>
+        <block class="Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional" template="checkout/multishipping/payment.phtml" name="customerbalance"/>
     </reference>
 </layout>

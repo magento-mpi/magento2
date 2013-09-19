@@ -36,7 +36,7 @@ class Magento_Core_Model_Layout_Argument_Handler_BooleanTest extends PHPUnit_Fra
 
     /**
      * @dataProvider parseDataProvider()
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @param array $expectedResult
      */
     public function testParse($argument, $expectedResult)

@@ -8,17 +8,17 @@
 class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(),
-            'Magento_Backend_Helper_DataProxy', false);
-        /** @var $request Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject */
-        $this->_request = $objectManagerHelper->getObject('Magento_Core_Controller_Request_Http',
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
+            'Magento\Backend\Helper\DataProxy', false);
+        /** @var $request \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject */
+        $this->_request = $objectManagerHelper->getObject('Magento\Core\Controller\Request\Http',
             array('helper' => $helperMock));
     }
 
@@ -110,7 +110,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     {
         if (!$response) {
             $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-            /** @var $response Magento_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject */
+            /** @var $response \Magento\Core\Controller\Response\Http|PHPUnit_Framework_MockObject_MockObject */
             $response = $this->getMockForAbstractClass('Magento\Core\Controller\Response\Http', array($eventManager));
             $response->headersSentThrowsException = false;
         }

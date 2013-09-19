@@ -71,35 +71,35 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_configCacheType;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_Collection_Factory
+     * @var \Magento\Directory\Model\Resource\Region\Collection\Factory
      */
     protected $_regCollFactory;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Directory_Model_Resource_Country_Collection $countryCollection
-     * @param Magento_Directory_Model_Resource_Region_Collection_Factory $regCollFactory,
-     * @param Magento_Core_Helper_Data $coreHelper,
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Resource\Country\Collection $countryCollection
+     * @param \Magento\Directory\Model\Resource\Region\Collection\Factory $regCollFactory,
+     * @param \Magento\Core\Helper\Data $coreHelper,
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Directory_Model_Resource_Country_Collection $countryCollection,
-        Magento_Directory_Model_Resource_Region_Collection_Factory $regCollFactory,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Directory\Model\Resource\Country\Collection $countryCollection,
+        \Magento\Directory\Model\Resource\Region\Collection\Factory $regCollFactory,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
@@ -145,7 +145,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getRegionJson()
     {
 
-        Magento_Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
             $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . $this->_storeManager->getStore()->getId();
             $json = $this->_configCacheType->load($cacheKey);
@@ -164,7 +164,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                     )
                 );
                 foreach ($collection as $region) {
-                    /** @var $region Magento_Directory_Model_Region */
+                    /** @var $region \Magento\Directory\Model\Region */
                     if (!$region->getRegionId()) {
                         continue;
                     }
@@ -180,7 +180,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             $this->_regionJson = $json;
         }
 
-        Magento_Profiler::stop('TEST: ' . __METHOD__);
+        \Magento\Profiler::stop('TEST: ' . __METHOD__);
         return $this->_regionJson;
     }
 

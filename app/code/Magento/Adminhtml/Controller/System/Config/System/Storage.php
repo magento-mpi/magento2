@@ -105,7 +105,7 @@ class Storage extends \Magento\Adminhtml\Controller\Action
                 case \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING:
                     if (!$flag->getLastUpdate()
                         || time() <= (strtotime($flag->getLastUpdate())
-                            + Magento_Core_Model_File_Storage_Flag::FLAG_TTL)
+                            + \Magento\Core\Model\File\Storage\Flag::FLAG_TTL)
                     ) {
                         $flagData = $flag->getFlagData();
                         if (is_array($flagData)

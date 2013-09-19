@@ -28,7 +28,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Instantiate and prepare collection
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Customer_Grid
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry_Customer_Grid
      */
     protected function _prepareCollection()
     {
@@ -44,7 +44,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare columns for grid
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Customer_Grid
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry_Customer_Grid
      */
     protected function _prepareColumns()
     {

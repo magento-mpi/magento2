@@ -44,7 +44,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test
         $this->assertEquals('Edit Subscription', $this->_block->getHeaderText());
 
         $this->_registry->unregister(
-            Magento_Webhook_Block_Adminhtml_Subscription_Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION
+            \Magento\Webhook\Block\Adminhtml\Subscription\Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION
         );
     }
 

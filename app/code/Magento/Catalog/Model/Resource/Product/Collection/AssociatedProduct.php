@@ -49,17 +49,17 @@ class AssociatedProduct
      * @param \Magento\Core\Model\Registry $registryManager
      * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
      * @param \Magento\Catalog\Helper\Product\Configuration $configurationHelper
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Registry $registryManager,
-        Magento_Catalog_Model_Product_Type_Configurable $productType,
-        Magento_Catalog_Helper_Product_Configuration $configurationHelper,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Core\Model\Registry $registryManager,
+        \Magento\Catalog\Model\Product\Type\Configurable $productType,
+        \Magento\Catalog\Helper\Product\Configuration $configurationHelper,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;

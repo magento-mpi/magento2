@@ -612,8 +612,8 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     {
         $cacheKey = ($storeId === null) ? 'nofilter' : $storeId;
         if (!isset($this->_cachedShippingInfo[$cacheKey])) {
-            /* @var $shipping Magento_Shipping_Model_Shipping */
-            $shipping = Mage::getModel('Magento_Shipping_Model_Shipping');
+            /* @var $shipping \Magento\Shipping\Model\Shipping */
+            $shipping = \Mage::getModel('Magento\Shipping\Model\Shipping');
             $carriers = $this->_coreStoreConfig->getConfig('carriers', $storeId);
             $infos = array();
 

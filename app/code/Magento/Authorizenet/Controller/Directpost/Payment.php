@@ -39,7 +39,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
     }
 
     /**
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     protected function _getCheckout()
     {

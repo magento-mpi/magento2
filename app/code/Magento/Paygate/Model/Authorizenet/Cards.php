@@ -155,7 +155,7 @@ class Cards
     /**
      * Remove all cards from payment instance
      *
-     * @return Magento_Paygate_Model_Authorizenet_Cart
+     * @return \Magento\Paygate\Model\Authorizenet_Cart
      */
     public function flushCards()
     {

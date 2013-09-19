@@ -24,7 +24,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Data_Form_Factory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
@@ -32,14 +32,14 @@ class Form extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Data_Form_Factory $formFactory
+     * @param \Magento\Data\Form\Factory $formFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Data_Form_Factory $formFactory,
+        \Magento\Data\Form\Factory $formFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -120,11 +120,11 @@ class Form extends \Magento\Backend\Block\Widget\Form
                 'label'     => __('Store View'),
                 'title'     => __('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')
                     ->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_id', 'hidden', array(

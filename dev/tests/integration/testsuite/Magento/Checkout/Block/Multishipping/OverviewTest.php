@@ -12,26 +12,26 @@
 class Magento_Checkout_Block_Multishipping_OverviewTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Checkout_Block_Multishipping_Overview
+     * @var \Magento\Checkout\Block\Multishipping\Overview
      */
     protected $_block;
 
     protected function setUp()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Checkout_Block_Multishipping_Overview');
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Checkout\Block\Multishipping\Overview');
     }
 
     public function testGetRowItemHtml()
     {
-        /** @var $item Magento_Sales_Model_Quote_Item */
-        $item = Mage::getModel('Magento_Sales_Model_Quote_Item');
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $item \Magento\Sales\Model\Quote\Item */
+        $item = Mage::getModel('Magento\Sales\Model\Quote\Item');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
         $item->setProduct($product);
-        /** @var $quote Magento_Sales_Model_Quote */
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = Mage::getModel('Magento\Sales\Model\Quote');
         $item->setQuote($quote);
         // assure that default renderer was obtained
         $this->assertSelectCount('h2.product-name a', 1, $this->_block->getRowItemHtml($item));

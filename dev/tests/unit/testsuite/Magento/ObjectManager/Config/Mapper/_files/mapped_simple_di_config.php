@@ -19,10 +19,10 @@ return array(
         ),
     ),
 
-    'Magento_Core_Model_Config_Modules' => array(
+    'Magento\Core\Model\Config_Modules' => array(
         'parameters' => array(
             'storage' => array(
-                'instance' => 'Magento_Core_Model_Config_Storage_Modules',
+                'instance' => 'Magento\Core\Model\Config\Storage_Modules',
                 'shared' => false
             ),
         ),
@@ -30,11 +30,11 @@ return array(
             'simple_modules_plugin' => array(
                 'sortOrder' => 10,
                 'disabled' => true,
-                'instance' => 'Magento_Core_Model_Config_Modules_Plugin',
+                'instance' => 'Magento\Core\Model\Config_Modules_Plugin',
             ),
             'simple_modules_plugin_advanced' => array(
                 'sortOrder' => 0,
-                'instance' => 'Magento_Core_Model_Config_Modules_PluginAdvanced',
+                'instance' => 'Magento\Core\Model\Config_Modules_PluginAdvanced',
             ),
             'overridden_plugin' => array(
                 'sortOrder' => 30,

@@ -53,9 +53,9 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Config\Scope $configScope
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Route\Config $routeConfig
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Config $config
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -70,9 +70,9 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Config\Scope $configScope,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Route\Config $routeConfig,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Model\Config $config,
         $areaCode,
         $baseController,
         $routerId,
@@ -190,7 +190,7 @@ class DefaultRouter extends \Magento\Core\Controller\Varien\Router\Base
         return substr((string)$this->_config->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
             || $this->_coreStoreConfig->getConfigFlag(
                 'web/secure/use_in_adminhtml',
-                Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+                \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
             ) && substr((string)$this->_config->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
     }
 

@@ -26,10 +26,10 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Catalog_Helper_Product_View');
+            ->get('Magento\Catalog\Helper\Product\View');
         $request = $objectManager->create('Magento_TestFramework_Request');
         $request->setRouteName('catalog')
             ->setControllerName('product')

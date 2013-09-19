@@ -49,15 +49,15 @@ class Observer
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -90,8 +90,8 @@ class Observer
         }
 
         if ($errors && $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-            /* @var $translate Magento_Core_Model_Translate */
+            $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
+            /* @var $translate \Magento\Core\Model\Translate */
             $translate->setTranslateInline(false);
 
             $emailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');

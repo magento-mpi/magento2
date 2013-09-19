@@ -12,8 +12,8 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      * @param array $sessionNamespace
      * @param array $data
      * @param string $sessionName
@@ -21,8 +21,8 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Config $coreConfig,
         $sessionNamespace,
         array $data = array(),
         $sessionName = null

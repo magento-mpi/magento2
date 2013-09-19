@@ -52,16 +52,16 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     protected $_writer;
 
     /**
-     * @var Magento_ImportExport_Model_Config
+     * @var \Magento\ImportExport\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_ImportExport_Model_Config $config
+     * @param \Magento\ImportExport\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_ImportExport_Model_Config $config,
+        \Magento\ImportExport\Model\Config $config,
         array $data = array()
     ) {
         parent::__construct($data);

@@ -18,7 +18,7 @@ class Magento_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework
     {
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');
-        /** @var $block Magento_Adminhtml_Block_Sales_Items_Abstract */
+        /** @var $block \Magento\Adminhtml\Block\Sales\Items\AbstractItems */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Sales\Items\AbstractItems', 'block');
 
         $item = new \Magento\Object;

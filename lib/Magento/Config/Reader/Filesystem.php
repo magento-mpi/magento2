@@ -118,7 +118,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
     /**
      * @param array $fileList
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _readFiles(array $fileList)
     {

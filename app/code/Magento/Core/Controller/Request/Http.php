@@ -58,15 +58,15 @@ class Http extends \Zend_Controller_Request_Http
     protected $_beforeForwardInfo = array();
 
     /**
-     * @var Magento_Backend_Helper_DataProxy
+     * @var \Magento\Backend\Helper\DataProxy
      */
     protected $_helper;
 
     /**
-     * @param Magento_Backend_Helper_DataProxy $helper
+     * @param \Magento\Backend\Helper\DataProxy $helper
      * @param null $uri
      */
-    public function __construct(Magento_Backend_Helper_DataProxy $helper, $uri = null)
+    public function __construct(\Magento\Backend\Helper\DataProxy $helper, $uri = null)
     {
         $this->_helper = $helper;
         parent::__construct($uri);

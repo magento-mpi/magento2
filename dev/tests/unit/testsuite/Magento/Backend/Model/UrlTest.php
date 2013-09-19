@@ -93,9 +93,9 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->with(\Magento\Backend\Model\Url::XML_PATH_STARTUP_MENU_ITEM)
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
-        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array('getHash'), array(), '', false);
+        $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array('getHash'), array(), '', false);
         $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
         $this->_model = new \Magento\Backend\Model\Url(
@@ -172,7 +172,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         $urlModel = new \Magento\Backend\Model\Url(
             $this->_storeConfigMock,
@@ -209,7 +209,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
 
         $urlModel = new \Magento\Backend\Model\Url(
             $this->_storeConfigMock,

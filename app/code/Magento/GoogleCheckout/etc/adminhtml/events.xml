@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="sales_order_shipment_track_save_after">
-        <observer name="googlecheckout" instance="Magento_GoogleCheckout_Model_Observer" method="salesOrderShipmentTrackSaveAfter" shared="false" />
+        <observer name="googlecheckout" instance="Magento\GoogleCheckout\Model\Observer" method="salesOrderShipmentTrackSaveAfter" shared="false" />
     </event>
     <event name="sales_order_shipment_save_after">
-        <observer name="googlecheckout" instance="Magento_GoogleCheckout_Model_Observer" method="salesOrderShipmentSaveAfter" shared="false" />
+        <observer name="googlecheckout" instance="Magento\GoogleCheckout\Model\Observer" method="salesOrderShipmentSaveAfter" shared="false" />
     </event>
 </config>

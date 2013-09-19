@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Registration_ActivateTest
+ * \Magento\Webhook\Block\Adminhtml\Registration\ActivateTest
  *
  * @magentoDbIsolation enabled
  * @magentoAppArea adminhtml

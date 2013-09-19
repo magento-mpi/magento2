@@ -53,7 +53,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     public function testCreatePositiveWithNotEmptyConfig($type)
     {
         $config = array('attributes' => array('attr1' => 'attr1', 'attr2' => 'attr2'));
-        $className = 'Magento_Data_Form_Element_' . ucfirst($type);
+        $className = 'Magento\Data\Form\Element\\' . ucfirst($type);
         $elementMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')

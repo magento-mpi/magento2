@@ -9,15 +9,15 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="webhook.subscriptions.list">
-        <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml_subscription.grid" as="grid">
+        <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml_subscription.grid" as="grid">
             <arguments>
-                <argument name="dataSource" xsi:type="object">Magento_Webhook_Model_Resource_Subscription_Grid_Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Webhook\Model\Resource\Subscription\Grid\Collection</argument>
                 <argument name="id" xsi:type="string">subscriptionGrid</argument>
                 <argument name="default_sort" xsi:type="string">subscription_id</argument>
                 <argument name="default_dir" xsi:type="string">ASC</argument>
                 <argument name="SaveParametersInSession" xsi:type="string">1</argument>
             </arguments>
-            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="Magento_Webhook_Block_Adminhtml_Subscription_Grid.columnSet">
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="Magento_Webhook_Block_Adminhtml_Subscription_Grid.columnSet">
                 <arguments>
                     <argument name="rowUrl" xsi:type="array">
                         <item name="path" xsi:type="string">*/*/edit</item>
@@ -27,7 +27,7 @@
                     </argument>
                     <argument name="empty_text" xsi:type="string" translate="true">No Items Found</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="id">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">ID</argument>
                         <argument name="align" xsi:type="string">right</argument>
@@ -36,7 +36,7 @@
                         <argument name="index" xsi:type="string">subscription_id</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="name">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Name</argument>
                         <argument name="index" xsi:type="string">name</argument>
@@ -44,14 +44,14 @@
                         <argument name="align" xsi:type="string">left</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="endpoint_url">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="endpoint_url">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Endpoint URL</argument>
                         <argument name="index" xsi:type="string">endpoint_url</argument>
                         <argument name="align" xsi:type="string">left</argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="status">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Status</argument>
                         <argument name="index" xsi:type="string">status</argument>
@@ -59,16 +59,16 @@
                         <argument name="width" xsi:type="string">100px</argument>
                         <argument name="id" xsi:type="string">status</argument>
                         <argument name="type" xsi:type="string">options</argument>
-                        <argument name="options" xsi:type="options" model="Magento_Webhook_Model_Subscription_Options_Status"/>
+                        <argument name="options" xsi:type="options" model="Magento\Webhook\Model\Subscription\Options\Status"/>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_Column" as="action">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="action">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Action</argument>
                         <argument name="index" xsi:type="string">action</argument>
                         <argument name="align" xsi:type="string">left</argument>
                         <argument name="width" xsi:type="string">80px</argument>
-                        <argument name="renderer" xsi:type="string">Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="filter" xsi:type="string">0</argument>
                         <argument name="id" xsi:type="string">action</argument>

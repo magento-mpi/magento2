@@ -24,14 +24,14 @@ class Event extends \Magento\Adminhtml\Controller\Action
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Event model factory
      *
-     * @var Magento_CatalogEvent_Model_EventFactory
+     * @var \Magento\CatalogEvent\Model\EventFactory
      */
     protected $_eventFactory;
 
@@ -40,14 +40,14 @@ class Event extends \Magento\Adminhtml\Controller\Action
      *
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_CatalogEvent_Model_EventFactory $eventFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\CatalogEvent\Model\EventFactory $eventFactory
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_CatalogEvent_Model_EventFactory $eventFactory
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\CatalogEvent\Model\EventFactory $eventFactory
     ) {
         parent::__construct($context);
 
@@ -115,7 +115,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Events'));
 
-        /** @var Magento_CatalogEvent_Model_Event $event */
+        /** @var \Magento\CatalogEvent\Model\Event $event */
         $event = $this->_eventFactory->create()
             ->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
@@ -151,11 +151,11 @@ class Event extends \Magento\Adminhtml\Controller\Action
     /**
      * Save action
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function saveAction()
     {
-        /* @var Magento_CatalogEvent_Model_Event $event*/
+        /* @var \Magento\CatalogEvent\Model\Event $event*/
         $event = $this->_eventFactory->create()->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
         if ($eventId) {
@@ -212,7 +212,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
                 try {
                     $event->setImage($uploader);
                 } catch (\Exception $e) {
-                    throw new Magento_Core_Exception(__('We did not upload your image.'));
+                    throw new \Magento\Core\Exception(__('We did not upload your image.'));
                 }
             }
             $event->save();
@@ -237,7 +237,7 @@ class Event extends \Magento\Adminhtml\Controller\Action
      */
     public function deleteAction()
     {
-        /** @var Magento_CatalogEvent_Model_Event $event */
+        /** @var \Magento\CatalogEvent\Model\Event $event */
         $event = $this->_eventFactory->create();
         $event->load($this->getRequest()->getParam('id', false));
         if ($event->getId()) {

@@ -35,12 +35,12 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     protected $_ctlgInventData = null;
 
     /**
-     * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
-     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Search_Helper_ClientInterface $clientHelper
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
+     * @param \Magento\Search\Model\Client\FactoryInterface $clientFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Search\Helper\ClientInterface $clientHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $options
      * @throws Exception
      */
@@ -50,7 +50,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Core\Model\Logger $logger,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;

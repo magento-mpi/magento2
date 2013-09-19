@@ -27,9 +27,9 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction($coreRoute = null)
     {
-        $pageId = $this->_objectManager->get('Magento_Core_Model_Store_Config')
-            ->getConfig(Magento_Cms_Helper_Page::XML_PATH_HOME_PAGE);
-        if (!$this->_objectManager->get('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
+        $pageId = $this->_objectManager->get('Magento\Core\Model\Store\Config')
+            ->getConfig(\Magento\Cms\Helper\Page::XML_PATH_HOME_PAGE);
+        if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultIndex');
         }
     }
@@ -58,9 +58,9 @@ class Index extends \Magento\Core\Controller\Front\Action
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
         $this->getResponse()->setHeader('Status','404 File not found');
 
-        $pageId = $this->_objectManager->get('Magento_Core_Model_Store_Config')
-            ->getConfig(Magento_Cms_Helper_Page::XML_PATH_NO_ROUTE_PAGE);
-        if (!$this->_objectManager->get('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
+        $pageId = $this->_objectManager->get('Magento\Core\Model\Store\Config')
+            ->getConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_ROUTE_PAGE);
+        if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultNoRoute');
         }
     }
@@ -85,9 +85,9 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function noCookiesAction()
     {
-        $pageId = $this->_objectManager->get('Magento_Core_Model_Store_Config')
-            ->getConfig(Magento_Cms_Helper_Page::XML_PATH_NO_COOKIES_PAGE);
-        if (!$this->_objectManager->get('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
+        $pageId = $this->_objectManager->get('Magento\Core\Model\Store\Config')
+            ->getConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE);
+        if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultNoCookies');;
         }
     }

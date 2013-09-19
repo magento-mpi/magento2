@@ -285,7 +285,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        Magento_Core_Model_ObjectManager::setInstance($mockObjectManager);
+        \Magento\Core\Model\ObjectManager::setInstance($mockObjectManager);
 
         return $mockObjectManager;
     }

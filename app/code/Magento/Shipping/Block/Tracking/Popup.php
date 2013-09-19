@@ -42,7 +42,7 @@ class Popup extends \Magento\Core\Block\Template
      */
     public function getTrackingInfo()
     {
-        /* @var $info Magento_Shipping_Model_Info */
+        /* @var $info \Magento\Shipping\Model\Info */
         $info = $this->_coreRegistry->registry('current_shipping_info');
 
         return $info->getTrackingInfo();

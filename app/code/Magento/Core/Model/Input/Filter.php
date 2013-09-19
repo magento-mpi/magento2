@@ -76,7 +76,7 @@
  *  ));
  * </code>
  *
- * @see Magento_Core_Model_Input_FilterTest    See this class for manual
+ * @see \Magento\Core\Model\Input\FilterTest    See this class for manual
  * @copyright  {copyright}
  * @license    {license_link}
  */

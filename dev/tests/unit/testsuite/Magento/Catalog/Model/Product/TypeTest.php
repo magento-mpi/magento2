@@ -24,13 +24,13 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_model;
 
     protected function setUp()
     {
-        $config = $this->getMock('Magento_Core_Model_Config', array('getNode', 'asArray'), array(), '', false);
+        $config = $this->getMock('Magento\Core\Model\Config', array('getNode', 'asArray'), array(), '', false);
 
         $config->expects($this->once())
             ->method('getNode')
@@ -41,7 +41,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
             ->method('asArray')
             ->will($this->returnValue($this->_productTypes));
 
-        $this->_model = new Magento_Catalog_Model_Product_Type($config);
+        $this->_model = new \Magento\Catalog\Model\Product\Type($config);
     }
 
     public function testGetTypes()

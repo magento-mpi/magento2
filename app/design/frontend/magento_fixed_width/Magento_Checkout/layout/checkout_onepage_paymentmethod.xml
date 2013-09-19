@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="payment_method">
-        <block class="Magento_Core_Block_Template" name="checkout.onepage.payment.methods.scripts" as="scripts"/>
-        <block class="Magento_Core_Block_Template" name="checkout.onepage.payment.methods.additional" as="additional"/>
+        <block class="Magento\Core\Block\Template" name="checkout.onepage.payment.methods.scripts" as="scripts"/>
+        <block class="Magento\Core\Block\Template" name="checkout.onepage.payment.methods.additional" as="additional"/>
     </reference>
 </layout>

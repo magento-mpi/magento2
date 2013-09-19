@@ -13,8 +13,8 @@
  * Tests product model:
  * - external interaction is tested
  *
- * @see Magento_Catalog_Model_ProductTest
- * @see Magento_Catalog_Model_ProductPriceTest
+ * @see \Magento\Catalog\Model\ProductTest
+ * @see \Magento\Catalog\Model\ProductPriceTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
 class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
@@ -224,7 +224,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @see Magento_Catalog_Model_Product_UrlTest
+     * @see \Magento\Catalog\Model\Product\UrlTest
      */
     public function testFormatUrlKey()
     {

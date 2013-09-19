@@ -43,7 +43,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
      */
     public function testGetWidgetConfigAsArray()
     {
-        $config = $this->_model->setType('Magento\Catalog\Block\Product\Widget\New')->getWidgetConfigAsArray();
+        $config = $this->_model->setType('Magento\Catalog\Block\Product\Widget\NewWidget')->getWidgetConfigAsArray();
         $this->assertTrue(is_array($config));
         $element = null;
         if (isset($config['parameters']) && isset($config['parameters']['template'])
@@ -67,7 +67,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
      */
     public function testGetWidgetSupportedContainers()
     {
-        $this->_model->setType('Magento\Catalog\Block\Product\Widget\New');
+        $this->_model->setType('Magento\Catalog\Block\Product\Widget\NewWidget');
         $containers = $this->_model->getWidgetSupportedContainers();
         $this->assertInternalType('array', $containers);
         $this->assertContains('left', $containers);

@@ -10,7 +10,7 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
     /** @var  \Magento\Core\Model\TemplateEngine\Twig */
     protected $_twigEngine;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject Magento_Core_Model_TemplateEngine_EnvironmentFactory */
+    /** @var  PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\TemplateEngine_EnvironmentFactory */
     protected $_envFactoryMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */

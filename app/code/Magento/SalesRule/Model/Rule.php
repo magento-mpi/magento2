@@ -203,7 +203,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Returns code mass generator instance for auto generated specific coupons
      *
-     * @return Magento_SalesRule_Model_Coupon_MassgneratorInterface
+     * @return \Magento\SalesRule\Model\Coupon_MassgneratorInterface
      */
     public static function getCouponMassGenerator()
     {

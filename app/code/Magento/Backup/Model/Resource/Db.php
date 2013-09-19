@@ -31,16 +31,16 @@ class Db
     /**
      * Backup resource helper
      *
-     * @var Magento_Backup_Model_Resource_Helper_Mysql4
+     * @var \Magento\Backup_Model_Resource_Helper_Mysql4
      */
     protected $_resourceHelper;
 
     /**
      * Initialize Backup DB resource model
      *
-     * @param Magento_Backup_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param \Magento\Backup\Model\Resource\Helper\Mysql4 $resourceHelper
      */
-    public function __construct(Magento_Backup_Model_Resource_Helper_Mysql4 $resourceHelper)
+    public function __construct(\Magento\Backup\Model\Resource\Helper\Mysql4 $resourceHelper)
     {
         $this->_resourceHelper = $resourceHelper;
         $this->_write = \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('backup_write');

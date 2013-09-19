@@ -169,8 +169,8 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_subscriptions = array();
 
-        /** @var $configModel Magento_Core_Model_Config */
-        $configModel = $objectManager->get('Magento_Core_Model_Config');
+        /** @var $configModel \Magento\Core\Model\Config */
+        $configModel = $objectManager->get('Magento\Core\Model\Config');
         $configModel->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
         $configModel->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
         $configModel->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');

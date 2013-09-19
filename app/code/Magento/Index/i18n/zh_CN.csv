@@ -18,7 +18,7 @@
 "Index mode","索引模式"
 "Indexer code is not defined.","索引器代码未定义。"
 "Indexer model is not defined.","索引器模型未定义。"
-"Indexer model should extend Magento_Index_Model_Indexer_Abstract.","索引器模型必须延伸 Magento_Index_Model_Indexer_Abstract。"
+"Indexer model should extend \Magento\Index\Model\Indexer\AbstractIndexer.","索引器模型必须延伸 \Magento\Index\Model\Indexer\AbstractIndexer。"
 "Manual Update","手动更新"
 "Mode","模式"
 "Never","永不"

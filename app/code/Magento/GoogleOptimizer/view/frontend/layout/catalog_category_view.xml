@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="head">
-        <block class="Magento_GoogleOptimizer_Block_Code_Category" before="-" name="googleoptimizer.experiment.script"/>
+        <block class="Magento\GoogleOptimizer\Block\Code\Category" before="-" name="googleoptimizer.experiment.script"/>
     </reference>
 </layout>

@@ -261,7 +261,7 @@
             <instance type="Magento\Backend\Helper\Data\Proxy" />
         </param>
     </type>
-    <type name="Magento_Core_Model_View_Design">
+    <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
                 <frontend>magento_demo</frontend>
@@ -270,7 +270,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Core_Model_View_Publisher">
+    <type name="Magento\Core\Model\View\Publisher">
         <param name="allowFilesDuplication">
             <value type="bool">true</value>
         </param>

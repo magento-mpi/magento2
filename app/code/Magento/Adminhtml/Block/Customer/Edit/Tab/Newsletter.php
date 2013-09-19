@@ -27,7 +27,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
         $customer = $this->_coreRegistry->registry('current_customer');
-        $subscriber = \Mage::getModel('Magento_Newsletter_Model_Subscriber')->loadByCustomer($customer);
+        $subscriber = \Mage::getModel('Magento\Newsletter\Model\Subscriber')->loadByCustomer($customer);
         $this->_coreRegistry->register('subscriber', $subscriber);
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter Information')));

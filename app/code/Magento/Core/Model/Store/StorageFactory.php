@@ -114,7 +114,7 @@ class StorageFactory
             $instance->initCurrentStore();
             if ($className === $this->_installedStoreClassName) {
                 $useSid = $instance->getStore()
-                    ->getConfig(Magento_Core_Model_Session_Abstract::XML_PATH_USE_FRONTEND_SID);
+                    ->getConfig(\Magento\Core\Model\Session\AbstractSession::XML_PATH_USE_FRONTEND_SID);
                 $this->_app->setUseSessionInUrl($useSid);
 
                 $this->_eventManager->dispatch('core_app_init_current_store_after');

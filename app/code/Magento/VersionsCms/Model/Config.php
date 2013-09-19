@@ -44,17 +44,17 @@ class Config
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\AuthorizationInterface $authorization
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;

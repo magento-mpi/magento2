@@ -9,66 +9,66 @@
 class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Directory_Model_Resource_Country_Collection|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Country\Collection|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_countryCollection;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_Collection_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Directory\Model\Resource\Region\Collection\Factory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_regionCollection;
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Core_Model_Store|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Store|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
     /**
-     * @var Magento_Directory_Helper_Data
+     * @var \Magento\Directory\Helper\Data
      */
     protected $_object;
 
     public function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $request = $this->getMock('Magento_Core_Controller_Request_HttpProxy', array(), array(), '', false);
-        $context = $objectManager->getObject('Magento_Core_Helper_Context', array('request' => $request));
+        $request = $this->getMock('Magento\Core\Controller\Request\HttpProxy', array(), array(), '', false);
+        $context = $objectManager->getObject('Magento\Core\Helper\Context', array('request' => $request));
 
-        $configCacheType = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false);
+        $configCacheType = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false);
 
-        $this->_countryCollection = $this->getMock('Magento_Directory_Model_Resource_Country_Collection', array(),
+        $this->_countryCollection = $this->getMock('Magento\Directory\Model\Resource\Country\Collection', array(),
             array(), '', false);
 
-        $this->_regionCollection = $this->getMock('Magento_Directory_Model_Resource_Region_Collection', array(),
+        $this->_regionCollection = $this->getMock('Magento\Directory\Model\Resource\Region\Collection', array(),
             array(), '', false);
-        $regCollFactory = $this->getMock('Magento_Directory_Model_Resource_Region_Collection_Factory', array(),
+        $regCollFactory = $this->getMock('Magento\Directory\Model\Resource\Region\Collection\Factory', array(),
             array(), '', false);
         $regCollFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_regionCollection));
 
-        $this->_coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        $this->_store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false);
+        $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
         $storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_store));
 
-        $this->_object = new Magento_Directory_Helper_Data($context, $configCacheType, $this->_countryCollection,
+        $this->_object = new \Magento\Directory\Helper\Data($context, $configCacheType, $this->_countryCollection,
             $regCollFactory, $this->_coreHelper, $storeManager);
     }
 
     public function testGetRegionJson()
     {
         $countries = array(
-            new Magento_Object(array('country_id' => 'Country1')),
-            new Magento_Object(array('country_id' => 'Country2')),
+            new \Magento\Object(array('country_id' => 'Country1')),
+            new \Magento\Object(array('country_id' => 'Country2')),
         );
         $countryIterator = new ArrayIterator($countries);
         $this->_countryCollection->expects($this->atLeastOnce())
@@ -76,13 +76,13 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($countryIterator));
 
         $regions = array(
-            new Magento_Object(
+            new \Magento\Object(
                 array('country_id' => 'Country1', 'region_id' => 'r1', 'code' => 'r1-code', 'name' => 'r1-name')
             ),
-            new Magento_Object(
+            new \Magento\Object(
                 array('country_id' => 'Country1', 'region_id' => 'r2', 'code' => 'r2-code', 'name' => 'r2-name')
             ),
-            new Magento_Object(
+            new \Magento\Object(
                 array('country_id' => 'Country2', 'region_id' => 'r3', 'code' => 'r3-code', 'name' => 'r3-name')
             ),
         );

@@ -30,17 +30,17 @@ class Config
     protected $_pageLayouts = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_coreConfig = $coreConfig;
     }
@@ -75,7 +75,7 @@ class Config
             $this->_pageLayouts = array();
         }
         foreach ($this->_coreConfig->getNode($xmlPath)->children() as $layoutCode => $layoutConfig) {
-            $this->_pageLayouts[$layoutCode] = new Magento_Object(array(
+            $this->_pageLayouts[$layoutCode] = new \Magento\Object(array(
                 'label'         => __((string)$layoutConfig->label),
                 'code'          => $layoutCode,
                 'template'      => (string)$layoutConfig->template,

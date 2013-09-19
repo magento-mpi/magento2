@@ -204,7 +204,7 @@ class Layout extends \Magento\Simplexml\Config
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
     
@@ -218,7 +218,7 @@ class Layout extends \Magento\Simplexml\Config
      * @param \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor
      * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Core\Model\DataService\Graph $dataServiceGraph
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param string $area
      */
     public function __construct(
@@ -231,7 +231,7 @@ class Layout extends \Magento\Simplexml\Config
         \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $area = \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;

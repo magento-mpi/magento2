@@ -72,16 +72,16 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Pbridge_Helper_Data $pbridgeData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Payment_Helper_Data $paymentData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -526,7 +526,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected function _getApiRequest()
     {
-        $request = new Magento_Object();
+        $request = new \Magento\Object();
         $request->setCountryCode($this->_coreStoreConfig->getConfig(self::XML_CONFIG_PATH_DEFAULT_COUNTRY));
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 

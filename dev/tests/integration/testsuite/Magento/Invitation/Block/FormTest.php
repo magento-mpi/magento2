@@ -63,7 +63,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      *
      * @param  $path
      * @param  $value
-     * @return Magento_Invitation_Block_FormTest
+     * @return \Magento\Invitation\Block\FormTest
      */
     protected function _changeConfig($path, $value)
     {
@@ -83,7 +83,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
     /**
      * Restores previously remembered store config value
      *
-     * @return Magento_Invitation_Block_FormTest
+     * @return \Magento\Invitation\Block\FormTest
      */
     protected function _restoreConfig()
     {

@@ -52,17 +52,17 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
@@ -159,8 +159,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displayCartWrappingIncludeTaxPrice($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
@@ -172,7 +172,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displayCartWrappingExcludeTaxPrice($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
@@ -184,7 +184,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displayCartWrappingBothPrices($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -196,8 +196,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displayCartCardIncludeTaxPrice($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, $store);
-        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
@@ -209,7 +209,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displayCartCardBothPrices($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -221,8 +221,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displaySalesWrappingIncludeTaxPrice($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
@@ -234,7 +234,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displaySalesWrappingExcludeTaxPrice($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
@@ -246,7 +246,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displaySalesWrappingBothPrices($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -258,8 +258,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displaySalesCardIncludeTaxPrice($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, $store);
-        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
@@ -271,7 +271,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function displaySalesCardBothPrices($store = null)
     {
         $configValue = $this->_coreStoreConfig->getConfig(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**

@@ -169,7 +169,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      *
      * @param string|int $action Action code or a factory name
      * @param bool $isFactoryName
-     * @return Magento_Reward_Model_Action_Abstract|null
+     * @return \Magento\Reward\Model\Action\AbstractAction|null
      */
     public function getActionInstance($action, $isFactoryName = false)
     {
@@ -747,7 +747,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Override setter for setting customer group id  from order
      *
      * @param mixed $entity
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
     public function setActionEntity($entity)
     {

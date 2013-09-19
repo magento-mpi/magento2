@@ -97,7 +97,7 @@ class Price extends \Magento\Adminhtml\Block\Widget\Grid
             'index'     => 'price',
             'type'      => 'currency',
             'currency_code'
-                        => $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE)
+                        => $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
         ));
 
         $this->addColumn('add_date', array(

@@ -20,7 +20,7 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
     /**
      * Stub class name for class under test
      */
-    const STUB_CLASS = 'Magento_Catalog_Block_Product_Abstract_Stub';
+    const STUB_CLASS = 'Magento_Catalog_Block_Product_AbstractProduct_Stub';
 
     /**
      * @var \Magento\Catalog\Block\Product\AbstractProduct

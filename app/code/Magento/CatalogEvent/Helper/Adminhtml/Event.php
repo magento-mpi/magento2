@@ -30,28 +30,28 @@ class Event extends \Magento\Core\Helper\AbstractHelper
     /**
      * Event collection factory
      *
-     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
      */
     protected $_eventCollectionFactory;
 
     /**
      * Category model factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $factory
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $factory
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $factory,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $factory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
         parent::__construct($context);
 
@@ -67,7 +67,7 @@ class Event extends \Magento\Core\Helper\AbstractHelper
     public function getCategories()
     {
         if ($this->_categories === null) {
-            /** @var $tree Magento_Catalog_Model_Resource_Category_Tree */
+            /** @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
             $tree = $this->_categoryFactory->create()->getTreeModel();
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
@@ -150,7 +150,7 @@ class Event extends \Magento\Core\Helper\AbstractHelper
     {
 
         if ($this->_inEventCategoryIds === null) {
-            /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $collection */
+            /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $collection */
             $collection = $this->_eventCollectionFactory->create();
             $this->_inEventCategoryIds = $collection->getColumnValues('category_id');
         }

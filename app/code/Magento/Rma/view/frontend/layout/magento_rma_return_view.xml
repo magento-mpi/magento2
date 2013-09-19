@@ -15,11 +15,11 @@
     </reference>
     <update handle="customer_account"/>
     <reference name="my.account.wrapper">
-        <block class="Magento_Rma_Block_Return_View" name="rma.return.history">
+        <block class="Magento\Rma\Block\ReturnShipment\View" name="rma.return.history">
             <container name="rma.return.history.info" as="info" label="Customer My Account Return View"/>
         </block>
-        <block class="Magento_Rma_Block_Return_View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
+        <block class="Magento\Rma\Block\ReturnShipment\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
     </reference>
     <update handle="magento_rma_return_view_handle"/>
-    <block class="Magento_Rma_Block_Return_Tracking" name="rma.return.tracking" as="tracking"/>
+    <block class="Magento\Rma\Block\ReturnShipment\Tracking" name="rma.return.tracking" as="tracking"/>
 </layout>

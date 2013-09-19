@@ -17,7 +17,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
      */
     public function __construct()
     {
-        $this->_config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Webapi_Model_Config');
+        $this->_config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Webapi\Model\Config');
     }
 
     /**

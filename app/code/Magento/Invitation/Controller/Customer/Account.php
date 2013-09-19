@@ -136,7 +136,7 @@ class Account extends \Magento\Customer\Controller\Account
                     return;
                 } else {
                     $this->_getSession()->addError(__('Your invitation is not valid. Please contact us at %1.',
-                            $this->_objectManager->get('Magento_Core_Model_Store_Config')
+                            $this->_objectManager->get('Magento\Core\Model\Store\Config')
                                 ->getConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');

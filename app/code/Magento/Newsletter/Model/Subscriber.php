@@ -81,7 +81,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -89,7 +89,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Newsletter\Helper\Data $newsletterData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -98,7 +98,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         \Magento\Newsletter\Helper\Data $newsletterData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -171,7 +171,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberConfirmCode()
      *
      * @param string $value
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     public function setCode($value)
     {
@@ -192,7 +192,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberStatus()
      *
      * @param int
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     public function setStatus($value)
     {
@@ -226,7 +226,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberEmail()
      *
      * @param string $value
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     public function setEmail($value)
     {

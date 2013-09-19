@@ -12,7 +12,7 @@
     <reference name="adminhtml.report.grid">
         <arguments>
             <argument name="id" xsi:type="string">invitation_order_grid</argument>
-            <argument name="dataSource" xsi:type="object">Magento_Invitation_Model_Resource_Report_Invitation_Order_Initial_Collection</argument>
+            <argument name="dataSource" xsi:type="object">Magento\Invitation\Model\Resource\Report\Invitation\Order\Initial\Collection</argument>
         </arguments>
     </reference>
     <reference name="adminhtml.report.grid.export">
@@ -28,7 +28,7 @@
         </arguments>
     </reference>
     <reference name="adminhtml.report.grid.columnSet">
-        <block class="Magento_Backend_Block_Widget_Grid_Column" as="sent">
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="sent">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Invitations Sent</argument>
                 <argument name="type" xsi:type="string">number</argument>
@@ -38,7 +38,7 @@
                 <argument name="column_css_class" xsi:type="string">col-inv-sent</argument>
             </arguments>
         </block>
-        <block class="Magento_Backend_Block_Widget_Grid_Column" as="accepted">
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="accepted">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Invitations Accepted</argument>
                 <argument name="type" xsi:type="string">number</argument>
@@ -48,7 +48,7 @@
                 <argument name="column_css_class" xsi:type="string">col-inv-acc</argument>
             </arguments>
         </block>
-        <block class="Magento_Backend_Block_Widget_Grid_Column" as="purchased">
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="purchased">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Accepted and Purchased</argument>
                 <argument name="type" xsi:type="string">number</argument>
@@ -58,10 +58,10 @@
                 <argument name="column_css_class" xsi:type="string">col-acc</argument>
             </arguments>
         </block>
-        <block class="Magento_Backend_Block_Widget_Grid_Column" as="purchased_rate">
+        <block class="Magento\Backend\Block\Widget\Grid\Column" as="purchased_rate">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Conversion Rate</argument>
-                <argument name="renderer" xsi:type="string">Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent</argument>
+                <argument name="renderer" xsi:type="string">Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer\Percent</argument>
                 <argument name="type" xsi:type="string">string</argument>
                 <argument name="index" xsi:type="string">purchased_rate</argument>
                 <argument name="id" xsi:type="string">purchased_rate</argument>

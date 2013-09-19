@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="customer_account_dashboard">
-        <block class="Magento_Review_Block_Customer_Recent" name="customer_account_dashboard_info1" as="info1" template="customer/recent.phtml"/>
+        <block class="Magento\Review\Block\Customer\Recent" name="customer_account_dashboard_info1" as="info1" template="customer/recent.phtml"/>
     </reference>
 </layout>

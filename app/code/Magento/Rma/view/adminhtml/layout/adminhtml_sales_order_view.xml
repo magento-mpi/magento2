@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="sales_order_tabs">
-        <block class="Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma" name="magento_rma_order_view_tab_rma" after="order_shipments">
-            <block class="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
+        <block class="Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma" name="magento_rma_order_view_tab_rma" after="order_shipments">
+            <block class="Magento\Rma\Block\Adminhtml\Rma" name="magento_rma"/>
         </block>
         <action method="addTabAfter">
             <argument name="name" xsi:type="string">order_rma</argument>
@@ -19,7 +19,7 @@
         </action>
     </reference>
     <reference name="sales_order_edit">
-        <block class="Magento_Rma_Block_Adminhtml_Order_View_Buttons" name="rma_buttons">
+        <block class="Magento\Rma\Block\Adminhtml\Order\View\Buttons" name="rma_buttons">
             <action method="addButtons"/>
         </block>
     </reference>

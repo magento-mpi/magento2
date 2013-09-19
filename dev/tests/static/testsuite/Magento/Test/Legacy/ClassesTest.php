@@ -21,7 +21,7 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     public function testPhpCode($file)
     {
         $classes = Magento_TestFramework_Utility_Classes::collectPhpCodeClasses(file_get_contents($file));
-        $this->_assertNonFactoryName($classes);
+        $this->_assertNonFactoryName($classes, $file);
     }
 
     /**
@@ -41,10 +41,10 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
         $xml = simplexml_load_file($path);
 
         $classes = Magento_TestFramework_Utility_Classes::collectClassesInConfig($xml);
-        $this->_assertNonFactoryName($classes);
+        $this->_assertNonFactoryName($classes, $path);
 
         $modules = Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml, '//@module', 'module');
-        $this->_assertNonFactoryName(array_unique($modules));
+        $this->_assertNonFactoryName(array_unique($modules), $path, false, true);
     }
 
     /**
@@ -70,11 +70,11 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
         $classes =
             array_merge($classes, Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
                     '/layout//@module', 'module'));
-        $this->_assertNonFactoryName(array_unique($classes));
+        $this->_assertNonFactoryName(array_unique($classes), $path);
 
         $tabs =
             Magento_TestFramework_Utility_Classes::getXmlNodeValues($xml, '/layout//action[@method="addTab"]/block');
-        $this->_assertNonFactoryName(array_unique($tabs), true);
+        $this->_assertNonFactoryName(array_unique($tabs), $path, true);
     }
 
     /**
@@ -94,7 +94,7 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      * @param bool $softComparison
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _assertNonFactoryName($names, $softComparison = false)
+    protected function _assertNonFactoryName($names, $file, $softComparison = false, $moduleBlock = false)
     {
         if (!$names) {
             return;
@@ -104,16 +104,22 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
             try {
                 if ($softComparison) {
                     $this->assertNotRegExp('/\//', $name);
-                } else {
+                } elseif ($moduleBlock) {
                     $this->assertFalse(false === strpos($name, '_'));
                     $this->assertRegExp('/^([A-Z][A-Za-z\d_]+)+$/', $name);
+                } else {
+                    if (strpos($name, 'Magento') === false) {
+                        continue;
+                    }
+                    $this->assertFalse(false === strpos($name, '\\'));
+                    $this->assertRegExp('/^([A-Z\\\\][A-Za-z\d\\\\]+)+$/', $name);
                 }
             } catch (PHPUnit_Framework_AssertionFailedError $e) {
                 $factoryNames[] = $name;
             }
         }
         if ($factoryNames) {
-            $this->fail('Obsolete factory name(s) detected:' . "\n" . implode("\n", $factoryNames));
+            $this->fail("Obsolete factory name(s) detected in $file:" . "\n" . implode("\n", $factoryNames));
         }
     }
 }

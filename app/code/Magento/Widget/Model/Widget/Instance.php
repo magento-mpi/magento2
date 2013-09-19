@@ -92,12 +92,12 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $_widgetData = null;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_typeList;
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_productType;
 
@@ -110,9 +110,9 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Widget\Model\Config\Reader $reader,
      * @param \Magento\Widget\Model\Widget $widgetModel,
      * @param \Magento\Core\Model\Config $coreConfig
-     * @param Magento_Core_Model_Cache_TypeListInterface $typeList
-     * @param Magento_Catalog_Model_Product_Type $productType
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
+     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -125,8 +125,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
         \Magento\Widget\Model\Config\Reader $reader,
         \Magento\Widget\Model\Widget $widgetModel,
         \Magento\Core\Model\Config $coreConfig,
-        Magento_Core_Model_Cache_TypeListInterface $typeList,
-        Magento_Catalog_Model_Product_Type $productType,
+        \Magento\Core\Model\Cache\TypeListInterface $typeList,
+        \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

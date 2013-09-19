@@ -22,19 +22,19 @@ class Robots extends \Magento\Core\Helper\AbstractHelper
     const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS = 'design/search_engine_robots/default_custom_instructions';
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $coreConfig
     ) {
         parent::__construct(
             $context

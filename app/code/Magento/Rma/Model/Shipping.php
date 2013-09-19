@@ -60,7 +60,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -68,7 +68,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Rma\Model\Resource\Shipping $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -77,7 +77,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Rma\Model\Resource\Shipping $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -115,7 +115,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     public function requestToShipment()
     {
         $shipmentStoreId    = $this->getRma()->getStoreId();
-        $storeInfo          = new Magento_Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
+        $storeInfo          = new \Magento\Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
 
         /** @var $order \Magento\Sales\Model\Order */
         $order              = \Mage::getModel('Magento\Sales\Model\Order')->load($this->getRma()->getOrderId());

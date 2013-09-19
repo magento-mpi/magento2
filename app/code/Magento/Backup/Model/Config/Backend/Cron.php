@@ -23,30 +23,30 @@ class Cron extends \Magento\Core\Model\Config\Value
     /**
      * Config value factory
      *
-     * @var Magento_Core_Model_Config_Value
+     * @var \Magento\Core\Model\Config\Value
      */
     protected $_configValueFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Config_ValueFactory $configValueFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
@@ -58,7 +58,7 @@ class Cron extends \Magento\Core\Model\Config\Value
      * Cron settings after save
      *
      * @return \Magento\Backend\Model\Config\Backend\Log\Cron
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _afterSave()
     {
@@ -95,7 +95,7 @@ class Cron extends \Magento\Core\Model\Config\Value
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         } catch (\Exception $e) {
-            throw new Magento_Core_Exception(__('We can\'t save the Cron expression.'));
+            throw new \Magento\Core\Exception(__('We can\'t save the Cron expression.'));
         }
     }
 }

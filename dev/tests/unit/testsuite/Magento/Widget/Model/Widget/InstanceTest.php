@@ -19,7 +19,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
      */
     protected $_viewFileSystemMock;
 
-    /** @var  Magento_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Core\Model\Config|PHPUnit_Framework_MockObject_MockObject */
     protected $_coreConfigMock;
     /**
      * @var \Magento\Widget\Model\Widget\Instance
@@ -55,13 +55,13 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $widgetData = $this->getMockBuilder('Magento\Widget\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $cacheTypeList = $this->getMockBuilder('Magento_Core_Model_Cache_TypeListInterface')
+        $cacheTypeList = $this->getMockBuilder('Magento\Core\Model\Cache\TypeListInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $productType = $this->getMockBuilder('Magento_Catalog_Model_Product_Type')
+        $productType = $this->getMockBuilder('Magento\Catalog\Model\Product\Type')
             ->disableOriginalConstructor()
             ->getMock();
-        /** @var Magento_Widget_Model_Widget_Instance _model */
+        /** @var \Magento\Widget\Model\Widget\Instance _model */
         $this->_model = $this->getMock(
             'Magento\Widget\Model\Widget\Instance',
             array('_construct'),
@@ -76,7 +76,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',
@@ -90,7 +90,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
                     ),
                     'type' => 'label',
                     'helper_block' => array(
-                        'type' => 'Magento_Adminhtml_Block_Cms_Page_Widget_Chooser',
+                        'type' => 'Magento\Adminhtml\Block\Cms\Page\Widget\Chooser',
                         'data' => array(
                             'button' => array(
                                 'open' => 'Select Page...',
@@ -146,7 +146,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',
@@ -185,7 +185,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',
@@ -219,7 +219,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',
@@ -277,7 +277,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
     {
         $widget = array(
             '@' => array(
-                'type' => 'Magento_Cms_Block_Widget_Page_Link',
+                'type' => 'Magento\Cms\Block\Widget\Page\Link',
                 'module' => 'Magento_Cms',
             ),
             'name' => 'CMS Page Link',

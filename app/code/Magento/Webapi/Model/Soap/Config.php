@@ -238,8 +238,8 @@ class Config
      * Translate service interface name into service name.
      * Example:
      * <pre>
-     * - Magento_Customer_Service_CustomerV1Interface         => customer          // $preserveVersion == false
-     * - Magento_Customer_Service_Customer_AddressV1Interface => customerAddressV1 // $preserveVersion == true
+     * - \Magento\Customer\Service\CustomerV1Interface         => customer          // $preserveVersion == false
+     * - \Magento\Customer\Service\Customer_AddressV1Interface => customerAddressV1 // $preserveVersion == true
      * - Magento_Catalog_Service_ProductV2Interface           => catalogProductV2  // $preserveVersion == true
      * </pre>
      *
@@ -258,7 +258,7 @@ class Config
      * Identify the list of service name parts including sub-services using class name.
      *
      * Examples of input/output pairs: <br/>
-     * - 'Magento_Customer_Service_Customer_AddressV1Interface' => array('Customer', 'Address', 'V1') <br/>
+     * - 'Magento\Customer\Service\Customer_AddressV1Interface' => array('Customer', 'Address', 'V1') <br/>
      * - 'Vendor_Customer_Service_Customer_AddressV1Interface' => array('VendorCustomer', 'Address', 'V1) <br/>
      * - 'Magento_Catalog_Service_ProductV2Interface' => array('CatalogProduct', 'V2')
      *

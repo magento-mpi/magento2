@@ -243,9 +243,9 @@ class Instance extends \Magento\Adminhtml\Controller\Action
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
-        /* @var $serializer Magento_Adminhtml_Block_Widget_Grid_Serializer */
+        /* @var $serializer \Magento\Adminhtml\Block\Widget\Grid\Serializer */
         $serializer = $this->getLayout()->createBlock(
-            'Magento_Adminhtml_Block_Widget_Grid_Serializer',
+            'Magento\Adminhtml\Block\Widget\Grid\Serializer',
             '',
             array(
                 'data' => array(
@@ -265,7 +265,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
      */
     public function blocksAction()
     {
-        /* @var $widgetInstance Magento_Widget_Model_Widget_Instance */
+        /* @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         $widgetInstance = $this->_initWidgetInstance();
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);

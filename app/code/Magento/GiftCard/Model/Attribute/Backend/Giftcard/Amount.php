@@ -16,7 +16,7 @@ class Amount
     /**
      * Retrieve resource model
      *
-     * @return Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amounts
+     * @return \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amounts
      */
     protected function _getResource()
     {
@@ -27,7 +27,7 @@ class Amount
      * Validate data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
+     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
      */
     public function validate($object)
     {
@@ -58,7 +58,7 @@ class Amount
      * Assign amounts to product data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
+     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
      */
     public function afterLoad($object)
     {
@@ -85,7 +85,7 @@ class Amount
      * Save amounts data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
+     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
      */
     public function afterSave($object)
     {
@@ -125,7 +125,7 @@ class Amount
      * Delete amounts data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
+     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amounts
      */
     public function afterDelete($object)
     {

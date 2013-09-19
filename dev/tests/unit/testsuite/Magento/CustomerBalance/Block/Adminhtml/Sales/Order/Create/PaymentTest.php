@@ -10,7 +10,7 @@
  */
 
 /**
- * Test Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest
+ * Test \Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\PaymentTest
  */
 class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest extends PHPUnit_Framework_TestCase
 {

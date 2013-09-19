@@ -15,7 +15,7 @@
             <customerbalance_setup>
                 <setup>
                     <module>Magento_CustomerBalance</module>
-                    <class>Magento_CustomerBalance_Model_Resource_Setup</class>
+                    <class>Magento\CustomerBalance\Model\Resource\Setup</class>
                 </setup>
             </customerbalance_setup>
         </resources>
@@ -32,16 +32,16 @@
             <quote>
                 <totals>
                     <customerbalance>
-                        <class>Magento_CustomerBalance_Model_Total_Quote_Customerbalance</class>
+                        <class>Magento\CustomerBalance\Model\Total\Quote\Customerbalance</class>
                         <after>weee,discount,tax,tax_subtotal,grand_total</after>
-                        <renderer>Magento_CustomerBalance_Block_Checkout_Total</renderer>
+                        <renderer>Magento\CustomerBalance\Block\Checkout\Total</renderer>
                     </customerbalance>
                 </totals>
             </quote>
             <order_invoice>
                 <totals>
                     <customerbalance>
-                        <class>Magento_CustomerBalance_Model_Total_Invoice_Customerbalance</class>
+                        <class>Magento\CustomerBalance\Model\Total\Invoice\Customerbalance</class>
                         <after>grand_total</after>
                     </customerbalance>
                 </totals>
@@ -49,7 +49,7 @@
             <order_creditmemo>
                 <totals>
                     <customerbalance>
-                        <class>Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance</class>
+                        <class>Magento\CustomerBalance\Model\Total\Creditmemo\Customerbalance</class>
                         <after>weee,discount,tax,grand_total</after>
                     </customerbalance>
                 </totals>

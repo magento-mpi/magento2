@@ -74,28 +74,28 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_taxData = null;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Helper\Context $context
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;

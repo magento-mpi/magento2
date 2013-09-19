@@ -8,7 +8,7 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Config_Modules_File
+ * Test class for \Magento\Core\Model\Config_Modules_File
  */
 class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_TestCase
 {

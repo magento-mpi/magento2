@@ -38,17 +38,17 @@ class Observer
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_PublicFileFactory
+     * @var \Magento\Core\Model\Page\Asset\PublicFileFactory
      */
     protected $_assetFileFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_Registration
+     * @var \Magento\Core\Model\Theme\Registration
      */
     protected  $_registration;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -57,9 +57,9 @@ class Observer
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Page $page
      * @param \Magento\Core\Model\ConfigInterface $config
-     * @param Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory
-     * @param Magento_Core_Model_Theme_Registration $registration
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Page\Asset\PublicFileFactory $assetFileFactory
+     * @param \Magento\Core\Model\Theme\Registration $registration
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
         \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool,
@@ -67,7 +67,7 @@ class Observer
         \Magento\Core\Model\Page $page,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\Page\Asset\PublicFileFactory $assetFileFactory,
-        Magento_Core_Model_Theme_Registration $registration,
+        \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Core\Model\Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
@@ -106,7 +106,7 @@ class Observer
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
             $this->_registration->register($baseDir, $pathPattern);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;

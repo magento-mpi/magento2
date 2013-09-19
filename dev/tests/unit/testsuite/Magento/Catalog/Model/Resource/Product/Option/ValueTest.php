@@ -12,7 +12,7 @@
 class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value
+     * @var Stub_UnitTest_\Magento\Catalog\Model\Resource\Product\Option\Value
      */
     protected $_object;
 

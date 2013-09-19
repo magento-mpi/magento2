@@ -36,7 +36,7 @@ class Form extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->addChild(
                 'magento-adminhtml-catalog-category-edit-js',
-                'Magento_Page_Block_Html_Head_Script',
+                'Magento\Page\Block\Html\Head\Script',
                 array(
                     'file' => 'Magento_Adminhtml::catalog/category/edit.js'
                 )

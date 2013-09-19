@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Reminder_Block_Adminhtml_Promo_Notice" name="promo_edit_notice"/>
+        <block class="Magento\Reminder\Block\Adminhtml\Promo\Notice" name="promo_edit_notice"/>
     </reference>
 </layout>

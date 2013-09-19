@@ -60,7 +60,7 @@ class Inventory
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field, $this->getStoreId());
+        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, $this->getStoreId());
     }
 
     /**

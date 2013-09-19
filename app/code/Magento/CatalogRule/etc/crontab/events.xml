@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="catalog_product_get_final_price">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="processAdminFinalPrice" />
+        <observer name="catalogrule" instance="Magento\CatalogRule\Model\Observer" method="processAdminFinalPrice" />
     </event>
 </config>

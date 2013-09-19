@@ -38,7 +38,7 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Core\Model\Config\Resource $resourceConfig
      * @param array $dbConfig
      */
-    public function __construct(Magento_Core_Model_Config_Resource $resourceConfig, array $dbConfig)
+    public function __construct(\Magento\Core\Model\Config\Resource $resourceConfig, array $dbConfig)
     {
         $this->_resourceConfig = $resourceConfig;
         $this->_dbConfig = $dbConfig;

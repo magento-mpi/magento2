@@ -16,7 +16,7 @@ class Magento_Enterprise_CodeIntegrityTest extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigurationDesignThemeDefaults()
     {
-        $design = Mage::getModel('Magento_Core_Model_View_Design');
+        $design = Mage::getModel('Magento\Core\Model\View\Design');
         $this->assertEquals('magento_fixed_width', $design->getConfigurationDesignTheme('frontend'));
         $this->assertEquals('magento_enterprise', $design->getConfigurationDesignTheme('install'));
         $this->assertEquals('magento_backend', $design->getConfigurationDesignTheme('adminhtml'));

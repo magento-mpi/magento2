@@ -14,6 +14,6 @@
         </action>
     </reference>
     <reference name="content">
-        <block class="Magento_Catalog_Block_Product_Gallery" name="catalog_product_gallery" template="product/gallery.phtml"/>
+        <block class="Magento\Catalog\Block\Product\Gallery" name="catalog_product_gallery" template="product/gallery.phtml"/>
     </reference>
 </layout>

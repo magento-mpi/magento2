@@ -9,7 +9,7 @@
 -->
 <config>
     <preference for="Magento\Core\Model\Resource\Setup\Migration" type="Magento\Enterprise\Model\Resource\Setup\Migration" />
-    <type name="Magento_Core_Model_View_Design">
+    <type name="Magento\Core\Model\View\Design">
         <param name="themes">
             <value>
                 <frontend>magento_fixed_width</frontend>
@@ -18,7 +18,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Install_Block_Begin">
+    <type name="Magento\Install\Block\Begin">
         <param name="eulaFile">
             <value>LICENSE_EE.html</value>
         </param>

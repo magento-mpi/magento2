@@ -76,7 +76,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -84,7 +84,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -93,7 +93,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

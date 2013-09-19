@@ -31,16 +31,16 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_GiftCard_Helper_Data $giftCardData
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\GiftCard\Helper\Data $giftCardData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      * @throws \InvalidArgumentException
@@ -49,7 +49,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
@@ -114,7 +114,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
         $order = $observer->getEvent()->getOrder();
         $requiredStatus = $this->_coreStoreConfig->getConfig(
-            Magento_GiftCard_Model_Giftcard::XML_PATH_ORDER_ITEM_STATUS,
+            \Magento\GiftCard\Model\Giftcard::XML_PATH_ORDER_ITEM_STATUS,
             $order->getStore()
         );
         $loadedInvoices = array();
@@ -237,7 +237,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),
                             $this->_coreStoreConfig->getConfig(
-                                Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_IDENTITY,
+                                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 $item->getOrder()->getStoreId()
                             ),
                             $item->getProductOptionByCode('giftcard_recipient_email'),

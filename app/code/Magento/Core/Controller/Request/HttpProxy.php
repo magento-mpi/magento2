@@ -9,14 +9,16 @@
  */
 
 /**
- * Proxy class for Magento_Core_Controller_Request_Http
+ * Proxy class for \Magento\Core\Controller\Request\Http
  */
-class Magento_Core_Controller_Request_HttpProxy extends Magento_Core_Controller_Request_Http
+namespace Magento\Core\Controller\Request;
+
+class HttpProxy extends \Magento\Core\Controller\Request\Http
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -30,7 +32,7 @@ class Magento_Core_Controller_Request_HttpProxy extends Magento_Core_Controller_
     /**
      * Proxied instance
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_subject = null;
 
@@ -44,13 +46,13 @@ class Magento_Core_Controller_Request_HttpProxy extends Magento_Core_Controller_
     /**
      * Proxy constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        $instanceName = 'Magento_Core_Controller_Request_Http', $shared = true
+        \Magento\ObjectManager $objectManager,
+        $instanceName = 'Magento\Core\Controller\Request\Http', $shared = true
     ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -70,7 +72,7 @@ class Magento_Core_Controller_Request_HttpProxy extends Magento_Core_Controller_
      */
     public function __wakeup()
     {
-        $this->_objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_objectManager = \Magento\Core\Model\ObjectManager::getInstance();
     }
 
     /**
@@ -84,7 +86,7 @@ class Magento_Core_Controller_Request_HttpProxy extends Magento_Core_Controller_
     /**
      * Get proxied instance
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     protected function _getSubject()
     {

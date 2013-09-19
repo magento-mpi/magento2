@@ -17,7 +17,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FileTest extends PHPUnit_Framew
 {
     public function testConstructWithValidFile()
     {
-        new Magento_Tools_Migration_Acl_Db_Logger_File(realpath(__DIR__ . '/../../../../../') . '/tmp/');
+        new \Magento\Tools\Migration\Acl\Db\Logger\File(realpath(__DIR__ . '/../../../../../') . '/tmp/');
     }
 
     /**

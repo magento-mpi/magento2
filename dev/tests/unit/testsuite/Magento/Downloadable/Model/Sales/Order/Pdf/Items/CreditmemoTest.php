@@ -37,13 +37,13 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
             ->will($this->returnCallback(array($this, 'formatPrice')));
 
         $this->_pdf = $this->getMock(
-            'Magento_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'), array(), '', false, false
+            'Magento\Sales\Model\Order\Pdf\AbstractPdf', array('drawLineBlocks', 'getPdf'), array(), '', false, false
         );
 
-        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
         $modelConstructorArgs = $objectManager
-            ->getConstructArguments('Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo', array(
-                'helper' => new Magento_Core_Helper_String($context)
+            ->getConstructArguments('Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo', array(
+                'helper' => new \Magento\Core\Helper\String($context)
         ));
 
         $this->_model = $this->getMock(
@@ -52,8 +52,8 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
             $modelConstructorArgs
         );
 
-        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
-        $this->_model->setStringHelper(new Magento_Core_Helper_String($context));
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
+        $this->_model->setStringHelper(new \Magento\Core\Helper\String($context));
         $this->_model->setOrder($this->_order);
         $this->_model->setPdf($this->_pdf);
         $this->_model->setPage(new Zend_Pdf_Page('a4'));

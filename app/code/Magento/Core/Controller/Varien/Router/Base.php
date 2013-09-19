@@ -77,14 +77,14 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Core config
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config = null;
 
@@ -94,8 +94,8 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Config\Scope $configScope
      * @param \Magento\Core\Model\Route\Config $routeConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Config $config
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -106,9 +106,9 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Config\Scope $configScope,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Route\Config $routeConfig,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Model\Config $config,
         $areaCode,
         $baseController,
         $routerId

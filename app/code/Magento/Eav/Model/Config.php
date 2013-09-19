@@ -87,14 +87,14 @@ class Config
     protected $_collectionAttributes              = array();
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      */
-    public function __construct(Magento_Core_Model_Cache_StateInterface $cacheState)
+    public function __construct(\Magento\Core\Model\Cache\StateInterface $cacheState)
     {
         $this->_cacheState = $cacheState;
     }
@@ -224,7 +224,7 @@ class Config
     protected function _isCacheEnabled()
     {
         if ($this->_isCacheEnabled === null) {
-            $this->_isCacheEnabled = $this->_cacheState->isEnabled(Magento_Eav_Model_Cache_Type::TYPE_IDENTIFIER);
+            $this->_isCacheEnabled = $this->_cacheState->isEnabled(\Magento\Eav\Model\Cache\Type::TYPE_IDENTIFIER);
         }
         return $this->_isCacheEnabled;
     }

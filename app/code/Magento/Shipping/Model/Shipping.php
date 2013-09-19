@@ -54,17 +54,17 @@ class Shipping
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -119,7 +119,7 @@ class Shipping
      * Retrieve all methods for supplied shipping data
      *
      * @todo make it ordered
-     * @param Magento_Shipping_Model_Shipping_Method_Request $data
+     * @param \Magento\Shipping\Model\Shipping_Method_Request $data
      * @return \Magento\Shipping\Model\Shipping
      */
     public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
@@ -464,7 +464,7 @@ class Shipping
 
         $originStreet1 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
         $originStreet2 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
-        $storeInfo = new Magento_Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
+        $storeInfo = new \Magento\Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
 
         if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
             || !$originStreet1 || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)

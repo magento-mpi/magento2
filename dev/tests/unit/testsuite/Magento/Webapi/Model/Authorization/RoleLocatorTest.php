@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Authorization_RoleLoactor
+ * Test class for \Magento\Webapi\Model\Authorization\RoleLoactor
  *
  * {license_notice}
  *

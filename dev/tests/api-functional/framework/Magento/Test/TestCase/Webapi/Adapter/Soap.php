@@ -29,7 +29,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
     public function __construct()
     {
         $this->_soapConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Webapi_Model_Soap_Config');
+            ->get('Magento\Webapi\Model\Soap\Config');
     }
 
     /**

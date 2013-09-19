@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <container name="root" label="Root" output="1">
-        <block class="Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid" name="promo_quote_edit_tab_coupons_grid"/>
+        <block class="Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid" name="promo_quote_edit_tab_coupons_grid"/>
     </container>
 </layout>

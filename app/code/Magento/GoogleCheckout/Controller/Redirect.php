@@ -69,7 +69,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
                 $quote->setIsActive(false)->save();
                 $session->replaceQuote($storeQuote);
                 \Mage::getModel('Magento\Checkout\Model\Cart')->init()->save();
-                if ($this->_objectManager->get('Magento_Core_Model_Store_Config')
+                if ($this->_objectManager->get('Magento\Core\Model\Store\Config')
                     ->getConfigFlag('google/checkout/hide_cart_contents')
                 ) {
                     $session->setGoogleCheckoutQuoteId($session->getQuoteId());
@@ -115,7 +115,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
 
     public function cartAction()
     {
-        $hideCartContents = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+        $hideCartContents = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfigFlag('google/checkout/hide_cart_contents');
         if ($hideCartContents) {
             $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
@@ -139,13 +139,13 @@ class Redirect extends \Magento\Core\Controller\Front\Action
         }
         $session->clear();
 
-        $hideCartContents = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+        $hideCartContents = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfigFlag('google/checkout/hide_cart_contents');
         if ($hideCartContents) {
             $session->setGoogleCheckoutQuoteId(null);
         }
 
-        $url = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+        $url = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfig('google/checkout/continue_shopping_url');
         if (empty($url)) {
             $this->_redirect('');

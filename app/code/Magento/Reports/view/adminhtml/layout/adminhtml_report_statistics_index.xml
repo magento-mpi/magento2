@@ -9,16 +9,16 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="content">
-        <block class="Magento_Reports_Block_Adminhtml_Refresh_Statistics" name="adminhtml.block.report.refresh.statistics">
-            <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.report.refresh.statistics.grid" as="grid">
+        <block class="Magento\Reports\Block\Adminhtml\Refresh\Statistics" name="adminhtml.block.report.refresh.statistics">
+            <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.block.report.refresh.statistics.grid" as="grid">
                 <arguments>
                     <argument name="id" xsi:type="string">gridRefreshStatistics</argument>
                     <argument name="use_ajax" xsi:type="string">0</argument>
                     <argument name="sortable" xsi:type="string">0</argument>
                     <argument name="pager_visibility" xsi:type="string">0</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Refresh_Collection</argument>
+                    <argument name="dataSource" xsi:type="object">Magento\Reports\Model\Resource\Refresh\Collection</argument>
                 </arguments>
-                <block class="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.refresh.statistics.massactions" as="grid.massaction">
+                <block class="Magento\Backend\Block\Widget\Grid\Massaction" name="adminhtml.block.refresh.statistics.massactions" as="grid.massaction">
                     <arguments>
                         <argument name="massaction_id_field" xsi:type="string">id</argument>
                         <argument name="form_field_name" xsi:type="string">code</argument>
@@ -38,12 +38,12 @@
                         </argument>
                     </arguments>
                 </block>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.block.reportrefresh.statistics.columnSet">
+                <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.block.reportrefresh.statistics.columnSet">
                     <arguments>
                         <argument name="filter_visibility" xsi:type="string">0</argument>
                         <argument name="id" xsi:type="string">gridRefreshStatistics</argument>
                     </arguments>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="report">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="report">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Report</argument>
                             <argument name="type" xsi:type="string">string</argument>
@@ -54,7 +54,7 @@
                             <argument name="header_css_class" xsi:type="string">col-report</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="comment">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="comment">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Description</argument>
                             <argument name="type" xsi:type="string">string</argument>
@@ -65,7 +65,7 @@
                             <argument name="header_css_class" xsi:type="string">col-description</argument>
                         </arguments>
                     </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="updated_at">
+                    <block class="Magento\Backend\Block\Widget\Grid\Column" as="updated_at">
                         <arguments>
                             <argument name="header" xsi:type="string" translate="true">Updated</argument>
                             <argument name="type" xsi:type="string">datetime</argument>

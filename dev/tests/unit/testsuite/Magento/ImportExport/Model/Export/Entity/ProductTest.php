@@ -12,7 +12,7 @@
 class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_Product
+     * @var Stub_UnitTest_\Magento\ImportExport\Model\Export\Entity\Product
      */
     protected $_object;
 

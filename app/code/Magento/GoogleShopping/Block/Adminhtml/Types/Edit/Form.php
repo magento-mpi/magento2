@@ -27,7 +27,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected $_elementFactory;
 
     /**
-     * @var Magento_Data_Form_Factory
+     * @var \Magento\Data\Form\Factory
      */
     protected $_formFactory;
 
@@ -39,21 +39,21 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Data_Form_Element_Factory $elementFactory
-     * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\GoogleShopping\Helper\Category $googleShoppingCategory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Data_Form_Element_Factory $elementFactory,
-        Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\GoogleShopping\Helper\Category $googleShoppingCategory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

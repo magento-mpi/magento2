@@ -636,19 +636,19 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     {
         $request = \Mage::app()->getRequest();
         if ($request->getParam('website')) {
-            /** @var $website Magento_Core_Model_Website */
-            $website = Mage::getModel('Magento_Core_Model_Website')->load($request->getParam('website'));
+            /** @var $website \Magento\Core\Model\Website */
+            $website = \Mage::getModel('Magento\Core\Model\Website')->load($request->getParam('website'));
             $secure = $this->_coreStoreConfig->getConfigFlag(
-                Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
+                \Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT,
                 $website->getDefaultStore()
             );
             $path = $secure
-                ? Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
-                : Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL;
+                ? \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_LINK_URL
+                : \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL;
             $websiteUrl = $this->_coreStoreConfig->getConfig($path, $website->getDefaultStore());
         } else {
-            $secure = $this->_coreStoreConfig->getConfigFlag(Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT);
-            $websiteUrl = Mage::getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LINK, $secure);
+            $secure = $this->_coreStoreConfig->getConfigFlag(\Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT);
+            $websiteUrl = \Mage::getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, $secure);
         }
 
         return $websiteUrl . 'paypal/' . $this->getCallbackController() . '/' . $actionName;

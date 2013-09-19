@@ -17,15 +17,15 @@ class Magento_TestFramework_Helper_ObjectManagerTest extends PHPUnit_Framework_T
      * @var array
      */
     protected $_blockDependencies = array(
-        'request'         => 'Magento_Core_Controller_Request_Http',
-        'layout'          => 'Magento_Core_Model_Layout',
-        'eventManager'    => 'Magento_Core_Model_Event_Manager',
-        'translator'      => 'Magento_Core_Model_Translate',
-        'cache'           => 'Magento_Core_Model_CacheInterface',
-        'design'          => 'Magento_Core_Model_View_DesignInterface',
-        'session'         => 'Magento_Core_Model_Session',
-        'storeConfig'     => 'Magento_Core_Model_Store_Config',
-        'frontController' => 'Magento_Core_Controller_Varien_Front'
+        'request'         => 'Magento\Core\Controller\Request\Http',
+        'layout'          => 'Magento\Core\Model\Layout',
+        'eventManager'    => 'Magento\Core\Model\Event\Manager',
+        'translator'      => 'Magento\Core\Model\Translate',
+        'cache'           => 'Magento\Core\Model\CacheInterface',
+        'design'          => 'Magento\Core\Model\View\DesignInterface',
+        'session'         => 'Magento\Core\Model\Session',
+        'storeConfig'     => 'Magento\Core\Model\Store\Config',
+        'frontController' => 'Magento\Core\Controller\Varien\Front'
     );
 
     /**

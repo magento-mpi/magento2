@@ -111,7 +111,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -120,14 +120,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Checkout_Helper_Cart $checkoutCart,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Checkout\Helper\Cart $checkoutCart,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
@@ -226,7 +226,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isSkuEnabled()
     {
         $storeData = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
-        return Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::NO_VALUE != $storeData;
+        return \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::NO_VALUE != $storeData;
     }
 
     /**

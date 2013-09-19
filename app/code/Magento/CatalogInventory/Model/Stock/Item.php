@@ -143,50 +143,50 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Store model manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Construct
      * 
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -368,8 +368,8 @@ class Item extends \Magento\Core\Model\AbstractModel
         $customerGroupId = $this->getCustomerGroupId();
         if (!$customerGroupId) {
             $customerGroupId = $this->_storeManager->getStore()->isAdmin()
-                ? Magento_Customer_Model_Group::CUST_GROUP_ALL
-                : Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+                ? \Magento\Customer\Model\Group::CUST_GROUP_ALL
+                : \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
         }
 
         if (!isset($this->_minSaleQtyCache[$customerGroupId])) {
@@ -785,7 +785,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             $this->setLowStockDate(null);
             if ($this->verifyNotification()) {
                 $this->setLowStockDate($this->_locale->date(null, null, null, false)
-                    ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
+                    ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT)
                 );
             }
 

@@ -12,20 +12,20 @@
 class Magento_Backend_Block_Widget_Grid_SerializerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layoutMock;
 
     protected function setUp()
     {
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
     }
 
     public function testPrepareLayout()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $grid = $this->getMock('Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser', array('getSelectedProducts'),
+        $grid = $this->getMock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser', array('getSelectedProducts'),
             array(), '', false);
         $grid->expects($this->once())->method('getSelectedProducts')->will($this->returnValue(array('product1')));
         $arguments = array(
@@ -37,7 +37,7 @@ class Magento_Backend_Block_Widget_Grid_SerializerTest extends PHPUnit_Framework
             )
         );
 
-        $block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_Serializer', $arguments);
+        $block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Serializer', $arguments);
         $block->setLayout($this->_layoutMock);
 
         $this->assertEquals($grid, $block->getGridBlock());
