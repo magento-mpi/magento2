@@ -60,7 +60,10 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
 
         $this->assertInstanceOf('Magento_Phrase', $converted['attribute_types']['text']['label']);
         $this->assertInstanceOf('Magento_Phrase', $converted['attribute_groups']['event_information']['label']);
-        $this->assertInstanceOf('Magento_Phrase', $converted['registry']['static_attributes']['event_country']['label']);
+        $this->assertInstanceOf(
+            'Magento_Phrase',
+            $converted['registry']['static_attributes']['event_country']['label']
+        );
         $this->assertInstanceOf('Magento_Phrase', $converted['registrant']['static_attributes']['role']['label']);
     }
 
