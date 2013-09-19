@@ -47,24 +47,19 @@ class Magento_Cron_Model_Config_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_reader = $this->getMockBuilder('Magento_Cron_Model_Config_Reader_Xml')
             ->disableOriginalConstructor()
-            ->setMethods(array('read'))
             ->getMock();
         $this->_scope = $this->getMockBuilder('Magento_Core_Model_Config_Scope')
             ->disableOriginalConstructor()
-            ->setMethods(array('getCurrentScope'))
             ->getMock();
         $this->_cache = $this->getMockBuilder('Magento_Core_Model_Cache_Type_Config')
             ->disableOriginalConstructor()
-            ->setMethods(array('get'))
             ->getMock();
         $this->_dbReader = $this->getMockBuilder('Magento_Cron_Model_Config_Reader_Db')
             ->disableOriginalConstructor()
-            ->setMethods(array('get'))
             ->getMock();
         $this->_configData = new Magento_Cron_Model_Config_Data(
             $this->_reader, $this->_scope, $this->_cache, $this->_dbReader, $this->_cacheId
         );
-
     }
 
     /**

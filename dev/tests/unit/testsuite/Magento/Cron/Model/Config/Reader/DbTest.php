@@ -32,10 +32,8 @@ class Magento_Cron_Model_Config_Reader_DbTest extends PHPUnit_Framework_TestCase
     {
         $this->_defaultReader = $this->getMockBuilder('Magento_Core_Model_Config_Section_Reader_DefaultReader')
             ->disableOriginalConstructor()
-            ->setMethods(array('read'))
             ->getMock();
         $this->_converter = new Magento_Cron_Model_Config_Converter_Db();
-
         $this->_reader = new Magento_Cron_Model_Config_Reader_Db($this->_defaultReader, $this->_converter);
     }
 

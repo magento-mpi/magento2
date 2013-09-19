@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento_Cron_Model_ConfigInterface" type="Magento_Cron_Model_Config" />
     <type name="Magento_Cron_Model_Config_Reader_Db">
         <param name="converter">
             <instance type="Magento_Cron_Model_Config_Converter_Db" />
@@ -22,9 +23,6 @@
         </param>
     </type>
     <type name="Magento_Cron_Model_Observer">
-        <param name="config">
-            <instance type="Magento_Cron_Model_Config" />
-        </param>
         <param name="objectManager">
             <instance type="Magento_Core_Model_ObjectManager" />
         </param>

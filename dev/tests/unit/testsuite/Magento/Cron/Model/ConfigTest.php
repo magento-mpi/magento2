@@ -30,17 +30,8 @@ class Magento_Cron_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_configData = $this->getMockBuilder('Magento_Cron_Model_Config_Data')
             ->disableOriginalConstructor()
-            ->setMethods(array('getJobs'))
             ->getMock();
         $this->_config = new Magento_Cron_Model_Config($this->_configData);
-    }
-
-    /**
-     * Test interface instance
-     */
-    public function testInterface()
-    {
-        $this->assertInstanceOf('Magento_Cron_Model_ConfigInterface', $this->_config);
     }
 
     /**

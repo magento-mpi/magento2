@@ -32,7 +32,6 @@ class Magento_Cron_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_Test
     {
         $this->_moduleReader = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
             ->disableOriginalConstructor()
-            ->setMethods(array('getModuleDir'))
             ->getMock();
         $this->_filePath = 'path/to/Magento/Cron/etc';
         $this->_moduleReader->expects($this->once())
