@@ -16,9 +16,15 @@ class Magento_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCa
 {
     public function testGetValueElement()
     {
+        $layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $context = $objectManager->create('Magento_Rule_Model_Condition_Context', array('layout' => $layoutMock));
+
         /** @var Magento_Rule_Model_Condition_Abstract $model */
-        $model = $this->getMockForAbstractClass('Magento_Rule_Model_Condition_Abstract', array(), '',
-            false, true, true, array('getValueElementRenderer'));
+        $model = $this->getMockForAbstractClass('Magento_Rule_Model_Condition_Abstract', array($context), '',
+            true, true, true, array('getValueElementRenderer')
+        );
         $editableBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Rule_Block_Editable');
         $model->expects($this->any())

@@ -29,7 +29,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Widget_Model_Widget $widget
-     * @param Magento_Widget_Model_OptionsFactory $optionsFactory
+     * @param Magento_Widget_Model_Widget_Instance_OptionsFactory $optionsFactory
      * @param array $data
      */
     public function __construct(
@@ -38,7 +38,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Widget_Model_Widget $widget,
-        Magento_Widget_Model_OptionsFactory $optionsFactory,
+        Magento_Widget_Model_Widget_Instance_OptionsFactory $optionsFactory,
         array $data = array()
     ) {
         $this->_widget = $widget;

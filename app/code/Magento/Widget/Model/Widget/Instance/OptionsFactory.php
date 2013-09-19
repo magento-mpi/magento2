@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Widget_Model_OptionsFactory
+class Magento_Widget_Model_Widget_Instance_OptionsFactory
 {
     /**
      * @var Magento_ObjectManager
