@@ -77,7 +77,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
     public function testGetRequestToken()
     {
         $this->_runConsumerFixture();
-        /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient*/
+        /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient */
         $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
 
@@ -119,6 +119,27 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         );
         $this->assertNotEmpty($accessToken->getAccessToken(), "Access token value is not set.");
         $this->assertNotEmpty($accessToken->getAccessTokenSecret(), "Access token secret is not set.");
+    }
+
+
+    public function testAccessApi()
+    {
+        $this->_runConsumerFixture();
+        $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
+        $requestToken = $oAuthClient->requestRequestToken();
+        $accessToken = $oAuthClient->requestAccessToken(
+            $requestToken->getRequestToken(),
+            $this->_verifier,
+            $requestToken->getRequestTokenSecret()
+        );
+
+        $responseArray = $oAuthClient->validateAccessToken($accessToken);
+
+        $this->assertNotEmpty($responseArray);
+        $this->assertEquals('testProduct2',
+                            $responseArray[1]->name,
+                            'Invocation to /rest/V1/testmodule1 expected to return testProduct2 but returned '
+                            . $responseArray[1]->name);
     }
 
     /**
@@ -189,12 +210,6 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
             $oAuthClientA->getOauthVerifier(),
             $requestTokenA->getRequestTokenSecret()
         );
-    }
-
-    public function testAccessApi()
-    {
-        // TODO: Implement
-        $this->markTestIncomplete("Implement in scope of MAGETWO-11272");
     }
 
     public function testAccessApiInvalidCredentials()
