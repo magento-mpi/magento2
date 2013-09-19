@@ -56,7 +56,7 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
     public function testToOptionArray()
     {
         $languageCodes = array('languageCode1', 'languageCode2');
-        $languagesToLocalesMap = array('languageCode1' => 'localeCode1', 'languageCode2' => 'localeCode2');
+        $langToLocalesMap = array('languageCode1' => 'localeCode1', 'languageCode2' => 'localeCode2');
         $expectedLanguages = array(
             array(
                 'value' => 'languageCode1',
@@ -72,8 +72,8 @@ class LanguageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($languageCodes));
         $this->_helperMock->expects($this->atLeastOnce())->method('convertLanguageCodeToLocaleCode')
             ->will($this->returnCallback(
-                function ($languageCode) use ($languagesToLocalesMap) {
-                    return $languagesToLocalesMap[$languageCode];
+                function ($languageCode) use ($langToLocalesMap) {
+                    return $langToLocalesMap[$languageCode];
                 }
             ));
 
