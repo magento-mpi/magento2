@@ -79,7 +79,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             )
         ));
         $interface = $this->_object->get('Magento\Test\Di\DiInterface');
-        $parent = $this->_object->get('Magento\Test\Di\Parent');
+        $parent = $this->_object->get('Magento\Test\Di\DiParent');
         $child = $this->_object->get('Magento\Test\Di\Child');
         $this->assertInstanceOf('Magento\Test\Di\Child', $interface);
         $this->assertInstanceOf('Magento\Test\Di\Child', $parent);
@@ -96,19 +96,19 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'preferences' => array(
-                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\Parent',
-                'Magento\Test\Di\Parent' => 'Magento\Test\Di\Child'
+                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\DiParent',
+                'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child'
             )
         ));
-        $this->_object->create('Magento\Test\Di\Aggregate\AggregateParent');
+        $this->_object->create('\Magento\Test\Di\Aggregate\AggregateParent');
     }
 
     public function testCreateResolvesScalarParametersAutomatically()
     {
         $this->_object->configure(array(
             'preferences' => array(
-                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\Parent',
-                'Magento\Test\Di\Parent' => 'Magento\Test\Di\Child'
+                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\DiParent',
+                'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child'
             ),
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
                 'parameters' => array(
@@ -135,8 +135,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'preferences' => array(
-                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\Parent',
-                'Magento\Test\Di\Parent' => 'Magento\Test\Di\Child'
+                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\DiParent',
+                'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child'
             ),
         ));
         /** @var $result \Magento\Test\Di\Aggregate\Child */
@@ -169,8 +169,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'preferences' => array(
-                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\Parent',
-                'Magento\Test\Di\Parent' => 'Magento\Test\Di\Child'
+                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\DiParent',
+                'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child'
             ),
             'Magento\Test\Di\DiInterface' => array(
                 'shared' => 0
@@ -194,14 +194,14 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage \Magento\Test\Di\Aggregate\AggregateParent depends on \Magento\Test\Di\Child\Circular
+     * @expectedExceptionMessage Magento\Test\Di\Aggregate\AggregateParent depends on Magento\Test\Di\Child\Circular
      */
     public function testGetDetectsCircularDependency()
     {
         $this->_object->configure(array(
             'preferences' => array(
-                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\Parent',
-                'Magento\Test\Di\Parent' => 'Magento\Test\Di\Child\Circular'
+                'Magento\Test\Di\DiInterface' => '\Magento\Test\Di\DiParent',
+                'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child\Circular'
             ),
         ));
         $this->_object->create('Magento\Test\Di\Aggregate\AggregateParent');
@@ -227,8 +227,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'preferences' => array(
-                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\Parent',
-                'Magento\Test\Di\Parent' => 'Magento\Test\Di\Child'
+                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\DiParent',
+                'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child'
             ),
             'customChildType' => array(
                 'type' => 'Magento\Test\Di\Aggregate\Child',
@@ -254,7 +254,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             'customChildType' => array(
                 'type' => 'Magento\Test\Di\Aggregate\Child',
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\Parent'),
+                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
                     'scalar' => 'configuredScalar',
                     'secondScalar' => 'configuredSecondScalar',
                 )
@@ -268,7 +268,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'customChildType' => array(
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\Parent', 'shared' => false),
+                    'interface' => array('instance' => 'Magento\Test\Di\DiParent', 'shared' => false),
                 )
             )
         ));
@@ -284,7 +284,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             'customChildType' => array(
                 'type' => 'Magento\Test\Di\Aggregate\Child',
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\Parent'),
+                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
                     'scalar' => 'configuredScalar',
                     'secondScalar' => 'configuredSecondScalar',
                 )
@@ -296,7 +296,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($childA->interface, $childB->interface);
 
         $this->_object->configure(array(
-            'Magento\Test\Di\Parent' => array(
+            'Magento\Test\Di\DiParent' => array(
                 'shared' => false
             )
         ));
@@ -309,13 +309,13 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     public function testParameterShareabilityConfigurationOverridesTypeShareability()
     {
         $this->_object->configure(array(
-            'Magento\Test\Di\Parent' => array(
+            'Magento\Test\Di\DiParent' => array(
                 'shared' => false
             ),
             'customChildType' => array(
                 'type' => 'Magento\Test\Di\Aggregate\Child',
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\Parent'),
+                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
                     'scalar' => 'configuredScalar',
                     'secondScalar' => 'configuredSecondScalar',
                 )
@@ -329,7 +329,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'customChildType' => array(
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\Parent', 'shared' => true),
+                    'interface' => array('instance' => 'Magento\Test\Di\DiParent', 'shared' => true),
                 )
             )
         ));
@@ -343,7 +343,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'preferences' => array(
-                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\Parent',
+                'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\DiParent',
             ),
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
                 'parameters' => array(
@@ -363,7 +363,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\Parent'),
+                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
                     'scalar' => array('argument' => 'one'),
                     'optionalScalar' => 'parentOptionalScalar'
                 )
@@ -377,7 +377,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         /** @var $result \Magento\Test\Di\Aggregate\AggregateParent */
         $result = $this->_object->create('Magento\Test\Di\Aggregate\Child');
-        $this->assertInstanceOf('Magento\Test\Di\Parent', $result->interface);
+        $this->assertInstanceOf('Magento\Test\Di\DiParent', $result->interface);
         $this->assertEquals('first_val', $result->scalar);
         $this->assertEquals('childSecondScalar', $result->secondScalar);
         $this->assertEquals('parentOptionalScalar', $result->optionalScalar);
@@ -388,7 +388,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
                 'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\Parent'),
+                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
                     'scalar' => array('argument' => 'one'),
                     'optionalScalar' => 'parentOptionalScalar'
                 )
