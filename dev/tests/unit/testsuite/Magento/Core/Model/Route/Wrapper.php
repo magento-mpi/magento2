@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Route\Config
@@ -13,19 +13,19 @@ class Magento_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var Cache_Mock_Wrapper
+     * @var \Cache\Mock\Wrapper
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento\Core\Model\Route\Config\Reader', array(), array(), '', false);
-        $this->_cacheMock = new Cache_Mock_Wrapper();
+        $this->_cacheMock = new \Cache\Mock\Wrapper();
         $this->_config = new \Magento\Core\Model\Route\Config(
             $this->_readerMock,
             $this->_cacheMock
@@ -61,10 +61,14 @@ class Magento_Core_Model_Route_ConfigTest extends PHPUnit_Framework_TestCase
 /**
  * Wrapper to pass method calls and arguments to mockup inside it
  */
-class Cache_Mock_Wrapper extends PHPUnit_Framework_TestCase implements \Magento\Config\CacheInterface
+namespace Magento\Core\Model\Route;
+
+namespace Cache\Mock;
+
+class Wrapper extends \PHPUnit_Framework_TestCase implements \Magento\Config\CacheInterface
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_mock;
 

@@ -9,9 +9,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Webapi_EventHandler_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Webapi\EventHandler;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_mockObjectManager;
 
     /** @var \Magento\Webhook\Model\Webapi\EventHandler\Factory */

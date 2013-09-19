@@ -5,5 +5,4 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-Mage::getModel('Magento_Bootstrap_ModelFactory');
+ \Mage::getModel('Magento_Bootstrap_ModelFactory');

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Layout\Argument\Updater
  */
-class Magento_Core_Model_Layout_Argument_UpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument;
+
+class UpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\Updater
@@ -20,12 +22,12 @@ class Magento_Core_Model_Layout_Argument_UpdaterTest extends PHPUnit_Framework_T
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_argUpdaterMock;
 
@@ -65,14 +67,14 @@ class Magento_Core_Model_Layout_Argument_UpdaterTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testApplyUpdatersWithInvalidUpdaters()
     {
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
             ->with('Dummy_Updater_1')
-            ->will($this->returnValue(new StdClass()));
+            ->will($this->returnValue(new \StdClass()));
         $updaters = array('Dummy_Updater_1', 'Dummy_Updater_2');
 
         $this->_model->applyUpdaters(1, $updaters);

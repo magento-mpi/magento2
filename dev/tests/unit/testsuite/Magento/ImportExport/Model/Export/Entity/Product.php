@@ -9,16 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framework_TestCase
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_Product
+     * @var \Stub\UnitTest\Magento\ImportExport\Model\Export\Entity\Product
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_Product();
+        $this->_object = new \Stub\UnitTest\Magento\ImportExport\Model\Export\Entity\Product();
     }
 
     protected function tearDown()
@@ -38,9 +38,13 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
 
 /**
  * We had to create this stub class because _updateDataWithCategoryColumns() parameters are passed by reference -
- * we can't use ReflectionMethod::setAccessible() and then ReflectionMethod::invokeArgs() to call it from test.
+ * we can't use \ReflectionMethod::setAccessible() and then \ReflectionMethod::invokeArgs() to call it from test.
  */
-class Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_Product
+namespace Magento\ImportExport\Model\Export\Entity;
+
+namespace Stub\UnitTest\Magento\ImportExport\Model\Export\Entity;
+
+class Product
     extends \Magento\ImportExport\Model\Export\Entity\Product
 {
     /**

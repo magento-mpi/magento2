@@ -9,7 +9,9 @@
 /**
  * The test covers Magento_Core_Model_Cache_Type_* classes all at once, as all of them are similar
  */
-class Magento_Core_Model_Cache_Type_GenericTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Cache\Type;
+
+class GenericTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $className

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Event;
+
+class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Event\InvokerInterface|PHPUnit_Framework_MockObject_MockObject
@@ -33,7 +35,7 @@ class Magento_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventConfigMock;
 

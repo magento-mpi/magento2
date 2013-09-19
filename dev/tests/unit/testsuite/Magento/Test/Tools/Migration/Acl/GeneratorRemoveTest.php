@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Generator.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
@@ -18,7 +20,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
 /**
  * Tools_Migration_Acl_Generator remove test case
  */
-class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Framework_TestCase
+class GeneratorRemoveTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var $model \Magento\Tools\Migration\Acl\Generator
@@ -36,12 +38,12 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
     protected $_notEmptyFile;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_xmlFormatterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
@@ -66,10 +68,10 @@ class Magento_Test_Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Frame
 
     public function testRemoveAdminhtmlFiles()
     {
-        $domEmpty = new DOMDocument();
+        $domEmpty = new \DOMDocument();
         $domEmpty->load($this->_emptyFile);
 
-        $domNotEmpty = new DOMDocument();
+        $domNotEmpty = new \DOMDocument();
         $domNotEmpty->load($this->_notEmptyFile);
 
         $adminhtmlDomList = array(

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Invitation_Model_Plugin_CustomerRegistrationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Invitation\Model\Plugin;
+
+class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Invitation\Model\Plugin\CustomerRegistration
@@ -13,12 +15,12 @@ class Magento_Invitation_Model_Plugin_CustomerRegistrationTest extends PHPUnit_F
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_invitationConfig;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_invitationHelper;
 

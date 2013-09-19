@@ -9,7 +9,9 @@
 /**
  * \Magento\Io\File test case
  */
-class Magento_Io_FileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Io;
+
+class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string $_dir
@@ -30,7 +32,7 @@ class Magento_Io_FileTest extends PHPUnit_Framework_TestCase
             if (touch($this->_file)) {
                 chmod($this->_file, 0700);
             }
-        } catch (PHPUnit_Framework_Error_Warning $exception) {
+        } catch (\PHPUnit_Framework_Error_Warning $exception) {
             $this->markTestSkipped("Problem with prepare test: " . $exception->getMessage());
         }
     }

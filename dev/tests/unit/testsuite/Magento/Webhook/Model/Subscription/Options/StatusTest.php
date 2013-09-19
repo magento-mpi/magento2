@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Subscription_Options_StatusTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Subscription\Options;
+
+class StatusTest extends \PHPUnit_Framework_TestCase
 {
     public function testToOptionArray()
     {

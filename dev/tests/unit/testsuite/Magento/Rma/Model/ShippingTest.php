@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rma\Model;
+
+class ShippingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Rma\Model\Shipping
@@ -18,7 +20,7 @@ class Magento_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Rma\Model\Shipping');
     }
 

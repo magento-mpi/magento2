@@ -11,20 +11,22 @@
 /**
  * Test for uploader service
  */
-class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Model\Uploader;
+
+class ServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder
+     * @var \PHPUnit_Framework_MockObject_MockBuilder
      */
     protected $_modelBuilder;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_uploader;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystemMock;
 
@@ -37,7 +39,7 @@ class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCas
         $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
         $this->_filesystemMock = $this->getMock('Magento\Io\File', array('read'), array(), '', false);
         /** @var $service \Magento\Theme\Model\Uploader\Service */
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Model\Uploader\Service',
             array('fileIo' => $this->_filesystemMock, 'uploaderFactory' => $uploaderFactory)

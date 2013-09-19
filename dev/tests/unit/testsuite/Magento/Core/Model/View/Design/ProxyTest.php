@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_View_Design_ProxyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\View\Design;
+
+class ProxyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\View\Design\Proxy
@@ -14,12 +16,12 @@ class Magento_Core_Model_View_Design_ProxyTest extends PHPUnit_Framework_TestCas
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\View\DesignInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\View\DesignInterface
      */
     protected $_viewDesign;
 

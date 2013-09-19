@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Sales_Items_Order_View_GiftmessageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Sales\Items\Order\View;
+
+class GiftmessageTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSaveButtonHtml()
     {

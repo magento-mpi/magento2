@@ -11,12 +11,14 @@
  * @license     {license_link}
  */
 
-class Magento_Outbound_Transport_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Transport;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockVrnHttpAdptrCrl;
     
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockMessage;
         
     public function setUp() 
@@ -33,7 +35,7 @@ class Magento_Outbound_Transport_HttpTest extends PHPUnit_Framework_TestCase
     /**
      * Test case for when http adapter returns null
      * 
-     * @expectedException Zend_Http_Exception
+     * @expectedException \Zend_Http_Exception
      */   
     public function testNullResponse() 
     {

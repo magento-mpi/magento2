@@ -12,7 +12,9 @@
 /**
  * Test backend controller for the design editor
  */
-class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
+
+class EditorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
@@ -20,7 +22,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
@@ -33,7 +35,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
             array($backendData), '', false, false, true, array('setActionName'));
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         /** @var $layoutMock \Magento\Core\Model\Layout|PHPUnit_Framework_MockObject_MockObject */
         $layoutMock = $this->getMock('Magento\Core\Model\Layout',
@@ -84,7 +86,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
      * Return mocked theme collection factory model
      *
      * @param int $countCustomization
-     * @return Magento\Core\Model\Resource\Theme\CollectionFactory
+     * @return \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected function _getThemeCollectionFactory($countCustomization)
     {
@@ -102,7 +104,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
             ->method('getSize')
             ->will($this->returnValue($countCustomization));
 
-        /** @var Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory */
+        /** @var \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory */
         $collectionFactory = $this->getMock(
             'Magento\Core\Model\Resource\Theme\CollectionFactory', array('create'), array(), '', false
         );

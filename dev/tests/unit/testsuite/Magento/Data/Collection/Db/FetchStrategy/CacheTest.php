@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Data_Collection_Db_FetchStrategy_CacheTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data\Collection\Db\FetchStrategy;
+
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Data\Collection\Db\FetchStrategy\Cache
@@ -14,17 +16,17 @@ class Magento_Data_Collection_Db_FetchStrategy_CacheTest extends PHPUnit_Framewo
     private $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_cache;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_fetchStrategy;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_select;
 

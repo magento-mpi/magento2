@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CustomerSegment\Model\Observer
@@ -14,7 +16,7 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_segmentHelper;
 

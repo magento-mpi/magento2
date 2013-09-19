@@ -12,7 +12,9 @@
 /**
  * Test case for \Magento\Validator
  */
-class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Validator
@@ -119,7 +121,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
      */
     public function testAddValidator()
     {
-        $fooValidator = new Magento_Validator_Test_True();
+        $fooValidator = new \Magento\Validator\Test\True();
         $classConstraint = new \Magento\Validator\Constraint($fooValidator, 'id');
         $propertyValidator = new \Magento\Validator\Constraint\Property($classConstraint, 'name', 'id');
 
@@ -149,7 +151,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
      */
     public function testSetTranslator()
     {
-        $fooValidator = new Magento_Validator_Test_True();
+        $fooValidator = new \Magento\Validator\Test\True();
         $this->_validator->addValidator($fooValidator);
         /** @var \Magento\Translate\AdapterAbstract $translator */
         $translator= $this->getMockBuilder('Magento\Translate\AdapterAbstract')

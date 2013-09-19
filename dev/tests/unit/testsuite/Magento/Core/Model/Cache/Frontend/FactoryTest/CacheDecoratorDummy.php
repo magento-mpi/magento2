@@ -9,7 +9,9 @@
 /**
  * Dummy object to test creation of decorators for cache frontend
  */
-class Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy extends \Magento\Cache\Frontend\Decorator\Bare
+namespace Magento\Core\Model\Cache\Frontend\FactoryTest;
+
+class CacheDecoratorDummy extends \Magento\Cache\Frontend\Decorator\Bare
 {
     /**
      * @var array

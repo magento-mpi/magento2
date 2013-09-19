@@ -48,7 +48,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongOutputFile()
     {
-        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Dictionary\Writer\Csv', array(
             'outputFilename' => 'wrong/path',
         ));
@@ -74,7 +74,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         $this->_phraseSecondMock->expects($this->once())->method('getContextValueAsString')
             ->will($this->returnValue('content_value2'));
 
-        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Tools\I18n\Code\Dictionary\Writer\Csv $writer */
         $writer = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Dictionary\Writer\Csv', array(
             'outputFilename' => $this->_testFile,
@@ -105,7 +105,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         $this->_phraseSecondMock->expects($this->once())->method('getContextValueAsString')
             ->will($this->returnValue(''));
 
-        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Tools\I18n\Code\Dictionary\Writer\Csv $writer */
         $writer = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Dictionary\Writer\Csv', array(
             'outputFilename' => $this->_testFile,

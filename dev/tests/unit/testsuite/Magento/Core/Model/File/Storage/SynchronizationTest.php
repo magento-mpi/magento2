@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_File_Storage_SynchronizationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\File\Storage;
+
+class SynchronizationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\File\Storage\Synchronization
@@ -13,22 +15,22 @@ class Magento_Core_Model_File_Storage_SynchronizationTest extends PHPUnit_Framew
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storageMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storageFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_streamMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_streamFactoryMock;
 

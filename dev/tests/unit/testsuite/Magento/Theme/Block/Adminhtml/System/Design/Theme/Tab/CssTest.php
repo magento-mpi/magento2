@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Tab;
+
+class CssTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
@@ -39,7 +41,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css',
             array(
@@ -108,11 +110,11 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPU
 
     /**
      * @param string $name
-     * @return ReflectionMethod
+     * @return \ReflectionMethod
      */
     protected static function getMethod($name)
     {
-        $class = new ReflectionClass('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css');
+        $class = new \ReflectionClass('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;

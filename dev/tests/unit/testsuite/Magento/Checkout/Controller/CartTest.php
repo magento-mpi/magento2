@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Checkout_Controller_CartTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Controller;
+
+class CartTest extends \PHPUnit_Framework_TestCase
 {
     public function testControllerImplementsProductViewInterface()
     {
@@ -21,7 +23,7 @@ class Magento_Checkout_Controller_CartTest extends PHPUnit_Framework_TestCase
 
     public function testGoBack()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $responseMock = $this->getMock('Magento\Core\Controller\Response\Http',
             array('setRedirect'), array(), '', false
         );
@@ -97,7 +99,7 @@ class Magento_Checkout_Controller_CartTest extends PHPUnit_Framework_TestCase
 
         $controller = $helper->getObject('Magento\Checkout\Controller\Cart', $arguments);
 
-        $reflectionObject = new ReflectionObject($controller);
+        $reflectionObject = new \ReflectionObject($controller);
         $reflectionMethod = $reflectionObject->getMethod('_goBack');
         $reflectionMethod->setAccessible(true);
         $reflectionMethod->invoke($controller);

@@ -10,13 +10,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_Pkg extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Source;
+
+class Pkg extends \PHPUnit_Framework_TestCase
 {
     /** Config values */
     const CONFIG_LABEL = 'blah';
     const CONFIG_STATUS = 'enabled';
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfig;
     
     /** @var \Magento\Core\Model\Config\Element */

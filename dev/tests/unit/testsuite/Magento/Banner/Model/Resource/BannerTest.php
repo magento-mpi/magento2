@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Banner\Model\Resource;
+
+class BannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Banner\Model\Resource\Banner
@@ -14,28 +16,28 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
     private $_resourceModel;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_resource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_eventManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_bannerConfig;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_readAdapter;
 
     protected function setUp()
     {
-        $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
+        $select = new \Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
 
         $writeAdapter =
             $this->getMockForAbstractClass(

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\Customer
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Customer entity import model
@@ -102,7 +104,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
             true
         );
 
-        $availableBehaviors = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $availableBehaviors = new \ReflectionProperty($modelMock, '_availableBehaviors');
         $availableBehaviors->setAccessible(true);
         $availableBehaviors->setValue($modelMock, $this->_availableBehaviors);
 
@@ -121,7 +123,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_
             ->method('getNextBunch')
             ->will($this->returnValue(null));
 
-        $property = new ReflectionProperty(
+        $property = new \ReflectionProperty(
             'Magento\ImportExport\Model\Import\Entity\Eav\Customer',
             '_dataSourceModel'
         );

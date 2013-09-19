@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Translate_AdapterAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Translate;
+
+class AdapterAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Translate\AdapterAbstract

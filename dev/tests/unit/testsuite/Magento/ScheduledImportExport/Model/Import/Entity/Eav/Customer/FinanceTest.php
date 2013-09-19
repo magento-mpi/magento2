@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
  */
-class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
+
+class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Customer financial data export model
@@ -191,7 +193,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      */
     protected function _getModelDependencies($addData = false)
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
         if ($addData) {
@@ -333,7 +335,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      *
      * @param string $modelClass
      * @param array|object $constructArguments
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function getModelInstance($modelClass = '', $constructArguments = array())
     {

@@ -5,25 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminNotification\Model\System\Message;
+
+class SecurityTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_curlFactoryMock;
 
@@ -41,7 +43,7 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
         $this->_curlFactoryMock = $this->getMock('Magento\HTTP\Adapter\CurlFactory',
             array('create'), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'cache' => $this->_cacheMock,
             'storeConfig' => $this->_storeConfigMock,

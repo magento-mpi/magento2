@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Event_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\PubSub\Event;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {

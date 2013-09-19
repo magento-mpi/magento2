@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\FileResolution;
+
+class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\ObjectManager|PHPUnit_Framework_MockObject_MockObject
@@ -72,7 +74,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
             ->method('getMode')
             ->will($this->returnValue($mode));
 
-        $strategy = new StdClass;
+        $strategy = new \StdClass;
         $mapDir = 'base_dir/var/' . \Magento\Core\Model\Design\FileResolution\StrategyPool::FALLBACK_MAP_DIR;
         $mapDir = str_replace('/', DIRECTORY_SEPARATOR, $mapDir);
         $map = array(

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_EventTest extends PHPUnit_Framework_TestCase
+namespace Magento\PubSub;
+
+class EventTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetters()
     {

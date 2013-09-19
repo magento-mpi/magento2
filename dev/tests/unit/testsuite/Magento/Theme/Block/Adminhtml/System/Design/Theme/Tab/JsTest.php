@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Tab;
+
+class JsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js
@@ -25,7 +27,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUn
     {
         $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
@@ -51,11 +53,11 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUn
 
     /**
      * @param string $name
-     * @return ReflectionMethod
+     * @return \ReflectionMethod
      */
     protected function _getMethod($name)
     {
-        $class = new ReflectionClass('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js');
+        $class = new \ReflectionClass('Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;

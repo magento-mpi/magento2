@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_EntryPointAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class EntryPointAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tested: successful model creation, verification of directories, call of template method _processRequest()

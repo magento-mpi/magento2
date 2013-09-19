@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_Di_Child_Interceptor_A
+namespace Magento\Test\Di\Child\Interceptor;
+
+class A
 {
     /**
      * @var string

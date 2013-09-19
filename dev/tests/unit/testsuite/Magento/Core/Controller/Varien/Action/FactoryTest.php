@@ -12,7 +12,9 @@
 /**
  * Test class \Magento\Core\Controller\Varien\Action\Factory
  */
-class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien\Action;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /*
     * Test controller class name
@@ -22,7 +24,7 @@ class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framewor
     /**
      * ObjectManager mock for tests
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 

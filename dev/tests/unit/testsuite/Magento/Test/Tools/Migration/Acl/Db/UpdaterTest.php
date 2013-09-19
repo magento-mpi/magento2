@@ -7,23 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Test\Tools\Migration\Acl\Db;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Updater.php';
 
-class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_TestCase
+class UpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_writerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_loggerMock;
 

@@ -10,7 +10,9 @@
 /**
  * Test class for \Magento\Core\Model\Store\Storage\DefaultStorage
  */
-class Magento_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Store\Storage;
+
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Store\Storage\DefaultStorage
@@ -18,32 +20,32 @@ class Magento_Core_Model_Store_Storage_DefaultTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_websiteFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_groupFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_websiteMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_groupMock;
 

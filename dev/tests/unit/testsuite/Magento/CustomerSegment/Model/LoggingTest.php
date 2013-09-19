@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_LoggingTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model;
+
+class LoggingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param int $qty

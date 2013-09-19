@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Helper\Data
@@ -17,7 +19,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 

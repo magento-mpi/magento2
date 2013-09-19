@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
+
+class JsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Theme id of virtual theme
@@ -48,7 +50,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPU
         $this->_themeContext->expects($this->any())->method('getStagingTheme')
             ->will($this->returnValue($this->_theme));
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js',
             array(

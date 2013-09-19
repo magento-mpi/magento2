@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Model_Currency_DefaultLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Directory\Model\Currency;
+
+class DefaultLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Directory\Model\Currency\DefaultLocator
@@ -17,12 +19,12 @@ class Magento_Directory_Model_Currency_DefaultLocatorTest extends PHPUnit_Framew
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 

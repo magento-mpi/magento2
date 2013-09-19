@@ -12,16 +12,18 @@
 /**
  * Test class for \Magento\Backend\Model\Url
  */
-class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget;
+
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     /**

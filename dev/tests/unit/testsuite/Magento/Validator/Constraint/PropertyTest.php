@@ -12,7 +12,9 @@
 /**
  * Test case for \Magento\Validator\Constraint\Property
  */
-class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator\Constraint;
+
+class PropertyTest extends \PHPUnit_Framework_TestCase
 {
     const PROPERTY_NAME = 'test';
 
@@ -95,7 +97,7 @@ class Magento_Validator_Constraint_PropertyTest extends PHPUnit_Framework_TestCa
                 true
             ),
             array(
-                new ArrayObject(array(self::PROPERTY_NAME => 'Property value')),
+                new \ArrayObject(array(self::PROPERTY_NAME => 'Property value')),
                 'Property value',
                 true
             ),

@@ -5,13 +5,15 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_Test_Di_Child_Circular extends Magento_Test_Di_Child
+namespace Magento\Test\Di\Child;
+
+class Circular extends \Magento\Test\Di\Child
 {
     /**
-     * @param Magento_Test_Di_Aggregate_Parent $aggregateParent
+     * @param \Magento\Test\Di\Aggregate\AggregateParent $aggregateParent
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct(Magento_Test_Di_Aggregate_Parent $aggregateParent)
+    public function __construct(\Magento\Test\Di\Aggregate\AggregateParent $aggregateParent)
     {
 
     }

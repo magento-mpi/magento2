@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\AdminNotification\Block\ToolbarEntry
  */
-class Magento_AdminNotification_Block_ToolbarEntryTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminNotification\Block;
+
+class ToolbarEntryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Retrieve toolbar entry block instance
@@ -22,7 +24,7 @@ class Magento_AdminNotification_Block_ToolbarEntryTest extends PHPUnit_Framework
      */
     protected function _getBlockInstance($unreadNotifications)
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         // mock collection of unread notifications
         $notificationList = $this->getMock(
             'Magento\AdminNotification\Model\Resource\Inbox\Collection\Unread',

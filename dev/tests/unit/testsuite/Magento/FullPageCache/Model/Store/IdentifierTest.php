@@ -8,10 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Store_IdentifierTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model\Store;
+
+class IdentifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fpcCacheMock;
 

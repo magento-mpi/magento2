@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config;
+
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\System\Config\Tabs
@@ -17,22 +19,22 @@ class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_Tes
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_structureMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Factory\Helper
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactoryMock;
 
@@ -61,7 +63,7 @@ class Magento_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_Tes
             'urlBuilder' => $this->_urlBuilderMock,
             'helperFactory' => $this->_helperFactoryMock,
         );
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Tabs', $data);
     }
 

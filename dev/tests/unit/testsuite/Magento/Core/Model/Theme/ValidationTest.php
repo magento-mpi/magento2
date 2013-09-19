@@ -12,7 +12,9 @@
 /**
  * Theme data validation
  */
-class Magento_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class ValidationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test validator with valid data

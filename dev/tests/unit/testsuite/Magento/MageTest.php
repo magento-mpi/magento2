@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_MageTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class MageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Variable value before test
@@ -20,26 +22,26 @@ class Magento_MageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_isSerializable = Mage::getIsSerializable();
+        $this->_isSerializable = \Mage::getIsSerializable();
     }
 
     protected function tearDown()
     {
-        Mage::setIsSerializable($this->_isSerializable);
+        \Mage::setIsSerializable($this->_isSerializable);
     }
 
     public function testSetGetSerializable()
     {
         $this->assertClassHasStaticAttribute('_isSerializable', 'Mage');
 
-        Mage::setIsSerializable(false);
-        $this->assertFalse(Mage::getIsSerializable());
+        \Mage::setIsSerializable(false);
+        $this->assertFalse(\Mage::getIsSerializable());
 
-        Mage::setIsSerializable(true);
-        $this->assertTrue(Mage::getIsSerializable());
+        \Mage::setIsSerializable(true);
+        $this->assertTrue(\Mage::getIsSerializable());
 
         // incorrect data
-        Mage::setIsSerializable('random_string');
-        $this->assertTrue(Mage::getIsSerializable());
+        \Mage::setIsSerializable('random_string');
+        $this->assertTrue(\Mage::getIsSerializable());
     }
 }

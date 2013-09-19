@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Entity_AttributeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Entity;
+
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Attribute model to be tested

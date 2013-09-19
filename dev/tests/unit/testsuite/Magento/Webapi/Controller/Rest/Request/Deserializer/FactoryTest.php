@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_applicationConfig;
 
     /** @var \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory */
@@ -55,7 +57,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
     public function testGet()
     {
         /** Prepare mocks for SUT constructor. */
-        $expectedMetadata = new SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
+        $expectedMetadata = new \SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
         $this->_applicationConfig
             ->expects($this->once())
             ->method('getNode')
@@ -74,7 +76,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
     public function testGetMagentoWebapiException()
     {
         /** Prepare mocks for SUT constructor. */
-        $expectedMetadata = new SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
+        $expectedMetadata = new \SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
         $this->_applicationConfig
             ->expects($this->once())
             ->method('getNode')
@@ -94,7 +96,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_FactoryTest extends PH
     public function testGetLogicExceptionInvalidRequestDeserializer()
     {
         /** Prepare mocks for SUT constructor. */
-        $expectedMetadata = new SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
+        $expectedMetadata = new \SimpleXMLElement('<text_xml><type>text/xml</type><model>Xml</model></text_xml>');
         $this->_applicationConfig
             ->expects($this->once())
             ->method('getNode')

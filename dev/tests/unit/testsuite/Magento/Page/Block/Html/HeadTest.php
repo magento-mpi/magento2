@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block\Html;
+
+class HeadTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Page\Block\Html\Head
@@ -14,12 +16,12 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_pageAssets;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -27,7 +29,7 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_pageAssets = $this->getMock('Magento\Page\Model\Asset\GroupedCollection', array(), array(), '', false);
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento\Page\Block\Html\Head',
             array('page' => new \Magento\Core\Model\Page($this->_pageAssets), 'objectManager' => $this->_objectManager)

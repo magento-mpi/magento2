@@ -5,9 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Captcha_Model_CaptchaFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Captcha\Model;
+
+class CaptchaFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /**@var PHPUnit_Framework_MockObject_MockObject */
+    /**@var \PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     /** @var \Magento\Captcha\Model\CaptchaFactory */

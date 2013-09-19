@@ -8,18 +8,16 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration\Logger;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
-
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Logger/File.php';
-
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Logger/Console.php';
-
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Logger/Factory.php';
-
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/FileManager.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
@@ -29,8 +27,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Writer/Memory.php';
 
-
-class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest extends PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\Configuration\Logger\Factory
@@ -38,7 +35,7 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest exten
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 

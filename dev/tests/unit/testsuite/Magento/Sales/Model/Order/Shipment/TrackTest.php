@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order\Shipment;
+
+class TrackTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Order\Shipment\Track
@@ -18,7 +20,7 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Sales\Model\Order\Shipment\Track');
     }
 

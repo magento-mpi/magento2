@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Autoload_IncludePathTest_TestClass
+namespace Magento\Autoload\IncludePathTest;
+
+class TestClass
 {
 
 }

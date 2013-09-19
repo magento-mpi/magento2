@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Entity;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Entity model to be tested
@@ -125,7 +127,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
     /**
      * Get adapter mock
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Adapter\Pdo\Mysql
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Adapter\Pdo\Mysql
      */
     private function _getAdapterMock()
     {
@@ -171,7 +173,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
      *
      * @param string $attributeCode
      * @param int $attributeSetId
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     protected function _getAttributeMock($attributeCode, $attributeSetId)
     {
@@ -274,7 +276,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
             'entityTable' => 'entityTable',
             'attributesByCode' => $attributes,
         );
-        /** @var $model PHPUnit_Framework_MockObject_MockObject */
+        /** @var $model \PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\AbstractEntity',
             array($data),

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Resource_Config_Converter_DomTest extends Magento_Acl_Resource_Config_Converter_DomTest
+namespace Magento\Webapi\Model\Acl\Resource\Config\Converter;
+
+class DomTest extends \Magento\Acl\Resource\Config\Converter\DomTest
 {
     protected function setUp()
     {

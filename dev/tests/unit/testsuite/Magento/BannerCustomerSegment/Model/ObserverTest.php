@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\BannerCustomerSegment\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\BannerCustomerSegment\Model\Observer
@@ -14,27 +16,27 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_bannerSegmentLink;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_segmentCustomer;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_segmentHelper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_segmentCollection;
 
     /**
-     * @var Zend_Db_Select
+     * @var \Zend_Db_Select
      */
     private $_select;
 
@@ -57,7 +59,7 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_model = new \Magento\BannerCustomerSegment\Model\Observer(
             $this->_segmentCustomer, $this->_segmentHelper, $this->_segmentCollection, $this->_bannerSegmentLink
         );
-        $this->_select = new Zend_Db_Select(
+        $this->_select = new \Zend_Db_Select(
             $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false)
         );
     }
@@ -124,7 +126,7 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     }
 
     /**
-     * @expectedException UnexpectedValueException
+     * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Customer segments associated with a banner are expected to be defined as an array
      */
     public function testSaveCustomerSegmentRelationsException()

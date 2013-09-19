@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Fieldset_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Fieldset\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Fieldset\Config\Converter
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Fieldset\Config\Converter
      */
     protected $_model;
 
@@ -21,7 +23,7 @@ class Magento_Core_Model_Fieldset_Config_ConverterTest extends PHPUnit_Framework
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $xmlFile = __DIR__ . '/_files/fieldset.xml';
         $dom->loadXML(file_get_contents($xmlFile));
 

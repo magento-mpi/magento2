@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Resource\Customer;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ImportExport\Model\Resource\Customer\Storage

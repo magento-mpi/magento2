@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class MergedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Page\Asset\Merged
@@ -14,32 +16,32 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logger;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirs;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_mergeStrategy;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_assetJsOne;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_assetJsTwo;
 
@@ -72,7 +74,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage At least one asset has to be passed for merging.
      */
     public function testConstructorNothingToMerge()
@@ -83,7 +85,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Asset has to implement \Magento\Core\Model\Page\Asset\MergeableInterface.
      */
     public function testConstructorRequireMergeInterface()
@@ -96,7 +98,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Content type 'css' cannot be merged with 'js'.
      */
     public function testConstructorIncompatibleContentTypes()
@@ -143,7 +145,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
 
     public function testIteratorInterfaceMergeFailure()
     {
-        $mergeError = new Exception('File not found');
+        $mergeError = new \Exception('File not found');
         $assetBroken = $this->getMockForAbstractClass('Magento\Core\Model\Page\Asset\MergeableInterface');
         $assetBroken->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $assetBroken->expects($this->any())->method('getSourceFile')
@@ -167,9 +169,9 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
      * Assert that iterator items equal to expected ones
      *
      * @param array $expectedItems
-     * @param Iterator $actual
+     * @param \Iterator $actual
      */
-    protected function _assertIteratorEquals(array $expectedItems, Iterator $actual)
+    protected function _assertIteratorEquals(array $expectedItems, \Iterator $actual)
     {
         $actualItems = array();
         foreach ($actual as $actualItem) {

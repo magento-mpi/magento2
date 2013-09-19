@@ -12,14 +12,16 @@
 /**
  * Test class for Magento_Payment_Block_Form_ContainerAbstract
  */
-class Magento_Payment_Block_Form_ContainerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Block\Form;
+
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers Magento_Payment_Block_Form_ContainerAbstract::getChildBlock
      */
     public function testSetMethodFormTemplate()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $childBlockA = $objectManagerHelper->getObject('Magento\Core\Block\Template');
         $childBlockB = $objectManagerHelper->getObject('Magento\Core\Block\Template');
 

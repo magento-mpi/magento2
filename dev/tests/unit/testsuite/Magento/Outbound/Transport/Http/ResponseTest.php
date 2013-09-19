@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Transport_Http_ResponseTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Transport\Http;
+
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsSuccessfulTrue() 
     {

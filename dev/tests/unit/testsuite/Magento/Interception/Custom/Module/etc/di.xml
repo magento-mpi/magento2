@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_Interception_Custom_Module_Model_Item">
-        <plugin name="simple_plugin" type="Magento_Interception_Custom_Module_Model_ItemPlugin_Simple" sortOrder="10"/>
+    <type name="Magento\Interception\Custom\Module\Model\Item">
+        <plugin name="simple_plugin" type="Magento\Interception\Custom\Module\Model\ItemPlugin\Simple" sortOrder="10"/>
     </type>
 </config>

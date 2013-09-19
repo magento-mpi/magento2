@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Layout_Update_CollectionTest
-    extends Magento_Core_Model_Resource_Layout_AbstractTestCase
+namespace Magento\Core\Model\Resource\Layout\Update;
+
+class CollectionTest
+    extends \Magento\Core\Model\Resource\Layout\AbstractTestCase
 {
     /**
      * Retrieve layout update collection instance
      *
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @return \Magento\Core\Model\Resource\Layout\Update\Collection
      */
-    protected function _getCollection(Zend_Db_Select $select)
+    protected function _getCollection(\Zend_Db_Select $select)
     {
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
@@ -88,7 +90,7 @@ class Magento_Core_Model_Resource_Layout_Update_CollectionTest
 
         $collection = $this->_getCollection($select);
 
-        /** @var $connection PHPUnit_Framework_MockObject_MockObject */
+        /** @var $connection \PHPUnit_Framework_MockObject_MockObject */
         $connection = $collection->getResource()->getReadConnection();
         $connection->expects($this->once())
             ->method('prepareSqlCondition')

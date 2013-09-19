@@ -12,8 +12,10 @@
 /**
  * Test class for \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
  */
-class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_CollectionTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance;
+
+class CollectionTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * Returns mock for finance collection

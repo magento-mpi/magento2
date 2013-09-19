@@ -45,7 +45,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_factoryMock = $this->getMock('Magento\Tools\I18n\Code\Factory', array(), array(), '', false);
         $this->_dictionaryMock = $this->getMock('Magento\Tools\I18n\Code\Dictionary', array(), array(), '', false);
 
-        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_generator = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Pack\Generator', array(
             'dictionaryLoader' => $this->_dictionaryLoaderMock,
             'packWriter' => $this->_packWriterMock,

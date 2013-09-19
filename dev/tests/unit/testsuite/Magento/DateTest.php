@@ -12,11 +12,13 @@
 /**
  * \Magento\Date test case
  */
-class Magento_DateTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class DateTest extends \PHPUnit_Framework_TestCase
 {
     public function testToTimestamp()
     {
-        $date = new Zend_Date();
+        $date = new \Zend_Date();
         $this->assertEquals($date->getTimestamp(), \Magento\Date::toTimestamp($date));
 
         $this->assertEquals(time(), \Magento\Date::toTimestamp(true));
@@ -57,7 +59,7 @@ class Magento_DateTest extends PHPUnit_Framework_TestCase
     {
         // Take care when calling date here as it can be called much earlier than when testFormatDate
         // executes thus causing a discrepancy in the actual vs expected time. See MAGETWO-10296
-        $date = new Zend_Date();
+        $date = new \Zend_Date();
         return array(
             'null' => array(null, false, ''),
             'null including Time' => array(null, true, ''),

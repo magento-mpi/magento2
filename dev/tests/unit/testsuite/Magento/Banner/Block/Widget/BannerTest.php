@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Banner\Block\Widget;
+
+class BannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Banner\Block\Widget\Banner
@@ -14,17 +16,17 @@ class Magento_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCase
     private $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_bannerResource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_checkoutSession;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_customerSession;
 

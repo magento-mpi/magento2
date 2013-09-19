@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Form_Field_FieldArray_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config\Form\Field\FieldArray;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetArrayRows()
     {
@@ -26,7 +28,7 @@ class Magento_Backend_Block_System_Config_Form_Field_FieldArray_AbstractTest ext
         $block->expects($this->any())
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
-        $coreHelper = $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false);
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);

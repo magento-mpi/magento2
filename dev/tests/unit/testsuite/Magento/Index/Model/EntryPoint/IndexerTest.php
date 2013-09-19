@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_EntryPoint_IndexerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\EntryPoint;
+
+class IndexerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Index\Model\EntryPoint\Indexer
@@ -16,17 +18,17 @@ class Magento_Index_Model_EntryPoint_IndexerTest extends PHPUnit_Framework_TestC
     protected $_entryPoint;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_primaryConfig;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\AuthorizationInterface.
  */
-class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class AuthorizationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Authorization model
@@ -22,7 +24,7 @@ class Magento_AuthorizationTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_policyMock;
 

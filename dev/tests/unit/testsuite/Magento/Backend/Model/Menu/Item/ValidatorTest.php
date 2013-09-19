@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Item;
+
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu\Item\Validator
@@ -17,32 +19,32 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_aclMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
@@ -68,8 +70,8 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
 
     /**
      * @param string $requiredParam
-     * @throws BadMethodCallException
-     * @expectedException BadMethodCallException
+     * @throws \BadMethodCallException
+     * @expectedException \BadMethodCallException
      * @dataProvider requiredParamsProvider
      */
     public function testValidateWithMissingRequiredParamThrowsException($requiredParam)
@@ -77,7 +79,7 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
         try {
             unset($this->_params[$requiredParam]);
             $this->_model->validate($this->_params);
-        } catch (BadMethodCallException $e) {
+        } catch (\BadMethodCallException $e) {
             $this->assertContains($requiredParam, $e->getMessage());
             throw $e;
         }
@@ -95,8 +97,8 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
     /**
      * @param string $param
      * @param mixed $invalidValue
-     * @throws InvalidArgumentException
-     * @expectedException InvalidArgumentException
+     * @throws \InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider invalidParamsProvider
      */
     public function testValidateWithNonValidPrimitivesThrowsException($param, $invalidValue)
@@ -104,7 +106,7 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
         try {
             $this->_params[$param] = $invalidValue;
             $this->_model->validate($this->_params);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $this->assertContains($param, $e->getMessage());
             throw $e;
         }
@@ -136,7 +138,7 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
      * @param $existedItems
      * @param $newItem
      * @dataProvider duplicateIdsProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testValidateWithDuplicateIdsThrowsException($existedItems, $newItem)
     {
@@ -205,7 +207,7 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testValidateParamWithNullForRequiredParamThrowsException()
     {
@@ -216,13 +218,13 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
     {
         try{
             $this->_model->validateParam('toolTip', null);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail("Non required null values should not be validated");
         }
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testValidateParamValidatesPrimitiveValues()
     {

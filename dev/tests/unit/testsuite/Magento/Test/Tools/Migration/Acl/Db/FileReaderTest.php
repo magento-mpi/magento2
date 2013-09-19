@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl\Db;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/FileReader.php';
 
-class Magento_Test_Tools_Migration_Acl_Db_FileReaderTest extends PHPUnit_Framework_TestCase
+class FileReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\Acl\Db\FileReader
@@ -38,7 +40,7 @@ class Magento_Test_Tools_Migration_Acl_Db_FileReaderTest extends PHPUnit_Framewo
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testExtractDataThrowsExceptionIfInvalidFileProvided()
     {

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Locale\Hierarchy;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Locale\Hierarchy\Config

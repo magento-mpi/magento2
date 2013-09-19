@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest;
+
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Rest\Response */
     protected $_responseRest;
@@ -74,8 +76,8 @@ class Magento_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_Test
     public function testSendResponseRenderMessagesException()
     {
         /** Init logic exception. */
-        $logicException = new LogicException();
-        /** Mock error processor to throw LogicException in maskException method. */
+        $logicException = new \LogicException();
+        /** Mock error processor to throw \LogicException in maskException method. */
         $this->_errorProcessorMock->expects($this->any())->method('maskException')->will(
             $this->throwException($logicException)
         );
@@ -96,7 +98,7 @@ class Magento_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_Test
     public function testSendResponseRenderMessagesHttpNotAcceptable()
     {
         $exception = new \Magento\Webapi\Exception('Message', 0, \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE);
-        /** Mock error processor to throw LogicException in maskException method. */
+        /** Mock error processor to throw \LogicException in maskException method. */
         $this->_errorProcessorMock->expects($this->any())->method('maskException')->will(
             $this->throwException($exception)
         );

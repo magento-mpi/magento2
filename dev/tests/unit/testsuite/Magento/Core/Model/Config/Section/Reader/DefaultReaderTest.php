@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Section_Reader_DefaultReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\Section\Reader;
+
+class DefaultReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config\Section\Reader\DefaultReader
@@ -13,17 +15,17 @@ class Magento_Core_Model_Config_Section_Reader_DefaultReaderTest extends PHPUnit
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_initialConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_collectionFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appStateMock;
 

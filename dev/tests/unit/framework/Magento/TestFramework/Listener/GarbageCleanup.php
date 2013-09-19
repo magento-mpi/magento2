@@ -12,14 +12,16 @@
 /**
  * Listener of PHPUnit built-in events that enforces cleanup of cyclic object references
  */
-class Magento_TestFramework_Listener_GarbageCleanup implements PHPUnit_Framework_TestListener
+namespace Magento\TestFramework\Listener;
+
+class GarbageCleanup implements \PHPUnit_Framework_TestListener
 {
     /**
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
 
@@ -28,7 +30,7 @@ class Magento_TestFramework_Listener_GarbageCleanup implements PHPUnit_Framework
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
+    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
     {
     }
 
@@ -37,7 +39,7 @@ class Magento_TestFramework_Listener_GarbageCleanup implements PHPUnit_Framework
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
 
@@ -46,7 +48,7 @@ class Magento_TestFramework_Listener_GarbageCleanup implements PHPUnit_Framework
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
 
@@ -54,7 +56,7 @@ class Magento_TestFramework_Listener_GarbageCleanup implements PHPUnit_Framework
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
     }
 
@@ -62,7 +64,7 @@ class Magento_TestFramework_Listener_GarbageCleanup implements PHPUnit_Framework
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         gc_collect_cycles();
     }
@@ -71,7 +73,7 @@ class Magento_TestFramework_Listener_GarbageCleanup implements PHPUnit_Framework
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function startTest(PHPUnit_Framework_Test $test)
+    public function startTest(\PHPUnit_Framework_Test $test)
     {
     }
 
@@ -79,7 +81,7 @@ class Magento_TestFramework_Listener_GarbageCleanup implements PHPUnit_Framework
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function endTest(PHPUnit_Framework_Test $test, $time)
+    public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
     }
 }

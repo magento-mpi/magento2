@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Minifier_Adapter_Js_JsminTest extends PHPUnit_Framework_TestCase
+namespace Magento\Code\Minifier\Adapter\Js;
+
+class JsminTest extends \PHPUnit_Framework_TestCase
 {
     public function testMinify()
     {

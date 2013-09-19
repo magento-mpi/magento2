@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_NoRouteHandlerListTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class NoRouteHandlerListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager

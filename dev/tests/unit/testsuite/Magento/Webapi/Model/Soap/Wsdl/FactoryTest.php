@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Soap\Wsdl;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     /** @var \Magento\Webapi\Model\Soap\Wsdl\Factory */

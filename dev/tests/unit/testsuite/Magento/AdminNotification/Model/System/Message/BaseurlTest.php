@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminNotification\Model\System\Message;
+
+class BaseurlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\AdminNotification\Model\System\Message\Baseurl
@@ -13,38 +15,38 @@ class Magento_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataCollectionMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configDataMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_iteratorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $this->_urlBuilderMock = $this->getMock('Magento\Core\Model\UrlInterface');
 

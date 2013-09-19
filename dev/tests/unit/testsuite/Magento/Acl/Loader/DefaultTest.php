@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Acl_Loader_DefaultTest extends PHPUnit_Framework_TestCase
+namespace Magento\Acl\Loader;
+
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Acl\Loader\DefaultLoader

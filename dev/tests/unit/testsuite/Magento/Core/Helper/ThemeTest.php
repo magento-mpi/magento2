@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     const ROOT = '/zzz';
     const APP = '/zzz/qqq';
@@ -455,7 +457,7 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * depends testGetCssFiles
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Invalid view file directory "some_path/test.test"
      */
     public function testGetGroupedCssFilesException()

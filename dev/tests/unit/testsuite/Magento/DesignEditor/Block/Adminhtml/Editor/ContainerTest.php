@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml\Editor;
+
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     const FRAME_URL = 'controller/action';
 
     /**
      * Object manager helper
      *
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     protected function tearDown()

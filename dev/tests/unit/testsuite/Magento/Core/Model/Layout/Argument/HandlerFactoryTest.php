@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Layout\Argument\HandlerFactory
  */
-class Magento_Core_Model_Layout_Argument_HandlerFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument;
+
+class HandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
@@ -20,7 +22,7 @@ class Magento_Core_Model_Layout_Argument_HandlerFactoryTest extends PHPUnit_Fram
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
@@ -38,7 +40,7 @@ class Magento_Core_Model_Layout_Argument_HandlerFactoryTest extends PHPUnit_Fram
 
     /**
      * @param $type
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider getArgumentHandlerFactoryByTypeWithNonStringTypeDataProvider
      */
     public function testGetArgumentHandlerByTypeWithNonStringType($type)
@@ -50,14 +52,14 @@ class Magento_Core_Model_Layout_Argument_HandlerFactoryTest extends PHPUnit_Fram
     {
         return array(
             'int value' => array(10),
-            'object value' => array(new StdClass()),
+            'object value' => array(new \StdClass()),
             'null value' => array(null),
             'boolean value' => array(false),
         );
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetArgumentHandlerFactoryByTypeWithInvalidType()
     {

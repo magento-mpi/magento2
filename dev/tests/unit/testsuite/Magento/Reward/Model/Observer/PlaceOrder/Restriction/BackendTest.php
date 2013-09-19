@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Reward_Model_Observer_PlaceOrder_Restriction_BackendTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reward\Model\Observer\PlaceOrder\Restriction;
+
+class BackendTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Reward\Model\Observer\PlaceOrder\Restriction\Backend
@@ -14,12 +16,12 @@ class Magento_Reward_Model_Observer_PlaceOrder_Restriction_BackendTest extends P
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 

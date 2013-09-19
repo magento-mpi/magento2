@@ -8,12 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Block\Cart\Item;
+
+class RendererTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetProductThumbnailUrlForConfigurable()
     {
         $url = 'pub/media/catalog/product/cache/1/thumbnail/75x/9df78eab33525d08d6e5fb8d27136e95/_/_/__green.gif';
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $configView = $this->getMock('Magento\Config\View', array('getVarValue'), array(), '', false);
         $configView->expects($this->any())->method('getVarValue')->will($this->returnValue(75));

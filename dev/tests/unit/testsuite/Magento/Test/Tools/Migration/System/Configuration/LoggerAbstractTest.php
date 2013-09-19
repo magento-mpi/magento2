@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
 
-class Magento_Test_Tools_Migration_System_Configuration_LoggerAbstractTest extends PHPUnit_Framework_TestCase
+class LoggerAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\Configuration\LoggerAbstract

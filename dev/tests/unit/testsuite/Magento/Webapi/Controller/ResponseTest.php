@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_ResponseTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller;
+
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Response object.

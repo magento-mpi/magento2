@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Category_Attribute_Backend_SortbyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Category\Attribute\Backend;
+
+class SortbyTest extends \PHPUnit_Framework_TestCase
 {
     const DEFAULT_ATTRIBUTE_CODE = 'attribute_name';
 

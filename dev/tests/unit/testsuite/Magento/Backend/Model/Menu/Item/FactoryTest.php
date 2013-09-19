@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Item;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu\Item\Factory
@@ -17,12 +19,12 @@ class Magento_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_Test
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperFactoryMock;
 

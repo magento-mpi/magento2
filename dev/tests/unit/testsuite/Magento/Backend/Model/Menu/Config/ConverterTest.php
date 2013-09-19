@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Menu_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu\Config\Converter
@@ -21,7 +23,7 @@ class Magento_Backend_Model_Menu_Config_ConverterTest extends PHPUnit_Framework_
     {
         $basePath = realpath(__DIR__) . '/../../_files/';
         $path = $basePath . 'menu_merged.xml';
-        $domDocument = new DOMDocument();
+        $domDocument = new \DOMDocument();
         $domDocument->load($path);
         $expectedData = include($basePath . 'menu_merged.php');
         $this->assertEquals($expectedData, $this->_model->convert($domDocument));

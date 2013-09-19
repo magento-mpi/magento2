@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rma\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getReturnAddressDataProvider

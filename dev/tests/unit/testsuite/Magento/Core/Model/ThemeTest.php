@@ -12,7 +12,9 @@
 /**
  * Test theme model
  */
-class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject
@@ -20,7 +22,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_imageFactory;
 
@@ -39,7 +41,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $this->_imageFactory = $this->getMock('Magento\Core\Model\Theme\ImageFactory',
             array('create'), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\Theme', array(
             'customizationFactory' => $customizationFactory,
             'customizationConfig'  => $customizationConfig,

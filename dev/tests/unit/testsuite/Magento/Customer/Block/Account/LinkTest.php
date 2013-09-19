@@ -6,15 +6,17 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Block\Account;
+
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Session */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Session */
     protected $_session;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Helper\Data */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Helper\Data */
     protected $_helper;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Page\Block\Template\Links */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Page\Block\Template\Links */
     protected $_targetBlock;
 
     /** @var \Magento\Customer\Block\Account\Link */

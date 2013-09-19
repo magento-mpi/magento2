@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Locale;
+
+class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Locale\Manager

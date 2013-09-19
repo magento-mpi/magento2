@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Widget_Form_ContainerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Widget\Form;
+
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetDataObject()
     {

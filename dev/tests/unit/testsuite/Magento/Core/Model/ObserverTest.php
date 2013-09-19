@@ -5,35 +5,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheFrontendMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_frontendPoolMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeCustomization;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_assetFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_assetsMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
@@ -89,7 +91,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_assetFactory = $this->getMock('Magento\Core\Model\Page\Asset\PublicFileFactory',
             array('create'), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
             'Magento\Core\Model\Observer',
             array(
@@ -118,7 +120,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $cacheBackendMock
             ->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_OLD, array())
+            ->with(\Zend_Cache::CLEANING_MODE_OLD, array())
         ;
         $this->_cacheFrontendMock
             ->expects($this->once())

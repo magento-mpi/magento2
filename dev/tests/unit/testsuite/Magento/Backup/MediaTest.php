@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backup;
+
+class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param array $methods
@@ -63,7 +65,7 @@ class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        new \Magento\Backup\Media(new StdClass);
+        new \Magento\Backup\Media(new \StdClass);
     }
 
     public static function actionProvider()

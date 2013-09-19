@@ -5,25 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class EnvironmentFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_dirMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_extension;
     
-    /** @var PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\TemplateEngine\Twig\FullFileName */
+    /** @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\TemplateEngine\Twig\FullFileName */
     private $_loaderMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject \Magento\Filesystem */
+    /** @var \PHPUnit_Framework_MockObject_MockObject \Magento\Filesystem */
     private $_filesystem;
     
-    /** @var PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\Logger */
+    /** @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\Logger */
     private $_loggerMock;
     
     /**
-     * Validate Twig_Environment returned on call
+     * Validate \Twig_Environment returned on call
      */
     public function testCreatePositive()
     {
@@ -39,14 +41,14 @@ class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactoryTest extends PHPU
             $this->_loaderMock
         );
         /**
-         * @var Twig_Environment $factoryInst
+         * @var \Twig_Environment $factoryInst
          */
         $factoryInst = $inst->create();
         $this->assertInstanceOf('Twig_Environment', $factoryInst);
     }
 
     /**
-     * Validate Twig_Environment returned on call even though directory not created
+     * Validate \Twig_Environment returned on call even though directory not created
      */
     public function testCreateNegative()
     {
@@ -62,7 +64,7 @@ class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactoryTest extends PHPU
             $this->_loaderMock
         );
         /**
-         * @var Twig_Environment $factoryInst
+         * @var \Twig_Environment $factoryInst
         */
         $factoryInst = $inst->create();
         $this->assertInstanceOf('Twig_Environment', $factoryInst);

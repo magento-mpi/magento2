@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_TreeTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files;
+
+class TreeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject
@@ -31,7 +33,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_TreeTest extends P
         $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
             'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content',
             array('urlBuilder'    => $this->_urlBuilder)

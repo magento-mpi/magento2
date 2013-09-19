@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Authorization_Policy_AclTest extends PHPUnit_Framework_TestCase
+namespace Magento\Authorization\Policy;
+
+class AclTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Authorization\Policy\Acl
@@ -42,7 +44,7 @@ class Magento_Authorization_Policy_AclTest extends PHPUnit_Framework_TestCase
         $this->_aclMock->expects($this->once())
             ->method('isAllowed')
             ->with('some_role', 'some_resource')
-            ->will($this->throwException(new Zend_Acl_Role_Registry_Exception));
+            ->will($this->throwException(new \Zend_Acl_Role_Registry_Exception));
 
         $this->_aclMock->expects($this->once())
             ->method('has')
@@ -57,7 +59,7 @@ class Magento_Authorization_Policy_AclTest extends PHPUnit_Framework_TestCase
         $this->_aclMock->expects($this->at(0))
             ->method('isAllowed')
             ->with('some_role', 'some_resource')
-            ->will($this->throwException(new Zend_Acl_Role_Registry_Exception));
+            ->will($this->throwException(new \Zend_Acl_Role_Registry_Exception));
 
         $this->_aclMock->expects($this->once())
             ->method('has')

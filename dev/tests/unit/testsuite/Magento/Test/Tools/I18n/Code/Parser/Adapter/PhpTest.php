@@ -27,7 +27,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
             'Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector',
             array(), array(), '', false);
 
-        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_adapter = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Parser\Adapter\Php', array(
             'phraseCollector' => $this->_phraseCollectorMock,
         ));

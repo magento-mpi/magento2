@@ -8,6 +8,8 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/FileManager.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
@@ -15,7 +17,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Writer/Memory.php';
 
-class Magento_Test_Tools_Migration_System_FileManagerTest extends PHPUnit_Framework_TestCase
+class FileManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\FileManager
@@ -23,12 +25,12 @@ class Magento_Test_Tools_Migration_System_FileManagerTest extends PHPUnit_Framew
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_readerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_writerMock;
 

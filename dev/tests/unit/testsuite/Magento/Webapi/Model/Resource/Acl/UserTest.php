@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Resource_Acl_UserTest extends Magento_Webapi_Model_Resource_Acl_TestAbstract
+namespace Magento\Webapi\Model\Resource\Acl;
+
+class UserTest extends \Magento\Webapi\Model\Resource\Acl\TestAbstract
 {
     /**
      * Create resource model.

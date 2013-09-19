@@ -6,30 +6,32 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleAdwords\Model\Validator;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configurationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorBuilderFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorBuilderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
@@ -45,7 +47,7 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
         $this->_validatorBuilderMock = $this->getMock('Magento\Validator\Builder', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento\Validator\ValidatorInterface', array(), array(), '', false);
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_factory = $objectManager->getObject('Magento\GoogleAdwords\Model\Validator\Factory', array(
             'validatorBuilderFactory' => $this->_validatorBuilderFactoryMock,
         ));

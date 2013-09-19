@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Stream_Mode_ZlibTest extends PHPUnit_Framework_TestCase
+namespace Magento\Filesystem\Stream\Mode;
+
+class ZlibTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider modesDataProvider

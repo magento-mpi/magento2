@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model\Adminhtml\System\Config\Source;
+
+class EngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Search\Model\Adminhtml\System\Config\Source\Engine

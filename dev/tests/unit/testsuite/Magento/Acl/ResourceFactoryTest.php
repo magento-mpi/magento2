@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Acl_ResourceFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Acl;
+
+class ResourceFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Acl\ResourceFactory
@@ -26,7 +28,7 @@ class Magento_Acl_ResourceFactoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_objectManager = $this->getMockForAbstractClass('Magento\ObjectManager', array(), '', true, true, true,
             array('create'));

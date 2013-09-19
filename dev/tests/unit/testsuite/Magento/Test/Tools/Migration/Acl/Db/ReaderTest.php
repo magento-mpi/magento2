@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl\Db;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Reader.php';
 
-class Magento_Test_Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_TestCase
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\Acl\Db\Reader
@@ -21,7 +23,7 @@ class Magento_Test_Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_T
     /**
      * DB adapter
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_adapterMock;
 

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Acl_Loader_ResourceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Acl\Loader;
+
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test for \Magento\Acl\Loader\Resource::populateAcl

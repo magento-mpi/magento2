@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Section_Processor_PlaceholderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\Section\Processor;
+
+class PlaceholderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config\Section\Processor\Placeholder
@@ -13,7 +15,7 @@ class Magento_Core_Model_Config_Section_Processor_PlaceholderTest extends PHPUni
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 

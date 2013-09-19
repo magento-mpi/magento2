@@ -12,25 +12,27 @@
 /**
  * Test of theme customization model
  */
-class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class CustomizationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder
+     * @var \PHPUnit_Framework_MockObject_MockBuilder
      */
     protected $_modelBuilder;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileCollection;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customizationPath;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_theme;
 

@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Items;
+
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Adminhtml\Block\Sales\Order\Create\Items\Grid
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Adminhtml\Block\Sales\Order\Create\Items\Grid
      */
     protected $_block;
 
@@ -111,7 +113,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
     /**
      * @param array|int $tierPrices
      * @param string $productType
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Item
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Item
      */
     protected function _prepareItem($tierPrices, $productType)
     {

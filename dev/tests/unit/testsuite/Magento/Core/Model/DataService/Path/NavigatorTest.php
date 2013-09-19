@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService\Path;
+
+class NavigatorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject  \Magento\Core\Model\DataService\Path\NodeInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  \Magento\Core\Model\DataService\Path\NodeInterface */
     private $_rootNode;
 
     /**
@@ -77,7 +79,7 @@ class Magento_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framewor
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage invalid.leaf
      */
     public function testSearchWithInvalidPath()

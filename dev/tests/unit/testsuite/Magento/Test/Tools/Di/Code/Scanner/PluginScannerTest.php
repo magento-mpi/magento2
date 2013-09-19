@@ -6,11 +6,13 @@
  * @license   {license_link}
  */
 
-class Magento_Test_Tools_Di_Code_Scanner_PluginScannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Tools\Di\Code\Scanner;
+
+class PluginScannerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        $this->_model = new Magento\Tools\Di\Code\Scanner\PluginScanner();
+        $this->_model = new \Magento\Tools\Di\Code\Scanner\PluginScanner();
         $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
         $this->_testFiles = array(
             $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',

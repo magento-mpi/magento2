@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Wishlist_Controller_IndexTest extends PHPUnit_Framework_TestCase
+namespace Magento\Wishlist\Controller;
+
+class IndexTest extends \PHPUnit_Framework_TestCase
 {
     public function testControllerImplementsProductViewInterface()
     {

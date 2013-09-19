@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller;
+
+class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\ErrorProcessor */
     protected $_errorProcessor;
@@ -170,7 +172,7 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
         $this->_appMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(true));
         /** Init Logical exception. */
         $errorMessage = 'Error Message';
-        $logicalException = new LogicException($errorMessage);
+        $logicalException = new \LogicException($errorMessage);
         /** Assert that Logic exception is converted to \Magento\Webapi\Exception without message obfuscation. */
         $maskedException = $this->_errorProcessor->maskException($logicalException);
         $this->assertInstanceOf('Magento\Webapi\Exception', $maskedException);
@@ -232,7 +234,7 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
                 array("P1", "P2")
             ),
             'Exception' => array(
-                new Exception('Non service exception', 5678),
+                new \Exception('Non service exception', 5678),
                 \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
                 'Internal Error. Details are available in Magento log file. Report ID: webapi-',
                 0,
@@ -244,7 +246,7 @@ class Magento_Webapi_Controller_ErrorProcessorTest extends PHPUnit_Framework_Tes
     /**
      * Assert that masked exception contains expected data.
      *
-     * @param Exception $maskedException
+     * @param \Exception $maskedException
      * @param int $expectedHttpCode
      * @param string $expectedMessage
      * @param int $expectedCode

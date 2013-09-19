@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Backend_SecureTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Backend;
+
+class SecureTest extends \PHPUnit_Framework_TestCase
 {
     public function testSaveMergedJsCssMustBeCleaned()
     {

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Search_Model_Adapter_Solr_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model\Adapter\Solr;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Check Sku processing by getSearchEngineFieldName method with sort target

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Code;
+
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Class name parameter value
@@ -35,12 +37,12 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Generator\EntityAbstract
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Generator\EntityAbstract
      */
     protected $_generator;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Autoload\IncludePath
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Autoload\IncludePath
      */
     protected $_autoloader;
 

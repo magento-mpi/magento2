@@ -5,25 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config\Reader;
+
+class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_schemaLocatorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validationStateMock;
 
@@ -56,7 +58,7 @@ class Magento_Config_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
         $this->_fileResolverMock
             ->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
 
-        $dom = new DomDocument();
+        $dom = new \DomDocument();
         $dom->loadXML(file_get_contents($this->_file));
         $this->_converterMock->expects($this->once())->method('convert')->with($dom);
         $model->read('scope');

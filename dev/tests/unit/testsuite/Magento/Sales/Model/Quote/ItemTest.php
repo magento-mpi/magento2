@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Quote_ItemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Quote;
+
+class ItemTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Quote\Item

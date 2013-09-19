@@ -12,7 +12,9 @@
 /**
  * Test for \Magento\Validator\Entity\Properties
  */
-class Magento_Validator_Entity_PropertiesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator\Entity;
+
+class PropertiesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Object
@@ -32,7 +34,7 @@ class Magento_Validator_Entity_PropertiesTest extends PHPUnit_Framework_TestCase
     /**
      * Testing \Magento\Validator\Entity\Properties::isValid on invalid argument passed
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Instance of \Magento\Object is expected.
      */
     public function testIsValidException()

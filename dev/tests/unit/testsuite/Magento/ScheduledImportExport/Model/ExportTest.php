@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ScheduledImportExport\Model\Export
  */
-class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model;
+
+class ExportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Enterprise data export model

@@ -12,7 +12,9 @@
 /**
  * String length test validator
  */
-class Magento_Validator_Test_StringLength extends Zend_Validate_StringLength
+namespace Magento\Validator\Test;
+
+class StringLength extends \Zend_Validate_StringLength
     implements \Magento\Validator\ValidatorInterface
 {
 }

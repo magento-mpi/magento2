@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ShellTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test that a command with input arguments returns an expected result
@@ -53,7 +55,7 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
             $logger
                 ->expects($this->at($logRecordIndex))
                 ->method('log')
-                ->with($expectedLogMessage, Zend_Log::INFO)
+                ->with($expectedLogMessage, \Zend_Log::INFO)
             ;
         }
         $this->_testExecuteCommand(new \Magento\Shell($logger), $command, $commandArgs, $expectedResult);

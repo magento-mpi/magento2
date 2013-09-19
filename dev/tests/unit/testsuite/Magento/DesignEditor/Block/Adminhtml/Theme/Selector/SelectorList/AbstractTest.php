@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
+
+class AbstractTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getSampleCollection
@@ -90,7 +92,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
             ->method('getId')
             ->will($this->returnValue(1));
 
-        $method = new ReflectionMethod($listAbstractBlock, '_addAssignButtonHtml');
+        $method = new \ReflectionMethod($listAbstractBlock, '_addAssignButtonHtml');
         $method->setAccessible(true);
         $method->invoke($listAbstractBlock, $themeBlockMock);
     }

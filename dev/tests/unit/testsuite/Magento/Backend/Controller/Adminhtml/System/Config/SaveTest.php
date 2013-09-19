@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Controller\Adminhtml\System\Config;
+
+class SaveTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Controller\Adminhtml\System\Config\Save
@@ -17,37 +19,37 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
     protected $_controller;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sessionMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sectionMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
@@ -88,7 +90,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
         $responseMock->expects($this->once())->method('setRedirect')->with('*/system_config/edit');
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'request' => $this->_requestMock,
             'response' => $responseMock,
@@ -236,7 +238,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
 
         $this->_cacheMock->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_ALL);
+            ->with(\Zend_Cache::CLEANING_MODE_ALL);
         $this->_controller->indexAction();
     }
 }

@@ -9,7 +9,9 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Logging_Model_ProcessorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Logging\Model;
+
+class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Logging\Model\Processor */
     protected $_model;

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Billing\Agreement;
+
+class OrdersUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Billing\Agreement\OrdersUpdater
@@ -17,17 +19,17 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_registryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_argumentMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_agreementMock;
 
@@ -81,7 +83,7 @@ class Magento_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Fr
 
     /**
      * @covers \Magento\Sales\Model\Billing\Agreement\OrdersUpdater::update
-     * @expectedException DomainException
+     * @expectedException \DomainException
      */
     public function testUpdateWhenBillingAgreementIsNotSet()
     {

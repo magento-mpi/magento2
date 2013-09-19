@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_TestCase
+
+namespace Magento\Core\Model\Cache\Frontend;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
@@ -113,14 +116,14 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
             array(),
             array(
                 array(
-                    'class' => 'Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy',
+                    'class' => 'Magento\Core\Model\Cache\Frontend\FactoryTest\CacheDecoratorDummy',
                     'parameters' => array('param' => 'value')
                 )
             )
         );
         $result = $model->create(array('backend' => 'Zend_Cache_Backend_BlackHole'));
 
-        $this->assertInstanceOf('Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy', $result);
+        $this->assertInstanceOf('Magento\Core\Model\Cache\Frontend\FactoryTest\CacheDecoratorDummy', $result);
 
         $params = $result->getParams();
         $this->assertArrayHasKey('param', $params);
@@ -140,16 +143,16 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
             switch ($class) {
                 case 'Magento\Cache\Frontend\Adapter\Zend':
                     return new $class($params['frontend']);
-                case 'Magento_Core_Model_Cache_Frontend_FactoryTest_CacheDecoratorDummy':
+                case 'Magento\Core\Model\Cache\Frontend\FactoryTest\CacheDecoratorDummy':
                     $frontend = $params['frontend'];
                     unset($params['frontend']);
                     return new $class($frontend, $params);
                 default:
-                    throw new Exception("Test is not designed to create {$class} objects");
+                    throw new \Exception("Test is not designed to create {$class} objects");
                     break;
             }
         };
-        /** @var $objectManager PHPUnit_Framework_MockObject_MockObject */
+        /** @var $objectManager \PHPUnit_Framework_MockObject_MockObject */
         $objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->any())
             ->method('create')

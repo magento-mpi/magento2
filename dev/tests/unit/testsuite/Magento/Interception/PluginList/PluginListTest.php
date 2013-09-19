@@ -5,6 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
+
+namespace Magento\Interception\PluginList;
+
 require_once __DIR__ . '/../Custom/Module/Model/Item.php';
 require_once __DIR__ . '/../Custom/Module/Model/Item/Enhanced.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemContainer.php';
@@ -13,7 +16,7 @@ require_once __DIR__ . '/../Custom/Module/Model/ItemContainerPlugin/Simple.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Simple.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Advanced.php';
 
-class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_TestCase
+class PluginListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Interception\Config\Config
@@ -21,7 +24,7 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
@@ -101,70 +104,70 @@ class Magento_Interception_PluginList_PluginListTest extends PHPUnit_Framework_T
     {
         return array(
             array(
-                array('Magento_Interception_Custom_Module_Model_ItemPlugin_Simple'),
-                'Magento_Interception_Custom_Module_Model_Item',
+                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Simple'),
+                'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
                 'after',
                 'global',
             ),
             array(
                 // advanced plugin has lower sort order
-                array('Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced',
-                      'Magento_Interception_Custom_Module_Model_ItemPlugin_Simple'),
-                'Magento_Interception_Custom_Module_Model_Item',
+                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced',
+                      'Magento\Interception\Custom\Module\Model\ItemPlugin\Simple'),
+                'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
                 'after',
                 'backend',
             ),
             array(
-                array('Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced'),
-                'Magento_Interception_Custom_Module_Model_Item',
+                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced'),
+                'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
                 'around',
                 'backend',
             ),
             array(
                 // simple plugin is disabled in configuration for
-                // Magento_Interception_Custom_Module_Model_Item in frontend
+                // \Magento\Interception\Custom\Module\Model\Item in frontend
                 array(),
-                'Magento_Interception_Custom_Module_Model_Item',
+                'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
                 'after',
                 'frontend',
             ),
             // test plugin inheritance
             array(
-                array('Magento_Interception_Custom_Module_Model_ItemPlugin_Simple'),
-                'Magento_Interception_Custom_Module_Model_Item_Enhanced',
+                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Simple'),
+                'Magento\Interception\Custom\Module\Model\Item\Enhanced',
                 'getName',
                 'after',
                 'global',
             ),
             array(
                 // simple plugin is disabled in configuration for parent
-                array('Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced'),
-                'Magento_Interception_Custom_Module_Model_Item_Enhanced',
+                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced'),
+                'Magento\Interception\Custom\Module\Model\Item\Enhanced',
                 'getName',
                 'after',
                 'frontend',
             ),
             array(
-                array('Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced'),
-                'Magento_Interception_Custom_Module_Model_Item_Enhanced',
+                array('Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced'),
+                'Magento\Interception\Custom\Module\Model\Item\Enhanced',
                 'getName',
                 'around',
                 'frontend',
             ),
             array(
                 array(),
-                'Magento_Interception_Custom_Module_Model_ItemContainer',
+                'Magento\Interception\Custom\Module\Model\ItemContainer',
                 'getName',
                 'after',
                 'global',
             ),
             array(
-                array('Magento_Interception_Custom_Module_Model_ItemContainerPlugin_Simple'),
-                'Magento_Interception_Custom_Module_Model_ItemContainer',
+                array('Magento\Interception\Custom\Module\Model\ItemContainerPlugin\Simple'),
+                'Magento\Interception\Custom\Module\Model\ItemContainer',
                 'getName',
                 'after',
                 'backend',

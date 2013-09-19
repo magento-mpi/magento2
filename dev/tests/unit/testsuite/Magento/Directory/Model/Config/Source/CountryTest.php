@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Model_Config_Source_CountryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Directory\Model\Config\Source;
+
+class CountryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Directory\Model\Config\Source\Country
@@ -23,7 +25,7 @@ class Magento_Directory_Model_Config_Source_CountryTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_collectionMock = $this->getMock(
             'Magento\Directory\Model\Resource\Country\Collection', array(), array(), '', false
         );

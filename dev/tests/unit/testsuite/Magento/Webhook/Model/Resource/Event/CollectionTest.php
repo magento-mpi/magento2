@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Event;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -34,7 +36,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
     public function tearDown()
     {
         // Unsets object manager
-        Mage::reset();
+        \Mage::reset();
     }
 
     public function testConstructor()
@@ -52,15 +54,15 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
     /**
      * Makes sure that Mage has a mock object manager set, and returns that instance.
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _setMageObjectManager()
     {
-        Mage::reset();
+        \Mage::reset();
         $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        Mage::setObjectManager($mockObjectManager);
+        \Mage::setObjectManager($mockObjectManager);
 
         return $mockObjectManager;
     }

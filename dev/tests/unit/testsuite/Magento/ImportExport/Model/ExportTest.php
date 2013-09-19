@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Model\Export
  */
-class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model;
+
+class ExportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Extension for export file

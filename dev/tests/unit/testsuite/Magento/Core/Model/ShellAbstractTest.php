@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ShellAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ShellAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\ShellAbstract|PHPUnit_Framework_MockObject_MockObject

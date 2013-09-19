@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_View_TabsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product\View;
+
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddTab()
     {

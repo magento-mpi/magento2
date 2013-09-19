@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Helper;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\GoogleOptimizer\Helper\Form
@@ -13,17 +15,17 @@ class Magento_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_formMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fieldsetMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_experimentCodeMock;
 
@@ -35,7 +37,7 @@ class Magento_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
         $this->_experimentCodeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code',
             array('getExperimentScript', 'getCodeId'), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Form');
     }
 

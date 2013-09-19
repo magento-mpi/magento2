@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class ViewFileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Page\Asset\ViewFile
@@ -28,7 +30,7 @@ class Magento_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Parameter 'file' must not be empty
      */
     public function testConstructorException()

@@ -12,7 +12,9 @@
 /**
  * Test case for \Magento\Validator\Constraint\Option
  */
-class Magento_Validator_Constraint_OptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator\Constraint;
+
+class OptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test getValue

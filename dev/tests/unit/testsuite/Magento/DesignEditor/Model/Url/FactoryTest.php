@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Url;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DesignEditor\Model\Url\Factory

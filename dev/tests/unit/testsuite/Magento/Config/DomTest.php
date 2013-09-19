@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Config_DomTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config;
+
+class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $xmlFile

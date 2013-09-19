@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Layout\Argument\Handler\Url
  */
-class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\Handler\Helper
@@ -26,7 +28,7 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_urlModleMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
         $this->_model = $helperObjectManager->getObject(
             'Magento\Core\Model\Layout\Argument\Handler\Url',

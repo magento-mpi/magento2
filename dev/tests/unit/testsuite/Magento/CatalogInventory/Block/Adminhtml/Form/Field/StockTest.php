@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
+
+class StockTest extends \PHPUnit_Framework_TestCase
 {
     const ATTRIBUTE_NAME = 'quantity_and_stock_status';
 
@@ -44,7 +46,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPU
         $this->_factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $this->_qty = $this->getMock('\Magento\Data\Form\Element\Text',
+        $this->_qty = $this->getMock('Magento\Data\Form\Element\Text',
             array('getElementHtml', 'setForm', 'setValue', 'setName'),
             array($this->_coreHelper, $this->_factory, $this->_collectionFactory)
         );

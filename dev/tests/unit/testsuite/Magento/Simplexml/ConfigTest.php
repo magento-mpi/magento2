@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Simplexml_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Simplexml;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadString()
     {

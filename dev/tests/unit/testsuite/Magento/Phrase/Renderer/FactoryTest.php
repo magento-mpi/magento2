@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Phrase\Renderer;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
@@ -21,7 +23,7 @@ class Magento_Phrase_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_factory = $objectManagerHelper->getObject('Magento\Phrase\Renderer\Factory', array(
             'objectManager' => $this->_objectManager,
         ));
@@ -39,7 +41,7 @@ class Magento_Phrase_Renderer_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong renderer class-name
      */
     public function testWrongRendererException()

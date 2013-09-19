@@ -10,7 +10,7 @@
  */
 
 namespace Magento\Code\Generator\TestAsset;
-use Zend\Code\Generator\ClassGenerator;
+use \Zend\Code\Generator\ClassGenerator;
 
 class SourceClass extends ParentClass
 {

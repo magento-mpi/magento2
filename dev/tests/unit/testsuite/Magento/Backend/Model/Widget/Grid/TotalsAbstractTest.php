@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Widget\Grid;
+
+class TotalsAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var $_model PHPUnit_Framework_MockObject_MockObject
+     * @var $_model \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_parserMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 

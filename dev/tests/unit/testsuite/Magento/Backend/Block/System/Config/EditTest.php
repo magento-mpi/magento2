@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\System\Config\Edit
@@ -17,27 +19,27 @@ class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_Tes
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_systemConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sectionMock;
 
@@ -79,7 +81,7 @@ class Magento_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_Tes
             'configStructure' => $this->_systemConfigMock
         );
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Edit', $data);
     }
 

@@ -9,15 +9,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class UserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\User */
     protected $_user;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockAclUser;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockAuthorization;
 
     public function setUp()

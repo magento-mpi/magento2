@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminGws\Model;
+
+class BlocksTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\AdminGws\Model\Blocks

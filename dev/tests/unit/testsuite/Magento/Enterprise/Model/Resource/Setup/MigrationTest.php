@@ -12,7 +12,9 @@
 /**
  * Tests for resource setup model needed for migration process between Magento versions in Enterprise version
  */
-class Magento_Enterprise_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Enterprise\Model\Resource\Setup;
+
+class MigrationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \Magento\Enterprise\Model\Resource\Setup\Migration::getCompositeModules

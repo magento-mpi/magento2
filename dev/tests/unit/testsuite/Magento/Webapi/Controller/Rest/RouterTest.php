@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Webapi_Controller_Rest_RouterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest;
+
+class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Rest\Router\Route */
     protected $_routeMock;

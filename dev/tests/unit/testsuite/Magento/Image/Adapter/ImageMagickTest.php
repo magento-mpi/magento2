@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Image_Adapter_ImageMagickTest extends PHPUnit_Framework_TestCase
+namespace Magento\Image\Adapter;
+
+class ImageMagickTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider watermarkDataProvider

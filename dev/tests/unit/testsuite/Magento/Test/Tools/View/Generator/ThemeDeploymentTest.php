@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\View\Generator;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
     . '/tools/Magento/Tools/View/Generator/ThemeDeployment.php';
 
-class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Framework_TestCase
+class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Helper\Css
@@ -105,8 +107,8 @@ class Magento_Test_Tools_View_Generator_ThemeDeploymentTest extends PHPUnit_Fram
     protected function _getRelativePaths($dir)
     {
         $dirLen = strlen($dir);
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS)
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS)
         );
         $result = array();
         foreach ($files as $file) {

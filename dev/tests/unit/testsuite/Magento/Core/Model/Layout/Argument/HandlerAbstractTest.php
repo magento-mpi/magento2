@@ -12,9 +12,11 @@
 /**
  * Test class for \Magento\Core\Model\Layout\Argument\HandlerAbstract
  */
-class Magento_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument;
+
+class HandlerAbstractTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout\Argument\HandlerAbstract */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout\Argument\HandlerAbstract */
     protected $_model;
 
     public function setUp()

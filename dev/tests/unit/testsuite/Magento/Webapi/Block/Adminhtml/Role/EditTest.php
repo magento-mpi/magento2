@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Block\Adminhtml\Role;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
@@ -20,7 +22,7 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
     protected $_urlBuilder;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Helper\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Helper\Data
      */
     protected $_coreData;
 
@@ -60,7 +62,7 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
             ->with($this->equalTo('Magento\Core\Helper\Data'))
             ->will($this->returnValue($this->_coreData));
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\Role\Edit', array(
             'urlBuilder' => $this->_urlBuilder,
             'request' => $this->_request,
@@ -123,7 +125,7 @@ class Magento_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_Tes
      */
     protected function _assertBlockHasButton($level, $buttonId, $label)
     {
-        $buttonsProperty = new ReflectionProperty($this->_block, '_buttons');
+        $buttonsProperty = new \ReflectionProperty($this->_block, '_buttons');
         $buttonsProperty->setAccessible(true);
         $buttons = $buttonsProperty->getValue($this->_block);
         $this->assertInternalType('array', $buttons, 'Cannot get block buttons.');

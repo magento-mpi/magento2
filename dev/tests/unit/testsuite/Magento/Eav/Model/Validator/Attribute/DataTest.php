@@ -12,7 +12,9 @@
 /**
  * Test for \Magento\Eav\Model\Validator\Attribute\Data
  */
-class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Validator\Attribute;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Testing  \Magento\Eav\Model\Validator\Attribute\Data::isValid
@@ -291,7 +293,7 @@ class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_T
 
     /**
      * @param array $attributeData
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAttributeMock($attributeData)
     {
@@ -316,7 +318,7 @@ class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_T
 
     /**
      * @param \Magento\Eav\Model\Attribute\Data\AbstractData $dataModel
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getFactoryMock($dataModel)
     {
@@ -332,7 +334,7 @@ class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_T
     /**
      * @param boolean $returnValue
      * @param string|null $argument
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDataModelMock($returnValue, $argument = null)
     {
@@ -354,7 +356,7 @@ class Magento_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getEntityMock()
     {

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator\Composite;
+
+class VarienObjectTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Validator\Composite\VarienObject
@@ -17,15 +19,15 @@ class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_Tes
     {
         $this->_model = new \Magento\Validator\Composite\VarienObject();
 
-        $fieldOneExactValue = new Zend_Validate_Identical('field_one_value');
+        $fieldOneExactValue = new \Zend_Validate_Identical('field_one_value');
         $fieldOneExactValue->setMessage("'field_one' does not match expected value");
-        $fieldOneLength = new Zend_Validate_StringLength(array('min' => 10));
+        $fieldOneLength = new \Zend_Validate_StringLength(array('min' => 10));
 
-        $fieldTwoExactValue = new Zend_Validate_Identical('field_two_value');
+        $fieldTwoExactValue = new \Zend_Validate_Identical('field_two_value');
         $fieldTwoExactValue->setMessage("'field_two' does not match expected value");
-        $fieldTwoLength = new Zend_Validate_StringLength(array('min' => 5));
+        $fieldTwoLength = new \Zend_Validate_StringLength(array('min' => 5));
 
-        $entityValidity = new Zend_Validate_Callback(array($this, 'isEntityValid'));
+        $entityValidity = new \Zend_Validate_Callback(array($this, 'isEntityValid'));
         $entityValidity->setMessage('Entity is not valid.');
 
         $this->_model
@@ -55,7 +57,7 @@ class Magento_Validator_Composite_VarienObjectTest extends PHPUnit_Framework_Tes
 
     public function testAddRule()
     {
-        $actualResult = $this->_model->addRule(new Zend_Validate_Identical('field_one_value'), 'field_one');
+        $actualResult = $this->_model->addRule(new \Zend_Validate_Identical('field_one_value'), 'field_one');
         $this->assertSame($this->_model, $actualResult, 'Methods chaining is broken.');
     }
 

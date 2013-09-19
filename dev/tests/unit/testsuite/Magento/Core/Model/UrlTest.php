@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Url
  */
-class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Url

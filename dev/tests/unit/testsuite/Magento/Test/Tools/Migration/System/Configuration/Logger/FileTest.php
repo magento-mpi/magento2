@@ -8,25 +8,23 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration\Logger;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//Acl/Db/LoggerAbstract.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//Acl/Db/Logger/File.php';
-
-
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//System/Configuration/LoggerAbstract.php';
-
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//System/Configuration/Logger/File.php';
-
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//System/FileManager.php';
 
-class Magento_Test_Tools_Migration_System_Configuration_Logger_FileTest extends PHPUnit_Framework_TestCase
+class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
@@ -47,7 +45,7 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FileTest extends 
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructWithInValidFile()
     {

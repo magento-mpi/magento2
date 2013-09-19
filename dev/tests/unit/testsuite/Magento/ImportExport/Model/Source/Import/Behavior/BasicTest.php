@@ -12,8 +12,10 @@
 /**
  * Test class for \Magento\ImportExport\Model\Source\Import\Behavior\Basic
  */
-class Magento_ImportExport_Model_Source_Import_Behavior_BasicTest
-    extends Magento_ImportExport_Model_Source_Import_BehaviorTestCaseAbstract
+namespace Magento\ImportExport\Model\Source\Import\Behavior;
+
+class BasicTest
+    extends \Magento\ImportExport\Model\Source\Import\BehaviorTestCaseAbstract
 {
     /**
      * Expected behavior group code

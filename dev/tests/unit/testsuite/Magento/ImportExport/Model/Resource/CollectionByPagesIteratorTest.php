@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Model\Resource\CollectionByPagesIterator
  */
-class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Resource;
+
+class CollectionByPagesIteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ImportExport\Model\Resource\CollectionByPagesIterator
@@ -37,7 +39,7 @@ class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends 
         $pageSize  = 2;
         $pageCount = 3;
 
-        /** @var $callbackMock PHPUnit_Framework_MockObject_MockObject */
+        /** @var $callbackMock \PHPUnit_Framework_MockObject_MockObject */
         $callbackMock = $this->getMock('stdClass', array('callback'));
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ImportExport_Model_Import_SourceAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import;
+
+class SourceAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ImportExport\Model\Import\SourceAbstract|PHPUnit_Framework_MockObject_MockObject
@@ -22,7 +24,7 @@ class Magento_ImportExport_Model_Import_SourceAbstractTest extends PHPUnit_Frame
     /**
      * @param array $argument
      * @dataProvider constructExceptionDataProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructException($argument)
     {
@@ -82,7 +84,7 @@ class Magento_ImportExport_Model_Import_SourceAbstractTest extends PHPUnit_Frame
     }
 
     /**
-     * @expectedException OutOfBoundsException
+     * @expectedException \OutOfBoundsException
      */
     public function testSeekableInterfaceException()
     {

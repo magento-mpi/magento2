@@ -12,7 +12,9 @@
 /**
  * Test theme image model
  */
-class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme\Image
@@ -71,7 +73,7 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Theme\Image\Path
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Theme\Image\Path
      */
     protected function _getImagePathMock()
     {

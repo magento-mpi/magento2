@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Resource_Category_FlatTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource\Category;
+
+class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DB\Adapter\Pdo\Mysql|PHPUnit_Framework_MockObject_MockObject

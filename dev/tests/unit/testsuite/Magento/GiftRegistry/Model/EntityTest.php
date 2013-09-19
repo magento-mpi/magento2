@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\GiftRegistry\Model\Entity
  */
-class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Model;
+
+class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * GiftRegistry instance

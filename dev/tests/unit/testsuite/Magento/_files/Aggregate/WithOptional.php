@@ -5,13 +5,15 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_Di_Aggregate_WithOptional
+namespace Magento\Test\Di\Aggregate;
+
+class WithOptional
 {
     public $parent;
 
     public $child;
 
-    public function __construct(Magento_Test_Di_Parent $parent = null, Magento_Test_Di_Child $child = null)
+    public function __construct(\Magento\Test\Di\DiParent $parent = null, \Magento\Test\Di\Child $child = null)
     {
         $this->parent = $parent;
         $this->child  = $child;

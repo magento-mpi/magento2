@@ -9,16 +9,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_QueueReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Job;
+
+class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
 
     /** @var \Magento\Webhook\Model\Job\QueueReader */
     private $_jobQueue;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_mockCollection;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_mockIterator;
 
     public function setUp()

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config;
+
+class SectionPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config\SectionPool
@@ -83,9 +85,9 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
         $this->_dataFactoryMock->expects($this->once())
             ->method('create')
             ->with(array('data' => $this->_configData))
-            ->will($this->returnValue(new TestConfigClass()));
+            ->will($this->returnValue(new \Magento\Core\Model\Config\TestConfigClass()));
 
-        $this->assertInstanceOf('TestConfigClass', $this->_model->getSection($this->_scopeType, $this->_scopeCode));
+        $this->assertInstanceOf('Magento\Core\Model\Config\TestConfigClass', $this->_model->getSection($this->_scopeType, $this->_scopeCode));
     }
 
     /**
@@ -98,7 +100,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
             ->with($this->_cacheKey . '|' . $this->_scopeType . '|' . $this->_scopeCode)
             ->will($this->returnValue(false));
 
-        $readerMock = $this->getMock('TestReaderClass');
+        $readerMock = $this->getMock('Magento\Core\Model\Config\TestReaderClass');
 
         $readerMock->expects($this->once())
             ->method('read')
@@ -120,10 +122,10 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
         $this->_dataFactoryMock->expects($this->once())
             ->method('create')
             ->with(array('data' => $this->_configData))
-            ->will($this->returnValue(new TestConfigClass()));
+            ->will($this->returnValue(new \Magento\Core\Model\Config\TestConfigClass()));
 
         $this->assertInstanceOf(
-            'TestConfigClass',
+            'Magento\Core\Model\Config\TestConfigClass',
             $this->_model->getSection($this->_scopeType, $this->_scopeCode)
         );
     }
@@ -138,7 +140,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
             ->with($this->_cacheKey . '|' . 'default' . '|' . $this->_scopeCode)
             ->will($this->returnValue(false));
 
-        $readerMock = $this->getMock('TestReaderClass');
+        $readerMock = $this->getMock('Magento\Core\Model\Config\TestReaderClass');
 
         $readerMock->expects($this->once())
             ->method('read')
@@ -160,10 +162,10 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
         $this->_dataFactoryMock->expects($this->once())
             ->method('create')
             ->with(array('data' => $this->_configData))
-            ->will($this->returnValue(new TestConfigClass()));
+            ->will($this->returnValue(new \Magento\Core\Model\Config\TestConfigClass()));
 
         $this->assertInstanceOf(
-            'TestConfigClass',
+            'Magento\Core\Model\Config\TestConfigClass',
             $this->_model->getSection('default', $this->_scopeCode)
         );
     }
@@ -181,7 +183,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
         $this->_dataFactoryMock->expects($this->once())
             ->method('create')
             ->with(array('data' => $this->_configData))
-            ->will($this->returnValue(new TestConfigClass()));
+            ->will($this->returnValue(new \Magento\Core\Model\Config\TestConfigClass()));
 
         $this->_model->getSection($this->_scopeType, $this->_scopeCode);
         $this->_model->getSection($this->_scopeType, $this->_scopeCode);
@@ -194,20 +196,8 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
     {
         $this->_cacheMock->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(\Magento\Core\Model\Config\SectionPool::CACHE_TAG));
+            ->with(\Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(\Magento\Core\Model\Config\SectionPool::CACHE_TAG));
 
         $this->_model->clean();
-    }
-}
-
-class TestConfigClass
-{
-}
-
-class TestReaderClass
-{
-    public function read($scope = 'primary')
-    {
-        return $scope;
     }
 }

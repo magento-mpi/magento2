@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Formatter;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\ObjectManager
      */
     private $_mockObjectManager;
 
@@ -56,7 +58,7 @@ class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage WrongFormatName
      */
     public function testGetFormatterWrongFormatName()
@@ -65,7 +67,7 @@ class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Formatter class for json does not implement FormatterInterface.
      */
     public function testGetFormatterWrongFormatterClass()

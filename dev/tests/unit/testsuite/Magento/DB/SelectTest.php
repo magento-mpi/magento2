@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DB_SelectTest extends PHPUnit_Framework_TestCase
+namespace Magento\DB;
+
+class SelectTest extends \PHPUnit_Framework_TestCase
 {
     public function testWhere()
     {
@@ -39,7 +41,7 @@ class Magento_DB_SelectTest extends PHPUnit_Framework_TestCase
      *
      * @param int $callCount
      * @param string|null $returnValue
-     * @return Zend_Db_Adapter_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @return \Zend_Db_Adapter_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAdapterMockWithMockedQuote($callCount, $returnValue = null)
     {

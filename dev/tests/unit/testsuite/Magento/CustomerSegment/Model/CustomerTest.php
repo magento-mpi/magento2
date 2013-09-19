@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CustomerSegment\Model\Customer
@@ -14,17 +16,17 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_registry;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_customerSession;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_resource;
 

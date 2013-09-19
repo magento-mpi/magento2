@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Cache
@@ -16,12 +18,12 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject[]
+     * @var \PHPUnit_Framework_MockObject_MockObject[]
      */
     protected $_cacheTypeMocks;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheFrontendMock;
 
@@ -69,7 +71,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
      * Callback for the object manager to get different cache type mocks
      *
      * @param string $type Class of the cache type
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function getTypeMock($type)
     {
@@ -172,7 +174,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->_cacheFrontendMock
             ->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, $expectedTags)
+            ->with(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, $expectedTags)
             ->will($this->returnValue(true))
         ;
         $this->assertTrue($this->_model->clean($expectedTags));
@@ -183,7 +185,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $this->_cacheFrontendMock
             ->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_ALL)
+            ->with(\Zend_Cache::CLEANING_MODE_ALL)
             ->will($this->returnValue(true))
         ;
         $this->assertTrue($this->_model->clean());

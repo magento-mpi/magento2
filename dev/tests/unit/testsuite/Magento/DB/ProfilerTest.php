@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_DB_ProfilerTest extends PHPUnit_Framework_TestCase
+namespace Magento\DB;
+
+class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Profiler instance for test

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService;
+
+class GraphTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Fake info for service and classes.
@@ -31,12 +33,12 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
     protected $_dataServiceMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_invokerMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_repositoryMock;
 
@@ -59,7 +61,7 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
         );
         $namespaceConfig
             = array('namespaces' => array(self::TEST_NAMESPACE =>
-                                          Magento_Core_Model_DataService_GraphTest::TEST_NAMESPACE_ALIAS));
+                                          \Magento\Core\Model\DataService\GraphTest::TEST_NAMESPACE_ALIAS));
         $this->_repositoryMock->expects($this->once())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
@@ -76,7 +78,7 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Data reference configuration doesn't have a block to link to
      */
     public function testInitMissingNamespaces()

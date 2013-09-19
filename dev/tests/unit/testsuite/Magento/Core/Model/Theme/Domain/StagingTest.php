@@ -12,7 +12,9 @@
 /**
  * Test theme staging model
  */
-class Magento_Core_Model_Theme_Domain_StagingTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Domain;
+
+class StagingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \Magento\Core\Model\Theme\Domain\Staging::updateFromStagingTheme

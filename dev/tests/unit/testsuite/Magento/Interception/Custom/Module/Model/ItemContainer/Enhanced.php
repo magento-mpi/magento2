@@ -5,8 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_Custom_Module_Model_ItemContainer_Enhanced extends
-Magento_Interception_Custom_Module_Model_ItemContainer
+namespace Magento\Interception\Custom\Module\Model\ItemContainer;
+
+class Enhanced extends
+\Magento\Interception\Custom\Module\Model\ItemContainer
 {
     /**
      * @return string

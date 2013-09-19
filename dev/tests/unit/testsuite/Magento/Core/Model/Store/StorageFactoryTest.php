@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Store;
+
+class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Store\StorageFactory
@@ -19,32 +21,32 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appStateMock;
 
@@ -64,7 +66,7 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     protected $_arguments = array();
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storage;
 
@@ -151,7 +153,7 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetWithInvalidStorageClassName()
     {

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\FileResolution\Strategy\Fallback;
+
+class CachingProxyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Temp directory for the model to store maps
@@ -52,7 +54,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
             false
         );
 
-        $this->_themeModel = PHPUnit_Framework_MockObject_Generator::getMock(
+        $this->_themeModel = \PHPUnit_Framework_MockObject_Generator::getMock(
             'Magento\Core\Model\Theme',
             array(),
             array(),
@@ -75,7 +77,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructInvalidDir()
     {
@@ -128,7 +130,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
      */
     public function testProxyMethods($method, $params, $expectedResult)
     {
-        $helper = new Magento_TestFramework_Helper_ProxyTesting();
+        $helper = new \Magento\TestFramework\Helper\ProxyTesting();
         $actualResult = $helper->invokeWithExpectations($this->_model, $this->_fallback, $method, $params,
             $expectedResult);
         $this->assertEquals($expectedResult, $actualResult);
@@ -139,7 +141,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
      */
     public static function proxyMethodsDataProvider()
     {
-        $themeModel = PHPUnit_Framework_MockObject_Generator::getMock(
+        $themeModel = \PHPUnit_Framework_MockObject_Generator::getMock(
             'Magento\Core\Model\Theme',
             array(),
             array(),

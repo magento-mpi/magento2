@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver\Standard;
+
+class OutputAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Profiler\Driver\Standard\OutputAbstract|PHPUnit_Framework_MockObject_MockObject
@@ -37,7 +39,7 @@ class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framew
     {
         $thresholdKey = \Magento\Profiler\Driver\Standard\Stat::TIME;
         $this->_output->setThreshold($thresholdKey, 100);
-        $thresholds = PHPUnit_Util_Class::getObjectAttribute($this->_output, '_thresholds');
+        $thresholds = \PHPUnit_Util_Class::getObjectAttribute($this->_output, '_thresholds');
         $this->assertArrayHasKey($thresholdKey, $thresholds);
         $this->assertEquals(100, $thresholds[$thresholdKey]);
 
@@ -76,7 +78,7 @@ class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framew
      */
     public function testRenderColumnValue($value, $columnKey, $expectedValue)
     {
-        $method = new ReflectionMethod($this->_output, '_renderColumnValue');
+        $method = new \ReflectionMethod($this->_output, '_renderColumnValue');
         $method->setAccessible(true);
         $this->assertEquals($expectedValue, $method->invoke($this->_output, $value, $columnKey));
     }
@@ -120,7 +122,7 @@ class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framew
      */
     public function testRenderCaption()
     {
-        $method = new ReflectionMethod($this->_output, '_renderCaption');
+        $method = new \ReflectionMethod($this->_output, '_renderCaption');
         $method->setAccessible(true);
         $this->assertRegExp(
             '/Code Profiler \(Memory usage: real - \d+, emalloc - \d+\)/',
@@ -142,7 +144,7 @@ class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framew
             ->with($this->_output->getThresholds(), $this->_output->getFilterPattern())
             ->will($this->returnValue($expectedTimerIds));
 
-        $method = new ReflectionMethod($this->_output, '_getTimerIds');
+        $method = new \ReflectionMethod($this->_output, '_getTimerIds');
         $method->setAccessible(true);
         $this->assertEquals($expectedTimerIds, $method->invoke($this->_output, $mockStat));
     }
@@ -152,7 +154,7 @@ class Magento_Profiler_Driver_Standard_OutputAbstractTest extends PHPUnit_Framew
      */
     public function testRenderTimerId()
     {
-        $method = new ReflectionMethod($this->_output, '_renderTimerId');
+        $method = new \ReflectionMethod($this->_output, '_renderTimerId');
         $method->setAccessible(true);
         $this->assertEquals('someTimerId', $method->invoke($this->_output, 'someTimerId'));
     }

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftCard\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\GiftCard\Model\Observer
@@ -42,7 +44,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Test that only valid model instance can be passed to the constructor
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorInvalidArgument()
     {
@@ -56,7 +58,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
             null,
             null,
-            array('email_template_model' => new stdClass())
+            array('email_template_model' => new \stdClass())
         );
     }
 }

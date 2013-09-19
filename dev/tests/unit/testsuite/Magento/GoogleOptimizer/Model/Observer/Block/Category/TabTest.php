@@ -7,25 +7,27 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Model\Observer\Block\Category;
+
+class TabTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_tabsMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventObserverMock;
 
@@ -46,7 +48,7 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPU
         $this->_tabsMock = $this->getMock('Magento\Adminhtml\Block\Catalog\Category\Tabs', array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
             'Magento\GoogleOptimizer\Model\Observer\Block\Category\Tab',
             array(

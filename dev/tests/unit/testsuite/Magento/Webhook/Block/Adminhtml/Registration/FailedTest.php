@@ -9,12 +9,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Registration;
+
+class FailedTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Block\Adminhtml\Registration\Failed */
     private $_block;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_lastMessage;
 
     public function setUp()

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product;
+
+class ListTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMode()
     {

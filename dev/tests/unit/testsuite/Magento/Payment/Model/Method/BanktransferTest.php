@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Model_Method_BanktransferTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Model\Method;
+
+class BanktransferTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Payment\Model\Method\Banktransfer

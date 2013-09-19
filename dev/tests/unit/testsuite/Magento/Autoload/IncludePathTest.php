@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Autoload_IncludePathTest extends PHPUnit_Framework_TestCase
+namespace Magento\Autoload;
+
+class IncludePathTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string

@@ -12,25 +12,27 @@
 /**
  * Test of file abstract service
  */
-class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Customization;
+
+class FileAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder
+     * @var \PHPUnit_Framework_MockObject_MockBuilder
      */
     protected $_modelBuilder;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customizationPath;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 

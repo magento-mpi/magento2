@@ -12,7 +12,9 @@
 /**
  * Class implements tests for \Magento\Webapi\Model\Soap\Config class.
  */
-class Magento_Webapi_Model_Soap_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Soap;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Model\Soap\Config */
     protected $_soapConfig;

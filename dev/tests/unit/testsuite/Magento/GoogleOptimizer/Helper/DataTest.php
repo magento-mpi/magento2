@@ -6,15 +6,17 @@
  * @license {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_googleAnalyticsHelperMock;
 
@@ -29,7 +31,7 @@ class Magento_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_googleAnalyticsHelperMock = $this->getMock('Magento\GoogleAnalytics\Helper\Data', array(), array(), '',
             false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Data', array(
             'storeConfig' => $this->_storeConfigMock,
             'analyticsHelper' => $this->_googleAnalyticsHelperMock,

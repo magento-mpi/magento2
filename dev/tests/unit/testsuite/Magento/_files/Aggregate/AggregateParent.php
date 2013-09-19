@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_Di_Aggregate_Parent implements Magento_Test_Di_Aggregate_Interface
+namespace Magento\Test\Di\Aggregate;
+
+class AggregateParent implements \Magento\Test\Di\Aggregate\AggregateInterface
 {
     public $interface;
     public $parent;
@@ -14,9 +16,9 @@ class Magento_Test_Di_Aggregate_Parent implements Magento_Test_Di_Aggregate_Inte
     public $optionalScalar;
 
     public function __construct (
-        Magento_Test_Di_Interface $interface,
-        Magento_Test_Di_Parent $parent,
-        Magento_Test_Di_Child $child,
+        \Magento\Test\Di\DiInterface $interface,
+        \Magento\Test\Di\DiParent $parent,
+        \Magento\Test\Di\Child $child,
         $scalar,
         $optionalScalar = 1
     ) {

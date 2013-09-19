@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Fallback;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Design\Fallback\Factory

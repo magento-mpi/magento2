@@ -9,12 +9,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento_Test_Block_Adminhtml
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Edit;
+
+class FormTest extends \Magento\Test\Block\Adminhtml
 {
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_formMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_formFactoryMock;
 
     /** @var  \Magento\Core\Model\Registry */
@@ -23,19 +25,19 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento
     /** @var  \Magento\Core\Helper\Data */
     protected $_coreData;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_formatMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_authenticationMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_hookMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_dataFormMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_fieldsetMock;
 
     /** @var  string[] */

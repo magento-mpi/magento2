@@ -12,7 +12,9 @@
 /**
  * Test theme customization config model
  */
-class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Model\Config;
+
+class CustomizationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -56,7 +58,7 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
             ->method('create')
             ->will($this->returnValue($this->_themeCollection));
 
-        $itemsProperty = new ReflectionProperty($this->_themeCollection, '_items');
+        $itemsProperty = new \ReflectionProperty($this->_themeCollection, '_items');
         $itemsProperty->setAccessible(true);
         $itemsProperty->setValue(
             $this->_themeCollection, array($this->_getAssignedTheme(), $this->_getUnassignedTheme())

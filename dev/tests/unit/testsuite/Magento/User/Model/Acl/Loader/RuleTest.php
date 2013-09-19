@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model\Acl\Loader;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\User\Model\Acl\Loader\Rule
@@ -17,7 +19,7 @@ class Magento_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 

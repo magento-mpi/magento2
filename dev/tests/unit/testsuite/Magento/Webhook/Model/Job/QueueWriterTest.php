@@ -9,13 +9,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_QueueWriterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Job;
+
+class QueueWriterTest extends \PHPUnit_Framework_TestCase
 {
 
     /** @var \Magento\Webhook\Model\Job\QueueWriter */
     private $_jobQueue;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_jobFactory;
 
     public function setUp()

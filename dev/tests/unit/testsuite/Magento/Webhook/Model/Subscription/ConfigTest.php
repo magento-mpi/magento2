@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Subscription;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -54,19 +56,19 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
     /** @var \Magento\Webhook\Model\Subscription\Config that is also our unit under test */
     protected $_config;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockMageConfig;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubscribFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockCollection;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockLogger;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubscription;
 
     public function setUp()
@@ -165,7 +167,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
     /**
      * Internal factory for mock subscription, stubs necessary magic methods
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createMockSubscription()
     {
@@ -202,7 +204,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
      * Initializes a set of mocks and stubs
      *
      * @param \Magento\Core\Model\Config\Element          $configNode
-     * @param PHPUnit_Framework_MockObject_MockObject $subxCollection
+     * @param \PHPUnit_Framework_MockObject_MockObject $subxCollection
      *        Mocks \Magento\Webhook\Model\Resource\Subscription\Collection
      * @param string[]                                $expectedErrors
      */
@@ -262,7 +264,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
      * Pseudo-factory method for mock subscription collection
      *
      * @param array $idToSubscriptionsMap
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createMockSubscriptionCollection($idToSubscriptionsMap = array())
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data;
+
+class StructureTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Data\Structure
@@ -177,7 +179,7 @@ class Magento_Data_StructureTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider setAttributeArgumentExceptionDataProvider
      * @param string $attribute
      */

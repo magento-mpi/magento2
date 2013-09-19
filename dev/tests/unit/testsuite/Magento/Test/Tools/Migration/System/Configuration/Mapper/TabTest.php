@@ -8,16 +8,17 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration\Mapper;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
-
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Tab.php';
 
 /**
  * Test case for \Magento\Tools\Migration\System\Configuration\Mapper\Tab
  */
-class Magento_Test_Tools_Migration_System_Configuration_Mapper_TabTest extends PHPUnit_Framework_TestCase
+class TabTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\Configuration\Mapper\Tab

@@ -12,7 +12,9 @@
 /**
  * Test class for entity source model \Magento\ImportExport\Model\Source\Import\Entity
  */
-class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Source\Import;
+
+class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tested source model
@@ -51,7 +53,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
     {
         self::$sourceModel = null;
 
-        $config = new ReflectionProperty('Mage', '_config');
+        $config = new \ReflectionProperty('Mage', '_config');
         $config->setAccessible(true);
         $config->setValue(null, null);
         $config->setAccessible(false);
@@ -72,7 +74,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
             $this->_testEntity['label']
         );
 
-        $config = new ReflectionProperty('Mage', '_config');
+        $config = new \ReflectionProperty('Mage', '_config');
         $config->setAccessible(true);
         $config->setValue(null, $configObject);
     }

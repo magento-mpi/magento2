@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Index\Model\Process
  */
-class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model;
+
+class ProcessTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Process ID for tests
@@ -20,12 +22,12 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
     const PROCESS_ID = 'testProcessId';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Index\Model\Process\File
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Index\Model\Process\File
      */
     protected $_processFile;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Index\Model\Process
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Index\Model\Process
      */
     protected $_indexProcess;
 
@@ -97,7 +99,7 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
             array(), '', false, false, true, array('getIdFieldName')
         );
         $resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('process_id'));
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_indexProcess = $helper->getObject('Magento\Index\Model\Process', array(
             'lockStorage' => $lockStorage,
             'resource' => $resource,

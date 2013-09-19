@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Config_Dom_Converter_ArrayConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config\Dom\Converter;
+
+class ArrayConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Config\Dom\Converter\ArrayConverter
@@ -40,7 +42,7 @@ class Magento_Config_Dom_Converter_ArrayConverterTest extends PHPUnit_Framework_
         $xmlPath = $this->_fixturePath . $xml;
         $expected = require ($this->_fixturePath . $array);
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load($xmlPath);
 
         $actual = $this->_model->convert($dom->childNodes);

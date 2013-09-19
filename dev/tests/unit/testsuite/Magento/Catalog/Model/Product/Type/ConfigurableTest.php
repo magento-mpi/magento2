@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Type;
+
+class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product\Type\Configurable
@@ -23,7 +25,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $this->_model = new Magento\Catalog\Model\Product\Type\Configurable(
+        $this->_model = new \Magento\Catalog\Model\Product\Type\Configurable(
             $eventManager,
             $coreDataMock,
             $fileStorageDbMock,

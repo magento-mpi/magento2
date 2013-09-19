@@ -6,15 +6,17 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Fallback_Rule_CompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Each item should implement the fallback rule interface
      */
     public function testConstructException()
     {
-        new \Magento\Core\Model\Design\Fallback\Rule\Composite(array(new stdClass));
+        new \Magento\Core\Model\Design\Fallback\Rule\Composite(array(new \stdClass));
     }
 
     public function testGetPatternDirs()

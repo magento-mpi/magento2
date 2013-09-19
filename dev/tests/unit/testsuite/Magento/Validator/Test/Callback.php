@@ -12,7 +12,9 @@
 /**
  * Class with callback for testing callbacks
  */
-class Magento_Validator_Test_Callback
+namespace Magento\Validator\Test;
+
+class Callback
 {
     const ID = 3;
 

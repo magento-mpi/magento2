@@ -10,9 +10,11 @@
  */
 
 /**
- * Test for Magento_Cms_Model_Page_UrlrewriteTest
+ * Test for \Magento\Cms\Model\Page\UrlrewriteTest
  */
-class Magento_Cms_Model_Page_UrlrewriteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cms\Model\Page;
+
+class UrlrewriteTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Cms\Model\Page\Urlrewrite

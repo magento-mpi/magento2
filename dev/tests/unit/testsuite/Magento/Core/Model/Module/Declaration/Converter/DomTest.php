@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Module_Declaration_Converter_DomTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Module\Declaration\Converter;
+
+class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Module\Declaration\Converter\Dom
@@ -20,7 +22,7 @@ class Magento_Core_Model_Module_Declaration_Converter_DomTest extends PHPUnit_Fr
     public function testConvertWithValidDom()
     {
         $xmlFilePath = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/_files/valid_module.xml');
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFilePath));
         $expectedResult = include __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/_files/converted_valid_module.php');
         $this->assertEquals($expectedResult, $this->_converter->convert($dom));
@@ -29,11 +31,11 @@ class Magento_Core_Model_Module_Declaration_Converter_DomTest extends PHPUnit_Fr
     /**
      * @param string $xmlString
      * @dataProvider testConvertWithInvalidDomDataProvider
-     * @expectedException Exception
+     * @expectedException \Exception
      */
     public function testConvertWithInvalidDom($xmlString)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xmlString);
         $this->_converter->convert($dom);
     }

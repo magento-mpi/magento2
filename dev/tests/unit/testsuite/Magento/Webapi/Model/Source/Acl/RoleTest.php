@@ -12,7 +12,9 @@
 /**
  * Test for \Magento\Webapi\Model\Source\Acl\Role.
  */
-class Magento_Webapi_Model_Source_Acl_RoleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Source\Acl;
+
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Check output format.

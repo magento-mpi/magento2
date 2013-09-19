@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Layout\Argument\Handler\ArrayHandler
  */
-class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class ArrayTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\Handler\ArrayHandler
@@ -20,7 +22,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ArrayTest extends PHPUnit_Frame
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 

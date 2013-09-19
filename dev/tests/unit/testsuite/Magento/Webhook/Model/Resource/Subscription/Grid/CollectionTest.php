@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Subscription\Grid;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
@@ -43,7 +45,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {

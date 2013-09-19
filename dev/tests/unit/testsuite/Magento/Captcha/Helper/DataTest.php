@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Captcha\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirMock;
 

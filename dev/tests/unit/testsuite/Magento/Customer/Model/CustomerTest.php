@@ -11,7 +11,9 @@
 /**
  * Test class for \Magento\Customer\Model\Customer testing
  */
-class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Model;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Customer\Model\Customer */
     protected $_model;

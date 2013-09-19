@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Registration\Create\Form;
+
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Block\Adminhtml\Registration\Activate */
     private $_block;

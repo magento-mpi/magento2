@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Index_Model_EventRepositoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model;
+
+class EventRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Index\Model\EventRepository
@@ -13,7 +15,7 @@ class Magento_Index_Model_EventRepositoryTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventCollection;
 

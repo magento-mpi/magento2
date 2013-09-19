@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
+
+class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test attribute code and website specific attribute code
@@ -78,7 +80,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     protected function _getModelDependencies()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $websiteManager = $this->getMock('stdClass', array('getWebsites'));
         $websiteManager->expects($this->exactly(2))

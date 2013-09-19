@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver;
+
+class StandardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Profiler\Driver\Standard\Stat|PHPUnit_Framework_MockObject_MockObject
@@ -144,7 +146,7 @@ class Magento_Profiler_Driver_StandardTest extends PHPUnit_Framework_TestCase
      */
     public function testDefaultOutputFactory()
     {
-        $method = new ReflectionMethod($this->_driver, '_getOutputFactory');
+        $method = new \ReflectionMethod($this->_driver, '_getOutputFactory');
         $method->setAccessible(true);
         $this->assertInstanceOf(
             'Magento\Profiler\Driver\Standard\Output\Factory',

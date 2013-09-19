@@ -14,7 +14,9 @@
  *
  * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import;
+
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Abstract import entity model
@@ -89,7 +91,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
             'test7' => array()
         );
 
-        $method = new ReflectionMethod($this->_model, '_prepareRowForDb');
+        $method = new \ReflectionMethod($this->_model, '_prepareRowForDb');
         $method->setAccessible(true);
         $actual = $method->invoke($this->_model, $expected);
 
@@ -129,7 +131,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
     {
         $attributeCode = 'test';
 
-        $property = new ReflectionProperty($this->_model, '_specialAttributes');
+        $property = new \ReflectionProperty($this->_model, '_specialAttributes');
         $property->setAccessible(true);
         $property->setValue($this->_model, array($attributeCode));
 
@@ -176,7 +178,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
             2 => true,
             4 => true
         );
-        $property = new ReflectionProperty($this->_model, '_skippedRows');
+        $property = new \ReflectionProperty($this->_model, '_skippedRows');
         $property->setAccessible(true);
         $property->setValue($this->_model, $skippedRows);
 
@@ -210,7 +212,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testGetBehaviorWithoutRowData()
     {
-        $property = new ReflectionProperty($this->_model, '_availableBehaviors');
+        $property = new \ReflectionProperty($this->_model, '_availableBehaviors');
         $property->setAccessible(true);
         $property->setValue($this->_model, $this->_availableBehaviors);
 
@@ -404,7 +406,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testGetBehaviorWithRowData($inputBehavior, $rowData, $expectedBehavior, $availableBehaviors = null)
     {
-        $property = new ReflectionProperty($this->_model, '_availableBehaviors');
+        $property = new \ReflectionProperty($this->_model, '_availableBehaviors');
         $property->setAccessible(true);
 
         if (isset($availableBehaviors)) {
@@ -569,7 +571,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         $this->_createSourceAdapterMock($columns);
 
         $permanentAttributes = array('test2', 'test3');
-        $property = new ReflectionProperty($this->_model, '_permanentAttributes');
+        $property = new \ReflectionProperty($this->_model, '_permanentAttributes');
         $property->setAccessible(true);
         $property->setValue($this->_model, $permanentAttributes);
 

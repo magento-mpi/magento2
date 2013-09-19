@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_RoleLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Authorization;
+
+class RoleLocatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAclRoleId()
     {

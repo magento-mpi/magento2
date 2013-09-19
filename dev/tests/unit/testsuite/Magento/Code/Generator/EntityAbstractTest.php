@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Code\Generator;
+
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * Source and result class parameters
@@ -291,7 +293,7 @@ class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @param $ioObject PHPUnit_Framework_MockObject_MockObject
+     * @param $ioObject \PHPUnit_Framework_MockObject_MockObject
      * @param bool $classExistsFirst
      * @param bool $classExistsSecond
      * @param bool $makeGeneration
@@ -353,7 +355,7 @@ class Magento_Code_Generator_EntityAbstractTest extends PHPUnit_Framework_TestCa
             ->method('generate')
             ->will($this->returnValue($isValid ? self::SOURCE_CODE : null));
 
-        /** @var $ioObject PHPUnit_Framework_MockObject_MockObject */
+        /** @var $ioObject \PHPUnit_Framework_MockObject_MockObject */
         $ioObject = $mocks['io_object'];
         if ($isValid) {
             $ioObject->expects($this->once())

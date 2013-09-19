@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class ExportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\System\Config\Form\Field\Export
@@ -17,7 +19,7 @@ class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperFactoryMock;
 

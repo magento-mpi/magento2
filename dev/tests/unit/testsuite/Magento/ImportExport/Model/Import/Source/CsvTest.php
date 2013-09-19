@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Import_Source_CsvTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Source;
+
+class CsvTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      */
     public function testConstructException()
     {

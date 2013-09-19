@@ -13,7 +13,9 @@
 /**
  * \Magento\Object test case.
  */
-class Magento_ObjectTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class ObjectTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Object

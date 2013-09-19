@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Authorization_Policy_DefaultTest extends PHPUnit_Framework_TestCase
+namespace Magento\Authorization\Policy;
+
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Authorization\Policy\DefaultPolicy

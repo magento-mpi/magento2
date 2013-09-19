@@ -9,7 +9,9 @@
 /**
  * Test class for \Magento\Paypal\Helper\Checkout
  */
-class Magento_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Paypal\Helper;
+
+class CheckoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Checkout\Model\Session|PHPUnit_Framework_MockObject_MockObject

@@ -12,7 +12,9 @@
 /**
  * Test backend controller for the theme
  */
-class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Controller\Adminhtml\System\Design;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Theme\Controller\Adminhtml\System\Design\Theme
@@ -20,12 +22,12 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
@@ -37,7 +39,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
             'Magento\Core\Controller\Request\Http', array('getParam', 'getPost'), array(), '', false
         );
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'request' => $this->_request,
             'objectManager' => $this->_objectManagerMock,

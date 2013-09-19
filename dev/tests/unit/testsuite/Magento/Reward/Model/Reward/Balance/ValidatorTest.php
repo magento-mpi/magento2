@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reward\Model\Reward\Balance;
+
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Reward\Model\Reward\Balance\Validator
@@ -14,22 +16,22 @@ class Magento_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Framewor
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modelFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sessionMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_orderMock;
 

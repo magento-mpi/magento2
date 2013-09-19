@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class EncryptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider setHelperGetHashDataProvider
@@ -39,7 +41,7 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testSetHelperException()
     {

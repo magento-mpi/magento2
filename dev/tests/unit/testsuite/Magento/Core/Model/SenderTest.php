@@ -11,7 +11,9 @@
 /**
  * Test class for \Magento\Core\Model\Sender
  */
-class Magento_Core_Model_SenderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class SenderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Sender

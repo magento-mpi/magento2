@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_VersionsCms_Model_Plugin_CmsPageTest extends PHPUnit_Framework_TestCase
+namespace Magento\VersionsCms\Model\Plugin;
+
+class CmsPageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\VersionsCms\Model\Plugin\CmsPage

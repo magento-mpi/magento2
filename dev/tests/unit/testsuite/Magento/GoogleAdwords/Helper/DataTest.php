@@ -5,25 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleAdwords\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configNodeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_registryMock;
 
@@ -40,7 +42,7 @@ class Magento_GoogleAdwords_Helper_DataTest extends PHPUnit_Framework_TestCase
         );
         $this->_registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $objectManager->getObject('Magento\GoogleAdwords\Helper\Data', array(
             'config' => $this->_configMock,
             'storeConfig' => $this->_storeConfigMock,

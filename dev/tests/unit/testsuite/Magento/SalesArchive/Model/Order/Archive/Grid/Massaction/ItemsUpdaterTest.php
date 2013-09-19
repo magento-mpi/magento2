@@ -9,14 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesArchive\Model\Order\Archive\Grid\Massaction;
+
+class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cfgSalesArchiveMock;
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 

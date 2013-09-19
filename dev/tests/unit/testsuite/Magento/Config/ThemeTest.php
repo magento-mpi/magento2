@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Config_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructException()
     {

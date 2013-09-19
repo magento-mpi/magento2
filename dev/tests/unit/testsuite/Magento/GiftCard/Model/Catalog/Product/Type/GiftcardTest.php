@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftCard\Model\Catalog\Product\Type;
+
+class GiftcardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard
@@ -113,7 +115,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
             false
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments('Magento\Catalog\Model\Product',
             array('resource' => $this->_productResource, 'resourceCollection' => $productCollection)
         );

@@ -6,16 +6,18 @@
  * @license    {license_link}
  */
 
-class Magento_Test_Tools_Di_Code_Scanner_CompositeScannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Tools\Di\Code\Scanner;
+
+class CompositeScannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Tools\Di\Code\Scanner\CompositeScanner
+     * @var \Magento\Tools\Di\Code\Scanner\CompositeScanner
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento\Tools\Di\Code\Scanner\CompositeScanner();
+        $this->_model = new \Magento\Tools\Di\Code\Scanner\CompositeScanner();
     }
 
     public function testScan()

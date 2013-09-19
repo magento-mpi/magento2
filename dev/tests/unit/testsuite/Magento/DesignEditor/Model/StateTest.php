@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model;
+
+class StateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Name of layout classes that will be used as main layout
@@ -65,7 +67,7 @@ class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_urlModelFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheStateMock;
 
@@ -75,7 +77,7 @@ class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_dataHelper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -85,12 +87,12 @@ class Magento_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_application;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeContext;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_theme;
 

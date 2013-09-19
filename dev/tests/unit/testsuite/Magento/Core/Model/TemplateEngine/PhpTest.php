@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_TemplateEngine_PhpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine;
+
+class PhpTest extends \PHPUnit_Framework_TestCase
 {
     const TEST_PROP_VALUE = 'TEST_PROP_VALUE';
 
@@ -48,11 +50,11 @@ class Magento_Core_Model_TemplateEngine_PhpTest extends PHPUnit_Framework_TestCa
      * Test the render() function with a nonexistent filename.
      *
      * Expect an exception if the specified file does not exist.
-     * We should really expect a generic Exception, but PHPUnit will fail
+     * We should really expect a generic \Exception, but PHPUnit will fail
      * with: "You must not expect the generic exception class".  This has been fixed in more recent versions of
      * PHPUnit, but until all build agents get updated with PHPUnit 3.7.20, the workaround is
-     * to specify PHPUnit_Framework_Error_Warning
-     * @expectedException PHPUnit_Framework_Error_Warning
+     * to specify \PHPUnit_Framework_Error_Warning
+     * @expectedException \PHPUnit_Framework_Error_Warning
      * @expectedExceptionMessage include(This_is_not_a_file): failed to open stream: No such file or directory
      */
     public function testRenderException()

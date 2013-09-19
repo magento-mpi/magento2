@@ -9,30 +9,32 @@
  * @license     {license_link}
  */
 
-class Magento_Acl_BuilderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Acl;
+
+class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_aclFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_aclMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ruleLoader;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_roleLoader;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceLoader;
 
@@ -42,7 +44,7 @@ class Magento_Acl_BuilderTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_aclCacheMock;
 
@@ -103,13 +105,13 @@ class Magento_Acl_BuilderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      */
     public function testGetAclRethrowsException()
     {
         $this->_aclCacheMock->expects($this->once())
             ->method('has')
-            ->will($this->throwException(new InvalidArgumentException()));
+            ->will($this->throwException(new \InvalidArgumentException()));
         $this->_model->getAcl();
     }
 }

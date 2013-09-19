@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistrationTest extends PHPUnit_Framework_TestCase
+namespace Magento\WebsiteRestriction\Model\Plugin;
+
+class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration
@@ -13,12 +15,12 @@ class Magento_WebsiteRestriction_Model_Plugin_CustomerRegistrationTest extends P
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_restrictionHelper;
 

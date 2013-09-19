@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Session table name
@@ -76,7 +78,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * Prepares mock for test model with specified connections
      *
-     * @param PHPUnit_Framework_MockObject_MockObject $connection
+     * @param \PHPUnit_Framework_MockObject_MockObject $connection
      */
     protected function _prepareResourceMock($connection)
     {

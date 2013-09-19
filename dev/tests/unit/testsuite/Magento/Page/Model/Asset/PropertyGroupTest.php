@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Model_Asset_PropertyGroupTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Model\Asset;
+
+class PropertyGroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Page\Model\Asset\PropertyGroup

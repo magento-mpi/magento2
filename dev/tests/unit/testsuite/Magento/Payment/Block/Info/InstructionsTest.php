@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Payment\Block\Info\Instructions
  */
-class Magento_Payment_Block_Info_InstructionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Block\Info;
+
+class InstructionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Object
@@ -31,7 +33,7 @@ class Magento_Payment_Block_Info_InstructionsTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_method = new \Magento\Object();
         $this->_info = $objectManagerHelper->getObject('Magento\Payment\Model\Info');
         $this->_instructions = $objectManagerHelper->getObject('Magento\Payment\Block\Info\Instructions');

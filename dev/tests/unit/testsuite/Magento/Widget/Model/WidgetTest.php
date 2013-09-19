@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model;
+
+class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Widget\Model\Config\Data|PHPUnit_Framework_MockObject_MockObject

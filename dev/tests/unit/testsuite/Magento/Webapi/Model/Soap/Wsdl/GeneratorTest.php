@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Soap\Wsdl;
+
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**  @var \Magento\Webapi\Model\Soap\Wsdl\Generator */
     protected $_wsdlGenerator;
@@ -105,7 +107,7 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     protected function _getXsdDocumentWithReferencedTypes()
     {
@@ -137,13 +139,13 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:schema>';
-        $xsdDom = new DOMDocument();
+        $xsdDom = new \DOMDocument();
         $xsdDom->loadXML($xsd);
         return $xsdDom;
     }
 
     /**
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     protected function _getXsdDocumentMissingTargetNamespace()
     {
@@ -161,7 +163,7 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:schema>';
-        $xsdDom = new DOMDocument();
+        $xsdDom = new \DOMDocument();
         $xsdDom->loadXML($xsd);
         return $xsdDom;
     }
@@ -280,7 +282,7 @@ class Magento_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_Tes
             ->getMock();
 
         $wsdlGeneratorMock->expects($this->once())->method('_prepareServiceData')->will(
-            $this->throwException(new Exception($exceptionMsg))
+            $this->throwException(new \Exception($exceptionMsg))
         );
 
         $this->assertEquals($genWSDL, $wsdlGeneratorMock->generate($requestedService, 'http://magento.host'));

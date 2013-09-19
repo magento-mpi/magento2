@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Module_Declaration_Reader_FilesystemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Module\Declaration\Reader;
+
+class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Module\Declaration\Reader\Filesystem

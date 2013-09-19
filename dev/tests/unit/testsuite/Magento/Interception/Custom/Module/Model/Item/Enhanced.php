@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_Custom_Module_Model_Item_Enhanced extends Magento_Interception_Custom_Module_Model_Item
+namespace Magento\Interception\Custom\Module\Model\Item;
+
+class Enhanced extends \Magento\Interception\Custom\Module\Model\Item
 {
     /**
      * @return string

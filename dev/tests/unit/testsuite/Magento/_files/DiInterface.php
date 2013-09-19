@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Test_Di_Interface
+namespace Magento\Test\Di;
+
+interface DiInterface
 {
     /**
      * @param string $param

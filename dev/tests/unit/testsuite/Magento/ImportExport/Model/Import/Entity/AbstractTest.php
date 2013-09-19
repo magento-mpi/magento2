@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Model\Import\Entity\AbstractEntity
  */
-class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Abstract import entity model
@@ -60,8 +62,8 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
             ->with('Magento\Core\Model\Registry')
             ->will($this->returnValue($coreRegisterMock));
 
-        Mage::reset();
-        Mage::setObjectManager($objectManagerMock);
+        \Mage::reset();
+        \Mage::setObjectManager($objectManagerMock);
 
         return $helper;
     }

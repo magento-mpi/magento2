@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model\Acl\Loader;
+
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\User\Model\Acl\Loader\Role
@@ -17,22 +19,22 @@ class Magento_User_Model_Acl_Loader_RoleTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_adapterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_roleFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_groupFactoryMock;
 

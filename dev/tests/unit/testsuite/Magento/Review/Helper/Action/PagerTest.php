@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Review\Helper\Action;
+
+class PagerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Review\Helper\Action\Pager */
     protected $_helper = null;

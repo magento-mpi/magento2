@@ -5,15 +5,17 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Model\Observer\Product;
+
+class DeleteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_codeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventObserverMock;
 
@@ -36,7 +38,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_
         $product->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Model\Observer\Product\Delete', array(
             'modelCode' => $this->_codeMock
         ));

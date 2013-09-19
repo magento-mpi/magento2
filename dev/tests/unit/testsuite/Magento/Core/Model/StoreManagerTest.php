@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class StoreManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\StoreManager
@@ -19,22 +21,22 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storage;
 
@@ -181,7 +183,7 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
         $this->_storage->expects($this->once())
             ->method('getStore')
             ->with(10)
-            ->will($this->throwException(new Exception('test')));
+            ->will($this->throwException(new \Exception('test')));
 
         $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue('current'));
         $this->_requestMock->expects($this->once())->method('setActionName')->with('noRoute');
@@ -198,7 +200,7 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
         $this->_storage->expects($this->once())
             ->method('getStore')
             ->with(10)
-            ->will($this->throwException(new Exception('test')));
+            ->will($this->throwException(new \Exception('test')));
 
         $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue(false));
         $this->_requestMock->expects($this->never())->method('setActionName');

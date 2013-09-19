@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model\Placeholder\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\FullPageCache\Model\Placeholder\Config\Converter
@@ -19,7 +21,7 @@ class Magento_FullPageCache_Model_Placeholder_Config_ConverterTest extends PHPUn
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $file = realpath(__DIR__ . '/_files/placeholders.xml');
         $dom->load($file);
         $expected = array (

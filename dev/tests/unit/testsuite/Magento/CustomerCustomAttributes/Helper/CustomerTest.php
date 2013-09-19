@@ -5,20 +5,22 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerCustomAttributes\Helper;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_contextMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataHelperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_inputValidatorMock;
 
@@ -47,8 +49,8 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($abstractHelperMock));
-        Mage::reset();
-        Mage::setObjectManager($objectManagerMock);
+        \Mage::reset();
+        \Mage::setObjectManager($objectManagerMock);
     }
 
     /**
@@ -56,7 +58,7 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
      */
     public function tearDown()
     {
-        Mage::reset();
+        \Mage::reset();
     }
 
     /**

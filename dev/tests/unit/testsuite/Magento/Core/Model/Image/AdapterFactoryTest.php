@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Image;
+
+class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Object Manager Helper
      *
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManagerHelper;
 
     protected function setUp()
     {
-        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     /**
@@ -68,7 +70,7 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     /**
      * @covers \Magento\Core\Model\Image\AdapterFactory::create
      * @dataProvider invalidArgumentExceptionDataProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @param string $adapter
      */
     public function testInvalidArgumentException($adapter)
@@ -98,7 +100,7 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
         $imageAdapter = $this->getMockForAbstractClass('Magento\Image\Adapter\AbstractAdapter');
         $imageAdapter->expects($this->any())
             ->method('checkDependencies')
-            ->will($this->throwException(new Exception));
+            ->will($this->throwException(new \Exception));
         $objectManagerMock->expects($this->any())
            ->method('create')
            ->will($this->returnValue($imageAdapter));

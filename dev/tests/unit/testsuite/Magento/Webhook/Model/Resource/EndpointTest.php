@@ -9,20 +9,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+class EndpointTest extends \PHPUnit_Framework_TestCase
 {
     const TABLE_NAME = 'outbound_endpoint_table';
 
     /** @var  \Magento\Webhook\Model\Resource\Endpoint */
     private $_endpoint;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_adapterMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_selectMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_resourceMock;
 
     /** @var string[] */
@@ -106,7 +108,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {

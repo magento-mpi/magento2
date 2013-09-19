@@ -11,11 +11,11 @@
     <handle id="test_handle">
         <block class="Magento_Test_Block" name="test.block">
             <arguments>
-                <argument name="testHelperWithParams" xsi:type="helper" helper="Magento_Core_Model_Layout_Argument_Handler_TestHelper::testMethod">
+                <argument name="testHelperWithParams" xsi:type="helper" helper="Magento\Core\Model\Layout\Argument\Handler\TestHelper::testMethod">
                     <param>firstValue</param>
                     <param>secondValue</param>
                 </argument>
-                <argument name="testHelperWithoutParams" xsi:type="helper" helper="Magento_Core_Model_Layout_Argument_Handler_TestHelper::testMethod"/>
+                <argument name="testHelperWithoutParams" xsi:type="helper" helper="Magento\Core\Model\Layout\Argument\Handler\TestHelper::testMethod"/>
                 <argument name="testSimpleBoolean" xsi:type="boolean">true</argument>
                 <argument name="testComplexBoolean" xsi:type="boolean"><value>true</value></argument>
                 <argument name="testSimpleNumber" xsi:type="number">1.5</argument>
@@ -47,12 +47,12 @@
                         <item name="url" xsi:type="string">*/sales_archive/massAdd</item>
                     </item>
                 </argument>
-                <argument name="testOptions" xsi:type="options" model="Magento_Core_Model_Layout_Argument_Handler_TestOptions"/>
+                <argument name="testOptions" xsi:type="options" model="Magento\Core\Model\Layout\Argument\Handler\TestOptions"/>
                 <argument name="testSimpleObject" xsi:type="object">
-                    Magento_Core_Model_Layout_Argument_Handler_TestObject
+                    \Magento\Core\Model\Layout\Argument\Handler\TestObject
                 </argument>
                 <argument name="testComplexObject" xsi:type="object">
-                    <value>Magento_Core_Model_Layout_Argument_Handler_TestObject</value>
+                    <value>Magento\Core\Model\Layout\Argument\Handler\TestObject</value>
                     <updater>Magento_Test_Updater</updater>
                 </argument>
             </arguments>

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model\Resource;
+
+class SegmentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CustomerSegment\Model\Resource\Segment
@@ -14,27 +16,27 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
     protected $_resourceModel;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_writeAdapter;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configShare;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_conditions;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_segment;
 

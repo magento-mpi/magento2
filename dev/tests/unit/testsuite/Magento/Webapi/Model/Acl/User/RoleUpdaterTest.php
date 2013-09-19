@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_User_RoleUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Acl\User;
+
+class RoleUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     public function testUpdate()
     {
         $userId = 5;
         $expectedRoleId = 3;
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()

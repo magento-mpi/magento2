@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_FileResolver_PrimaryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\FileResolver;
+
+class PrimaryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config\FileResolver\Primary

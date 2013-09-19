@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Response_Renderer_JsonTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Response\Renderer;
+
+class JsonTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Rest\Response\Renderer\Json */
     protected $_restJsonRenderer;

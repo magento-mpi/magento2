@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_AttributeFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model;
+
+class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Eav\Model\AttributeFactory

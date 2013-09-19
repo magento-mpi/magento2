@@ -8,13 +8,15 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration;
+
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Parser.php';
 
 /**
  * Tools_Migration_System_Configuration_Parser test case
  */
-class Magento_Test_Tools_Migration_System_Configuration_ParserTest extends PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\Configuration\Parser
@@ -34,7 +36,7 @@ class Magento_Test_Tools_Migration_System_Configuration_ParserTest extends PHPUn
 
     public function testParseEmptyDom()
     {
-        $this->assertEquals(array(), $this->_parser->parse(new DOMDocument()));
+        $this->assertEquals(array(), $this->_parser->parse(new \DOMDocument()));
     }
 
     public function testParseDomWithoutNodes()
@@ -46,7 +48,7 @@ class Magento_Test_Tools_Migration_System_Configuration_ParserTest extends PHPUn
 XML;
 
         $expected = array();
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xml);
         $this->assertEquals($expected, $this->_parser->parse($dom));
     }
@@ -99,7 +101,7 @@ XMLCOMMENT;
                 )
             )
         );
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xml);
         $this->assertEquals($expected, $this->_parser->parse($dom));
     }

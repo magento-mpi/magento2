@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Resource_Acl_TestAbstract
+namespace Magento\Webapi\Model\Resource\Acl;
+
+class RuleTest extends \Magento\Webapi\Model\Resource\Acl\TestAbstract
 {
     /**
      * Create resource model.
@@ -181,9 +183,9 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
         $this->_adapter->expects($this->any())
             ->method('delete')
             ->withAnyParameters()
-            ->will($this->throwException(new Zend_Db_Adapter_Exception('DB Exception')));
+            ->will($this->throwException(new \Zend_Db_Adapter_Exception('DB \Exception')));
 
-        $this->setExpectedException('Zend_Db_Adapter_Exception', 'DB Exception');
+        $this->setExpectedException('Zend_Db_Adapter_Exception', 'DB \Exception');
         $model->saveResources($rule);
     }
 }

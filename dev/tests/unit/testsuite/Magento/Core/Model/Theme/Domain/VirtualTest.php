@@ -12,7 +12,9 @@
 /**
  * Test theme virtual model
  */
-class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Domain;
+
+class VirtualTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test get existing staging theme
@@ -106,7 +108,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
         $customizationConfig->expects($this->atLeastOnce())->method('isThemeAssignedToStore')
             ->with($themeMock)
             ->will($this->returnValue(true));
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\Theme\Domain\Virtual',
             array(
                  'theme' => $themeMock,

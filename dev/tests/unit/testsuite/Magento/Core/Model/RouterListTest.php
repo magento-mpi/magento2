@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
-class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
+class RouterListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\RouterList
@@ -34,12 +35,12 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
                 'sortOrder' => 10
             ),
             'frontendRouter' => array(
-                'instance'     => 'FrontClass',
+                'instance'     => '\FrontClass',
                 'disable'   => false,
                 'sortOrder' => 10
             ),
             'defaultRouter' => array(
-                'instance'     => 'DefaultClass',
+                'instance'     => '\DefaultClass',
                 'disable'   => false,
                 'sortOrder' => 5
             ),
@@ -52,18 +53,18 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
     public function testGetRoutes()
     {
         $expectedResult = array(
-            'defaultRouter'  => new DefaultClass(),
-            'frontendRouter' => new FrontClass(),
+            'defaultRouter'  => new \DefaultClass(),
+            'frontendRouter' => new \FrontClass(),
         );
 
         $this->_objectManagerMock
             ->expects($this->at(0))
             ->method('create')
-            ->will($this->returnValue(new DefaultClass()));
+            ->will($this->returnValue(new \DefaultClass()));
         $this->_objectManagerMock
             ->expects($this->at(1))
             ->method('create')
-            ->will($this->returnValue(new FrontClass()));
+            ->will($this->returnValue(new \FrontClass()));
 
         $this->assertEquals($this->_model->getRouters(), $expectedResult);
     }

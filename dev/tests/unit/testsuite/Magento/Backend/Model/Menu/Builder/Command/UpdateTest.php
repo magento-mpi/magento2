@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Builder_Command_UpdateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Builder\Command;
+
+class UpdateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu\Builder\Command\Update

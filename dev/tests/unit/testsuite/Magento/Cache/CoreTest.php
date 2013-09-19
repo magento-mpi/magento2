@@ -9,7 +9,9 @@
 /**
  * \Magento\Cache\Core test case
  */
-class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cache;
+
+class CoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Cache\Core
@@ -22,10 +24,10 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
     protected static $_cacheStorage = array();
 
     /**
-     * Selected mock of Zend_Cache_Backend_File to have extended
-     * Zend_Cache_Backend and implemented Zend_Cache_Backend_Interface
+     * Selected mock of \Zend_Cache_Backend_File to have extended
+     * \Zend_Cache_Backend and implemented \Zend_Cache_Backend_Interface
      *
-     * @var Zend_Cache_Backend_File
+     * @var \Zend_Cache_Backend_File
      */
     protected $_mockBackend;
 
@@ -50,7 +52,7 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider setBackendExceptionProvider
-     * @expectedException Zend_Cache_Exception
+     * @expectedException \Zend_Cache_Exception
      */
     public function testSetBackendException($decorators)
     {

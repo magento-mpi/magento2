@@ -12,7 +12,9 @@
 /**
  * Test class \Magento\Core\Controller\Varien\Action\Forward
  */
-class Magento_Core_Controller_Varien_Action_ForwardTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien\Action;
+
+class ForwardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Varien\Action\Forward

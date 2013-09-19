@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Unit under test
@@ -18,13 +20,13 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
      */
     protected $_subscription;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEndpoint;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockContext;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockUser;
 
     public function setUp()

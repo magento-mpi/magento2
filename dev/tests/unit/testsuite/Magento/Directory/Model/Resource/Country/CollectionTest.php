@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Directory\Model\Resource\Country;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Directory\Model\Resource\Country\Collection

@@ -14,54 +14,56 @@
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Block;
+
+class Adminhtml extends \PHPUnit_Framework_TestCase
 {
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_designMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_sessionMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected  $_translatorMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_messagesMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_urlMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_eventManagerMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_controllerMock;
 
     /** @var  \Magento\Backend\Block\Template\Context */
     protected  $_context;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_dirMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_filesystemMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_cacheMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_storeConfigMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
     public function setUp()
@@ -122,7 +124,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
      * Generates a mocked object
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _makeMock($className)
     {
@@ -134,15 +136,15 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
     /**
      * Sets up a stubbed method with specified behavior and expectations
      *
-     * @param PHPUnit_Framework_MockObject_MockObject                       $object
+     * @param \PHPUnit_Framework_MockObject_MockObject                       $object
      * @param string                                                        $stubName
      * @param mixed                                                         $return
-     * @param PHPUnit_Framework_MockObject_Matcher_InvokedCount|null        $expects
+     * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount|null        $expects
      *
-     * @return PHPUnit_Framework_MockObject_Builder_InvocationMocker
+     * @return \PHPUnit_Framework_MockObject_Builder_InvocationMocker
      */
     protected function _setStub(
-        PHPUnit_Framework_MockObject_MockObject $object,
+        \PHPUnit_Framework_MockObject_MockObject $object,
         $stubName,
         $return = null,
         $expects = null

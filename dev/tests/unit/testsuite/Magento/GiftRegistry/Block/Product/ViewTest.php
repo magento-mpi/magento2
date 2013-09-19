@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Block\Product;
+
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\GiftRegistry\Block\Product\View|null
@@ -14,13 +16,13 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
     protected $_block = null;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|null
+     * @var \PHPUnit_Framework_MockObject_MockObject|null
      */
     protected $_urlBuilder = null;
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_urlBuilder = $this->getMockForAbstractClass('Magento\Core\Model\UrlInterface');
         $args = array('urlBuilder' => $this->_urlBuilder);
         $this->_block = $helper->getObject('Magento\GiftRegistry\Block\Product\View', $args);
@@ -66,7 +68,7 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Could not find block 'test'
      */
     public function testSetGiftRegistryTemplateNoBlock()
@@ -114,7 +116,7 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Could not find block 'test'
      */
     public function testSetGiftRegistryUrlNoBlock()

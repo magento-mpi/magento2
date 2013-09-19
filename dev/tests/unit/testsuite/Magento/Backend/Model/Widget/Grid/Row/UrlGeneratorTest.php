@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Widget\Grid\Row;
+
+class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetUrl()
     {

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\File\Source\Override;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\File\Source\Override\Theme
@@ -14,17 +16,17 @@ class Magento_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_F
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_filesystem;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_dirs;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_fileFactory;
 
