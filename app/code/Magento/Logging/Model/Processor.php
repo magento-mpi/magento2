@@ -533,7 +533,7 @@ class Magento_Logging_Model_Processor
         try {
             $classPath = explode('::', $srtCallback);
             if (count($classPath) == 2) {
-                $return['handler'] = Mage::getSingleton(str_replace('__', '/', $classPath[0]));
+                $return['handler'] = $this->_objectManager->get(str_replace('__', '/', $classPath[0]));
                 $return['callback'] = $classPath[1];
             } else {
                 $return['callback'] = $classPath[0];
