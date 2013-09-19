@@ -102,7 +102,7 @@ class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase
      * Returns an array of phrases used by JavaScript files in a specific area of magento.
      *
      * @param string $area of magento to search, such as 'frontend' or 'adminthml'
-     * @return array[string]
+     * @return string[]
      */
     protected function _getJavascriptPhrases($area)
     {
