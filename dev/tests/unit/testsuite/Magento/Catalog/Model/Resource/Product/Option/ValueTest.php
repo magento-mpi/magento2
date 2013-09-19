@@ -14,8 +14,8 @@ namespace Magento\Catalog\Model\Resource\Product\Option;
 class ValueTest extends \PHPUnit_Framework_TestCase
 {
     /**
-    * @var ValueStub
-    */
+     * @var ValueStub
+     */
     protected $_object;
 
     /**
@@ -40,10 +40,10 @@ class ValueTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-    * Test that there is no notice in _saveValueTitles()
-    *
-    * @covers \Magento\Catalog\Model\Resource\Product\Option\Value::_saveValueTitles
-    */
+     * Test that there is no notice in _saveValueTitles()
+     *
+     * @covers \Magento\Catalog\Model\Resource\Product\Option\Value::_saveValueTitles
+     */
     public function testSaveValueTitles()
     {
         $object = new Stub(
