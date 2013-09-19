@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Controller;
 
-class ReturnShipment extends \Magento\Core\Controller\Front\Action
+class Returns extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Core registry

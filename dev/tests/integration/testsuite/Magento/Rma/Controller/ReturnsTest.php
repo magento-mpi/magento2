@@ -53,8 +53,8 @@ class Magento_Rma_Controller_ReturnsTest extends Magento_TestFramework_TestCase_
     public function isResponseContainDataProvider()
     {
         return array(
-            array('rma/returnshipment/addlabel', '<td>CarrierTitle</td>'),
-            array('rma/returnshipment/dellabel', '<td>CarrierTitle</td>'),
+            array('rma/returns/addlabel', '<td>CarrierTitle</td>'),
+            array('rma/returns/dellabel', '<td>CarrierTitle</td>'),
         );
     }
 }

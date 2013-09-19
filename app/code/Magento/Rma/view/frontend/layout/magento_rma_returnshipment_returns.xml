@@ -15,7 +15,7 @@
                 <block class="Magento\Rma\Block\Order\Button" name="magento.rma.info.button" template="order/button.phtml"/>
             </block>
         </block>
-        <block class="Magento\Rma\Block\ReturnShipment\Returns" name="rma.return.returns"/>
+        <block class="Magento\Rma\Block\Returns\Returns" name="rma.return.returns"/>
     </reference>
     <update handle="sales_order_info_rma_links"/>
 </layout>

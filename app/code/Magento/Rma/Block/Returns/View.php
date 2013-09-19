@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Block\ReturnShipment;
+namespace Magento\Rma\Block\Returns;
 
 class View extends \Magento\Rma\Block\Form
 {
@@ -248,7 +248,7 @@ class View extends \Magento\Rma\Block\Form
     public function getBackUrl()
     {
         if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            return $this->getUrl('rma/returnshipment/history');
+            return $this->getUrl('rma/returns/history');
         } else {
             return $this->getUrl('rma/guest/returns');
         }
@@ -295,7 +295,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getTrackingInfo()
     {
-       return $this->getBlockHtml('rma.return.tracking');
+       return $this->getBlockHtml('rma.returns.tracking');
     }
 
     /**

@@ -11,7 +11,7 @@
     <reference name="customer-account-navigation">
         <block class="Magento\Rma\Block\Link" name="customer-account-navigation-return-history-link">
             <arguments>
-                <argument name="path" xsi:type="string">rma/return/history</argument>
+                <argument name="path" xsi:type="string">rma/returns/history</argument>
                 <argument name="label" xsi:type="string">My Returns</argument>
             </arguments>
         </block>

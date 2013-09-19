@@ -20,12 +20,12 @@
                 <block class="Magento\Rma\Block\Order\Button" name="magento.rma.info.button" template="order/button.phtml"/>
             </block>
         </block>
-        <block class="Magento\Rma\Block\ReturnShipment\View" name="rma.return.history">
+        <block class="Magento\Rma\Block\Returns\View" name="rma.return.history">
             <container name="rma.return.history.info" as="info" label="View Return"/>
         </block>
-        <block class="Magento\Rma\Block\ReturnShipment\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
+        <block class="Magento\Rma\Block\Returns\View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
     </reference>
     <update handle="magento_rma_return_view_handle"/>
     <update handle="sales_order_info_rma_guest_links"/>
-    <block class="Magento\Rma\Block\ReturnShipment\Tracking" name="rma.return.tracking" as="tracking"/>
+    <block class="Magento\Rma\Block\Returns\Tracking" name="rma.return.tracking" as="tracking"/>
 </layout>

@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Guest Delete Label" type="fragment" owner="magento_rma_guest_view">
     <block class="Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
-        <block class="Magento\Rma\Block\ReturnShipment\Tracking" name="tracking" template="return/tracking.phtml"/>
+        <block class="Magento\Rma\Block\Returns\Tracking" name="tracking" template="return/tracking.phtml"/>
     </block>
 </layout>
