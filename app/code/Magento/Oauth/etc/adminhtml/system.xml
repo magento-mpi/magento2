@@ -24,13 +24,6 @@
                     <comment>Cleanup entries older than X minutes.</comment>
                 </field>
             </group>
-            <group id="email" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Email</label>
-                <field id="template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Token Status Change Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
-                </field>
-            </group>
         </section>
     </system>
 </config>

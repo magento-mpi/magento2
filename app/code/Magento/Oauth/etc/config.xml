@@ -15,19 +15,10 @@
             <oauth_setup>
                 <setup>
                     <module>Magento_Oauth</module>
-                    <class>Magento_Oauth_Model_Resource_Setup</class>
+                    <class>Magento_Core_Model_Resource_Setup</class>
                 </setup>
             </oauth_setup>
         </resources>
-        <template>
-            <email>
-                <oauth_email_template translate="label" module="Magento_Oauth">
-                    <label>Token Status Change</label>
-                    <file>email/token.html</file>
-                    <type>html</type>
-                </oauth_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <oauth>
@@ -35,10 +26,6 @@
                 <cleanup_probability>100</cleanup_probability>
                 <expiration_period>120</expiration_period>
             </cleanup>
-            <email>
-                <identity>general</identity>
-                <template>oauth_email_template</template>
-            </email>
         </oauth>
     </default>
 </config>
