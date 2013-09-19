@@ -28,11 +28,11 @@ class Magento_Cron_Model_Config_SchemaLocator implements Magento_Config_SchemaLo
     protected $_perFileSchema;
 
     /**
-     * Initialize parameters
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
-    public function __construct()
+    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = 'code/Magento/Cron/etc/crontab.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Cron') . '/' . 'crontab.xsd';
     }
 
     /**
