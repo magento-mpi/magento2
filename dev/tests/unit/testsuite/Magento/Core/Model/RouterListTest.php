@@ -69,12 +69,3 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_model->getRouters(), $expectedResult);
     }
 }
-
-class FrontClass
-{
-
-}
-class DefaultClass
-{
-
-}
