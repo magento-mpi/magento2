@@ -56,15 +56,23 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_CatalogRule_Helper_Data $catalogRuleData
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_CatalogRule_Helper_Data $catalogRuleData,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_eavConfig = $eavConfig;
         $this->_eventManager = $eventManager;
         $this->_catalogRuleData = $catalogRuleData;
         parent::__construct($resource);
@@ -329,7 +337,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resourc
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'price');
+        $priceAttr  = $this->_eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 

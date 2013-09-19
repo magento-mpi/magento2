@@ -113,6 +113,24 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_resourceIterator;
+
+    /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Core_Model_Resource_Iterator $resourceIterator
+     * @param Magento_Index_Model_Indexer $indexer
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_CatalogRule_Helper_Data $catalogRuleData
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Context $context
@@ -124,6 +142,9 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Resource_Iterator $resourceIterator,
+        Magento_Index_Model_Indexer $indexer,
+        Magento_Customer_Model_Session $customerSession,
         Magento_CatalogRule_Helper_Data $catalogRuleData,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
@@ -134,6 +155,9 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_resourceIterator = $resourceIterator;
+        $this->_indexer = $indexer;
+        $this->_customerSession = $customerSession;
         $this->_catalogRuleData = $catalogRuleData;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_coreConfig = $coreConfig;
@@ -227,7 +251,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
                 }
                 $this->getConditions()->collectValidatedAttributes($productCollection);
 
-                Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+                $this->_resourceIterator->walk(
                     $productCollection->getSelect(),
                     array(array($this, 'callbackValidateProduct')),
                     array(
@@ -286,7 +310,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         $this->getResourceCollection()->walk(array($this->_getResource(), 'updateRuleProductData'));
         $this->_getResource()->applyAllRulesForDateRange();
         $this->_invalidateCache();
-        $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
+        $indexProcess = $this->_indexer->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }
@@ -310,7 +334,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         }
 
         if ($productId) {
-            Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+            $this->_indexer->processEntityAction(
                 new Magento_Object(array('id' => $productId)),
                 Magento_Catalog_Model_Product::ENTITY,
                 Magento_Catalog_Model_Product_Indexer_Price::EVENT_TYPE_REINDEX_PRICE
@@ -334,7 +358,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
-            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
         $dateTs     = Mage::app()->getLocale()->storeTimeStamp($storeId);
         $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";

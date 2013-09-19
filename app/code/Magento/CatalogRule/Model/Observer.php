@@ -29,11 +29,35 @@ class Magento_CatalogRule_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_CatalogRule_Model_Rule_Product_Price
+     */
+    protected $_productPrice;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_CatalogRule_Model_Rule_Product_Price $productPrice
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Backend_Model_Session $backendSession,
+        Magento_CatalogRule_Model_Rule_Product_Price $productPrice,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_backendSession = $backendSession;
+        $this->_productPrice = $productPrice;
         $this->_coreRegistry = $coreRegistry;
     }
 
@@ -130,7 +154,7 @@ class Magento_CatalogRule_Model_Observer
         } elseif ($product->hasCustomerGroupId()) {
             $gId = $product->getCustomerGroupId();
         } else {
-            $gId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $gId = $this->_customerSession->getCustomerGroupId();
         }
 
         $key = "$date|$wId|$gId|$pId";
@@ -255,9 +279,9 @@ class Magento_CatalogRule_Model_Observer
         $websiteDate        = $observer->getEvent()->getWebsiteDate();
         $updateFields       = $observer->getEvent()->getUpdateFields();
 
-        Mage::getSingleton('Magento_CatalogRule_Model_Rule_Product_Price')
-            ->applyPriceRuleToIndexTable($select, $indexTable, $entityId, $customerGroupId, $websiteId,
-                $updateFields, $websiteDate);
+        $this->_productPrice->applyPriceRuleToIndexTable(
+            $select, $indexTable, $entityId, $customerGroupId, $websiteId, $updateFields, $websiteDate
+        );
 
         return $this;
     }
@@ -289,8 +313,9 @@ class Magento_CatalogRule_Model_Observer
 
         if ($disabledRulesCount) {
             Mage::getModel('Magento_CatalogRule_Model_Rule')->applyAll();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(
-                __('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode));
+            $this->_backendSession->addWarning(
+                __('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode)
+            );
         }
 
         return $this;
@@ -361,10 +386,8 @@ class Magento_CatalogRule_Model_Observer
         if ($observer->getEvent()->hasCustomerGroupId()) {
             $groupId = $observer->getEvent()->getCustomerGroupId();
         } else {
-            /* @var $session Magento_Customer_Model_Session */
-            $session = Mage::getSingleton('Magento_Customer_Model_Session');
-            if ($session->isLoggedIn()) {
-                $groupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            if ($this->_customerSession->isLoggedIn()) {
+                $groupId = $this->_customerSession->getCustomerGroupId();
             } else {
                 $groupId = Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
             }
