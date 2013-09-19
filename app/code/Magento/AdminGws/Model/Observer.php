@@ -35,12 +35,12 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     /**
      * @var Magento_Core_Model_StoreManager
      */
-    protected $_storeManager = null;
+    protected $_storeManager;
 
     /**
      * @var Magento_Core_Controller_Request_Http
      */
-    protected $_request = null;
+    protected $_request;
 
     /**
      * @param Magento_AdminGws_Model_Role $role

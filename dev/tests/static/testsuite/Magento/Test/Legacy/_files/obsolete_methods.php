@@ -83,6 +83,7 @@ return array(
     array('_getPublicFileUrl', 'Magento_Core_Model_Design_Package', 'Magento_Core_Model_View_Url::getPublicFileUrl'),
     array('_getRangeByType', 'Magento_Log_Model_Resource_Visitor_Collection'),
     array('_getRecentProductsCollection'),
+    array('_getRequestModel', 'Magento_Authorizenet_Model_Directpost'),
     array('_getScopeCode', 'Magento_Core_Model_Config'),
     array('_getSectionConfig', 'Magento_Core_Model_Config'),
     array('_getSelectHtml', 'Magento_ImportExport_Block_Adminhtml_Export_Filter'),
