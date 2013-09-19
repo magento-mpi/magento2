@@ -141,8 +141,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = $this->_permissionCollFactory
-                ->create()
+            $collection = $this->_permissionCollFactory->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId())
                 ->setOrder('permission_id', 'asc');
             $this->setData('permisssion_collection', $collection);
@@ -169,8 +168,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
 
         $permissions = array();
         if ($categoryId) {
-            $index  = $this->_permIndexFactory
-                ->create()
+            $index  = $this->_permIndexFactory->create()
                 ->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];

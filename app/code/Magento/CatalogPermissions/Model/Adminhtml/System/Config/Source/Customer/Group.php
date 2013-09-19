@@ -36,8 +36,7 @@ class Magento_CatalogPermissions_Model_Adminhtml_System_Config_Source_Customer_G
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = $this->_groupCollFactory
-                ->create()
+            $this->_options = $this->_groupCollFactory->create()
                 ->loadData()
                 ->toOptionArray();
         }

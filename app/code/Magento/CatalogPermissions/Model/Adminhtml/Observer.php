@@ -144,8 +144,7 @@ class Magento_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function reindexCategoryPermissionOnMove(Magento_Event_Observer $observer)
     {
-        $category = $this->_categoryFactory
-            ->create()
+        $category = $this->_categoryFactory->create()
             ->load($observer->getEvent()->getCategoryId());
         $this->_indexQueue[] = $category->getPath();
         return $this;

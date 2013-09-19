@@ -162,13 +162,11 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
             ))
             ->where('permission.category_id IN (?)', $categoryIds);
 
-        $websiteIds = $this->_websiteCollFactory
-            ->create()
+        $websiteIds = $this->_websiteCollFactory->create()
             ->addFieldToFilter('website_id', array('neq'=>0))
             ->getAllIds();
 
-        $customerGroupIds = $this->_groupCollFactory
-            ->create()
+        $customerGroupIds = $this->_groupCollFactory->create()
             ->getAllIds();
 
         $notEmptyWhere = array();
