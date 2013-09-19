@@ -102,7 +102,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
 
         $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
 
-        $sessionData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getEventData(true);
+        $sessionData = $this->_getSession()->getEventData(true);
         if (!empty($sessionData)) {
             $event->addData($sessionData);
         }
