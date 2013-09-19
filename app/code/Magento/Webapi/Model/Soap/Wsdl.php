@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 namespace Magento\Webapi\Model\Soap;
-use \Zend\Soap\Wsdl;
 
 class Wsdl extends \Zend\Soap\Wsdl
 {
@@ -17,7 +16,7 @@ class Wsdl extends \Zend\Soap\Wsdl
      * Save URI for targetNamespace generation.
      *
      * @param string $name
-     * @param string|Zend\Uri\Uri $uri
+     * @param string|\Zend\Uri\Uri $uri
      * @param \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\AnyComplexType $strategy
      */
     public function __construct(
