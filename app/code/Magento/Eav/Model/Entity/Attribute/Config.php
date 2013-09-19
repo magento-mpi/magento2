@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -48,17 +48,17 @@ class Magento_Eav_Model_Entity_Attribute_Config extends Magento_Config_Data
      */
     public function getEntityAttributesLockedFields($entityCode)
     {
-        $attributesLockedFields = array();
+        $lockedFields = array();
 
         $entityAttributes = $this->get($entityCode . '/attributes');
         foreach ($entityAttributes as $attributeCode => $attributeData) {
             foreach ($attributeData as $attributeField) {
                 if ($attributeField['locked']) {
-                    $attributesLockedFields[$attributeCode][] = $attributeField['code'];
+                    $lockedFields[$attributeCode][] = $attributeField['code'];
                 }
             }
         }
 
-        return $attributesLockedFields;
+        return $lockedFields;
     }
 }
