@@ -13,22 +13,24 @@
  */
 class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
 {
-    /**#@+
-     * XML paths to VDE settings
+    /**
+     * XML path to VDE front name setting
+     *
+     * @var string
      */
-    const XML_PATH_FRONT_NAME           = 'vde/design_editor/frontName';
-    const XML_PATH_DISABLED_CACHE_TYPES = 'vde/design_editor/disabledCacheTypes';
-    /**#@-*/
+    protected $_frontName;
+
+    /**
+     * XML path to VDE disabled cache type setting
+     *
+     * @var array
+     */
+    protected $_disabledCacheTypes;
 
     /**
      * Parameter to indicate the translation mode (null, text, script, or alt).
      */
     const TRANSLATION_MODE = "translation_mode";
-
-    /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_configuration;
 
     /**
      * @var bool
@@ -42,14 +44,17 @@ class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $configuration
+     * @param $frontName
+     * @param array $disabledCacheTypes
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $configuration
+        $frontName,
+        array $disabledCacheTypes = array()
     ) {
         parent::__construct($context);
-        $this->_configuration = $configuration;
+        $this->_frontName = $frontName;
+        $this->_disabledCacheTypes = $disabledCacheTypes;
     }
 
     /**
@@ -59,7 +64,7 @@ class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getFrontName()
     {
-        return (string)$this->_configuration->getNode(self::XML_PATH_FRONT_NAME);
+        return $this->_frontName;
     }
 
     /**
@@ -69,8 +74,7 @@ class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDisabledCacheTypes()
     {
-        $cacheTypes = $this->_configuration->getNode(self::XML_PATH_DISABLED_CACHE_TYPES)->asArray();
-        return array_keys($cacheTypes);
+        return $this->_disabledCacheTypes;
     }
 
     /**

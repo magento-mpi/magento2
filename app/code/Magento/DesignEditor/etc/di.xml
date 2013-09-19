@@ -33,4 +33,15 @@
     <type name="Magento_Core_Model_Theme_CopyService">
         <plugin name="design_editor_theme_copy_service_plugin" type="Magento_DesignEditor_Model_Plugin_ThemeCopyService"/>
     </type>
+    <type name="Magento_DesignEditor_Helper_Data">
+        <param name="frontName">
+            <value>vde</value>
+        </param>
+        <param name="disabledCacheTypes">
+            <value>
+                <block_html>block_html</block_html>
+                <config>config</config>
+            </value>
+        </param>
+    </type>
 </config>

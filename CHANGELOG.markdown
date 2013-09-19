@@ -1,3 +1,4 @@
+* Vde segment was moved from config.xml to di.xml
 * Install segment was moved from config.xml to di.xml for next configuration nodes:
   * config/install/databases
   * config/install/eula_file
