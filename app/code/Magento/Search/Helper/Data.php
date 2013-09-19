@@ -344,7 +344,8 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isActiveEngine()
     {
-        return is_object($this->_engineProvider->get());
+        $engine = $this->_engineProvider->get();
+        return is_object($engine) && $engine->allowAdvancedIndex();
     }
 
     /**
