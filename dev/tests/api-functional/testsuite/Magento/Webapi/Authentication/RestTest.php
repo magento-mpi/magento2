@@ -29,7 +29,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         parent::setUp();
     }
 
-    private function _runConsumerFixture()
+    private function _runConsumerFixture($createdAt=false)
     {
         $url = 'http://magento.ll';
         $this->_consumerKey = md5(rand());
@@ -41,7 +41,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         /** @var $consumer Magento_Oauth_Model_Consumer */
         $consumer = $objectManager->create('Magento_Oauth_Model_Consumer');
         $consumer
-            ->setCreatedAt('2012-12-31 23:59:59')
+            ->setCreatedAt(($createdAt != false)? $createdAt : '2012-12-31 23:59:59')
             ->setUpdatedAt('2012-12-31 23:59:59')
             ->setName('consumerName')
             ->setKey($this->_consumerKey)
@@ -76,7 +76,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
      */
     public function testGetRequestToken()
     {
-        $this->_runConsumerFixture();
+        $this->_runConsumerFixture(date('Y-m-d H:i:s'));
         /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient*/
         $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
@@ -86,6 +86,21 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
 
         //Oauth verifier is not expected for requestToken requests
         //$this->assertNotEmpty($oAuthClient->getOauthVerifier(), "Oauth verifier is empty.");
+    }
+
+    /**
+     * TODO: Fixture can be used now
+     * @ magentoApiDataFixture Magento/Oauth/_files/consumer.php
+     */
+    public function testGetRequestTokenExpiredConsumer()
+    {
+        $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
+        $this->_runConsumerFixture();
+        /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient*/
+        $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
+        // TODO: Set proper error message
+        $this->setExpectedException('OAuth\Common\Http\Exception\TokenResponseException', "Error occurred: '???'");
+        $requestToken = $oAuthClient->requestRequestToken();
     }
 
     public function testGetRequestTokenInvalidConsumerKey()
@@ -109,7 +124,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
 
     public function testGetAccessToken()
     {
-        $this->_runConsumerFixture();
+        $this->_runConsumerFixture(date('Y-m-d H:i:s'));
         $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
         $accessToken = $oAuthClient->requestAccessToken(

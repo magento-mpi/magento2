@@ -39,6 +39,9 @@
                 <identity>general</identity>
                 <template>oauth_email_template</template>
             </email>
+            <consumer>
+                <expiration_period>300</expiration_period>
+            </consumer>
         </oauth>
     </default>
 </config>

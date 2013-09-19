@@ -31,6 +31,11 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_CLEANUP_EXPIRATION_PERIOD = 'oauth/cleanup/expiration_period';
     /**#@-*/
 
+    /**#@+
+     * Consumer config settings
+     */
+    const XML_PATH_CONSUMER_EXPIRATION_PERIOD = 'oauth/consumer/expiration_period';
+
     /**#@+ Email template */
     const XML_PATH_EMAIL_TEMPLATE = 'oauth/email/template';
     const XML_PATH_EMAIL_IDENTITY = 'oauth/email/identity';
@@ -40,6 +45,11 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * Cleanup expiration period in minutes
      */
     const CLEANUP_EXPIRATION_PERIOD_DEFAULT = 120;
+
+    /**
+     * Consumer expiration period in seconds
+     */
+    const CONSUMER_EXPIRATION_PERIOD_DEFAULT = 300;
 
     /**
      * Query parameter as a sign that user rejects
@@ -239,6 +249,17 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $minutes = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
+    }
+
+    /**
+     * Get consumer expiration period value from system configuration in seconds
+     *
+     * @return int
+     */
+    public function getConsumerExpirationPeriod()
+    {
+        $seconds = (int) Mage::getStoreConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
+        return $seconds > 0 ? $seconds : self::CONSUMER_EXPIRATION_PERIOD_DEFAULT;
     }
 
     /**

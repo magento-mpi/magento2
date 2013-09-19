@@ -21,6 +21,7 @@ interface Magento_Oauth_Service_OauthV1Interface
     const ERR_SIGNATURE_METHOD_REJECTED = 6;
     const ERR_SIGNATURE_INVALID = 7;
     const ERR_CONSUMER_KEY_REJECTED = 8;
+	const ERR_CONSUMER_KEY_INVALID = 17;
     const ERR_TOKEN_USED = 9;
     const ERR_TOKEN_EXPIRED = 10;
     const ERR_TOKEN_REVOKED = 11;

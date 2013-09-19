@@ -27,6 +27,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         self::ERR_SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
         self::ERR_SIGNATURE_INVALID => 'signature_invalid',
         self::ERR_CONSUMER_KEY_REJECTED => 'consumer_key_rejected',
+        self::ERR_CONSUMER_KEY_INVALID => 'consumer_key_invalid',
         self::ERR_TOKEN_USED => 'token_used',
         self::ERR_TOKEN_EXPIRED => 'token_expired',
         self::ERR_TOKEN_REVOKED => 'token_revoked',
@@ -52,6 +53,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         self::ERR_SIGNATURE_METHOD_REJECTED => self::HTTP_BAD_REQUEST,
         self::ERR_SIGNATURE_INVALID => self::HTTP_UNAUTHORIZED,
         self::ERR_CONSUMER_KEY_REJECTED => self::HTTP_UNAUTHORIZED,
+        self::ERR_CONSUMER_KEY_INVALID => self::HTTP_UNAUTHORIZED,
         self::ERR_TOKEN_USED => self::HTTP_UNAUTHORIZED,
         self::ERR_TOKEN_EXPIRED => self::HTTP_UNAUTHORIZED,
         self::ERR_TOKEN_REVOKED => self::HTTP_UNAUTHORIZED,
@@ -208,7 +210,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     }
 
     /**
-     * Issue a pre-authorization request token to the caller.
+     * Issue a pre-authorization (aka. request) token to the caller.
      *
      * @param array $signedRequest - Parameters (e.g. consumer key, nonce, signature method, etc.)
      * @return array - The oauth_token and oauth_token_secret pair.
@@ -221,6 +223,13 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $this->_validateVersionParam($signedRequest['oauth_version']);
 
         $consumer = $this->_getConsumerByKey($signedRequest['oauth_consumer_key']);
+
+        // cannot use consumer if it was generated a while ago
+        $consumerTS = strtotime($consumer->getCreatedAt());
+        if (time() - $consumerTS > $this->_helper->getConsumerExpirationPeriod()) {
+            throw new Magento_Oauth_Exception('', self::ERR_CONSUMER_KEY_INVALID);
+        }
+
         $this->_validateNonce($signedRequest['nonce'], $consumer->getId(), $signedRequest['oauth_timestamp']);
 
         $token = $this->_getTokenByConsumer($consumer->getId());
