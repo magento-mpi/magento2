@@ -135,7 +135,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
                 'token' => $this->_oauthData->generateToken(),
                 'secret' => $this->_oauthData->generateTokenSecret(),
                 'verifier' => $this->_oauthData->generateVerifier(),
-                'callback_url' => Magento_Oauth_Model_Server::CALLBACK_ESTABLISHED
+                'callback_url' => Magento_Oauth_Helper_Data::CALLBACK_ESTABLISHED
             ));
             $this->save();
         }
@@ -269,7 +269,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     {
         /** @var $validatorUrl Magento_Core_Model_Url_Validator */
         $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
-        if (Magento_Oauth_Model_Server::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
+        if (Magento_Oauth_Helper_Data::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
             && !$validatorUrl->isValid($this->getCallbackUrl())
         ) {
             $messages = $validatorUrl->getMessages();
