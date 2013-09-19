@@ -58,15 +58,6 @@
                 </charset>
             </giftcardaccount>
         </magento>
-        <template>
-            <email>
-                <giftcard_giftcardaccount_email_template translate="label" module="Magento_GiftCardAccount">
-                    <label>Gift Card Code/Balance</label>
-                    <file>email/card_information.html</file>
-                    <type>html</type>
-                </giftcard_giftcardaccount_email_template>
-            </email>
-        </template>
         <pdf>
             <totals>
                 <magento_giftcardaccount translate="title">

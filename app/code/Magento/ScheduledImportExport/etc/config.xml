@@ -18,25 +18,6 @@
                 </setup>
             </scheduledimportexport_setup>
         </resources>
-        <template>
-            <email>
-                <magento_scheduledimportexport_import_failed translate="label" module="Magento_ScheduledImportExport">
-                    <label>Import Failed</label>
-                    <file>email/import_failed.html</file>
-                    <type>html</type>
-                </magento_scheduledimportexport_import_failed>
-                <magento_scheduledimportexport_export_failed translate="label" module="Magento_ScheduledImportExport">
-                    <label>Export Failed</label>
-                    <file>email/export_failed.html</file>
-                    <type>html</type>
-                </magento_scheduledimportexport_export_failed>
-                <system_magento_scheduled_import_export_log_error_email_template translate="label" module="Magento_ScheduledImportExport">
-                    <label>File History Clean Failed</label>
-                    <file>email/file_history_clean_failed.html</file>
-                    <type>html</type>
-                </system_magento_scheduled_import_export_log_error_email_template>
-            </email>
-        </template>
         <importexport>
             <export_entities>
                 <customer_finance translate="label">

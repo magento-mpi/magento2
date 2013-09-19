@@ -19,15 +19,6 @@
                 </setup>
             </oauth_setup>
         </resources>
-        <template>
-            <email>
-                <oauth_email_template translate="label" module="Magento_Oauth">
-                    <label>Token Status Change</label>
-                    <file>email/token.html</file>
-                    <type>html</type>
-                </oauth_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <oauth>

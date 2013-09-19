@@ -41,15 +41,6 @@
                 </attributes>
             </product>
         </catalog>
-        <template>
-            <email>
-                <giftcard_email_template translate="label" module="Magento_GiftCard">
-                    <label>Gift Card(s) Purchase</label>
-                    <file>email/gift_information.html</file>
-                    <type>html</type>
-                </giftcard_email_template>
-            </email>
-        </template>
     </global>
     <frontend>
         <secure_url>

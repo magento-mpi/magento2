@@ -18,25 +18,6 @@
                 </setup>
             </productalert_setup>
         </resources>
-        <template>
-            <email>
-                <catalog_productalert_email_stock_template translate="label" module="Magento_ProductAlert">
-                    <label>Stock Alert</label>
-                    <file>email/stock_alert.html</file>
-                    <type>html</type>
-                </catalog_productalert_email_stock_template>
-                <catalog_productalert_email_price_template translate="label" module="Magento_ProductAlert">
-                    <label>Price Alert</label>
-                    <file>email/price_alert.html</file>
-                    <type>html</type>
-                </catalog_productalert_email_price_template>
-                <catalog_productalert_cron_error_email_template translate="label" module="Magento_ProductAlert">
-                    <label>Cron Error Warning</label>
-                    <file>email/cron_error.html</file>
-                    <type>html</type>
-                </catalog_productalert_cron_error_email_template>
-            </email>
-        </template>
     </global>
     <default>
         <catalog>
