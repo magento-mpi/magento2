@@ -42,8 +42,10 @@ class Magento_Logging_Model_Config
 
     /**
      * @param Magento_Logging_Model_Config_Data $dataStorage
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
-    public function __construct(Magento_Logging_Model_Config_Data $dataStorage,
+    public function __construct(
+        Magento_Logging_Model_Config_Data $dataStorage,
         Magento_Core_Model_StoreManager $storeManager
     ) {
         $this->_xmlConfig = $dataStorage->get('logging');
@@ -102,7 +104,7 @@ class Magento_Logging_Model_Config
                 }
             }
             asort($this->_labels);
-        };
+        }
         return $this->_labels;
     }
 
@@ -116,8 +118,8 @@ class Magento_Logging_Model_Config
     {
         if (isset($this->_xmlConfig['actions'])
             && array_key_exists($action, $this->_xmlConfig['actions'])
-            && isset($this->_xmlConfig['actions'][$action]['label']))
-        {
+            && isset($this->_xmlConfig['actions'][$action]['label'])
+        ) {
             return __($this->_xmlConfig['actions'][$action]['label']);
         }
 

@@ -167,7 +167,7 @@ class Magento_Rma_Controller_Guest extends Magento_Core_Controller_Front_Action
                 $coreSession->addError(
                     __('We cannot create a new return transaction. Please try again later.')
                 );
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->loadLayout();

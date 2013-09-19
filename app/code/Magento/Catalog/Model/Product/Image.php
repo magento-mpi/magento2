@@ -68,6 +68,13 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     protected $_coreFileStorageDatabase = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -75,6 +82,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Image_Factory $imageFactory
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -87,6 +95,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         Magento_Core_Model_Image_Factory $imageFactory,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -102,6 +111,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -328,7 +338,9 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         if (!$file) {
             $this->_isBaseFilePlaceholder = true;
             // check if placeholder defined in config
-            $isConfigPlaceholder = Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
+            $isConfigPlaceholder = $this->_coreStoreConfig->getConfig(
+                "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder"
+            );
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
             if (!empty($isConfigPlaceholder) && $this->_fileExists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;

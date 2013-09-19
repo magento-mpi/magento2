@@ -27,8 +27,9 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $attributeValidateRules
+     * @param $validateRules
      * @param array $additionalClasses
+     * @internal param array $attributeValidateRules
      * @dataProvider getAdditionalTextElementClassesDataProvider
      */
     public function testGetAdditionalTextElementClasses($validateRules, $additionalClasses)
@@ -39,6 +40,9 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_model->getAdditionalTextElementClasses($attributeMock), $additionalClasses);
     }
 
+    /**
+     * @return array
+     */
     public function getAdditionalTextElementClassesDataProvider()
     {
         return array(

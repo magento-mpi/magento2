@@ -66,21 +66,25 @@ class Magento_Pbridge_Model_Payment_Method_Paybox_Direct extends Magento_Payment
     protected $_pbridgeData = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Payment_Helper_Data $paymentData
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Payment_Helper_Data $paymentData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
     }
 
     /**
@@ -148,7 +152,7 @@ class Magento_Pbridge_Model_Payment_Method_Paybox_Direct extends Magento_Payment
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

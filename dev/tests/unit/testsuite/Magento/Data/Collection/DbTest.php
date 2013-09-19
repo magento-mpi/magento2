@@ -20,7 +20,8 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     {
         $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
-        $this->_collection = new Magento_Data_Collection_Db($fetchStrategy, $entityFactory);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $this->_collection = new Magento_Data_Collection_Db($logger, $fetchStrategy, $entityFactory);
     }
 
     protected function tearDown()
@@ -233,10 +234,11 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     {
         $fetchStrategy = $this->getMock('Magento_Data_Collection_Db_FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $collection = $this->getMock(
             'Magento_Data_Collection_Db',
             array('_logQuery'),
-            array($fetchStrategy, $entityFactory)
+            array($logger, $fetchStrategy, $entityFactory)
         );
         $collection->setFlag('log_query', $logFlag);
         $collection->expects($this->exactly($expectedCalls))->method('_logQuery');

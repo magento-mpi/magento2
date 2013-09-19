@@ -94,16 +94,18 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($fetchStrategy, $entityFactory);
+        parent::__construct($logger, $fetchStrategy, $entityFactory);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
         $this->_prepareStaticFields();
@@ -1045,7 +1047,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
             $query = $this->getSelect();
             $rows = $this->_fetchAll($query);
         } catch (Exception $e) {
-            magePrintException($e, $query);
+            Mage::printException($e, $query);
             $this->printLogQuery(true, true, $query);
             throw $e;
         }
@@ -1112,7 +1114,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
                     $select = implode(' UNION ALL ', $selects);
                     $values = $this->getConnection()->fetchAll($select);
                 } catch (Exception $e) {
-                    magePrintException($e, $select);
+                    Mage::printException($e, $select);
                     $this->printLogQuery(true, true, $select);
                     throw $e;
                 }

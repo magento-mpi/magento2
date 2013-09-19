@@ -20,6 +20,7 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
 
     /**
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
@@ -30,6 +31,7 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
      */
     public function __construct(
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $config,
@@ -40,7 +42,7 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
     ) {
         $this->_migrationFactory = $migrationFactory;
         parent::__construct(
-            $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
         );
     }
 

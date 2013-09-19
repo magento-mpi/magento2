@@ -317,7 +317,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 if ($productName) {
                     $message = __('We could not copy "%1".', $productName);
                 } else {
@@ -367,7 +367,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
                 } catch (DomainException $e) {
                     $alreadyPresent[$id] = $item;
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                     $failed[] = $id;
                 }
             }
@@ -538,7 +538,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
                         $notAllowed[$id] = $item;
                     }
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                     $failed[] = $id;
                 }
             }

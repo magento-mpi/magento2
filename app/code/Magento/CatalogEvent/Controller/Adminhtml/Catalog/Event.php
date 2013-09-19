@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,18 +16,41 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * Store model manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Event model factory
+     *
+     * @var Magento_CatalogEvent_Model_EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogEvent_Model_EventFactory $eventFactory
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_CatalogEvent_Model_EventFactory $eventFactory
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+
+        $this->_coreRegistry = $coreRegistry;
+        $this->_storeManager = $storeManager;
+        $this->_eventFactory = $eventFactory;
     }
 
     /**
@@ -91,7 +112,8 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     {
         $this->_title(__('Events'));
 
-        $event = Mage::getModel('Magento_CatalogEvent_Model_Event')
+        /** @var Magento_CatalogEvent_Model_Event $event */
+        $event = $this->_eventFactory->create()
             ->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
         if ($eventId) {
@@ -113,7 +135,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
         $layout = $this->getLayout();
         $layout->getBlock('head')->setCanLoadExtJs(true);
         if (($switchBlock = $layout->getBlock('store_switcher'))) {
-            if (!$event->getId() || Mage::app()->isSingleStoreMode()) {
+            if (!$event->getId() || $this->_storeManager->isSingleStoreMode()) {
                 $layout->unsetChild($layout->getParentName('store_switcher'), 'store_switcher');
             } else {
                 $switchBlock->setDefaultStoreName(__('Default Values'))
@@ -121,17 +143,17 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             }
         }
         $this->renderLayout();
-
     }
 
     /**
      * Save action
+     *
+     * @throws Magento_Core_Exception
      */
     public function saveAction()
     {
-        $event = Mage::getModel('Magento_CatalogEvent_Model_Event')
-            ->setStoreId($this->getRequest()->getParam('store', 0));
-        /* @var $event Magento_CatalogEvent_Model_Event */
+        /* @var Magento_CatalogEvent_Model_Event $event*/
+        $event = $this->_eventFactory->create()->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
         if ($eventId) {
             $event->load($eventId);
@@ -187,9 +209,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
                 try {
                     $event->setImage($uploader);
                 } catch (Exception $e) {
-                    Mage::throwException(
-                        __('We did not upload your image.')
-                    );
+                    throw new Magento_Core_Exception(__('We did not upload your image.'));
                 }
             }
             $event->save();
@@ -214,7 +234,8 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      */
     public function deleteAction()
     {
-        $event = Mage::getModel('Magento_CatalogEvent_Model_Event');
+        /** @var Magento_CatalogEvent_Model_Event $event */
+        $event = $this->_eventFactory->create();
         $event->load($this->getRequest()->getParam('id', false));
         if ($event->getId()) {
             try {

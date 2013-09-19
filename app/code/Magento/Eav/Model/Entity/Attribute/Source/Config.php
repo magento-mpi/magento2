@@ -28,6 +28,22 @@ class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model
     protected $_configNodePath;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieve all options for the source from configuration
      *
      * @throws Magento_Eav_Exception
@@ -39,7 +55,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model
             $this->_options = array();
             $rootNode = null;
             if ($this->_configNodePath) {
-                $rootNode = Mage::getConfig()->getNode($this->_configNodePath);
+                $rootNode = $this->_coreConfig->getNode($this->_configNodePath);
             }
             if (!$rootNode) {
                 throw Mage::exception('Magento_Eav', __('Failed to load node %1 from config', $this->_configNodePath));

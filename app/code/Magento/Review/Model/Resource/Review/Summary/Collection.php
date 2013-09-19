@@ -24,18 +24,20 @@ class Magento_Review_Model_Resource_Review_Summary_Collection extends Magento_Da
     protected $_summaryTable;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Resource $resource
     ) {
         $this->_setIdFieldName('primary_id');
 
-        parent::__construct($fetchStrategy, $entityFactory, $resource->getConnection('review_read'));
+        parent::__construct($logger, $fetchStrategy, $entityFactory, $resource->getConnection('review_read'));
         $this->_summaryTable = $resource->getTableName('review_entity_summary');
 
         $this->_select->from($this->_summaryTable);

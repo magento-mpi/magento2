@@ -16,6 +16,7 @@ class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Registry $registryManager
@@ -23,13 +24,14 @@ class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Registry $registryManager,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig
     ) {
         $this->_registryManager = $registryManager;
-        parent::__construct($eventManager, $fetchStrategy, $entityFactory, $fieldsetConfig);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $fieldsetConfig);
     }
 
     /**

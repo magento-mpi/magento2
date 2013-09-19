@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * HTML select element block
- *
- * @category   Magento
- * @package    Magento_CatalogInventory
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_Data_Form_Element_Select
 {
@@ -35,17 +30,29 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
     protected $_isProductComposite;
 
     /**
+     * Text element factory
+     *
+     * @var Magento_Data_Form_Element_TextFactory
+     */
+    protected $_factoryText;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param Magento_Data_Form_Element_TextFactory $factoryText
      * @param array $attributes
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        Magento_Data_Form_Element_TextFactory $factoryText,
         array $attributes = array()
     ) {
+        $this->_factoryText = $factoryText;
         $this->_qty = isset($attributes['qty']) ? $attributes['qty'] : $this->_createQtyElement();
         unset($attributes['qty']);
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
@@ -59,7 +66,8 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
      */
     protected function _createQtyElement()
     {
-        $element = Mage::getModel('Magento_Data_Form_Element_Text');
+        /** @var \Magento_Data_Form_Element_Text $element */
+        $element = $this->_factoryText->create();
         $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty')->addClass('validate-number input-text');
         return $element;
     }

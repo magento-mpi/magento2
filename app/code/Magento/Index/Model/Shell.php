@@ -25,6 +25,25 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
     protected $_hasErrors = false;
 
     /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
+     * @param Magento_Index_Model_Indexer $indexIndexer
+     * @param Magento_Filesystem $filesystem
+     * @param string $entryPoint
+     */
+    public function __construct(
+        Magento_Index_Model_Indexer $indexIndexer,
+        Magento_Filesystem $filesystem,
+        $entryPoint
+    ) {
+        $this->_indexIndexer = $indexIndexer;
+        parent::__construct($filesystem, $entryPoint);
+    }
+
+    /**
      * Runs this model, assumed to be run by command-line
      *
      * @return Magento_Index_Model_Shell
@@ -182,14 +201,14 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
     {
         $processes = array();
         if ($string == 'all') {
-            $collection = $this->_getIndexer()->getProcessesCollection();
+            $collection = $this->_indexIndexer->getProcessesCollection();
             foreach ($collection as $process) {
                 $processes[] = $process;
             }
         } else if (!empty($string)) {
             $codes = explode(',', $string);
             foreach ($codes as $code) {
-                $process = $this->_getIndexer()->getProcessByCode(trim($code));
+                $process = $this->_indexIndexer->getProcessByCode(trim($code));
                 if (!$process) {
                     echo 'Warning: Unknown indexer with code ' . trim($code) . "\n";
                     $this->_hasErrors = true;
@@ -199,16 +218,6 @@ class Magento_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
             }
         }
         return $processes;
-    }
-
-    /**
-     * Gets indexer instance
-     *
-     * @return Magento_Index_Model_Indexer
-     */
-    protected function _getIndexer()
-    {
-        return Mage::getSingleton('Magento_Index_Model_Indexer');
     }
 
     /**

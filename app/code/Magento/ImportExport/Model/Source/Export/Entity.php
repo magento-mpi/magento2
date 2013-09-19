@@ -18,13 +18,26 @@
 class Magento_ImportExport_Model_Source_Export_Entity implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
+     * @var Magento_ImportExport_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_ImportExport_Model_Config $config
+     */
+    public function __construct(Magento_ImportExport_Model_Config $config)
+    {
+        $this->_config = $config;
+    }
+
+    /**
      * Prepare and return array of export entities ids and their names
      *
      * @return array
      */
     public function toOptionArray()
     {
-        return Magento_ImportExport_Model_Config::getModelsComboOptions(
+        return $this->_config->getModelsComboOptions(
             Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES, true
         );
     }

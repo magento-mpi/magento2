@@ -311,7 +311,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $carrierCode= $this->getShipment()->getCarrierCode();
         $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
 
-        $countryShipper = Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new Magento_Object(array(
                 'method'            => $carrier->getMethod(),

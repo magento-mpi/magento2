@@ -170,7 +170,7 @@ class Magento_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Acti
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_getSession()
                 ->addError(__('Something went wrong creating a shipping label.'));
         }

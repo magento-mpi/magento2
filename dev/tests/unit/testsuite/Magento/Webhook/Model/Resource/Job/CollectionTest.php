@@ -31,9 +31,10 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
         $mockResourceEvent->expects($this->once())
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
 
         $collection = new Magento_Webhook_Model_Resource_Job_Collection(
-            $eventManager, $mockFetchStrategy, $entityFactory, $mockResourceEvent
+            $eventManager, $logger, $mockFetchStrategy, $entityFactory, $mockResourceEvent
         );
         $this->assertInstanceOf('Magento_Webhook_Model_Resource_Job_Collection', $collection);
         $this->assertEquals('Magento_Webhook_Model_Resource_Job', $collection->getResourceModelName());
