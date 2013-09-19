@@ -457,7 +457,7 @@ class Magento_Test_Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     {
         $name = preg_quote($name, '/');
         return (bool)preg_match(
-            '/\s+extends\s+' . $name . '\b|\s+implements\s+[^{]*\b' . $name . '\b[^{]*\{/iS',
+            '/\s+extends\s+' . $name . '\b|\s+implements\s+[^{]*\b' . $name . '\b[^{^\\\\]*\{/iS',
             $content
         );
     }
