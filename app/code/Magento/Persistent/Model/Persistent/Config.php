@@ -97,7 +97,7 @@ class Magento_Persistent_Model_Persistent_Config
      * @param string $block
      * @return $array
      */
-    public function getBlockConfigInfo(Magento_Core_Block_Abstract $block)
+    public function getBlockConfigInfo($block)
     {
         $xPath = '//instances/blocks/*[block_type="' . $block . '"]';
         $blocks = $this->_getConfigDomXPath()->query($xPath);
