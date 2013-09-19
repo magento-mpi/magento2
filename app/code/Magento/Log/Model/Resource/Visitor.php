@@ -26,13 +26,29 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
     protected $_coreString = null;
 
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_date = $date;
+        $this->_storeManager = $storeManager;
         $this->_coreString = $coreString;
         parent::__construct($resource);
     }
@@ -58,7 +74,7 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
             'first_visit_at'    => $visitor->getFirstVisitAt(),
             'last_visit_at'     => $visitor->getLastVisitAt(),
             'last_url_id'       => $visitor->getLastUrlId() ? $visitor->getLastUrlId() : 0,
-            'store_id'          => Mage::app()->getStore()->getId(),
+            'store_id'          => $this->_storeManager->getStore()->getId(),
         );
     }
 
@@ -190,7 +206,7 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
         $data = new Magento_Object(array(
             'url_id'        => $visitor->getLastUrlId(),
             'visitor_id'    => $visitor->getId(),
-            'visit_time'    => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
+            'visit_time'    => $this->date->gmtDate()
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url'));
 
@@ -212,8 +228,8 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
             $data = new Magento_Object(array(
                 'visitor_id'    => $visitor->getVisitorId(),
                 'customer_id'   => $visitor->getCustomerId(),
-                'login_at'      => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(),
-                'store_id'      => Mage::app()->getStore()->getId()
+                'login_at'      => $this->_date->gmtDate(),
+                'store_id'      => $this->_storeManager->getStore()->getId()
             ));
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_customer'));
 
@@ -224,8 +240,8 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
 
         if ($visitor->getDoCustomerLogout() && $logId = $visitor->getCustomerLogId()) {
             $data = new Magento_Object(array(
-                'logout_at' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(),
-                'store_id'  => (int)Mage::app()->getStore()->getId(),
+                'logout_at' => $this->_date->gmtDate(),
+                'store_id'  => (int)$this->_storeManager->getStore()->getId(),
             ));
 
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_customer'));
@@ -257,7 +273,7 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
             $data = new Magento_Object(array(
                 'quote_id'      => (int) $visitor->getQuoteId(),
                 'visitor_id'    => (int) $visitor->getId(),
-                'created_at'    => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
+                'created_at'    => $this->_date->gmtDate()
             ));
 
             $bind = $this->_prepareDataForTable($data, $this->getTable('log_quote'));
