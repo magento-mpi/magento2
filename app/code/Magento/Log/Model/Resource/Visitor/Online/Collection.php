@@ -50,7 +50,6 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
-
     /**
      * Initialize collection model
      *

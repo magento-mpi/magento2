@@ -16,6 +16,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Grid_Collection extends Magento_
 
     /**
      * @param Magento_Log_Model_Visitor_OnlineFactory $onlineFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -24,6 +25,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Grid_Collection extends Magento_
      */
     public function __construct(
         Magento_Log_Model_Visitor_OnlineFactory $onlineFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
@@ -31,7 +33,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Grid_Collection extends Magento_
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_onlineFactory = $onlineFactory;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($customerFactory, $eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**

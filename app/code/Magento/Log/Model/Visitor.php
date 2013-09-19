@@ -72,8 +72,14 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     protected $_session;
 
+    /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
     protected $_quoteFactory;
 
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
     protected $_customerFactory;
 
     /**
