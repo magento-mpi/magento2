@@ -18,62 +18,7 @@
                     <class>Magento_Catalog_Model_Resource_Setup</class>
                 </setup>
             </catalog_setup>
-        </resources>
-        <index>
-            <indexer>
-                <catalog_product_attribute>
-                    <model>Magento_Catalog_Model_Product_Indexer_Eav</model>
-                </catalog_product_attribute>
-                <catalog_product_price>
-                    <model>Magento_Catalog_Model_Product_Indexer_Price</model>
-                </catalog_product_price>
-                <catalog_url>
-                    <model>Magento_Catalog_Model_Indexer_Url</model>
-                </catalog_url>
-                <catalog_product_flat>
-                    <model>Magento_Catalog_Model_Product_Indexer_Flat</model>
-                </catalog_product_flat>
-                <catalog_category_flat>
-                    <model>Magento_Catalog_Model_Category_Indexer_Flat</model>
-                </catalog_category_flat>
-                <catalog_category_product>
-                    <model>Magento_Catalog_Model_Category_Indexer_Product</model>
-                </catalog_category_product>
-            </indexer>
-        </index>
-        <eav_attributes>
-            <catalog_product>
-                <sku>
-                    <code>sku</code>
-                    <locked_fields>
-                        <is_global />
-                        <is_unique />
-                    </locked_fields>
-                </sku>
-                <url_key>
-                    <code>url_key</code>
-                    <locked_fields>
-                        <is_unique />
-                    </locked_fields>
-                </url_key>
-                <status>
-                    <code>status</code>
-                    <locked_fields>
-                        <is_configurable />
-                        <is_filterable />
-                        <is_filterable_in_search />
-                    </locked_fields>
-                </status>
-                <visibility>
-                    <code>visibility</code>
-                    <locked_fields>
-                        <is_configurable />
-                        <is_filterable />
-                        <is_filterable_in_search />
-                    </locked_fields>
-                </visibility>
-            </catalog_product>
-        </eav_attributes>
+        </resources>        
     </global>
     <frontend>
         <default>

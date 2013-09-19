@@ -19,23 +19,6 @@
                 </setup>
             </cataloginventory_setup>
         </resources>
-        <index>
-            <indexer>
-                <cataloginventory_stock>
-                    <model>Magento_CatalogInventory_Model_Indexer_Stock</model>
-                </cataloginventory_stock>
-                <catalog_product_attribute>
-                    <depends>
-                        <cataloginventory_stock />
-                    </depends>
-                </catalog_product_attribute>
-                <catalog_product_price>
-                    <depends>
-                        <cataloginventory_stock />
-                    </depends>
-                </catalog_product_price>
-            </indexer>
-        </index>
     </global>
     <default>
         <cataloginventory>

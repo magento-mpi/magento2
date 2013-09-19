@@ -32,7 +32,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
      */
     protected function setUp()
     {
-        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $importModel = Mage::getModel('Magento_ImportExport_Model_Import');
+        $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();
         foreach (array_keys($uniqueBehaviors) as $behavior) {
             $this->_expectedFieldsets[] = $behavior . '_fieldset';
         }

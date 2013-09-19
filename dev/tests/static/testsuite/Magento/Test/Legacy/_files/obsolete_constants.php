@@ -124,6 +124,7 @@ return array(
     array('XML_PATH_DEFAULT_TIMEZONE', 'Magento_Core_Model_Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE'
     ),
+    array('XML_PATH_INDEXER_DATA', 'Magento_Index_Model_Process'),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
     array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento_Wishlist_Model_Config'),
@@ -195,5 +196,7 @@ return array(
     array('XML_PATH_UNASSIGNABLE_ATTRIBUTES', 'Magento_Catalog_Helper_Product'),
     array('XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION', 'Magento_Catalog_Helper_Product'),
     array('XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL', 'Magento_Catalog_Helper_Product'),
-
+    array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Export'),
+    array('CONFIG_KEY_FORMATS', 'Magento_ImportExport_Model_Export'),
+    array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Import'),
 );

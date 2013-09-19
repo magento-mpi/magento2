@@ -42,7 +42,8 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         $fieldset = $form->getElement('operation_settings');
 
         // add behaviour fields
-        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $importModel = Mage::getModel('Magento_ImportExport_Model_Import');
+        $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
             /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
             $behaviorSource = Mage::getModel($behaviorClass);

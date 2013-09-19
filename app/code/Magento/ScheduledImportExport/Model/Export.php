@@ -34,11 +34,14 @@ class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Mo
     /**
      * Constructor
      *
+     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        parent::__construct($data);
+    public function __construct(
+        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
+        array $data = array()
+    ) {
+        parent::__construct($exportConfig, $data);
 
         $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : Mage::getModel('Magento_Core_Model_Date');
     }

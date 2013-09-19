@@ -137,6 +137,12 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
         return $this;
     }
 
+    /**
+     * Retrieve form element by id
+     *
+     * @param string $elementId
+     * @return null|Magento_Data_Form_Element_Abstract
+     */
     public function getElement($elementId)
     {
         if ($this->_elementIdExists($elementId)) {
@@ -150,8 +156,7 @@ class Magento_Data_Form extends Magento_Data_Form_Abstract
         foreach ($this->_allElements as $element) {
             if (isset($values[$element->getId()])) {
                 $element->setValue($values[$element->getId()]);
-            }
-            else {
+            } else {
                 $element->setValue(null);
             }
         }

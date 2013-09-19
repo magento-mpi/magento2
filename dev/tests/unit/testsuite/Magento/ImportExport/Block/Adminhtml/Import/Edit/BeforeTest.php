@@ -78,10 +78,10 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             '',
             false
         );
-        $importModel->staticExpects($this->any())
+        $importModel->expects($this->any())
             ->method('getEntityBehaviors')
             ->will($this->returnValue($this->_sourceEntities));
-        $importModel->staticExpects($this->any())
+        $importModel->expects($this->any())
             ->method('getUniqueEntityBehaviors')
             ->will($this->returnValue($this->_sourceBehaviors));
 
