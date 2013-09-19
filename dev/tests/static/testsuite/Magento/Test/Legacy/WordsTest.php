@@ -12,18 +12,20 @@
 /**
  * Tests, that perform search of words, that signal of obsolete code
  */
-class Magento_Test_Legacy_WordsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class WordsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Inspection_WordsFinder
+     * @var \Magento\TestFramework\Inspection\WordsFinder
      */
     protected static $_wordsFinder;
 
     public static function setUpBeforeClass()
     {
-        self::$_wordsFinder = new Magento_TestFramework_Inspection_WordsFinder(
+        self::$_wordsFinder = new \Magento\TestFramework\Inspection\WordsFinder(
             glob(__DIR__ . '/_files/words_*.xml'),
-            Magento_TestFramework_Utility_Files::init()->getPathToSource()
+            \Magento\TestFramework\Utility\Files::init()->getPathToSource()
         );
     }
 
@@ -44,6 +46,6 @@ class Magento_Test_Legacy_WordsTest extends PHPUnit_Framework_TestCase
      */
     public function wordsDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getAllFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getAllFiles();
     }
 }

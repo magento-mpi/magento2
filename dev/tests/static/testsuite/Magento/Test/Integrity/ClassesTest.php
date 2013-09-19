@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity;
+
+class ClassesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of already found classes to avoid checking them over and over again
@@ -26,7 +28,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public function testPhpFile($file)
     {
         $contents = file_get_contents($file);
-        $classes = Magento_TestFramework_Utility_Classes::getAllMatches($contents, '/
+        $classes = \Magento\TestFramework\Utility\Classes::getAllMatches($contents, '/
             # ::getResourceModel ::getBlockSingleton ::getModel ::getSingleton
             \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d\\\\]+)[\'"]\s*[\),]
 
@@ -38,7 +40,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
             # various methods, second argument
             | \->add(?:ProductConfigurationHelper | OptionsRenderCfg)\(.+?,\s*\'([a-z\d\\\\]+)\'\s*[\),]
 
-            # Mage::helper ->helper
+            # \Mage::helper ->helper
             | (?:Mage\:\:|\->)helper\(\s*\'([a-z\d\\\\]+)\'\s*\)
 
             # misc
@@ -50,7 +52,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         );
 
         // without modifier "i". Starting from capital letter is a significant characteristic of a class name
-        Magento_TestFramework_Utility_Classes::getAllMatches($contents, '/(?:\-> | parent\:\:)(?:_init | setType)\(\s*
+        \Magento\TestFramework\Utility\Classes::getAllMatches($contents, '/(?:\-> | parent\:\:)(?:_init | setType)\(\s*
                 \'([A-Z][a-z\d][A-Za-z\d\\\\]+)\'(?:,\s*\'([A-Z][a-z\d][A-Za-z\d\\\\]+)\')
             \s*\)/x',
             $classes
@@ -66,7 +68,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function phpFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getPhpFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getPhpFiles();
     }
 
     /**
@@ -78,7 +80,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     protected function _collectResourceHelpersPhp($contents, &$classes)
     {
         $regex = '/(?:\:\:|\->)getResourceHelper\(\s*\'([a-z\d\\\\]+)\'\s*\)/ix';
-        $matches = Magento_TestFramework_Utility_Classes::getAllMatches($contents, $regex);
+        $matches = \Magento\TestFramework\Utility\Classes::getAllMatches($contents, $regex);
         foreach ($matches as $moduleName) {
             $classes[] = "{$moduleName}\\Model\\Resource\\Helper\\Mysql4";
         }
@@ -91,13 +93,13 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public function testConfigFile($path)
     {
         //The following 6 lines are used to exclude */logging.xml files for now
-        $relativePath = str_replace(Magento_TestFramework_Utility_Files::init()->getPathToSource(), "", $path);
+        $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $path);
         $fileParts = explode('/', $relativePath);
         $fileName = array_pop($fileParts);
         if ($fileName == "logging.xml") {
             return;
         }
-        $classes = Magento_TestFramework_Utility_Classes::collectClassesInConfig(simplexml_load_file($path));
+        $classes = \Magento\TestFramework\Utility\Classes::collectClassesInConfig(simplexml_load_file($path));
         $this->_assertClassesExist($classes, $path);
     }
 
@@ -106,7 +108,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles();
     }
 
     /**
@@ -117,19 +119,19 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     {
         $xml = simplexml_load_file($path);
 
-        $classes = Magento_TestFramework_Utility_Classes::getXmlNodeValues($xml,
+        $classes = \Magento\TestFramework\Utility\Classes::getXmlNodeValues($xml,
             '/layout//*[contains(text(), "\\\\Block\\\\") or contains(text(),
                 "\\\\Model\\\\") or contains(text(), "\\\\Helper\\\\")]'
         );
-        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
+        foreach (\Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
             '/layout//@helper', 'helper') as $class) {
-            $classes[] = Magento_TestFramework_Utility_Classes::getCallbackClass($class);
+            $classes[] = \Magento\TestFramework\Utility\Classes::getCallbackClass($class);
         }
-        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
+        foreach (\Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
             '/layout//@module', 'module') as $module) {
             $classes[] = str_replace('_', '\\', "{$module}_Helper_Data");
         }
-        $classes = array_merge($classes, Magento_TestFramework_Utility_Classes::collectLayoutClasses($xml));
+        $classes = array_merge($classes, \Magento\TestFramework\Utility\Classes::collectLayoutClasses($xml));
 
         $this->_assertClassesExist(array_unique($classes), $path);
     }
@@ -139,7 +141,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function layoutFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 
     /**
@@ -166,13 +168,13 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                     continue;
                 } else {
                     $this->assertTrue(isset(self::$_existingClasses[$class])
-                        || Magento_TestFramework_Utility_Files::init()->classFileExists($class)
-                        || Magento_TestFramework_Utility_Classes::isVirtual($class)
-                        || Magento_TestFramework_Utility_Classes::isAutogenerated($class)
+                        || \Magento\TestFramework\Utility\Files::init()->classFileExists($class)
+                        || \Magento\TestFramework\Utility\Classes::isVirtual($class)
+                        || \Magento\TestFramework\Utility\Classes::isAutogenerated($class)
                     );
                 }
                 self::$_existingClasses[$class] = 1;
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 $badClasses[] = $class;
             }
         }
@@ -196,7 +198,7 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
     public function testClassNamespace($file)
     {
         $contents = file_get_contents($file);
-        $relativePath = str_replace(Magento_TestFramework_Utility_Files::init()->getPathToSource(), "", $file);
+        $relativePath = str_replace(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), "", $file);
 
         $classPattern = '/^(abstract\s)?class\s[A-Z][^\s\/]+/m';
 
@@ -263,6 +265,6 @@ class Magento_Test_Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function phpClassDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getClassFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getClassFiles();
     }
 }

@@ -12,7 +12,9 @@
 /**
  * Tests for obsolete directives in email templates
  */
-class Magento_Test_Legacy_EmailTemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class EmailTemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -29,6 +31,6 @@ class Magento_Test_Legacy_EmailTemplateTest extends PHPUnit_Framework_TestCase
 
     public function obsoleteDirectivesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getEmailTemplates();
+        return \Magento\TestFramework\Utility\Files::init()->getEmailTemplates();
     }
 }

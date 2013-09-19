@@ -16,10 +16,12 @@
  * @package     Magento
  * @subpackage  static_tests
  */
-class Magento_Test_Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Php\Exemplar;
+
+class CodeStyleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_CodingStandard_Tool_CodeSniffer
+     * @var \Magento\TestFramework\CodingStandard\Tool\CodeSniffer
      */
     protected static $_cmd = null;
 
@@ -28,8 +30,8 @@ class Magento_Test_Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$_reportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
-        $wrapper = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper();
-        self::$_cmd = new Magento_TestFramework_CodingStandard_Tool_CodeSniffer(
+        $wrapper = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper();
+        self::$_cmd = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer(
             realpath(__DIR__ . '/../CodeStyleTest/phpcs'), self::$_reportFile, $wrapper
         );
     }
@@ -139,8 +141,8 @@ class Magento_Test_Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
     /**
      * Assert total expected quantity of errors and warnings
      *
-     * @param SimpleXMLElement $report
-     * @param SimpleXMLElement $expected
+     * @param \SimpleXMLElement $report
+     * @param \SimpleXMLElement $expected
      */
     protected function _assertTotalErrorsAndWarnings($report, $expected)
     {
@@ -174,7 +176,7 @@ class Magento_Test_Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
     /**
      * Calculate count errors and warnings
      *
-     * @param SimpleXMLElement $report
+     * @param \SimpleXMLElement $report
      * @return array
      */
     protected function _calculateCountErrors($report)
@@ -189,8 +191,8 @@ class Magento_Test_Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
     /**
      * Assert that errors correspond to expected errors
      *
-     * @param SimpleXMLElement $report
-     * @param SimpleXMLElement $expected
+     * @param \SimpleXMLElement $report
+     * @param \SimpleXMLElement $expected
      */
     protected function _assertErrors($report, $expected)
     {
@@ -208,8 +210,8 @@ class Magento_Test_Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
     /**
      * Assert that warnings correspond to expected warnings
      *
-     * @param SimpleXMLElement $report
-     * @param SimpleXMLElement $expected
+     * @param \SimpleXMLElement $report
+     * @param \SimpleXMLElement $expected
      */
     protected function _assertWarnings($report, $expected)
     {

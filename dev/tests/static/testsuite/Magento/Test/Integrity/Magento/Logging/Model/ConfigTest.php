@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Logging_Model_ConfigTest extends Integrity_ConfigAbstract
+namespace Magento\Test\Integrity\Magento\Logging\Model;
+
+class ConfigTest extends \Integrity\ConfigAbstract
 {
 
     /**

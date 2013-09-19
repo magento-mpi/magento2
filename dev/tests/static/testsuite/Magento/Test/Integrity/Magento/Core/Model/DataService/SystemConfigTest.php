@@ -7,22 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Core_Model_DataService_SystemConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Core\Model\DataService;
+
+class SystemConfigTest extends \PHPUnit_Framework_TestCase
 {
     /** @var array string[] */
     protected static $_serviceCalls = array();
 
     public static function setUpBeforeClass()
     {
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('service_calls.xml', array());
+        $configFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('service_calls.xml', array());
         foreach ($configFiles as $file) {
-            $dom = new DOMDocument();
+            $dom = new \DOMDocument();
             $dom->loadXML(file_get_contents($file[0]));
             $serviceCalls = $dom->getElementsByTagName('service_calls');
             $serviceCalls = $serviceCalls->item(0);
             if ($serviceCalls->hasChildNodes()) {
                 foreach ($serviceCalls->childNodes as $serviceCall) {
-                    /** @var $serviceCall DOMNode */
+                    /** @var $serviceCall \DOMNode */
                     if ($serviceCall->localName == 'service_call') {
                         self::$_serviceCalls[] = $serviceCall->attributes->getNamedItem('name')->nodeValue;
                     }
@@ -36,12 +38,12 @@ class Magento_Test_Integrity_Magento_Core_Model_DataService_SystemConfigTest ext
      */
     public function testXmlFile($configFile)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($configFile));
         $this->assertNotNull($dom);
         $optionsList = $dom->getElementsByTagName('options');
         foreach ($optionsList as $options) {
-            /** @var $options DOMNode */
+            /** @var $options \DOMNode */
             if ($options->hasAttributes()) {
                 $serviceCallAttribute = $options->attributes->getNamedItem('service_call');
                 if (null != $serviceCallAttribute) {
@@ -56,6 +58,6 @@ class Magento_Test_Integrity_Magento_Core_Model_DataService_SystemConfigTest ext
 
     public function xmlDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('adminhtml/system.xml', array());
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('adminhtml/system.xml', array());
     }
 }

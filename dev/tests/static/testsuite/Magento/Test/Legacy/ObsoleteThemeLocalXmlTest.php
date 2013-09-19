@@ -9,7 +9,9 @@
 /**
  * Legacy tests to find themes non-modular local.xml files declaration
  */
-class Magento_Test_Legacy_ObsoleteThemeLocalXmlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class ObsoleteThemeLocalXmlTest extends \PHPUnit_Framework_TestCase
 {
     public function testLocalXmlFilesAbsent()
     {
@@ -17,7 +19,7 @@ class Magento_Test_Legacy_ObsoleteThemeLocalXmlTest extends PHPUnit_Framework_Te
         $package = '*';
         $theme = '*';
         $this->assertEmpty(glob(
-            Magento_TestFramework_Utility_Files::init()->getPathToSource()
+            \Magento\TestFramework\Utility\Files::init()->getPathToSource()
                 . "/app/design/{$area}/{$package}/{$theme}/local.xml"
         ));
     }

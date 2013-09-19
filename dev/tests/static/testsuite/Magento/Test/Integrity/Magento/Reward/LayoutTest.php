@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Magento_Reward_LayoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Reward;
+
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -19,10 +21,10 @@ class Magento_Test_Integrity_Magento_Reward_LayoutTest extends PHPUnit_Framework
         $xml = simplexml_load_file($file);
         $nodes = $xml->xpath('//action[@method="initRewardType"]/*[1]') ?: array();
         $errors = array();
-        /** @var SimpleXMLElement $node */
+        /** @var \SimpleXMLElement $node */
         foreach ($nodes as $node) {
             $class = (string)$node;
-            if (!Magento_TestFramework_Utility_Files::init()->classFileExists($class, $path)) {
+            if (!\Magento\TestFramework\Utility\Files::init()->classFileExists($class, $path)) {
                 $errors[] = "'{$class}' => '{$path}'";
             }
         }
@@ -38,6 +40,6 @@ class Magento_Test_Integrity_Magento_Reward_LayoutTest extends PHPUnit_Framework
      */
     public function layoutFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 }
