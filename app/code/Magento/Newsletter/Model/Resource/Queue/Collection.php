@@ -33,6 +33,31 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
     protected $_isStoreFilter        = false;
 
     /**
+     * Date
+     *
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+        $this->_date = $date;
+    }
+
+    /**
      * Initializes collection
      *
      */
@@ -183,7 +208,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
         $this->getSelect()
             ->where('main_table.queue_status in (?)', array(Magento_Newsletter_Model_Queue::STATUS_SENDING,
                                                             Magento_Newsletter_Model_Queue::STATUS_NEVER))
-            ->where('main_table.queue_start_at < ?', Mage::getSingleton('Magento_Core_Model_Date')->gmtdate())
+            ->where('main_table.queue_start_at < ?', $this->_date->gmtdate())
             ->where('main_table.queue_start_at IS NOT NULL');
 
         return $this;

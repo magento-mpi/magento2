@@ -15,6 +15,7 @@
             <newsletter_setup>
                 <setup>
                     <module>Magento_Newsletter</module>
+                    <class>Magento_Newsletter_Model_Resource_Setup</class>
                 </setup>
             </newsletter_setup>
         </resources>

@@ -12,9 +12,7 @@
 /**
  * Newsletter problems collection
  *
- * @category    Magento
- * @package     Magento_Newsletter
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
@@ -31,6 +29,31 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
      * @var bool
      */
     protected $_problemGrouped             = false;
+
+    /**
+     * Customer collection factory
+     *
+     * @var Magento_Customer_Model_Resource_Customer_CollectionFactory
+     */
+    protected $_customerCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+        $this->_customerCollectionFactory = $customerCollectionFactory;
+    }
 
     /**
      * Define resource model and model
@@ -93,8 +116,9 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
             return;
         }
 
-        $customers = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
-            ->addNameToSelect()
+        /** @var Magento_Customer_Model_Resource_Customer_Collection $customers */
+        $customers = $this->_customerCollectionFactory->create();
+        $customers->addNameToSelect()
             ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
 
         $customers->load();

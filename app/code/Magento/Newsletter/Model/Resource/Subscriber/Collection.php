@@ -55,6 +55,32 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     protected $_countFilterPart    = array();
 
     /**
+     * Customer factory
+     *
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        // _customerFactory is used in parent class constructor
+        $this->_customerFactory = $customerFactory;
+        parent::__construct($eventManager, $fetchStrategy, $resource);
+    }
+
+    /**
      * Constructor
      * Configures collection
      *
@@ -114,9 +140,10 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     public function showCustomerInfo()
     {
         $adapter = $this->getConnection();
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
-        $firstname  = $customer->getAttribute('firstname');
-        $lastname   = $customer->getAttribute('lastname');
+        /** @var Magento_Customer_Model_Customer $customer */
+        $customer = $this->_customerFactory->create();
+        $firstname = $customer->getAttribute('firstname');
+        $lastname = $customer->getAttribute('lastname');
 
         $this->getSelect()
             ->joinLeft(
@@ -213,5 +240,15 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     {
         $this->addFieldToFilter('main_table.store_id', array('in'=>$storeIds));
         return $this;
+    }
+
+    /**
+     * Get queue joined flag
+     *
+     * @return bool
+     */
+    public function getQueueJoinedFlag()
+    {
+        return $this->_queueJoinedFlag;
     }
 }

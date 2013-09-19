@@ -26,19 +26,37 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreConfig;
 
     /**
+     * Url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Template filter factory
+     *
+     * @var Magento_Newsletter_Model_Template_Filter_Factory
+     */
+    protected $_templateFilterFactory;
+
+    /**
      * Constructor
      *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Newsletter_Model_Template_Filter_Factory $templateFilterFactory
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Newsletter_Model_Template_Filter_Factory $templateFilterFactory
     ) {
-        parent::__construct(
-            $context
-        );
+        parent::__construct($context);
         $this->_coreConfig = $coreConfig;
+        $this->_url = $url;
+        $this->_templateFilterFactory = $templateFilterFactory;
     }
 
     /**
@@ -49,12 +67,11 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getConfirmationUrl($subscriber)
     {
-        return Mage::getModel('Magento_Core_Model_Url')
-            ->setStore($subscriber->getStoreId())
+        return $this->_url->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/confirm', array(
                 'id'     => $subscriber->getId(),
                 'code'   => $subscriber->getCode(),
-                '_nosid' => true
+                '_nosid' => true,
             ));
     }
 
@@ -66,12 +83,11 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getUnsubscribeUrl($subscriber)
     {
-        return Mage::getModel('Magento_Core_Model_Url')
-            ->setStore($subscriber->getStoreId())
+        return $this->_url->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/unsubscribe', array(
                 'id'     => $subscriber->getId(),
                 'code'   => $subscriber->getCode(),
-                '_nosid' => true
+                '_nosid' => true,
             ));
     }
 
@@ -82,7 +98,7 @@ class Magento_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getTemplateProcessor()
     {
-        $model = (string)$this->_coreConfig->getNode(self::XML_PATH_TEMPLATE_FILTER);
-        return Mage::getModel($model);
+        $name = (string)$this->_coreConfig->getNode(self::XML_PATH_TEMPLATE_FILTER);
+        return $this->_templateFilterFactory->create($name);
     }
 }
