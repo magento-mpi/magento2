@@ -10,8 +10,10 @@
  */
 
 /**
- * Exceptional situation during the static inspection
+ * \Exceptional situation during the static inspection
  */
-class Magento_TestFramework_Inspection_Exception extends Exception
+namespace Magento\TestFramework\Inspection;
+
+class Exception extends \Exception
 {
 }

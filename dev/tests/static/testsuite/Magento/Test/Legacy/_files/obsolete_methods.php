@@ -217,7 +217,7 @@ return array(
     array('cleanMergedJsCss', 'Magento_Core_Model_Design_PackageInterface',
         'Magento_Core_Model_Page_Asset_MergeService'),
     array('cleanVarFolder', '', 'Magento\Io\File::rmdirRecursive()'),
-    array('cleanVarSubFolders', '', 'glob() on Mage::getBaseDir(Mage_Core_Model_App_Dir::VAR_DIR)'),
+    array('cleanVarSubFolders', '', 'glob() on \Mage::getBaseDir(Mage_Core_Model_App_Dir::VAR_DIR)'),
     array('cloneIndexTable', 'Mage_Index_Model_Resource_Abstract'),
     array('collectRoutes', 'Mage_Backend_Controller_Router_Default'),
     array('collectRoutes', 'Mage_Core_Controller_Varien_Router_Base'),

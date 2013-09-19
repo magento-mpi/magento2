@@ -12,7 +12,9 @@
 /**
  * Coverage of obsolete nodes in layout
  */
-class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of obsolete nodes
@@ -127,7 +129,7 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param SimpleXMLElement $layoutXml
+     * @param \SimpleXMLElement $layoutXml
      */
     protected function _testObsoleteReferences($layoutXml)
     {
@@ -149,6 +151,6 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function layoutFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 }

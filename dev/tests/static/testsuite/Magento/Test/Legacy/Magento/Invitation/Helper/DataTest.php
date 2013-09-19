@@ -12,7 +12,9 @@
 /**
  * Tests to find Invitation Helper obsolete methods still used
  */
-class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy\Magento\Invitation\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -43,10 +45,10 @@ class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Fra
      */
     public function obsoleteMethodsDataProvider()
     {
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
-            Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Invitation'
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(
+            \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/app/code/Magento/Invitation'
         ));
-        $regexIterator = new RegexIterator($iterator, '/\.(?:php|phtml)$/');
+        $regexIterator = new \RegexIterator($iterator, '/\.(?:php|phtml)$/');
         $files = array();
         foreach ($regexIterator as $fileInfo) {
             $file = (string)$fileInfo;
@@ -57,6 +59,6 @@ class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Fra
             }
             $files[] = $file;
         }
-        return Magento_TestFramework_Utility_Files::composeDataSets($files);
+        return \Magento\TestFramework\Utility\Files::composeDataSets($files);
     }
 }

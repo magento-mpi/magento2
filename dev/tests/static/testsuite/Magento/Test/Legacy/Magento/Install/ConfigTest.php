@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Legacy_Magento_Install_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy\Magento\Install;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -28,6 +30,6 @@ class Magento_Test_Legacy_Magento_Install_ConfigTest extends PHPUnit_Framework_T
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('install.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('install.xml');
     }
 }

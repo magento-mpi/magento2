@@ -10,7 +10,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Directories may re-appear again during merging, therefore ensure they were properly relocated
@@ -20,7 +22,7 @@ class Magento_Test_Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
      */
     public function testRelocations($path)
     {
-        $this->assertFileNotExists(Magento_TestFramework_Utility_Files::init()->
+        $this->assertFileNotExists(\Magento\TestFramework\Utility\Files::init()->
                 getPathToSource() . DIRECTORY_SEPARATOR . $path);
     }
 
@@ -52,7 +54,7 @@ class Magento_Test_Legacy_FilesystemTest extends PHPUnit_Framework_TestCase
     {
         $area    = '*';
         $theme   = '*';
-        $root = Magento_TestFramework_Utility_Files::init()->getPathToSource();
+        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $dirs = glob("{$root}/app/design/{$area}/{$theme}/template", GLOB_ONLYDIR);
         $msg = array();
         if ($dirs) {

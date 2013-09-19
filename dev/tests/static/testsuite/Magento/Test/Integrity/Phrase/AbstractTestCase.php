@@ -11,7 +11,9 @@ use Magento\Tools\I18n\Code\FilesCollector;
 /**
  * Abstract class for phrase testing
  */
-class Magento_Test_Integrity_Phrase_AbstractTestCase extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Phrase;
+
+class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param array $phrase
@@ -23,13 +25,13 @@ class Magento_Test_Integrity_Phrase_AbstractTestCase extends PHPUnit_Framework_T
     }
 
     /**
-     * @return RegexIterator
+     * @return \RegexIterator
      */
     protected function _getFiles()
     {
         $filesCollector = new FilesCollector();
 
-        return $filesCollector->getFiles(array(Magento_TestFramework_Utility_Files::init()->getPathToSource()),
+        return $filesCollector->getFiles(array(\Magento\TestFramework\Utility\Files::init()->getPathToSource()),
             '/\.(php|phtml)$/');
     }
 }

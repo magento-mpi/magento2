@@ -12,7 +12,9 @@
 /**
  * Abstract shell command for the static code inspection
  */
-abstract class Magento_TestFramework_Inspection_CommandAbstract
+namespace Magento\TestFramework\Inspection;
+
+abstract class CommandAbstract
 {
     /**
      * @var string
@@ -129,7 +131,7 @@ abstract class Magento_TestFramework_Inspection_CommandAbstract
     /**
      * Generate message about last execution result, prepared for output to a user
      *
-     * @return Magento_TestFramework_Inspection_CommandAbstract
+     * @return \Magento\TestFramework\Inspection\CommandAbstract
      */
     protected function _generateLastRunMessage()
     {

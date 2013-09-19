@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
-class Magento_Test_CodingStandard_Tool_CodeMessDetectorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\CodingStandard\Tool;
+
+class CodeMessDetectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testCanRun()
     {
-        $messDetector = new Magento_TestFramework_CodingStandard_Tool_CodeMessDetector(
+        $messDetector = new \Magento\TestFramework\CodingStandard\Tool\CodeMessDetector(
             'some/ruleset/file.xml', 'some/report/file.xml');
         $this->assertEquals(class_exists('PHP_PMD_TextUI_Command'), $messDetector->canRun());
     }

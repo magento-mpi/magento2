@@ -12,7 +12,9 @@
 /**
  * Tests for obsolete and removed config nodes
  */
-class Magento_Test_Legacy_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -40,6 +42,6 @@ class Magento_Test_Legacy_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('config.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('config.xml');
     }
 }

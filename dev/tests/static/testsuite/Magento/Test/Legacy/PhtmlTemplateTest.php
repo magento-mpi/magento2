@@ -10,7 +10,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Legacy_PhtmlTemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class PhtmlTemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test usage of protected and private methods and variables in template
@@ -37,6 +39,6 @@ class Magento_Test_Legacy_PhtmlTemplateTest extends PHPUnit_Framework_TestCase
      */
     public function phtmlFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getPhtmlFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getPhtmlFiles();
     }
 }

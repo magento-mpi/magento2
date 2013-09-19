@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Utility_Files
+namespace Magento\TestFramework\Utility;
+
+class Files
 {
     /**
-     * @var Magento_TestFramework_Utility_Files
+     * @var \Magento\TestFramework\Utility\Files
      */
     protected static $_instance = null;
 
@@ -31,17 +33,17 @@ class Magento_TestFramework_Utility_Files
     /**
      * Setter/Getter for an instance of self
      *
-     * @param Magento_TestFramework_Utility_Files $instance
-     * @return Magento_TestFramework_Utility_Files
-     * @throws Exception when there is no instance set
+     * @param \Magento\TestFramework\Utility\Files $instance
+     * @return \Magento\TestFramework\Utility\Files
+     * @throws \Exception when there is no instance set
      */
-    public static function init(Magento_TestFramework_Utility_Files $instance = null)
+    public static function init(\Magento\TestFramework\Utility\Files $instance = null)
     {
         if ($instance) {
             self::$_instance = $instance;
         }
         if (!self::$_instance) {
-            throw new Exception('Instance is not set yet.');
+            throw new \Exception('Instance is not set yet.');
         }
         return self::$_instance;
     }
@@ -455,7 +457,7 @@ class Magento_TestFramework_Utility_Files
             return self::$_cache[$key];
         }
 
-        $iterator = new DirectoryIterator($this->_path . '/app/code/');
+        $iterator = new \DirectoryIterator($this->_path . '/app/code/');
         $result = array();
         foreach ($iterator as $file) {
             if (!$file->isDot() && !in_array($file->getFilename(), array('Zend')) && $file->isDir()) {

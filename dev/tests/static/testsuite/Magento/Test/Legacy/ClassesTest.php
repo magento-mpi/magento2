@@ -12,7 +12,9 @@
 /**
  * Scans source code for references to classes and see if they indeed exist
  */
-class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class ClassesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -20,7 +22,7 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function testPhpCode($file)
     {
-        $classes = Magento_TestFramework_Utility_Classes::collectPhpCodeClasses(file_get_contents($file));
+        $classes = \Magento\TestFramework\Utility\Classes::collectPhpCodeClasses(file_get_contents($file));
         $this->_assertNonFactoryName($classes, $file);
     }
 
@@ -29,7 +31,7 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function phpCodeDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getPhpFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getPhpFiles();
     }
 
     /**
@@ -40,10 +42,10 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     {
         $xml = simplexml_load_file($path);
 
-        $classes = Magento_TestFramework_Utility_Classes::collectClassesInConfig($xml);
+        $classes = \Magento\TestFramework\Utility\Classes::collectClassesInConfig($xml);
         $this->_assertNonFactoryName($classes, $path);
 
-        $modules = Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml, '//@module', 'module');
+        $modules = \Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml, '//@module', 'module');
         $this->_assertNonFactoryName(array_unique($modules), $path, false, true);
     }
 
@@ -52,7 +54,7 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles();
     }
 
     /**
@@ -62,18 +64,18 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
     public function testLayouts($path)
     {
         $xml = simplexml_load_file($path);
-        $classes = Magento_TestFramework_Utility_Classes::collectLayoutClasses($xml);
-        foreach (Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
+        $classes = \Magento\TestFramework\Utility\Classes::collectLayoutClasses($xml);
+        foreach (\Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
             '/layout//@helper', 'helper') as $class) {
-            $classes[] = Magento_TestFramework_Utility_Classes::getCallbackClass($class);
+            $classes[] = \Magento\TestFramework\Utility\Classes::getCallbackClass($class);
         }
         $classes =
-            array_merge($classes, Magento_TestFramework_Utility_Classes::getXmlAttributeValues($xml,
+            array_merge($classes, \Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
                     '/layout//@module', 'module'));
         $this->_assertNonFactoryName(array_unique($classes), $path);
 
         $tabs =
-            Magento_TestFramework_Utility_Classes::getXmlNodeValues($xml, '/layout//action[@method="addTab"]/block');
+            \Magento\TestFramework\Utility\Classes::getXmlNodeValues($xml, '/layout//action[@method="addTab"]/block');
         $this->_assertNonFactoryName(array_unique($tabs), $path, true);
     }
 
@@ -82,7 +84,7 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function layoutFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 
     /**
@@ -114,7 +116,7 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
                     $this->assertFalse(false === strpos($name, '\\'));
                     $this->assertRegExp('/^([A-Z\\\\][A-Za-z\d\\\\]+)+$/', $name);
                 }
-            } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 $factoryNames[] = $name;
             }
         }

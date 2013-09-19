@@ -12,8 +12,10 @@
 /**
  * PHP Code Sniffer tool wrapper
  */
-class Magento_TestFramework_CodingStandard_Tool_CodeSniffer
-    implements Magento_TestFramework_CodingStandard_ToolInterface
+namespace Magento\TestFramework\CodingStandard\Tool;
+
+class CodeSniffer
+    implements \Magento\TestFramework\CodingStandard\ToolInterface
 {
     /**
      * Ruleset directory
@@ -32,19 +34,19 @@ class Magento_TestFramework_CodingStandard_Tool_CodeSniffer
     /**
      * PHPCS cli tool wrapper
      *
-     * @var Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper
+     * @var \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper
      */
     protected $_wrapper;
 
     /**
      * Constructor
      *
-     * @param string $rulesetDir Directory that locates the inspection rules
+     * @param string $rulesetDir \Directory that locates the inspection rules
      * @param string $reportFile Destination file to write inspection report to
-     * @param Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper $wrapper
+     * @param \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper $wrapper
      */
     public function __construct($rulesetDir, $reportFile,
-        Magento_TestFramework_CodingStandard_Tool_CodeSniffer_Wrapper $wrapper
+        \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper $wrapper
     ) {
         $this->_reportFile = $reportFile;
         $this->_rulesetDir = $rulesetDir;
