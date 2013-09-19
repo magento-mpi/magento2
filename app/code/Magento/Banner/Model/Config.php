@@ -14,6 +14,22 @@
 class Magento_Banner_Model_Config
 {
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Banner types getter
      * Invokes translations to labels.
      *
@@ -24,7 +40,7 @@ class Magento_Banner_Model_Config
     public function getTypes($sorted = true, $withEmpty = false)
     {
         $result = array();
-        foreach (Mage::getConfig()->getNode('global/magento/banner/types')->asCanonicalArray() as $type => $label) {
+        foreach ($this->_coreConfig->getNode('global/magento/banner/types')->asCanonicalArray() as $type => $label) {
             $result[$type] = __($label);
         }
         if ($sorted) {

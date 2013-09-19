@@ -40,9 +40,23 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     protected $_errors = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Class construct
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_File_Storage_File $resource
+     * @param Magento_Data_Collection_Db|null $resourceCollection
+     * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -52,6 +66,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     ) {
         parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
         $this->_setResourceModel('Magento_Core_Model_Resource_File_Storage_File');
+        $this->_logger = $logger;
     }
 
     /**
@@ -166,7 +181,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
             try {
                 $fileInfo = $this->collectFileInfo($fileName);
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 continue;
             }
 
@@ -194,7 +209,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
                 $this->$callback($part);
             } catch (Exception $e) {
                 $this->_errors[] = $e->getMessage();
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 
@@ -254,7 +269,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
                 return $this->_getResource()
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 Mage::throwException(__('Unable to save file "%1" at "%2"', $file['filename'], $file['directory']));
             }
         } else {

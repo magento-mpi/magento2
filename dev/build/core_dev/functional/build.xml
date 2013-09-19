@@ -14,7 +14,7 @@
 <project name="Core Development Functional Tests" basedir="../../../../" default="run">
     <import file="../util.xml"/>
 
-    <target name="run" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
+    <target name="run" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
         <script language="javascript"><![CDATA[
             if (project.getProperty('env.bamboo_desired_agent')
                 && project.getProperty('env.bamboo_desired_agent') != ''
@@ -154,7 +154,7 @@
         </replace>
     </target>
 
-    <target name="run-ee" description="Deploy multiple Magento Enterprise instances and run functional tests on each of them simultaneously">
+    <target name="run-ee" depends="_server_info" description="Deploy multiple Magento Enterprise instances and run functional tests on each of them simultaneously">
         <script language="javascript"><![CDATA[
             if (project.getProperty('env.bamboo_desired_agent')
                 && project.getProperty('env.bamboo_desired_agent') != ''

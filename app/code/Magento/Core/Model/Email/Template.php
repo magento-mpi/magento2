@@ -15,7 +15,7 @@
  *
  * // Loading of template
  * $emailTemplate  = Mage::getModel('Magento_Core_Model_Email_Template')
- *    ->load(Mage::getStoreConfig('path_to_email_template_id_config'));
+ *    ->load($this->_coreStoreConfig->getConfig('path_to_email_template_id_config'));
  * $variables = array(
  *    'someObject' => Mage::getSingleton('Magento_Core_Model_Resource_Email_Template')
  *    'someString' => 'Some string value'
@@ -88,15 +88,36 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     protected $_viewFileSystem;
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
     static protected $_defaultTemplates;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -106,11 +127,16 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_logger = $context->getLogger();
+        $this->_coreConfig = $coreConfig;
         parent::__construct($design, $context, $registry, $data);
     }
 
@@ -216,7 +242,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function loadDefault($templateId)
     {
-        $defaultTemplates = self::getDefaultTemplates();
+        $defaultTemplates = $this->getDefaultTemplates();
         if (!isset($defaultTemplates[$templateId])) {
             return $this;
         }
@@ -224,7 +250,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $data = &$defaultTemplates[$templateId];
         $this->setTemplateType($data['type'] == 'html' ? self::TYPE_HTML : self::TYPE_TEXT);
 
-        $module = Mage::getConfig()->determineOmittedNamespace($data['@']['module'], true);
+        $module = $this->_coreConfig->determineOmittedNamespace($data['@']['module'], true);
         $templateText = $this->loadBaseContents($module, $data['file']);
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {
@@ -263,7 +289,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function loadBaseContents($module, $filename)
     {
-        $includeFilename = Mage::getConfig()->getModuleDir('view', $module) . DIRECTORY_SEPARATOR . $filename;
+        $includeFilename = $this->_coreConfig->getModuleDir('view', $module) . DIRECTORY_SEPARATOR . $filename;
         $contents = $this->_filesystem->read($includeFilename);
         if (!$contents) {
             throw new Exception(sprintf('Failed to include file "%s".', $includeFilename));
@@ -276,10 +302,10 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      *
      * @return array
      */
-    static public function getDefaultTemplates()
+    public function getDefaultTemplates()
     {
         if (is_null(self::$_defaultTemplates)) {
-            self::$_defaultTemplates = Mage::getConfig()->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
+            self::$_defaultTemplates = $this->_coreConfig->getNode(self::XML_PATH_TEMPLATE_EMAIL)->asArray();
         }
 
         return self::$_defaultTemplates;
@@ -290,13 +316,13 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      *
      * @return array
      */
-    static public function getDefaultTemplatesAsOptionsArray()
+    public function getDefaultTemplatesAsOptionsArray()
     {
         $options = array(array('value' => '', 'label' => '', 'group' => ''));
         $groups = array();
-        foreach (self::getDefaultTemplates() as $templateId => $row) {
+        foreach ($this->getDefaultTemplates() as $templateId => $row) {
             $module = $row['@']['module'];
-            $moduleFullName = Mage::getConfig()->determineOmittedNamespace($module, true);
+            $moduleFullName = $this->_coreConfig->determineOmittedNamespace($module, true);
             $options[] = array(
                 'value' => $templateId,
                 'label' => __($row['label']),
@@ -343,7 +369,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
      */
     public function isValidForSend()
     {
-        return !Mage::getStoreConfigFlag('system/smtp/disable')
+        return !$this->_coreStoreConfig->getConfigFlag('system/smtp/disable')
             && $this->getSenderName()
             && $this->getSenderEmail()
             && $this->getTemplateSubject();
@@ -446,7 +472,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {
-            Mage::logException(new Exception('This letter cannot be sent.')); // translation is intentionally omitted
+            $this->_logger->logException(new Exception('This letter cannot be sent.')); // translation is intentionally omitted
             return false;
         }
 
@@ -462,8 +488,8 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $variables['email'] = reset($emails);
         $variables['name'] = reset($names);
 
-        ini_set('SMTP', Mage::getStoreConfig('system/smtp/host'));
-        ini_set('smtp_port', Mage::getStoreConfig('system/smtp/port'));
+        ini_set('SMTP', $this->_coreStoreConfig->getConfig('system/smtp/host'));
+        ini_set('smtp_port', $this->_coreStoreConfig->getConfig('system/smtp/port'));
 
         $mail = $this->_getMail();
         foreach ($this->_bcc as $bcc) {
@@ -476,13 +502,13 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
             $mail->setReplyTo($this->_replyTo);
         }
 
-        $setReturnPath = Mage::getStoreConfig(self::XML_PATH_SENDING_SET_RETURN_PATH);
+        $setReturnPath = $this->_coreStoreConfig->getConfig(self::XML_PATH_SENDING_SET_RETURN_PATH);
         switch ($setReturnPath) {
             case 1:
                 $returnPathEmail = $this->getSenderEmail();
                 break;
             case 2:
-                $returnPathEmail = Mage::getStoreConfig(self::XML_PATH_SENDING_RETURN_PATH_EMAIL);
+                $returnPathEmail = $this->_coreStoreConfig->getConfig(self::XML_PATH_SENDING_RETURN_PATH_EMAIL);
                 break;
             default:
                 $returnPathEmail = null;
@@ -516,7 +542,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
             $mail->send();
             $result = true;
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             $this->_sendingException = $e;
         }
         $this->_bcc = array();
@@ -567,8 +593,8 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         }
 
         if (!is_array($sender)) {
-            $this->setSenderName(Mage::getStoreConfig('trans_email/ident_' . $sender . '/name', $storeId));
-            $this->setSenderEmail(Mage::getStoreConfig('trans_email/ident_' . $sender . '/email', $storeId));
+            $this->setSenderName($this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/name', $storeId));
+            $this->setSenderEmail($this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/email', $storeId));
         } else {
             $this->setSenderName($sender['name']);
             $this->setSenderEmail($sender['email']);

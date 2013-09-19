@@ -28,13 +28,32 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
     const SCOPE_PREFIX_WEBSITE          = 'website_';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check is Enabled Hierarchy Functionality
      *
      * @return bool
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_HIERARCHY_ENABLED);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_HIERARCHY_ENABLED);
     }
 
     /**
@@ -44,7 +63,7 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
      */
     public function isMetadataEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_METADATA_ENABLED);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_METADATA_ENABLED);
     }
 
     /**

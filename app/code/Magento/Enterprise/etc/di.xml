@@ -18,4 +18,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Install_Block_Begin">
+        <param name="eulaFile">
+            <value>LICENSE_EE.html</value>
+        </param>
+    </type>
 </config>

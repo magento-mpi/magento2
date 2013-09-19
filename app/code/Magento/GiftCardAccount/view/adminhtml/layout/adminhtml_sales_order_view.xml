@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_view">
-        <reference name="order_totals">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/order/totals/giftcardaccount.phtml">
-                <action method="setBeforeCondition">
-                    <argument name="param" xsi:type="string">customerbalance</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <reference name="order_totals">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/order/totals/giftcardaccount.phtml">
+            <action method="setBeforeCondition">
+                <argument name="param" xsi:type="string">customerbalance</argument>
+            </action>
+        </block>
+    </reference>
 </layout>

@@ -50,6 +50,25 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected $_writer;
 
     /**
+     * @var Magento_ImportExport_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_ImportExport_Model_Config $config
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_ImportExport_Model_Config $config,
+        array $data = array()
+    ) {
+        $this->_config = $config;
+        parent::__construct($logger, $data);
+    }
+
+    /**
      * Create instance of entity adapter and return it
      *
      * @throws Magento_Core_Exception
@@ -58,13 +77,13 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected function _getEntityAdapter()
     {
         if (!$this->_entityAdapter) {
-            $entityTypes = Magento_ImportExport_Model_Config::getModels(self::CONFIG_KEY_ENTITIES);
+            $entityTypes = $this->_config->getModels(self::CONFIG_KEY_ENTITIES);
 
             if (isset($entityTypes[$this->getEntity()])) {
                 try {
                     $this->_entityAdapter = Mage::getModel($entityTypes[$this->getEntity()]['model']);
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     Mage::throwException(
                         __('Please enter a correct entity model')
                     );
@@ -103,13 +122,13 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
     protected function _getWriter()
     {
         if (!$this->_writer) {
-            $validWriters = Magento_ImportExport_Model_Config::getModels(self::CONFIG_KEY_FORMATS);
+            $validWriters = $this->_config->getModels(self::CONFIG_KEY_FORMATS);
 
             if (isset($validWriters[$this->getFileFormat()])) {
                 try {
                     $this->_writer = Mage::getModel($validWriters[$this->getFileFormat()]['model']);
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                     Mage::throwException(
                         __('Please enter a correct entity model')
                     );

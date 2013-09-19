@@ -87,11 +87,17 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+    
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Index_Model_Lock_Storage $lockStorage
      * @param Magento_Index_Model_EventRepository $eventRepository
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -102,6 +108,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         Magento_Core_Model_Registry $registry,
         Magento_Index_Model_Lock_Storage $lockStorage,
         Magento_Index_Model_EventRepository $eventRepository,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -110,6 +117,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -325,7 +333,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
                 Mage::throwException(__('Indexer code is not defined.'));
             }
             $xmlPath = self::XML_PATH_INDEXER_DATA . '/' . $code;
-            $config = Mage::getConfig()->getNode($xmlPath);
+            $config = $this->_coreConfig->getNode($xmlPath);
             if (!$config || empty($config->model)) {
                 Mage::throwException(__('Indexer model is not defined.'));
             }
@@ -558,7 +566,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         if (is_null($depends)) {
             $depends = array();
             $path = self::XML_PATH_INDEXER_DATA . '/' . $this->getIndexerCode();
-            $node = Mage::getConfig()->getNode($path);
+            $node = $this->_coreConfig->getNode($path);
             if ($node) {
                 $data = $node->asArray();
                 if (isset($data['depends']) && is_array($data['depends'])) {

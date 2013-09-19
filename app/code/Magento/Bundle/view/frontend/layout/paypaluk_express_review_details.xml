@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="paypaluk_express_review_details">
-        <reference name="order_review">
-            <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_Checkout::onepage/review/item.phtml"/>
-        </reference>
-    </handle>
+    <reference name="order_review">
+        <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_Checkout::onepage/review/item.phtml"/>
+    </reference>
 </layout>

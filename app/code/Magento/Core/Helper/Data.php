@@ -82,25 +82,53 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Cache_Config
+     */
+    protected $_cacheConfig;
+
+    /**
+     * @var Magento_Core_Model_EncryptionFactory
+     */
+    protected $_encryptorFactory;
+
+    /**
+     * @var Magento_Core_Model_Fieldset_Config
+     */
+    protected $_fieldsetConfig;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
         $this->_config = $config;
+        $this->_cacheConfig = $context->getCacheConfig();
+        $this->_encryptorFactory = $context->getEncryptorFactory();
+        $this->_fieldsetConfig = $context->getFieldsetConfig();
     }
 
     /**
-     * @return Magento_Core_Model_Encryption
+     * @return Magento_Core_Model_EncryptionInterface
      */
     public function getEncryptor()
     {
@@ -110,9 +138,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
             if (!$encryptionModel) {
                 $encryptionModel = 'Magento_Core_Model_Encryption';
             }
-
-            $this->_encryptor = Mage::getObjectManager()->create($encryptionModel);
-
+            $this->_encryptor = $this->_encryptorFactory->create($encryptionModel);
             $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
@@ -383,7 +409,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $allow = true;
 
-        $allowedIps = Mage::getStoreConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
+        $allowedIps = $this->_coreStoreConfig->getConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
         $remoteAddr = $this->_coreHttp->getRemoteAddr();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
@@ -403,10 +429,8 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCacheTypes()
     {
-        /** @var Magento_Core_Model_Cache_Config $config */
-        $config = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Config');
         $types = array();
-        foreach ($config->getTypes() as $type => $node) {
+        foreach ($this->_cacheConfig->getTypes() as $type => $node) {
             $types[$type] = $node['label'];
         }
         return $types;
@@ -431,7 +455,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         if (!$this->_isFieldsetInputValid($source, $target)) {
             return null;
         }
-        $fields = Mage::getObjectManager()->get('Magento_Core_Model_Fieldset_Config')->getFieldset($fieldset, $root);
+        $fields = $this->_fieldsetConfig->getFieldset($fieldset, $root);
         if (is_null($fields)) {
             return $target;
         }
@@ -718,7 +742,7 @@ XML;
      */
     public function getDefaultCountry($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_COUNTRY, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_DEFAULT_COUNTRY, $store);
     }
 
     /**
@@ -729,7 +753,7 @@ XML;
      */
     public function getProtectedFileExtensions($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, $store);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, $store);
     }
 
     /**
@@ -739,7 +763,7 @@ XML;
      */
     public function getPublicFilesValidPath()
     {
-        return Mage::getStoreConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
     }
 
     /**
@@ -779,7 +803,7 @@ XML;
      */
     public function getMerchantCountryCode($store = null)
     {
-        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
     }
 
     /**
@@ -790,7 +814,7 @@ XML;
      */
     public function getMerchantVatNumber($store = null)
     {
-        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
+        return (string) $this->_coreStoreConfig->getConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
     }
 
     /**
@@ -802,7 +826,7 @@ XML;
      */
     public function isCountryInEU($countryCode, $storeId = null)
     {
-        $euCountries = explode(',', Mage::getStoreConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
+        $euCountries = explode(',', $this->_coreStoreConfig->getConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
         return in_array($countryCode, $euCountries);
     }
 
@@ -835,7 +859,7 @@ XML;
      */
     public function isSingleStoreModeEnabled()
     {
-        return (bool) Mage::getStoreConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
+        return (bool) $this->_coreStoreConfig->getConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
     }
 
     /**

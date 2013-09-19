@@ -62,13 +62,6 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     );
 
     /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
      * Get parent block type
      *
      * @return null|string

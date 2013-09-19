@@ -28,14 +28,24 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -106,7 +116,7 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
         if (!isset($arr[1])) {
             return false;
         }
-        $freeMethod = Mage::getStoreConfig('carriers/' . $arr[0] . '/free_method', $storeId);
+        $freeMethod = $this->_coreStoreConfig->getConfig('carriers/' . $arr[0] . '/free_method', $storeId);
         return $freeMethod == $arr[1];
     }
 }

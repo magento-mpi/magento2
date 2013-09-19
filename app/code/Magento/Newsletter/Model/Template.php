@@ -62,10 +62,18 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     protected $_newsletterData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Newsletter_Helper_Data $newsletterData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -73,9 +81,11 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
         Magento_Newsletter_Helper_Data $newsletterData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_newsletterData = $newsletterData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($design, $context, $registry, $data);
     }
 
@@ -288,7 +298,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function isValidForSend()
     {
-        return !Mage::getStoreConfigFlag(Magento_Core_Helper_Data::XML_PATH_SYSTEM_SMTP_DISABLE)
+        return !$this->_coreStoreConfig->getConfigFlag(Magento_Core_Helper_Data::XML_PATH_SYSTEM_SMTP_DISABLE)
             && $this->getTemplateSenderName()
             && $this->getTemplateSenderEmail()
             && $this->getTemplateSubject();

@@ -7,15 +7,13 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Multishipping Checkout" id="checkout_multishipping" type="page" parent="checkout_cart_index">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Checkout_Block_Multishipping_State" name="checkout_state" template="multishipping/state.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout" type="page" parent="checkout_cart_index">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Checkout_Block_Multishipping_State" name="checkout_state" template="multishipping/state.phtml"/>
+    </reference>
 </layout>

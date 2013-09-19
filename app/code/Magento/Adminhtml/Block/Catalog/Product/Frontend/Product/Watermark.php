@@ -27,16 +27,24 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
     protected $_elementFactory;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Data_Form_Element_Factory $elementFactory,
         Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context, $data);
     }
 
@@ -45,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
         $html = $this->_getHeaderHtml($element);
         $renderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
 
-        $attributes = Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
+        $attributes = $this->_coreConfig->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 
         foreach ($attributes as $key => $attribute) {
             /**

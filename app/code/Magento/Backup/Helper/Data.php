@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -49,18 +47,46 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_authorization;
 
     /**
+     * @var Magento_Core_Model_Cache_Config
+     */
+    protected $_cacheConfig;
+
+    /**
+     * @var Magento_Core_Model_Cache_TypeListInterface
+     */
+    protected $_cacheTypeList;
+    
+    /**
+     * Directory model
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Magento_AuthorizationInterface $authorization
+     * @param Magento_Core_Model_Cache_Config $cacheConfig
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Filesystem $filesystem,
-        Magento_AuthorizationInterface $authorization
+        Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_Cache_Config $cacheConfig,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Core_Model_Dir $dir
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;
-        $this->_filesystem = $filesystem;
+        $this->_filesystem = $filesystem;        
+        $this->_cacheConfig = $cacheConfig;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_dir = $dir;
     }
 
     /**
@@ -110,7 +136,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getBackupsDir()
     {
-        return Mage::getBaseDir('var') . DS . 'backups';
+        return $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'backups';
     }
 
     /**
@@ -174,12 +200,12 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             '.git',
             '.svn',
             'maintenance.flag',
-            Mage::getBaseDir('var') . DS . 'session',
-            Mage::getBaseDir('var') . DS . 'cache',
-            Mage::getBaseDir('var') . DS . 'full_page_cache',
-            Mage::getBaseDir('var') . DS . 'locks',
-            Mage::getBaseDir('var') . DS . 'log',
-            Mage::getBaseDir('var') . DS . 'report'
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'session',
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'cache',
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'full_page_cache',
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'locks',
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'log',
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'report',
         );
     }
 
@@ -194,13 +220,13 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             '.svn',
             '.git',
             'maintenance.flag',
-            Mage::getBaseDir('var') . DS . 'session',
-            Mage::getBaseDir('var') . DS . 'locks',
-            Mage::getBaseDir('var') . DS . 'log',
-            Mage::getBaseDir('var') . DS . 'report',
-            Mage::getBaseDir('app') . DS . 'Mage.php',
-            Mage::getBaseDir() . DS . 'errors',
-            Mage::getBaseDir() . DS . 'index.php'
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'session',
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'locks',
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'log',
+            $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'report',
+            $this->_dir->getDir(Magento_Core_Model_Dir::APP) . DS . 'Mage.php',
+            $this->_dir->getDir() . DS . 'errors',
+            $this->_dir->getDir() . DS . 'index.php',
         );
     }
 
@@ -212,7 +238,11 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     public function turnOnMaintenanceMode()
     {
         $maintenanceFlagFile = $this->getMaintenanceFlagFilePath();
-        $result = $this->_filesystem->write($maintenanceFlagFile, 'maintenance', Mage::getBaseDir());
+        $result = $this->_filesystem->write(
+            $maintenanceFlagFile,
+            'maintenance',
+            $this->_dir->getDir()
+        );
 
         return $result !== false;
     }
@@ -223,7 +253,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     public function turnOffMaintenanceMode()
     {
         $maintenanceFlagFile = $this->getMaintenanceFlagFilePath();
-        $this->_filesystem->delete($maintenanceFlagFile, Mage::getBaseDir());
+        $this->_filesystem->delete($maintenanceFlagFile, $this->_dir->getDir());
     }
 
     /**
@@ -255,7 +285,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function getMaintenanceFlagFilePath()
     {
-        return Mage::getBaseDir() . DS . 'maintenance.flag';
+        return $this->_dir->getDir() . DS . 'maintenance.flag';
     }
 
     /**
@@ -265,13 +295,9 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function invalidateCache()
     {
-        /** @var Magento_Core_Model_Cache_Config $config */
-        $config = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Config');
-        if ($cacheTypes = $config->getTypes()) {
+        if ($cacheTypes = $this->_cacheConfig->getTypes()) {
             $cacheTypesList = array_keys($cacheTypes);
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-            $cacheTypeList->invalidate($cacheTypesList);
+            $this->_cacheTypeList->invalidate($cacheTypesList);
         }
         return $this;
     }

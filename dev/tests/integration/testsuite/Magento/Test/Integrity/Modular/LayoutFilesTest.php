@@ -23,7 +23,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_handlerFactory = $objectManager->get('Magento_Core_Model_Layout_Argument_HandlerFactory');
         $this->_types = $this->_handlerFactory->getTypes();
     }

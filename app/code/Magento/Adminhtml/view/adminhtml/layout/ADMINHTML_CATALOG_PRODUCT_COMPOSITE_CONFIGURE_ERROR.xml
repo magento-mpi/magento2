@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="ADMINHTML_CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR">
-        <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Error" name="product.composite.error" output="1"/>
-    </handle>
+    <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Error" name="product.composite.error" output="1"/>
 </layout>

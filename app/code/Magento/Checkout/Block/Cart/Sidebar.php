@@ -54,7 +54,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
     {
         $count = $this->getData('item_count');
         if (is_null($count)) {
-            $count = Mage::getStoreConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
+            $count = $this->_storeConfig->getConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
             $this->setData('item_count', $count);
         }
         return $count;

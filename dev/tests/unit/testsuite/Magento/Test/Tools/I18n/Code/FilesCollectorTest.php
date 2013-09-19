@@ -32,8 +32,8 @@ class FilesCollectorTest extends \PHPUnit_Framework_TestCase
     public function testGetFilesWithoutMask()
     {
         $expectedResult = array(
+            $this->_testDir . 'default.xml',
             $this->_testDir . 'file.js',
-            $this->_testDir . 'layout.xml',
         );
         $files = $this->_filesCollector->getFiles(array($this->_testDir));
         $this->assertEquals($expectedResult, $files);

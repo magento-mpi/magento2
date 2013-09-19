@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_guest_creditmemo">
-        <reference name="creditmemo_items">
-            <block class="Magento_GiftCard_Block_Sales_Order_Item_Renderer" as="giftcard" template="Magento_Sales::order/creditmemo/items/renderer/default.phtml"/>
-        </reference>
-    </handle>
+    <reference name="creditmemo_items">
+        <block class="Magento_GiftCard_Block_Sales_Order_Item_Renderer" as="giftcard" template="Magento_Sales::order/creditmemo/items/renderer/default.phtml"/>
+    </reference>
 </layout>

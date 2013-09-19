@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_googleshopping_types_index">
-        <update handle="formkey"/>
-        <update handle="adminhtml_googleshopping_types_block"/>
-        <reference name="content">
-            <block class="Magento_GoogleShopping_Block_Adminhtml_Types" name="googleshopping.types.container"/>
-        </reference>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_googleshopping_types_block"/>
+    <reference name="content">
+        <block class="Magento_GoogleShopping_Block_Adminhtml_Types" name="googleshopping.types.container"/>
+    </reference>
 </layout>

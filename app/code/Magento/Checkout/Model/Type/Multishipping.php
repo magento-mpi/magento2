@@ -32,16 +32,25 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
     protected $_eventManager = null;
 
     /**
-     * Constructor
+     * Core store config
      *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
         $this->_init();
     }
@@ -217,7 +226,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
                 }
             }
 
-            $maxQty = (int)Mage::getStoreConfig('shipping/option/checkout_multiple_maximum_qty');
+            $maxQty = (int)$this->_coreStoreConfig->getConfig('shipping/option/checkout_multiple_maximum_qty');
             if ($allQty > $maxQty) {
                 Mage::throwException(__('Maximum qty allowed for Shipping to multiple addresses is %1', $maxQty));
             }
@@ -569,8 +578,8 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      */
     public function validateMinimumAmount()
     {
-        return !(Mage::getStoreConfigFlag('sales/minimum_order/active')
-            && Mage::getStoreConfigFlag('sales/minimum_order/multi_address')
+        return !($this->_coreStoreConfig->getConfigFlag('sales/minimum_order/active')
+            && $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/multi_address')
             && !$this->getQuote()->validateMinimumAmount());
     }
 
@@ -581,18 +590,18 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
      */
     public function getMinimumAmountDescription()
     {
-        $descr = Mage::getStoreConfig('sales/minimum_order/multi_address_description');
+        $descr = $this->_coreStoreConfig->getConfig('sales/minimum_order/multi_address_description');
         if (empty($descr)) {
-            $descr = Mage::getStoreConfig('sales/minimum_order/description');
+            $descr = $this->_coreStoreConfig->getConfig('sales/minimum_order/description');
         }
         return $descr;
     }
 
     public function getMinimumAmountError()
     {
-        $error = Mage::getStoreConfig('sales/minimum_order/multi_address_error_message');
+        $error = $this->_coreStoreConfig->getConfig('sales/minimum_order/multi_address_error_message');
         if (empty($error)) {
-            $error = Mage::getStoreConfig('sales/minimum_order/error_message');
+            $error = $this->_coreStoreConfig->getConfig('sales/minimum_order/error_message');
         }
         return $error;
     }
