@@ -90,6 +90,8 @@ class Magento_CatalogRule_Model_Observer
      * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_CatalogRule_Model_Rule_Product_Price $productPrice
      * @param Magento_Core_Model_Registry $coreRegistry
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_CatalogRule_Model_Resource_RuleFactory $resourceRuleFactory,
