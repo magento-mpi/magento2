@@ -229,7 +229,7 @@ class MongoDbTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad($doNotTestValidity)
     {
-        include_once(__DIR__ . '/_files/\MongoBinData.php');
+        include_once(__DIR__ . '/_files/MongoBinData.php');
 
         $cacheId = 'test_id';
         $expected = 'test_data';
