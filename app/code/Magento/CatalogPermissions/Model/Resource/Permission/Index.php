@@ -89,6 +89,12 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     protected $_groupCollFactory;
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory
      * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
@@ -97,6 +103,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Resource_Website_CollectionFactory $websiteCollFactory,
         Magento_Customer_Model_Resource_Group_CollectionFactory $groupCollFactory,
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
@@ -104,6 +111,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_eavConfig = $eavConfig;
         $this->_groupCollFactory = $groupCollFactory;
         $this->_websiteCollFactory = $websiteCollFactory;
         $this->_catalogPermData = $catalogPermData;
@@ -297,7 +305,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
         /* @var $isActive Magento_Eav_Model_Entity_Attribute */
-        $isActive = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_category', 'is_active');
+        $isActive = $this->_eavConfig->getAttribute('catalog_category', 'is_active');
 
         $selectCategory = $readAdapter->select()
             ->from(

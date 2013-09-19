@@ -96,4 +96,5 @@ return array(
     array('checkCategoryPermissions', 'Magento_CatalogPermissions_Model_Adminhtml_Observer'),
     array('chargeById', 'Magento_GiftCardAccount_Model_Observer'),
     array('_helper', 'Magento_GiftRegistry_Model_Entity'),
+    array('_getIndexModel', 'Magento_CatalogPermissions_Model_Observer'),
 );
