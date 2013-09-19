@@ -18,6 +18,35 @@
 class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Session
+     *
+     * @var Magento_Connect_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * Extension factory
+     *
+     * @var Magento_Connect_Model_ExtensionFactory
+     */
+    protected $_extensionFactory;
+
+    /**
+     * @param Magento_Connect_Model_Session $session
+     * @param Magento_Connect_Model_ExtensionFactory $extensionFactory
+     * @param Magento_Backend_Controller_Context $context
+     */
+    public function __construct(
+        Magento_Connect_Model_Session $session,
+        Magento_Connect_Model_ExtensionFactory $extensionFactory,
+        Magento_Backend_Controller_Context $context
+    ) {
+        $this->_session = $session;
+        $this->_extensionFactory = $extensionFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Redirect to edit Extension Package action
      *
      */
@@ -47,7 +76,7 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
      */
     public function resetAction()
     {
-        Mage::getSingleton('Magento_Connect_Model_Session')->unsCustomExtensionPackageFormData();
+        $this->_session->unsCustomExtensionPackageFormData();
         $this->_redirect('*/*/edit');
     }
 
@@ -59,19 +88,18 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
     {
         $packageName = base64_decode(strtr($this->getRequest()->getParam('id'), '-_,', '+/='));
         if ($packageName) {
-            $session = Mage::getSingleton('Magento_Connect_Model_Session');
             try {
                 $data = $this->_objectManager->get('Magento_Connect_Helper_Data')->loadLocalPackage($packageName);
                 if (!$data) {
-                    Mage::throwException(__('Something went wrong loading the package data.'));
+                    throw new Magento_Core_Exception(__('Something went wrong loading the package data.'));
                 }
                 $data = array_merge($data, array('file_name' => $packageName));
-                $session->setCustomExtensionPackageFormData($data);
-                $session->addSuccess(
+                $this->_session->setCustomExtensionPackageFormData($data);
+                $this->_session->addSuccess(
                     __('The package %1 data has been loaded.', $packageName)
                 );
             } catch (Exception $e) {
-                $session->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/edit');
@@ -83,7 +111,6 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
      */
     public function saveAction()
     {
-        $session = Mage::getSingleton('Magento_Connect_Model_Session');
         $p = $this->getRequest()->getPost();
 
         if (!empty($p['_create'])) {
@@ -95,15 +122,15 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
             $p['file_name'] = $p['name'];
         }
 
-        $session->setCustomExtensionPackageFormData($p);
+        $this->_session->setCustomExtensionPackageFormData($p);
         try {
-            $ext = Mage::getModel('Magento_Connect_Model_Extension');
+            $ext = $this->_extensionFactory->create();
             /** @var $ext Magento_Connect_Model_Extension */
             $ext->setData($p);
             if ($ext->savePackage()) {
-                $session->addSuccess(__('The package data has been saved.'));
+                $this->_session->addSuccess(__('The package data has been saved.'));
             } else {
-                $session->addError(__('Something went wrong saving the package data.'));
+                $this->_session->addError(__('Something went wrong saving the package data.'));
                 $this->_redirect('*/*/edit');
             }
             if (empty($create)) {
@@ -112,10 +139,10 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
                 $this->_forward('create');
             }
         } catch (Magento_Core_Exception $e){
-            $session->addError($e->getMessage());
+            $this->_session->addError($e->getMessage());
             $this->_redirect('*/*');
         } catch (Exception $e){
-            $session->addException($e, __('Something went wrong saving the package.'));
+            $this->_session->addException($e, __('Something went wrong saving the package.'));
             $this->_redirect('*/*');
         }
     }
@@ -126,11 +153,10 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
      */
     public function createAction()
     {
-        $session = Mage::getSingleton('Magento_Connect_Model_Session');
         try {
             $post = $this->getRequest()->getPost();
-            $session->setCustomExtensionPackageFormData($post);
-            $ext = Mage::getModel('Magento_Connect_Model_Extension');
+            $this->_session->setCustomExtensionPackageFormData($post);
+            $ext = $this->_extensionFactory->create();
             $ext->setData($post);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {
@@ -143,10 +169,10 @@ class Magento_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Admi
             }
             $this->_redirect('*/*');
         } catch(Magento_Core_Exception $e){
-            $session->addError($e->getMessage());
+            $this->_session->addError($e->getMessage());
             $this->_redirect('*/*');
         } catch(Exception $e){
-            $session->addException($e, __('Something went wrong creating the package.'));
+            $this->_session->addException($e, __('Something went wrong creating the package.'));
             $this->_redirect('*/*');
         }
     }

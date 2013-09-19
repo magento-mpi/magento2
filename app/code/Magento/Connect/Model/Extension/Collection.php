@@ -35,10 +35,12 @@ class Magento_Connect_Model_Extension_Collection extends Magento_Data_Collection
 
     /**
      * Set base dir
+     *
+     * @param Magento_Core_Model_Dir $dirs
      */
-    public function __construct()
+    public function __construct(Magento_Core_Model_Dir $dirs)
     {
-        $this->_baseDir = Mage::getBaseDir('var') . DS . 'connect';
+        $this->_baseDir = $dirs->getDir('var') . DS . 'connect';
         $io = new Magento_Io_File();
         $io->setAllowCreateFolders(true)->createDestinationDir($this->_baseDir);
         $this->addTargetDir($this->_baseDir);
