@@ -19,10 +19,10 @@ class ValueTest extends \PHPUnit_Framework_TestCase
     protected $_object;
 
     /**
-    * Option value title data
-    *
-    * @var array
-    */
+     * Option value title data
+     *
+     * @var array
+     */
     public static $valueTitleData = array(
     'id'       => 2,
     'store_id' => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
