@@ -102,8 +102,6 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
      */
     public function sendCommentEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = $this->_rmaConfig;
         $order = $this->getRma()->getOrder();
         if ($order->getCustomerIsGuest()) {
             $customerName = $order->getBillingAddress()->getName();
@@ -117,7 +115,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
             )
         );
 
-        return $this->_sendCommentEmail($configRmaEmail->getRootCommentEmail(), $sendTo, true);
+        return $this->_sendCommentEmail($this->_rmaConfig->getRootCommentEmail(), $sendTo, true);
     }
 
     /**
@@ -160,9 +158,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $translate = $this->_translate;
-        /* @var $translate Magento_Core_Model_Translate */
-        $translate->setTranslateInline(false);
+        $this->_translate->setTranslateInline(false);
 
         $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
         /* @var $mailTemplate Magento_Core_Model_Email_Template */
@@ -207,7 +203,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
                 );
         }
         $this->setEmailSent(true);
-        $translate->setTranslateInline(true);
+        $this->_translate->setTranslateInline(true);
 
         return $this;
     }

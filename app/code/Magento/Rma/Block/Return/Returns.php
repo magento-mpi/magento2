@@ -65,15 +65,13 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
         if ($this->_rmaData->isEnabled()) {
             $this->setTemplate('return/returns.phtml');
 
-            $returns = $this->_gridCollFactory
-                ->create()
+            $returns = $this->_gridCollFactory->create()
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', $this->_coreRegistry->registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');
 
-            $customerSession = $this->_customerSession;
-            if ($customerSession->isLoggedIn()) {
-                $returns->addFieldToFilter('customer_id', $customerSession->getCustomer()->getId());
+            if ($this->_customerSession->isLoggedIn()) {
+                $returns->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId());
             }
 
             $this->setReturns($returns);

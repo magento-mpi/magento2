@@ -64,8 +64,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_attrCollFactory
-            ->create()
+        $collection = $this->_attrCollFactory->create()
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);

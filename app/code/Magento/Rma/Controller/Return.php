@@ -321,8 +321,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                 $number    = $this->getRequest()->getPost('number');
                 $number    = trim(strip_tags($number));
                 $carrier   = $this->getRequest()->getPost('carrier');
-                $carriers  = $this->_objectManager
-                    ->get('Magento_Rma_Helper_Data')
+                $carriers  = $this->_objectManager->get('Magento_Rma_Helper_Data')
                     ->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {

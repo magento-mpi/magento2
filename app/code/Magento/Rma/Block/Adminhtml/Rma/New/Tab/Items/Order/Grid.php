@@ -103,8 +103,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
 
         /** @var $collection Magento_Rma_Model_Resource_Item */
 
-        $orderItemsCollection = $this->_rmaItemFactory
-            ->create()
+        $orderItemsCollection = $this->_rmaItemFactory->create()
             ->getOrderItemsCollection($orderId);
 
         $this->setCollection($orderItemsCollection);
@@ -123,8 +122,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected function _afterLoadCollection()
     {
         $orderId = $this->_coreRegistry->registry('current_order')->getId();
-        $itemsInActiveRmaArray = $this->_rmaItemFactory
-            ->create()
+        $itemsInActiveRmaArray = $this->_rmaItemFactory->create()
             ->getItemsIdsByOrder($orderId);
 
         $fullItemsCollection = $this->_rmaItemFactory

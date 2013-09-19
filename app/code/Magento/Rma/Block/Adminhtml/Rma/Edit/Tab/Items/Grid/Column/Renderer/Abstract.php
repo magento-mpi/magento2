@@ -37,7 +37,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstra
         parent::__construct($context, $data);
     }
 
-
     /**
      * Renders column
      *

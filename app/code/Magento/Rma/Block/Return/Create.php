@@ -63,14 +63,13 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
-        $session = $this->_coreSession;
-        $formData = $session->getRmaFormData(true);
+        $formData = $this->_coreSession->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new Magento_Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
-        $errorKeys = $session->getRmaErrorKeys(true);
+        $errorKeys = $this->_coreSession->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
             $data = new Magento_Object();
             $data->addData($errorKeys);

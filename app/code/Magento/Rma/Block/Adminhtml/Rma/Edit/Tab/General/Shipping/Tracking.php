@@ -94,8 +94,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      */
     public function getAllTracks()
     {
-        return $this->_shippingCollFactory
-            ->create()
+        return $this->_shippingCollFactory->create()
             ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
             ->addFieldToFilter('is_admin', array("neq" => Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
         ;

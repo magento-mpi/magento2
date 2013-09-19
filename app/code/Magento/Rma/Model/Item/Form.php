@@ -45,7 +45,6 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
         parent::__construct();
     }
 
-
     /**
      * Get EAV Entity Form Attribute Collection
      *

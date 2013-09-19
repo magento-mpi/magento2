@@ -63,8 +63,7 @@ class Magento_Rma_Block_Order_Link extends Magento_Sales_Block_Order_Link
     protected function _isRmaAviable()
     {
         if ($this->_rmaHelper->isEnabled()) {
-            $returns = $this->_gridCollFactory
-                ->create()
+            $returns = $this->_gridCollFactory->create()
                 ->addFieldToSelect('*')
                 ->addFieldToFilter('order_id', $this->_registry->registry('current_order')->getId())
                 ->count();

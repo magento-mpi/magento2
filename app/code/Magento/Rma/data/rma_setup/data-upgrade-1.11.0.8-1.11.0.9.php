@@ -10,7 +10,7 @@
 
 /** @var $this Magento_Rma_Model_Resource_Setup */
 /** @var $installer Magento_Enterprise_Model_Resource_Setup_Migration */
-$installer = $this->getMigrationFactory()->create(array('resourceName' => 'core_setup'));
+$installer = $this->getMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('magento_rma_item_eav_attribute', 'data_model',

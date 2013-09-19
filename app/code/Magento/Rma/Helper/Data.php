@@ -166,8 +166,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
             Mage::throwException(__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
-            $this->_orderItems[$orderId] = $this->_rmaItemFactory
-                ->create()
+            $this->_orderItems[$orderId] = $this->_rmaItemFactory->create()
                 ->getOrderItems($orderId);
         }
 

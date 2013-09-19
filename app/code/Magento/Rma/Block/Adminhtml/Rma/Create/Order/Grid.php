@@ -53,7 +53,6 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
         );
     }
 
-
     /**
      * Block constructor
      */
@@ -72,8 +71,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Backend_
     protected function _prepareCollection()
     {
         /** @var $collection Magento_Sales_Model_Resource_Order_Grid_Collection */
-        $collection = $this->_gridCollFactory
-            ->create()
+        $collection = $this->_gridCollFactory->create()
             ->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();

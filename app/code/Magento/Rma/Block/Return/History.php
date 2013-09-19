@@ -44,8 +44,7 @@ class Magento_Rma_Block_Return_History extends Magento_Core_Block_Template
         parent::_construct();
         $this->setTemplate('return/history.phtml');
 
-        $returns = $this->_gridCollFactory
-            ->create()
+        $returns = $this->_gridCollFactory->create()
             ->addFieldToSelect('*')
             ->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
             ->setOrder('date_requested', 'desc')

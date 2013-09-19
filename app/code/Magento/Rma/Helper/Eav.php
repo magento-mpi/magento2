@@ -52,7 +52,6 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
         parent::__construct($context, $coreStoreConfig);
     }
 
-
     /**
      * Default attribute entity type code
      *
@@ -201,8 +200,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = $this->_optionCollFactory
-                ->create()
+            $optionCollection = $this->_optionCollFactory->create()
                 ->setStoreFilter($storeId, $useDefaultValue);
 
             $optionCollection

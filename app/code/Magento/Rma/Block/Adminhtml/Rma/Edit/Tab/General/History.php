@@ -105,8 +105,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     }
 
     public function getComments() {
-        return $this->_statusCollFactory
-            ->create()
+        return $this->_statusCollFactory->create()
             ->addFieldToFilter('rma_entity_id', $this->_coreRegistry->registry('current_rma')->getId());
     }
 

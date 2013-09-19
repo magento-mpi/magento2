@@ -72,7 +72,6 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
         );
     }
 
-
     /**
      * Set active website instance
      *

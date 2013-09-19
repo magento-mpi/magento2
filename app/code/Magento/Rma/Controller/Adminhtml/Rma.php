@@ -215,8 +215,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $backendSession->addSuccess(__('You submitted the RMA request.'));
         } catch (Magento_Core_Exception $e) {
             $backendSession->addError($e->getMessage());
-            $errorKeys = $this->_objectManager
-                ->get('Magento_Core_Model_Session')
+            $errorKeys = $this->_objectManager->get('Magento_Core_Model_Session')
                 ->getRmaErrorKeys();
             $controllerParams = array('order_id' => $this->_coreRegistry->registry('current_order')->getId());
             if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
@@ -317,8 +316,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             }
         } catch (Magento_Core_Exception $e) {
             $backendSession->addError($e->getMessage());
-            $errorKeys = $this->_objectManager
-                ->get('Magento_Core_Model_Session')
+            $errorKeys = $this->_objectManager->get('Magento_Core_Model_Session')
                 ->getRmaErrorKeys();
             $controllerParams = array('id' => $rmaId);
             if (isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
@@ -759,8 +757,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         try {
             if ($orderId && $itemId) {
                 /** @var $items Magento_Rma_Model_Resource_Item */
-                $items = $this->_rmaItemFactory
-                    ->create()
+                $items = $this->_rmaItemFactory->create()
                     ->getOrderItems($orderId, $itemId);
                 if (empty($items)) {
                     Mage::throwException(__('No items for bundle product'));
@@ -805,10 +802,12 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')
+                ->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')
+                ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -1119,7 +1118,8 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $shipment =  Mage::getModel('Magento_Rma_Model_Shipping')
                 ->getShippingLabelByRma($model);
 
-            $carrier = $this->_objectManager->get('Magento_Rma_Helper_Data')->getCarrier($data['code'], $model->getStoreId());
+            $carrier = $this->_objectManager->get('Magento_Rma_Helper_Data')
+                ->getCarrier($data['code'], $model->getStoreId());
             if (!$carrier->isShippingLabelsAvailable()) {
                 return false;
             }
@@ -1162,10 +1162,10 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
-                $carrierTitle = $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
+                $carrierTitle = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+                    ->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
-                    $this->_rmaShippingFactory
-                        ->create()
+                    $this->_rmaShippingFactory->create()
                         ->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {
                         Mage::getModel('Magento_Rma_Model_Shipping')

@@ -138,13 +138,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Magento_Backen
      */
     protected function _prepareColumns()
     {
-        $statusManager = $this->_rmaItemStatus;
         $rma = $this->_coreRegistry->registry('current_rma');
         if ($rma
             && (($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED)
                 || ($rma->getStatus() === Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED))
         ) {
-            $statusManager->setOrderIsClosed();
+            $this->_rmaItemStatus->setOrderIsClosed();
         }
 
         $this->addColumn('product_admin_name', array(

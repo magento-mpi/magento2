@@ -96,8 +96,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         $this->setOrder($this->_coreRegistry->registry('current_order'));
 
         /** @var $collection Magento_Rma_Model_Resource_Item */
-        $collection = $this->_itemCollFactory
-            ->create()
+        $collection = $this->_itemCollFactory->create()
             ->addAttributeToSelect('*')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
@@ -122,8 +121,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         $array = array();
 
         /** @var $collection Magento_Rma_Model_Resource_Item */
-        $collection = $this->_itemCollFactory
-            ->create()
+        $collection = $this->_itemCollFactory->create()
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         foreach ($collection as $item) {
@@ -298,16 +296,21 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
             $name = '';
-            $config = $this->_eavConfig;
-            if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()) {
+            if ($this->_eavConfig->getAttribute('customer', 'prefix')->getIsVisible()
+                && $billingAddress->getPrefix())
+            {
                 $name .= $billingAddress->getPrefix() . ' ';
             }
             $name .= $billingAddress->getFirstname();
-            if ($config->getAttribute('customer', 'middlename')->getIsVisible() && $billingAddress->getMiddlename()) {
+            if ($this->_eavConfig->getAttribute('customer', 'middlename')->getIsVisible()
+                && $billingAddress->getMiddlename())
+            {
                 $name .= ' ' . $billingAddress->getMiddlename();
             }
             $name .=  ' ' . $billingAddress->getLastname();
-            if ($config->getAttribute('customer', 'suffix')->getIsVisible() && $billingAddress->getSuffix()) {
+            if ($this->_eavConfig->getAttribute('customer', 'suffix')->getIsVisible()
+                && $billingAddress->getSuffix())
+            {
                 $name .= ' ' . $billingAddress->getSuffix();
             }
             return $name;
