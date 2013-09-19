@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_Testsuite_OptimizerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance\Testsuite;
+
+class OptimizerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Performance_Testsuite_Optimizer
+     * @var \Magento\TestFramework\Performance\Testsuite\Optimizer
      */
     protected $_optimizer;
 
     protected function setUp()
     {
-        $this->_optimizer = new Magento_TestFramework_Performance_Testsuite_Optimizer;
+        $this->_optimizer = new \Magento\TestFramework\Performance\Testsuite\Optimizer;
     }
 
     protected function tearDown()

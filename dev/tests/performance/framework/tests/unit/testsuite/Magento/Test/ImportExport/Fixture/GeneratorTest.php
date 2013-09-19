@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_ImportExport_Fixture_GeneratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\ImportExport\Fixture;
+
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testIteratorInterface()
     {
@@ -25,7 +27,7 @@ class Magento_Test_ImportExport_Fixture_GeneratorTest extends PHPUnit_Framework_
             },
             // @codingStandardsIgnoreEnd
         );
-        $model = new Magento_TestFramework_ImportExport_Fixture_Generator($pattern, 2);
+        $model = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, 2);
         $rows = array();
         foreach ($model as $row) {
             $rows[] = $row;

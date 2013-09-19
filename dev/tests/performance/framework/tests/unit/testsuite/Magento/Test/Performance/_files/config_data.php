@@ -45,7 +45,7 @@ return array(
                 'arguments' => array(
                     'arg2' => 'overridden value 2',
                     'arg3' => 'custom value 3',
-                    Magento_TestFramework_Performance_Scenario::ARG_HOST => 'no crosscutting params',
+                    \Magento\TestFramework\Performance\Scenario::ARG_HOST => 'no crosscutting params',
                 ),
                 'settings' => array(
                     'setting2' => 'overridden setting 2',
@@ -61,7 +61,7 @@ return array(
             'Scenario with Failure' => array(
                 'file' => 'scenario_failure.jmx',
                 'settings' => array(
-                    Magento_TestFramework_Performance_Testsuite::SETTING_SKIP_WARM_UP => true,
+                    \Magento\TestFramework\Performance\Testsuite::SETTING_SKIP_WARM_UP => true,
                 ),
             ),
         ),

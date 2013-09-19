@@ -12,7 +12,9 @@
  * Optimizer for scenario queue.
  * Sorts sets of fixtures in order to minimize number of Magento reinstalls between their scenario executions.
  */
-class Magento_TestFramework_Performance_Testsuite_Optimizer
+namespace Magento\TestFramework\Performance\Testsuite;
+
+class Optimizer
 {
     /**
      * Sort sets of fixtures in such an order, that number of Magento reinstalls between executions of their scenarios

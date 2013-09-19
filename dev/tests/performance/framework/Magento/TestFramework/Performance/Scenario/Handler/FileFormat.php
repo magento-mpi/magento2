@@ -11,8 +11,10 @@
 /**
  * Handler delegates execution to one of registered scenario handlers depending on a scenario file extension
  */
-class Magento_TestFramework_Performance_Scenario_Handler_FileFormat
-    implements Magento_TestFramework_Performance_Scenario_HandlerInterface
+namespace Magento\TestFramework\Performance\Scenario\Handler;
+
+class FileFormat
+    implements \Magento\TestFramework\Performance\Scenario\HandlerInterface
 {
     /**
      * @var array
@@ -23,11 +25,11 @@ class Magento_TestFramework_Performance_Scenario_Handler_FileFormat
      * Register scenario handler to process scenario files with a certain extension
      *
      * @param string $fileExtension
-     * @param Magento_TestFramework_Performance_Scenario_HandlerInterface $handlerInstance
-     * @return Magento_TestFramework_Performance_Scenario_Handler_FileFormat
+     * @param \Magento\TestFramework\Performance\Scenario\HandlerInterface $handlerInstance
+     * @return \Magento\TestFramework\Performance\Scenario\Handler\FileFormat
      */
     public function register($fileExtension,
-        Magento_TestFramework_Performance_Scenario_HandlerInterface $handlerInstance
+        \Magento\TestFramework\Performance\Scenario\HandlerInterface $handlerInstance
     ) {
         $this->_handlers[$fileExtension] = $handlerInstance;
         return $this;
@@ -37,7 +39,7 @@ class Magento_TestFramework_Performance_Scenario_Handler_FileFormat
      * Retrieve scenario handler for a file extension
      *
      * @param string $fileExtension
-     * @return Magento_TestFramework_Performance_Scenario_HandlerInterface|null
+     * @return \Magento\TestFramework\Performance\Scenario\HandlerInterface|null
      */
     public function getHandler($fileExtension)
     {
@@ -47,14 +49,14 @@ class Magento_TestFramework_Performance_Scenario_Handler_FileFormat
     /**
      * Run scenario and optionally write results to report file
      *
-     * @param Magento_TestFramework_Performance_Scenario $scenario
+     * @param \Magento\TestFramework\Performance\Scenario $scenario
      * @param string|null $reportFile Report file to write results to, NULL disables report creation
      * @throws \Magento\Exception
      */
-    public function run(Magento_TestFramework_Performance_Scenario $scenario, $reportFile = null)
+    public function run(\Magento\TestFramework\Performance\Scenario $scenario, $reportFile = null)
     {
         $scenarioExtension = pathinfo($scenario->getFile(), PATHINFO_EXTENSION);
-        /** @var $scenarioHandler Magento_TestFramework_Performance_Scenario_HandlerInterface */
+        /** @var $scenarioHandler \Magento\TestFramework\Performance\Scenario\HandlerInterface */
         $scenarioHandler = $this->getHandler($scenarioExtension);
         if (!$scenarioHandler) {
             throw new \Magento\Exception("Unable to run scenario '{$scenario->getTitle()}', format is not supported.");
