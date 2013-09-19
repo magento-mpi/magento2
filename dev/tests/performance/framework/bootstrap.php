@@ -16,6 +16,6 @@ $magentoBaseDir = realpath($testsBaseDir . '/../../../');
 require_once "$magentoBaseDir/app/bootstrap.php";
 \Magento\Autoload\IncludePath::addIncludePath("$testsBaseDir/framework");
 
-$bootstrap = new Magento_TestFramework_Performance_Bootstrap($testsBaseDir, $magentoBaseDir);
+$bootstrap = new \Magento\TestFramework\Performance\Bootstrap($testsBaseDir, $magentoBaseDir);
 $bootstrap->cleanupReports();
 return $bootstrap->getConfig();

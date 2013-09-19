@@ -11,7 +11,9 @@
 /**
  * The class for keeping scenario configuration
  */
-class Magento_TestFramework_Performance_Scenario
+namespace Magento\TestFramework\Performance;
+
+class Scenario
 {
     /**#@+
      * Common scenario arguments
@@ -69,18 +71,18 @@ class Magento_TestFramework_Performance_Scenario
      * @param array $arguments
      * @param array $settings
      * @param array $fixtures
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct($title, $file, array $arguments, array $settings, array $fixtures)
     {
         if (!strlen($title)) {
-            throw new InvalidArgumentException('Title must be defined for a scenario');
+            throw new \InvalidArgumentException('Title must be defined for a scenario');
         }
 
         $arguments += array(self::ARG_USERS => 1, self::ARG_LOOPS => 1);
         foreach (array(self::ARG_USERS, self::ARG_LOOPS) as $argName) {
             if (!is_int($arguments[$argName]) || $arguments[$argName] < 1) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "Scenario '$title' must have a positive integer argument '$argName'."
                 );
             }

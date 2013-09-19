@@ -9,23 +9,25 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_Scenario_FailureExceptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance\Scenario;
+
+class FailureExceptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Performance_Scenario_FailureException
+     * @var \Magento\TestFramework\Performance\Scenario\FailureException
      */
     protected $_object;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario
+     * @var \Magento\TestFramework\Performance\Scenario
      */
     protected $_scenario;
 
     protected function setUp()
     {
-        $this->_scenario = new Magento_TestFramework_Performance_Scenario('Title', '', array(), array(), array());
+        $this->_scenario = new \Magento\TestFramework\Performance\Scenario('Title', '', array(), array(), array());
         $this->_object =
-            new Magento_TestFramework_Performance_Scenario_FailureException($this->_scenario, 'scenario has failed');
+            new \Magento\TestFramework\Performance\Scenario\FailureException($this->_scenario, 'scenario has failed');
     }
 
     protected function tearDown()

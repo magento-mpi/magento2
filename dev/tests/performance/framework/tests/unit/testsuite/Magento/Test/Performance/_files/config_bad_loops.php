@@ -11,6 +11,6 @@
 
 $result = require __DIR__ . '/config_data.php';
 $result['scenario']['scenarios']['Scenario']['arguments'] = array(
-    Magento_TestFramework_Performance_Scenario::ARG_LOOPS => 'A'
+    \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 'A'
 );
 return $result;

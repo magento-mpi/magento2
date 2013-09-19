@@ -1053,10 +1053,10 @@
                 <expected_model class="Magento\Tax\Model\ClassModel" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_tax_classtax_ajaxDelete"
+                <event controller_action="adminhtml_tax_tax_ajaxDelete"
                        action_alias="delete"
                        post_dispatch="postDispatchTaxClassDelete" />
-                <event controller_action="adminhtml_tax_classtax_ajaxSave"
+                <event controller_action="adminhtml_tax_tax_ajaxSave"
                        action_alias="save"
                        post_dispatch="postDispatchTaxClassSave" />
             </events>

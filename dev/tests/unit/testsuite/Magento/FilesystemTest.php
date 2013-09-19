@@ -256,7 +256,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Filesystem\FilesystemException
-     * @expectedExceptionMessage \Directory '/tmp/path' doesn't exist.
+     * @expectedExceptionMessage Directory '/tmp/path' doesn't exist.
      */
     public function testEnsureDirectoryExistsException()
     {

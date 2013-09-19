@@ -9,25 +9,27 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance;
+
+class TestsuiteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Performance_Testsuite
+     * @var \Magento\TestFramework\Performance\Testsuite
      */
     protected $_object;
 
     /**
-     * @var Magento_TestFramework_Performance_Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_config;
 
     /**
-     * @var Magento_TestFramework_Application|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Application|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_application;
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario_HandlerInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Performance\Scenario\HandlerInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_handler;
 
@@ -42,17 +44,17 @@ class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
         $fixtureConfigData = include($this->_fixtureDir . DIRECTORY_SEPARATOR . 'config_data.php');
 
         $shell = $this->getMock('Magento\Shell', array('execute'));
-        $this->_config = new Magento_TestFramework_Performance_Config(
+        $this->_config = new \Magento\TestFramework\Performance\Config(
             $fixtureConfigData,
             $this->_fixtureDir,
             $this->_fixtureDir . '/app_base_dir'
         );
         $this->_application = $this->getMock(
-            'Magento_TestFramework_Application', array('applyFixtures'), array($this->_config, $shell)
+            '\Magento\TestFramework\Application', array('applyFixtures'), array($this->_config, $shell)
         );
-        $this->_handler = $this->getMockForAbstractClass('Magento_TestFramework_Performance_Scenario_HandlerInterface');
+        $this->_handler = $this->getMockForAbstractClass('\Magento\TestFramework\Performance\Scenario\HandlerInterface');
         $this->_object =
-            new Magento_TestFramework_Performance_Testsuite($this->_config, $this->_application, $this->_handler);
+            new \Magento\TestFramework\Performance\Testsuite($this->_config, $this->_application, $this->_handler);
     }
 
     protected function tearDown()
@@ -69,20 +71,20 @@ class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
      * @param string $scenarioTitle
      * @param string $scenarioFile
      * @param integer $invocationIndex
-     * @param PHPUnit_Framework_MockObject_Stub $returnStub
+     * @param \PHPUnit_Framework_MockObject_Stub $returnStub
      */
     protected function _expectScenarioWarmUp(
-        $scenarioTitle, $scenarioFile, $invocationIndex, PHPUnit_Framework_MockObject_Stub $returnStub = null
+        $scenarioTitle, $scenarioFile, $invocationIndex, \PHPUnit_Framework_MockObject_Stub $returnStub = null
     ) {
         $scenarioFilePath = $this->_fixtureDir . DIRECTORY_SEPARATOR . $scenarioFile;
 
-        /** @var $invocationMocker PHPUnit_Framework_MockObject_Builder_InvocationMocker */
+        /** @var $invocationMocker \PHPUnit_Framework_MockObject_Builder_InvocationMocker */
         $invocationMocker = $this->_handler->expects($this->at($invocationIndex));
         $invocationMocker
             ->method('run')
             ->with(
                 $this->logicalAnd(
-                    $this->isInstanceOf('Magento_TestFramework_Performance_Scenario'),
+                    $this->isInstanceOf('\Magento\TestFramework\Performance\Scenario'),
                     $this->objectHasAttribute('_title', $scenarioTitle),
                     $this->objectHasAttribute('_file', $scenarioFilePath)
                 ),
@@ -100,21 +102,21 @@ class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
      * @param string $scenarioTitle
      * @param string $scenarioFile
      * @param integer $invocationIndex
-     * @param PHPUnit_Framework_MockObject_Stub $returnStub
+     * @param \PHPUnit_Framework_MockObject_Stub $returnStub
      */
     protected function _expectScenarioRun(
-        $scenarioTitle, $scenarioFile, $invocationIndex, PHPUnit_Framework_MockObject_Stub $returnStub = null
+        $scenarioTitle, $scenarioFile, $invocationIndex, \PHPUnit_Framework_MockObject_Stub $returnStub = null
     ) {
         $scenarioFilePath = $this->_fixtureDir . DIRECTORY_SEPARATOR . $scenarioFile;
         $reportFile = basename($scenarioFile, '.jmx') . '.jtl';
 
-        /** @var $invocationMocker PHPUnit_Framework_MockObject_Builder_InvocationMocker */
+        /** @var $invocationMocker \PHPUnit_Framework_MockObject_Builder_InvocationMocker */
         $invocationMocker = $this->_handler->expects($this->at($invocationIndex));
         $invocationMocker
             ->method('run')
             ->with(
                 $this->logicalAnd(
-                    $this->isInstanceOf('Magento_TestFramework_Performance_Scenario'),
+                    $this->isInstanceOf('\Magento\TestFramework\Performance\Scenario'),
                     $this->objectHasAttribute('_title', $scenarioTitle),
                     $this->objectHasAttribute('_file', $scenarioFilePath)
                 ),
@@ -159,7 +161,7 @@ class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException BadFunctionCallException
+     * @expectedException \BadFunctionCallException
      */
     public function testOnScenarioRunException()
     {
@@ -168,33 +170,33 @@ class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
 
     public function testOnScenarioFailure()
     {
-        $scenario = new Magento_TestFramework_Performance_Scenario('Scenario with Error', 'scenario_error.jmx', array(),
+        $scenario = new \Magento\TestFramework\Performance\Scenario('Scenario with Error', 'scenario_error.jmx', array(),
             array(), array());
         $scenarioOneFailure = $this->throwException(
-            new Magento_TestFramework_Performance_Scenario_FailureException($scenario)
+            new \Magento\TestFramework\Performance\Scenario\FailureException($scenario)
         );
         $this->_expectScenarioWarmUp('Scenario with Error', 'scenario_error.jmx', 0, $scenarioOneFailure);
         $this->_expectScenarioRun('Scenario with Error', 'scenario_error.jmx', 1, $scenarioOneFailure);
 
         /* Warm up is disabled for scenario */
-        $scenario = new Magento_TestFramework_Performance_Scenario('Scenario with Failure', 'scenario_failure.jmx',
+        $scenario = new \Magento\TestFramework\Performance\Scenario('Scenario with Failure', 'scenario_failure.jmx',
             array(), array(), array());
         $scenarioTwoFailure = $this->throwException(
-            new Magento_TestFramework_Performance_Scenario_FailureException($scenario)
+            new \Magento\TestFramework\Performance\Scenario\FailureException($scenario)
         );
         $this->_expectScenarioRun('Scenario with Failure', 'scenario_failure.jmx', 2, $scenarioTwoFailure);
 
-        $scenario = new Magento_TestFramework_Performance_Scenario('Scenario', 'scenario.jmx', array(), array(),
+        $scenario = new \Magento\TestFramework\Performance\Scenario('Scenario', 'scenario.jmx', array(), array(),
             array());
         $scenarioThreeFailure = $this->throwException(
-            new Magento_TestFramework_Performance_Scenario_FailureException($scenario)
+            new \Magento\TestFramework\Performance\Scenario\FailureException($scenario)
         );
         $this->_expectScenarioWarmUp('Scenario', 'scenario.jmx', 3);
         $this->_expectScenarioRun('Scenario', 'scenario.jmx', 4, $scenarioThreeFailure);
 
         $notifications = array();
         $this->_object->onScenarioFailure(
-            function (Magento_TestFramework_Performance_Scenario_FailureException $actualFailure)
+            function (\Magento\TestFramework\Performance\Scenario\FailureException $actualFailure)
                 use (&$notifications) {
                 $notifications[] = $actualFailure->getScenario()->getFile();
             }
@@ -204,7 +206,7 @@ class Magento_Test_Performance_TestsuiteTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException BadFunctionCallException
+     * @expectedException \BadFunctionCallException
      */
     public function testOnScenarioFailureException()
     {

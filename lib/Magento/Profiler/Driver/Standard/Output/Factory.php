@@ -32,7 +32,7 @@ class Factory
      * @param string $defaultOutputType
      */
     public function __construct(
-        $defaultOutputPrefix = 'Magento_Profiler_Driver_Standard_Output_',
+        $defaultOutputPrefix = 'Magento\Profiler\Driver\Standard\Output\\',
         $defaultOutputType = 'html'
     ) {
         $this->_defaultOutputPrefix = $defaultOutputPrefix;

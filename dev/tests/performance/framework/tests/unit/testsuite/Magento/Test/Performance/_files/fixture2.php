@@ -9,4 +9,4 @@
  * @license     {license_link}
  */
 
-throw new LogicException('Fixture 2 has been applied.');
+throw new \LogicException('Fixture 2 has been applied.');
