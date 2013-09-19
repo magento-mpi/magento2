@@ -228,9 +228,9 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
      */
     protected function _getLayoutModel($fixtureFile)
     {
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $layout Magento\Core\Model\Layout */
         $layout = Mage::getSingleton('Magento\Core\Model\Layout');
-        /** @var $xml Magento_Core_Model_Layout_Element */
+        /** @var $xml Magento\Core\Model\Layout\Element */
         $xml = simplexml_load_file(
             __DIR__ . "/_files/layout_directives_test/{$fixtureFile}",
             'Magento\Core\Model\Layout\Element'
