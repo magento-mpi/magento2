@@ -41,11 +41,17 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected $_template = 'system/email/template/edit.phtml';
 
     /**
+     * @var Magento_Core_Model_Email_Template
+     */
+    protected $_templateModel;
+    
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Model_Menu_Config $menuConfig
      * @param Magento_Backend_Model_Config_Structure $configStructure
+     * @param Magento_Core_Model_Email_Template $templateModel
      * @param array $data
      */
     public function __construct(
@@ -54,11 +60,13 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         Magento_Core_Model_Registry $registry,
         Magento_Backend_Model_Menu_Config $menuConfig,
         Magento_Backend_Model_Config_Structure $configStructure,
+        Magento_Core_Model_Email_Template $templateModel,
         array $data = array()
     ) {
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
+        $this->_templateModel = $templateModel;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -175,7 +183,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected function _beforeToHtml()
     {
         $groupedOptions = array();
-        foreach (Magento_Core_Model_Email_Template::getDefaultTemplatesAsOptionsArray() as $option) {
+        foreach ($this->_templateModel->getDefaultTemplatesAsOptionsArray() as $option) {
             $groupedOptions[$option['group']][] = $option;
         }
         ksort($groupedOptions);

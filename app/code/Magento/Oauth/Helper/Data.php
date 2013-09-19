@@ -74,12 +74,15 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -200,7 +203,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     public function isCleanupProbability()
     {
         // Safe get cleanup probability value from system configuration
-        $configValue = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_PROBABILITY);
+        $configValue = (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
         return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
     }
 
@@ -211,7 +214,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCleanupExpirationPeriod()
     {
-        $minutes = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
+        $minutes = (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
     }
 
@@ -229,8 +232,8 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
 
         $mailTemplate->sendTransactional(
-            Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
-            Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE),
+            $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY),
             $userEmail,
             $userName,
             array(

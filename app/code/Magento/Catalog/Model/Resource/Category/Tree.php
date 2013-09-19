@@ -66,16 +66,20 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected $_eventManager = null;
 
     /**
-     * Initialize tree
-     *
-     *
-     *
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreConfig = $coreConfig;
         $resource = Mage::getSingleton('Magento_Core_Model_Resource');
 
         parent::__construct(
@@ -370,7 +374,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
         $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
         /** @var $collection Magento_Catalog_Model_Resource_Category_Collection */
 
-        $attributes = Mage::getConfig()->getNode('frontend/category/collection/attributes');
+        $attributes = $this->_coreConfig->getNode('frontend/category/collection/attributes');
         if ($attributes) {
             $attributes = $attributes->asArray();
             $attributes = array_keys($attributes);

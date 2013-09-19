@@ -60,6 +60,18 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+    
+    /**
      * @var Magento_Backend_Model_Url
      */
     protected $_backendUrl;
@@ -72,6 +84,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Variable_Config $variableConfig
      * @param Magento_Widget_Model_Widget_Config $widgetConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -82,16 +96,20 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Variable_Config $variableConfig,
         Magento_Widget_Model_Widget_Config $widgetConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_backendUrl = $backendUrl;
         $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
         $this->_widgetConfig = $widgetConfig;
         parent::__construct($data);
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -139,8 +157,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             $config->addData(array(
                 'add_images' => true,
                 'files_browser_window_url' => $this->_backendUrl->getUrl('*/cms_wysiwyg_images/index'),
-                'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
-                'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
+                'files_browser_window_width' => (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_width'),
+                'files_browser_window_height'=> (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_height'),
             ));
         }
 
@@ -178,7 +196,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      */
     public function isEnabled()
     {
-        $wysiwygState = Mage::getStoreConfig('cms/wysiwyg/enabled', $this->getStoreId());
+        $wysiwygState = $this->_coreStoreConfig->getConfig('cms/wysiwyg/enabled', $this->getStoreId());
         return in_array($wysiwygState, array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
     }
 
@@ -189,6 +207,6 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      */
     public function isHidden()
     {
-        return Mage::getStoreConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
+        return $this->_coreStoreConfig->getConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
     }
 }

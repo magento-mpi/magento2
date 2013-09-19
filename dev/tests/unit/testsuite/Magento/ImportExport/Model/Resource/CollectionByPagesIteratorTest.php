@@ -45,11 +45,12 @@ class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends 
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
 
         $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
 
         /** @var $collectionMock Magento_Data_Collection_Db|PHPUnit_Framework_MockObject_MockObject */
         $collectionMock = $this->getMock('Magento_Data_Collection_Db',
             array('clear', 'setPageSize', 'setCurPage', 'count', 'getLastPageNumber', 'getSelect'),
-            array($fetchStrategy, $entityFactory)
+            array($logger, $fetchStrategy, $entityFactory)
         );
 
         $collectionMock->expects($this->any())

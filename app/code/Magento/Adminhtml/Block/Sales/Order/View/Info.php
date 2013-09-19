@@ -175,7 +175,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
      */
     public function shouldDisplayCustomerIp()
     {
-        return !Mage::getStoreConfigFlag('sales/general/hide_customer_ip', $this->getOrder()->getStoreId());
+        return !$this->_storeConfig
+            ->getConfigFlag('sales/general/hide_customer_ip', $this->getOrder()->getStoreId());
     }
 
     /**

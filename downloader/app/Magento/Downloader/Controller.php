@@ -122,7 +122,6 @@ final class Magento_Downloader_Controller
 
     //////////////////////////// ACTIONS
 
-
     /**
      * Get ftp string from post data
      *
@@ -1026,13 +1025,10 @@ final class Magento_Downloader_Controller
             $isSuccess = true;
         } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
             $connect->runHtmlConsole('Not enough free space to create backup.');
-            Mage::logException($e);
         } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
             $connect->runHtmlConsole('Not enough permissions to create backup.');
-            Mage::logException($e);
         } catch (Exception  $e) {
             $connect->runHtmlConsole('An error occurred while creating the backup.');
-            Mage::logException($e);
         }
 
         return $isSuccess;

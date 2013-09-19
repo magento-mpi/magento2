@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,36 +12,41 @@
 class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogEvent_Block_Event_Abstract
 {
     /**
-     * Catalog event data
-     *
-     * @var Magento_CatalogEvent_Helper_Data
-     */
-    protected $_catalogEventData = null;
-
-    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+    
+    /**
+     * Catalog event data
+     *
+     * @var Magento_CatalogEvent_Helper_Data
+     */
+    protected $_catalogEventData;    
 
     /**
-     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_CatalogEvent_Helper_Data $catalogEventData
      * @param array $data
      */
     public function __construct(
-        Magento_CatalogEvent_Helper_Data $catalogEventData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Registry $registry,
+        Magento_CatalogEvent_Helper_Data $catalogEventData,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $locale, $data);
+
         $this->_coreRegistry = $registry;
         $this->_catalogEventData = $catalogEventData;
-        parent::__construct($coreData, $context, $data);
     }
 
     /**
@@ -88,8 +91,8 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
      */
     public function canDisplay()
     {
-        return $this->_catalogEventData->isEnabled() &&
-               $this->getEvent() &&
-               $this->getEvent()->canDisplayCategoryPage();
+        return $this->_catalogEventData->isEnabled()
+            && $this->getEvent()
+            && $this->getEvent()->canDisplayCategoryPage();
     }
 }

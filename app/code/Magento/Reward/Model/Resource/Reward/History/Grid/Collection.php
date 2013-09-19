@@ -17,6 +17,7 @@ class Magento_Reward_Model_Resource_Reward_History_Grid_Collection
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Reward_Helper_Data $helper
@@ -24,13 +25,14 @@ class Magento_Reward_Model_Resource_Reward_History_Grid_Collection
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Reward_Helper_Data $helper,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_helper = $helper;
-        parent::__construct($eventManager, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**

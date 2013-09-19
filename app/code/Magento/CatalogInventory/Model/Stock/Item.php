@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -124,46 +122,78 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      *
      * @var Magento_CatalogInventory_Helper_Minsaleqty
      */
-    protected $_catalogInventoryMinsaleqty = null;
+    protected $_catalogInventoryMinsaleqty;
 
     /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Catalog inventory data
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * Store model manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     * 
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Helper_Data $coreData,
         Magento_CatalogInventory_Helper_Minsaleqty $catalogInventoryMinsaleqty,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_coreData = $coreData;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
     }
 
     /**
@@ -233,7 +263,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     public function canSubtractQty()
     {
-        return $this->getManageStock() && Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
+        return $this->getManageStock() && $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CAN_SUBTRACT);
     }
 
     /**
@@ -247,7 +277,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         if (!$this->getManageStock()) {
             return $this;
         }
-        $config = Mage::getStoreConfigFlag(self::XML_PATH_CAN_SUBTRACT);
+        $config = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CAN_SUBTRACT);
         if (!$config) {
             return $this;
         }
@@ -265,7 +295,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     {
         $storeId = $this->getData('store_id');
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
             $this->setData('store_id', $storeId);
         }
         return $storeId;
@@ -300,7 +330,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     public function getMinQty()
     {
-        return (float)($this->getUseConfigMinQty() ? Mage::getStoreConfig(self::XML_PATH_MIN_QTY)
+        return (float)($this->getUseConfigMinQty() ? $this->_coreStoreConfig->getConfig(self::XML_PATH_MIN_QTY)
             : $this->getData('min_qty'));
     }
 
@@ -335,7 +365,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     {
         $customerGroupId = $this->getCustomerGroupId();
         if (!$customerGroupId) {
-            $customerGroupId = Mage::app()->getStore()->isAdmin()
+            $customerGroupId = $this->_storeManager->getStore()->isAdmin()
                 ? Magento_Customer_Model_Group::CUST_GROUP_ALL
                 : Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
@@ -358,7 +388,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     public function getMaxSaleQty()
     {
-        return (float)($this->getUseConfigMaxSaleQty() ? Mage::getStoreConfig(self::XML_PATH_MAX_SALE_QTY)
+        return (float)($this->getUseConfigMaxSaleQty() ? $this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_SALE_QTY)
             : $this->getData('max_sale_qty'));
     }
 
@@ -370,7 +400,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     public function getNotifyStockQty()
     {
         if ($this->getUseConfigNotifyStockQty()) {
-            return (float) Mage::getStoreConfig(self::XML_PATH_NOTIFY_STOCK_QTY);
+            return (float) $this->_coreStoreConfig->getConfig(self::XML_PATH_NOTIFY_STOCK_QTY);
         }
         return (float) $this->getData('notify_stock_qty');
     }
@@ -383,7 +413,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     public function getEnableQtyIncrements()
     {
         if ($this->getUseConfigEnableQtyInc()) {
-            return Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS);
+            return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS);
         }
         return (bool) $this->getData('enable_qty_increments');
     }
@@ -398,7 +428,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         if ($this->_qtyIncrements === null) {
             if ($this->getEnableQtyIncrements()) {
                 $this->_qtyIncrements = (float)($this->getUseConfigQtyIncrements()
-                    ? Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS)
+                    ? $this->_coreStoreConfig->getConfig(self::XML_PATH_QTY_INCREMENTS)
                     : $this->getData('qty_increments'));
                 if ($this->_qtyIncrements <= 0) {
                     $this->_qtyIncrements = false;
@@ -418,8 +448,8 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     public function getDefaultQtyIncrements()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS)
-            ? (int)Mage::getStoreConfig(self::XML_PATH_QTY_INCREMENTS)
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS)
+            ? (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_QTY_INCREMENTS)
             : false;
     }
 
@@ -431,7 +461,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     public function getBackorders()
     {
         if ($this->getUseConfigBackorders()) {
-            return (int) Mage::getStoreConfig(self::XML_PATH_BACKORDERS);
+            return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_BACKORDERS);
         }
         return $this->getData('backorders');
     }
@@ -444,7 +474,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     public function getManageStock()
     {
         if ($this->getUseConfigManageStock()) {
-            return (int) Mage::getStoreConfigFlag(self::XML_PATH_MANAGE_STOCK);
+            return (int) $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_MANAGE_STOCK);
         }
         return $this->getData('manage_stock');
     }
@@ -456,7 +486,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     public function getCanBackInStock()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_CAN_BACK_IN_STOCK);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CAN_BACK_IN_STOCK);
     }
 
     /**
@@ -468,7 +498,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      */
     public function checkQty($qty)
     {
-        if (!$this->getManageStock() || Mage::app()->getStore()->isAdmin()) {
+        if (!$this->getManageStock() || $this->_storeManager->getStore()->isAdmin()) {
             return true;
         }
 
@@ -540,7 +570,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         $result->setHasError(false);
 
         if (!is_numeric($qty)) {
-            $qty = Mage::app()->getLocale()->getNumber($qty);
+            $qty = $this->_locale->getNumber($qty);
         }
 
         /**
@@ -558,7 +588,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
             $result->setItemQty($qty);
 
             if (!is_numeric($qty)) {
-                $qty = Mage::app()->getLocale()->getNumber($qty);
+                $qty = $this->_locale->getNumber($qty);
             }
             $origQty = intval($origQty);
             $result->setOrigQty($origQty);
@@ -642,7 +672,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
                                 __('We don\'t have "%1" in the requested quantity, so we\'ll back order the remaining %2.', $this->getProductName(), ($backorderQty * 1))
                             );
                         }
-                    } elseif (Mage::app()->getStore()->isAdmin()) {
+                    } elseif ($this->_storeManager->getStore()->isAdmin()) {
                         $result->setMessage(
                             __('We don\'t have as many "%1" as you requested.', $this->getProductName())
                         );
@@ -752,7 +782,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
             // if qty is below notify qty, update the low stock date to today date otherwise set null
             $this->setLowStockDate(null);
             if ($this->verifyNotification()) {
-                $this->setLowStockDate(Mage::app()->getLocale()->date(null, null, null, false)
+                $this->setLowStockDate($this->_locale->date(null, null, null, false)
                     ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
                 );
             }

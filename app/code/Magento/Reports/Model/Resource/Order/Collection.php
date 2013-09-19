@@ -33,6 +33,33 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     protected $_salesAmountExpression;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Check range for live mode
      *
      * @param unknown_type $range
@@ -40,7 +67,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      */
     public function checkIsLive($range)
     {
-        $this->_isLive = (bool)!Mage::getStoreConfig('sales/dashboard/use_aggregated_data');
+        $this->_isLive = (bool)!$this->_coreStoreConfig->getConfig('sales/dashboard/use_aggregated_data');
         return $this;
     }
 
@@ -333,7 +360,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 break;
 
             case '1m':
-                $dateStart->setDay(Mage::getStoreConfig('reports/dashboard/mtd_start'));
+                $dateStart->setDay($this->_coreStoreConfig->getConfig('reports/dashboard/mtd_start'));
                 break;
 
             case 'custom':
@@ -343,7 +370,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
 
             case '1y':
             case '2y':
-                $startMonthDay = explode(',', Mage::getStoreConfig('reports/dashboard/ytd_start'));
+                $startMonthDay = explode(',', $this->_coreStoreConfig->getConfig('reports/dashboard/ytd_start'));
                 $startMonth = isset($startMonthDay[0]) ? (int)$startMonthDay[0] : 1;
                 $startDay = isset($startMonthDay[1]) ? (int)$startMonthDay[1] : 1;
                 $dateStart->setMonth($startMonth);
@@ -490,7 +517,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         }
         $adapter = $this->getConnection();
 
-        if (Mage::getStoreConfig('sales/dashboard/use_aggregated_data')) {
+        if ($this->_coreStoreConfig->getConfig('sales/dashboard/use_aggregated_data')) {
             $this->setMainTable('sales_order_aggregated_created');
             $this->removeAllFieldsFromSelect();
             $averageExpr = $adapter->getCheckSql(

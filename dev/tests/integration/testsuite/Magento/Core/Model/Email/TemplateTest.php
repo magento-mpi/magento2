@@ -35,7 +35,9 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
                 $objectManager->create('Magento_Filesystem'),
                 $objectManager->create('Magento_Core_Model_View_Url'),
                 $objectManager->create('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_DesignInterface')
+                $objectManager->get('Magento_Core_Model_View_DesignInterface'),
+                $objectManager->create('Magento_Core_Model_Store_Config'),
+                $objectManager->create('Magento_Core_Model_Config')
             ))
             ->getMock();
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
