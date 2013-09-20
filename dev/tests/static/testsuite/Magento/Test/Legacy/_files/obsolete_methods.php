@@ -805,4 +805,9 @@ return array(
     array('_getApi', 'Magento_Ogone_Block_Placeform'),
     array('_getResource', 'Magento_Weee_Model_Attribute_Backend_Weee_Tax',
         'Magento_Weee_Model_Attribute_Backend_Weee_Tax::$_attributeTax'),
+    array('getCouponMassGenerator', 'Magento_SalesRule_Model_Rule', 'Magento_SalesRule_Model_Coupon_Massgenerator'),
+    array('getEntityResourceModel', 'Magento_SalesArchive_Model_Archive',
+        'Magento_SalesArchive_Model_ArchivalList::getResource'),
+    array('detectArchiveEntity', 'Magento_SalesArchive_Model_Archive',
+        'Magento_SalesArchive_Model_ArchivalList::getEntityByObject'),
 );
