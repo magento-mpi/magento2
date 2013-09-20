@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="persistent_clear_expired" instance="Magento_Persistent_Model_Observer" method="clearExpiredCronJob">
+        <schedule>0 0 * * *</schedule>
+    </job>
+</config>
