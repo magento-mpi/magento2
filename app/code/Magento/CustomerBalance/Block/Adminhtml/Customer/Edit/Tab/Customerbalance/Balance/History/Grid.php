@@ -60,7 +60,6 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
-
     /**
      * Initialize some params
      *

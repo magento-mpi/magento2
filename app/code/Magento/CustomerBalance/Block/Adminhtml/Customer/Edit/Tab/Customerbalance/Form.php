@@ -72,7 +72,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');
 
-        $customer = $this->_customerFactory->load($this->getRequest()->getParam('id'));
+        $customer = $this->_customerFactory->create()->load($this->getRequest()->getParam('id'));
 
         /** @var $fieldset Magento_Data_Form_Element_Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',

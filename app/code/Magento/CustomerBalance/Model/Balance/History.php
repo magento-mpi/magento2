@@ -59,13 +59,19 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
      */
     protected $_storeManager;
 
+    /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
     protected $_authSession;
 
+    /**
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
     protected $_templateFactory;
 
     /**
      * @param Magento_Backend_Model_Auth_Session $authSession
-     * @param Magento_Core_Model_Email_Template $templateFactory
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
@@ -74,10 +80,12 @@ class Magento_CustomerBalance_Model_Balance_History extends Magento_Core_Model_A
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Backend_Model_Auth_Session $authSession,
-        Magento_Core_Model_Email_Template $templateFactory,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
