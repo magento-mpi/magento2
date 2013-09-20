@@ -19,6 +19,47 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerFactory = $customerFactory;
+        $this->_systemStore = $systemStore;
+        $this->_storeManager = $storeManager;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare form fields
      *
      * @return Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form
@@ -31,19 +72,19 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');
 
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
+        $customer = $this->_customerFactory->load($this->getRequest()->getParam('id'));
 
         /** @var $fieldset Magento_Data_Form_Element_Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',
             array('legend' => __('Update Balance'))
         );
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField('website_id', 'select', array(
                 'name'     => 'website_id',
                 'label'    => __('Website'),
                 'title'    => __('Website'),
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => $this->_systemStore->getWebsiteValuesForForm(),
                 'onchange' => 'updateEmailWebsites()',
             ));
         }
@@ -59,7 +100,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'name'     => 'notify_by_email',
             'label'    => __('Notify Customer by Email'),
             'title'    => __('Notify Customer by Email'),
-            'after_element_html' => !Mage::app()->isSingleStoreMode() ? '<script type="text/javascript">'
+            'after_element_html' => !$this->_storeManager->isSingleStoreMode() ? '<script type="text/javascript">'
                 . "
                 $('{$prefix}notify_by_email').disableSendemail = function() {
                     $('{$prefix}store_id').disabled = (this.checked) ? false : true;
@@ -70,7 +111,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
                 . '</script>' : '',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'  => 'store_id',
                 'label' => __('Send Email Notification From the Following Store View'),
@@ -113,7 +154,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     protected function _afterToHtml($html)
     {
         $html = parent::_afterToHtml($html);
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $block = $this->getLayout()
                 ->createBlock('Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js',
                 'customerbalance_edit_js'
