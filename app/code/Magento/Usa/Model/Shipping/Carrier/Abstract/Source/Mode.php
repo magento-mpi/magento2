@@ -16,7 +16,7 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Usa_Model_Shipping_Carrier_Abstract_Source_Mode
+class Magento_Usa_Model_Shipping_Carrier_Abstract_Source_Mode implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Returns array to be used in packages request type on back-end

@@ -10,14 +10,12 @@
 
 
 class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Machinable
+    extends Magento_Usa_Model_Shipping_Carrier_Usps_Source_Generic
 {
-    public function toOptionArray()
-    {
-        $usps = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Usps');
-        $arr = array();
-        foreach ($usps->getCode('machinable') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>$v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'machinable';
 }

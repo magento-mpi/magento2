@@ -76,6 +76,8 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
             ->will($this->returnValue(array('Some error message')));
 
         $helper = new Magento_CustomerCustomAttributes_Helper_Customer(
+            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento_Core_Model_LocaleInterface'),
             $this->_contextMock,
             $this->_dataHelperMock,
             $this->_inputValidatorMock
@@ -101,6 +103,8 @@ class Magento_CustomerCustomAttributes_Helper_CustomerTest extends PHPUnit_Frame
             ->method('getMessages');
 
         $helper = new Magento_CustomerCustomAttributes_Helper_Customer(
+            $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento_Core_Model_LocaleInterface'),
             $this->_contextMock,
             $this->_dataHelperMock,
             $this->_inputValidatorMock

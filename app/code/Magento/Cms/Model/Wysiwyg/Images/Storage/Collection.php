@@ -26,11 +26,14 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage_Collection extends Magento_Data_C
      * Constructor
      *
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
-    public function __construct(Magento_Filesystem $filesystem)
-    {
+    public function __construct(
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_EntityFactory $entityFactory
+    ) {
         $this->_filesystem = $filesystem;
-        parent::__construct();
+        parent::__construct($entityFactory);
     }
 
     protected function _generateRow($filename)

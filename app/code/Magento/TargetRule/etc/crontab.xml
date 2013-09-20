@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="magento_targetrule_index_reindex" instance="Magento_TargetRule_Model_Index" method="cron">
+        <schedule>0 * * * *</schedule>
+    </job>
+</config>
