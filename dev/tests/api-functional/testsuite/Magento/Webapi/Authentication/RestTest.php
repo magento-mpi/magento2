@@ -12,83 +12,91 @@ require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
 
 class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestCase_WebapiAbstract
 {
-    /**#@+
-     * Consumer credentials used by fixture
-     */
-    const CONSUMER_KEY = 'ec049f278b41470dd0e9ecc9369fc327';
-    const CONSUMER_SECRET = '5c7368d5679563a902701bf8b46575fc';
-
     /** @var Magento_Webapi_Authentication_Rest_OauthClient[] */
     protected $_oAuthClients = array();
 
     /** @var Magento_Oauth_Model_Consumer */
-    protected $_consumer;
+    protected static $_consumer;
 
     /** @var Magento_Oauth_Model_Token */
-    protected $_token;
+    protected static $_token;
 
     /** @var string */
-    protected $_consumerKey;
+    protected static $_consumerKey;
 
     /** @var string */
-    protected $_consumerSecret;
+    protected static $_consumerSecret;
 
     /** @var string */
-    protected $_verifier;
+    protected static $_verifier;
 
     protected function setUp()
     {
         $this->_markTestAsRestOnly();
         parent::setUp();
+    }
 
+
+    /**
+     * Simple product with stock item
+     */
+    public static function consumerFixture()
+    {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $oauthService Magento_Oauth_Service_OauthV1 */
+        $oauthService = $objectManager->get('Magento_Oauth_Service_OauthV1');
+        /** @var $oauthHelper Magento_Oauth_Helper_Data */
+        $oauthHelper = $objectManager->get('Magento_Oauth_Helper_Data');
 
-        $this->_consumer = $objectManager->get('Magento_Oauth_Model_Consumer')->load(self::CONSUMER_KEY, 'key');
+        self::$_consumerKey = $oauthHelper->generateConsumerKey();
+        self::$_consumerSecret = $oauthHelper->generateConsumerSecret();
 
-        $this->_token = $objectManager->get('Magento_Oauth_Model_Token')
-            ->load($this->_consumer->getId(), 'consumer_id');
-
-        $this->_consumerKey = $this->_consumer->getKey();
-        $this->_consumerSecret = $this->_consumer->getSecret();
-        /**
-         * Verifier is created when during the consumer creation and posting the credentials
-         * This is subsequently used for requesting access token
-         */
-        $this->_verifier = $this->_token->getVerifier();
+        $url = 'http://magento.ll';
+        $data = array(
+            'key' => self::$_consumerKey,
+            'secret' => self::$_consumerSecret,
+            'name' => 'consumerName',
+            'callback_url' => $url,
+            'rejected_callback_url' => $url,
+            'http_post_url' => $url
+        );
+        $consumerData = $oauthService->createConsumer($data);
+        /** @var  $token Magento_Oauth_Model_Token */
+        self::$_consumer = $objectManager->get('Magento_Oauth_Model_Consumer')
+            ->load($consumerData['key'], 'key');
+        self::$_token = $objectManager->create('Magento_Oauth_Model_Token');
+        self::$_verifier = self::$_token->createVerifierToken(self::$_consumer->getId())->getVerifier();
     }
+
 
     protected function tearDown()
     {
         parent::tearDown();
         $this->_oAuthClients = array();
-        if (isset($this->_consumer)) {
-            $this->_consumer->delete();
-            $this->_token->delete();
+        if (isset(self::$_consumer)) {
+            self::$_consumer->delete();
+            self::$_token->delete();
         }
     }
 
-
     /**
-     * @magentoApiDataFixture Magento/Oauth/_files/consumer.php
+     * @magentoApiDataFixture consumerFixture
      */
     public function testGetRequestToken()
     {
         /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient */
-        $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
+        $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
 
         $this->assertNotEmpty($requestToken->getRequestToken(), "Request token value is not set");
         $this->assertNotEmpty($requestToken->getRequestTokenSecret(), "Request token secret is not set");
-
-        //Oauth verifier is not expected for requestToken requests
-        //$this->assertNotEmpty($oAuthClient->getOauthVerifier(), "Oauth verifier is empty.");
     }
 
     public function testGetRequestTokenInvalidConsumerKey()
     {
         try {
-            $oAuthClient = $this->_getOauthClient('invalid_key', $this->_consumerSecret);
+            $oAuthClient = $this->_getOauthClient('invalid_key', self::$_consumerSecret);
             $oAuthClient->requestRequestToken();
         } catch (Exception $exception) {
             $this->assertContains('HTTP/1.1 401 Authorization Required', $exception->getMessage());
@@ -98,7 +106,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
     public function testGetRequestTokenInvalidConsumerSecret()
     {
         try {
-            $oAuthClient = $this->_getOauthClient($this->_consumerKey, 'invalid_secret');
+            $oAuthClient = $this->_getOauthClient(self::$_consumerKey, 'invalid_secret');
             $oAuthClient->requestRequestToken();
         } catch (Exception $exception) {
             $this->assertContains('HTTP/1.1 401 Authorization Required', $exception->getMessage());
@@ -107,15 +115,15 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
 
 
     /**
-     * @magentoApiDataFixture Magento/Oauth/_files/consumer.php
+     * @magentoApiDataFixture consumerFixture
      */
     public function testGetAccessToken()
     {
-        $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
+        $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
         $accessToken = $oAuthClient->requestAccessToken(
             $requestToken->getRequestToken(),
-            $this->_verifier,
+            self::$_verifier,
             $requestToken->getRequestTokenSecret()
         );
         $this->assertNotEmpty($accessToken->getAccessToken(), "Access token value is not set.");
@@ -124,16 +132,16 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
 
 
     /**
-     * @magentoApiDataFixture Magento/Oauth/_files/consumer.php
+     * @magentoApiDataFixture consumerFixture
      */
     public function testAccessApi()
     {
         //TODO: This is not really getting tested at this point since authn is commented in the webapi framework
-        $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
+        $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
         $accessToken = $oAuthClient->requestAccessToken(
             $requestToken->getRequestToken(),
-            $this->_verifier,
+            self::$_verifier,
             $requestToken->getRequestTokenSecret()
         );
 
@@ -147,12 +155,12 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
     }
 
     /**
-     * @magentoApiDataFixture Magento/Oauth/_files/consumer.php
+     * @magentoApiDataFixture consumerFixture
      */
     public function testGetAccessTokenInvalidVerifier()
     {
         try {
-            $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
+            $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
             $requestToken = $oAuthClient->requestRequestToken();
             $oAuthClient->requestAccessToken(
                 $requestToken->getRequestToken(),
@@ -184,16 +192,16 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
     }
 
     /**
-     * @magentoApiDataFixture Magento/Oauth/_files/consumer.php
+     * @magentoApiDataFixture consumerFixture
      */
     public function testAccessApiInvalidAccessToken()
     {
         try {
-            $oAuthClient = $this->_getOauthClient($this->_consumerKey, $this->_consumerSecret);
+            $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
             $requestToken = $oAuthClient->requestRequestToken();
             $accessToken = $oAuthClient->requestAccessToken(
                 $requestToken->getRequestToken(),
-                $this->_verifier,
+                self::$_verifier,
                 $requestToken->getRequestTokenSecret()
             );
             $accessToken->setAccessToken('invalid');
