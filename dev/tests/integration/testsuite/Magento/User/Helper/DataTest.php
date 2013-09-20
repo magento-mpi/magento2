@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Helper\Data
@@ -22,7 +24,7 @@ class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\User\Helper\Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\User\Helper\Data');
     }
 
     /**
@@ -44,7 +46,7 @@ class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             1,
-            (int) Mage::getConfig()->getValue(
+            (int) \Mage::getConfig()->getValue(
                 \Magento\User\Helper\Data::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
                 'default'
             )

@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Session');
 $objectManager->get('Magento\Core\Model\Registry')->unregister('_singleton/Magento\Checkout\Model\Cart');
 /** @var $cart \Magento\Checkout\Model\Cart */
-$cart = Mage::getSingleton('Magento\Checkout\Model\Cart');
+$cart = \Mage::getSingleton('Magento\Checkout\Model\Cart');
 
 $cart->addProduct($product, $requestInfo);
 $cart->save();

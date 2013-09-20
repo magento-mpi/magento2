@@ -7,7 +7,7 @@
  */
 
 /** @var \Magento\SalesRule\Model\Rule $salesRule */
-$salesRule = Mage::getModel('Magento\SalesRule\Model\Rule');
+$salesRule = \Mage::getModel('Magento\SalesRule\Model\Rule');
 $salesRule->setData(array(
     'name' => '40% Off on Large Orders',
     'is_active' => 1,
@@ -24,6 +24,6 @@ $salesRule->setData(array(
     'simple_action' => 'by_percent',
     'discount_amount' => 40,
     'stop_rules_processing' => 1,
-    'website_ids' => array(Mage::app()->getWebsite()->getId()),
+    'website_ids' => array(\Mage::app()->getWebsite()->getId()),
 ));
 $salesRule->save();

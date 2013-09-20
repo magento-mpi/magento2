@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Tax\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture default_store tax/classes/default_customer_tax_class 1
@@ -17,7 +19,7 @@ class Magento_Tax_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetDefaultCustomerTaxClass()
     {
         /** @var $helper \Magento\Tax\Helper\Data */
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data');
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data');
         $this->assertEquals(1, $helper->getDefaultCustomerTaxClass());
     }
 
@@ -27,7 +29,7 @@ class Magento_Tax_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetDefaultProductTaxClass()
     {
         /** @var $helper \Magento\Tax\Helper\Data */
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data');
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data');
         $this->assertEquals(1, $helper->getDefaultProductTaxClass());
     }
 

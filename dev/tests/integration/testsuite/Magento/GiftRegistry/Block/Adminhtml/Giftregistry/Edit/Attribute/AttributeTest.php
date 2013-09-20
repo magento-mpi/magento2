@@ -9,8 +9,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_AttributeTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
+
+class AttributeTest
+    extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
     protected $_layout = null;
@@ -21,7 +23,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout
             ->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute');
     }

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Primary DI configs from app/etc
@@ -29,7 +31,7 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
     {
         //init primary configs
         /** @var $dir \Magento\Core\Model\Dir */
-        $dir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
+        $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
 
         $configPath = $dir->getDir(\Magento\Core\Model\Dir::APP) . DS . 'etc' . DS . '*' . DS;
         self::$_primaryFiles = glob($configPath . DS. 'di.xml');
@@ -37,7 +39,7 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
 
         //init module global configs
         /** @var $modulesReader \Magento\Core\Model\Config\Modules\Reader */
-        $modulesReader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $modulesReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Config\Modules\Reader');
         self::$_moduleGlobalFiles = $modulesReader->getConfigurationFiles('di.xml');
 
@@ -57,9 +59,9 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
     public function testDiConfigFileWithoutMerging($file)
     {
         /** @var \Magento\ObjectManager\Config\SchemaLocator $schemaLocator */
-        $schemaLocator = Mage::getObjectManager()->get('Magento\ObjectManager\Config\SchemaLocator');
+        $schemaLocator = \Mage::getObjectManager()->get('Magento\ObjectManager\Config\SchemaLocator');
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load($file);
         if (!@$dom->schemaValidate($schemaLocator->getSchema())) {
             $this->fail('File ' . $file . ' has invalid xml structure.');
@@ -99,7 +101,7 @@ class Magento_Test_Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
         /** @var \Magento\ObjectManager\Config\SchemaLocator $schemaLocator */
-        $schemaLocator = Mage::getObjectManager()->get('Magento\ObjectManager\Config\SchemaLocator');
+        $schemaLocator = \Mage::getObjectManager()->get('Magento\ObjectManager\Config\SchemaLocator');
 
         new \Magento\ObjectManager\Config\Reader\Dom(
             $fileResolverMock, $mapperMock, $schemaLocator, $validationStateMock

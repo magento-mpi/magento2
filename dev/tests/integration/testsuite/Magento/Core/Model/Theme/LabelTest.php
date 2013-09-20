@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class LabelTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme\Label
@@ -18,7 +20,7 @@ class Magento_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Theme\Label');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Theme\Label');
     }
 
     /**
@@ -27,7 +29,7 @@ class Magento_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
     public function testGetLabelsCollection()
     {
         /** @var $expectedCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $expectedCollection = Mage::getModel('Magento\Core\Model\Resource\Theme\Collection');
+        $expectedCollection = \Mage::getModel('Magento\Core\Model\Resource\Theme\Collection');
         $expectedCollection->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->filterVisibleThemes();
 

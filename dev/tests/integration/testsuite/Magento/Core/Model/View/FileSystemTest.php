@@ -13,7 +13,9 @@
  * Tests for the view layer fallback mechanism
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
  */
-class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\View;
+
+class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\View\FileSystem
@@ -22,14 +24,14 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Mage::PARAM_APP_DIRS => array(
                 \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\View\FileSystem');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('test_default');
     }

@@ -12,7 +12,9 @@
 /**
  * Test for \Magento\Eav\Model\Validator\Attribute\Backend
  */
-class Magento_Eav_Model_Validator_Attribute_BackendTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Validator\Attribute;
+
+class BackendTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Eav\Model\Validator\Attribute\Backend
@@ -32,7 +34,7 @@ class Magento_Eav_Model_Validator_Attribute_BackendTest extends PHPUnit_Framewor
     public function testIsValid()
     {
         /** @var $entity \Magento\Customer\Model\Customer */
-        $entity = Mage::getModel('Magento\Customer\Model\Customer')->load(1);
+        $entity = \Mage::getModel('Magento\Customer\Model\Customer')->load(1);
 
         $this->assertTrue($this->_model->isValid($entity));
         $this->assertEmpty($this->_model->getMessages());

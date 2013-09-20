@@ -9,7 +9,9 @@
 /**
  * \Magento\Cache\Core test case
  */
-class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cache;
+
+class CoreTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetBackendSuccess()
     {
@@ -32,7 +34,7 @@ class Magento_Cache_CoreTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Zend_Cache_Exception
+     * @expectedException \Zend_Cache_Exception
      */
     public function testSetBackendException()
     {

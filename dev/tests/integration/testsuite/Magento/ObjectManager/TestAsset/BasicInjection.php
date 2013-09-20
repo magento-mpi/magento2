@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_TestAsset_BasicInjection
+namespace Magento\ObjectManager\TestAsset;
+
+class BasicInjection
 {
     /**
-     * @var Magento_ObjectManager_TestAsset_Basic
+     * @var \Magento\ObjectManager\TestAsset\Basic
      */
     protected $_object;
 
     /**
-     * @param Magento_ObjectManager_TestAsset_Basic $object
+     * @param \Magento\ObjectManager\TestAsset\Basic $object
      */
-    public function __construct(Magento_ObjectManager_TestAsset_Basic $object)
+    public function __construct(\Magento\ObjectManager\TestAsset\Basic $object)
     {
         $this->_object = $object;
     }

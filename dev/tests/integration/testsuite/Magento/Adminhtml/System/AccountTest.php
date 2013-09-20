@@ -9,7 +9,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Controller
+namespace Magento\Adminhtml\System;
+
+class AccountTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDbIsolation enabled
@@ -18,7 +20,7 @@ class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Contr
     {
         $userId = $this->_session->getUser()->getId();
         /** @var $user \Magento\User\Model\User */
-        $user = Mage::getModel('Magento\User\Model\User')->load($userId);
+        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
         $oldPassword = $user->getPassword();
 
         $password = uniqid('123q');
@@ -29,10 +31,10 @@ class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Contr
         $this->dispatch('backend/admin/system_account/save');
 
         /** @var $user \Magento\User\Model\User */
-        $user = Mage::getModel('Magento\User\Model\User')->load($userId);
+        $user = \Mage::getModel('Magento\User\Model\User')->load($userId);
         $this->assertNotEquals($oldPassword, $user->getPassword());
         $this->assertTrue(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
                 ->validateHash($password, $user->getPassword())
         );
     }

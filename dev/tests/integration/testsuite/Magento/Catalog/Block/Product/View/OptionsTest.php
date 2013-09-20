@@ -14,7 +14,9 @@
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product\View;
+
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Block\Product\View\Options
@@ -28,20 +30,20 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('current_product');
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $this->_product);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\View\Options');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\View\Options');
     }
 
     public function testSetGetProduct()
     {
         $this->assertSame($this->_product, $this->_block->getProduct());
 
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->_block->setProduct($product);
         $this->assertSame($product, $this->_block->getProduct());
     }
@@ -107,7 +109,7 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
             'Magento\Catalog\Block\Product\View\Options\Type\Date',
             'product/view/options/type/date.phtml'
         );
-        $this->_block->setLayout(Mage::app()->getLayout());
+        $this->_block->setLayout(\Mage::app()->getLayout());
         $html = false;
         foreach ($this->_block->getOptions() as $option) {
             $html = $this->_block->getOptionHtml($option);

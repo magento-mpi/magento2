@@ -12,7 +12,9 @@
 /**
  * Test for an environment-dependent DB adapter that implements \Magento\DB\Adapter\AdapterInterface
  */
-class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
+namespace Magento\DB\Adapter;
+
+class InterfaceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DB\Adapter\AdapterInterface
@@ -36,7 +38,7 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $installer = Mage::getResourceModel(
+        $installer = \Mage::getResourceModel(
             'Magento\Core\Model\Resource\Setup',
             array('resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION)
         );
@@ -216,7 +218,7 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Zend_Db_Exception
+     * @expectedException \Zend_Db_Exception
      */
     public function testInsertArrayTwoColumnsWithSimpleData()
     {

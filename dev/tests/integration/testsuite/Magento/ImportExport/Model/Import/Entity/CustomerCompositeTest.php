@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity;
+
+class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * Attributes used in test assertions
@@ -28,7 +30,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     /**
      * Object Manager instance
      *
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -84,7 +86,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_entityAdapter = $this->_objectManager
             ->create('Magento\ImportExport\Model\Import\Entity\CustomerComposite');
     }
@@ -141,7 +143,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      */
     public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {
-        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         // set entity adapter parameters
         $this->_entityAdapter->setParameters(array('behavior' => $behavior));
 

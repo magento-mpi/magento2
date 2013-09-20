@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_GroupTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Model;
+
+class GroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Model\Group
@@ -18,13 +20,13 @@ class Magento_Customer_Model_GroupTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento\Customer\Model\Group');
+        $this->_model= \Mage::getModel('Magento\Customer\Model\Group');
     }
 
     public function testCRUD()
     {
         $this->_model->setCustomerGroupCode('test');
-        $crud = new Magento_TestFramework_Entity($this->_model, array('customer_group_code' => uniqid()));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('customer_group_code' => uniqid()));
         $crud->testCrud();
     }
 }

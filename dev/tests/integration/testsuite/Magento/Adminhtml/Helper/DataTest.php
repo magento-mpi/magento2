@@ -12,11 +12,13 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
         $this->assertInstanceOf('Magento\Backend\Helper\Data',
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Adminhtml\Helper\Data'));
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Adminhtml\Helper\Data'));
     }
 }

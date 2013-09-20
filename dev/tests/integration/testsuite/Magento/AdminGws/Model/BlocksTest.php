@@ -12,23 +12,25 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_AdminGws_Model_BlocksTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\AdminGws\Model;
+
+class BlocksTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected function setUp()
     {
         parent::setUp();
         /** @var $auth \Magento\Backend\Model\Auth */
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
-        $auth = Mage::getSingleton('Magento\Backend\Model\Auth');
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
         $auth->login('admingws_user', 'admingws_password1');
     }
 
     protected function tearDown()
     {
         /** @var $auth \Magento\Backend\Model\Auth */
-        $auth = Mage::getSingleton('Magento\Backend\Model\Auth');
+        $auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
         $auth->logout();
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }
 
@@ -66,7 +68,7 @@ class Magento_AdminGws_Model_BlocksTest extends Magento_TestFramework_TestCase_C
 
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws',
-            Mage::app()->getLayout()->getBlock('adminhtml.user.role.edit.gws'),
+            \Mage::app()->getLayout()->getBlock('adminhtml.user.role.edit.gws'),
             'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws block is not loaded'
         );
 
@@ -88,7 +90,7 @@ class Magento_AdminGws_Model_BlocksTest extends Magento_TestFramework_TestCase_C
 
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role',
-            Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
+            \Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
             'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role block is not loaded'
         );
     }

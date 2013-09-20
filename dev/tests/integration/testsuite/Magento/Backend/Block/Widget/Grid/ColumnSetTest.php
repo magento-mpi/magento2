@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid;
+
+class ColumnSetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Widget\Grid\ColumnSet
@@ -20,12 +22,12 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_columnMock;
 
@@ -42,8 +44,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             array($this->_columnMock)
         ));
 
-        $context = Mage::getModel('Magento\Core\Block\Template\Context', array('layout' => $this->_layoutMock));
-        $this->_block = Mage::app()->getLayout()->createBlock(
+        $context = \Mage::getModel('Magento\Core\Block\Template\Context', array('layout' => $this->_layoutMock));
+        $this->_block = \Mage::app()->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Grid\ColumnSet', '', array('context' => $context)
         );
         $this->_block->setTemplate(null);

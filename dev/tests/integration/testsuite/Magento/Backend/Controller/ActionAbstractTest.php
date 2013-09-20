@@ -13,7 +13,9 @@
  * Test class for \Magento\Backend\Controller\ActionAbstract.
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Utility_Controller
+namespace Magento\Backend\Controller;
+
+class ActionAbstractTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Check redirection to startup page for logged user
@@ -22,10 +24,10 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
      */
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         /** @var $backendUrlModel \Magento\Backend\Model\Url */
-        $backendUrlModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
+        $backendUrlModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
         $this->dispatch('backend');
@@ -46,11 +48,11 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
         $this->_auth->logout();
 
         $postLogin = array('login' => array(
-            'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
-            'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
+            'username' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         ));
 
-        $url = Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('adminhtml/system_account/index');
+        $url = \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('adminhtml/system_account/index');
         $this->getRequest()->setPost($postLogin);
         $this->dispatch($url);
 
@@ -69,23 +71,23 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
     public function testAclInNodes($blockName, $resource, $isLimitedAccess)
     {
         /** @var $noticeInbox \Magento\AdminNotification\Model\Inbox */
-        $noticeInbox = Mage::getModel('Magento\AdminNotification\Model\Inbox');
+        $noticeInbox = \Mage::getModel('Magento\AdminNotification\Model\Inbox');
         if (!$noticeInbox->loadLatestNotice()->getId()) {
             $noticeInbox->addCritical('Test notice', 'Test description');
         }
 
         $this->_auth->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
 
         /** @var $acl \Magento\Acl */
-        $acl = Mage::getSingleton('Magento\Acl\Builder')->getAcl();
+        $acl = \Mage::getSingleton('Magento\Acl\Builder')->getAcl();
         if ($isLimitedAccess) {
             $acl->deny(null, $resource);
         }
 
         $this->dispatch('backend/admin/dashboard');
 
-        $layout = Mage::app()->getLayout();
+        $layout = \Mage::app()->getLayout();
         $actualBlocks = $layout->getAllBlocks();
 
         $this->assertNotEmpty($actualBlocks);

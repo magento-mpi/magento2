@@ -14,12 +14,14 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Connect_Controller_Adminhtml_Extension_LocalTest extends Magento_Backend_Utility_Controller
+namespace Magento\Connect\Controller\Adminhtml\Extension;
+
+class LocalTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()
     {
         $expected = '?return=' . urlencode(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Backend\Helper\Data')->getHomePageUrl()
             );
         $this->dispatch('backend/admin/extension_local/index');

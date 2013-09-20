@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_SalesRule_Model_Resource_Report_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesRule\Model\Resource\Report;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\SalesRule\Model\Resource\Report\Collection
@@ -15,7 +17,7 @@ class Magento_SalesRule_Model_Resource_Report_CollectionTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Collection');
+        $this->_collection = \Mage::getResourceModel('Magento\SalesRule\Model\Resource\Report\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

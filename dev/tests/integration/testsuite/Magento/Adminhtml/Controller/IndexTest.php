@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_IndexTest extends Magento_Backend_Utility_Controller
+namespace Magento\Adminhtml\Controller;
+
+class IndexTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @covers \Magento\Adminhtml\Controller\Index::globalSearchAction

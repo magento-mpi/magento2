@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_Standard_Output_HtmlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver\Standard\Output;
+
+class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Profiler\Driver\Standard\Output\Html

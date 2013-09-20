@@ -12,7 +12,9 @@
  *
  * @magentoDbIsolation enabled
  */
-class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Subscription */
     private $_subscription;
@@ -31,7 +33,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $factory \Magento\Webhook\Model\Subscription\Factory */
         $this->_subscriptionFactory = $objectManager->create('Magento\Webhook\Model\Subscription\Factory');
@@ -55,7 +57,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ));
         $rule->save();
 
-        $this->_user = Mage::getModel('Magento\Webapi\Model\Acl\User')
+        $this->_user = \Mage::getModel('Magento\Webapi\Model\Acl\User')
             ->setData(array(
             'api_key' => 'webhook_test_username',
             'secret' => 'webhook_test_secret',

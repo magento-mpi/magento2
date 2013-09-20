@@ -12,14 +12,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Subscription;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Registry */
     private $_registry;
 
     public function setUp()
     {
-        $this->_registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Registry');
     }
 
@@ -31,7 +33,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Fram
     public function testAddSubscriptionTitle()
     {
         /** @var \Magento\Core\Model\Layout $layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         $subscription = array(
             'subscription_id' => null,
@@ -50,7 +52,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Fram
     public function testEditSubscriptionTitle()
     {
         /** @var \Magento\Core\Model\Layout $layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         $subscription = array(
             'subscription_id' => 1,

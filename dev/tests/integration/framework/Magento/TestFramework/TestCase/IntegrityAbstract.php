@@ -12,7 +12,9 @@
 /**
  * An ancestor class for integrity tests
  */
-abstract class Magento_TestFramework_TestCase_IntegrityAbstract extends PHPUnit_Framework_TestCase
+namespace Magento\TestFramework\TestCase;
+
+abstract class IntegrityAbstract extends \PHPUnit_Framework_TestCase
 {
     /**
      * Cached index of enabled modules
@@ -29,8 +31,8 @@ abstract class Magento_TestFramework_TestCase_IntegrityAbstract extends PHPUnit_
     protected function _getEnabledModules()
     {
         if ($this->_enabledModules === null) {
-            /** @var $helper Magento_TestFramework_Helper_Config */
-            $helper = Magento_TestFramework_Helper_Factory::getHelper('config');
+            /** @var $helper \Magento\TestFramework\Helper\Config */
+            $helper = \Magento\TestFramework\Helper\Factory::getHelper('\Magento\TestFramework\Helper\Config');
             $enabledModules = $helper->getEnabledModules();
             $this->_enabledModules = array_combine($enabledModules, $enabledModules);
         }
@@ -64,7 +66,7 @@ abstract class Magento_TestFramework_TestCase_IntegrityAbstract extends PHPUnit_
     {
         $themeItems = array();
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
-        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Resource\Theme\Collection');
         /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themeCollection as $theme) {

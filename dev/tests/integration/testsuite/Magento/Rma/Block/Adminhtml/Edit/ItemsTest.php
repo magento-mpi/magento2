@@ -12,19 +12,21 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rma\Block\Adminhtml\Edit;
+
+class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Rma/_files/rma.php
      */
     public function testToHtml()
     {
-        $rma = Mage::getModel('Magento\Rma\Model\Rma');
+        $rma = \Mage::getModel('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_rma', $rma);
-        $utility = new Magento_Core_Utility_Layout($this);
+        $utility = new \Magento\Core\Utility\Layout($this);
         $layoutArguments = array_merge($utility->getLayoutDependencies(), array('area' => 'adminhtml'));
         $layout = $utility->getLayoutFromFixture(
             __DIR__ . '/../../../_files/edit.xml',
@@ -33,7 +35,7 @@ class Magento_Rma_Block_Adminhtml_Edit_ItemsTest extends PHPUnit_Framework_TestC
         $layout->getUpdate()->addHandle('adminhtml_rma_edit')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('magento_rma_edit_tab_items');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea('adminhtml');
         $this->assertContains('<div id="magento_rma_item_edit_grid">', $layout->getOutput());
     }

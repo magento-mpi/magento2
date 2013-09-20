@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Entity_TableTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Entity;
+
+class TableTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource\Entity\Table
@@ -24,7 +26,7 @@ class Magento_Core_Model_Resource_Entity_TableTest extends PHPUnit_Framework_Tes
         $config->test_key   = 'test';
         // @codingStandardsIgnoreEnd
 
-        $this->_model = Mage::getResourceModel('Magento\Core\Model\Resource\Entity\Table', array('config' => $config));
+        $this->_model = \Mage::getResourceModel('Magento\Core\Model\Resource\Entity\Table', array('config' => $config));
     }
 
     public function testGetTable()

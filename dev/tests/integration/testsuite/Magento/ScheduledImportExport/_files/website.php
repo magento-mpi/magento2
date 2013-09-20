@@ -10,7 +10,7 @@
  */
 
 /** @var $website \Magento\Core\Model\Website */
-$website = Mage::getModel('Magento\Core\Model\Website');
+$website = \Mage::getModel('Magento\Core\Model\Website');
 $website->setData(array(
     'code' => 'test',
     'name' => 'Test Website',
@@ -20,7 +20,7 @@ $website->setData(array(
 $website->save();
 
 $key = 'Magento\ScheduledImportExport\Model\Website';
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $objectManager->get('Magento\Core\Model\Registry')->unregister($key);
 $objectManager->get('Magento\Core\Model\Registry')->register($key, $website);

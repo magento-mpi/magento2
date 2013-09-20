@@ -14,7 +14,9 @@
  *
  * @magentoAppArea frontend
  */
-class Magento_Checkout_Controller_MultishippingTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Checkout\Controller;
+
+class MultishippingTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * Covers app/code/Magento/Checkout/Block/Multishipping/Payment/Info.php
@@ -27,11 +29,11 @@ class Magento_Checkout_Controller_MultishippingTest extends Magento_TestFramewor
     public function testOverviewAction()
     {
         /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = Mage::getModel('Magento\Sales\Model\Quote');
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
-        Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
+        \Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
         /** @var $session \Magento\Customer\Model\Session */
-        $session = Mage::getModel('Magento\Customer\Model\Session');
+        $session = \Mage::getModel('Magento\Customer\Model\Session');
         $session->login('customer@example.com', 'password');
         $this->getRequest()->setPost('payment', array('method' => 'checkmo'));
         $this->dispatch('checkout/multishipping/overview');

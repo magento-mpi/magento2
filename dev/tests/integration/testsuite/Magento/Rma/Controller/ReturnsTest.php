@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Controller_ReturnsTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Rma\Controller;
+
+class ReturnsTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -19,7 +21,7 @@ class Magento_Rma_Controller_ReturnsTest extends Magento_TestFramework_TestCase_
     public function setUp()
     {
         parent::setUp();
-        $this->_customerSession = Mage::getModel('Magento\Customer\Model\Session');
+        $this->_customerSession = \Mage::getModel('Magento\Customer\Model\Session');
         $this->_customerSession->login('customer@example.com', 'password');
     }
 
@@ -39,7 +41,7 @@ class Magento_Rma_Controller_ReturnsTest extends Magento_TestFramework_TestCase_
     public function testIsResponseContain($uri, $content)
     {
         /** @var $rma \Magento\Rma\Model\Rma */
-        $rma = Mage::getModel('Magento\Rma\Model\Rma');
+        $rma = \Mage::getModel('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
         $rma->setCustomerId($this->_customerSession->getCustomerId());
         $rma->save();

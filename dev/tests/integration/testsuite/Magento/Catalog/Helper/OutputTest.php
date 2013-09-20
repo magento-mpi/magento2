@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class OutputTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Helper\Output
@@ -18,7 +20,7 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Output');
     }
 
@@ -33,12 +35,12 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $this->_helper->getHandlers('method'));
 
         // add one handler
-        $objectOne = new StdClass;
+        $objectOne = new \StdClass;
         $this->_helper->addHandler('valid', $objectOne);
         $this->assertSame(array($objectOne), $this->_helper->getHandlers('valid'));
 
         // add another one
-        $objectTwo = new StdClass;
+        $objectTwo = new \StdClass;
         $this->_helper->addHandler('valid', $objectTwo);
         $this->assertSame(array($objectOne, $objectTwo), $this->_helper->getHandlers('valid'));
     }
@@ -85,12 +87,12 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
      * @param string $method
      * @param string $entityCode
      * @param string $expectedResult
-     * @throws Exception on assertion failure
+     * @throws \Exception on assertion failure
      */
     protected function _testAttribute($method, $entityCode, $expectedResult)
     {
         $attributeName = 'description';
-        $attribute = Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute($entityCode, $attributeName);
+        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute($entityCode, $attributeName);
         $isHtml = $attribute->getIsHtmlAllowedOnFront();
         $isWysiwyg = $attribute->getIsWysiwygEnabled();
         $attribute->setIsHtmlAllowedOnFront(0)->setIsWysiwygEnabled(0);
@@ -101,7 +103,7 @@ class Magento_Catalog_Helper_OutputTest extends PHPUnit_Framework_TestCase
             );
 
             $attribute->setIsHtmlAllowedOnFront($isHtml)->setIsWysiwygEnabled($isWysiwyg);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $attribute->setIsHtmlAllowedOnFront($isHtml)->setIsWysiwygEnabled($isWysiwyg);
             throw $e;
         }

@@ -8,11 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Block_Account_NavigationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Block\Account;
+
+class NavigationTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddRemoveLink()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento\Customer\Block\Account\Navigation');
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Customer\Block\Account\Navigation');
         $this->assertSame(array(), $block->getLinks());
         $this->assertSame($block, $block->addLink('Name', 'some/path/index', 'Label', array('parameter' => 'value')));
         $links = $block->getLinks();

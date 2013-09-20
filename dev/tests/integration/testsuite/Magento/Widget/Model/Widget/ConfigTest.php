@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Widget;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Widget\Model\Widget\Config
@@ -17,7 +19,7 @@ class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Widget\Model\Widget\Config');
+        $this->_model = \Mage::getModel('Magento\Widget\Model\Widget\Config');
     }
 
     /**
@@ -27,7 +29,7 @@ class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPluginSettings()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
 
         $config = new \Magento\Object();

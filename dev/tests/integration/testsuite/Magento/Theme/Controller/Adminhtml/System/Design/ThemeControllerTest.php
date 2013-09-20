@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends Magento_Backend_Utility_Controller
+namespace Magento\Theme\Controller\Adminhtml\System\Design;
+
+class ThemeControllerTest extends \Magento\Backend\Utility\Controller
 {
     /** @var \Magento\Filesystem */
     protected $_filesystem;

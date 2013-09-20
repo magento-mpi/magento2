@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
     protected $_layout = null;
@@ -23,7 +25,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PH
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form');
     }
 
@@ -31,7 +33,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PH
     {
         $parentName = 'parent';
         $mockClass = $this->getMockClass('Magento\Catalog\Block\Product\AbstractProduct', array('_prepareLayout'),
-            array(Mage::getModel('Magento\Core\Block\Template\Context'))
+            array(\Mage::getModel('Magento\Core\Block\Template\Context'))
         );
         $this->_layout->createBlock($mockClass, $parentName);
         $this->_layout->setChild($parentName, $this->_block->getNameInLayout(), '');

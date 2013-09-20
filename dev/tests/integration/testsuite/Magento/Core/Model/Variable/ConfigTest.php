@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Variable_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Variable;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Variable\Config
@@ -18,7 +20,7 @@ class Magento_Core_Model_Variable_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Variable\Config');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Variable\Config');
     }
 
     public function testGetWysiwygJsPluginSrc()

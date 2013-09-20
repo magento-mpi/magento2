@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien;
+
+class ActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Varien\Action|PHPUnit_Framework_MockObject_MockObject
@@ -18,16 +20,16 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        Mage::getConfig();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Mage::getConfig();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         $arguments = array(
-            'request'  => new Magento_TestFramework_Request(),
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response'),
+            'request'  => new \Magento\TestFramework\Request(),
+            'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\TestFramework\Response'),
         );
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Core\Controller\Varien\Action',
@@ -43,12 +45,12 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('Magento_TestFramework_Request', $this->_model->getRequest());
+        $this->assertInstanceOf('Magento\TestFramework\Request', $this->_model->getRequest());
     }
 
     public function testGetResponse()
     {
-        $this->assertInstanceOf('Magento_TestFramework_Response', $this->_model->getResponse());
+        $this->assertInstanceOf('Magento\TestFramework\Response', $this->_model->getResponse());
     }
 
     public function testSetGetFlag()
@@ -83,7 +85,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testGetLayout($controllerClass, $expectedArea)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope($expectedArea);
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $controller = $objectManager->create($controllerClass);
@@ -148,7 +150,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     {
         return array(
             array('Test', 'Controller', 'Action', array('test_controller_action'),
-                array('STORE_' . Mage::app()->getStore()->getCode())
+                array('STORE_' . \Mage::app()->getStore()->getCode())
             ),
             array('catalog', 'product', 'gallery', array('catalog_product_gallery'),
                 array('default', 'catalog_product_view')
@@ -230,17 +232,17 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testDispatch()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         if (headers_sent()) {
             $this->markTestSkipped('Can\' dispatch - headers already sent');
         }
-        $request = new Magento_TestFramework_Request();
+        $request = new \Magento\TestFramework\Request();
         $request->setDispatched();
 
         $arguments = array(
             'request'  => $request,
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response'),
+            'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\TestFramework\Response'),
         );
         $context = $objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
 
@@ -293,21 +295,21 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      */
     public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign, $context)
     {
-        Mage::app()->loadArea($expectedArea);
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        \Mage::app()->loadArea($expectedArea);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $context =
         $context = $objectManager->create($context, array(
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response')
+            'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\TestFramework\Response')
         ));
         $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 
-        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertEquals($expectedArea, $design->getArea());
-        $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
+        $this->assertEquals($expectedStore, \Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
             $this->assertEquals($expectedDesign, $design->getDesignTheme()->getThemePath());
         }
@@ -354,7 +356,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $message = '';
         try {
             $this->_model->norouteAction();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $caughtException = true;
             $message = $e->getMessage();
         }

@@ -10,12 +10,14 @@
  */
 
 /**
- * Test class for Magento_TestFramework_Bootstrap.
+ * Test class for \Magento\TestFramework\Bootstrap.
  */
-class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class BootstrapTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Bootstrap|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Bootstrap|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -30,27 +32,27 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Magento_TestFramework_Bootstrap_Settings
+     * @var \Magento\TestFramework\Bootstrap\Settings
      */
     protected $_settings;
 
     /**
-     * @var Magento_TestFramework_Bootstrap_Environment|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Bootstrap\Environment|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_envBootstrap;
 
     /**
-     * @var Magento_TestFramework_Bootstrap_DocBlock|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Bootstrap\DocBlock|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_docBlockBootstrap;
 
     /**
-     * @var Magento_TestFramework_Bootstrap_Profiler|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Bootstrap\Profiler|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_profilerBootstrap;
 
     /**
-     * @var Magento_TestFramework_Bootstrap_Memory
+     * @var \Magento\TestFramework\Bootstrap\Memory
      */
     protected $_memoryBootstrap;
 
@@ -67,25 +69,25 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_integrationTestsDir = realpath(__DIR__ . '/../../../../../../');
-        $this->_settings = new Magento_TestFramework_Bootstrap_Settings(
+        $this->_settings = new \Magento\TestFramework\Bootstrap\Settings(
             $this->_integrationTestsDir, $this->_requiredSettings);
         $this->_envBootstrap = $this->getMock(
-            'Magento_TestFramework_Bootstrap_Environment', array('emulateHttpRequest', 'emulateSession')
+            'Magento\TestFramework\Bootstrap\Environment', array('emulateHttpRequest', 'emulateSession')
         );
         $this->_docBlockBootstrap = $this->getMock(
-            'Magento_TestFramework_Bootstrap_DocBlock', array('registerAnnotations'), array(__DIR__)
+            'Magento\TestFramework\Bootstrap\DocBlock', array('registerAnnotations'), array(__DIR__)
         );
         $profilerDriver = $this->getMock('Magento\Profiler\Driver\Standard', array('registerOutput'));
         $this->_profilerBootstrap = $this->getMock(
-            'Magento_TestFramework_Bootstrap_Profiler', array('registerFileProfiler', 'registerBambooProfiler'),
+            'Magento\TestFramework\Bootstrap\Profiler', array('registerFileProfiler', 'registerBambooProfiler'),
             array($profilerDriver)
         );
         $this->_memoryBootstrap = $this->getMock(
-            'Magento_TestFramework_Bootstrap_Memory', array('activateStatsDisplaying', 'activateLimitValidation'),
+            'Magento\TestFramework\Bootstrap\Memory', array('activateStatsDisplaying', 'activateLimitValidation'),
             array(), '', false
         );
         $this->_shell = $this->getMock('Magento\Shell', array('execute'));
-        $this->_object = new Magento_TestFramework_Bootstrap(
+        $this->_object = new \Magento\TestFramework\Bootstrap(
             $this->_settings, $this->_envBootstrap, $this->_docBlockBootstrap, $this->_profilerBootstrap,
             $this->_shell, __DIR__
         );
@@ -104,19 +106,19 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $fixtureSettings
-     * @return Magento_TestFramework_Application|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\TestFramework\Application|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _injectApplicationMock(array $fixtureSettings = array())
     {
         $fixtureSettings += $this->_requiredSettings;
         $application = $this->getMock(
-            'Magento_TestFramework_Application',
+            'Magento\TestFramework\Application',
             array('cleanup', 'isInstalled', 'initialize', 'install'), array(), '', false
         );
-        $settings = new Magento_TestFramework_Bootstrap_Settings($this->_integrationTestsDir, $fixtureSettings);
+        $settings = new \Magento\TestFramework\Bootstrap\Settings($this->_integrationTestsDir, $fixtureSettings);
         // prevent calling the constructor because of mocking the method it invokes
         $this->_object = $this->getMock(
-            'Magento_TestFramework_Bootstrap', array('_createApplication', '_createMemoryBootstrap'), array(), '', false
+            'Magento\TestFramework\Bootstrap', array('_createApplication', '_createMemoryBootstrap'), array(), '', false
         );
         $this->_object
             ->expects($this->any())
@@ -139,9 +141,9 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
     public function testGetApplication()
     {
         $application = $this->_object->getApplication();
-        $this->assertInstanceOf('Magento_TestFramework_Application', $application);
+        $this->assertInstanceOf('Magento\TestFramework\Application', $application);
         $this->assertStringStartsWith(__DIR__ . '/sandbox-mysql-', $application->getInstallDir());
-        $this->assertInstanceOf('Magento_TestFramework_Db_Mysql', $application->getDbInstance());
+        $this->assertInstanceOf('Magento\TestFramework\Db\Mysql', $application->getDbInstance());
         $this->assertSame($application, $this->_object->getApplication());
     }
 
@@ -227,7 +229,7 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
         $this->_docBlockBootstrap
             ->expects($this->once())
             ->method('registerAnnotations')
-            ->with($this->isInstanceOf('Magento_TestFramework_Application'))
+            ->with($this->isInstanceOf('Magento\TestFramework\Application'))
         ;
         $this->_object->runBootstrap();
     }
@@ -269,9 +271,9 @@ class Magento_Test_BootstrapTest extends PHPUnit_Framework_TestCase
 
     public function testRunBootstrapAppInstall()
     {
-        $adminUserName = Magento_TestFramework_Bootstrap::ADMIN_NAME;
-        $adminPassword = Magento_TestFramework_Bootstrap::ADMIN_PASSWORD;
-        $adminRoleName = Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME;
+        $adminUserName = \Magento\TestFramework\Bootstrap::ADMIN_NAME;
+        $adminPassword = \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD;
+        $adminRoleName = \Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME;
         $application = $this->_injectApplicationMock();
         $application
             ->expects($this->once())

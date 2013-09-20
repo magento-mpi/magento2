@@ -9,7 +9,9 @@
 /**
  * Abstract test case to test positions of a module's total collectors as compared to other collectors
  */
-abstract class Magento_Sales_Model_CollectorPositionsTestAbstract extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model;
+
+abstract class CollectorPositionsTestAbstract extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $collectorCode
@@ -49,7 +51,7 @@ abstract class Magento_Sales_Model_CollectorPositionsTestAbstract extends PHPUni
      * Return array of total collectors for the designated $configType
      *
      * @var string $configType
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return array
      */
     protected static function _getConfigCollectors($configType)
@@ -68,9 +70,9 @@ abstract class Magento_Sales_Model_CollectorPositionsTestAbstract extends PHPUni
                 $methodGetCollectors = 'getTotalModels';
                 break;
             default:
-                throw new InvalidArgumentException('Unknown config type: ' . $configType);
+                throw new \InvalidArgumentException('Unknown config type: ' . $configType);
         }
-        $config = Mage::getModel($configClass);
+        $config = \Mage::getModel($configClass);
         return $config->$methodGetCollectors();
     }
 

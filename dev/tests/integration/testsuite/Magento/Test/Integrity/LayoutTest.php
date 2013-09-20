@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity;
+
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     const NO_OVERRIDDEN_THEMES_MARKER = 'no-overriden-themes';
 
@@ -71,14 +73,14 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     protected function _composeXml(\Magento\Core\Model\Theme $theme)
     {
         /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
-        $layoutUpdate = Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+        $layoutUpdate = \Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
         return $layoutUpdate->getFileLayoutUpdatesXml();
     }
 
     /**
      * Validate node's declared position in hierarchy and add errors to the specified array if found
      *
-     * @param SimpleXMLElement $node
+     * @param \SimpleXMLElement $node
      * @param \Magento\Core\Model\Layout\Element $xml
      * @param array &$errors
      */
@@ -118,7 +120,7 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function areasAndThemesDataProvider()
     {
         $result = array();
-        $themeCollection = Mage::getModel('Magento\Core\Model\Theme')->getCollection();
+        $themeCollection = \Mage::getModel('Magento\Core\Model\Theme')->getCollection();
         /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themeCollection as $theme) {
             $result[] = array($theme);
@@ -173,11 +175,11 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function pageTypesDeclarationDataProvider()
     {
         /** @var $themeUpdates \Magento\Core\Model\Layout\File\Source\Theme */
-        $themeUpdates = Mage::getModel('Magento\Core\Model\Layout\File\Source\Theme');
+        $themeUpdates = \Mage::getModel('Magento\Core\Model\Layout\File\Source\Theme');
         /** @var $themeUpdatesOverride \Magento\Core\Model\Layout\File\Source\Override\Theme */
-        $themeUpdatesOverride = Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Theme');
+        $themeUpdatesOverride = \Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Theme');
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
-        $themeCollection = Mage::getModel('Magento\Core\Model\Theme\Collection');
+        $themeCollection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
         $themeCollection->addDefaultPattern('*');
         /** @var $themeLayouts \Magento\Core\Model\Layout\File[] */
         $themeLayouts = array();
@@ -260,7 +262,7 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     {
         if (!isset(self::$_cachedFiles[$cacheKey])) {
             /* @var $fileList \Magento\Core\Model\Layout\File[] */
-            $fileList = Mage::getModel($sourceClass)->getFiles($theme);
+            $fileList = \Mage::getModel($sourceClass)->getFiles($theme);
             $files = array();
             foreach ($fileList as $file) {
                 $files[$file->getModule() . '/' . $file->getName()] = true;
@@ -276,7 +278,7 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function overrideBaseFilesDataProvider()
     {
         return $this->_retrieveFilesForEveryTheme(
-            Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Base')
+            \Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Base')
         );
     }
 
@@ -286,7 +288,7 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     public function overrideThemeFilesDataProvider()
     {
         return $this->_retrieveFilesForEveryTheme(
-            Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Theme')
+            \Mage::getModel('Magento\Core\Model\Layout\File\Source\Override\Theme')
         );
     }
 
@@ -301,7 +303,7 @@ class Magento_Test_Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
-        $themeCollection = Mage::getModel('Magento\Core\Model\Theme\Collection');
+        $themeCollection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
         $themeCollection->addDefaultPattern('*');
         /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themeCollection as $theme) {

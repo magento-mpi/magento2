@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class StoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array
@@ -23,7 +25,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
             'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'context' => $objectManager->get('Magento\Core\Model\Context'),
@@ -82,7 +84,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = Mage::app()->getWebsite();
+        $website = \Mage::app()->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);
@@ -91,7 +93,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
     public function testSetGetGroup()
     {
         $this->assertFalse($this->_model->getGroup());
-        $storeGroup = Mage::app()->getGroup();
+        $storeGroup = \Mage::app()->getGroup();
         $this->_model->setGroup($storeGroup);
         $actualResult = $this->_model->getGroup();
         $this->assertSame($storeGroup, $actualResult);
@@ -160,8 +162,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBaseUrlInPub()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_URIS => array(\Magento\Core\Model\Dir::PUB => '')
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Mage::PARAM_APP_URIS => array(\Magento\Core\Model\Dir::PUB => '')
         ));
         $this->_model->load('default');
 
@@ -199,7 +201,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         // emulate custom entry point
         $_SERVER['SCRIPT_FILENAME'] = 'custom_entry.php';
         if ($useCustomEntryPoint) {
-            $property = new ReflectionProperty($this->_model, '_isCustomEntryPoint');
+            $property = new \ReflectionProperty($this->_model, '_isCustomEntryPoint');
             $property->setAccessible(true);
             $property->setValue($this->_model, $useCustomEntryPoint);
         }
@@ -276,8 +278,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
-        $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
+        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
 
@@ -304,7 +306,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $this->_model->setData($data);
 
         /* emulate admin store */
-        Mage::app()->getStore()->setId(\Magento\Core\Model\App::ADMIN_STORE_ID);
+        \Mage::app()->getStore()->setId(\Magento\Core\Model\App::ADMIN_STORE_ID);
         $this->_model->save();
     }
 

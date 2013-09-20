@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Translate;
+
+class InlineParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Translate\InlineParser
@@ -21,16 +23,16 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 
     public function setUp()
     {
-        $this->_inlineParser = Mage::getModel('Magento\Core\Model\Translate\InlineParser');
+        $this->_inlineParser = \Mage::getModel('Magento\Core\Model\Translate\InlineParser');
         /* Called getConfig as workaround for setConfig bug */
-        Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+        \Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
+        \Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
     /**
@@ -43,16 +45,16 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
             $inputArray[0]['perstore'] = $isPerStore;
         }
         /** @var $inline \Magento\Core\Model\Translate\Inline */
-        $inline = Mage::getModel('Magento\Core\Model\Translate\Inline');
+        $inline = \Mage::getModel('Magento\Core\Model\Translate\Inline');
         $this->_inlineParser->processAjaxPost($inputArray, $inline);
 
-        $model = Mage::getModel('Magento\Core\Model\Translate\String');
+        $model = \Mage::getModel('Magento\Core\Model\Translate\String');
         $model->load($originalText);
         try {
             $this->assertEquals($translatedText, $model->getTranslate());
             $model->delete();
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             $model->delete();
         }
     }
@@ -70,12 +72,12 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
 
     public function testSetGetIsJson()
     {
-        $isJsonProperty = new ReflectionProperty(get_class($this->_inlineParser), '_isJson');
+        $isJsonProperty = new \ReflectionProperty(get_class($this->_inlineParser), '_isJson');
         $isJsonProperty->setAccessible(true);
 
         $this->assertFalse($isJsonProperty->getValue($this->_inlineParser));
 
-        $setIsJsonMethod = new ReflectionMethod($this->_inlineParser, 'setIsJson');
+        $setIsJsonMethod = new \ReflectionMethod($this->_inlineParser, 'setIsJson');
         $setIsJsonMethod->setAccessible(true);
         $setIsJsonMethod->invoke($this->_inlineParser, true);
 

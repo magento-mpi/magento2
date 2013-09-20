@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class EventConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -14,7 +16,7 @@ class Magento_Test_Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $objectManager = Mage::getObjectManager();
+        $objectManager = \Mage::getObjectManager();
         $this->_schemaFile = $objectManager->get('Magento\Core\Model\Event\Config\SchemaLocator')->getSchema();
     }
 
@@ -39,7 +41,7 @@ class Magento_Test_Integrity_Modular_EventConfigFilesTest extends PHPUnit_Framew
      */
     public function eventConfigFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('{*/events.xml,events.xml}');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('{*/events.xml,events.xml}');
 
     }
 }

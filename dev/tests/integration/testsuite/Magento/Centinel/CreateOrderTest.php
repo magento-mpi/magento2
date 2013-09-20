@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Centinel_CreateOrderTest extends Magento_Backend_Utility_Controller
+namespace Magento\Centinel;
+
+class CreateOrderTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoConfigFixture admin_store payment/ccsave/centinel 1
@@ -21,7 +23,7 @@ class Magento_Centinel_CreateOrderTest extends Magento_Backend_Utility_Controlle
     public function testIndexAction()
     {
         /** @var $order \Magento\Adminhtml\Model\Sales\Order\Create */
-        $order = Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
+        $order = \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
         $paymentData = array(
             'cc_owner' => 'Test User',
             'cc_type' => 'visa',

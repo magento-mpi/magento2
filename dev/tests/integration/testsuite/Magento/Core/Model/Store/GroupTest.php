@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Store_GroupTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Store;
+
+class GroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Store\Group
@@ -18,13 +20,13 @@ class Magento_Core_Model_Store_GroupTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Store\Group');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Store\Group');
     }
 
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = Mage::app()->getWebsite();
+        $website = \Mage::app()->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);

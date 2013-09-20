@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\TargetRule\Model;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\TargetRule\Model\Rule
@@ -18,7 +20,7 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\TargetRule\Model\Rule');
+        $this->_model = \Mage::getModel('Magento\TargetRule\Model\Rule');
     }
 
     public function testValidateDataOnEmpty()

@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model\Adminhtml\System\Config\Source;
+
+class EngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Search\Model\Adminhtml\System\Config\Source\Engine
@@ -22,7 +24,7 @@ class Magento_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHP
     protected function setUp()
     {
         parent::setUp();
-        $this->_model= Mage::getModel('Magento\Search\Model\Adminhtml\System\Config\Source\Engine');
+        $this->_model= \Mage::getModel('Magento\Search\Model\Adminhtml\System\Config\Source\Engine');
     }
 
     public function testToOptionArray()

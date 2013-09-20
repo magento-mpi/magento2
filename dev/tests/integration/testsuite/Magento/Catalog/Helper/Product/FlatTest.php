@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper\Product;
+
+class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Helper\Product\Flat
@@ -18,7 +20,7 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Product\Flat');
     }
 
@@ -37,7 +39,7 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
             $this->assertTrue($this->_helper->isBuilt());
 
             $flag->setIsBuilt(false);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $flag->setIsBuilt(false);
             throw $e;
         }

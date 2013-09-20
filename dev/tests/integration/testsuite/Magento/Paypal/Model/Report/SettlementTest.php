@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Paypal_Model_Report_SettlementTest extends PHPUnit_Framework_TestCase
+namespace Magento\Paypal\Model\Report;
+
+class SettlementTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDbIsolation enabled
@@ -13,7 +15,7 @@ class Magento_Paypal_Model_Report_SettlementTest extends PHPUnit_Framework_TestC
     public function testFetchAndSave()
     {
         /** @var $model \Magento\Paypal\Model\Report\Settlement; */
-        $model = Mage::getModel('Magento\Paypal\Model\Report\Settlement');
+        $model = \Mage::getModel('Magento\Paypal\Model\Report\Settlement');
         $connection = $this->getMock('Magento\Io\Sftp', array('rawls', 'read'), array(), '', false);
         $filename = 'STL-00000000.00.abc.CSV';
         $connection->expects($this->once())->method('rawls')->will($this->returnValue(array($filename => array())));
@@ -23,7 +25,7 @@ class Magento_Paypal_Model_Report_SettlementTest extends PHPUnit_Framework_TestC
 
     /**
      * @param array $config
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider createConnectionExceptionDataProvider
      */
     public function testCreateConnectionException($config)

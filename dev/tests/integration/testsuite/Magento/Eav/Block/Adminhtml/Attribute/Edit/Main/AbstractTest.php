@@ -12,22 +12,24 @@
 /**
  * Test class for \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
  */
-class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Main;
+
+class AbstractTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $entityType = Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Customer\Model\Attribute');
+        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
         $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
 
@@ -43,7 +45,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
         )
         ->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             'Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain', '_prepareForm');
         $method->setAccessible(true);
         $method->invoke($block);

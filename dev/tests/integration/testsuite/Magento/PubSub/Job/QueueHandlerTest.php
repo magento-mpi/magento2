@@ -9,15 +9,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\PubSub\Job;
+
+class QueueHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\ObjectManager */
     private $_objectManager;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject  */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject  */
     private $_transportMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_responseMock;
 
     /** @var  \Magento\Webhook\Model\Event */
@@ -28,7 +30,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // Must mock transport to avoid actual network actions
         $this->_transportMock = $this->getMockBuilder('Magento\Outbound\Transport\Http')
@@ -48,7 +50,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->save();
 
         /** @var \Magento\Webhook\Model\Event $_event */
-        $this->_event = Mage::getModel('Magento\Webhook\Model\Event')
+        $this->_event = \Mage::getModel('Magento\Webhook\Model\Event')
             ->setTopic('topic')
             ->setBodyData(array('body data'))
             ->save();
@@ -72,7 +74,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $queueWriter = $this->_objectManager->create('Magento\PubSub\Job\QueueWriterInterface');
 
         /** @var \Magento\Webhook\Model\Job $job */
-        $job = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Webhook\Model\Job');
+        $job = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Webhook\Model\Job');
         $job->setEventId($this->_event->getId());
         $job->setSubscriptionId($this->_subscription->getId());
         $jobId = $job->save()
@@ -112,7 +114,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $queueWriter = $this->_objectManager->create('Magento\PubSub\Job\QueueWriterInterface');
 
         /** @var \Magento\Webhook\Model\Job $job */
-        $job = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Webhook\Model\Job');
+        $job = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Webhook\Model\Job');
         $job->setEventId($this->_event->getId());
         $job->setSubscriptionId($this->_subscription->getId());
         $jobId = $job->save()

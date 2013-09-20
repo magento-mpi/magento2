@@ -14,7 +14,9 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block;
+
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Template
@@ -24,7 +26,7 @@ class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Template');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Template');
     }
 
     /**
@@ -41,10 +43,10 @@ class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testIsOutputEnabled()
     {
         $this->_block->setData('module_name', 'dummy');
-        Mage::app()->getStore()->setConfig('advanced/modules_disable_output/dummy', 'true');
+        \Mage::app()->getStore()->setConfig('advanced/modules_disable_output/dummy', 'true');
         $this->assertFalse($this->_block->isOutputEnabled());
 
-        Mage::app()->getStore()->setConfig('advanced/modules_disable_output/dummy', 'false');
+        \Mage::app()->getStore()->setConfig('advanced/modules_disable_output/dummy', 'false');
         $this->assertTrue($this->_block->isOutputEnabled('dummy'));
     }
 }

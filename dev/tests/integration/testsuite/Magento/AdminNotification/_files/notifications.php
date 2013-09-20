@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-$om = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$om = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $mesasge = $om->create('Magento\AdminNotification\Model\Inbox');
 $mesasge->setSeverity(\Magento\AdminNotification\Model\Inbox::SEVERITY_CRITICAL)
     ->setTitle('Unread Critical 1')

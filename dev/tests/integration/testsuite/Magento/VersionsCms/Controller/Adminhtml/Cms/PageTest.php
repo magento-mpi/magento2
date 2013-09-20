@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_VersionsCms_Controller_Adminhtml_Cms_PageTest extends Magento_Backend_Utility_Controller
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
+
+class PageTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Checks if \Magento\VersionsCms\Block\Adminhtml\Cms\Page::_prepareLayout finds child 'grid' block

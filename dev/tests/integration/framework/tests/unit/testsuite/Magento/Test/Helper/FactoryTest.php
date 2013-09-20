@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Helper_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Helper;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHelper()
     {
-        $helper = Magento_TestFramework_Helper_Factory::getHelper('config');
+        $helper = \Magento\TestFramework\Helper\Factory::getHelper(\Magento\TestFramework\Helper\Factory::getHelper('\Magento\TestFramework\Helper\Config'));
         $this->assertNotEmpty($helper);
 
-        $helperNew = Magento_TestFramework_Helper_Factory::getHelper('config');
+        $helperNew = \Magento\TestFramework\Helper\Factory::getHelper('\Magento\TestFramework\Helper\Config');
         $this->assertSame($helper, $helperNew, 'Factory must cache instances of helpers.');
     }
 
     public function testSetHelper()
     {
-        $helper = new stdClass();
-        Magento_TestFramework_Helper_Factory::setHelper('config', $helper);
-        $helperGot = Magento_TestFramework_Helper_Factory::getHelper('config');
+        $helper = new \stdClass();
+        \Magento\TestFramework\Helper\Factory::setHelper('config', $helper);
+        $helperGot = \Magento\TestFramework\Helper\Factory::getHelper('\Magento\TestFramework\Helper\Config');
         $this->assertSame($helper, $helperGot, 'The helper must be used, when requested again');
 
-        $helperNew = new stdClass();
-        Magento_TestFramework_Helper_Factory::setHelper('config', $helperNew);
-        $helperGot = Magento_TestFramework_Helper_Factory::getHelper('config');
+        $helperNew = new \stdClass();
+        \Magento\TestFramework\Helper\Factory::setHelper('config', $helperNew);
+        $helperGot = \Magento\TestFramework\Helper\Factory::getHelper('\Magento\TestFramework\Helper\Config');
         $this->assertSame($helperNew, $helperGot, 'The helper must be changed upon new setHelper() method');
     }
 }

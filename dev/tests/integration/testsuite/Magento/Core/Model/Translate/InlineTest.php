@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Translate;
+
+class InlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Translate\Inline
@@ -23,23 +25,23 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Translate\Inline');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Translate\Inline');
         /* Called getConfig as workaround for setConfig bug */
-        Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+        \Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
+        \Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
     public function testIsAllowed()
     {
         $this->assertTrue($this->_model->isAllowed());
         $this->assertTrue($this->_model->isAllowed($this->_storeId));
-        $this->assertTrue($this->_model->isAllowed(Mage::app()->getStore($this->_storeId)));
+        $this->assertTrue($this->_model->isAllowed(\Mage::app()->getStore($this->_storeId)));
     }
 
     /**
@@ -53,11 +55,11 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $this->_model->processResponseBody($actualText, false);
         $this->markTestIncomplete('Bug MAGE-2494');
 
-        $expected = new DOMDocument;
+        $expected = new \DOMDocument;
         $expected->preserveWhiteSpace = FALSE;
         $expected->loadHTML($expectedText);
 
-        $actual = new DOMDocument;
+        $actual = new \DOMDocument;
         $actual->preserveWhiteSpace = FALSE;
         $actual->loadHTML($actualText);
 
@@ -72,7 +74,7 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $originalText = file_get_contents(__DIR__ . '/_files/_inline_page_original.html');
         $expectedText = file_get_contents(__DIR__ . '/_files/_inline_page_expected.html');
 
-        $package = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $package = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->getDesignTheme()
             ->getPackageCode();

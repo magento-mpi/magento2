@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\DataService\Config
@@ -16,7 +18,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
 
     public function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
             'Magento\Core\Model\Dir',

@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_System_DesignTest extends Magento_Backend_Utility_Controller
+namespace Magento\Adminhtml\Controller\System;
+
+class DesignTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @covers \Magento\Adminhtml\Controller\Action::_addLeft

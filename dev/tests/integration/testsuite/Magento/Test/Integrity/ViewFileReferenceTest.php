@@ -20,7 +20,9 @@
  * The test is intended to be deleted before Magento 2 release. With the release, having non-modular files with the
  * same paths as modular ones, is legitimate.
  */
-class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity;
+
+class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
@@ -44,7 +46,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
 
     public static function setUpBeforeClass()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $fallbackFactory \Magento\Core\Model\Design\Fallback\Factory */
         $fallbackFactory = $objectManager->get('Magento\Core\Model\Design\Fallback\Factory');
@@ -75,7 +77,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     {
         $result = array();
         $patternDir = self::_getLocalePatternDir($theme);
-        $localeModel = new Zend_Locale;
+        $localeModel = new \Zend_Locale;
         foreach (array_keys($localeModel->getLocaleList()) as $locale) {
             $dir = str_replace('<locale_placeholder>', $locale, $patternDir);
             if (is_dir($dir)) {
@@ -90,7 +92,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
      *
      * @param \Magento\Core\Model\Theme $theme
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     static protected function _getLocalePatternDir(\Magento\Core\Model\Theme $theme)
     {
@@ -110,7 +112,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
                 return $patternDir;
             }
         }
-        throw new Exception('Unable to determine theme locale path');
+        throw new \Exception('Unable to determine theme locale path');
     }
 
     /**
@@ -215,8 +217,8 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
         $result = array();
         $rootDir = self::_getRootDir();
         foreach (array('app/code', 'app/design') as $subDir) {
-            $iterator = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($rootDir . "/{$subDir}", RecursiveDirectoryIterator::SKIP_DOTS)
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($rootDir . "/{$subDir}", \RecursiveDirectoryIterator::SKIP_DOTS)
             );
             $result = array_merge($result, iterator_to_array($iterator));
         }

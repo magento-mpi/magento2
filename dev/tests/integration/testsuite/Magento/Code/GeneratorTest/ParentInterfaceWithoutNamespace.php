@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Code_GeneratorTest_ParentInterfaceWithoutNamespace
+namespace Magento\Code\GeneratorTest;
+
+interface ParentInterfaceWithoutNamespace
 {
     /**
      * Do some work

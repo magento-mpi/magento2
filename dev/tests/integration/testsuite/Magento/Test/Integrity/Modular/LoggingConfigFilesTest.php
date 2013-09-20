@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Modular_LoggingConfigFilesTest extends Magento_TestFramework_TestCase_ConfigFilesAbstract
+namespace Magento\Test\Integrity\Modular;
+
+class LoggingConfigFilesTest extends \Magento\TestFramework\TestCase\ConfigFilesAbstract
 {
     /**
      * Returns the reader class name that will be instantiated via ObjectManager

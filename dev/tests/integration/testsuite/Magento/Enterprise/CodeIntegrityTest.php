@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Enterprise_CodeIntegrityTest extends PHPUnit_Framework_TestCase
+namespace Magento\Enterprise;
+
+class CodeIntegrityTest extends \PHPUnit_Framework_TestCase
 {
     public function testConfiguration()
     {

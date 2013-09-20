@@ -6,14 +6,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_EntryPoint_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\EntryPoint;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testProcessRequestBootstrapException()
     {
-        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
+        if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test entry point response without sending headers');
         }
 

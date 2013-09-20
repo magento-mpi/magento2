@@ -12,14 +12,16 @@
 /**
  * Test class for \Magento\Payment\Block\Catalog\Product\View\Profile
  */
-class Magento_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Payment\Block\Catalog\Product\View;
+
+class ProfileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testGetDateHtml()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $product = $objectManager->create('Magento\Catalog\Model\Product');
         $product->setIsRecurring('1');
@@ -30,8 +32,8 @@ class Magento_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Fra
 
         $html = $block->getDateHtml();
         $this->assertNotEmpty($html);
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = \Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);
         $this->assertContains('timeFormat: "' . $timeFormat . '",', $html);
     }

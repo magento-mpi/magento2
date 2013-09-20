@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Model;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Model\Form
@@ -18,7 +20,7 @@ class Magento_Customer_Model_FormTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento\Customer\Model\Form');
+        $this->_model= \Mage::getModel('Magento\Customer\Model\Form');
         $this->_model->setFormCode('customer_account_create');
     }
 

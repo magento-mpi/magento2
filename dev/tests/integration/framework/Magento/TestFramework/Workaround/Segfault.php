@@ -12,7 +12,9 @@
 /**
  * Workaround for occasional non-zero exit code (exec returned: 139) caused by the PHP bug
  */
-class Magento_TestFramework_Workaround_Segfault
+namespace Magento\TestFramework\Workaround;
+
+class Segfault
 {
     /**
      * Force garbage collection

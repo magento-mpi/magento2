@@ -11,10 +11,12 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Block\Adminhtml\User\Edit;
+
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -32,7 +34,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     {
         parent::setUp();
 
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\Webapi\Block\Adminhtml\User\Edit\Tabs',
             'webapi.user.edit.tabs');
@@ -106,11 +108,11 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     {
         $result = null;
         try {
-            $classReflection = new ReflectionClass(get_class($tabs));
+            $classReflection = new \ReflectionClass(get_class($tabs));
             $tabsProperty = $classReflection->getProperty('_tabs');
             $tabsProperty->setAccessible(true);
             $result = $tabsProperty->getValue($tabs);
-        } catch (ReflectionException $exception) {
+        } catch (\ReflectionException $exception) {
             $this->fail('Cannot get tabs value');
 
         }

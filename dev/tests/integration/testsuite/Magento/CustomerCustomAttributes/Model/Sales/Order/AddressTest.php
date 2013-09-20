@@ -12,7 +12,9 @@
 /**
  * @magentoDataFixture Magento/CustomerCustomAttributes/_files/order_address_with_attribute.php
  */
-class Magento_CustomerCustomAttributes_Model_Sales_Order_AddressTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerCustomAttributes\Model\Sales\Order;
+
+class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CustomerCustomAttributes\Model\Sales\Order\Address
@@ -21,12 +23,12 @@ class Magento_CustomerCustomAttributes_Model_Sales_Order_AddressTest extends PHP
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order\Address');
+        $this->_model = \Mage::getModel('Magento\CustomerCustomAttributes\Model\Sales\Order\Address');
     }
 
     public function testAttachDataToEntities()
     {
-        $address = Mage::getModel('Magento\Sales\Model\Order\Address');
+        $address = \Mage::getModel('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new \Magento\Object(array('id' => $address->getId()));

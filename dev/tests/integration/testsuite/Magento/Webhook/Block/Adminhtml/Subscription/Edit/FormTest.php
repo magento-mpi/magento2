@@ -12,15 +12,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Edit;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         /** @var \Magento\Core\Model\Registry $registry */
-        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
         $subscription = array(
             'name' => 'subscriptionName',
             'endpoint_url' => 'example.url.com',

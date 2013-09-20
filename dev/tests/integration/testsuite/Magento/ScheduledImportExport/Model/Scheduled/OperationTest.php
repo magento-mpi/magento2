@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model\Scheduled;
+
+class OperationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation
@@ -20,7 +22,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
      */
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation');
+        $this->_model = \Mage::getModel('Magento\ScheduledImportExport\Model\Scheduled\Operation');
     }
 
 
@@ -74,7 +76,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
         $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
-        $varDir = Mage::getBaseDir('var');
+        $varDir = \Mage::getBaseDir('var');
         $exportDir = $varDir . DS . $fileInfo['file_path'];
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);
@@ -86,7 +88,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
 
         $this->_model->run();
 
-        $scheduledExport = Mage::getModel('Magento\ScheduledImportExport\Model\Export');
+        $scheduledExport = \Mage::getModel('Magento\ScheduledImportExport\Model\Export');
         $scheduledExport->setEntity($this->_model->getEntityType());
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());

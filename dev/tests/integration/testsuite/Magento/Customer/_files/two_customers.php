@@ -10,7 +10,7 @@
 
 require 'customer.php';
 
-$customer = Mage::getModel('Magento\Customer\Model\Customer');
+$customer = \Mage::getModel('Magento\Customer\Model\Customer');
 $customer
     ->setWebsiteId(1)
     ->setEntityId(2)

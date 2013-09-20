@@ -8,8 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace
-    extends Magento_Code_GeneratorTest_ParentInterfaceWithoutNamespace
+namespace Magento\Code\GeneratorTest;
+
+interface SourceInterfaceWithoutNamespace
+    extends \Magento\Code\GeneratorTest\ParentInterfaceWithoutNamespace
 {
     /**
      * Do some work with params

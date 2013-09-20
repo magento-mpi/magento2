@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class WebsiteTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Website
@@ -18,7 +20,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Website');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Website');
         $this->_model->load(1);
     }
 
@@ -44,7 +46,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     public function testSetGroupsAndStores()
     {
         /* Groups */
-        $expectedGroup = Mage::getModel('Magento\Core\Model\Store\Group');
+        $expectedGroup = \Mage::getModel('Magento\Core\Model\Store\Group');
         $expectedGroup->setId(123);
         $this->_model->setDefaultGroupId($expectedGroup->getId());
         $this->_model->setGroups(array($expectedGroup));
@@ -53,7 +55,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
         $this->assertSame($expectedGroup, reset($groups));
 
         /* Stores */
-        $expectedStore = Mage::getModel('Magento\Core\Model\Store');
+        $expectedStore = \Mage::getModel('Magento\Core\Model\Store');
         $expectedStore->setId(456);
         $expectedGroup->setDefaultStoreId($expectedStore->getId());
         $this->_model->setStores(array($expectedStore));
@@ -173,8 +175,8 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
-        $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
+        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
 

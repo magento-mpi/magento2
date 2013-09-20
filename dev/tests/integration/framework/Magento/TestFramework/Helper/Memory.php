@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Helper_Memory
+namespace Magento\TestFramework\Helper;
+
+class Memory
 {
     /**
      * Prefixes to specify unit of measure for memory amount
@@ -99,23 +101,23 @@ class Magento_TestFramework_Helper_Memory
      *
      * @param string $number String representation of a number
      * @return int
-     * @throws InvalidArgumentException
-     * @throws OutOfBoundsException
+     * @throws \InvalidArgumentException
+     * @throws \OutOfBoundsException
      */
     public static function convertToBytes($number)
     {
         if (!preg_match('/^(.*\d)\h*(\D)$/', $number, $matches)) {
-            throw new InvalidArgumentException("Number format '$number' is not recognized.");
+            throw new \InvalidArgumentException("Number format '$number' is not recognized.");
         }
         $unitSymbol = strtoupper($matches[2]);
         if (false === strpos(self::MEMORY_UNITS, $unitSymbol)) {
-            throw new InvalidArgumentException("The number '$number' has an unrecognized unit: '$unitSymbol'.");
+            throw new \InvalidArgumentException("The number '$number' has an unrecognized unit: '$unitSymbol'.");
         }
         $result = self::_convertToNumber($matches[1]);
         $pow = $unitSymbol ? strpos(self::MEMORY_UNITS, $unitSymbol) : 0;
         $is32Bit = PHP_INT_SIZE == 4;
         if ($is32Bit && $pow >= 4) {
-            throw new OutOfBoundsException("A 32-bit system is unable to process such a number.");
+            throw new \OutOfBoundsException("A 32-bit system is unable to process such a number.");
         }
         if ($unitSymbol) {
             $result *= pow(1024, $pow);
@@ -135,13 +137,13 @@ class Magento_TestFramework_Helper_Memory
      *
      * @param $number
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected static function _convertToNumber($number)
     {
         preg_match_all('/(\D+)/', $number, $matches);
         if (count(array_unique($matches[0])) > 1) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "The number '$number' seems to have decimal part. Only integer numbers are supported."
             );
         }

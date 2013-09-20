@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_View_AdditionalTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product\View;
+
+class AdditionalTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetChildHtmlList()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Catalog\Block\Product\View\Additional */
         $block = $layout->createBlock('Magento\Catalog\Block\Product\View\Additional', 'block');
 

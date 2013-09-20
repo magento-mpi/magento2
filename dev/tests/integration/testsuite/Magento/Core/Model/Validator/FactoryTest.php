@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Validator;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test creation of validator config
@@ -16,7 +18,7 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function testGetValidatorConfig()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Validator\Factory $factory */
         $factory = $objectManager->get('Magento\Core\Model\Validator\Factory');
         $this->assertInstanceOf('Magento\Validator\Config', $factory->getValidatorConfig());

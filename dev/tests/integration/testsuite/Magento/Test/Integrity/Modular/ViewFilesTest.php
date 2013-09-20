@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_ViewFilesTest extends Magento_TestFramework_TestCase_IntegrityAbstract
+namespace Magento\Test\Integrity\Modular;
+
+class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**
      * @param string $application
@@ -18,10 +20,10 @@ class Magento_Test_Integrity_Modular_ViewFilesTest extends Magento_TestFramework
      */
     public function testViewFilesFromModulesView($application, $file)
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea($application)
             ->setDefaultDesignTheme();
-        $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\FileSystem')
             ->getViewFile($file);
         $this->assertFileExists($result);
@@ -36,7 +38,7 @@ class Magento_Test_Integrity_Modular_ViewFilesTest extends Magento_TestFramework
     {
         $files = array();
         foreach ($this->_getEnabledModules() as $moduleName) {
-            $moduleViewDir = Mage::getConfig()->getModuleDir('view', $moduleName);
+            $moduleViewDir = \Mage::getConfig()->getModuleDir('view', $moduleName);
             if (!is_dir($moduleViewDir)) {
                 continue;
             }
@@ -60,13 +62,13 @@ class Magento_Test_Integrity_Modular_ViewFilesTest extends Magento_TestFramework
      */
     protected function _findViewFilesInViewFolder($moduleViewDir, &$files)
     {
-        foreach (new DirectoryIterator($moduleViewDir) as $viewAppDir) {
+        foreach (new \DirectoryIterator($moduleViewDir) as $viewAppDir) {
             $area = $viewAppDir->getFilename();
             if (0 === strpos($area, '.') || !$viewAppDir->isDir()) {
                 continue;
             }
-            foreach (new RecursiveIteratorIterator(
-                         new RecursiveDirectoryIterator($viewAppDir->getRealPath())) as $fileInfo
+            foreach (new \RecursiveIteratorIterator(
+                         new \RecursiveDirectoryIterator($viewAppDir->getRealPath())) as $fileInfo
             ) {
                 $references = $this->_findReferencesToViewFile($fileInfo);
                 if (!isset($files[$area])) {
@@ -82,10 +84,10 @@ class Magento_Test_Integrity_Modular_ViewFilesTest extends Magento_TestFramework
     /**
      * Scan specified file for getViewUrl() pattern
      *
-     * @param SplFileInfo $fileInfo
+     * @param \SplFileInfo $fileInfo
      * @return array
      */
-    protected function _findReferencesToViewFile(SplFileInfo $fileInfo)
+    protected function _findReferencesToViewFile(\SplFileInfo $fileInfo)
     {
         if (!$fileInfo->isFile() || !preg_match('/\.phtml$/', $fileInfo->getFilename())) {
             return array();
@@ -113,10 +115,10 @@ class Magento_Test_Integrity_Modular_ViewFilesTest extends Magento_TestFramework
      */
     public function testViewFilesFromModulesCode($application, $file)
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea($application)
             ->setDefaultDesignTheme();
-        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\FileSystem');
         $this->assertFileExists($filesystem->getViewFile($file));
     }

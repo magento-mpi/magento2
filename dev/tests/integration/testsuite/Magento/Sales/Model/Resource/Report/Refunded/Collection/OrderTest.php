@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Resource_Report_Refunded_Collection_OrderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Resource\Report\Refunded\Collection;
+
+class OrderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Resource\Report\Refunded\Collection\Order
@@ -15,7 +17,7 @@ class Magento_Sales_Model_Resource_Report_Refunded_Collection_OrderTest extends 
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Refunded\Collection\Order');
+        $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Refunded\Collection\Order');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_VersionsCms_Model_IncrementTest extends PHPUnit_Framework_TestCase
+namespace Magento\VersionsCms\Model;
+
+class IncrementTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\VersionsCms\Model\Increment
@@ -18,7 +20,7 @@ class Magento_VersionsCms_Model_IncrementTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\VersionsCms\Model\Increment');
+        $this->_model = \Mage::getModel('Magento\VersionsCms\Model\Increment');
     }
 
     /**

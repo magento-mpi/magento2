@@ -13,7 +13,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Constant strings representing hooks in the config files
@@ -54,13 +56,13 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Clean out the cache
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Acl\CacheInterface $aclCache */
         $aclCache = $this->_objectManager->get('Magento\Acl\CacheInterface');
         $aclCache->clean();
         // add new hooks for the tests
-        Mage::getConfig()->setNode('global/webhook/webhooks/test/hook/label', 'Test Hook');
-        Mage::getConfig()->setNode('global/webhook/webhooks/test/two/label', 'Test Hook Two');
+        \Mage::getConfig()->setNode('global/webhook/webhooks/test/hook/label', 'Test Hook');
+        \Mage::getConfig()->setNode('global/webhook/webhooks/test/two/label', 'Test Hook Two');
     }
 
     public function tearDown()
@@ -75,7 +77,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
 
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $this->assertEmpty($subscription->getTopics(),
             "New subscription shouldn't be subscribed on any hooks.");
 
@@ -99,7 +101,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testHasTopic()
     {
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setTopics(array(self::HOOK_IN_CONFIG))
             ->save();
 
@@ -111,7 +113,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE)
             ->save();
 
@@ -128,7 +130,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
 
@@ -145,7 +147,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     {
         //setup
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription');
+        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
 

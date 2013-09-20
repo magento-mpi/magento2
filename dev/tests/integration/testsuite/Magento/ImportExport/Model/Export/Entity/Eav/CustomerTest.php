@@ -12,7 +12,9 @@
 /**
  * Test for customer export model
  */
-class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export\Entity\Eav;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
@@ -21,7 +23,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer');
+        $this->_model = \Mage::getModel('Magento\ImportExport\Model\Export\Entity\Eav\Customer');
     }
 
     /**
@@ -33,14 +35,14 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $expectedAttributes = array();
         /** @var $collection \Magento\Customer\Model\Resource\Attribute\Collection */
-        $collection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
+        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
         }
         $expectedAttributes = array_diff($expectedAttributes, $this->_model->getDisabledAttributes());
 
-        $this->_model->setWriter(Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(\Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $data = $this->_model->export();
         $this->assertNotEmpty($data);
 
@@ -54,8 +56,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
         $this->assertNotEmpty($lines['data'], 'No data was exported');
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $customers \Magento\Customer\Model\Customer[] */
         $customers = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento\ImportExport\Customer\Collection');
@@ -141,8 +143,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $createdAtDate = '2038-01-01';
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /**
          * Change created_at date of first customer for future filter test.
@@ -154,7 +156,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         /**
          * Change type of created_at attribute. In this case we have possibility to test date rage filter
          */
-        $attributeCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
+        $attributeCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'created_at');
         /** @var $createdAtAttribute \Magento\Customer\Model\Attribute */
         $createdAtAttribute = $attributeCollection->getFirstItem();
@@ -167,13 +169,13 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
             \Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP => array(
                 'email'      => 'example.com',
                 'created_at' => array($createdAtDate, ''),
-                'store_id'   => Mage::app()->getStore()->getId()
+                'store_id'   => \Mage::app()->getStore()->getId()
             )
         );
         $this->_model->setParameters($parameters);
         /** @var $customers \Magento\Customer\Model\Resource\Customer\Collection */
         $collection = $this->_model->filterEntityCollection(
-            Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
+            \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection')
         );
         $collection->load();
 

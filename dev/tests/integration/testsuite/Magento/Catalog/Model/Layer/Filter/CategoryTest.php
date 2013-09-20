@@ -14,7 +14,9 @@
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Layer\Filter\Category
@@ -28,11 +30,11 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_category = Mage::getModel('Magento\Catalog\Model\Category');
+        $this->_category = \Mage::getModel('Magento\Catalog\Model\Category');
         $this->_category->load(5);
-        $this->_model = Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category');
+        $this->_model = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('Magento\Catalog\Model\Layer', array(
+            'layer' => \Mage::getModel('Magento\Catalog\Model\Layer', array(
                 'data' => array('current_category' => $this->_category)
             )),
         ));
@@ -46,22 +48,22 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
     public function testApplyNothing()
     {
         $this->_model->apply(
-            new Magento_TestFramework_Request(),
-            Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
+            new \Magento\TestFramework\Request(),
+            \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text')
         );
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->assertNull($objectManager->get('Magento\Core\Model\Registry')->registry('current_category_filter'));
     }
 
     public function testApply()
     {
-        $request = new Magento_TestFramework_Request();
+        $request = new \Magento\TestFramework\Request();
         $request->setParam('cat', 3);
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
+        $this->_model->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = $objectManager->get('Magento\Core\Model\Registry')->registry('current_category_filter');

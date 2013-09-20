@@ -12,7 +12,9 @@
 /**
  * Replacement for the native cookie model that doesn't send cookie headers in testing environment
  */
-class Magento_TestFramework_Cookie extends \Magento\Core\Model\Cookie
+namespace Magento\TestFramework;
+
+class Cookie extends \Magento\Core\Model\Cookie
 {
     /**
      * Request instance
@@ -75,7 +77,7 @@ class Magento_TestFramework_Cookie extends \Magento\Core\Model\Cookie
      * @param string $domain
      * @param int|bool $secure
      * @param bool $httponly
-     * @return Magento_TestFramework_Cookie
+     * @return \Magento\TestFramework\Cookie
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -93,7 +95,7 @@ class Magento_TestFramework_Cookie extends \Magento\Core\Model\Cookie
      * @param string $domain
      * @param int|bool $secure
      * @param int|bool $httponly
-     * @return Magento_TestFramework_Cookie
+     * @return \Magento\TestFramework\Cookie
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

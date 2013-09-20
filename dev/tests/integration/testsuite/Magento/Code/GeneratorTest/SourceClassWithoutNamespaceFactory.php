@@ -1,13 +1,15 @@
 <?php
 /**
- * Factory class for Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+ * Factory class for \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceFactory
+namespace Magento\Code\GeneratorTest;
+
+class SourceClassWithoutNamespaceFactory
 {
     /**
      * Object Manager instance
@@ -31,7 +33,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceFactory
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        $instanceName = 'Magento_Code_GeneratorTest_SourceClassWithoutNamespace'
+        $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithoutNamespace'
     ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -41,7 +43,7 @@ class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+     * @return \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
      */
     public function create(array $data = array())
     {

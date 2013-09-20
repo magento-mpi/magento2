@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Banner\Block\Adminhtml\Permission;
+
+class MonitorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -24,8 +26,8 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
      */
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $layout->addBlock($blockType, $blockName);
         $tabs = $layout->addBlock($tabsType, $tabsName);

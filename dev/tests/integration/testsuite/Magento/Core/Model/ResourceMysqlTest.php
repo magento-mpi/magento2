@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ResourceMysqlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource
@@ -18,7 +20,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Resource');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Resource');
     }
 
     public function testGetConnectionTypeInstance()
@@ -39,7 +41,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'Zend_Db_Adapter_Abstract',
-            $resource->getConnection(Mage::getConfig()->getNode('global/resources/default_setup/connection')->asArray())
+            $resource->getConnection(\Mage::getConfig()->getNode('global/resources/default_setup/connection')->asArray())
         );
 
     }
@@ -52,7 +54,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
             $this->_model->createConnection(
                 'test',
                 'pdo_mysql',
-                Mage::getConfig()->getNode('global/resources/default_setup/connection')->asArray()
+                \Mage::getConfig()->getNode('global/resources/default_setup/connection')->asArray()
             )
         );
 

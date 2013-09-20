@@ -12,12 +12,14 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_System_Store_DeleteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\System\Store;
+
+class DeleteTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHeaderText()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = \Mage::getModel('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\System\Store\Delete */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Delete', 'block');
 

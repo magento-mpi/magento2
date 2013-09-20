@@ -12,12 +12,14 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Widget_Grid_Massaction_ItemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Widget\Grid\Massaction;
+
+class ItemTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetAdditionalActionBlock()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Widget\Grid\Massaction\Item */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Widget\Grid\Massaction\Item', 'block');
         $expected = $layout->addBlock('Magento\Core\Block\Template', 'additional_action', 'block');

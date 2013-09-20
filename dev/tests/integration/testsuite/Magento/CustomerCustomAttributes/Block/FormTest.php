@@ -11,12 +11,14 @@
 /**
  * @magentoAppIsolation enabled
  */
-class Magento_CustomerCustomAttributes_Block_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerCustomAttributes\Block;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testPrepareLayout()
     {
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = \Mage::getModel('Magento\Core\Model\Layout');
         $template = $layout->createBlock('Magento\Core\Block\Text', 'customer_form_template');
         $template->setData('renderers', array('test' => array(
             'block' => 'Magento\Core\Block\Text', 'template' => '1.phtml'
@@ -30,7 +32,7 @@ class Magento_CustomerCustomAttributes_Block_FormTest extends PHPUnit_Framework_
 
     public function testPrepareLayoutNoRenderer()
     {
-        $layout = Mage::getModel('Magento\Core\Model\Layout');
+        $layout = \Mage::getModel('Magento\Core\Model\Layout');
         $layout->createBlock('Magento\Core\Block\Text', 'customer_form_template');
         $block = $layout->createBlock('Magento\CustomerCustomAttributes\Block\Form');
         $this->assertEquals('', $block->toHtml());

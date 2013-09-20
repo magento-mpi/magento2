@@ -12,7 +12,9 @@
 /**
  * Magento file size test
  */
-class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
+namespace Magento\File;
+
+class SizeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\File\Size
@@ -21,7 +23,7 @@ class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_fileSize = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\File\Size');
+        $this->_fileSize = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\File\Size');
     }
 
     /**

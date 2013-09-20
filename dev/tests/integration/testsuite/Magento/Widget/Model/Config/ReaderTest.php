@@ -8,7 +8,9 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
-class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Widget\Model\Config\Reader
@@ -18,7 +20,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var \Magento\Core\Model\Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
+        $dirs = \Mage::getObjectManager()->create(
             'Magento\Core\Model\Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
@@ -29,7 +31,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var Magento\Core\Model\Module\Declaration\Reader\Filesystem $modulesDeclarations */
-        $modulesDeclarations = Mage::getObjectManager()->create(
+        $modulesDeclarations = \Mage::getObjectManager()->create(
             'Magento\Core\Model\Module\Declaration\FileResolver', array(
                 'applicationDirs' => $dirs,
             )
@@ -37,21 +39,21 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
 
 
         /** @var Magento\Core\Model\Module\Declaration\Reader\Filesystem $filesystemReader */
-        $filesystemReader = Mage::getObjectManager()->create(
+        $filesystemReader = \Mage::getObjectManager()->create(
             'Magento\Core\Model\Module\Declaration\Reader\Filesystem', array(
                 'fileResolver' => $modulesDeclarations,
             )
         );
 
         /** @var \Magento\Core\Model\ModuleList $modulesList */
-        $modulesList = Mage::getObjectManager()->create(
+        $modulesList = \Mage::getObjectManager()->create(
             'Magento\Core\Model\ModuleList', array(
                 'reader' => $filesystemReader,
             )
         );
 
         /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
-        $moduleReader = Mage::getObjectManager()->create(
+        $moduleReader = \Mage::getObjectManager()->create(
             'Magento\Core\Model\Config\Modules\Reader', array(
                 'dirs' => $dirs,
                 'moduleList' => $modulesList
@@ -59,7 +61,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
-        $fileResolver = Mage::getObjectManager()->create(
+        $fileResolver = \Mage::getObjectManager()->create(
             'Magento\Core\Model\Config\FileResolver', array(
                 'moduleReader' => $moduleReader,
             )
@@ -67,7 +69,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
 
         $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget.xsd';
         $perFileSchema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget_file.xsd';
-        $this->_model = Mage::getObjectManager()->create(
+        $this->_model = \Mage::getObjectManager()->create(
             'Magento\Widget\Model\Config\Reader', array(
                 'moduleReader' => $moduleReader,
                 'fileResolver' => $fileResolver,
@@ -110,7 +112,7 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         $perFileSchema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget_file.xsd';
 
         /** @var \Magento\Widget\Model\Config\Reader $model */
-        $model = Mage::getObjectManager()->create(
+        $model = \Mage::getObjectManager()->create(
             'Magento\Widget\Model\Config\Reader', array(
                 'fileResolver' => $fileResolverMock,
                 'schema' => $schema,

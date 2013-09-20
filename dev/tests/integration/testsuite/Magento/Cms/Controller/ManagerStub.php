@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
+class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Cms\Controller\Router
@@ -20,7 +20,7 @@ class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-3393');
         $this->_model = new \Magento\Cms\Controller\Router(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Core\Controller\Varien\Action\Factory'),
             new \Magento\Core\Model\Event\ManagerStub(
                 $this->getMockForAbstractClass('Magento\Core\Model\Event\InvokerInterface', array(), '', false),
@@ -37,10 +37,10 @@ class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
     public function testMatch()
     {
         $this->markTestIncomplete('MAGETWO-3393');
-        $request = Mage::getObjectManager()->create('Magento\Core\Controller\Request\Http');
+        $request = \Mage::getObjectManager()->create('Magento\Core\Controller\Request\Http');
         //Open Node
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Controller\Response\Http')
-            ->headersSentThrowsException = Mage::$headersSentThrowsException;
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Controller\Response\Http')
+            ->headersSentThrowsException = \Mage::$headersSentThrowsException;
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);
         $this->assertInstanceOf('Magento\Core\Controller\Varien\Action\Redirect', $controller);
@@ -50,7 +50,11 @@ class Magento_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
 /**
  * Event manager stub
  */
-class Magento_Core_Model_Event_ManagerStub extends \Magento\Core\Model\Event\Manager
+namespace Magento\Cms\Controller;
+
+namespace Magento\Core\Model\Event;
+
+class ManagerStub extends \Magento\Core\Model\Event\Manager
 {
     /**
      * Stub dispatch event

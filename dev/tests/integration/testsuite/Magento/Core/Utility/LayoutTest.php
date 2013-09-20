@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Utility;
+
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Utility_Layout
+     * @var \Magento\Core\Utility\Layout
      */
     protected $_utility;
 
     protected function setUp()
     {
-        $this->_utility = new Magento_Core_Utility_Layout($this);
+        $this->_utility = new \Magento\Core\Utility\Layout($this);
     }
 
     /**

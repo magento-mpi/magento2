@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Resource\Entity\Attribute;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection
@@ -18,7 +20,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Collection');
+        $this->_model = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Collection');
     }
 
     /**
@@ -42,7 +44,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit
 
     public function testSetAttributeGroupFilter()
     {
-        $collection = Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Collection');
+        $collection = \Mage::getResourceModel('Magento\Eav\Model\Resource\Entity\Attribute\Collection');
         $groupsPresent = $this->_getGroups($collection);
         $includeGroupId = current($groupsPresent);
 
@@ -75,8 +77,8 @@ class Magento_Eav_Model_Resource_Entity_Attribute_CollectionTest extends PHPUnit
     public function testAddAttributeGrouping()
     {
         $select = $this->_model->getSelect();
-        $this->assertEmpty($select->getPart(Zend_Db_Select::GROUP));
+        $this->assertEmpty($select->getPart(\Zend_Db_Select::GROUP));
         $this->_model->addAttributeGrouping();
-        $this->assertEquals(array('main_table.attribute_id'), $select->getPart(Zend_Db_Select::GROUP));
+        $this->assertEquals(array('main_table.attribute_id'), $select->getPart(\Zend_Db_Select::GROUP));
     }
 }

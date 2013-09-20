@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-class MageTest extends PHPUnit_Framework_TestCase
+class MageTest extends \PHPUnit_Framework_TestCase
 {
     public function testIsInstalled()
     {
-        $this->assertTrue(Mage::isInstalled());
+        $this->assertTrue(\Mage::isInstalled());
     }
 
     /**
@@ -24,12 +24,12 @@ class MageTest extends PHPUnit_Framework_TestCase
      * @param string $expectedKey
      * @param bool $expectsAddLog
      * @dataProvider logDataProvider
-     * @throws Exception
+     * @throws \Exception
      */
     public function testLog($level, $file, $forceLog, $expectedLevel, $expectedKey, $expectsAddLog)
     {
         $message = uniqid();
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $logger \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject */
         $logger = $this->getMock('Magento\Core\Model\Logger', array('log', 'addStreamLog'), array(), '', false);
         $realLogger = $objectManager->get('Magento\Core\Model\Logger');
@@ -39,9 +39,9 @@ class MageTest extends PHPUnit_Framework_TestCase
             if ($expectsAddLog) {
                 $logger->expects($this->once())->method('addStreamLog');
             }
-            Mage::log($message, $level, $file, $forceLog);
+            \Mage::log($message, $level, $file, $forceLog);
             $objectManager->addSharedInstance($realLogger, 'Magento\Core\Model\Logger');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $objectManager->addSharedInstance($realLogger, 'Magento\Core\Model\Logger');
             throw $e;
         }
@@ -54,11 +54,11 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function logDataProvider()
     {
         return array(
-            array(null, '', false, Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
-            array(Zend_Log::CRIT, 'system.log', true, Zend_Log::CRIT, \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
-            array(null, 'exception.log', false, Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_EXCEPTION, false),
-            array(null, 'custom.log', false, Zend_Log::DEBUG, 'custom.log', true, false),
-            array(null, 'exception.log', true, Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_EXCEPTION, true),
+            array(null, '', false, \Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
+            array(\Zend_Log::CRIT, 'system.log', true, \Zend_Log::CRIT, \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
+            array(null, 'exception.log', false, \Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_EXCEPTION, false),
+            array(null, 'custom.log', false, \Zend_Log::DEBUG, 'custom.log', true, false),
+            array(null, 'exception.log', true, \Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_EXCEPTION, true),
         );
     }
 
@@ -70,10 +70,10 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLogWrapper()
     {
         // @magentoConfigFixture is applied after initialization, so we need to do this again
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize();
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
         $this->expectOutputRegex('/test/');
-        Mage::app()->getStore(true);
-        Mage::log('test');
+        \Mage::app()->getStore(true);
+        \Mage::log('test');
     }
 
     /**
@@ -82,21 +82,21 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLogWrapperDirectly()
     {
         $this->expectOutputRegex('/test/');
-        Mage::log('test', null, 'php://output');
+        \Mage::log('test', null, 'php://output');
     }
 
     /**
      * @magentoConfigFixture current_store dev/log/active 1
-     * @magentoConfigFixture global/log/core/writer_model Zend_Log_Writer_Mail
+     * @magentoConfigFixture global/log/core/writer_model \Zend_Log_Writer_Mail
      * @magentoAppIsolation enabled
      */
     public function testLogUnsupportedWrapper()
     {
         // initialize again, because config fixture is applied after initialization
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize();
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
         $logEntry = microtime();
-        Mage::log($logEntry);
-        $logFile = Mage::getBaseDir('log') . '/system.log';
+        \Mage::log($logEntry);
+        $logFile = \Mage::getBaseDir('log') . '/system.log';
         $this->assertFileExists($logFile);
         $this->assertContains($logEntry, file_get_contents($logFile));
     }
@@ -109,11 +109,11 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function testLogException()
     {
         // reinitialization is needed here, too
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize();
-        Mage::app()->getStore(true);
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
+        \Mage::app()->getStore(true);
         $msg = uniqid();
-        $exception = new Exception((string)$msg);
-        Mage::logException($exception);
+        $exception = new \Exception((string)$msg);
+        \Mage::logException($exception);
         $this->expectOutputRegex('/' . $msg . '/');
     }
 
@@ -124,7 +124,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetModel($classId, $expectedClassName)
     {
-        $this->assertInstanceOf($expectedClassName, Mage::getModel($classId));
+        $this->assertInstanceOf($expectedClassName, \Mage::getModel($classId));
     }
 
     /**
@@ -144,7 +144,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceModel($classId, $expectedClassName)
     {
-        $this->assertInstanceOf($expectedClassName, Mage::getResourceModel($classId));
+        $this->assertInstanceOf($expectedClassName, \Mage::getResourceModel($classId));
     }
 
     /**
@@ -164,7 +164,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetResourceHelper($module, $expectedClassName)
     {
-        $this->assertInstanceOf($expectedClassName, Mage::getResourceHelper($module));
+        $this->assertInstanceOf($expectedClassName, \Mage::getResourceHelper($module));
     }
 
     /**

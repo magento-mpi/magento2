@@ -16,7 +16,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
+
+class CouponTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Application object
@@ -28,7 +30,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUni
     protected function setUp()
     {
         parent::setUp();
-        $this->_application = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
+        $this->_application = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
     }
 
     /**

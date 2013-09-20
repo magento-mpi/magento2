@@ -12,11 +12,13 @@
 /**
  * Layout integration tests
  *
- * Note that some methods are not covered here, see the Magento_Core_Model_LayoutDirectivesTest
+ * Note that some methods are not covered here, see the \Magento\Core\Model\LayoutDirectivesTest
  *
- * @see Magento_Core_Model_LayoutDirectivesTest
+ * @see \Magento\Core\Model\LayoutDirectivesTest
  */
-class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout
@@ -25,7 +27,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor(array $inputArguments, $expectedArea)
     {
-        $layout = Mage::getModel('Magento\Core\Model\Layout', $inputArguments);
+        $layout = \Mage::getModel('Magento\Core\Model\Layout', $inputArguments);
         $this->assertEquals($expectedArea, $layout->getArea());
     }
 
@@ -53,7 +55,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $structure = new \Magento\Data\Structure;
         $structure->createElement('test.container', array());
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout', array('structure' => $structure));
+        $layout = \Mage::getModel('Magento\Core\Model\Layout', array('structure' => $structure));
         $this->assertTrue($layout->hasElement('test.container'));
     }
 
@@ -82,7 +84,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateXml()
     {
-        $layoutUtility = new Magento_Core_Utility_Layout($this);
+        $layoutUtility = new \Magento\Core\Utility\Layout($this);
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = $this->getMock('Magento\Core\Model\Layout', array('getUpdate'),
             $layoutUtility->getLayoutDependencies());
@@ -100,8 +102,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * A smoke test for generating elements
      *
-     * See sophisticated tests at Magento_Core_Model_LayoutDirectivesTest
-     * @see Magento_Core_Model_LayoutDirectivesTest
+     * See sophisticated tests at \Magento\Core\Model\LayoutDirectivesTest
+     * @see \Magento\Core\Model\LayoutDirectivesTest
      * @magentoAppIsolation enabled
      */
     public function testGenerateGetAllBlocks()
@@ -226,7 +228,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Magento\Core\Block\Text', $this->_layout->addBlock('Magento\Core\Block\Text',
             'block1'));
-        $block2 = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Block\Text');
+        $block2 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Block\Text');
         $block2->setNameInLayout('block2');
         $this->_layout->addBlock($block2, '', 'block1');
 
@@ -378,7 +380,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function testGetBlock()
     {
         $this->assertFalse($this->_layout->getBlock('test'));
-        $block = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
         $this->_layout->setBlock('test', $block);
         $this->assertSame($block, $this->_layout->getBlock('test'));
     }

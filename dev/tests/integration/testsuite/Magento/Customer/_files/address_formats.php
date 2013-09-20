@@ -46,5 +46,4 @@ $configXml = <<<EOD
 </config>
 EOD;
 
-$config = Mage::getModel('Magento\Core\Model\Config\Base', array('sourceData' => $configXml));
-Mage::getConfig()->getNode()->extend($config->getNode());
+$config = \Mage::getModel('Magento\Core\Model\Config\Base', array('sourceData' => $configXml)); \Mage::getConfig()->getNode()->extend($config->getNode());

@@ -12,20 +12,22 @@
 /**
  * Test class for \Magento\Catalog\Controller\Product.
  */
-class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Catalog\Controller;
+
+class ProductTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function assert404NotFound()
     {
         parent::assert404NotFound();
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->assertNull($objectManager->get('Magento\Core\Model\Registry')->registry('current_product'));
     }
 
     protected function _getProductImageFile()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
         $images = $product->getMediaGalleryImages()->getItems();
         $image = reset($images);
@@ -38,19 +40,19 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
     public function testViewAction()
     {
         $this->dispatch('catalog/product/view/id/1');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $currentProduct \Magento\Catalog\Model\Product */
         $currentProduct = $objectManager->get('Magento\Core\Model\Registry')->registry('current_product');
         $this->assertInstanceOf('Magento\Catalog\Model\Product', $currentProduct);
         $this->assertEquals(1, $currentProduct->getId());
 
-        $lastViewedProductId = Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();
+        $lastViewedProductId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();
         $this->assertEquals(1, $lastViewedProductId);
 
         /* Layout updates */
-        $handles = Mage::app()->getLayout()->getUpdate()->getHandles();
+        $handles = \Mage::app()->getLayout()->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
 
         $responseBody = $this->getResponse()->getBody();

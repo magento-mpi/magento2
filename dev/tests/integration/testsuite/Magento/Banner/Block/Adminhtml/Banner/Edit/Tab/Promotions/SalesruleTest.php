@@ -11,7 +11,9 @@
  * @magentoDataFixture Magento/SalesRule/_files/cart_rule_50_percent_off.php
  * @magentoAppArea adminhtml
  */
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_SalesruleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
+
+class SalesruleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule
@@ -20,7 +22,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_SalesruleTest ex
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock(
+        $this->_block = \Mage::app()->getLayout()->createBlock(
             'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule'
         );
     }
@@ -33,11 +35,11 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_SalesruleTest ex
     public function testGetCollection()
     {
         /** @var \Magento\SalesRule\Model\Rule $ruleOne */
-        $ruleOne = Mage::getModel('Magento\SalesRule\Model\Rule');
+        $ruleOne = \Mage::getModel('Magento\SalesRule\Model\Rule');
         $ruleOne->load('40% Off on Large Orders', 'name');
 
         /** @var \Magento\SalesRule\Model\Rule $ruleTwo */
-        $ruleTwo = Mage::getModel('Magento\SalesRule\Model\Rule');
+        $ruleTwo = \Mage::getModel('Magento\SalesRule\Model\Rule');
         $ruleTwo->load('50% Off on Large Orders', 'name');
 
         $this->assertEquals(array($ruleOne->getId(), $ruleTwo->getId()), $this->_block->getCollection()->getAllIds());

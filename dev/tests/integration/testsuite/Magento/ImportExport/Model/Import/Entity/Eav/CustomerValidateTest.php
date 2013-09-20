@@ -14,7 +14,9 @@
  *
  * @magentoDataFixture Magento/ImportExport/_files/customers.php
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
+class CustomerValidateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model object which used for tests
@@ -37,12 +39,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
+        $this->_model = \Mage::getModel('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
         $this->_model->setParameters(array(
             'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
         ));
 
-        $propertyAccessor = new ReflectionProperty($this->_model, '_messageTemplates');
+        $propertyAccessor = new \ReflectionProperty($this->_model, '_messageTemplates');
         $propertyAccessor->setAccessible(true);
         $propertyAccessor->setValue($this->_model, array());
 

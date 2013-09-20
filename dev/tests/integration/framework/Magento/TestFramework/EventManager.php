@@ -17,7 +17,9 @@
  *   fire event       - publish message
  *   event subscriber - message subscriber
  */
-class Magento_TestFramework_EventManager
+namespace Magento\TestFramework;
+
+class EventManager
 {
     /**
      * Registered event subscribers

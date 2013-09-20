@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Translate_StringTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Translate;
+
+class StringTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Translate\String
@@ -18,7 +20,7 @@ class Magento_Core_Model_Translate_StringTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Translate\String');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Translate\String');
     }
 
     public function testConstructor()

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     const DATE_TIMEZONE = 'America/Los_Angeles'; // hardcoded in the installation
 
@@ -28,15 +30,15 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected $_helper = null;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     protected $_dateTime = null;
 
     public function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        $this->_dateTime = new DateTime;
-        $this->_dateTime->setTimezone(new DateTimeZone(self::DATE_TIMEZONE));
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
+        $this->_dateTime = new \DateTime;
+        $this->_dateTime->setTimezone(new \DateTimeZone(self::DATE_TIMEZONE));
     }
 
     public function testGetEncryptor()
@@ -67,7 +69,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->_helper->formatDate(null, 'short', true)
         );
 
-        $zendDate = new Zend_Date($this->_dateTime->format('U'));
+        $zendDate = new \Zend_Date($this->_dateTime->format('U'));
         $this->assertEquals(
             $zendDate->toString(self::DATETIME_FORMAT_SHORT_ISO),
             $this->_helper->formatTime($zendDate, 'short', true)
@@ -82,7 +84,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->_dateTime->format(self::DATETIME_FORMAT_SHORT), $this->_helper->formatTime(null, 'short', true)
         );
 
-        $zendDate = new Zend_Date($this->_dateTime->format('U'));
+        $zendDate = new \Zend_Date($this->_dateTime->format('U'));
         $this->assertEquals(
             $zendDate->toString(self::TIME_FORMAT_SHORT_ISO),
             $this->_helper->formatTime($zendDate, 'short')
@@ -274,7 +276,7 @@ XML;
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <_><one>1</one><two><three>3</three><four>4</four></two></_>
 XML;
-        $result = $this->_helper->xmlToAssoc(new SimpleXMLElement($xmlstr));
+        $result = $this->_helper->xmlToAssoc(new \SimpleXMLElement($xmlstr));
         $this->assertEquals(array('one' => '1', 'two' => array('three' => '3', 'four'  => '4')), $result);
     }
 

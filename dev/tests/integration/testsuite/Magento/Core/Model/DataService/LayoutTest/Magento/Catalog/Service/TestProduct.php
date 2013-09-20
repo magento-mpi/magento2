@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_DataService_LayoutTest_Magento_Catalog_Service_TestProduct
+namespace Magento\Core\Model\DataService\LayoutTest\Magento\Catalog\Service;
+
+class TestProduct
 {
     /**
      * Provide test product data fixture

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Helper\Product
@@ -18,7 +20,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Product');
     }
 
@@ -30,7 +32,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
         $expectedUrl = 'http://localhost/index.php/simple-product.html';
 
         // product as object
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
         $this->assertEquals($expectedUrl, $this->_helper->getProductUrl($product));
 
@@ -41,7 +43,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     public function testGetPrice()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->setPrice(49.95);
         $this->assertEquals(49.95, $this->_helper->getPrice($product));
     }
@@ -49,7 +51,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     public function testGetFinalPrice()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->setFinalPrice(49.95);
         $this->assertEquals(49.95, $this->_helper->getFinalPrice($product));
     }
@@ -57,7 +59,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     public function testGetImageUrl()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertStringEndsWith('placeholder/image.jpg', $this->_helper->getImageUrl($product));
 
         $product->setImage('test_image.png');
@@ -67,7 +69,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     public function testGetSmallImageUrl()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertStringEndsWith('placeholder/small_image.jpg', $this->_helper->getSmallImageUrl($product));
 
         $product->setSmallImage('test_image.png');
@@ -76,17 +78,17 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testGetThumbnailUrl()
     {
-        $this->assertEmpty($this->_helper->getThumbnailUrl(Mage::getModel('Magento\Catalog\Model\Product')));
+        $this->assertEmpty($this->_helper->getThumbnailUrl(\Mage::getModel('Magento\Catalog\Model\Product')));
     }
 
     public function testGetEmailToFriendUrl()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->setId(100);
-        $category = Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Mage::getModel('Magento\Catalog\Model\Category');
         $category->setId(10);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
 
         try {
@@ -94,7 +96,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
                 'sendfriend/product/send/id/100/cat_id/10/', $this->_helper->getEmailToFriendUrl($product)
             );
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
@@ -112,7 +114,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         // non-visible or disabled
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertFalse($this->_helper->canShow($product));
 
         // enabled and visible
@@ -174,10 +176,10 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testInitProduct()
     {
-        Mage::getSingleton('Magento\Catalog\Model\Session')->setLastVisitedCategoryId(2);
+        \Mage::getSingleton('Magento\Catalog\Model\Session')->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $this->assertInstanceOf(
             'Magento\Catalog\Model\Product',
@@ -192,7 +194,7 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     public function testPrepareProductOptions()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $buyRequest = new \Magento\Object(array('qty' => 100, 'options' => array('option' => 'value')));
         $this->_helper->prepareProductOptions($product, $buyRequest);
         $result = $product->getPreconfiguredValues();

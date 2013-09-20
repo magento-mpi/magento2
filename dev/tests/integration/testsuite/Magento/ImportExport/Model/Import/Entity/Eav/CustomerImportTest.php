@@ -12,7 +12,9 @@
 /**
  * Tests for customer V2 import model
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
+class CustomerImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model object which used for tests
@@ -25,7 +27,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
+        $this->_model = \Mage::getModel('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
     }
 
     /**
@@ -46,7 +48,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
-        $customersCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $customersCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
         $customersCollection->addAttributeToSelect('firstname', 'inner')
             ->addAttributeToSelect('lastname', 'inner');
 
@@ -71,8 +73,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
 
         $this->assertEquals($expectAddedCustomers, $addedCustomers, 'Added unexpected amount of customers');
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $existingCustomer = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento\ImportExport\Customer');
@@ -108,11 +110,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
      */
     public function testDeleteData()
     {
-        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customerCollection \Magento\Customer\Model\Resource\Customer\Collection */
-        $customerCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $customerCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
         $this->assertEquals(3, $customerCollection->count(), 'Count of existing customers are invalid');
 
         $this->_model->setParameters(

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_Category_FlatTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper\Category;
+
+class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Helper\Category\Flat
@@ -18,7 +20,7 @@ class Magento_Catalog_Helper_Category_FlatTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Category\Flat');
     }
 

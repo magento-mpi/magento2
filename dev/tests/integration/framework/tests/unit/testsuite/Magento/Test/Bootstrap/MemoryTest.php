@@ -10,31 +10,33 @@
  */
 
 /**
- * Test class for Magento_TestFramework_Bootstrap_Memory.
+ * Test class for \Magento\TestFramework\Bootstrap\Memory.
  */
-class Magento_Test_Bootstrap_MemoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Bootstrap;
+
+class MemoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Bootstrap_Memory
+     * @var \Magento\TestFramework\Bootstrap\Memory
      */
     protected $_object;
 
     /**
-     * @var Magento_TestFramework_MemoryLimit|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\MemoryLimit|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_memoryLimit;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_activationPolicy;
 
     protected function setUp()
     {
         $this->_memoryLimit = $this->getMock(
-            'Magento_TestFramework_MemoryLimit', array('printStats'), array(), '', false);
+            'Magento\TestFramework\MemoryLimit', array('printStats'), array(), '', false);
         $this->_activationPolicy = $this->getMock('stdClass', array('register_shutdown_function'));
-        $this->_object = new Magento_TestFramework_Bootstrap_Memory(
+        $this->_object = new \Magento\TestFramework\Bootstrap\Memory(
             $this->_memoryLimit, array($this->_activationPolicy, 'register_shutdown_function')
         );
     }
@@ -47,12 +49,12 @@ class Magento_Test_Bootstrap_MemoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Activation policy is expected to be a callable.
      */
     public function testConstructorException()
     {
-        new Magento_TestFramework_Bootstrap_Memory($this->_memoryLimit, 'non_existing_callable');
+        new \Magento\TestFramework\Bootstrap\Memory($this->_memoryLimit, 'non_existing_callable');
     }
 
     public function testDisplayStats()

@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_SamplesTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
+
+class SamplesTest
+    extends \PHPUnit_Framework_TestCase
 {
     public function testGetUploadButtonsHtml()
     {
-        $block = Mage::app()->getLayout()->createBlock(
+        $block = \Mage::app()->getLayout()->createBlock(
             'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples'
         );
-        Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_LinksTest
+        \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinksTest
             ::performUploadButtonTest($block);
     }
 
@@ -26,11 +28,11 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function testGetSampleData()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_product', new \Magento\Object(array('type_id' => 'simple')));
-        $block = Mage::app()->getLayout()
+        $block = \Mage::app()->getLayout()
             ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
         $this->assertEmpty($block->getSampleData());
     }
@@ -48,14 +50,14 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function testGetSamplesTitle($productType, $samplesTitle, $expectedResult)
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', new \Magento\Object(array(
             'type_id' => $productType,
             'id' => '1',
             'samples_title' => $samplesTitle
         )));
-        $block = Mage::app()->getLayout()
+        $block = \Mage::app()->getLayout()
             ->createBlock('Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples');
         $this->assertEquals($expectedResult, $block->getSamplesTitle());
     }

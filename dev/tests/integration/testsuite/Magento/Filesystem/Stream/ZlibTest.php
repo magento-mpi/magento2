@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Stream_ZlibTest extends PHPUnit_Framework_TestCase
+namespace Magento\Filesystem\Stream;
+
+class ZlibTest extends \PHPUnit_Framework_TestCase
 {
     public function testOpen()
     {

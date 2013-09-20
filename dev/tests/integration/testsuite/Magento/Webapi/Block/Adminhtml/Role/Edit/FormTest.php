@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_FormTest extends Magento_Webapi_Block_Adminhtml_FormTestAbstract
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit;
+
+class FormTest extends \Magento\Webapi\Block\Adminhtml\FormTestAbstract
 {
     protected $_formClass = 'Magento\Webapi\Block\Adminhtml\Role\Edit\Form';
 

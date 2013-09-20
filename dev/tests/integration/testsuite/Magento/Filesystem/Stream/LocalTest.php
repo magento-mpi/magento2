@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Stream_LocalTest extends PHPUnit_Framework_TestCase
+namespace Magento\Filesystem\Stream;
+
+class LocalTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Filesystem\Stream\Local

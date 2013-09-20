@@ -13,7 +13,9 @@
  * @license     {license_link}
  *
  */
-class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Magento_Backend_Utility_Controller
+namespace Magento\Webhook\Controller\Adminhtml\Webhook;
+
+class RegistrationTest extends \Magento\Backend\Utility\Controller
 {
     /** @var  \Magento\Webhook\Model\Subscription */
     private $_subscription;
@@ -196,7 +198,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
     private function _createDummySubscription()
     {
         /** @var $factory \Magento\Webhook\Model\Subscription\Factory */
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Webhook\Model\Subscription\Factory');
         $this->_subscription = $factory->create()
             ->setName('dummy')

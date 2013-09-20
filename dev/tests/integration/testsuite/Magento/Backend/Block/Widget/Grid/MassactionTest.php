@@ -14,7 +14,9 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid;
+
+class MassactionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Widget\Grid\Massaction
@@ -34,7 +36,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
 
         $this->_setFixtureTheme();
 
-        $this->_layout = Mage::getModel('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
+        $this->_layout = \Mage::getModel('Magento\Core\Model\Layout', array('area' => 'adminhtml'));
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
         $this->_layout->generateElements();
@@ -47,15 +49,15 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
      */
     protected function _setFixtureTheme()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_RUN_CODE => 'admin',
-            Mage::PARAM_RUN_TYPE => 'store',
-            Mage::PARAM_APP_DIRS => array(
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Mage::PARAM_RUN_CODE => 'admin',
+            \Mage::PARAM_RUN_TYPE => 'store',
+            \Mage::PARAM_APP_DIRS => array(
                 \Magento\Core\Model\Dir::THEMES => __DIR__ . '/../../_files/design'
             ),
         ));
 
-        Mage::app()->getConfig()->setNode(
+        \Mage::app()->getConfig()->setNode(
             'adminhtml/' . \Magento\Core\Model\View\Design::XML_PATH_THEME,
             'test/default'
         );
@@ -70,7 +72,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
     public function testMassactionDefaultValues()
     {
         /** @var $blockEmpty \Magento\Backend\Block\Widget\Grid\Massaction */
-        $blockEmpty = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Massaction');
+        $blockEmpty = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Massaction');
         $this->assertEmpty($blockEmpty->getItems());
         $this->assertEquals(0, $blockEmpty->getCount());
         $this->assertSame('[]', $blockEmpty->getItemsJson());

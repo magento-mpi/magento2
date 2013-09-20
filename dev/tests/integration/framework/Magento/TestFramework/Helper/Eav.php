@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Helper_Eav
+namespace Magento\TestFramework\Helper;
+
+class Eav
 {
     /**
      * Set increment id prefix in entity model.
@@ -17,11 +19,11 @@ class Magento_TestFramework_Helper_Eav
      */
     public static function setIncrementIdPrefix($entityType, $prefix)
     {
-        $website = Mage::app()->getWebsite();
+        $website = \Mage::app()->getWebsite();
         $storeId = $website->getDefaultStore()->getId();
-        $entityTypeModel = Mage::getModel('Magento\Eav\Model\Entity\Type')->loadByCode($entityType);
+        $entityTypeModel = \Mage::getModel('Magento\Eav\Model\Entity\Type')->loadByCode($entityType);
         /** @var \Magento\Eav\Model\Entity\Store $entityStore */
-        $entityStore = Mage::getModel('Magento\Eav\Model\Entity\Store')->loadByEntityStore(
+        $entityStore = \Mage::getModel('Magento\Eav\Model\Entity\Store')->loadByEntityStore(
             $entityTypeModel->getId(),
             $storeId
         );

@@ -9,7 +9,9 @@
 /**
  * Test positions of the Reward total collectors as compared to other collectors
  */
-class Magento_Reward_Model_CollectorPositionsTest extends Magento_Sales_Model_CollectorPositionsTestAbstract
+namespace Magento\Reward\Model;
+
+class CollectorPositionsTest extends \Magento\Sales\Model\CollectorPositionsTestAbstract
 {
     /**
      * @return array

@@ -12,7 +12,9 @@
 /**
  * Test for filesystem themes collection
  */
-class Magento_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme\Collection
@@ -21,7 +23,7 @@ class Magento_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Theme\Collection');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Theme\Collection');
         $this->_model->setBaseDir(dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR . 'design');
     }
 
@@ -82,7 +84,7 @@ class Magento_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
     public function testHasThemeInCollection()
     {
         /** @var $themeModel \Magento\Core\Model\Theme */
-        $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Theme');
+        $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Theme');
         $themeModel->setData(array(
             'area'                 => 'space_area',
             'theme_title'          => 'Space theme',

@@ -9,13 +9,15 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Page_HeadTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Page;
+
+class HeadTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
         $this->assertInstanceOf(
             'Magento\Adminhtml\Block\Page\Head',
-            Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Page\Head')
+            \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Page\Head')
         );
     }
 }

@@ -10,15 +10,15 @@ require __DIR__ . '/../../../Magento/SalesRule/_files/cart_rule_40_percent_off.p
 require __DIR__ . '/../../../Magento/SalesRule/_files/cart_rule_50_percent_off.php';
 
 /** @var \Magento\SalesRule\Model\Rule $ruleFrom */
-$ruleFrom = Mage::getModel('Magento\SalesRule\Model\Rule');
+$ruleFrom = \Mage::getModel('Magento\SalesRule\Model\Rule');
 $ruleFrom->load('40% Off on Large Orders', 'name');
 
 /** @var \Magento\SalesRule\Model\Rule $ruleTo */
-$ruleTo = Mage::getModel('Magento\SalesRule\Model\Rule');
+$ruleTo = \Mage::getModel('Magento\SalesRule\Model\Rule');
 $ruleTo->load('50% Off on Large Orders', 'name');
 
 /** @var \Magento\Banner\Model\Banner $banner */
-$banner = Mage::getModel('Magento\Banner\Model\Banner');
+$banner = \Mage::getModel('Magento\Banner\Model\Banner');
 $banner->setData(array(
     'name' => 'Get from 40% to 50% Off on Large Orders',
     'is_enabled' => \Magento\Banner\Model\Banner::STATUS_ENABLED,

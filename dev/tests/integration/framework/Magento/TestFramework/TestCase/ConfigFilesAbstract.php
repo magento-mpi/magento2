@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUnit_Framework_TestCase
+namespace Magento\TestFramework\TestCase;
+
+abstract class ConfigFilesAbstract extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -21,18 +23,18 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
     protected $_reader;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     public function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = \Mage::getObjectManager();
         $xmlFiles = $this->getXmlConfigFiles();
         if (!empty($xmlFiles)) {
 
@@ -118,7 +120,7 @@ abstract class Magento_TestFramework_TestCase_ConfigFilesAbstract extends PHPUni
      */
     public function getXmlConfigFiles()
     {
-        return glob(Mage::getBaseDir('app') . $this->_getConfigFilePathGlob());
+        return glob(\Mage::getBaseDir('app') . $this->_getConfigFilePathGlob());
     }
 
     /**

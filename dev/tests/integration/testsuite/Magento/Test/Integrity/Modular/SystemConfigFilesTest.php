@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     public function testConfiguration()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // disable config caching to not pollute it
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Cms\Controller\Page.
  */
-class Magento_Cms_Controller_PageTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Cms\Controller;
+
+class PageTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function testViewAction()
     {

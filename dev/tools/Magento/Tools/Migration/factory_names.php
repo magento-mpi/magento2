@@ -12,9 +12,9 @@
 require realpath(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/dev/tests/static/framework/bootstrap.php';
 
 // PHP code
-foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, true, true, false) as $file) {
+foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, true, true, false) as $file) {
     $content = file_get_contents($file);
-    $classes = Magento_TestFramework_Utility_Classes::collectPhpCodeClasses($content);
+    $classes = \Magento\TestFramework\Utility\Classes::collectPhpCodeClasses($content);
     $factoryNames = array_filter($classes, 'isFactoryName');
     if (!$factoryNames) {
         continue;
@@ -37,10 +37,10 @@ foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, true, tr
 }
 
 // layouts
-$layouts = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(), false);
+$layouts = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array(), false);
 foreach ($layouts as $file) {
     $xml = simplexml_load_file($file);
-    $classes = Magento_TestFramework_Utility_Classes::collectLayoutClasses($xml);
+    $classes = \Magento\TestFramework\Utility\Classes::collectLayoutClasses($xml);
     $factoryNames = array_filter($classes, 'isFactoryName');
     if (!$factoryNames) {
         continue;
@@ -55,10 +55,10 @@ foreach ($layouts as $file) {
 }
 
 // modules in configuration and layouts
-$configs = Magento_TestFramework_Utility_Files::init()->getConfigFiles('*.xml',
+$configs = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('*.xml',
     array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'), false);
 foreach (array_merge($layouts, $configs) as $file) {
-    $modules = array_unique(Magento_TestFramework_Utility_Classes::getXmlAttributeValues(simplexml_load_file($file),
+    $modules = array_unique(\Magento\TestFramework\Utility\Classes::getXmlAttributeValues(simplexml_load_file($file),
             '//@module', 'module'));
     $factoryNames = array_filter($modules, 'isFactoryName');
     if (!$factoryNames) {

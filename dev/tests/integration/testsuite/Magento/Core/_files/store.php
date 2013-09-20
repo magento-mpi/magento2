@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-$store = Mage::getModel('Magento\Core\Model\Store');
-$websiteId = Mage::app()->getWebsite()->getId();
-$groupId = Mage::app()->getWebsite()->getDefaultGroupId();
+$store = \Mage::getModel('Magento\Core\Model\Store');
+$websiteId = \Mage::app()->getWebsite()->getId();
+$groupId = \Mage::app()->getWebsite()->getDefaultGroupId();
 $store->setCode('fixturestore') // fixture_store conflicts with "current_store" notation
     ->setWebsiteId($websiteId)
     ->setGroupId($groupId)
@@ -21,5 +21,4 @@ $store->setCode('fixturestore') // fixture_store conflicts with "current_store" 
 ;
 $store->save();
 
-/* Refresh stores memory cache */
-Mage::app()->reinitStores();
+/* Refresh stores memory cache */ \Mage::app()->reinitStores();

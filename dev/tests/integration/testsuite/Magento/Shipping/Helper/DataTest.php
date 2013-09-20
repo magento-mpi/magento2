@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Shipping\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Shipping\Helper\Data
@@ -18,7 +20,7 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Shipping\Helper\Data');
     }
 

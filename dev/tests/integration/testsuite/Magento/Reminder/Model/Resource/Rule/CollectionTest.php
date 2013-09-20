@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_Reminder_Model_Resource_Rule_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reminder\Model\Resource\Rule;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Reminder/_files/rules.php
      */
     public function testAddDateFilter()
     {
-        $dateModel = Mage::getModel('Magento\Core\Model\Date');
-        $collection = Mage::getResourceModel('Magento\Reminder\Model\Resource\Rule\Collection');
+        $dateModel = \Mage::getModel('Magento\Core\Model\Date');
+        $collection = \Mage::getResourceModel('Magento\Reminder\Model\Resource\Rule\Collection');
         $collection->addDateFilter($dateModel->date());
         $this->markTestIncomplete('MAGE-5166 is incomplete');
         $this->assertEquals(1, $collection->count());

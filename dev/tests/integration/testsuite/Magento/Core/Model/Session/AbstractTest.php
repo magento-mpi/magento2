@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Session;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Session\AbstractSession
@@ -20,8 +22,8 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Session\AbstractSession',
             array(
-                Mage::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
-                Mage::getObjectManager()->get('Magento\Core\Helper\Http'),
+                \Mage::getObjectManager()->get('Magento\Core\Model\Event\Manager'),
+                \Mage::getObjectManager()->get('Magento\Core\Helper\Http'),
             ));
     }
 
@@ -160,6 +162,6 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testGetSessionSavePath()
     {
-        $this->assertEquals(Mage::getBaseDir('session'), $this->_model->getSessionSavePath());
+        $this->assertEquals(\Mage::getBaseDir('session'), $this->_model->getSessionSavePath());
     }
 }

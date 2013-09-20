@@ -12,14 +12,16 @@
 /**
  * Test class for \Magento\Downloadable\Model\Observer (duplicate downloadable data)
  */
-class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Downloadable/_files/product_with_files.php
      */
     public function testDuplicateProductDownloadableProductWithFilesSuccessfullyDuplicated()
     {
-        $currentProduct = Mage::getModel('Magento\Catalog\Model\Product');
+        $currentProduct = \Mage::getModel('Magento\Catalog\Model\Product');
         $currentProduct->load(1); // fixture for initial product
         $currentLinks = $currentProduct->getTypeInstance($currentProduct)->getLinks($currentProduct);
         $currentSamples = $currentProduct->getTypeInstance($currentProduct)->getSamples($currentProduct);

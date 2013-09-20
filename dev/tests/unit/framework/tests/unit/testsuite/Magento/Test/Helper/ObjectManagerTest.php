@@ -69,7 +69,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_TestFramework_ObjectManager::getModel
+     * @covers \Magento\TestFramework\ObjectManager::getModel
      */
     public function testGetModel()
     {

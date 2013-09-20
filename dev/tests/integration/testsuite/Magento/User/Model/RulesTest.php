@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model;
+
+class RulesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\User\Model\Rules
@@ -21,7 +23,7 @@ class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\User\Model\Rules');
+        $this->_model = \Mage::getModel('Magento\User\Model\Rules');
     }
 
     /**
@@ -36,7 +38,7 @@ class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
             ->setRoleId(1)
             ->setPermission('allow');
 
-        $crud = new Magento_TestFramework_Entity($this->_model, array('permission' => 'deny'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('permission' => 'deny'));
         $crud->testCrud();
     }
 

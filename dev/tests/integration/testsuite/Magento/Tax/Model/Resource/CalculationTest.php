@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Tax\Model\Resource;
+
+class CalculationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test that Tax Rate applied only once
@@ -18,8 +20,8 @@ class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestC
      */
     public function testGetRate()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $taxRule = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('_fixture/Magento\Tax\Model\Calculation\Rule');
@@ -35,7 +37,7 @@ class Magento_Tax_Model_Resource_CalculationTest extends PHPUnit_Framework_TestC
             'customer_class_id' => $customerTaxClasses[0],
             'product_class_id' => $productTaxClasses[0]
         ));
-        $taxCalculation = Mage::getResourceSingleton('Magento\Tax\Model\Resource\Calculation');
+        $taxCalculation = \Mage::getResourceSingleton('Magento\Tax\Model\Resource\Calculation');
         $this->assertEquals($taxRate->getRate(), $taxCalculation->getRate($data));
     }
 }

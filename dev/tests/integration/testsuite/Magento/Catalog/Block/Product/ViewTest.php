@@ -14,7 +14,9 @@
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product;
+
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Block\Product\View
@@ -28,7 +30,7 @@ class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_block = $objectManager->create('Magento\Catalog\Block\Product\View');
         $this->_product = $objectManager->create('Magento\Catalog\Model\Product');
         $this->_product->load(1);
@@ -39,7 +41,7 @@ class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
     public function testSetLayout()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $headBlock = $layout->createBlock('Magento\Core\Block\Template', 'head');
         $layout->addBlock($this->_block);
 
@@ -54,8 +56,8 @@ class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_block->getProduct()->getId());
         $this->assertEquals($this->_product->getId(), $this->_block->getProduct()->getId());
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('product');
         $this->_block->setProductId(1);
         $this->assertEquals($this->_product->getId(), $this->_block->getProduct()->getId());
