@@ -71,13 +71,5 @@ class Magento_GiftRegistry_Model_Config_ReaderTest extends PHPUnit_Framework_Tes
         $result = $model->read('global');
         $expected = include '_files/giftregistry_config.php';
         $this->assertEquals($expected, $result);
-
-
-
-//        $this->_reader = new Magento_GiftRegistry_Model_Config_Reader(
-//            $fileResolverMock,
-//            $schemaLocatorMock,
-//            $validationStateMock,
-//        );
     }
 }
