@@ -375,7 +375,7 @@ abstract class Magento_Sales_Model_Resource_Order_Abstract extends Magento_Sales
     /**
      * Perform actions before object save
      *
-     * @param \Magento_Core_Model_Abstract|\Magento_Object $object
+     * @param Magento_Core_Model_Abstract|Magento_Object $object
      * @return Magento_Sales_Model_Resource_Order_Abstract
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)

@@ -385,7 +385,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      *
      * @see self::closeAuthorization()
      * @param bool $shouldSave
-     * @return bool|\false|\Magento_Sales_Model_Order_Payment_Transaction
+     * @return bool|false|Magento_Sales_Model_Order_Payment_Transaction
      */
     public function closeCapture($shouldSave = true)
     {

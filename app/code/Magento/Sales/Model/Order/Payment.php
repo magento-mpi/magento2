@@ -1105,7 +1105,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * Public access to _authorize method
      * @param bool $isOnline
      * @param float $amount
-     * @return \Magento_Sales_Model_Order_Payment
+     * @return Magento_Sales_Model_Order_Payment
      */
     public function authorize($isOnline, $amount)
     {
@@ -1483,7 +1483,7 @@ class Magento_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
      * If no transactions were set before invoking, may generate an "offline" transaction id
      *
      * @param string $type
-     * @param bool|\Magento_Sales_Model_Order_Payment_Transaction $transactionBasedOn
+     * @param bool|Magento_Sales_Model_Order_Payment_Transaction $transactionBasedOn
      */
     protected function _generateTransactionId($type, $transactionBasedOn = false)
     {

@@ -181,7 +181,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Void payment
      *
-     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Object|Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
     public function void(Magento_Object $payment)
@@ -193,7 +193,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Capture payment
      *
-     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Object|Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
@@ -208,7 +208,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Refund capture
      *
-     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Object|Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
@@ -221,7 +221,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Cancel payment
      *
-     * @param \Magento_Object|\Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Object|Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
     public function cancel(Magento_Object $payment)
@@ -233,7 +233,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Whether payment can be reviewed
      *
-     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Payment_Model_Info|Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function canReviewPayment(Magento_Payment_Model_Info $payment)
@@ -244,7 +244,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Attempt to accept a pending payment
      *
-     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Payment_Model_Info|Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function acceptPayment(Magento_Payment_Model_Info $payment)
@@ -256,7 +256,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Attempt to deny a pending payment
      *
-     * @param \Magento_Payment_Model_Info|\Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Payment_Model_Info|Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function denyPayment(Magento_Payment_Model_Info $payment)

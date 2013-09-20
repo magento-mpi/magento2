@@ -34,7 +34,7 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal extends Magento_Sales_Mode
      *
      * @param Magento_Sales_Model_Quote_Address $address
      * @param Magento_Sales_Model_Quote_Address_Total_Nominal
-     * @return $this|\Magento_Sales_Model_Quote_Address_Total_Abstract
+     * @return $this|Magento_Sales_Model_Quote_Address_Total_Abstract
      */
     public function collect(Magento_Sales_Model_Quote_Address $address)
     {

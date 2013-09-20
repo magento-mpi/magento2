@@ -82,7 +82,7 @@ class Magento_Sales_Model_Observer
      * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Config $coreConfig
-     * @param \Magento_Sales_Model_Resource_Quote_CollectionFactory $quoteFactory
+     * @param Magento_Sales_Model_Resource_Quote_CollectionFactory $quoteFactory
      * @param Magento_Core_Model_LocaleInterface $coreLocale
      * @param Magento_Sales_Model_ResourceFactory $resourceFactory
      */
