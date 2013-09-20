@@ -17,19 +17,19 @@ class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Mo
     protected $_attributeFactory;
 
     /**
-     * @var Magento_TargetRule_Model_Actions_Condition_Product_Special
+     * @var Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory
      */
     protected $_specialFactory;
 
     /**
      * @param Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory
-     * @param Magento_TargetRule_Model_Actions_Condition_Product_Special $specialFactory
+     * @param Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory,
-        Magento_TargetRule_Model_Actions_Condition_Product_Special $specialFactory,
+        Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {

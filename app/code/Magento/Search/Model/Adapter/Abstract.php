@@ -43,27 +43,6 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected $_filterPrice;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
-     * @param Magento_Search_Model_Resource_Index $resourceIndex
-     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
-     */
-    function __construct(
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
-        Magento_Search_Model_Resource_Index $resourceIndex,
-        Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
-        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
-    ) {
-        $this->_customerSession = $customerSession;
-        $this->_filterPrice = $filterPrice;
-        $this->_resourceIndex = $resourceIndex;
-        $this->_resourceFulltext = $resourceFulltext;
-        $this->_attributeCollection = $attributeCollection;
-    }
-
-    /**
      * Field to use to determine and enforce document uniqueness
      *
      */
@@ -157,7 +136,6 @@ abstract class Magento_Search_Model_Adapter_Abstract
      */
     protected $_indexNeedsOptimization = false;
 
-
     // Deprecated properties
 
     /**
@@ -177,6 +155,31 @@ abstract class Magento_Search_Model_Adapter_Abstract
         'visibility'
     );
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice
+     * @param Magento_Search_Model_Resource_Index $resourceIndex
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     */
+    function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Search_Model_Catalog_Layer_Filter_Price $filterPrice,
+        Magento_Search_Model_Resource_Index $resourceIndex,
+        Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
+        Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_filterPrice = $filterPrice;
+        $this->_resourceIndex = $resourceIndex;
+        $this->_resourceFulltext = $resourceFulltext;
+        $this->_attributeCollection = $attributeCollection;
+    }
 
     /**
      * Retrieve attribute field name
@@ -638,7 +641,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
             $this->_client->addDocuments($_docs);
         } catch (Exception $e) {
             $this->rollback();
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         $this->commit();
@@ -680,7 +683,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
                 $this->_client->$deleteMethod($params);
             } catch (Exception $e) {
                 $this->rollback();
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
 
             $this->commit();

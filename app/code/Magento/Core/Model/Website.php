@@ -135,6 +135,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -143,12 +144,14 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Config_Data $configDataResource,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_configDataResource = $configDataResource;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -186,7 +189,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     {
         if (!isset($this->_configCache[$path])) {
 
-            $config = Mage::getConfig()->getValue($path, 'website', $this->getCode());
+            $config = $this->_coreConfig->getValue($path, 'website', $this->getCode());
             if (!$config) {
                 return false;
             }
@@ -457,7 +460,7 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
     {
         Mage::app()->clearWebsiteCache($this->getId());
         parent::_afterDelete();
-        Mage::getConfig()->removeCache();
+        $this->_coreConfig->removeCache();
         return $this;
     }
 

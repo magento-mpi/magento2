@@ -77,6 +77,13 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_coreRegistry = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_ConfigInterface
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var Magento_Eav_Model_Config
      */
     protected $_eavConfig = null;
@@ -92,6 +99,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      * @param Magento_Search_Model_Resource_Index $resourceIndex
      * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
      * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param array $options
      */
     public function __construct(
@@ -105,6 +113,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         Magento_Search_Model_Resource_Index $resourceIndex,
         Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
         Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         $options = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -112,6 +121,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         $this->_clientHelper = $clientHelper;
         $this->_log = $logger;
         $this->_clientFactory = $clientFactory;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection);
         try {
             $this->_connect($options);
@@ -190,8 +200,12 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected function _getSolrDate($storeId, $date = null)
     {
         if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $timezone = $this->_coreStoreConfig->getConfig(
+                Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
+            );
+            $locale   = $this->_coreStoreConfig->getConfig(
+                Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+            );
             $locale   = new Zend_Locale($locale);
 
             $dateObj  = new Zend_Date(null, null, $locale);

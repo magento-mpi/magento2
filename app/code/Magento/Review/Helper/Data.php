@@ -25,14 +25,24 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreString = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreString = $coreString;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -51,9 +61,12 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
         return nl2br($this->_coreString->truncate($this->escapeHtml($origDetail), 50));
     }
 
+    /**
+     * @return bool
+     */
     public function getIsGuestAllowToWrite()
     {
-        return Mage::getStoreConfigFlag(self::XML_REVIEW_GUETS_ALLOW);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_REVIEW_GUETS_ALLOW);
     }
 
     /**

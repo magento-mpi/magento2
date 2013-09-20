@@ -77,17 +77,35 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_engineProvider;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_ConfigInterface
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
         Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context);
     }
 
@@ -165,7 +183,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
         /**
          * Merging languages that specified manualy
          */
-        $node = Mage::getConfig()->getNode('global/magento_search/supported_languages/solr');
+        $node = $this->_coreConfig->getNode('global/magento_search/supported_languages/solr');
         if ($node && $node->children()) {
             foreach ($node->children() as $_node) {
                 $localeCode = $_node->getName();
@@ -209,7 +227,7 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSearchConfigData($field, $storeId = null)
     {
         $path = 'catalog/search/' . $field;
-        return Mage::getStoreConfig($path, $storeId);
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**

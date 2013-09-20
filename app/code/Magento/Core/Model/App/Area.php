@@ -77,27 +77,45 @@ class Magento_Core_Model_App_Area
     protected $_diConfigLoader;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Translate $translator
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param string $areaCode
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Translate $translator,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_ObjectManager $objectManager,
         Magento_Core_Model_ObjectManager_ConfigLoader $diConfigLoader,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $areaCode
     ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_code = $areaCode;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_diConfigLoader = $diConfigLoader;
         $this->_eventManager = $eventManager;
         $this->_translator = $translator;
+        $this->_logger = $logger;
     }
 
     /**
@@ -148,7 +166,7 @@ class Magento_Core_Model_App_Area
             return false;
         }
         try {
-            $expressions = Mage::getStoreConfig('design/theme/ua_regexp');
+            $expressions = $this->_coreStoreConfig->getConfig('design/theme/ua_regexp');
             if (!$expressions) {
                 return false;
             }
@@ -160,7 +178,7 @@ class Magento_Core_Model_App_Area
                 }
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return false;
     }

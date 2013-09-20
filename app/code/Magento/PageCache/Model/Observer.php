@@ -27,12 +27,20 @@ class Magento_PageCache_Model_Observer
     protected $_pageCacheData = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_PageCache_Helper_Data $pageCacheData
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_PageCache_Helper_Data $pageCacheData
+        Magento_PageCache_Helper_Data $pageCacheData,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_pageCacheData = $pageCacheData;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -64,7 +72,7 @@ class Magento_PageCache_Model_Observer
             $needCaching = false;
         }
 
-        $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
+        $configuration = $this->_coreConfig->getNode(self::XML_NODE_ALLOWED_CACHE);
 
         if (!$configuration) {
             $needCaching = false;

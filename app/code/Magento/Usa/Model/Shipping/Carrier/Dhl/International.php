@@ -201,6 +201,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -223,6 +224,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -233,8 +235,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
-            $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
         );
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
@@ -251,7 +254,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected function _getDefaultValue($origValue, $pathToValue)
     {
         if (!$origValue) {
-            $origValue = Mage::getStoreConfig(
+            $origValue = $this->_coreStoreConfig->getConfig(
                 $pathToValue,
                 $this->getStore()
             );
@@ -399,7 +402,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             ->setOrigCity($request->getOrigCity())
             ->setOrigPhoneNumber($request->getOrigPhoneNumber())
             ->setOrigPersonName($request->getOrigPersonName())
-            ->setOrigEmail(Mage::getStoreConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
+            ->setOrigEmail($this->_coreStoreConfig->getConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
             ->setOrigCity($request->getOrigCity())
             ->setOrigPostal($request->getOrigPostal())
             ->setOrigStreetLine2($request->getOrigStreetLine2())
@@ -407,7 +410,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             ->setDestPersonName($request->getDestPersonName())
             ->setDestCompanyName($request->getDestCompanyName());
 
-        $originStreet2 = Mage::getStoreConfig(
+        $originStreet2 = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
 
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
@@ -1178,7 +1181,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         $countryParams = $this->getCountryParams(
-            Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
+            $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
         );
         if (!$countryParams->getData()) {
             $this->_errors[] = __('Please, specify origin country');
@@ -1292,7 +1295,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $rawRequest = $this->_request;
 
         $originRegion = $this->getCountryParams(
-            Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
+            $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
         )->getRegion();
 
         if (!$originRegion) {

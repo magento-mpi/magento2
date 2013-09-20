@@ -23,9 +23,27 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
     protected $_cacheTypeList;
 
     /**
+     * Path to config node with list of caches
+     *
+     * @var string
+     */
+    const XML_PATH_INVALID_CACHES = 'dev/translate_inline/invalid_caches';
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * Constructor
+     *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -33,21 +51,24 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_cacheTypeList = $cacheTypeList;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $config,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
-
-    /**
-     * Path to config node with list of caches
-     *
-     * @var string
-     */
-    const XML_PATH_INVALID_CACHES = 'dev/translate_inline/invalid_caches';
 
     /**
      * Set status 'invalidate' for blocks and other output caches
@@ -56,7 +77,7 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
      */
     protected function _afterSave()
     {
-        $types = array_keys(Mage::getStoreConfig(self::XML_PATH_INVALID_CACHES));
+        $types = array_keys($this->_coreStoreConfig->getConfig(self::XML_PATH_INVALID_CACHES));
         if ($this->isValueChanged()) {
             $this->_cacheTypeList->invalidate($types);
         }

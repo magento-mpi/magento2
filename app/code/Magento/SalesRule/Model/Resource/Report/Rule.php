@@ -31,16 +31,18 @@ class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model
     /**
      * @param Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory $createdatFactory
      * @param Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory $updatedatFactory
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
         Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory $createdatFactory,
         Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory $updatedatFactory,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource
     ) {
         $this->_createdatFactory = $createdatFactory;
         $this->_updatedatFactory = $updatedatFactory;
-        parent::__construct($resource);
+        parent::__construct($logger, $resource);
     }
 
     /**

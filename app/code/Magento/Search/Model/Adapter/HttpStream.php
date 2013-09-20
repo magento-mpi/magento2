@@ -64,6 +64,7 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
      * @param Magento_Search_Model_Resource_Index $resourceIndex
      * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
      * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param array $options
      */
     public function __construct(
@@ -78,12 +79,13 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
         Magento_Search_Model_Resource_Index $resourceIndex,
         Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
         Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;
         parent::__construct(
             $eavConfig, $customerSession, $filterPrice, $clientFactory, $logger, $clientHelper, $registry,
-            $resourceIndex, $resourceFulltext, $attributeCollection, $options
+            $resourceIndex, $resourceFulltext, $attributeCollection, $coreStoreConfig, $options
         );
     }
 

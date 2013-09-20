@@ -32,6 +32,32 @@ class Magento_Cron_Model_Observer
     protected $_pendingSchedules;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Process cron queue
      * Geterate tasks schedule
      * Cleanup tasks schedule
@@ -41,10 +67,10 @@ class Magento_Cron_Model_Observer
     public function dispatch($observer)
     {
         $schedules = $this->getPendingSchedules();
-        $scheduleLifetime = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
+        $scheduleLifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_SCHEDULE_LIFETIME) * 60;
         $now = time();
-        $jobsRoot = Mage::getConfig()->getNode('crontab/jobs');
-        $defaultJobsRoot = Mage::getConfig()->getValue('crontab/jobs', 'default');
+        $jobsRoot = $this->_coreConfig->getNode('crontab/jobs');
+        $defaultJobsRoot = $this->_coreConfig->getValue('crontab/jobs', 'default');
 
         foreach ($schedules->getIterator() as $schedule) {
             $jobConfig = $jobsRoot->{$schedule->getJobCode()};
@@ -136,7 +162,7 @@ class Magento_Cron_Model_Observer
          * check if schedule generation is needed
          */
         $lastRun = Mage::app()->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
-        if ($lastRun > time() - Mage::getStoreConfig(self::XML_PATH_SCHEDULE_GENERATE_EVERY)*60) {
+        if ($lastRun > time() - $this->_coreStoreConfig->getConfig(self::XML_PATH_SCHEDULE_GENERATE_EVERY)*60) {
             return $this;
         }
 
@@ -149,7 +175,7 @@ class Magento_Cron_Model_Observer
         /**
          * generate global crontab jobs
          */
-        $config = Mage::getConfig()->getNode('crontab/jobs');
+        $config = $this->_coreConfig->getNode('crontab/jobs');
         if ($config instanceof Magento_Core_Model_Config_Element) {
             $this->_generateJobs($config->asArray(), $exists);
         }
@@ -157,7 +183,7 @@ class Magento_Cron_Model_Observer
         /**
          * generate configurable crontab jobs
          */
-        $config = Mage::getConfig()->getValue('crontab/jobs', 'default');
+        $config = $this->_coreConfig->getValue('crontab/jobs', 'default');
         if ($config) {
             $this->_generateJobs($config, $exists);
         }
@@ -179,13 +205,13 @@ class Magento_Cron_Model_Observer
      */
     protected function _generateJobs($jobs, $exists)
     {
-        $scheduleAheadFor = Mage::getStoreConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
+        $scheduleAheadFor = $this->_coreStoreConfig->getConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR)*60;
         $schedule = Mage::getModel('Magento_Cron_Model_Schedule');
 
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
             if (isset($jobConfig['schedule']['config_path'])) {
-                $cronExpr = Mage::getStoreConfig($jobConfig['schedule']['config_path']);
+                $cronExpr = $this->_coreStoreConfig($jobConfig['schedule']['config_path']);
             }
             if (empty($cronExpr) && isset($jobConfig['schedule']['cron_expr'])) {
                 $cronExpr = $jobConfig['schedule']['cron_expr'];
@@ -220,7 +246,7 @@ class Magento_Cron_Model_Observer
     {
         // check if history cleanup is needed
         $lastCleanup = Mage::app()->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
-        if ($lastCleanup > time() - Mage::getStoreConfig(self::XML_PATH_HISTORY_CLEANUP_EVERY)*60) {
+        if ($lastCleanup > time() - $this->_coreStoreConfig->getConfig(self::XML_PATH_HISTORY_CLEANUP_EVERY)*60) {
             return $this;
         }
 
@@ -232,9 +258,9 @@ class Magento_Cron_Model_Observer
             )))->load();
 
         $historyLifetimes = array(
-            Magento_Cron_Model_Schedule::STATUS_SUCCESS => Mage::getStoreConfig(self::XML_PATH_HISTORY_SUCCESS)*60,
-            Magento_Cron_Model_Schedule::STATUS_MISSED => Mage::getStoreConfig(self::XML_PATH_HISTORY_FAILURE)*60,
-            Magento_Cron_Model_Schedule::STATUS_ERROR => Mage::getStoreConfig(self::XML_PATH_HISTORY_FAILURE)*60,
+            Magento_Cron_Model_Schedule::STATUS_SUCCESS => $this->_coreStoreConfig->getConfig(self::XML_PATH_HISTORY_SUCCESS)*60,
+            Magento_Cron_Model_Schedule::STATUS_MISSED => $this->_coreStoreConfig->getConfig(self::XML_PATH_HISTORY_FAILURE)*60,
+            Magento_Cron_Model_Schedule::STATUS_ERROR => $this->_coreStoreConfig->getConfig(self::XML_PATH_HISTORY_FAILURE)*60,
         );
 
         $now = time();

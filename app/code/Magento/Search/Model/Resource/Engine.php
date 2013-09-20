@@ -88,12 +88,20 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
     protected $_searchResource;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_ConfigInterface
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Search_Model_Resource_CollectionFactory $searchCollFactory
      * @param Magento_CatalogSearch_Model_Resource_Fulltext $catalogSearchResourceFulltext
      * @param Magento_Search_Model_Resource_Index $searchResourceIndex
      * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
      * @param Magento_Search_Model_AdapterInterface $adapter
      * @param Magento_Search_Model_Resource_Advanced $searchResource
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
         Magento_Search_Model_Resource_CollectionFactory $searchCollFactory,
@@ -101,7 +109,8 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
         Magento_Search_Model_Resource_Index $searchResourceIndex,
         Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
         Magento_Search_Model_AdapterInterface $adapter,
-        Magento_Search_Model_Resource_Advanced $searchResource
+        Magento_Search_Model_Resource_Advanced $searchResource,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
     ) {
         $this->_searchCollFactory = $searchCollFactory;
         $this->_catalogSearchResourceFulltext = $catalogSearchResourceFulltext;
@@ -109,6 +118,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_adapter = $adapter;
         $this->_searchResource = $searchResource;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_initAdapter();
     }
 
@@ -119,7 +129,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      */
     protected function _canHoldCommit()
     {
-        $commitMode = Mage::getStoreConfig(
+        $commitMode = $this->_coreStoreConfig->getConfig(
             Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
         );
 
@@ -134,7 +144,7 @@ class Magento_Search_Model_Resource_Engine implements Magento_CatalogSearch_Mode
      */
     protected function _canAllowCommit()
     {
-        $commitMode = Mage::getStoreConfig(
+        $commitMode = $this->_coreStoreConfig->getConfig(
             Magento_Search_Model_Indexer_Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
         );
 

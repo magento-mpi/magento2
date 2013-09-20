@@ -59,6 +59,27 @@ class Magento_User_Model_Role extends Magento_Core_Model_Abstract
     }
 
     /**
+     * @inheritdoc
+     */
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_userRolesFactory', '_resource', '_resourceCollection'));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_userRolesFactory = $objectManager->get('Magento_User_Model_Resource_Role_User_CollectionFactory');
+        $this->_resource = $objectManager->get('Magento_User_Model_Resource_Role');
+        $this->_resourceCollection = $objectManager->get('Magento_User_Model_Resource_Role_Collection');
+    }
+
+    /**
      * @var string
      */
     protected $_eventPrefix = 'admin_roles';

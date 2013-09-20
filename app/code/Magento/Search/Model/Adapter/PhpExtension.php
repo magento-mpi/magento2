@@ -44,6 +44,7 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
      * @param Magento_Search_Model_Resource_Index $resourceIndex
      * @param Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext
      * @param Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param array $options
      * @throws Exception
      */
@@ -59,6 +60,7 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
         Magento_Search_Model_Resource_Index $resourceIndex,
         Magento_CatalogSearch_Model_Resource_Fulltext $resourceFulltext,
         Magento_Catalog_Model_Resource_Product_Attribute_Collection $attributeCollection,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         $options = array()
     ) {
         $this->_ctlgInventData = $ctlgInventData;
@@ -67,7 +69,7 @@ class Magento_Search_Model_Adapter_PhpExtension extends Magento_Search_Model_Ada
         }
         parent::__construct(
             $eavConfig, $customerSession, $filterPrice, $clientFactory, $logger, $clientHelper, $registry,
-            $resourceIndex, $resourceFulltext, $attributeCollection, $options
+            $resourceIndex, $resourceFulltext, $attributeCollection, $coreStoreConfig, $options
         );
     }
 

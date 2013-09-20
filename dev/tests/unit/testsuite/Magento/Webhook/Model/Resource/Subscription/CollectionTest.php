@@ -41,8 +41,14 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      */
     private $_eventManager;
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    private $_loggerMock;
+
     protected function setUp()
     {
+        $this->_loggerMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_selectMock = $this->_makeMock('Zend_Db_Select');
         $this->_selectMock->expects($this->any())
             ->method('from')
@@ -264,6 +270,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             array(
                 $this->_endpointResMock,
                 $this->_eventManager,
+                $this->_loggerMock,
                 $this->_fetchStrategyMock,
                 $this->_entityFactory,
                 $this->_resourceMock

@@ -64,7 +64,9 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
         /** @var Magento_Sales_Model_Order_Status $status */
         $status = $this->_objectManager->get('Magento_Sales_Model_Order_Status')->load($statusCode);
 
-        $defaultStatus = (string)Mage::getStoreConfig('payment/checkmo/order_status');
+        /** @var $storeConfig Magento_Core_Model_Store_Config */
+        $storeConfig = $this->_objectManager->get('Magento_Core_Model_Store_Config');
+        $defaultStatus = (string)$storeConfig->getConfig('payment/checkmo/order_status');
 
         /** @var Magento_Core_Model_Resource_Config $config */
         $config = $this->_objectManager->get('Magento_Core_Model_Resource_Config');
@@ -72,13 +74,13 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_resetConfig();
 
-        $newStatus = Mage::getStoreConfig('payment/checkmo/order_status');
+        $newStatus = $storeConfig->getConfig('payment/checkmo/order_status');
 
         $status->unassignState(Magento_Sales_Model_Order::STATE_NEW);
 
         $this->_resetConfig();
 
-        $unassignedStatus = Mage::getStoreConfig('payment/checkmo/order_status');
+        $unassignedStatus = $storeConfig->getConfig('payment/checkmo/order_status');
 
         $this->assertEquals('pending', $defaultStatus);
         $this->assertEquals($statusCode, $newStatus);
@@ -104,7 +106,9 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_resetConfig();
 
-        $unassignedStatus = Mage::getStoreConfig('payment/checkmo/order_status');
+        /** @var Magento_Core_Model_Store_Config $storeConfig */
+        $storeConfig = $this->_objectManager->get('Magento_Core_Model_Store_Config');
+        $unassignedStatus = $storeConfig->getConfig('payment/checkmo/order_status');
         $this->assertEquals('pending', $unassignedStatus);
     }
 
@@ -125,7 +129,7 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _resetConfig()
     {
-        Mage::getConfig()->reinit();
+        $this->_objectManager->get('Magento_Core_Model_Config')->reinit();
         $this->_objectManager->create('Magento_Core_Model_StoreManagerInterface')->reinitStores();
     }
 }

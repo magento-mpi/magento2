@@ -89,14 +89,16 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $coreString, $data);
+        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
 
         $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
         $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();

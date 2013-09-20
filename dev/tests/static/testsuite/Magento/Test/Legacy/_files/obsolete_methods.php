@@ -2,7 +2,7 @@
 /**
  * Obsolete methods
  *
- * Format: array(<method_name = ''>[, <class_scope> = ''[, <replacement>]])
+ * Format: array(<method_name = ''>[, <class_scope> = ''[, <replacement>[, <is_deprecated>]]])
  *
  * {license_notice}
  *
@@ -579,6 +579,8 @@ return array(
     array('loadPrices', 'Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute'),
     array('loadProductPrices', 'Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice'),
     array('lockOrderInventoryData', 'Magento_CatalogInventory_Model_Observer'),
+    array('log', 'Mage', 'Magento_Core_Model_Logger::log'),
+    array('logException', 'Mage', 'Magento_Core_Model_Logger::logException'),
     array('logEncryptionKeySave'),
     array('logInvitationSave'),
     array('map', 'Magento_ObjectManager_Config_Mapper_Dom', 'Magento_ObjectManager_Config_Mapper_Dom::convert'),
@@ -790,12 +792,17 @@ return array(
     array('getHelper', 'Magento_Core_Model_App'),
     array('helper', 'Mage'),
     array('dispatchEvent', 'Mage'),
+    array('getConfig', 'Mage', 'Magento_Core_Model_Config'),
+    array('getStoreConfig', 'Mage', 'Magento_Core_Model_Store_Config'),
+    array('getStoreConfigFlag', 'Mage', 'Magento_Core_Model_Store_Config'),
     array('resetRegistry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('register', 'Mage', 'use Magento_Core_Model_Registry'),
     array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('getObjectManager', 'Mage'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
+    array('_getIndexer', 'Magento_Index_Model_Shell'),
+    array('_getApi', 'Magento_Ogone_Block_Placeform'),
     array('getCouponMassGenerator', 'Magento_SalesRule_Model_Rule', 'Magento_SalesRule_Model_Coupon_Massgenerator'),
     array('getEntityResourceModel', 'Magento_SalesArchive_Model_Archive',
         'Magento_SalesArchive_Model_ArchivalList::getResource'),
