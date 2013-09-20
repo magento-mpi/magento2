@@ -36,7 +36,7 @@ class Magento_Payment_Model_Method_Factory
      * @return Magento_Payment_Model_Method_Abstract
      * @throws Magento_Core_Exception
      */
-    public function create($className, $data= array())
+    public function create($className, $data = array())
     {
         $method = $this->_objectManager->create($className, $data);
         if (!($method instanceof Magento_Payment_Model_Method_Abstract)) {
