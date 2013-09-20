@@ -183,7 +183,7 @@ class Magento_User_Model_User
         $this->_roleFactory = $roleFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_mailer = $mailerFactory->create();
-        $this->_coreStoreConfig = $coreStoreConfig;        
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**

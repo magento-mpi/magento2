@@ -12,7 +12,6 @@
 
 /** @var Magento_User_Model_Resource_Setup $this */
 
-/** @var Magento_User_Model_Resource_Role_Collection $roleCollection */
 $roleCollection = $this->createRoleCollection()
     ->addFieldToFilter('parent_id', 0)
     ->addFieldToFilter('tree_level', 1)
