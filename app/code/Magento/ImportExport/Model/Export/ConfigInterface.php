@@ -12,19 +12,19 @@ interface Magento_ImportExport_Model_Export_ConfigInterface
      *
      * @return array
      */
-    function getEntities();
+    public function getEntities();
 
     /**
      * Retrieve export file formats configuration
      *
      * @return array
      */
-    function getFileFormats();
+    public function getFileFormats();
 
     /**
      * Retrieve import product types configuration
      *
      * @return array
      */
-    function getProductTypes();
+    public function getProductTypes();
 }

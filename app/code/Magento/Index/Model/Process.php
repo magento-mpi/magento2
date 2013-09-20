@@ -86,7 +86,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Index_Model_IndexerFactory
+     * @var Magento_Index_Model_Indexer_Factory
      */
     protected $_indexerFactory;
 
