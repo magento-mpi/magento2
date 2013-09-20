@@ -19,11 +19,6 @@ class Magento_CatalogInventory_Model_Resource_Indexer_StockFactory
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
      * Default Stock Indexer resource model name
      *
      * @var string
@@ -32,14 +27,11 @@ class Magento_CatalogInventory_Model_Resource_Indexer_StockFactory
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_ConfigInterface $coreConfig
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_ConfigInterface $coreConfig
+        Magento_ObjectManager $objectManager
     ) {
         $this->_objectManager = $objectManager;
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
