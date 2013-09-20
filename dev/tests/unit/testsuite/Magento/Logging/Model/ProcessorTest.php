@@ -6,47 +6,72 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\Logging\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \Magento\Logging\Model\Processor */
+    /** @var
+     * \Magento\Logging\Model\Processor
+     */
     protected $_model;
 
-    /** @var  \Magento\Logging\Model\Config|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\Logging\Model\Config|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_configMock;
 
-    /** @var  \Magento\Logging\Model\Handler\Models|PHPUnit_Framework_MockObject_MockObject */
+    /** @var
+     * \Magento\Logging\Model\Handler\Models|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_handlerModelsMock;
 
-    /** @var  \Magento\Logging\Model\Handler\Controllers|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\Logging\Model\Handler\Controllers|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_controllersMock;
 
-    /** @var  \Magento\Backend\Model\Auth\Session|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\Backend\Model\Auth\Session|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_authSessionMock;
 
-    /** @var \Magento\Backend\Model\Session|PHPUnit_Framework_MockObject_MockObject  */
+    /**
+     * @var \Magento\Backend\Model\Session|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_backendSessionMock;
 
-    /** @var  \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_objectManagerMock;
 
-    /** @var  \Magento\Core\Model\App|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\Core\Model\App|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_coreAppMock;
 
-    /** @var  \Magento\Core\Helper\Http|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\Core\Helper\Http|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_httpHelperMock;
 
-    /** @var  \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_loggerMock;
 
-    /** @var  \Magento\Sales\Model\Quote|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\Sales\Model\Quote|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_quoteMock;
 
-    /** @var  \Magento\Logging\Model\Event\Changes|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  \Magento\Logging\Model\Event\Changes|PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_changesMock;
 
     public function setUp()

@@ -229,7 +229,7 @@ class MongoDbTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad($doNotTestValidity)
     {
-        include_once(__DIR__ . '/_files/MongoBinData.php');
+        include_once(__DIR__ . '/_files/MongoBinData.txt');
 
         $cacheId = 'test_id';
         $expected = 'test_data';
@@ -284,7 +284,7 @@ class MongoDbTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        include_once(__DIR__ . '/_files/MongoBinData.php');
+        include_once(__DIR__ . '/_files/MongoBinData.txt');
 
         $inputAssertion = $this->logicalAnd(
             $this->arrayHasKey('_id'),

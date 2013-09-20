@@ -10,11 +10,10 @@
  */
 namespace Magento;
 
-/*
+/**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
-*/
-
+ */
 class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetWorkingDirectory()
