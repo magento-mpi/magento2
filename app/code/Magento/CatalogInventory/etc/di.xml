@@ -16,7 +16,7 @@
             <instance type="Magento_CatalogInventory_Model_Resource_Indexer_Stock_Proxy" />
         </param>
         <param name="resourceStock">
-            <instance type="Magento_CatalogInventory_Model_Resource_Stock" />
+            <instance type="Magento_CatalogInventory_Model_Resource_Stock_Proxy" />
         </param>
         <param name="indexer">
             <instance type="Magento_Index_Model_Indexer_Proxy" />
