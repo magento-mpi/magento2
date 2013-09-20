@@ -40,7 +40,7 @@
         <param name="disabledCacheTypes">
             <value>
                 <block_html>block_html</block_html>
-                <config>config</config>
+                <configType>config</configType>
             </value>
         </param>
     </type>
