@@ -10,6 +10,9 @@ require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
  * @license     {license_link}
  */
 
+/**
+ * @magentoApiDataFixture consumerFixture
+ */
 class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestCase_WebapiAbstract
 {
     /** @var Magento_Webapi_Authentication_Rest_OauthClient[] */
@@ -30,15 +33,21 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
     /** @var string */
     protected static $_verifier;
 
+    /** @var string */
+    protected $_tokenLength = Magento_Oauth_Model_Token::LENGTH_TOKEN;
+
+    /** @var string */
+    protected $_secretLength = Magento_Oauth_Model_Token::LENGTH_SECRET;
+
+
     protected function setUp()
     {
         $this->_markTestAsRestOnly();
         parent::setUp();
     }
 
-
     /**
-     * Simple product with stock item
+     * Create a consumer
      */
     public static function consumerFixture()
     {
@@ -52,7 +61,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         self::$_consumerKey = $oauthHelper->generateConsumerKey();
         self::$_consumerSecret = $oauthHelper->generateConsumerSecret();
 
-        $url = 'http://magento.ll';
+        $url = TESTS_BASE_URL;
         $data = array(
             'key' => self::$_consumerKey,
             'secret' => self::$_consumerSecret,
@@ -61,6 +70,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
             'rejected_callback_url' => $url,
             'http_post_url' => $url
         );
+        /** @var array $consumerData */
         $consumerData = $oauthService->createConsumer($data);
         /** @var  $token Magento_Oauth_Model_Token */
         self::$_consumer = $objectManager->get('Magento_Oauth_Model_Consumer')
@@ -80,9 +90,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         }
     }
 
-    /**
-     * @magentoApiDataFixture consumerFixture
-     */
+
     public function testGetRequestToken()
     {
         /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient */
@@ -91,6 +99,11 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
 
         $this->assertNotEmpty($requestToken->getRequestToken(), "Request token value is not set");
         $this->assertNotEmpty($requestToken->getRequestTokenSecret(), "Request token secret is not set");
+
+        $this->assertNotEmpty($this->_tokenLength, strlen($requestToken->getRequestToken()),
+                              "Request token value length should be " . $this->_tokenLength);
+        $this->assertNotEmpty($this->_secretLength, strlen($requestToken->getRequestTokenSecret()),
+                              "Request token secret length should be " . $this->_secretLength);
     }
 
     public function testGetRequestTokenInvalidConsumerKey()
@@ -99,7 +112,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
             $oAuthClient = $this->_getOauthClient('invalid_key', self::$_consumerSecret);
             $oAuthClient->requestRequestToken();
         } catch (Exception $exception) {
-            $this->assertContains('HTTP/1.1 401 Authorization Required', $exception->getMessage());
+            $this->assertContains('HTTP/1.1 401', $exception->getMessage());
         }
     }
 
@@ -109,14 +122,10 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
             $oAuthClient = $this->_getOauthClient(self::$_consumerKey, 'invalid_secret');
             $oAuthClient->requestRequestToken();
         } catch (Exception $exception) {
-            $this->assertContains('HTTP/1.1 401 Authorization Required', $exception->getMessage());
+            $this->assertContains('HTTP/1.1 401', $exception->getMessage());
         }
     }
 
-
-    /**
-     * @magentoApiDataFixture consumerFixture
-     */
     public function testGetAccessToken()
     {
         $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
@@ -128,12 +137,13 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         );
         $this->assertNotEmpty($accessToken->getAccessToken(), "Access token value is not set.");
         $this->assertNotEmpty($accessToken->getAccessTokenSecret(), "Access token secret is not set.");
+
+        $this->assertNotEmpty($this->_tokenLength, strlen($accessToken->getAccessToken()),
+                              "Access token value length should be " . $this->_tokenLength);
+        $this->assertNotEmpty($this->_secretLength, strlen($accessToken->getAccessTokenSecret()),
+                              "Access token secret length should be " . $this->_secretLength);
     }
 
-
-    /**
-     * @magentoApiDataFixture consumerFixture
-     */
     public function testAccessApi()
     {
         //TODO: This is not really getting tested at this point since authn is commented in the webapi framework
@@ -154,9 +164,6 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
                             . $responseArray[1]->name);
     }
 
-    /**
-     * @magentoApiDataFixture consumerFixture
-     */
     public function testGetAccessTokenInvalidVerifier()
     {
         try {
@@ -168,13 +175,10 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
                 $requestToken->getRequestTokenSecret()
             );
         } catch (Exception $exception) {
-            $this->assertContains('HTTP/1.1 401 Authorization Required', $exception->getMessage());
+            $this->assertContains('HTTP/1.1 401', $exception->getMessage());
         }
     }
 
-    /**
-     * @depends testGetRequestToken
-     */
     public function testGetAccessTokenConsumerMismatch()
     {
         $this->markTestIncomplete("Enable tests in scope of MAGETWO-11272");
@@ -191,9 +195,6 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
         );
     }
 
-    /**
-     * @magentoApiDataFixture consumerFixture
-     */
     public function testAccessApiInvalidAccessToken()
     {
         try {
@@ -209,7 +210,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
 
         } catch (Exception $exception) {
             //TODO : Need to update once error handling is fixed
-            $this->assertContains('HTTP/1.1 400 Bad Request', $exception->getMessage());
+            $this->assertContains('HTTP/1.1 400', $exception->getMessage());
         }
     }
 
@@ -222,7 +223,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
     protected function _getOauthClient($consumerKey, $consumerSecret)
     {
         if (!isset($this->_oAuthClients[$consumerKey])) {
-            $credentials = new OAuth\Common\Consumer\Credentials($consumerKey, $consumerSecret, 'http://magento.ll');
+            $credentials = new OAuth\Common\Consumer\Credentials($consumerKey, $consumerSecret, TESTS_BASE_URL);
             $this->_oAuthClients[$consumerKey] = new Magento_Webapi_Authentication_Rest_OauthClient($credentials);
         }
         return $this->_oAuthClients[$consumerKey];
