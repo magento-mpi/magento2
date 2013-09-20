@@ -45,7 +45,6 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $ctlgRuleHlprMock = $this->getMock('Magento_CatalogRule_Helper_Data',
             array('__construct'), array(), '', false);
-        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         /** @var $catalogRule Magento_CatalogRule_Model_Rule */
         $catalogRule = $this->getMock(
             'Magento_CatalogRule_Model_Rule',

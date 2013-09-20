@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-
 class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
@@ -35,7 +34,6 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
      * @param $areaCode
      * @param $baseController
      * @param $routerId
-     * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
