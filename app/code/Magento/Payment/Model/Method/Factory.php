@@ -33,7 +33,7 @@ class Magento_Payment_Model_Method_Factory
      *
      * @param string $className
      * @param array $data
-     * @return mixed
+     * @return Magento_Payment_Model_Method_Abstract
      * @throws Magento_Core_Exception
      */
     public function create($className, $data= array())

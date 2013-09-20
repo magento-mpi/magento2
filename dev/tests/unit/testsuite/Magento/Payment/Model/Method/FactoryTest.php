@@ -9,7 +9,7 @@
 class Magento_Payment_Model_Method_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
@@ -31,21 +31,36 @@ class Magento_Payment_Model_Method_FactoryTest extends PHPUnit_Framework_TestCas
 
     public function testCreateMethod()
     {
-        $methodMock = $this->getMock('Magento_Payment_Model_Method_Purchaseorder', array(), array(), '', false);
-        $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($methodMock));
+        $className = 'Magento_Payment_Model_Method_Abstract';
+        $methodMock = $this->getMock($className, array(), array(), '', false);
+        $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
+            ->will($this->returnValue($methodMock));
 
-        $this->assertInstanceOf('Magento_Payment_Model_Method_Abstract',
-            $this->_factory->create('Magento_Payment_Model_Method_Purchaseorder'));
+        $this->assertInstanceOf($className, $this->_factory->create($className));
+    }
+
+    public function testCreateMethodWithArguments()
+    {
+        $className = 'Magento_Payment_Model_Method_Abstract';
+        $data = array('param1', 'param2');
+        $methodMock = $this->getMock($className, array(), array(), '', false);
+        $this->_objectManagerMock->expects($this->once())->method('create')->with($className, $data)
+            ->will($this->returnValue($methodMock));
+
+        $this->assertInstanceOf($className, $this->_factory->create($className, $data));
     }
 
     /**
      * @expectedException Magento_Core_Exception
+     * @expectedExceptionMessage WrongClass class doesn't extend Magento_Payment_Model_Method_Abstract
      */
     public function testWrongTypeException()
     {
-        $methodMock = $this->getMock('Magento_Payment_Model_Config_Source_Allmethods', array(), array(), '', false);
-        $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($methodMock));
+        $className = "WrongClass";
+        $methodMock = $this->getMock($className, array(), array(), '', false);
+        $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
+            ->will($this->returnValue($methodMock));
 
-        $this->_factory->create('Magento_Payment_Model_Config_Source_Allmethods');
+        $this->_factory->create($className);
     }
 }
