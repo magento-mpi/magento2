@@ -42,18 +42,6 @@
             </quote>
         </sales>
     </global>
-    <crontab>
-        <jobs>
-            <aggregate_sales_report_coupons_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_SalesRule_Model_Observer::aggregateSalesReportCouponsData</model>
-                </run>
-            </aggregate_sales_report_coupons_data>
-        </jobs>
-    </crontab>
     <default>
         <promo>
             <auto_generated_coupon_codes>

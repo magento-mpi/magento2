@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="sitemap_generate" instance="Magento_Sitemap_Model_Observer" method="scheduledGenerateSitemaps" />
+</config>

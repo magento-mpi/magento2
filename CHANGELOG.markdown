@@ -1,3 +1,6 @@
+* Сrontab segment improvements:
+  * crontab configurations were moved from config.xml to new crontab.xml with new format
+  * XSD validation schema for crontab.xml was added
 * Install segment was moved from config.xml to di.xml for next configuration nodes:
   * config/install/databases
   * config/install/eula_file

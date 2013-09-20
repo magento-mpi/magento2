@@ -199,4 +199,5 @@ return array(
     array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Export'),
     array('CONFIG_KEY_FORMATS', 'Magento_ImportExport_Model_Export'),
     array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Import'),
+    array('REGEX_RUN_MODEL')
 );

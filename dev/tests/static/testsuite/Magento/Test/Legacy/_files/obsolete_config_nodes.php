@@ -66,14 +66,6 @@ return array(
         . ' Magento_Catalog_Model_Entity_Product_Attribute_Design_Option_Container',
     '/config/global/catalog/product/attributes' =>
         'This configuration moved catalog_attributes.xml',
-    '/config/frontend/product/collection/attributes' =>
-        'This configuration moved catalog_attributes.xml',
-    '/config/frontend/category/collection/attributes' =>
-        'This configuration moved catalog_attributes.xml',
-    '/config/global/wishlist/item/product_attributes' =>
-        'This configuration moved catalog_attributes.xml',
-    '/config/global/sales/quote/item/product_attributes' =>
-        'This configuration moved catalog_attributes.xml',
     '/config/global/eav_frontendclasses' =>
         'This configuration was removed. '
         . 'Please pluginize Magento_Eav_Helper_Data::getFrontendClasses to extend frontend classes list',
@@ -97,4 +89,9 @@ return array(
         => 'Use /config/group[@name="wishlist_item"] of catalog_attributes.xml',
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
+    '/config/install' => 'Configurations moved to DI file settings',
+    '/config/install/design' => 'Configurations moved to DI file settings',
+    '/config/adminhtml/design' => 'Configurations moved to DI file settings',
+    '/config/frontend/design' => 'Configurations moved to DI file settings',
+    '/config/crontab' => 'All cron configurations moved to crontab.xml',
 );
