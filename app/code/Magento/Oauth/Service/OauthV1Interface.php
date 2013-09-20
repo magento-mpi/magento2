@@ -69,7 +69,7 @@ interface Magento_Oauth_Service_OauthV1Interface
      *         'oauth_version' => '1.0',
      *         'oauth_signature_method' => 'HMAC-SHA1',
      *         'oauth_token' => 'a6aa81cc3e65e2960a487939244sssss',
-     *         'oauth_nonce' => 'rI7PSWxTZRHWU3R', 
+     *         'oauth_nonce' => 'rI7PSWxTZRHWU3R',
      *         'oauth_timestamp' => '1377183099',
      *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
      *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
@@ -81,7 +81,6 @@ interface Magento_Oauth_Service_OauthV1Interface
      * @throws Magento_Oauth_Exception
      */
     public function getAccessToken($request);
-
 
     /**
      * Validate an access token

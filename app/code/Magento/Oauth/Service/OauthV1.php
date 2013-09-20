@@ -64,12 +64,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     }
 
     /**
-     * Create a new consumer account when an Add-On is installed.
-     *
-     * @param array $consumerData - Information provided by the Add-On when the Add-On is installed.
-     * @return array - The Add-On (consumer) data.
-     * @throws Magento_Core_Exception
-     * @throws Magento_Oauth_Exception
+     * {@inheritdoc}
      */
     public function createConsumer($consumerData)
     {
@@ -85,12 +80,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     }
 
     /**
-     * Perform post to Add-On (consumer) HTTP Post URL. Generate and return oauth_verifier.
-     *
-     * @param array $request - The request data that includes the consumer Id.
-     * @return array - The oauth_verifier.
-     * @throws Magento_Core_Exception
-     * @throws Magento_Oauth_Exception
+     * {@inheritdoc}
      */
     public function postToConsumer($request)
     {
@@ -116,11 +106,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     }
 
     /**
-     * Issue a pre-authorization request token to the caller.
-     *
-     * @param array $signedRequest - Parameters (e.g. consumer key, nonce, signature method, etc.)
-     * @return array - The oauth_token and oauth_token_secret pair.
-     * @throws Magento_Oauth_Exception
+     * {@inheritdoc}
      */
     public function getRequestToken($signedRequest)
     {
@@ -152,12 +138,8 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
 
     /**
      * TODO: log the request token in dev mode since its not persisted
-     * Get an access token in exchange for a pre-authorized token.
-     * Perform appropriate parameter and signature validation.
      *
-     * @param array $request - Parameters (e.g. consumer key, nonce, signature method, etc.)
-     * @return array - The oauth_token and oauth_token_secret pair.
-     * @throws Magento_Oauth_Exception
+     * {@inheritdoc}
      */
     public function getAccessToken($request)
     {
@@ -212,11 +194,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     }
 
     /**
-     * Validate a requested access token
-     *
-     * @param array $request - Parameters (e.g. consumer key, nonce, signature method, etc.)
-     * @return boolean - True if the access token is valid.
-     * @throws Magento_Oauth_Exception
+     * {@inheritdoc}
      */
     public function validateAccessToken($request)
     {
@@ -571,5 +549,4 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             }
         }
     }
-
 }

@@ -374,7 +374,6 @@
         </xsd:sequence>
     </xsd:complexType>
 
-
     <xsd:complexType name="ValidateAccessTokenRequest">
         <xsd:annotation>
             <xsd:documentation/>
@@ -417,8 +416,6 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-
-
 
     <xsd:complexType name="tokenRequest">
         <xsd:sequence>

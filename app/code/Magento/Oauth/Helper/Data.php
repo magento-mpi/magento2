@@ -149,7 +149,6 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         self::ERR_PERMISSION_DENIED => self::HTTP_UNAUTHORIZED
     );
 
-
     /**
      * Core data
      *
@@ -192,7 +191,6 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param int $length String length
      * @return string
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _generateRandomString($length)
     {
@@ -284,7 +282,6 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         $minutes = (int)$this->_store->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
     }
-
 
     /**
      * Process HTTP request object and prepare for token validation
@@ -410,7 +407,6 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         $response->setHttpResponseCode($responseCode);
         return array('oauth_problem' => $errorMsg);
     }
-
 
     /**
      * Retrieve protocol parameters from query string
