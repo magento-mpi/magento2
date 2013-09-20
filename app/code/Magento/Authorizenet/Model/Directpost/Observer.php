@@ -22,36 +22,59 @@ class Magento_Authorizenet_Model_Directpost_Observer
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
     
     /**
-     * Core data
+     * Core helper
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
-     * Authorizenet data
+     * Authorizenet helper
      *
      * @var Magento_Authorizenet_Helper_Data
      */
-    protected $_authorizenetData = null;
+    protected $_authorizenetData;
+
+    /**
+     * @var Magento_Authorizenet_Model_DirectpostFactory
+     */
+    protected $_modelFactory;
+
+    /**
+     * @var Magento_Authorizenet_Model_Directpost_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
 
     /**
      * @param Magento_Authorizenet_Helper_Data $authorizenetData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Authorizenet_Model_DirectpostFactory $modelFactory
+     * @param Magento_Authorizenet_Model_Directpost_Session $session
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
         Magento_Authorizenet_Helper_Data $authorizenetData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Authorizenet_Model_DirectpostFactory $modelFactory,
+        Magento_Authorizenet_Model_Directpost_Session $session,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
-
         $this->_authorizenetData = $authorizenetData;
         $this->_coreData = $coreData;
+        $this->_modelFactory = $modelFactory;
+        $this->_session = $session;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -82,7 +105,7 @@ class Magento_Authorizenet_Model_Directpost_Observer
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && $payment->getMethod() == Mage::getModel('Magento_Authorizenet_Model_Directpost')->getCode()) {
+            if ($payment && $payment->getMethod() == $this->_modelFactory->create()->getCode()) {
                 /* @var $controller Magento_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
                 $result = $this->_coreData->jsonDecode(
@@ -93,12 +116,11 @@ class Magento_Authorizenet_Model_Directpost_Observer
                 if (empty($result['error'])) {
                     $payment = $order->getPayment();
                     //if success, then set order to session and add new fields
-                    $session = Mage::getSingleton('Magento_Authorizenet_Model_Directpost_Session');
-                    $session->addCheckoutOrderIncrementId($order->getIncrementId());
-                    $session->setLastOrderIncrementId($order->getIncrementId());
+                    $this->_session->addCheckoutOrderIncrementId($order->getIncrementId());
+                    $this->_session->setLastOrderIncrementId($order->getIncrementId());
                     $requestToPaygate = $payment->getMethodInstance()->generateRequestFromOrder($order);
                     $requestToPaygate->setControllerActionName($controller->getRequest()->getControllerName());
-                    $requestToPaygate->setIsSecure((string)Mage::app()->getStore()->isCurrentlySecure());
+                    $requestToPaygate->setIsSecure((string)$this->_storeManager->getStore()->isCurrentlySecure());
 
                     $result['directpost'] = array('fields' => $requestToPaygate->getData());
 

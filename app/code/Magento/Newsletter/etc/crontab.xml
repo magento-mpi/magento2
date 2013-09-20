@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="newsletter_send_all" instance="Magento_Newsletter_Model_Observer" method="scheduledSend">
+        <schedule>*/5 * * * *</schedule>
+    </job>
+</config>

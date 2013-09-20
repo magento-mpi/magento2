@@ -126,7 +126,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
         return isset($this->_attributeSetsById[$entityTypeId][$id]) ? $this->_attributeSetsById[$entityTypeId][$id] : false;
     }
 
-    public function getAttributeSetId($entityTypeId, $name)
+    public function getAttributeSetId($entityTypeId, $name = null)
     {
         if (is_numeric($name)) {
             return $name;

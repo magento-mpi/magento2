@@ -16,7 +16,8 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Link_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+class Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+    extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Store product model

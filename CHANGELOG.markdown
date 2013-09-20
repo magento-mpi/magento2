@@ -9,6 +9,22 @@
      * The configuration is validated with XSD
      * Format of the configuration changed to make possible its validation
   * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
+* Prototype.js uses converted to jQuery:
+  * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
+  * Removed depreacted prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
+  * Updated to use jQuery redirectUrl widget vs prototype based solution:
+    * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
+    * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
+    * app/code/Magento/Catalog/view/frontend/product/list.phtml
+  * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
+    * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
+  * Updated to meet Magento 2 coding stanadrd: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
+* Added jQuery widgets:
+  * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
+  * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
+  * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
+  * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
+  * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -39,21 +55,10 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
-  * Static method `getObjectManager` of Mage class was eliminated
-  * Static method `register` of Mage class was eliminated
-  * Static method `unregister` of Mage class was eliminated
-  * Static method `registry` of Mage class was eliminated
-  * Static method `resetRegistry` of Mage class was eliminated
-  * Static method `getConfig` of Mage class was eliminated
-  * Static method `getStoreConfig` of Mage class was eliminated
-  * Static method `getStoreConfigFlag` of Mage class was eliminated
-  * Static method `log` of Mage class was eliminated
-  * Static method `logException` of Mage class was eliminated
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
 * Added I18n tools for translation dictionary generation and language package generation
-* Eliminated Mage::helper and Mage::dispatchEvent in code
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
   * New arguments format, which introduce argument types implemented
@@ -69,6 +74,22 @@
   * Made application compatible with PHP 5.4 and 5.5
   * Removed workarounds for older PHP versions
   * Minimum supported PHP version is set to 5.4.0
+* God Class Mage Elimination
+  * dispatchEvent, getConfig, getStoreConfig, getStoreConfigFlag, getObjectManager, helper, log, logException, register, registry, resetRegistry, unregister static methods of class Mage were eliminated
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in modules AdminNotification, Authorizenet, Captcha
+  * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
+  * Eliminated Mage:: static methods in Magento_Widget
+  * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
+  * Eliminated Mage:: static methods in Magento_Sendfriend
+  * Eliminated Mage:: static methods in Magento_Usa
+  * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
+  * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
+  * Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_User module
+  * Eliminated Mage::getSingleton from Magento_WebsiteRestriction module
+  * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
+  * Eliminated Mage::throwException from Magento_Media module
+  * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend

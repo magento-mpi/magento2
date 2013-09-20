@@ -49,22 +49,23 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_unreadNoticeCounts;
 
     /**
-     * Core store config
-     *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @var Magento_AdminNotification_Model_InboxFactory
      */
+    protected $_inboxFactory;
+
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_AdminNotification_Model_InboxFactory $inboxFactory
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_inboxFactory = $inboxFactory;
     }
 
     /**
@@ -75,7 +76,7 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     public function getLatestNotice()
     {
         if (is_null($this->_latestNotice)) {
-            $this->_latestNotice = Mage::getModel('Magento_AdminNotification_Model_Inbox')->loadLatestNotice();
+            $this->_latestNotice = $this->_inboxFactory->create()->loadLatestNotice();
         }
         return $this->_latestNotice;
     }
@@ -89,26 +90,8 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     public function getUnreadNoticeCount($severity)
     {
         if (is_null($this->_unreadNoticeCounts)) {
-            $this->_unreadNoticeCounts = Mage::getModel('Magento_AdminNotification_Model_Inbox')->getNoticeStatus();
+            $this->_unreadNoticeCounts = $this->_inboxFactory->create()->getNoticeStatus();
         }
         return isset($this->_unreadNoticeCounts[$severity]) ? $this->_unreadNoticeCounts[$severity] : 0;
-    }
-
-    /**
-     * Retrieve Widget Popup Notification Object URL
-     *
-     * @param bool $withExt
-     * @return string
-     */
-    public function getPopupObjectUrl($withExt = false)
-    {
-        if (is_null($this->_popupUrl)) {
-            $scheme = Mage::app()->getFrontController()->getRequest()->isSecure()
-                ? 'https://'
-                : 'http://';
-
-            $this->_popupUrl = $scheme . $this->_coreStoreConfig->getConfig(self::XML_PATH_POPUP_URL);
-        }
-        return $this->_popupUrl . ($withExt ? '.swf' : '');
     }
 }

@@ -12,7 +12,7 @@
 /**
  * Source model for list of Expiry Calculation algorythms
  */
-class Magento_Reward_Model_Source_Points_ExpiryCalculation
+class Magento_Reward_Model_Source_Points_ExpiryCalculation implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

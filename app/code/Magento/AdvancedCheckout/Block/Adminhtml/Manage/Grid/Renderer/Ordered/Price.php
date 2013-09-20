@@ -19,6 +19,25 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Pric
     extends Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price
 {
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_LocaleInterface $locale,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_locale = $locale;
+    }
+
+    /**
      * Render price for last ordered item
      *
      * @param   Magento_Object $row
@@ -33,7 +52,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Pric
         $priceInitial = sprintf("%f", $priceInitial);
         $currencyCode = $this->_getCurrencyCode($row);
         if ($currencyCode) {
-            $priceInitial = Mage::app()->getLocale()->currency($currencyCode)->toCurrency($priceInitial);
+            $priceInitial = $this->_locale->currency($currencyCode)->toCurrency($priceInitial);
         }
 
         return $priceInitial;

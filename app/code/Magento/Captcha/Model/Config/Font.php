@@ -15,7 +15,7 @@
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Model_Config_Font
+class Magento_Captcha_Model_Config_Font implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Captcha data
