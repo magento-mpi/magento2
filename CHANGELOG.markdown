@@ -1,3 +1,22 @@
+* Configuration improvements:
+  * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
+  * Product type configuration was moved from config.xml to product_types.xml files with new format;
+  * Product option configuration was moved from config.xml to product_options.xml files with new format;
+  * EAV attributes configuration was moved from config.xml to eav_attributes.xml files with new format;
+  * Indexer configuration was moved from config.xml to indexers.xml files with new format;
+  * Catalog rules configuration was moved from config.xml to di.xml;
+  * Sales rules configuration was moved from config.xml to di.xml;
+  * Session configuration was moved from config.xml to di.xml;
+  * <ignore_user_agents> node was removed from config.xml and related data was moved to di.xml;
+  * <request> node was removed from config.xml and related data was moved to di.xml;
+  * <secure_url> node was removed from config.xml and related data was moved to di.xml;
+  * <dev> node was removed from config.xml and related data was moved to di.xml;
+  * <webapi> node was removed from config.xml and related data was moved to di.xml;
+  * CMS configuration was moved from config.xml to di.xml;
+  * Widget configuration was moved from config.xml to di.xml;
+  * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
+  * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
+  * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
 * Сrontab segment improvements:
   * crontab configurations were moved from config.xml to new crontab.xml with new format
   * XSD validation schema for crontab.xml was added
