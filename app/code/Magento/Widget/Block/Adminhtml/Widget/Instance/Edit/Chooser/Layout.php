@@ -26,6 +26,12 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends
      */
     protected $_themesFactory;
 
+    /**
+     * @param Magento_Core_Block_Context $context
+     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themesFactory
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Block_Context $context,
         Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,

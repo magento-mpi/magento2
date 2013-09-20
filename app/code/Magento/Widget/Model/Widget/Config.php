@@ -39,7 +39,6 @@ class Magento_Widget_Model_Widget_Config extends Magento_Object
      */
     protected $_url;
 
-
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl

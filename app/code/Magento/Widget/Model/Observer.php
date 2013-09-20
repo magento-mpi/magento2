@@ -22,7 +22,10 @@ class Magento_Widget_Model_Observer
      */
     protected $_configFactory;
 
-    function __construct(Magento_Widget_Model_Widget_ConfigFactory $configFactory)
+    /**
+     * @param Magento_Widget_Model_Widget_ConfigFactory $configFactory
+     */
+    public function __construct(Magento_Widget_Model_Widget_ConfigFactory $configFactory)
     {
         $this->_configFactory = $configFactory;
     }

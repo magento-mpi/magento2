@@ -8,8 +8,7 @@
  * @license     {license_link}
  */
 
-
-class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup_Migration
+class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
      * @var Magento_Core_Model_Resource_Setup_MigrationFactory
@@ -58,5 +57,4 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
             'resourceName' => 'core_setup'
         ));
     }
-
 }

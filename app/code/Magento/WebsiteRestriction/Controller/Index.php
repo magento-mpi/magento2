@@ -109,7 +109,6 @@ class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controlle
                 'identifier'
             );
 
-
             $this->_coreRegistry->register('restriction_landing_page', $page);
 
             if ($page->getCustomTheme()) {

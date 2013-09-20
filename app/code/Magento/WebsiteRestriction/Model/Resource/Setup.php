@@ -23,6 +23,16 @@ class Magento_WebsiteRestriction_Model_Resource_Setup extends Magento_Core_Model
      */
     protected $_pageFactory;
 
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param $resourceName
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
