@@ -63,7 +63,6 @@
 * Eliminated Mage::throwException from Magento_Media module
 * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
 * Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_Captcha module
-* Eliminated Mage::getSingleton from Magento_CatalogEvent module
 * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel from Magento_CatalogInventory module
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
