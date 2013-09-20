@@ -11,12 +11,12 @@
 
 /**
  * Abstract class for the controller tests
- *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @SuppressWarnings(PHPMD.numberOfChildren)
  */
 namespace Magento\TestFramework\TestCase;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 abstract class ControllerAbstract extends \PHPUnit_Framework_TestCase
 {
     protected $_runCode     = '';
