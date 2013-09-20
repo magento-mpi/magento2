@@ -42,6 +42,8 @@ class Magento_CatalogRule_Model_Resource_Setup extends Magento_Core_Model_Resour
     }
 
     /**
+     * Get new instance of Magento_Core_Model_Resource_Setup_Migration
+     *
      * @param array $data
      * @return Magento_Core_Model_Resource_Setup_Migration
      */
