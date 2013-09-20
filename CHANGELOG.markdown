@@ -51,16 +51,6 @@
     * sales_convert_quote_payment_to_order_payment
     * sales_convert_quote_item_to_order_item
     * sales_quote_config_get_product_attributes
-  * Static method `getObjectManager` of Mage class was eliminated
-  * Static method `register` of Mage class was eliminated
-  * Static method `unregister` of Mage class was eliminated
-  * Static method `registry` of Mage class was eliminated
-  * Static method `resetRegistry` of Mage class was eliminated
-  * Static method `getConfig` of Mage class was eliminated
-  * Static method `getStoreConfig` of Mage class was eliminated
-  * Static method `getStoreConfigFlag` of Mage class was eliminated
-  * Static method `log` of Mage class was eliminated
-  * Static method `logException` of Mage class was eliminated
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
@@ -72,19 +62,6 @@
     * Added `install_wizard.xsd` to allow for validation of XML files.
 * Removed "translate" node from configuration XML files
 * Added I18n tools for translation dictionary generation and language package generation
-* Eliminated Mage::helper and Mage::dispatchEvent in code
-* Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
-* Eliminated Mage:: static methods in Magento_Widget
-* Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
-* Eliminated Mage:: static methods in Magento_Sendfriend
-* Eliminated Mage:: static methods in Magento_Usa
-* Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
-* Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
-* Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_User module
-* Eliminated Mage::getSingleton from Magento_WebsiteRestriction module
-* Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
-* Eliminated Mage::throwException from Magento_Media module
-* Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
   * New arguments format, which introduce argument types implemented
@@ -100,6 +77,21 @@
   * Made application compatible with PHP 5.4 and 5.5
   * Removed workarounds for older PHP versions
   * Minimum supported PHP version is set to 5.4.0
+* God Class Mage Elimination
+  * dispatchEvent, getConfig, getStoreConfig, getStoreConfigFlag, getObjectManager, helper, log, logException, register, registry, resetRegistry, unregister static methods of class Mage were eliminated
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in modules AdminNotification, Authorizenet, Captcha
+  * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
+  * Eliminated Mage:: static methods in Magento_Widget
+  * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
+  * Eliminated Mage:: static methods in Magento_Sendfriend
+  * Eliminated Mage:: static methods in Magento_Usa
+  * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
+  * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
+  * Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_User module
+  * Eliminated Mage::getSingleton from Magento_WebsiteRestriction module
+  * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
+  * Eliminated Mage::throwException from Magento_Media module
+  * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend
