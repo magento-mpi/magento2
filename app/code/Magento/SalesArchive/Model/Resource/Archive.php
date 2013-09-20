@@ -84,16 +84,6 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
     }
 
     /**
-     * Get archive config
-     *
-     * @return Magento_SalesArchive_Model_Config
-     */
-    protected function _getConfig()
-    {
-        return $this->_salesArchiveConfig;
-    }
-
-    /**
      * Get archive entity table
      *
      * @param string $archiveEntity
