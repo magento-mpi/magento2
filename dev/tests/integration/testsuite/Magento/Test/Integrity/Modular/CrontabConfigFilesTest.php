@@ -41,13 +41,13 @@ class Magento_Test_Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Fram
         );
 
         foreach ($files as $file) {
-            $content = file_get_contents($file);
+            $content = file_get_contents($file[0]);
             try {
                 new Magento_Config_Dom($content, $this->_idAttributes);
                 //merge won't be performed if file is invalid because of exception thrown
                 $mergedConfig->merge($content);
             } catch (Magento_Config_Dom_ValidationException $e) {
-                $invalidFiles[] = $file;
+                $invalidFiles[] = $file[0];
             }
         }
 
