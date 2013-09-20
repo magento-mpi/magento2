@@ -90,7 +90,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \BadMethodCallException
-     * @expectedExceptionMessage Missing required argument $scalar for \Magento\Test\Di\Aggregate\AggregateParent
+     * @expectedExceptionMessage Missing required argument $scalar for Magento\Test\Di\Aggregate\AggregateParent
      */
     public function testCreateThrowsExceptionIfRequiredConstructorParameterIsNotProvided()
     {
