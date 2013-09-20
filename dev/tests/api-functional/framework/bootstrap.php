@@ -17,7 +17,7 @@ $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 
-Magento_Autoload_IncludePath::addIncludePath(array(
+\Magento\Autoload\IncludePath::addIncludePath(array(
     "{$testsBaseDir}/framework",
     "{$testsBaseDir}/testsuite",
     "{$integrationTestsDir}/framework"
@@ -27,17 +27,17 @@ Magento_Autoload_IncludePath::addIncludePath(array(
 $invariantSettings = array(
     'TESTS_LOCAL_CONFIG_EXTRA_FILE' => '../integration/etc/integration-tests-config.xml',
 );
-$bootstrap = new Magento_TestFramework_Bootstrap(
-    new Magento_TestFramework_Bootstrap_Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
-    new Magento_TestFramework_Bootstrap_Environment(),
-    new Magento_TestFramework_Bootstrap_DocBlock("{$testsBaseDir}/testsuite"),
-    new Magento_TestFramework_Bootstrap_Profiler(new Magento_Profiler_Driver_Standard()),
-    new Magento_Shell(),
+$bootstrap = new \Magento\TestFramework\Bootstrap(
+    new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
+    new \Magento\TestFramework\Bootstrap\Environment(),
+    new \Magento\TestFramework\Bootstrap\DocBlock("{$testsBaseDir}/testsuite"),
+    new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Profiler\Driver\Standard()),
+    new \Magento\Shell(),
     $testsTmpDir
 );
 $bootstrap->runBootstrap();
-Magento_TestFramework_Helper_Bootstrap::setInstance(new Magento_TestFramework_Helper_Bootstrap($bootstrap));
-Magento\TestFramework\Utility\Files::init(new Magento\TestFramework\Utility\Files($magentoBaseDir));
+\Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
+\Magento\TestFramework\Utility\Files::init(new Magento\TestFramework\Utility\Files($magentoBaseDir));
 
 /** Magento installation */
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {

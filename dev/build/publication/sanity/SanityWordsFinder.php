@@ -14,7 +14,7 @@
  * Extend words finder class, which is designed for sanity tests. The added functionality is method to search through
  * directories and method to return words list for logging.
  */
-class SanityWordsFinder extends Magento_TestFramework_Inspection_WordsFinder
+class SanityWordsFinder extends \Magento\TestFramework\Inspection\WordsFinder
 {
     /**
      * Get list of words, configured to be searched

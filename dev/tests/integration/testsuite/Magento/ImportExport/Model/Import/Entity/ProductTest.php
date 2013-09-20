@@ -13,11 +13,12 @@
  * Test class for \Magento\ImportExport\Model\Import\Entity\Product
  *
  * The "CouplingBetweenObjects" warning is caused by tremendous complexity of the original class
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\ImportExport\Model\Import\Entity;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**

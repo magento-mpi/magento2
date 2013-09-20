@@ -328,8 +328,8 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      */
     static protected function _enableSecureArea($flag = true)
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
         if ($flag) {
@@ -346,7 +346,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     {
         if ($this->_modelsToDelete) {
             foreach ($this->_modelsToDelete as $key => $modelData) {
-                /** @var $model Magento_Core_Model_Abstract */
+                /** @var $model \Magento\Core\Model\AbstractModel */
                 $model = $modelData['model'];
                 $this->callModelDelete($model, $modelData['secure']);
                 unset($this->_modelsToDelete[$key]);
@@ -413,8 +413,8 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
 
-            $options->setCacheDir(Magento_TestFramework_Bootstrap::getInstance()->getMagentoDir() . '/var/cache');
-            $options->setEtcDir(Magento_TestFramework_Bootstrap::getInstance()->getMagentoDir() . '/app/etc');
+            $options->setCacheDir(\Magento\TestFramework\Bootstrap::getInstance()->getMagentoDir() . '/var/cache');
+            $options->setEtcDir(\Magento\TestFramework\Bootstrap::getInstance()->getMagentoDir() . '/app/etc');
 
             $this->_appCache = Mage::getObjectManager()->get('Magento_Core_Model_Cache');
 

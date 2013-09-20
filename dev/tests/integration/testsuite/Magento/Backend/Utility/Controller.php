@@ -11,11 +11,12 @@
 
 /**
  * A parent class for backend controllers - contains directives for admin user creation and authentication
- * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @SuppressWarnings(PHPMD.numberOfChildren)
  */
 namespace Magento\Backend\Utility;
 
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
 class Controller extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**

@@ -9,12 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Annotation;
+
 /**
  * Test class for \Magento\TestFramework\Annotation\DbIsolation.
  *
  * @magentoDbIsolation enabled
  */
-namespace Magento\Test\Annotation;
 
 class DbIsolationTest extends \PHPUnit_Framework_TestCase
 {

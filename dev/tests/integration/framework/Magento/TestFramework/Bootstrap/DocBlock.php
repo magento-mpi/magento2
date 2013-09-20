@@ -11,11 +11,12 @@
 
 /**
  * Bootstrap of the custom DocBlock annotations
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\TestFramework\Bootstrap;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class DocBlock
 {
     /**

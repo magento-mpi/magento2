@@ -43,7 +43,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     );
 
     /**
-     * @covers Magento_TestFramework_TestCase_ObjectManager::getBlock
+     * @covers \Magento\TestFramework\TestCase\ObjectManager::getBlock
      */
     public function testGetBlock()
     {
