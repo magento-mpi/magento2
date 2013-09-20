@@ -47,6 +47,8 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory,

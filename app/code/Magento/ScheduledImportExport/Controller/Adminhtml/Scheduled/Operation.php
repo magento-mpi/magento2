@@ -23,18 +23,30 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
+
+    /**
+     * @var Magento_ScheduledImportExport_Model_Observer
+     */
     protected $_observer;
 
     /**
+     * @var Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_CollectionFactory
+     */
+    protected $_operCollFactory;
+
+    /**
+     * @param Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_CollectionFactory $operCollFactory
      * @param Magento_ScheduledImportExport_Model_Observer $observer
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_CollectionFactory $operCollFactory,
         Magento_ScheduledImportExport_Model_Observer $observer,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_operCollFactory = $operCollFactory;
         $this->_observer = $observer;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -130,8 +142,8 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             $data = $request->getPost();
             /** @var Magento_Backend_Model_Session $backendSession */
             $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
-            if (isset($data['id']) && !is_numeric($data['id'])
-                || !isset($data['id']) && (!isset($data['operation_type']) || empty($data['operation_type']))
+            if (isset($data['id']) && !is_numeric($data['id']) || !isset($data['id'])
+                && (!isset($data['operation_type']) || empty($data['operation_type']))
                 || !is_array($data['start_time'])
             ) {
                 $backendSession->addError(__("We couldn't save the scheduled operation."));
@@ -225,9 +237,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             /** @var Magento_Backend_Model_Session $backendSession */
             $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
             try {
-                $operations = Mage::getResourceModel(
-                    'Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection'
-                );
+                $operations = $this->_operCollFactory->create();
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
                 foreach ($operations as $operation) {
                     $operation->delete();
@@ -259,9 +269,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             /** @var Magento_Backend_Model_Session $backendSession */
             $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
             try {
-                $operations = Mage::getResourceModel(
-                    'Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection'
-                );
+                $operations = $this->_operCollFactory->create();
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
 
                 foreach ($operations as $operation) {

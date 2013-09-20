@@ -50,7 +50,7 @@ class Magento_ScheduledImportExport_Model_Observer
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -70,21 +70,37 @@ class Magento_ScheduledImportExport_Model_Observer
     protected $_emailInfoFactory;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_coreDir;
+
+    /**
+     * @param Magento_Core_Model_Dir $coreDir
      * @param Magento_ScheduledImportExport_Model_Scheduled_OperationFactory $operationFactory
      * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
      * @param Magento_Core_Model_Email_Template_Mailer $templateMailer
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
+        Magento_Core_Model_Dir $coreDir,
         Magento_ScheduledImportExport_Model_Scheduled_OperationFactory $operationFactory,
         Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
         Magento_Core_Model_Email_Template_Mailer $templateMailer,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_operationFactory = $operationFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_templateMailer = $templateMailer;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_coreDir = $coreDir;
     }
 
     /**
@@ -104,7 +120,7 @@ class Magento_ScheduledImportExport_Model_Observer
         }
 
         try {
-            $logPath = Mage::getBaseDir(Magento_Core_Model_Dir::LOG)
+            $logPath = $this->_coreDir->getDir(Magento_Core_Model_Dir::LOG)
                 . DS . Magento_ScheduledImportExport_Model_Scheduled_Operation::LOG_DIRECTORY;
 
             if (!file_exists($logPath) || !is_dir($logPath)) {
@@ -129,7 +145,7 @@ class Magento_ScheduledImportExport_Model_Observer
                 if ($forceRun || $direcotryDate < $dateCompass) {
                     $fs = new Magento_Io_File();
                     if (!$fs->rmdirRecursive($directory, true)) {
-                        $directory = str_replace(Mage::getBaseDir() . DS, '', $directory);
+                        $directory = str_replace($this->_coreDir->getDir() . DS, '', $directory);
                         throw new Magento_Core_Exception(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
@@ -201,7 +217,7 @@ class Magento_ScheduledImportExport_Model_Observer
      */
     protected function _sendEmailNotification($vars)
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
         $receiverEmail = $this->_coreStoreConfig->getConfig(self::XML_RECEIVER_EMAIL_PATH, $storeId);
         if (!$receiverEmail) {
             return $this;

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ScheduledImportExport_Model_Scheduled_Operation_Factory
+class Magento_ScheduledImportExport_Model_Scheduled_Operation_GenericFactory
 {
     /**
      * @var Magento_ObjectManager

@@ -74,7 +74,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -99,12 +99,24 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     protected $_operationFactory;
 
     /**
-     * @var Magento_ScheduledImportExport_Model_Scheduled_Operation_Factory
+     * @var Magento_ScheduledImportExport_Model_Scheduled_Operation_GenericFactory
      */
     protected $_schedOperFactory;
 
     /**
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Factory $schedOperFactory
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_coreDir;
+
+    /**
+     * @param Magento_Core_Model_Dir $coreDir
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_GenericFactory $schedOperFactory
      * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory $operationFactory
      * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
      * @param Magento_Core_Model_Config_Value $configValueFactory
@@ -112,13 +124,15 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Date $dateModel
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_ScheduledImportExport_Model_Scheduled_Operation_Factory $schedOperFactory,
+        Magento_Core_Model_Dir $coreDir,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_ScheduledImportExport_Model_Scheduled_Operation_GenericFactory $schedOperFactory,
         Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory $operationFactory,
         Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
         Magento_Core_Model_Config_Value $configValueFactory,
@@ -126,13 +140,11 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Date $dateModel,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_init('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation');
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dateModel = $dateModel;
         $this->_templateMailer = $templateMailer;
@@ -140,6 +152,11 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_operationFactory = $operationFactory;
         $this->_schedOperFactory = $schedOperFactory;
+        $this->_storeManager = $storeManager;
+        $this->_coreDir = $coreDir;
+
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_init('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation');
     }
 
     /**
@@ -160,7 +177,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      */
     public function sendEmailNotification($vars = array())
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
@@ -585,7 +602,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      */
     protected function _getHistoryDirPath()
     {
-        $dirPath = Mage::getBaseDir(Magento_Core_Model_Dir::LOG) . DS . self::LOG_DIRECTORY
+        $dirPath = $this->_coreDir->getDir(Magento_Core_Model_Dir::LOG) . DS . self::LOG_DIRECTORY
             . date('Y' . DS . 'm' . DS . 'd') . DS . self::FILE_HISTORY_DIRECTORY . DS;
 
         if (!is_dir($dirPath)) {

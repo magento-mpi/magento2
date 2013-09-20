@@ -63,6 +63,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Option_ArrayPool $optionArrayPool,

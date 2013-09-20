@@ -48,7 +48,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
      *
      * @var array
      */
-    protected $_frontendWebsiteIdToCode = array();
+    protected $_websiteIdToCode = array();
 
     /**
      * Array of attributes for export
@@ -86,12 +86,14 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     protected $_importExportData;
 
     /**
+     * @param Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory $customerCollFactory
      * @param Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory $customerCollFactory,
         Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory,
         Magento_ScheduledImportExport_Helper_Data $importExportData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -99,11 +101,9 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     ) {
         parent::__construct($coreStoreConfig, $data);
 
-        $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : Mage::getResourceModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        $this->_customerCollection = $customerCollFactory->create();
         $this->_customerEntity = $eavCustomerFactory->create();
-        $this->_importExportData = isset($data['module_helper']) ? $data['module_helper']
-            : $importExportData;
+        $this->_importExportData = $importExportData;
 
         $this->_initFrontendWebsites()
             ->_initWebsites(true);
@@ -119,7 +119,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     {
         /** @var $website Magento_Core_Model_Website */
         foreach ($this->_websiteManager->getWebsites() as $website) {
-            $this->_frontendWebsiteIdToCode[$website->getId()] = $website->getCode();
+            $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
         return $this;
     }
@@ -178,7 +178,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     {
         $validAttributeCodes = $this->_getEntityAttributes();
 
-        foreach ($this->_frontendWebsiteIdToCode as $websiteCode) {
+        foreach ($this->_websiteIdToCode as $websiteCode) {
             $row = array();
             foreach ($validAttributeCodes as $code) {
                 $attributeCode = $websiteCode . '_' . $code;
