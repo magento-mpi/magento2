@@ -64,7 +64,7 @@ class WizardTest extends \Magento\TestFramework\TestCase\ControllerAbstract
     public function testPreDispatchImpossibleToRenderPage($action)
     {
         $params = self::$_params;
-        $params[Mage::PARAM_APP_DIRS][\Magento\Core\Model\Dir::STATIC_VIEW] = self::$_tmpDir;
+        $params[\Mage::PARAM_APP_DIRS][\Magento\Core\Model\Dir::STATIC_VIEW] = self::$_tmpDir;
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize($params);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
