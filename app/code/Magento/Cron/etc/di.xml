@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_Cron_Model_ConfigInterface" type="Magento_Cron_Model_Config" />
+    <type name="Magento_Cron_Model_Config_Reader_Db">
+        <param name="converter">
+            <instance type="Magento_Cron_Model_Config_Converter_Db" />
+        </param>
+    </type>
+    <type name="Magento_Cron_Model_Config_Reader_Xml">
+        <param name="converter">
+            <instance type="Magento_Cron_Model_Config_Converter_Xml" />
+        </param>
+        <param name="schemaLocator">
+            <instance type="Magento_Cron_Model_Config_SchemaLocator" />
+        </param>
+    </type>
+    <type name="Magento_Cron_Model_Observer">
+        <param name="objectManager">
+            <instance type="Magento_Core_Model_ObjectManager" />
+        </param>
+        <param name="app">
+            <instance type="Magento_Core_Model_App" />
+        </param>
+        <param name="coreConfig">
+            <instance type="Magento_Core_Model_Config" />
+        </param>
+    </type>
+</config>
