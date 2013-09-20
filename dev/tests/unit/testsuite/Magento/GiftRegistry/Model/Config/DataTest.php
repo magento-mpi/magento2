@@ -34,7 +34,8 @@ class Magento_GiftRegistry_Model_Config_DataTest extends PHPUnit_Framework_TestC
     {
         $this->_readerMock = $this->getMock('Magento_GiftRegistry_Model_Config_Reader', array(), array(), '', false);
         $this->_configScopeMock = $this->getMock('Magento_Core_Model_Config_Scope');
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_Cache_Type_Config');
+        $this->_cacheMock = $this->getMockBuilder('Magento_Core_Model_Cache_Type_Config')
+                                 ->disableOriginalConstructor()->getMock();
         $this->_model = new Magento_GiftRegistry_Model_Config_Data(
             $this->_readerMock,
             $this->_configScopeMock,

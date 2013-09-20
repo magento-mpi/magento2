@@ -13,6 +13,21 @@
  */
 class Magento_GiftRegistry_Model_Config_Reader extends Magento_Config_Reader_Filesystem
 {
+
+    /**
+     * List of id attributes for merge
+     *
+     * @var array
+     */
+    protected $_idAttributes = array(
+        '/config/attribute_type' => 'name',
+        '/config/attribute_group' => 'name',
+        '/config/registry/static_attribute' => 'name',
+        '/config/registry/custom_attribute' => 'name',
+        '/config/registrant/static_attribute' => 'name',
+        '/config/registrant/custom_attribute' => 'name'
+    );
+
     /**
      * @param Magento_Config_FileResolverInterface $fileResolver
      * @param Magento_GiftRegistry_Model_Config_Converter $converter
