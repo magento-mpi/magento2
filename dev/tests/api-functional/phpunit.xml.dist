@@ -61,6 +61,6 @@
 
     <!-- Test listeners -->
     <listeners>
-        <listener class="Magento_TestFramework_Event_PhpUnit"/>
+        <listener class="Magento\TestFramework\Event\PhpUnit"/>
     </listeners>
 </phpunit>

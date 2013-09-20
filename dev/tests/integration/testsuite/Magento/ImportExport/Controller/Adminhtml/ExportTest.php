@@ -66,6 +66,7 @@ class ExportTest extends \Magento\Backend\Utility\Controller
      */
     public function testGetFilterAction($entityType, $customerEntityType = null)
     {
+
         $this->getRequest()->setParam('isAjax', true);
 
         // Provide X_REQUESTED_WITH header in response to mark next action as ajax
