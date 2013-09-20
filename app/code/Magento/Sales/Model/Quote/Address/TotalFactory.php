@@ -21,13 +21,13 @@ class Magento_Sales_Model_Quote_Address_TotalFactory
     protected $_objectManager = null;
 
     /**
-     * Factory constructor
+     * Quote address factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param Magento_ObjectManager $objManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(Magento_ObjectManager $objManager)
     {
-        $this->_objectManager = $objectManager;
+        $this->_objectManager = $objManager;
     }
 
     /**
