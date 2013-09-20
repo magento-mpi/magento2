@@ -52,9 +52,9 @@ class Magento_CatalogInventory_Model_Stock extends Magento_Core_Model_Abstract
      * @var Magento_CatalogInventory_Model_Resource_Stock_Item_CollectionFactory
      */
     protected $_collectionFactory;
+
     /**
-     * Construct
-     * 
+     * @param Magento_CatalogInventory_Model_Resource_Stock_Item_CollectionFactory $collectionFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData

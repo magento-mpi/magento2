@@ -274,7 +274,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
             foreach ($this->_productType->getTypesByPriority() as $typeId => $typeInfo) {
                 $indexerClassName = isset($typeInfo['stock_indexer']) ? $typeInfo['stock_indexer'] : '';
 
-                $indexer = $this->$this->_indexerFactory->create($indexerClassName)
+                $indexer = $this->_indexerFactory->create($indexerClassName)
                     ->setTypeId($typeId)
                     ->setIsComposite(!empty($typeInfo['composite']));
 

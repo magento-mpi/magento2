@@ -47,8 +47,8 @@ class Magento_CatalogInventory_Model_Resource_Indexer_StockFactory
      *
      * @param string $indexerClassName
      * @param array $data
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface
      * @throws InvalidArgumentException
-     * @return Magento_Index_Model_IndexerInterface
      */
     public function create($indexerClassName = '', array $data = array())
     {
