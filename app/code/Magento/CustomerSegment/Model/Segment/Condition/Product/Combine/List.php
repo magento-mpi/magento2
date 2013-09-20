@@ -30,11 +30,21 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     protected $_inputType = 'select';
 
     /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
         parent::__construct($context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_List');
         $this->setValue(self::CART);
@@ -66,7 +76,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_List
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Product_Combine')
+        return $this->_conditionFactory->create('Magento_CustomerSegment_Model_Segment_Condition_Product_Combine')
             ->setDateConditions(true)
             ->getNewChildSelectOptions();
     }

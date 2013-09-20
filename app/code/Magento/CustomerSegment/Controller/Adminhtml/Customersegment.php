@@ -18,7 +18,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @param Magento_Backend_Controller_Context $context
@@ -37,16 +37,17 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
      *
      * @param string $requestParam
      * @param bool $requireValidId
+     * @throws Magento_Core_Exception
      * @return Magento_CustomerSegment_Model_Segment
      */
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
         $segmentId = $this->getRequest()->getParam($requestParam, 0);
-        $segment = Mage::getModel('Magento_CustomerSegment_Model_Segment');
+        $segment = $this->_objectManager->create('Magento_CustomerSegment_Model_Segment');
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
-                Mage::throwException(__('You requested the wrong customer segment.'));
+                throw new Magento_Core_Exception(__('You requested the wrong customer segment.'));
             }
         }
         $this->_coreRegistry->register('current_customer_segment', $segment);
@@ -86,7 +87,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         try {
             $model = $this->_initSegment();
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            $this->_session->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         }
@@ -94,7 +95,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         $this->_title($model->getId() ? $model->getName() : __('New Segment'));
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPageData(true);
+        $data = $this->_session->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -168,7 +169,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $segment = Mage::getModel('Magento_CustomerSegment_Model_Segment');
+        $segment = $this->_objectManager->create('Magento_CustomerSegment_Model_Segment');
         $segment->setApplyTo((int) $this->getRequest()->getParam('apply_to'));
         $model = Mage::getModel($type)
             ->setId($id)
@@ -222,14 +223,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                 }
 
                 $model->loadPost($data);
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($model->getData());
+                $this->_session->setPageData($model->getData());
                 $model->save();
                 if ($model->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
                     $model->matchCustomers();
                 }
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the segment.'));
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData(false);
+                $this->_session->addSuccess(__('You saved the segment.'));
+                $this->_session->setPageData(false);
 
                 if ($redirectBack) {
                     $this->_redirect('*/*/edit', array(
@@ -240,12 +241,12 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                 }
 
             } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
+                $this->_session->addError($e->getMessage());
+                $this->_session->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We're unable to save the segment."));
+                $this->_session->addError(__("We're unable to save the segment."));
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
@@ -260,13 +261,13 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         try {
             $model = $this->_initSegment('id', true);
             $model->delete();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the segment.'));
+            $this->_session->addSuccess(__('You deleted the segment.'));
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            $this->_session->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We're unable to delete the segement."));
+            $this->_session->addError(__("We're unable to delete the segement."));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');

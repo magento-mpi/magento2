@@ -23,11 +23,29 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     protected $_inputType = 'select';
 
     /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_conditionFactory = $conditionFactory;
         parent::__construct($context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region');
         $this->setValue(1);
@@ -40,7 +58,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
      */
     public function getMatchedEvents()
     {
-        return Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes')
+        return $this->_conditionFactory
+            ->create('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes')
             ->getMatchedEvents();
     }
 
@@ -104,7 +123,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function getConditionsSql($customer, $website)
     {
         $inversion = ((int)$this->getValue() ? '' : ' NOT ');
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', 'region');
+        $attribute = $this->_eavConfig->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
         $ifNull = $this->getResource()->getReadConnection()->getCheckSql("caev.value IS {$inversion} NULL", 0, 1);
         $select->from(array('caev' => $attribute->getBackendTable()), "({$ifNull})");

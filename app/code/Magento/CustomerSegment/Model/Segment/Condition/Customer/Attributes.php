@@ -15,11 +15,21 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     extends Magento_CustomerSegment_Model_Condition_Abstract
 {
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
         parent::__construct($context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes');
         $this->setValue(null);
@@ -58,7 +68,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->getAttribute());
+        return $this->_eavConfig->getAttribute('customer', $this->getAttribute());
     }
 
     /**

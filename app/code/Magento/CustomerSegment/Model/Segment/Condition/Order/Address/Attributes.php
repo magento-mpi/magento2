@@ -22,11 +22,37 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
     protected $_attributes;
 
     /**
+     * @var Magento_Directory_Model_Config_Source_CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * @var Magento_Directory_Model_Config_Source_AllregionFactory
+     */
+    protected $_allregionFactory;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Directory_Model_Config_Source_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_Config_Source_AllregionFactory $allregionFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Directory_Model_Config_Source_CountryFactory $countryFactory,
+        Magento_Directory_Model_Config_Source_AllregionFactory $allregionFactory,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_countryFactory = $countryFactory;
+        $this->_allregionFactory = $allregionFactory;
         parent::__construct($context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes');
         $this->setValue(null);
@@ -74,12 +100,9 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
         if (is_null($this->_attributes)) {
             $this->_attributes  = array();
 
-            /* @var $config Magento_Eav_Model_Config */
-            $config     = Mage::getSingleton('Magento_Eav_Model_Config');
             $attributes = array();
-
-            foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
-                $attribute = $config->getAttribute('customer_address', $attributeCode);
+            foreach ($this->_eavConfig->getEntityAttributeCodes('customer_address') as $attributeCode) {
+                $attribute = $this->_eavConfig->getAttribute('customer_address', $attributeCode);
                 if (!$attribute || !$attribute->getIsUsedForCustomerSegment()) {
                     continue;
                 }
@@ -107,12 +130,12 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Country')
+                    $options = $this->_countryFactory->create()
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Allregion')
+                    $options = $this->_allregionFactory->create()
                         ->toOptionArray();
                     break;
 

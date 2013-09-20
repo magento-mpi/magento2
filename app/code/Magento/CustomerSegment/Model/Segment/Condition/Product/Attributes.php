@@ -22,15 +22,23 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
     protected $_isUsedForRuleProperty = 'is_used_for_promo_rules';
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
+        $this->_eavConfig = $eavConfig;
         parent::__construct($adminhtmlData, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes');
         $this->setValue(null);
@@ -110,7 +118,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
+        return $this->_eavConfig->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**

@@ -45,6 +45,57 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     const APPLY_TO_VISITORS_AND_REGISTERED = 0;
 
     /**
+     * @var Magento_Rule_Model_Action_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_visitor;
+
+    /**
+     * @var Magento_Log_Model_VisitorFactory
+     */
+    protected $_visitorFactory;
+
+    /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_Rule_Model_Action_CollectionFactory $collectionFactory
+     * @param Magento_Log_Model_Visitor $visitor
+     * @param Magento_Log_Model_VisitorFactory $visitorFactory
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rule_Model_Action_CollectionFactory $collectionFactory,
+        Magento_Log_Model_Visitor $visitor,
+        Magento_Log_Model_VisitorFactory $visitorFactory,
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_visitor = $visitor;
+        $this->_visitorFactory = $visitorFactory;
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Set resource model
      *
      * @return void
@@ -94,7 +145,8 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
+        return $this->_conditionFactory
+            ->create('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
     }
 
     /**
@@ -104,7 +156,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_Rule_Model_Action_Collection');
+        return $this->_collectionFactory->create();
     }
 
     /**
@@ -185,7 +237,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
         $website = Mage::app()->getWebsite();
         if ($object instanceof Magento_Customer_Model_Customer) {
             if (!$object->getId()) {
-                $this->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
+                $this->setVisitorId($this->_visitor->getId());
             }
             return $this->validateCustomer($object, $website);
         }
@@ -225,7 +277,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {
-                $params['quote_id'] = Mage::getModel('Magento_Log_Model_Visitor')
+                $params['quote_id'] = $this->_visitorFactory->create()
                     ->load($this->getVisitorId())->getQuoteId();
             } else {
                 $params['quote_id'] = 0;

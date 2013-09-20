@@ -23,27 +23,35 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
      *
      * @var Magento_Backend_Helper_Data
      */
-    protected $_adminhtmlData = null;
+    protected $_adminhtmlData;
 
     /**
      * Customer segment data
      *
      * @var Magento_CustomerSegment_Helper_Data
      */
-    protected $_customerSegmentData = null;
+    protected $_customerSegmentData;
 
     /**
+     * @var Magento_CustomerSegment_Model_Customer
+     */
+    protected $_customer;
+
+    /**
+     * @param Magento_CustomerSegment_Model_Customer $customer
      * @param Magento_CustomerSegment_Helper_Data $customerSegmentData
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Customer $customer,
         Magento_CustomerSegment_Helper_Data $customerSegmentData,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
+        $this->_customer = $customer;
         $this->_customerSegmentData = $customerSegmentData;
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($context, $data);
@@ -182,8 +190,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
                 $segments = array();
             }
         } else {
-            $segments = Mage::getSingleton('Magento_CustomerSegment_Model_Customer')
-                ->getCustomerSegmentIdsForWebsite($customer->getId(), $quoteWebsiteId);
+            $segments = $this->_customer->getCustomerSegmentIdsForWebsite($customer->getId(), $quoteWebsiteId);
         }
         return $this->validateAttribute($segments);
     }

@@ -20,11 +20,21 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
     protected $_inputType = 'select';
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
         parent::__construct($context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Default');
         $this->setValue('default_billing');
@@ -103,7 +113,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
     public function getConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->getValue());
+        $attribute = $this->_eavConfig->getAttribute('customer', $this->getValue());
         $select->from(array('default'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
         $select->where('default.attribute_id = ?', $attribute->getId())
             ->where('default.value=customer_address.entity_id')

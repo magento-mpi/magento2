@@ -65,9 +65,21 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_visitor;
+
+    /**
+     * @var Magento_Customer_Model_Config_Share
+     */
+    protected $_configShare;
+
+    /**
+     * @param Magento_Customer_Model_Config_Share $configShare
+     * @param Magento_Log_Model_Visitor $visitor
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -78,6 +90,8 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Config_Share $configShare,
+        Magento_Log_Model_Visitor $visitor,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -87,6 +101,8 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_configShare = $configShare;
+        $this->_visitor = $visitor;
         $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_registry = $registry;
@@ -187,7 +203,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
                 if ($segment->getApplyTo() == Magento_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED) {
                     continue;
                 }
-                $segment->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
+                $segment->setVisitorId($this->_visitor->getId());
             } else {
                 // Skip segment if it cannot be applied to customer
                 if ($segment->getApplyTo() == Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
@@ -228,7 +244,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function processCustomerEvent($eventName, $customerId)
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Config_Share')->isWebsiteScope()) {
+        if ($this->_configShare->isWebsiteScope()) {
             $websiteIds = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')
                 ->getWebsiteId($customerId);
 

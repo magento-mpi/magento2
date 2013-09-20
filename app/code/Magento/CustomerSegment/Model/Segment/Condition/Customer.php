@@ -16,9 +16,12 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer
 {
     /**
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
         parent::__construct($context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer');
         $this->setValue(null);
