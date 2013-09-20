@@ -73,11 +73,15 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
-     * Construct
-     *
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
@@ -86,6 +90,7 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
      * @param array $data
      */
     public function __construct(
+        Magento_Index_Model_Indexer $indexer,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
@@ -94,6 +99,8 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
+        $this->_indexer = $indexer;
         $this->_catalogInventoryData = $catalogInventoryData;
     }
 
@@ -210,9 +217,9 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
                 if ($event->getEntity() == Magento_Core_Model_Config_Value::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData->getPath() == Magento_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK) {
-                        Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_price')
+                        $this->_indexer->getProcessByCode('catalog_product_price')
                             ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-                        Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_attribute')
+                        $this->_indexer->getProcessByCode('catalog_product_attribute')
                             ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                     }
                 }
@@ -278,7 +285,7 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
             $massObject = new Magento_Object();
             $massObject->setAttributesData(array('force_reindex_required' => 1));
             $massObject->setProductIds(array($object->getProductId()));
-            Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+            $this->_indexer->logEvent(
                 $massObject, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
             );
         }

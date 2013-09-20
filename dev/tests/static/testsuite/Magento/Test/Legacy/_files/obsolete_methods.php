@@ -803,13 +803,15 @@ return array(
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
     array('_getIndexer', 'Magento_Index_Model_Shell'),
     array('_getApi', 'Magento_Ogone_Block_Placeform'),
-<<<<<<< HEAD
     array('getCouponMassGenerator', 'Magento_SalesRule_Model_Rule', 'Magento_SalesRule_Model_Coupon_Massgenerator'),
     array('getEntityResourceModel', 'Magento_SalesArchive_Model_Archive',
         'Magento_SalesArchive_Model_ArchivalList::getResource'),
     array('detectArchiveEntity', 'Magento_SalesArchive_Model_Archive',
         'Magento_SalesArchive_Model_ArchivalList::getEntityByObject'),
-=======
     array('_getCallbackFunction', 'Magento_Logging_Model_Processor'),
->>>>>>> origin/MAGETWO-14381
+    array('_getHelper', 'Magento_Captcha_Model_Default'),
+    array('getSession', 'Magento_Captcha_Model_Default'),
+    array('_getBackendSession', 'Magento_Captcha_Model_Observer'),
+    array('_resetAttempt', 'Magento_Captcha_Model_Observer'),
+    array('getProductStatusModel', 'Magento_CatalogInventory_Model_Stock_Status'),
 );
