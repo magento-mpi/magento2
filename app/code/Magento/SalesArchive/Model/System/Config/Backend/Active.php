@@ -12,9 +12,9 @@ class Magento_SalesArchive_Model_System_Config_Backend_Active
     implements Magento_Backend_Model_Config_CommentInterface
 {
     /**
-     * @var Magento_SalesArchive_Model_ArchiveFactory
+     * @var Magento_SalesArchive_Model_Archive
      */
-    protected $_archiveFactory;
+    protected $_archive;
 
     /**
      * @var Magento_SalesArchive_Model_Resource_Order_Collection
@@ -26,7 +26,7 @@ class Magento_SalesArchive_Model_System_Config_Backend_Active
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
-     * @param Magento_SalesArchive_Model_ArchiveFactory $archiveFactory
+     * @param Magento_SalesArchive_Model_Archive $archive
      * @param Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -37,13 +37,13 @@ class Magento_SalesArchive_Model_System_Config_Backend_Active
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
-        Magento_SalesArchive_Model_ArchiveFactory $archiveFactory,
+        Magento_SalesArchive_Model_Archive $archive,
         Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_archiveFactory = $archiveFactory;
+        $this->_archive = $archive;
         $this->_orderCollection = $orderCollection;
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
@@ -65,7 +65,7 @@ class Magento_SalesArchive_Model_System_Config_Backend_Active
     {
         parent::_afterSave();
         if ($this->isValueChanged() && !$this->getValue()) {
-            $this->_archiveFactory->create()->removeOrdersFromArchive();
+            $this->_archive->removeOrdersFromArchive();
         }
         return $this;
     }

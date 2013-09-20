@@ -80,16 +80,6 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
     }
 
     /**
-     * Get archive config
-     *
-     * @return Magento_SalesArchive_Model_Config
-     */
-    protected function _getConfig()
-    {
-        return $this->_configModel;
-    }
-
-    /**
      * Get archive entity table
      *
      * @param string $archiveEntity
@@ -150,8 +140,8 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      */
     public function getOrderIdsForArchive($orderIds = array(), $useAge = false)
     {
-        $statuses = $this->_getConfig()->getArchiveOrderStatuses();
-        $archiveAge = ($useAge ? $this->_getConfig()->getArchiveAge() : 0);
+        $statuses = $this->_configModel->getArchiveOrderStatuses();
+        $archiveAge = ($useAge ? $this->_configModel->getArchiveAge() : 0);
 
         if (empty($statuses)) {
             return array();
@@ -197,8 +187,8 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      */
     public function getOrderIdsForArchiveExpression()
     {
-        $statuses = $this->_getConfig()->getArchiveOrderStatuses();
-        $archiveAge = $this->_getConfig()->getArchiveAge();
+        $statuses = $this->_configModel->getArchiveOrderStatuses();
+        $archiveAge = $this->_configModel->getArchiveAge();
 
         if (empty($statuses)) {
             $statuses = array(0);
