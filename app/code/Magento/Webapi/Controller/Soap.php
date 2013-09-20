@@ -37,6 +37,9 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     /** @var Magento_Core_Model_App */
     protected $_application;
 
+    /** @var Magento_Webapi_Model_Authentication */
+    protected $_authentication;
+
     /**
      * Initialize dependencies.
      *
@@ -47,6 +50,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
      * @param Magento_Webapi_Controller_ErrorProcessor $errorProcessor
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_App $application
+     * @param Magento_Webapi_Model_Authentication $authentication
      */
     public function __construct(
         Magento_Webapi_Controller_Soap_Request $request,
@@ -55,7 +59,8 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
         Magento_Webapi_Model_Soap_Server $soapServer,
         Magento_Webapi_Controller_ErrorProcessor $errorProcessor,
         Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_App $application
+        Magento_Core_Model_App $application,
+        Magento_Webapi_Model_Authentication $authentication
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -64,6 +69,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
         $this->_errorProcessor = $errorProcessor;
         $this->_appState = $appState;
         $this->_application = $application;
+        $this->_authentication = $authentication;
     }
 
     /**
@@ -94,6 +100,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
                 );
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
             } else {
+                $this->_authentication->authenticate($this->_request);
                 $responseBody = $this->_soapServer->handle();
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }

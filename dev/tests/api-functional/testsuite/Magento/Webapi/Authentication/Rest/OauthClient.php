@@ -74,6 +74,16 @@ class Magento_Webapi_Authentication_Rest_OauthClient extends AbstractService
     }
 
     /**
+     * Returns the TestModule1 Rest API endpoint.
+     *
+     * @return UriInterface
+     */
+    public function getTestApiEndpoint()
+    {
+        return new Uri(TESTS_BASE_URL . '/rest/V1/testmodule1');
+    }
+
+    /**
      * Parses the access token response and returns a TokenInterface.
      *
      * @return TokenInterface
@@ -186,5 +196,39 @@ class Magento_Webapi_Authentication_Rest_OauthClient extends AbstractService
         }
 
         return $authorizationHeader;
+    }
+
+    /**
+     * Validates a Test REST api call access using oauth access token
+     * @param TokenInterface $token The access token.
+     * @param string $method HTTP method.
+     * @return array
+     * @throws TokenResponseException
+     */
+    public function validateAccessToken($token, $method = 'GET')
+    {
+
+        //Need to add Accept header else Magento errors out with 503
+        $extraAuthenticationHeaders = array(
+            'Accept' => 'application/json',
+        );
+
+        $this->signature->setTokenSecret($token->getAccessTokenSecret());
+
+        $authorizationHeader = array(
+            'Authorization' =>
+            $this->buildAuthorizationHeaderForAPIRequest(
+                $method,
+                $this->getTestApiEndpoint(),
+                $token,
+                array()
+            )
+        );
+
+        $headers = array_merge($authorizationHeader, $extraAuthenticationHeaders);
+
+        $responseBody = $this->httpClient->retrieveResponse($this->getTestApiEndpoint(), array(), $headers, $method);
+
+        return json_decode($responseBody);
     }
 }
