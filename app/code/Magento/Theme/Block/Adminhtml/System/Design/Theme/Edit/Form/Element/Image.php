@@ -22,6 +22,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image 
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Data_Form_Element_Factory $factoryElement
      * @param Magento_Data_Form_Element_CollectionFactory $factoryCollection
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param Magento_Core_Model_Theme_Image_Path $imagePath
      * @param array $attributes
      */
@@ -29,6 +30,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image 
         Magento_Core_Helper_Data $coreData,
         Magento_Data_Form_Element_Factory $factoryElement,
         Magento_Data_Form_Element_CollectionFactory $factoryCollection,
+        Magento_Core_Model_UrlInterface $urlBuilder,
         Magento_Core_Model_Theme_Image_Path $imagePath,
         $attributes = array()
     ) {
@@ -37,6 +39,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image 
             $coreData,
             $factoryElement,
             $factoryCollection,
+            $urlBuilder,
             $attributes
         );
     }

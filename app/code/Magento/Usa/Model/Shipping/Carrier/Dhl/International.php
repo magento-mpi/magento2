@@ -138,13 +138,6 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_isDomestic = false;
 
     /**
-     * Factory for Magento_Usa_Model_Simplexml_Element
-     *
-     * @var Magento_Usa_Model_Simplexml_ElementFactory
-     */
-    protected $_xmlElFactory;
-
-    /**
      * Core string
      *
      * @var Magento_Core_Helper_String
@@ -166,6 +159,26 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @var Magento_Usa_Model_Shipping_Carrier_Dhl_Label_PdfFactory
+     */
+    protected $_pdfFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Config_Modules_Reader
+     */
+    protected $_configReader;
+
+    /**
      * Dhl International Class constructor
      *
      * Sets necessary data
@@ -173,25 +186,59 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Usa_Helper_Data $usaData
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Date $coreDate
+     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_PdfFactory $pdfFactory
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
+     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
+     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
+     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
+     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Usa_Helper_Data $usaData,
         Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Date $coreDate,
+        Magento_Usa_Model_Shipping_Carrier_Dhl_Label_PdfFactory $pdfFactory,
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
+        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
+        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
+        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
+        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        parent::__construct($directoryData, $coreStoreConfig, $data);
         $this->_coreData = $coreData;
         $this->_usaData = $usaData;
         $this->_coreString = $coreString;
-        $this->_xmlElFactory = $xmlElFactory;
+        $this->_coreDate = $coreDate;
+        $this->_pdfFactory = $pdfFactory;
+        $this->_storeManager = $storeManager;
+        $this->_configReader = $configReader;
+        parent::__construct(
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+        );
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {
             $this->_freeMethod = 'free_method_doc';
         }
@@ -369,7 +416,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
         if (is_numeric($request->getOrigState())) {
-            $requestObject->setOrigState(Mage::getModel('Magento_Directory_Model_Region')->load($request->getOrigState())->getCode());
+            $requestObject->setOrigState($this->_regionFactory->create()->load($request->getOrigState())->getCode());
         } else {
             $requestObject->setOrigState($request->getOrigState());
         }
@@ -426,7 +473,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                     $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
                     break;
                 default:
-                    Mage::throwException(__('Wrong Content Type'));
+                    throw new Magento_Core_Exception(__('Wrong Content Type'));
             }
         }
         $methods = array();
@@ -858,7 +905,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             // IsDutiable flag and Dutiable node indicates that cargo is not a documentation
             $nodeBkgDetails->addChild('IsDutiable', 'Y');
             $nodeDutiable = $nodeGetQuote->addChild('Dutiable');
-            $baseCurrencyCode = Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
+            $baseCurrencyCode = $this->_storeManager
+                ->getWebsite($this->_request->getWebsiteId())
+                ->getBaseCurrencyCode();
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
             $nodeDutiable->addChild('DeclaredValue', sprintf("%.2F", $rawRequest->getValue()));
         }
@@ -923,7 +972,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                                     break;
                                 }
                             }
-                            Mage::throwException(__('Error #%1 : %2', trim($code), trim($data)));
+                            throw new Magento_Core_Exception(__('Error #%1 : %2', trim($code), trim($data)));
                         }
 
                         $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
@@ -939,13 +988,12 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                             $result->setTrackingNumber((string)$xml->AirwayBillNumber);
                             try {
                                 /* @var $pdf Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf */
-                                $pdf = Mage::getModel(
-                                    'Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf',
+                                $pdf = $this->_pdfFactory->create(
                                     array('arguments' => array('info' => $xml, 'request' => $this->_request))
                                 );
                                 $result->setShippingLabelContent($pdf->render());
                             } catch (Exception $e) {
-                                Mage::throwException(__($e->getMessage()));
+                                throw new Magento_Core_Exception(__($e->getMessage()));
                             }
                             return $result;
                         } else {
@@ -961,13 +1009,13 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         /* @var $result Magento_Shipping_Model_Rate_Result */
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $result = $this->_rateFactory->create();
         if ($this->_rates) {
             foreach ($this->_rates as $rate) {
                 $method = $rate['service'];
                 $data = $rate['data'];
                 /* @var $rate Magento_Shipping_Model_Rate_Result_Method */
-                $rate = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+                $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier(self::CODE);
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -978,7 +1026,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             }
         } else if (!empty($this->_errors)) {
             if ($this->_isShippingLabelFlag) {
-                Mage::throwException($responseError);
+                throw new Magento_Core_Exception($responseError);
             }
             return $this->_showError();
         }
@@ -1003,12 +1051,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $dhlProduct             = (string)$shipmentDetails->GlobalProductCode;
             $totalEstimate          = (float)(string)$shipmentDetails->ShippingCharge;
             $currencyCode           = (string)$shipmentDetails->CurrencyCode;
-            $baseCurrencyCode       = Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
+            $baseCurrencyCode       = $this->_storeManager
+                ->getWebsite($this->_request->getWebsiteId())
+                ->getBaseCurrencyCode();
             $dhlProductDescription  = $this->getDhlProductTitle($dhlProduct);
 
             if ($currencyCode != $baseCurrencyCode) {
                 /* @var $currency Magento_Directory_Model_Currency */
-                $currency = Mage::getModel('Magento_Directory_Model_Currency');
+                $currency = $this->_currencyFactory->create();
                 $rates = $currency->getCurrencyRates($currencyCode, array($baseCurrencyCode));
                 if (!empty($rates) && isset($rates[$baseCurrencyCode])) {
                     // Convert to store display currency using store exchange rate
@@ -1061,7 +1111,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $measureUnit = $this->getCountryParams($countryId)->getMeasureUnit();
         if (empty($measureUnit)) {
-            Mage::throwException(__("Cannot identify measure unit for %1", $countryId));
+            throw new Magento_Core_Exception(__("Cannot identify measure unit for %1", $countryId));
         }
         return $measureUnit;
     }
@@ -1076,7 +1126,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $weightUnit = $this->getCountryParams($countryId)->getWeightUnit();
         if (empty($weightUnit)) {
-            Mage::throwException(__("Cannot identify weight unit for %1", $countryId));
+            throw new Magento_Core_Exception(__("Cannot identify weight unit for %1", $countryId));
         }
         return $weightUnit;
     }
@@ -1092,7 +1142,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected function getCountryParams($countryCode)
     {
         if (empty($this->_countryParams)) {
-            $dhlConfigPath = Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'dhl' . DS;
+            $dhlConfigPath = $this->_configReader->getModuleDir('etc', 'Magento_Usa')  . DS . 'dhl' . DS;
             $countriesXml = file_get_contents($dhlConfigPath . 'international' . DS . 'countries.xml');
             $this->_countryParams = new Magento_Simplexml_Element($countriesXml);
         }
@@ -1155,7 +1205,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
 
         if ($showMethod) {
             /* @var $error Magento_Shipping_Model_Rate_Result_Error */
-            $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
+            $error = $this->_rateErrorFactory->create();
             $error->setCarrier(self::CODE);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -1200,7 +1250,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 $minValue = $this->_getMinDimension($params['dimension_units']);
                 if ($params['width'] < $minValue || $params['length'] < $minValue || $params['height'] < $minValue) {
                     $message = __('Height, width and length should be equal or greater than %1', $minValue);
-                    Mage::throwException($message);
+                    throw new Magento_Core_Exception($message);
                 }
             }
 
@@ -1249,7 +1299,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         )->getRegion();
 
         if (!$originRegion) {
-            Mage::throwException(__('Wrong Region'));
+            throw new Magento_Core_Exception(__('Wrong Region'));
         }
 
         if ($originRegion == 'AM') {
@@ -1341,7 +1391,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $nodeDutiable->addChild('DeclaredValue',
                 sprintf("%.2F", $rawRequest->getOrderShipment()->getOrder()->getSubtotal())
             );
-            $baseCurrencyCode = Mage::app()->getWebsite($rawRequest->getWebsiteId())->getBaseCurrencyCode();
+            $baseCurrencyCode = $this->_storeManager->getWebsite($rawRequest->getWebsiteId())->getBaseCurrencyCode();
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
         }
 
@@ -1422,7 +1472,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
 
         if ($originRegion) {
             $nodeShipmentDetails->addChild('CurrencyCode',
-                Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
+                $this->_storeManager->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
             );
         }
 
@@ -1472,7 +1522,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $nodeShipmentDetails->addChild('GlobalProductCode', $rawRequest->getShippingMethod());
             $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
 
-            $nodeShipmentDetails->addChild('Date', Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', $this->_coreDate->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel');
             /*
              * The DoorTo Element defines the type of delivery service that applies to the shipment.
@@ -1489,7 +1539,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 $nodeShipmentDetails->addChild('IsDutiable', 'Y');
             }
             $nodeShipmentDetails->addChild('CurrencyCode',
-                Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
+                $this->_storeManager->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
             );
         } else {
             if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
@@ -1510,7 +1560,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
              * Door non-compliant)
              */
             $nodeShipmentDetails->addChild('DoorTo', 'DD');
-            $nodeShipmentDetails->addChild('Date', Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', $this->_coreDate->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
         }
     }
@@ -1666,11 +1716,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             }
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Tracking_Result');
+        $result = $this->_trackFactory->create();
 
         if (!empty($resultArr)) {
             foreach ($resultArr as $trackNum => $data) {
-                $tracking = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Status');
+                $tracking = $this->_trackStatusFactory->create();
                 $tracking->setCarrier($this->_code);
                 $tracking->setCarrierTitle($this->getConfigData('title'));
                 $tracking->setTracking($trackNum);
@@ -1682,7 +1732,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         if (!empty($this->_errors) || empty($resultArr)) {
             $resultArr = !empty($this->_errors) ? $this->_errors : $trackings;
             foreach ($resultArr as $trackNum => $err) {
-                $error = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Error');
+                $error = $this->_trackErrorFactory->create();
                 $error->setCarrier($this->_code);
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking(!empty($this->_errors) ? $trackNum : $err);
@@ -1721,7 +1771,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            Mage::throwException(__('No packages for request'));
+            throw new Magento_Core_Exception(__('No packages for request'));
         }
         $result = $this->_doShipmentRequest($request);
 

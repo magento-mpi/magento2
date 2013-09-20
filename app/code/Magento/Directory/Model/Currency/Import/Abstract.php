@@ -14,7 +14,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Directory_Model_Currency_Import_Abstract
+    implements Magento_Directory_Model_Currency_Import_Interface
 {
+    /**
+     * Messages
+     *
+     * @var array
+     */
+    protected $_messages = array();
+
     /**
      * Retrieve currency codes
      *

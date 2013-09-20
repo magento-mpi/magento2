@@ -18,6 +18,27 @@
 class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block_Items_Abstract
 {
     /**
+     * @var Magento_Filter_Object_GridFactory
+     */
+    protected $_filterGridFactory;
+
+    /**
+     * @param Magento_Filter_Object_GridFactory $filterGridFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Filter_Object_GridFactory $filterGridFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_filterGridFactory = $filterGridFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve multishipping checkout model
      *
      * @return Magento_Checkout_Model_Type_Multishipping
@@ -38,7 +59,7 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
     public function getItems()
     {
         $items = $this->getCheckout()->getQuoteShippingAddressesItems();
-        $itemsFilter = new Magento_Filter_Object_Grid();
+        $itemsFilter = $this->_filterGridFactory->create();
         $itemsFilter->addFilter(new Magento_Filter_Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }

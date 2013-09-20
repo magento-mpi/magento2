@@ -33,22 +33,30 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
     protected $_aclCache;
 
     /**
+     * @var Magento_Acl_Builder
+     */
+    protected $_aclBuilder;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
+     * @param Magento_Acl_Builder $aclBuilder
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param Magento_Acl_CacheInterface $aclCache
      */
     public function __construct(
+        Magento_Acl_Builder $aclBuilder,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Acl_RootResource $rootResource,
         Magento_Acl_CacheInterface $aclCache
     ) {
+        $this->_aclBuilder = $aclBuilder;
         parent::__construct($resource);
         $this->_rootResource = $rootResource;
         $this->_aclCache = $aclCache;
@@ -99,7 +107,7 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
-                    $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();
+                    $acl = $this->_aclBuilder->getAcl();
                     /** @var $resource Magento_Acl_Resource */
                     foreach ($acl->getResources() as $resourceId) {
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';

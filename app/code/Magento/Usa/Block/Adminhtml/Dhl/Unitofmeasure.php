@@ -26,6 +26,12 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
     protected $_usaData = null;
 
     /**
+     * @var Magento_Usa_Model_Shipping_Carrier_Dhl_International
+     */
+    protected $_shippingDhl;
+
+    /**
+     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhl
      * @param Magento_Usa_Helper_Data $usaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -33,12 +39,14 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
      * @param array $data
      */
     public function __construct(
+        Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhl,
         Magento_Usa_Helper_Data $usaData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_App $application,
         array $data = array()
     ) {
+        $this->_shippingDhl = $shippingDhl;
         $this->_usaData = $usaData;
         parent::__construct($coreData, $context, $application, $data);
     }
@@ -52,7 +60,7 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
     {
         parent::_construct();
 
-        $carrierModel = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Dhl_International');
+        $carrierModel = $this->_shippingDhl;
 
         $this->setInch($this->jsQuoteEscape($carrierModel->getCode('unit_of_dimension_cut', 'I')));
         $this->setCm($this->jsQuoteEscape($carrierModel->getCode('unit_of_dimension_cut', 'C')));

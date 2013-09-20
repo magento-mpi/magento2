@@ -33,6 +33,12 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Sendfriend_Helper_Data $sendfriendData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
@@ -40,12 +46,14 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
         Magento_Sendfriend_Helper_Data $sendfriendData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
         $this->_coreRegistry = $registry;
         $this->_sendfriendData = $sendfriendData;
         parent::__construct($coreData, $context, $data);
@@ -64,7 +72,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
         }
 
         /* @var $session Magento_Customer_Model_Session */
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        $session = $this->_customerSession;
 
         if ($session->isLoggedIn()) {
             return $session->getCustomer()->getName();
@@ -86,7 +94,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
         }
 
         /* @var $session Magento_Customer_Model_Session */
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        $session = $this->_customerSession;
 
         if ($session->isLoggedIn()) {
             return $session->getCustomer()->getEmail();
@@ -173,7 +181,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
      */
     public function getSendUrl()
     {
-        return Mage::getUrl('*/*/sendmail', array(
+        return $this->getUrl('*/*/sendmail', array(
             'id'     => $this->getProductId(),
             'cat_id' => $this->getCategoryId()
         ));

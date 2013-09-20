@@ -805,4 +805,6 @@ return array(
     array('getStabilityOptions', 'Magento_Connect_Model_Extension'),
     array('_getSession', 'Magento_Centinel_Model_Service'),
     array('_getValidationStateModel', 'Magento_Centinel_Model_Service'),
+    array('_getIndexer', 'Magento_Index_Model_Shell'),
+    array('_getApi', 'Magento_Ogone_Block_Placeform'),
 );
