@@ -26,8 +26,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     public function testCRUD()
     {
         $this->_model->setAttributeCode('test')
-            ->setEntityTypeId(\Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId())
-            ->setFrontendLabel('test');
+            ->setEntityTypeId(\Mage::getSingleton('Magento\Eav\Model\Config')
+            ->getEntityType('catalog_product')->getId())->setFrontendLabel('test');
         $crud = new \Magento\TestFramework\Entity($this->_model, array('frontend_label' => uniqid()));
         $crud->testCrud();
     }

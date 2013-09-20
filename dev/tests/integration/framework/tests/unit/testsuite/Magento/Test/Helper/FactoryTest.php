@@ -15,7 +15,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHelper()
     {
-        $helper = \Magento\TestFramework\Helper\Factory::getHelper(\Magento\TestFramework\Helper\Factory::getHelper('\Magento\TestFramework\Helper\Config'));
+        $helper = \Magento\TestFramework\Helper\Factory::getHelper(\Magento\TestFramework\Helper\Factory
+            ::getHelper('\Magento\TestFramework\Helper\Config'));
         $this->assertNotEmpty($helper);
 
         $helperNew = \Magento\TestFramework\Helper\Factory::getHelper('\Magento\TestFramework\Helper\Config');

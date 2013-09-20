@@ -8,4 +8,5 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- \Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
+
+\Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();

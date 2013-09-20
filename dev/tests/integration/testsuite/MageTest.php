@@ -55,7 +55,8 @@ class MageTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(null, '', false, \Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
-            array(\Zend_Log::CRIT, 'system.log', true, \Zend_Log::CRIT, \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
+            array(\Zend_Log::CRIT, 'system.log', true, \Zend_Log::CRIT,
+                \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
             array(null, 'exception.log', false, \Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_EXCEPTION, false),
             array(null, 'custom.log', false, \Zend_Log::DEBUG, 'custom.log', true, false),
             array(null, 'exception.log', true, \Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_EXCEPTION, true),

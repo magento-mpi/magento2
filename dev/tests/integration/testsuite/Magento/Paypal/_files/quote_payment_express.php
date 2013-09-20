@@ -4,7 +4,10 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- */ \Mage::app()->loadArea('adminhtml'); \Mage::app()->getStore()->setConfig('carriers/flatrate/active', 1); \Mage::app()->getStore()->setConfig('payment/paypal_express/active', 1);
+ */
+\Mage::app()->loadArea('adminhtml');
+\Mage::app()->getStore()->setConfig('carriers/flatrate/active', 1);
+\Mage::app()->getStore()->setConfig('payment/paypal_express/active', 1);
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')

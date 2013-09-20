@@ -26,7 +26,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_product', \Mage::getModel('Magento\Catalog\Model\Product'));
         /** @var $block  \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config */
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
+        $block = \Mage::app()->getLayout()
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
         $this->assertEquals(array(), $block->getSelectedAttributes());
     }
 
@@ -46,7 +47,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'test_configurable'
         );
         /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config */
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
+        $block = \Mage::app()->getLayout()
+            ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config');
         $selectedAttributes = $block->getSelectedAttributes();
         $this->assertEquals(array($usedAttribute->getId()), array_keys($selectedAttributes));
         $selectedAttribute = reset($selectedAttributes);

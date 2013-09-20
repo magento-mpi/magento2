@@ -17,7 +17,9 @@ class InvoicedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Invoiced\Collection\Invoiced');
+        $this->_collection = \Mage::getResourceModel(
+            'Magento\Sales\Model\Resource\Report\Invoiced\Collection\Invoiced'
+            );
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

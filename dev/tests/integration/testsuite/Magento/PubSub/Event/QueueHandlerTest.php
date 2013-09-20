@@ -49,7 +49,8 @@ class QueueHandlerTest extends \PHPUnit_Framework_TestCase
             'testKey2' => 'testValue2'
         ))->save();
 
-        $endpoint = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Webhook\Model\Endpoint')
+        $endpoint = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Webhook\Model\Endpoint')
             ->setEndpointUrl(self::ENDPOINT_URL)
             ->setFormat('json')
             ->setAuthenticationType('hmac')

@@ -63,7 +63,8 @@ $order->addItem($orderItem)
     ->setShippingAddress($shippingAddress)
     ->setPayment($payment);
 $order->save();
- \Mage::getConfig()->setNode('websites/base/giftcard/giftcardaccount_general/pool_size', 1);
+
+ \Mage::getConfig()->setNode('websites/base/giftcard/giftcardaccount_general/pool_size', 1);
 /** @var $pool \Magento\GiftCardAccount\Model\Pool */
 $pool = \Mage::getModel('Magento\GiftCardAccount\Model\Pool');
 $pool->setWebsiteId(1)->generatePool();

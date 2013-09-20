@@ -14,7 +14,8 @@
 $website = \Mage::getModel('Magento\Core\Model\Website');
 $website->setCode('finance_website')
     ->setName('Finance Website');
-$website->save(); \Mage::app()->reinitStores();
+$website->save();
+ \Mage::app()->reinitStores();
 
 // create test customer
 /** @var $customer \Magento\Customer\Model\Customer */

@@ -39,7 +39,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
 
         \Mage::app()->getRequest()->setParam('instance_id', $widgetInstance->getId());
-        $block = \Mage::app()->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');
+        $block = \Mage::app()->getLayout()
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');
         $this->assertArrayHasKey('widget-delete_button', $block->getLayout()->getAllBlocks());
     }
 }
