@@ -79,7 +79,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'List of plugins',
                     'tags' => array(
-                        array('name' => 'var', 'description' => 'Magento\Interception\PluginList')
+                        array('name' => 'var', 'description' => '\Magento\Interception\PluginList')
                     )
                 ),
             ),
@@ -109,7 +109,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 array('name' => 'factory', 'type' => '\Magento\ObjectManager\Factory'),
                 array('name' => 'objectManager', 'type' => '\Magento\ObjectManager\ObjectManager'),
                 array('name' => 'subjectType'),
-                array('name' => 'pluginList', 'type' => 'Magento\Interception\PluginList'),
+                array('name' => 'pluginList', 'type' => '\Magento\Interception\PluginList'),
                 array('name' => 'arguments', 'type' => 'array'),
             ),
             'body' => "\$this->_factory = \$factory;"
@@ -134,7 +134,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                     ),
                     array(
                         'name' => 'param',
-                        'description' => 'Magento\Interception\PluginList $pluginList',
+                        'description' => '\Magento\Interception\PluginList $pluginList',
                     ),
                     array(
                         'name' => 'param',
@@ -208,7 +208,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'shortDescription' => 'Retrieve ObjectManager from the global scope',
             ),
             'body' => '$this->_objectManager = \Mage::getObjectManager();'
-                . "\n\$this->_pluginList = \$this->_objectManager->get('Magento\Interception\PluginList');",
+                . "\n\$this->_pluginList = \$this->_objectManager->get('\Magento\Interception\PluginList');",
         );
 
         $reflectionClass = new \ReflectionClass($this->_getSourceClassName());
