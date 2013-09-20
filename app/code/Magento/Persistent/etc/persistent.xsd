@@ -50,10 +50,10 @@
             </xs:documentation>
         </xs:annotation>
         <xs:all>
-            <xs:element name="name_in_layout" type="xs:NMTOKEN" />
-            <xs:element name="class" type="xs:NMTOKEN" />
-            <xs:element name="method" type="xs:NMTOKEN" />
-            <xs:element name="block_type" type="xs:NMTOKEN" />
+            <xs:element name="name_in_layout" type="xs:token" />
+            <xs:element name="class" type="xs:string" />
+            <xs:element name="method" type="xs:token" />
+            <xs:element name="block_type" type="xs:string" />
         </xs:all>
         <xs:attribute name="id" type="xs:ID" use="required" />
     </xs:complexType>
