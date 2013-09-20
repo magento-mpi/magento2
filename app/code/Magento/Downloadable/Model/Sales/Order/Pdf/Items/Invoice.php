@@ -31,6 +31,8 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Dir $coreDir
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -40,12 +42,23 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Dir $coreDir,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
-        parent::__construct($taxData, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $taxData,
+            $context,
+            $registry,
+            $coreDir,
+            $coreStoreConfig,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

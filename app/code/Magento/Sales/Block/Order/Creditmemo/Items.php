@@ -10,10 +10,6 @@
 
 /**
  * Sales order view items block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Items_Abstract
 {
@@ -50,14 +46,22 @@ class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Ite
         return $this->_coreRegistry->registry('current_order');
     }
 
+    /**
+     * @param object $creditmemo
+     * @return string
+     */
     public function getPrintCreditmemoUrl($creditmemo)
     {
-        return Mage::getUrl('*/*/printCreditmemo', array('creditmemo_id' => $creditmemo->getId()));
+        return $this->getUrl('*/*/printCreditmemo', array('creditmemo_id' => $creditmemo->getId()));
     }
 
+    /**
+     * @param object $order
+     * @return string
+     */
     public function getPrintAllCreditmemosUrl($order)
     {
-        return Mage::getUrl('*/*/printCreditmemo', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/printCreditmemo', array('order_id' => $order->getId()));
     }
 
     /**

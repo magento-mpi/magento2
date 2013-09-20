@@ -25,7 +25,6 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
 
     /**
      * Method instance settings
-     *
      */
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
@@ -49,15 +48,17 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Sales_Model_Billing_AgreementFactory $agreementFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Sales_Model_Billing_AgreementFactory $agreementFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $agreementFactory, $data);
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;
@@ -72,6 +73,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      * Also updates store ID in config object
      *
      * @param Magento_Core_Model_Store|int $store
+     * @return $this
      */
     public function setStore($store)
     {
@@ -144,6 +146,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
      *
      * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
      * @return Magento_Paypal_Model_Method_Agreement
+     * @throws Exception|Magento_Core_Exception
      */
     public function updateBillingAgreementStatus(Magento_Payment_Model_Billing_AgreementAbstract $agreement)
     {
@@ -178,7 +181,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Void payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Object|Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
     public function void(Magento_Object $payment)
@@ -190,7 +193,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Capture payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Object|Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
@@ -205,7 +208,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Refund capture
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Object|Magento_Sales_Model_Order_Payment $payment
      * @param float $amount
      * @return Magento_Paypal_Model_Method_Agreement
      */
@@ -218,7 +221,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Cancel payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Object|Magento_Sales_Model_Order_Payment $payment
      * @return Magento_Paypal_Model_Method_Agreement
      */
     public function cancel(Magento_Object $payment)
@@ -230,7 +233,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Whether payment can be reviewed
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Payment_Model_Info|Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function canReviewPayment(Magento_Payment_Model_Info $payment)
@@ -241,7 +244,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Attempt to accept a pending payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Payment_Model_Info|Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function acceptPayment(Magento_Payment_Model_Info $payment)
@@ -253,7 +256,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
     /**
      * Attempt to deny a pending payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param Magento_Payment_Model_Info|Magento_Sales_Model_Order_Payment $payment
      * @return bool
      */
     public function denyPayment(Magento_Payment_Model_Info $payment)
@@ -298,8 +301,7 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
             ->setNotifyUrl(Mage::getUrl('paypal/ipn/'))
             ->setPaypalCart(Mage::getModel('Magento_Paypal_Model_Cart', $parameters))
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
-            ->setInvNum($order->getIncrementId())
-        ;
+            ->setInvNum($order->getIncrementId());
 
         // call api and import transaction and other payment information
         $api->callDoReferenceTransaction();
@@ -319,7 +321,10 @@ class Magento_Paypal_Model_Method_Agreement extends Magento_Sales_Model_Payment_
         return $this;
     }
 
-
+    /**
+     * @param object $quote
+     * @return bool
+     */
     protected function _isAvailable($quote)
     {
         return $this->_pro->getConfig()->isMethodAvailable($this->_code);

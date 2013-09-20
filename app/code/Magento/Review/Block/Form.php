@@ -57,7 +57,6 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Rating_Model_RatingFactory $ratingFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Review_Model_Session $reviewSession
      * @param array $data
      */
     public function __construct(
@@ -68,7 +67,6 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Rating_Model_RatingFactory $ratingFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Review_Model_Session $reviewSession,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
@@ -76,14 +74,13 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         $this->_productFactory = $productFactory;
         $this->_ratingFactory = $ratingFactory;
         $this->_storeManager = $storeManager;
-        $this->_reviewSession = $reviewSession;
+        /** @todo Should be fixed in scope of MAGETWO-14639 */
+        $this->_reviewSession = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Review_Model_Session');
         parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
     {
-        $customerSession = $this->_customerSession;
-
         parent::_construct();
 
         $data = $this->_reviewSession->getFormData(true);
@@ -91,14 +88,14 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
 
         // add logged in customer name as nickname
         if (!$data->getNickname()) {
-            $customer = $customerSession->getCustomer();
+            $customer = $this->_customerSession->getCustomer();
             if ($customer && $customer->getId()) {
                 $data->setNickname($customer->getFirstname());
             }
         }
 
         $this->setAllowWriteReviewFlag(
-            $customerSession->isLoggedIn() || $this->_reviewData->getIsGuestAllowToWrite()
+            $this->_customerSession->isLoggedIn() || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
             $queryParam = $this->_coreData->urlEncode(
@@ -118,7 +115,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
 
     public function getProductInfo()
     {
-        $product = $this->_productFactory-create();
+        $product = $this->_productFactory->create();
         return $product->load($this->getRequest()->getParam('id'));
     }
 
@@ -130,7 +127,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
 
     public function getRatings()
     {
-        $ratingCollection = $this->_ratingFactory
+        return $this->_ratingFactory->create()
             ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()
@@ -139,6 +136,5 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
             ->setActiveFilter(true)
             ->load()
             ->addOptionToItems();
-        return $ratingCollection;
     }
 }

@@ -23,11 +23,23 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Sales_Model_Resource_Order_Grid_CollectionFactory
+     */
+    protected $_orderCollection;
+
+    /**
+     * @var Magento_Sales_Model_Order_ConfigFactory
+     */
+    protected $_orderConfig;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $orderCollection
+     * @param Magento_Sales_Model_Order_ConfigFactory $orderConfig
      * @param array $data
      */
     public function __construct(
@@ -36,9 +48,13 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Sales_Model_Resource_Order_Grid_CollectionFactory $orderCollection,
+        Magento_Sales_Model_Order_ConfigFactory $orderConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_orderCollection = $orderCollection;
+        $this->_orderConfig = $orderConfig;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
 
@@ -60,7 +76,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
+        $collection = $this->_orderCollection->create()
             ->addRecurringProfilesFilter($this->_coreRegistry->registry('current_recurring_profile')->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -82,7 +98,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
             'index' => 'increment_id',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',
@@ -128,7 +144,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
             'index' => 'status',
             'type'  => 'options',
             'width' => '70px',
-            'options' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStatuses(),
+            'options' => $this->_orderConfig->create()->getStatuses(),
         ));
 
         if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {

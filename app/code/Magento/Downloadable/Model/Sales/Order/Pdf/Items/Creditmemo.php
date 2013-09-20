@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Order Creditmemo Downloadable Pdf Items renderer
- *
- * @category   Magento
- * @package    Magento_Downloadable
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
     extends Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract
@@ -29,6 +24,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Dir $coreDir
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -39,13 +35,23 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Dir $coreDir,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_stringHelper = $helper;
-        parent::__construct($taxData, $context, $registry, $coreStoreConfig, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $taxData,
+            $context,
+            $registry,
+            $coreDir,
+            $coreStoreConfig,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

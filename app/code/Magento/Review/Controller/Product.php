@@ -91,7 +91,6 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_UrlInterface $urlModel
-     * @param Magento_Review_Model_Session $reviewSession
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param Magento_Core_Model_Logger $logger
@@ -106,7 +105,6 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_UrlInterface $urlModel,
-        Magento_Review_Model_Session $reviewSession,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         Magento_Core_Model_Logger $logger,
@@ -119,7 +117,8 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_urlModel = $urlModel;
-        $this->_reviewSession = $reviewSession;
+        /** @todo Should be fixed in scope of MAGETWO-14639 */
+        $this->_reviewSession = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Review_Model_Session');
         $this->_storeManager = $storeManager;
         $this->_categoryFactory = $categoryFactory;
         $this->_logger = $logger;
