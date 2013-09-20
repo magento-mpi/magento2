@@ -18,7 +18,8 @@ $website->setData(array(
     'default_group_id' => '1',
     'is_default'       => '0'
 ));
-$website->save(); \Mage::app()->reinitStores();
+$website->save();
+ \Mage::app()->reinitStores();
 
 $additionalWebsiteId = $website->getId();
 

@@ -21,4 +21,5 @@ $store->setCode('fixturestore') // fixture_store conflicts with "current_store" 
 ;
 $store->save();
 
-/* Refresh stores memory cache */ \Mage::app()->reinitStores();
+/* Refresh stores memory cache */
+\Mage::app()->reinitStores();

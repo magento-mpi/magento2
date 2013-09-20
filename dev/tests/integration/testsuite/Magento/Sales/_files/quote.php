@@ -7,7 +7,8 @@
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
- */ \Mage::app()->loadArea('frontend');
+ */
+\Mage::app()->loadArea('frontend');
 $product = \Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)

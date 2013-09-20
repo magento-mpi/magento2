@@ -29,7 +29,8 @@ class AbstractTest
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Attribute');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
         $objectManager->get('Magento\Core\Model\Registry')->register('entity_attribute', $model);
 

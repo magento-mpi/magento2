@@ -17,7 +17,9 @@ class RefundedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Refunded\Collection\Refunded');
+        $this->_collection = \Mage::getResourceModel(
+            'Magento\Sales\Model\Resource\Report\Refunded\Collection\Refunded'
+            );
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

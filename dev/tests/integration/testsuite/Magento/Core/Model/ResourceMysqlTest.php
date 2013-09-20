@@ -41,7 +41,8 @@ class ResourceMysqlTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'Zend_Db_Adapter_Abstract',
-            $resource->getConnection(\Mage::getConfig()->getNode('global/resources/default_setup/connection')->asArray())
+            $resource->getConnection(\Mage::getConfig()->
+                getNode('global/resources/default_setup/connection')->asArray())
         );
 
     }
@@ -75,7 +76,8 @@ class ResourceMysqlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertStringStartsWith(
             'FK_',
-            $this->_model->getFkName('sales_flat_creditmemo_comment', 'parent_id', 'sales_flat_creditmemo', 'entity_id')
+            $this->_model
+                ->getFkName('sales_flat_creditmemo_comment', 'parent_id', 'sales_flat_creditmemo', 'entity_id')
         );
     }
 }
