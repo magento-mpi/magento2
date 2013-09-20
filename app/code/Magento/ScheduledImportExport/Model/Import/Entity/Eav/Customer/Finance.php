@@ -111,7 +111,6 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
      * @var Magento_Reward_Model_RewardFactory
      */
     protected $_rewardFactory;
-    protected $_authSession;
 
     /**
      * @param Magento_Backend_Model_Auth_Session $authSession
@@ -140,14 +139,13 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
 
         parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
 
-        $this->_authSession = $authSession;
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;
         $this->_balanceFactory = $balanceFactory;
         $this->_importExportData = $importExportData;
 
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
-            : $this->_authSession->getUser();
+            : $authSession->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
             __('Finance information website is not specified')
