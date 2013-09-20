@@ -5,8 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * attributes represent merging rules
@@ -25,33 +24,30 @@ class Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Framework_TestCas
      */
     protected $_mergedSchemaFile;
 
-    public function setUp()
+    protected function setUp()
     {
-        global $magentoBaseDir;
-
-        $this->_mergedSchemaFile = $magentoBaseDir . '/app/code/Magento/Cron/etc/crontab.xsd';
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_mergedSchemaFile = $objectManager->get('Magento_Cron_Model_Config_SchemaLocator')->getSchema();
     }
 
-    public function testCrontabConfigsValidation()
+    public function testCrontabConfigFiles()
     {
-        global $magentoBaseDir;
         $invalidFiles = array();
 
-        $mask = $magentoBaseDir . '/app/code/*/*/etc/crontab.xml';
-        $files = glob($mask);
+        $files = Magento_TestFramework_Utility_Files::init()->getConfigFiles('crontab.xml');
         $mergedConfig = new Magento_Config_Dom(
             '<config></config>',
             $this->_idAttributes
         );
 
         foreach ($files as $file) {
-            $content = file_get_contents($file);
+            $content = file_get_contents($file[0]);
             try {
                 new Magento_Config_Dom($content, $this->_idAttributes);
                 //merge won't be performed if file is invalid because of exception thrown
                 $mergedConfig->merge($content);
             } catch (Magento_Config_Dom_ValidationException $e) {
-                $invalidFiles[] = $file;
+                $invalidFiles[] = $file[0];
             }
         }
 

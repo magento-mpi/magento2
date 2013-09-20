@@ -11,22 +11,26 @@
 class Magento_Cron_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_moduleReaderMock;
+
+    /**
      * @var Magento_Cron_Model_Config_SchemaLocator
      */
     protected $_locator;
-
-    /**
-     * @var string
-     */
-    protected $_filePath;
 
     /**
      * Initialize parameters
      */
     protected function setUp()
     {
-        $this->_filePath = 'code/Magento/Cron/etc/crontab.xsd';
-        $this->_locator = new Magento_Cron_Model_Config_SchemaLocator();
+        $this->_moduleReaderMock = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_moduleReaderMock->expects($this->once())
+            ->method('getModuleDir')->with('etc', 'Magento_Cron')->will($this->returnValue('schema_dir'));
+        $this->_locator = new Magento_Cron_Model_Config_SchemaLocator($this->_moduleReaderMock);
     }
 
     /**
@@ -34,7 +38,6 @@ class Magento_Cron_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_Test
      */
     public function testGetSchema()
     {
-        $result = $this->_locator->getSchema();
-        $this->assertEquals($this->_filePath, $result);
+        $this->assertEquals('schema_dir/crontab.xsd', $this->_locator->getSchema());
     }
 }
