@@ -31,6 +31,7 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     protected $_pageFactory;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -39,10 +40,11 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
-     * @param $resourceName
      * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -51,11 +53,12 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
-        $resourceName,
-        Magento_Cms_Model_PageFactory $pageFactory
+        Magento_Cms_Model_PageFactory $pageFactory,
+        $resourceName
     ) {
         $this->_pageFactory = $pageFactory;
-        parent::__construct($coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
+        parent::__construct(
+            $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
             $modulesReader, $cache, $resourceName
         );
     }
