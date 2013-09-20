@@ -127,9 +127,6 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
                 )
                 ->where('source_table.state != ?', Magento_Sales_Model_Order::STATE_CANCELED);
 
-            /** @var Magento_Catalog_Model_Resource_Product $product */
-            $product  = $this->_productResource;
-
             $productTypes = array(
                 Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
                 Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
@@ -138,7 +135,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
 
             $joinExpr = array(
                 'product.entity_id = order_item.product_id',
-                $adapter->quoteInto('product.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product.type_id NOT IN(?)', $productTypes)
             );
 
@@ -150,18 +147,18 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
             );
 
             // join product attributes Name & Price
-            $attr= $product->getAttribute('name');
+            $attr = $this->_productResource->getAttribute('name');
             $joinExprProductName = array(
                 'product_name.entity_id = product.entity_id',
                 'product_name.store_id = source_table.store_id',
-                $adapter->quoteInto('product_name.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product_name.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product_name.attribute_id = ?', $attr->getAttributeId())
             );
             $joinExprProductName = implode(' AND ', $joinExprProductName);
             $joinProductName = array(
                 'product_default_name.entity_id = product.entity_id',
                 'product_default_name.store_id = 0',
-                $adapter->quoteInto('product_default_name.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product_default_name.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product_default_name.attribute_id = ?', $attr->getAttributeId())
             );
             $joinProductName = implode(' AND ', $joinProductName);
@@ -175,11 +172,11 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
                 $joinProductName,
                 array()
             );
-            $attr = $product->getAttribute('price');
+            $attr = $this->_productResource->getAttribute('price');
             $joinExprProductPrice = array(
                 'product_price.entity_id = product.entity_id',
                 'product_price.store_id = source_table.store_id',
-                $adapter->quoteInto('product_price.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product_price.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product_price.attribute_id = ?', $attr->getAttributeId())
             );
             $joinExprProductPrice = implode(' AND ', $joinExprProductPrice);
@@ -187,7 +184,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
             $joinProductPrice = array(
                 'product_default_price.entity_id = product.entity_id',
                 'product_default_price.store_id = 0',
-                $adapter->quoteInto('product_default_price.entity_type_id = ?', $product->getTypeId()),
+                $adapter->quoteInto('product_default_price.entity_type_id = ?', $this->_productResource->getTypeId()),
                 $adapter->quoteInto('product_default_price.attribute_id = ?', $attr->getAttributeId())
             );
             $joinProductPrice = implode(' AND ', $joinProductPrice);

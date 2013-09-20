@@ -71,12 +71,9 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-
-        if ($this->_getCustomerSession()->isLoggedIn()) {
-
+        if ($this->_customerSession->isLoggedIn()) {
             $this->initOrders();
         }
-
     }
 
     /**
@@ -85,7 +82,7 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
     public function initOrders()
     {
         $customerId = $this->getCustomerId() ? $this->getCustomerId()
-            : $this->_getCustomerSession()->getCustomer()->getId();
+            : $this->_customerSession->getCustomer()->getId();
 
         $orders = $this->_orderCollectionFactory->create()
             ->addAttributeToFilter('customer_id', $customerId)
@@ -93,7 +90,7 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
                 array('in' => $this->_orderConfig->getVisibleOnFrontStates())
             )
             ->addAttributeToSort('created_at', 'desc')
-            ->setPage(1,1);
+            ->setPage(1, 1);
         //TODO: add filter by current website
 
         $this->setOrders($orders);
@@ -167,16 +164,6 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        return $this->_getCustomerSession()->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
-    }
-
-    /**
-     * Retrieve customer session instance
-     *
-     * @return Magento_Customer_Model_Session
-     */
-    protected function _getCustomerSession()
-    {
-        return $this->_customerSession;
+        return $this->_customerSession->isLoggedIn() || $this->getCustomerId() ? parent::_toHtml() : '';
     }
 }

@@ -69,11 +69,10 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection
             array('customer_email' => 'email')
         );
 
-        $customer = $this->_customerResource;
         $adapter  = $this->getConnection();
-        $attr     = $customer->getAttribute('firstname');
+        $attr     = $this->_customerResource->getAttribute('firstname');
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND '
-            . $adapter->quoteInto('firstname.entity_type_id = ?', $customer->getTypeId()) . ' AND '
+            . $adapter->quoteInto('firstname.entity_type_id = ?', $this->_customerResource->getTypeId()) . ' AND '
             . $adapter->quoteInto('firstname.attribute_id = ?', $attr->getAttributeId());
 
         $select->joinLeft(
@@ -82,9 +81,9 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection
             array('customer_firstname' => 'value')
         );
 
-        $attr = $customer->getAttribute('lastname');
+        $attr = $this->_customerResource->getAttribute('lastname');
         $joinExpr = 'lastname.entity_id = main_table.customer_id AND '
-            . $adapter->quoteInto('lastname.entity_type_id = ?', $customer->getTypeId()) . ' AND '
+            . $adapter->quoteInto('lastname.entity_type_id = ?', $this->_customerResource->getTypeId()) . ' AND '
             . $adapter->quoteInto('lastname.attribute_id = ?', $attr->getAttributeId());
 
         $select->joinLeft(

@@ -43,15 +43,12 @@ class Magento_Sales_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Reso
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable
     ) {
-        /** @var $reportsHelper Magento_Reports_Model_Resource_Helper_Interface */
-        $reportsHelper = $this->_reportsResourceHelper;
-
         if ($aggregation == $aggregationAliases['monthly']) {
-            $reportsHelper->updateReportRatingPos('month', 'qty_ordered', $mainTable, $aggregationTable);
+            $this->_reportsResourceHelper->updateReportRatingPos('month', 'qty_ordered', $mainTable, $aggregationTable);
         } elseif ($aggregation == $aggregationAliases['yearly']) {
-            $reportsHelper->updateReportRatingPos('year', 'qty_ordered', $mainTable, $aggregationTable);
+            $this->_reportsResourceHelper->updateReportRatingPos('year', 'qty_ordered', $mainTable, $aggregationTable);
         } else {
-            $reportsHelper->updateReportRatingPos('day', 'qty_ordered', $mainTable, $aggregationTable);
+            $this->_reportsResourceHelper->updateReportRatingPos('day', 'qty_ordered', $mainTable, $aggregationTable);
         }
 
         return $this;
