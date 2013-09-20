@@ -40,6 +40,7 @@ class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
      */
     public function toOptionArray()
     {
+        /** @var Magento_Core_Model_Resource_Email_Template_Collection $collection */
         if (!$collection = $this->_coreRegistry->registry('config_system_email_template')) {
             $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Email_Template_Collection')
                 ->load();
@@ -49,7 +50,7 @@ class Magento_Backend_Model_Config_Source_Email_Template extends Magento_Object
         $templateId = str_replace('/', '_', $this->getPath());
         $templateLabel = $this->_emailConfig->getTemplateLabel($templateId);
         $templateLabel = __('%1 (Default)', $templateLabel);
-        array_unshift( $options, array(
+        array_unshift($options, array(
             'value' => $templateId,
             'label' => $templateLabel
         ));

@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Email_Template_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Attribute_Config_SchemaLocator
+     * @var Magento_Core_Model_Email_Template_Config_SchemaLocator
      */
     protected $_model;
 
@@ -24,16 +24,16 @@ class Magento_Catalog_Model_Attribute_Config_SchemaLocatorTest extends PHPUnit_F
         );
         $this->_moduleReader
             ->expects($this->once())
-            ->method('getModuleDir')->with('etc', 'Magento_Catalog')
+            ->method('getModuleDir')->with('etc', 'Magento_Core')
             ->will($this->returnValue('fixture_dir'))
         ;
-        $this->_model = new Magento_Catalog_Model_Attribute_Config_SchemaLocator($this->_moduleReader);
+        $this->_model = new Magento_Core_Model_Email_Template_Config_SchemaLocator($this->_moduleReader);
     }
 
     public function testGetSchema()
     {
         $actualResult = $this->_model->getSchema();
-        $this->assertEquals('fixture_dir/catalog_attributes.xsd', $actualResult);
+        $this->assertEquals('fixture_dir/email_templates.xsd', $actualResult);
         // Makes sure the value is calculated only once
         $this->assertEquals($actualResult, $this->_model->getSchema());
     }
@@ -41,7 +41,7 @@ class Magento_Catalog_Model_Attribute_Config_SchemaLocatorTest extends PHPUnit_F
     public function testGetPerFileSchema()
     {
         $actualResult = $this->_model->getPerFileSchema();
-        $this->assertEquals('fixture_dir/catalog_attributes.xsd', $actualResult);
+        $this->assertEquals('fixture_dir/email_templates.xsd', $actualResult);
         // Makes sure the value is calculated only once
         $this->assertEquals($actualResult, $this->_model->getPerFileSchema());
     }
