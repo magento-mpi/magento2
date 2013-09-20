@@ -25,10 +25,22 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rma_Model_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var Magento_Rma_Model_Item_FormFactory
+     */
+    protected $_formFactory;
+
+    /**
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Rma_Model_ItemFactory $itemFactory
+     * @param Magento_Rma_Model_Item_FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
@@ -36,10 +48,14 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Rma_Model_ItemFactory $itemFactory,
+        Magento_Rma_Model_Item_FormFactory $formFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
+        $this->_itemFactory = $itemFactory;
+        $this->_formFactory = $formFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -54,7 +70,7 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
-        $session = Mage::getSingleton('Magento_Core_Model_Session');
+        $session = $this->_session;
         $formData = $session->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new Magento_Object();
@@ -88,7 +104,7 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
 
     public function getBackUrl()
     {
-        return Mage::getUrl('sales/order/history');
+        return $this->_urlBuilder->getUrl('sales/order/history');
     }
 
 
@@ -99,11 +115,11 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
      */
     public function getAttributes()
     {
-        /* @var $itemModel */
-        $itemModel = Mage::getModel('Magento_Rma_Model_Item');
+        /* @var $itemModel Magento_Rma_Model_Item */
+        $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm Magento_Rma_Model_Item_Form */
-        $itemForm = Mage::getModel('Magento_Rma_Model_Item_Form');
+        $itemForm = $this->_formFactory->create();
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

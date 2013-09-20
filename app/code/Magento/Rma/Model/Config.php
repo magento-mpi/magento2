@@ -51,7 +51,6 @@ class Magento_Rma_Model_Config extends Magento_Object
      */
     protected $_configPath = null;
 
-
     /**
      * Core store config
      *
@@ -60,15 +59,23 @@ class Magento_Rma_Model_Config extends Magento_Object
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($data);
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        parent::__construct($data);
     }
 
     /**
@@ -97,9 +104,9 @@ class Magento_Rma_Model_Config extends Magento_Object
         if ($store instanceof Magento_Core_Model_Store) {
             $this->_store = $store;
         } elseif ($store = intval($store)) {
-            $this->_store = Mage::app()->getStore($store);
+            $this->_store = $this->_storeManager->getStore($store);
         } else {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this;
     }
@@ -116,10 +123,10 @@ class Magento_Rma_Model_Config extends Magento_Object
             if ($store instanceof Magento_Core_Model_Store) {
                 return $store;
             } elseif (is_int($store)) {
-                return Mage::app()->getStore($store);
+                return $this->_storeManager->getStore($store);
             }
         } elseif (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = $this->_storeManager->getStore();
         }
         return $this->_store;
     }

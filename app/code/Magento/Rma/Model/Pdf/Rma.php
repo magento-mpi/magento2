@@ -11,10 +11,6 @@
 
 /**
  * Rma PDF model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
 {
@@ -30,14 +26,24 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      *
      * @var Magento_Rma_Helper_Data
      */
-    protected $_rmaData = null;
+    protected $_rmaData;
 
     /**
      * Rma eav
      *
      * @var Magento_Rma_Helper_Eav
      */
-    protected $_rmaEav = null;
+    protected $_rmaEav;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeMnager;
 
     /**
      * Constructor
@@ -50,17 +56,27 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Rma_Helper_Eav $rmaEav,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_String $coreString
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
-        parent::__construct($paymentData, $coreData, $coreString);
+        $this->_locale = $locale;
+        $this->_storeMnager = $storeManager;
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $coreConfig);
     }
 
     /**
@@ -80,14 +96,14 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         $this->_setFontBold($style, 10);
 
         if (!(is_array($rmaArray) && (count($rmaArray) == 1))){
-            Mage::throwException(__('Only one RMA is available for printing'));
+            throw new Magento_Core_Exception(__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
 
         $storeId = $rma->getOrder()->getStore()->getId();
         if ($storeId) {
-            Mage::app()->getLocale()->emulate($storeId);
-            Mage::app()->setCurrentStore($storeId);
+            $this->_locale->emulate($storeId);
+            $this->_storeMnager->setCurrentStore($storeId);
         }
 
         $page = $this->newPage();
@@ -216,7 +232,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         }
 
         if ($storeId) {
-            Mage::app()->getLocale()->revert();
+            $this->_locale->revert();
         }
 
         $this->_afterGetPdf();

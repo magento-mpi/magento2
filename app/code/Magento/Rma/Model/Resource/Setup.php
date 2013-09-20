@@ -8,16 +8,77 @@
  * @license     {license_link}
  */
 
-
 /**
  * Rma resource setup model
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
+    /**
+     * @var Magento_Catalog_Model_Resource_SetupFactory
+     */
+    protected $_catalogSetupFactory;
+
+    /**
+     * @var Magento_Enterprise_Model_Resource_Setup_Migration
+     */
+    protected $_migrationFactory;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $modulesConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
+     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param string $resourceName
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config $modulesConfig,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
+        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        $resourceName
+    ) {
+        $this->_catalogSetupFactory = $catalogSetupFactory;
+        $this->_migrationFactory = $migrationFactory;
+        parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $resource, $modulesReader, $cache, $resourceName);
+    }
+
+    /**
+     * Get catalog resource setup model
+     *
+     * @param array $data
+     * @return Magento_Catalog_Model_Resource_Setup
+     */
+    public function getCatalogResourceSetup(array $data = array())
+    {
+        return $this->_catalogSetupFactory->create($data);
+    }
+
+    /**
+     * Get migration resource setup model
+     *
+     * @param array $data
+     * @return Magento_Catalog_Model_Resource_Setup
+     */
+    public function getMigrationResourceSetup(array $data = array())
+    {
+        return $this->_migrationFactory->create($data);
+    }
+
     /**
      * Prepare RMA item attribute values to save in additional table
      *

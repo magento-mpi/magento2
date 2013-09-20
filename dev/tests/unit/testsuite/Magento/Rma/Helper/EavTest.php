@@ -17,11 +17,12 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
-        $this->_model = new Magento_Rma_Helper_Eav(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false)
-        );
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $collectionFactory = $this->getMock('Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory',
+            array('create'), array(), '', false);
+        $this->_model = $helper->getObject('Magento_Rma_Helper_Eav', array(
+            'collectionFactory' => $collectionFactory
+        ));
     }
 
     /**

@@ -44,6 +44,42 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     protected $_website;
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $registry, $resource, $resourceCollection, $data);
+    }
+
+
+    /**
      * Set active website instance
      *
      * @param Magento_Core_Model_Website|int $website
@@ -51,7 +87,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      */
     public function setWebsite($website)
     {
-        $this->_website = Mage::app()->getWebsite($website);
+        $this->_website = $this->_storeManager->getWebsite($website);
         return $this;
     }
 
@@ -63,7 +99,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     public function getWebsite()
     {
         if (is_null($this->_website)) {
-            $this->_website = Mage::app()->getWebsite();
+            $this->_website = $this->_storeManager->getWebsite();
         }
 
         return $this->_website;
@@ -84,7 +120,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      */
     protected function _afterSave()
     {
-        Mage::getSingleton('Magento_Eav_Model_Config')->clear();
+        $this->_eavConfig->clear();
         return parent::_afterSave();
     }
 
