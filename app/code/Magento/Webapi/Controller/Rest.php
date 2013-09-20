@@ -24,8 +24,11 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
     /** @var Magento_Core_Model_App_State */
     protected $_appState;
 
-    /** @var Magento_Webapi_Model_Authentication */
-    protected $_authentication;
+    /** @var Magento_Oauth_Service_OauthV1Interface */
+    protected $_oauthService;
+
+    /** @var  Magento_Oauth_Helper_Data */
+    protected $_oauthHelper;
 
     /**
      * Initialize dependencies.
@@ -35,7 +38,8 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
      * @param Magento_Webapi_Controller_Rest_Router $router
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Webapi_Model_Authentication $authentication
+     * @param Magento_Oauth_Service_OauthV1Interface $oauthService
+     * @param Magento_Oauth_Helper_Data $oauthHelper
      */
     public function __construct(
         Magento_Webapi_Controller_Rest_Request $request,
@@ -43,14 +47,16 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
         Magento_Webapi_Controller_Rest_Router $router,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_App_State $appState,
-        Magento_Webapi_Model_Authentication $authentication
+        Magento_Oauth_Service_OauthV1Interface $oauthService,
+        Magento_Oauth_Helper_Data $oauthHelper
     ) {
         $this->_router = $router;
         $this->_request = $request;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
-        $this->_authentication = $authentication;
+        $this->_oauthService = $oauthService;
+        $this->_oauthHelper = $oauthHelper;
     }
 
     /**
@@ -74,7 +80,7 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
             if (!$this->_appState->isInstalled()) {
                 throw new Magento_Webapi_Exception(__('Magento is not yet installed'));
             }
-            // $this->_authentication->authenticate($this->_request);
+            // $this->_oauthService->validateAccessToken($this->_oauthHelper->_prepareServiceRequest($this->_request));
             $route = $this->_router->match($this->_request);
 
             if ($route->isSecure() && !$this->_request->isSecure()) {
