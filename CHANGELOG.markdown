@@ -1,3 +1,4 @@
+* Altered format of `giftregistry.xml` and added `giftregistry.xsd` to allow for validation of XML files.
 * Vde segment was moved from config.xml to di.xml
 * Install segment was moved from config.xml to di.xml for next configuration nodes:
   * config/install/databases
