@@ -27,6 +27,8 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
     protected $_locale;
 
     /**
+     * Construct
+     *
      * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
@@ -39,7 +41,7 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,        
+        Magento_Backend_Block_Template_Context $context,
         Magento_Backend_Model_Auth_Session $authSession,
         Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
