@@ -53,6 +53,23 @@ class Magento_AdminGws_Model_Role extends Magento_Object
     protected $_exclusiveAccessToCategory = array();
 
     /**
+     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     */
+    protected $_categoryCollFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollFactory,
+        array $data = array()
+    ) {
+        $this->_categoryCollFactory = $categoryCollFactory;
+        parent::__construct($data);
+    }
+
+    /**
      * Set ACL role and determine its limitations
      *
      * @param Magento_User_Model_Role $role
@@ -265,7 +282,8 @@ class Magento_AdminGws_Model_Role extends Magento_Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')
+            $categories = $this->_categoryCollFactory
+                ->create()
                 ->addIdFilter($categoryIds);
             foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();

@@ -24,8 +24,14 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
      * @var Magento_Core_Model_Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
+     * @var Magento_AdminGws_Model_Role
+     */
+    protected $_adminGwsRole;
+
+    /**
+     * @param Magento_AdminGws_Model_Role $adminGwsRole
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
@@ -33,12 +39,14 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
      * @param array $data
      */
     public function __construct(
+        Magento_AdminGws_Model_Role $adminGwsRole,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_adminGwsRole = $adminGwsRole;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
@@ -79,7 +87,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
      */
     public function canAssignGwsAll()
     {
-        return Mage::getSingleton('Magento_AdminGws_Model_Role')->getIsAll();
+        return $this->_adminGwsRole->getIsAll();
     }
 
     /**
@@ -93,7 +101,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
         foreach (Mage::app()->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $groupId = $group->getId();
-                if (!Mage::getSingleton('Magento_AdminGws_Model_Role')->hasStoreGroupAccess($groupId)) {
+                if (!$this->_adminGwsRole->hasStoreGroupAccess($groupId)) {
                     $result[$groupId] = $groupId;
                 }
             }

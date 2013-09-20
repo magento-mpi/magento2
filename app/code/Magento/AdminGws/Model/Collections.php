@@ -14,6 +14,31 @@
 class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer_Abstract
 {
     /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendAuthSession;
+
+    /**
+     * @var Magento_AdminGws_Model_Resource_CollectionsFactory
+     */
+    protected $_collectionsFactory;
+
+    /**
+     * @param Magento_AdminGws_Model_Resource_CollectionsFactory $collectionsFactory
+     * @param Magento_Backend_Model_Auth_Session $backendAuthSession
+     * @param Magento_AdminGws_Model_Role $role
+     */
+    public function __construct(
+        Magento_AdminGws_Model_Resource_CollectionsFactory $collectionsFactory,
+        Magento_Backend_Model_Auth_Session $backendAuthSession,
+        Magento_AdminGws_Model_Role $role
+    ) {
+        $this->_collectionsFactory = $collectionsFactory;
+        $this->_backendAuthSession = $backendAuthSession;
+        parent::__construct($role);
+    }
+
+    /**
      * Limit store views collection. Adding limitation depending
      * on allowed group ids for user.
      *
@@ -255,7 +280,8 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      */
     public function limitAdminPermissionRoles($collection)
     {
-        $limited = Mage::getResourceModel('Magento_AdminGws_Model_Resource_Collections')
+        $limited = $this->_collectionsFactory
+            ->create()
             ->getRolesOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -272,7 +298,8 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      */
     public function limitAdminPermissionUsers($collection)
     {
-        $limited = Mage::getResourceModel('Magento_AdminGws_Model_Resource_Collections')
+        $limited = $this->_collectionsFactory
+            ->create()
             ->getUsersOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -313,10 +340,8 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      */
     protected function _initRssAdminRole()
     {
-        /* @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         /* @var $adminUser Magento_User_Model_User */
-        $adminUser = $session->getUser();
+        $adminUser = $this->_backendAuthSession->getUser();
         if ($adminUser) {
             $this->_role->setAdminRole($adminUser->getRole());
         }

@@ -40,17 +40,49 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var Magento_AdminGws_Model_Resource_CollectionsFactory
+     */
+    protected $_collectionsFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_ProductFactory
+     */
+    protected $_productFactoryRes;
+
+    /**
+     * @param Magento_Backend_Model_Url $backendUrl
+     * @param Magento_Backend_Model_Session $backendSession
+     * @param Magento_AdminGws_Model_Resource_CollectionsFactory $collectionsFactory
+     * @param Magento_Catalog_Model_Resource_ProductFactory $productFactoryRes
      * @param Magento_AdminGws_Model_Role $role
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
+        Magento_Backend_Model_Url $backendUrl,
+        Magento_Backend_Model_Session $backendSession,
+        Magento_AdminGws_Model_Resource_CollectionsFactory $collectionsFactory,
+        Magento_Catalog_Model_Resource_ProductFactory $productFactoryRes,
         Magento_AdminGws_Model_Role $role,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Controller_Request_Http $request,
         Magento_ObjectManager $objectManager
     ) {
+        $this->_backendUrl = $backendUrl;
+        $this->_backendSession = $backendSession;
+        $this->_collectionsFactory = $collectionsFactory;
+        $this->_productFactoryRes = $productFactoryRes;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($role);
         $this->_objectManager = $objectManager;
@@ -91,14 +123,19 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
 
         // redirect to first allowed website or store scope
         if ($this->_role->getWebsiteIds()) {
-            return $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')
-                ->getUrl('adminhtml/system_config/edit',
-                     array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
+            return $this->_redirect($controller, $this->_backendUrl->getUrl(
+                    'adminhtml/system_config/edit',
+                     array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode())
+                )
             );
         }
-        $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/system_config/edit',
-            array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(),
-            'store' => Mage::app()->getAnyStoreView()->getCode()))
+        $this->_redirect($controller, $this->_backendUrl->getUrl(
+                'adminhtml/system_config/edit',
+                array(
+                    'website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(),
+                    'store' => Mage::app()->getAnyStoreView()->getCode()
+                )
+            )
         );
     }
 
@@ -444,13 +481,13 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     {
         $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/denied');
+            $url = $this->_backendUrl->getUrl('*/*/denied');
         }
         elseif (is_array($url)) {
-            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl(array_shift($url), $url);
+            $url = $this->_backendUrl->getUrl(array_shift($url), $url);
         }
         elseif (false === strpos($url, 'http', 0)) {
-            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl($url);
+            $url = $this->_backendUrl->getUrl($url);
         }
         Mage::app()->getResponse()->setRedirect($url);
     }
@@ -814,7 +851,8 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     {
         $id = $this->_request->getParam('user_id');
         if ($id) {
-            $limited = Mage::getResourceModel('Magento_AdminGws_Model_Resource_Collections')
+            $limited = $this->_collectionsFactory
+                ->create()
                 ->getUsersOutsideLimitedScope(
                     $this->_role->getIsAll(),
                     $this->_role->getWebsiteIds(),
@@ -838,7 +876,8 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     {
         $id = $this->_request->getParam('rid', $this->_request->getParam('role_id'));
         if ($id) {
-            $limited = Mage::getResourceModel('Magento_AdminGws_Model_Resource_Collections')
+            $limited = $this->_collectionsFactory
+                ->create()
                 ->getRolesOutsideLimitedScope(
                     $this->_role->getIsAll(),
                     $this->_role->getWebsiteIds(),
@@ -894,9 +933,7 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
         $productNotExclusiveIds = array();
         $productExclusiveIds    = array();
 
-        $resource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product');
-
-        $productsWebsites = $resource->getWebsiteIdsByProductIds($productIds);
+        $productsWebsites = $this->_productFactoryRes->create()->getWebsiteIdsByProductIds($productIds);
 
         foreach ($productsWebsites as $productId => $productWebsiteIds) {
             if (!$this->_role->hasExclusiveAccess($productWebsiteIds)) {
@@ -909,7 +946,7 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
         if (!empty($productNotExclusiveIds)) {
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
             $message = __('You need more permissions to delete this item(s): %1.', $productNotExclusiveIds);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($message);
+            $this->_backendSession->addError($message);
         }
 
         $this->_request->setParam('product', $productExclusiveIds);
@@ -1228,9 +1265,10 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
                 return false;
             }
 
-            return $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')
-                ->getUrl('adminhtml/rma_item_attribute/edit',
-                     array('website' => $allowedWebsitesIds[0], '_current' => true))
+            return $this->_redirect($controller, $this->_backendUrl->getUrl(
+                    'adminhtml/rma_item_attribute/edit',
+                     array('website' => $allowedWebsitesIds[0], '_current' => true)
+                )
             );
         }
 
