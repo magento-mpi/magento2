@@ -33,15 +33,18 @@ class Magento_GoogleShopping_Model_Attribute_Link extends Magento_GoogleShopping
      * @param array $data
      */
     public function __construct(
+        Magento_GoogleShopping_Helper_Data $gsData,
+        Magento_GoogleShopping_Helper_Product $gsProduct,
+        Magento_GoogleShopping_Helper_Price $gsPrice,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_GoogleShopping_Model_Resource_Attribute $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($gsData, $gsProduct, $gsPrice, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

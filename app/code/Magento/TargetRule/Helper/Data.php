@@ -60,7 +60,7 @@ class Magento_TargetRule_Helper_Data extends Magento_Core_Helper_Abstract
                 $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit');
                 break;
             default:
-                Mage::throwException(__('Invalid product list type'));
+                throw new Magento_Core_Exception(__('Invalid product list type'));
         }
 
         return $this->getMaxProductsListResult($number);
@@ -86,7 +86,7 @@ class Magento_TargetRule_Helper_Data extends Magento_Core_Helper_Abstract
                 $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior');
                 break;
             default:
-                Mage::throwException(__('Invalid product list type'));
+                throw new Magento_Core_Exception(__('Invalid product list type'));
         }
 
         return $show;
@@ -129,7 +129,7 @@ class Magento_TargetRule_Helper_Data extends Magento_Core_Helper_Abstract
                 $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode');
                 break;
             default:
-                Mage::throwException(__('Invalid rotation mode type'));
+                throw new Magento_Core_Exception(__('Invalid rotation mode type'));
         }
         return $mode;
     }

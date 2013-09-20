@@ -14,6 +14,7 @@
  *
  * @category   Magento
  * @package    Magento_TargetRule
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
     extends Magento_TargetRule_Block_Product_Abstract
@@ -23,7 +24,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      *
      * @var Magento_TargetRule_Model_Index
      */
-    protected $_index;
+    protected $_currentIndex;
 
     /**
      * Array of exclude Product Ids
@@ -38,6 +39,59 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      * @var null|array
      */
     protected $_allProductIds = null;
+
+    /**
+     * @var Magento_TargetRule_Model_IndexFactory
+     */
+    protected $_indexFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @param Magento_TargetRule_Model_Resource_Index $index
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
+     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
+        Magento_Catalog_Model_Product_Visibility $visibility,
+        Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_TargetRule_Model_Resource_Index $index,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_visibility = $visibility;
+        $this->_indexFactory = $indexFactory;
+        parent::__construct(
+            $index, $coreRegistry, $targetRuleData, $taxData,
+            $catalogData, $coreData, $context, $data
+        );
+    }
+
 
     /**
      * Retrieve current product instance (if actual and available)
@@ -67,9 +121,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
                 break;
 
             default:
-                Mage::throwException(
-                    __('Undefined Catalog Product List Type')
-                );
+                throw new Magento_Core_Exception(__('Undefined Catalog Product List Type'));
         }
         return $prefix;
     }
@@ -81,10 +133,10 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      */
     protected function _getTargetRuleIndex()
     {
-        if (is_null($this->_index)) {
-            $this->_index = Mage::getModel('Magento_TargetRule_Model_Index');
+        if (is_null($this->_currentIndex)) {
+            $this->_currentIndex = $this->_indexFactory->create();
         }
-        return $this->_index;
+        return $this->_currentIndex;
     }
 
     /**
@@ -172,9 +224,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
                 break;
 
             default:
-                Mage::throwException(
-                    __('Undefined Catalog Product List Type')
-                );
+                throw new Magento_Core_Exception(__('Undefined Catalog Product List Type'));
         }
 
         if (!is_null($limit)) {
@@ -183,7 +233,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
         }
 
         $linkCollection
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
+            ->setVisibility($this->_visibility->getVisibleInCatalogIds())
             ->setFlag('do_not_use_category_id', true);
 
         $excludeProductIds = $this->getExcludeProductIds();
@@ -252,13 +302,13 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
         $items = array();
         if ($productIds) {
             /** @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-            $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+            $collection = $this->_productCollectionFactory->create();
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             $this->_addProductAttributesAndPrices($collection);
 
             $collection->setPageSize($limit)
                 ->setFlag('do_not_use_category_id', true)
-                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+                ->setVisibility($this->_visibility->getVisibleInCatalogIds());
 
             foreach ($collection as $item) {
                 $items[$item->getEntityId()] = $item;

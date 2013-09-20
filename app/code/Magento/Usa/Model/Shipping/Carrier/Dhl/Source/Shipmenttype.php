@@ -10,14 +10,12 @@
 
 
 class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Shipmenttype
+    extends Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Generic
 {
-    public function toOptionArray()
-    {
-        $fedex = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Dhl');
-        $arr = array();
-        foreach ($fedex->getCode('shipment_type') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>$v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'shipment_type';
 }

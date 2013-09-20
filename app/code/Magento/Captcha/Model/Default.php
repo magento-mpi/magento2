@@ -318,7 +318,7 @@ class Magento_Captcha_Model_Default extends Zend_Captcha_Image implements Magent
     public function getSession()
     {
         if (empty($this->_session)) {
-            $this->_session =  Mage::app()->getStore()->isAdmin()
+            $this->_session = $this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->isAdmin()
                 ? Mage::getSingleton('Magento_Backend_Model_Auth_Session')
                 : Mage::getSingleton('Magento_Customer_Model_Session');
         }

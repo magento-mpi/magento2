@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Model_Source_Rotation
+class Magento_TargetRule_Model_Source_Rotation implements Magento_Core_Model_Option_ArrayInterface
 {
 
     /**

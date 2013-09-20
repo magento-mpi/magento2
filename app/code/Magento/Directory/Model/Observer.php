@@ -24,6 +24,11 @@ class Magento_Directory_Model_Observer
     const XML_PATH_ERROR_RECIPIENT = 'currency/import/error_email';
 
     /**
+     * @var Magento_Directory_Model_Currency_Import_Factory
+     */
+    protected $_importFactory;
+    
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -31,22 +36,15 @@ class Magento_Directory_Model_Observer
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
+     * @param Magento_Directory_Model_Currency_Import_Factory $importFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Directory_Model_Currency_Import_Factory $importFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_importFactory = $importFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
     }
 
     public function scheduledUpdateCurrencyRates($schedule)
@@ -62,9 +60,7 @@ class Magento_Directory_Model_Observer
         }
 
         try {
-            $importModel = Mage::getModel(
-                $this->_coreConfig->getNode('global/currency/import/services/' . $service . '/model')->asArray()
-            );
+            $importModel = $this->_importFactory->create($service);
         } catch (Exception $e) {
             $importWarnings[] = __('FATAL ERROR:') . ' ' . Mage::throwException(__("We can't initialize the import model."));
         }
