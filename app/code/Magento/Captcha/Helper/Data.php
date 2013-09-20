@@ -106,16 +106,11 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
     public function getCaptcha($formId)
     {
         if (!array_key_exists($formId, $this->_captcha)) {
-            $type = ucfirst($this->getConfigNode('type'));
-            if (!$type) {
-                $type = self::DEFAULT_CAPTCHA_TYPE;
+            $captchaType = ucfirst($this->getConfigNode('type'));
+            if (!$captchaType) {
+                $captchaType = self::DEFAULT_CAPTCHA_TYPE;
             }
-            $this->_captcha[$formId] = $this->_factory->create(
-                'Magento_Captcha_Model_' . $type,
-                array(
-                    'params' => array('formId' => $formId, 'helper' => $this)
-                )
-            );
+            $this->_captcha[$formId] = $this->_factory->create($captchaType, $formId);
         }
         return $this->_captcha[$formId];
     }
