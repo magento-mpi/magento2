@@ -15,8 +15,8 @@
 namespace Magento\TestFramework\Bootstrap;
 
 /**
-* @SuppressWarnings(PHPMD.CouplingBetweenObjects)
-*/
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class DocBlock
 {
     /**
