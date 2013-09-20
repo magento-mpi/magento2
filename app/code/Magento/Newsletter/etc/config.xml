@@ -63,16 +63,4 @@
             </sending>
         </newsletter>
     </default>
-    <crontab>
-        <jobs>
-            <newsletter_send_all>
-                <schedule>
-                    <cron_expr>*/5 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Newsletter_Model_Observer::scheduledSend</model>
-                </run>
-            </newsletter_send_all>
-        </jobs>
-    </crontab>
 </config>

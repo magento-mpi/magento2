@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype
+class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

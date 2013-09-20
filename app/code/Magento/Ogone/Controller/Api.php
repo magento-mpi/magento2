@@ -19,13 +19,38 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     protected $_order;
 
     /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_salesOrderFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource_TransactionFactory
+     */
+    protected $_transactionFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource_TransactionFactory $transactionFactory
+     * @param Magento_Sales_Model_OrderFactory $salesOrderFactory
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_TransactionFactory $transactionFactory,
+        Magento_Sales_Model_OrderFactory $salesOrderFactory,
+        Magento_Core_Controller_Varien_Action_Context $context
+    ) {
+        parent::__construct($context);
+        $this->_transactionFactory = $transactionFactory;
+        $this->_salesOrderFactory = $salesOrderFactory;
+    }
+
+    /**
      * Get checkout session namespace
      *
      * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -35,7 +60,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
      */
     protected function _getApi()
     {
-        return Mage::getSingleton('Magento_Ogone_Model_Api');
+        return $this->_objectManager->get('Magento_Ogone_Model_Api');
     }
 
     /**
@@ -47,8 +72,8 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     {
         if (empty($this->_order)) {
             $orderId = $this->getRequest()->getParam('orderID');
-            $this->_order = Mage::getModel('Magento_Sales_Model_Order');
-            $this->_order->loadByIncrementId($orderId);
+            $this->_order = $this->_salesOrderFactory->create()
+                ->loadByIncrementId($orderId);
         }
         return $this->_order;
     }
@@ -84,7 +109,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
         }
 
         $order = $this->_getOrder();
-        if (!$order->getId()){
+        if (!$order->getId()) {
             $this->_getCheckout()->addError(__('The order is not valid.'));
             return false;
         }
@@ -99,8 +124,8 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     {
         $lastIncrementId = $this->_getCheckout()->getLastRealOrderId();
         if ($lastIncrementId) {
-            $order = Mage::getModel('Magento_Sales_Model_Order');
-            $order->loadByIncrementId($lastIncrementId);
+            $order = $this->_salesOrderFactory->create()
+                ->loadByIncrementId($lastIncrementId);
             if ($order->getId()) {
                 $order->setState(
                     Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
@@ -152,7 +177,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     public function offlineProcessAction()
     {
         if (!$this->_validateOgoneData()) {
-            $this->getResponse()->setHeader("Status","404 Not Found");
+            $this->getResponse()->setHeader("Status", "404 Not Found");
             return false;
         }
         $this->_ogoneProcess();
@@ -229,7 +254,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                     break;
                 default:
                     throw new Exception (__('Can\'t detect Ogone payment action'));
-             }
+            }
         } catch(Exception $e) {
             $this->_getCheckout()->addError(__('The order cannot be saved.'));
             $this->_redirect('checkout/cart');
@@ -239,7 +264,6 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
 
     /**
      * Process Configured Payment Action: Direct Sale, create invoce if state is Pending
-     *
      */
     protected function _processDirectSale()
     {
@@ -253,7 +277,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                     __('Authorization Waiting from Ogone')
                 );
                 $order->save();
-            }elseif ($order->getState()==Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+            } elseif ($order->getState()==Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                 if ($status ==  Magento_Ogone_Model_Api::OGONE_AUTHORIZED) {
                     if ($order->getStatus() != Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                         $order->setState(
@@ -276,7 +300,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
                     $invoice->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID);
                     $invoice->getOrder()->setIsInProcess(true);
 
-                    $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
+                    $this->_transactionFactory->create()
                         ->addObject($invoice)
                         ->addObject($invoice->getOrder())
                         ->save();
@@ -376,7 +400,6 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
             return;
         }
 
-        $exception = '';
         switch($params['STATUS']) {
             case Magento_Ogone_Model_Api::OGONE_PAYMENT_UNCERTAIN_STATUS :
                 $exception = __('Something went wrong during the payment process, and so the result is unpredictable.');
@@ -476,6 +499,8 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     /**
      * Cancel action, used for decline and cancel processes
      *
+     * @param string $status
+     * @param string $comment
      * @return Magento_Ogone_Controller_Api
      */
     protected function _cancelOrder($status, $comment='')

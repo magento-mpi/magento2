@@ -21,14 +21,14 @@ class Magento_MultipleWishlist_Model_Item_Collection extends Magento_MultipleWis
     protected $_coreRegistry = null;
 
     /**
-     * Collection constructor
-     *
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Wishlist_Model_Resource_Item $resource
      */
     public function __construct(
@@ -37,12 +37,15 @@ class Magento_MultipleWishlist_Model_Item_Collection extends Magento_MultipleWis
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Wishlist_Model_Resource_Item $resource
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
-            $wishlistData, $catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $resource
+            $wishlistData, $catalogInventoryData, $adminhtmlSales, $eventManager,
+            $logger, $fetchStrategy, $entityFactory, $resource
         );
     }
 

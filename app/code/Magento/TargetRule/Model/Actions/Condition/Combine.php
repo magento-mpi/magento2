@@ -12,13 +12,29 @@
 class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Model_Condition_Combine
 {
     /**
-     * Set condition type
-     *
+     * @var Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory
+     */
+    protected $_specialFactory;
+
+    /**
+     * @param Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory
+     * @param Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory,
+        Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_attributeFactory = $attributeFactory;
+        $this->_specialFactory = $specialFactory;
         parent::__construct($context, $data);
         $this->setType('Magento_TargetRule_Model_Actions_Condition_Combine');
     }
@@ -31,12 +47,9 @@ class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Mo
     public function getNewChildSelectOptions()
     {
         $conditions = array(
-            array('value'=>$this->getType(),
-                'label'=>__('Conditions Combination')),
-            Mage::getModel('Magento_TargetRule_Model_Actions_Condition_Product_Attributes')
-                ->getNewChildSelectOptions(),
-            Mage::getModel('Magento_TargetRule_Model_Actions_Condition_Product_Special')
-                ->getNewChildSelectOptions(),
+            array('value'=>$this->getType(), 'label'=>__('Conditions Combination')),
+            $this->_attributeFactory->create()->getNewChildSelectOptions(),
+            $this->_specialFactory->create()->getNewChildSelectOptions(),
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $conditions;

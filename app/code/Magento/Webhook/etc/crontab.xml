@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="webhook_process_messages" instance="Magento_PubSub_Event_QueueHandler" method="handle">
+        <schedule>* * * * *</schedule>
+    </job>
+    <job name="webhook_process_dispatchers" instance="Magento_PubSub_Job_QueueHandler" method="handle">
+        <schedule>* * * * *</schedule>
+    </job>
+    <job name="webhook_events_revoke_idling" instance="Magento_Webhook_Model_Resource_Event_Collection" method="revokeIdlingInProgress">
+        <schedule>*/15 * * * *</schedule>
+    </job>
+    <job name="webhook_jobs_revoke_idling" instance="Magento_Webhook_Model_Resource_Job_Collection" method="revokeIdlingInProgress">
+        <schedule>*/15 * * * *</schedule>
+    </job>
+</config>

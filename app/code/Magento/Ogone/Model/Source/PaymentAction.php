@@ -11,7 +11,7 @@
 /**
  * Ogone Payment Action Dropdown source
  */
-class Magento_Ogone_Model_Source_PaymentAction
+class Magento_Ogone_Model_Source_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Prepare payment action list as optional array
