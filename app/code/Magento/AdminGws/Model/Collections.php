@@ -280,8 +280,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      */
     public function limitAdminPermissionRoles($collection)
     {
-        $limited = $this->_collectionsFactory
-            ->create()
+        $limited = $this->_collectionsFactory->create()
             ->getRolesOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -298,8 +297,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      */
     public function limitAdminPermissionUsers($collection)
     {
-        $limited = $this->_collectionsFactory
-            ->create()
+        $limited = $this->_collectionsFactory->create()
             ->getUsersOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),

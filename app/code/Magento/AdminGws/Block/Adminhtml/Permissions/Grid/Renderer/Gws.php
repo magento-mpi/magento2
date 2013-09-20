@@ -39,7 +39,6 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws
         parent::__construct($context, $data);
     }
 
-
     /**
      * Render cell contents
      *

@@ -282,8 +282,7 @@ class Magento_AdminGws_Model_Role extends Magento_Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = $this->_categoryCollFactory
-                ->create()
+            $categories = $this->_categoryCollFactory->create()
                 ->addIdFilter($categoryIds);
             foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();

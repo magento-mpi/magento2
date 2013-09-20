@@ -851,8 +851,7 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     {
         $id = $this->_request->getParam('user_id');
         if ($id) {
-            $limited = $this->_collectionsFactory
-                ->create()
+            $limited = $this->_collectionsFactory->create()
                 ->getUsersOutsideLimitedScope(
                     $this->_role->getIsAll(),
                     $this->_role->getWebsiteIds(),
@@ -876,8 +875,7 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     {
         $id = $this->_request->getParam('rid', $this->_request->getParam('role_id'));
         if ($id) {
-            $limited = $this->_collectionsFactory
-                ->create()
+            $limited = $this->_collectionsFactory->create()
                 ->getRolesOutsideLimitedScope(
                     $this->_role->getIsAll(),
                     $this->_role->getWebsiteIds(),
