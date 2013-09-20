@@ -44,15 +44,26 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
     protected $_ratingCollectionF;
 
     /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Rating_Model_Rating_OptionFactory $ratingOptionFactory
      * @param Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Rating_Model_Rating_OptionFactory $ratingOptionFactory,
-        Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF
+        Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
     ) {
         $this->_ratingOptionFactory = $ratingOptionFactory;
         $this->_ratingCollectionF = $ratingCollectionF;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
