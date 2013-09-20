@@ -60,11 +60,6 @@ class Magento_Pci_Model_Observer
     protected $_userFactory;
 
     /**
-     * @var Magento_Api_Model_UserFactory
-     */
-    protected $_apiUserFactory;
-
-    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_Store_Config $storeConfig
@@ -73,7 +68,6 @@ class Magento_Pci_Model_Observer
      * @param Magento_Adminhtml_Model_Session $session
      * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_User_Model_UserFactory $userFactory
-     * @param Magento_Api_Model_UserFactory $apiUserFactory
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
@@ -83,8 +77,7 @@ class Magento_Pci_Model_Observer
         Magento_Backend_Model_Url $url,
         Magento_Adminhtml_Model_Session $session,
         Magento_Backend_Model_Auth_Session $authSession,
-        Magento_User_Model_UserFactory $userFactory,
-        Magento_Api_Model_UserFactory $apiUserFactory
+        Magento_User_Model_UserFactory $userFactory
     ) {
         $this->_coreData = $coreData;
         $this->_authorization = $authorization;
@@ -94,7 +87,6 @@ class Magento_Pci_Model_Observer
         $this->_session = $session;
         $this->_authSession = $authSession;
         $this->_userFactory = $userFactory;
-        $this->_apiUserFactory = $apiUserFactory;
     }
 
     /**
@@ -202,20 +194,6 @@ class Magento_Pci_Model_Observer
         }
 
         return (int)$latestPassword['expires'] < time();
-    }
-
-    /**
-     * Upgrade API key hash when api user has logged in
-     *
-     * @param Magento_Event_Observer $observer
-     */
-    public function upgradeApiKey($observer)
-    {
-        $apiKey = $observer->getEvent()->getApiKey();
-        $model  = $observer->getEvent()->getModel();
-        if (!$this->_coreData->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
-            $this->_apiUserFactory->create()->load($model->getId())->setNewApiKey($apiKey)->save();
-        }
     }
 
     /**
