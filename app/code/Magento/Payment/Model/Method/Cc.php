@@ -50,7 +50,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Centinel_Model_Service $service
+     * @param Magento_Centinel_Model_Service $centinelService
      * @param array $data
      */
     public function __construct(
@@ -61,14 +61,14 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $service,
+        Magento_Centinel_Model_Service $centinelService,
         array $data = array()
     ) {
         parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
         $this->_moduleList = $moduleList;
         $this->_logger = $logger;
         $this->_locale = $locale;
-        $this->_centinelService = $service;
+        $this->_centinelService = $centinelService;
     }
 
     /**
