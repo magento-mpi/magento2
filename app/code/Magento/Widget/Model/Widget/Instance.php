@@ -109,12 +109,12 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Widget_Model_Resource_Widget_Instance $resource
      * @param Magento_Widget_Model_Config_Reader $reader
      * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Cache_TypeListInterface $list
      * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
@@ -124,12 +124,12 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Widget_Model_Resource_Widget_Instance $resource,
         Magento_Widget_Model_Config_Reader $reader,
         Magento_Widget_Model_Widget $widget,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Cache_TypeListInterface $list,
         Magento_Catalog_Model_Product_Type $productType,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
