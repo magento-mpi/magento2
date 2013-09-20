@@ -16,6 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Value
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Xml config path to customers sharing scope value

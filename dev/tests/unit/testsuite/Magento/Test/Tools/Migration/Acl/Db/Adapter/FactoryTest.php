@@ -14,29 +14,17 @@ require_once realpath(__DIR__ . '/../../../../../../../../../../')
 class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tools_Migration_Acl_Db_Adapter_Factory
-     */
-    protected $_model;
-
-    /**
      * @var array
      */
     protected $_config;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Tools_Migration_Acl_Db_Adapter_Factory();
         $this->_config = array(
             'dbname' => 'some_db_name',
             'password' => '',
             'username' => '',
-
         );
-    }
-
-    protected function tearDown()
-    {
-        unset($this->_model);
     }
 
     /**
@@ -45,7 +33,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
     public function getAdapterDataProvider()
     {
         return array(
-            array('Magento_DB_Adapter_Pdo_Mysql'),
+            array('Magento_Db_Adapter_Pdo_Mysql'),
             array(''),
             array(null),
         );
@@ -57,9 +45,18 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
      */
     public function testGetAdapter($adapterType)
     {
-        $this->assertInstanceOf('Zend_Db_Adapter_Abstract',
-            $this->_model->getAdapter($this->_config, $adapterType)
-        );
+        $adapterMock = $this->getMock('Magento_Db_Adapter_Pdo_Mysql', array(), array(), '', false);
+
+        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager->expects($this->any())
+            ->method('create')
+            ->with($this->equalTo('Magento_Db_Adapter_Pdo_Mysql'))
+            ->will($this->returnValue($adapterMock));
+
+        $factory = new Magento_Tools_Migration_Acl_Db_Adapter_Factory($objectManager);
+        $adapter = $factory->getAdapter($this->_config, $adapterType);
+
+        $this->assertInstanceOf('Zend_Db_Adapter_Abstract', $adapter);
     }
 
     /**
@@ -67,6 +64,16 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
      */
     public function testGetAdapterWithInvalidType()
     {
-        $this->_model->getAdapter($this->_config, 'Magento_Object');
+        $adapterType = 'Magento_Object';
+        $adapterMock = $this->getMock($adapterType, array(), array(), '', false);
+
+        $objectManager = $this->getMock('Magento_ObjectManager');
+        $objectManager->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo($adapterType), $this->equalTo(array('config' => $this->_config)))
+            ->will($this->returnValue($adapterMock));
+
+        $factory = new Magento_Tools_Migration_Acl_Db_Adapter_Factory($objectManager);
+        $factory->getAdapter($this->_config, $adapterType);
     }
 }

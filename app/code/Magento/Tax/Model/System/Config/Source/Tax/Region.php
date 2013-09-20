@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Tax_Model_System_Config_Source_Tax_Region
+class Magento_Tax_Model_System_Config_Source_Tax_Region implements Magento_Core_Model_Option_ArrayInterface
 {
     protected $_options;
 

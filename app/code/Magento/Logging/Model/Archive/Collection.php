@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,14 +30,16 @@ class Magento_Logging_Model_Archive_Collection extends Magento_Data_Collection_F
     /**
      * Set target dir for scanning
      *
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Logging_Model_Archive $archive
      * @param Magento_Core_Model_LocaleInterface $locale
      */
     public function __construct(
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Logging_Model_Archive $archive,
         Magento_Core_Model_LocaleInterface $locale
     ) {
-        parent::__construct();
+        parent::__construct($entityFactory);
         $basePath = $archive->getBasePath();
         $file = new Magento_Io_File();
         $file->setAllowCreateFolders(true)->createDestinationDir($basePath);

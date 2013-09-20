@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_Authentication
+class Magento_Webhook_Model_Source_Authentication implements Magento_Core_Model_Option_ArrayInterface
 {
 
     /** @var array $_authenticationTypes */

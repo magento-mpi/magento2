@@ -20,9 +20,4 @@ class Magento_Tax_Model_Class_Source_Customer extends Magento_Eav_Model_Entity_A
         }
         return $this->_options;
     }
-
-    public function toOptionArray()
-    {
-        return $this->getAllOptions();
-    }
 }

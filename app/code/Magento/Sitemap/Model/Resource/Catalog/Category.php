@@ -33,6 +33,23 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
     protected $_attributesCache    = array();
 
     /**
+     * @var Magento_Catalog_Model_Resource_Category
+     */
+    protected $_categoryResource;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Category $categoryResource
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Category $categoryResource,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_categoryResource = $categoryResource;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource model (catalog/category)
      *
      */
@@ -126,7 +143,7 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
         }
 
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = Mage::getSingleton('Magento_Catalog_Model_Category')->getResource()->getAttribute($attributeCode);
+            $attribute = $this->_categoryResource->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id'    => $attribute->getEntityTypeId(),

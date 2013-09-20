@@ -11,7 +11,7 @@
 /**
  * Source model for Ogone DirectLink Payment Actions
  */
-class Magento_Pbridge_Model_Source_Ogone_PaymentAction
+class Magento_Pbridge_Model_Source_Ogone_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Prepare payment action list as optional array

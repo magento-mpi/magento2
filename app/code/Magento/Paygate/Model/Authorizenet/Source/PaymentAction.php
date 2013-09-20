@@ -14,7 +14,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Model_Authorizenet_Source_PaymentAction
+class Magento_Paygate_Model_Authorizenet_Source_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

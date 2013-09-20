@@ -11,15 +11,17 @@
 class Magento_Index_Model_Observer
 {
     /**
-     * Indexer model
-     *
      * @var Magento_Index_Model_Indexer
      */
     protected $_indexer;
 
-    public function __construct()
-    {
-        $this->_indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
+    /**
+     * @param Magento_Index_Model_Indexer $indexer
+     */
+    public function __construct(
+        Magento_Index_Model_Indexer $indexer
+    ) {
+        $this->_indexer = $indexer;
     }
 
     /**
@@ -126,5 +128,4 @@ class Magento_Index_Model_Observer
             Magento_Index_Model_Event::TYPE_SAVE
         );
     }
-
 }
