@@ -15,27 +15,18 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Model_Config extends Magento_Simplexml_Config
+class Magento_Install_Model_Config
 {
-    /**
-     * Wizard steps path
-     */
-    const XML_PATH_WIZARD_STEPS     = 'wizard/steps';
+
+    /** @var  Magento_Install_Model_Config_Data */
+    protected $_dataStorage;
 
     /**
-     * Path to filesystem check writable list
+     * @param Magento_Install_Model_Config_Data $dataStorage
      */
-    const XML_PATH_CHECK_WRITEABLE  = 'check/filesystem/writeable';
-
-    /**
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param string|Magento_Simplexml_Element|null $sourceData
-     */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $configReader, $sourceData = null)
+    public function __construct(Magento_Install_Model_Config_Data $dataStorage)
     {
-        parent::__construct($sourceData);
-        $this->loadString('<?xml version="1.0"?><config></config>');
-        $configReader->loadModulesConfiguration('install.xml', $this);
+        $this->_dataStorage = $dataStorage;
     }
 
     /**
@@ -47,10 +38,10 @@ class Magento_Install_Model_Config extends Magento_Simplexml_Config
      */
     public function getWizardSteps()
     {
+        $data = $this->_dataStorage->get();
         $steps = array();
-        foreach ((array)$this->getNode(self::XML_PATH_WIZARD_STEPS) as $stepName => $step) {
-            $stepObject = new Magento_Object((array)$step);
-            $stepObject->setName($stepName);
+        foreach ($data['steps'] as $step) {
+            $stepObject = new Magento_Object($step);
             $steps[] = $stepObject;
         }
         return $steps;
@@ -74,12 +65,15 @@ class Magento_Install_Model_Config extends Magento_Simplexml_Config
      */
     public function getPathForCheck()
     {
+        $data = $this->_dataStorage->get();
         $res = array();
 
-        $items = (array)$this->getNode(self::XML_PATH_CHECK_WRITEABLE);
+        $items = (isset($data['filesystem_prerequisites'])
+            && isset($data['filesystem_prerequisites']['writables'])) ?
+            $data['filesystem_prerequisites']['writables'] : array();
 
         foreach ($items as $item) {
-            $res['writeable'][] = (array)$item;
+            $res['writeable'][] = $item;
         }
 
         return $res;
@@ -92,10 +86,13 @@ class Magento_Install_Model_Config extends Magento_Simplexml_Config
      */
     public function getWritableFullPathsForCheck()
     {
+        $data = $this->_dataStorage->get();
         $paths = array();
-        $items = (array)$this->getNode(self::XML_PATH_CHECK_WRITEABLE);
+        $items = (isset($data['filesystem_prerequisites'])
+            && isset($data['filesystem_prerequisites']['writables'])) ?
+            $data['filesystem_prerequisites']['writables'] : array();
         foreach ($items as $nodeKey => $item) {
-            $value = (array)$item;
+            $value = $item;
             $value['path'] = Mage::getBaseDir($nodeKey);
             $paths[$nodeKey] = $value;
         }
