@@ -63,6 +63,10 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
 
         $this->_model = new Magento_AdminGws_Model_Controllers(
+            $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false),
+            $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false),
+            $this->getMock('Magento_AdminGws_Model_Resource_CollectionsFactory', array(), array(), '', false),
+            $this->getMock('Magento_Catalog_Model_Resource_ProductFactory', array(), array(), '', false),
             $this->_roleMock,
             $coreRegistry,
             $this->_requestMock,
