@@ -27,6 +27,12 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
     protected $_searchData = null;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory
      * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_Core_Model_Registry $coreRegistry
@@ -34,12 +40,14 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $collectionFactory,
         Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Search_Helper_Data $searchData,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         array $data = array()
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
         parent::__construct($coreRegistry, $catalogSearchData, $data);
@@ -91,7 +99,7 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
             return array();
         }
         /* @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
+        $collection = $this->_collectionFactory->create()
             ->setItemObjectClass('Magento_Catalog_Model_Resource_Eav_Attribute');
 
         if ($this->_searchData->getTaxInfluence()) {

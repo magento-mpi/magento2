@@ -9,12 +9,10 @@
  */
 
  /**
- * Enterprise search recommendations model
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
- */
+  * Enterprise search recommendations model
+  *
+  * @SuppressWarnings(PHPMD.LongVariable)
+  */
 class Magento_Search_Model_Recommendations
 {
     /**
@@ -37,15 +35,23 @@ class Magento_Search_Model_Recommendations
     protected $_searchLayer;
 
     /**
+     * @var Magento_Search_Model_Resource_RecommendationsFactory
+     */
+    protected $_recommendationsFactory;
+
+    /**
+     * @param Magento_Search_Model_Resource_RecommendationsFactory $recommendationsFactory
      * @param Magento_Search_Model_Search_Layer $searchLayer
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      */
     public function __construct(
+        Magento_Search_Model_Resource_RecommendationsFactory $recommendationsFactory,
         Magento_Search_Model_Search_Layer $searchLayer,
         Magento_Search_Helper_Data $searchData,
         Magento_CatalogSearch_Helper_Data $catalogSearchData
     ) {
+        $this->_recommendationsFactory = $recommendationsFactory;
         $this->_searchLayer = $searchLayer;
         $this->_searchData = $searchData;
         $this->_catalogSearchData = $catalogSearchData;
@@ -74,8 +80,8 @@ class Magento_Search_Model_Recommendations
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
-            $model = Mage::getResourceModel('Magento_Search_Model_Resource_Recommendations');
-            return $model->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
+            return $this->_recommendationsFactory->create()
+                ->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
         } else {
             return array();
         }

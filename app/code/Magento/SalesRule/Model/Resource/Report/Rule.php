@@ -19,6 +19,31 @@
 class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model_Resource_Report_Abstract
 {
     /**
+     * @var Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory
+     */
+    protected $_createdatFactory;
+
+    /**
+     * @var Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory
+     */
+    protected $_updatedatFactory;
+
+    /**
+     * @param Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory $createdatFactory
+     * @param Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory $updatedatFactory
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_SalesRule_Model_Resource_Report_Rule_CreatedatFactory $createdatFactory,
+        Magento_SalesRule_Model_Resource_Report_Rule_UpdatedatFactory $updatedatFactory,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_createdatFactory = $createdatFactory;
+        $this->_updatedatFactory = $updatedatFactory;
+        parent::__construct($resource);
+    }
+
+    /**
      * Resource Report Rule constructor
      *
      */
@@ -36,8 +61,8 @@ class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule_Createdat')->aggregate($from, $to);
-        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule_Updatedat')->aggregate($from, $to);
+        $this->_createdatFactory->create()->aggregate($from, $to);
+        $this->_updatedatFactory->create()->aggregate($from, $to);
         $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
 
         return $this;

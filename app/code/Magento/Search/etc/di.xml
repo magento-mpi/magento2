@@ -27,4 +27,9 @@
             <instance type="Magento_Search_Model_Search_Layer_Proxy" />
         </param>
     </type>
+    <type name="Magento_Search_Model_Catalog_Layer_Filter_Price">
+        <param name="resourceEngine">
+            <instance type="Magento_Search_Model_Resource_Engine_Proxy" />
+        </param>
+    </type>
 </config>
