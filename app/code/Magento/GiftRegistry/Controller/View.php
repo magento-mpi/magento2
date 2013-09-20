@@ -111,7 +111,7 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
             $session->addError(__($e->getMessage()));
         } catch (Exception $e) {
             $session->addException($e, __('We cannot add this item to your shopping cart.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         if (!$success) {
             $this->_redirect('*/*', array('_current' => true));

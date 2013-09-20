@@ -590,7 +590,7 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
                 ->save();
         } catch (Exception $e) {
             //quiet decline
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
     }
 
@@ -622,7 +622,7 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
 
                 $order->save();
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 //if we couldn't capture order, just leave it as NEW order.
             }
         }

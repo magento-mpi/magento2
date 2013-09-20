@@ -114,19 +114,29 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
     protected $_simpleXmlElementFactory;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Usp constructor
      *
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Directory_Helper_Data $directoryData     *
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
-     * @param Magento_Directory_Helper_Data $directoryData
      * @param array $data
      */
     public function __construct(
-        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
+        Magento_Core_Model_Logger $logger,
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory,
         array $data = array()
     ) {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
-        parent::__construct($directoryData, $data);
+        $this->_logger = $logger;
+        parent::__construct($directoryData, $coreStoreConfig, $data);
     }
 
     /**
@@ -194,7 +204,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig(
+            $origCountry = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             );
@@ -205,7 +215,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
         } else {
-            $origRegionCode = Mage::getStoreConfig(
+            $origRegionCode = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
                 $request->getStoreId()
             );
@@ -218,7 +228,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigPostcode()) {
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
-            $rowRequest->setOrigPostal(Mage::getStoreConfig(
+            $rowRequest->setOrigPostal($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -227,7 +237,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
         if ($request->getOrigCity()) {
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
-            $rowRequest->setOrigCity(Mage::getStoreConfig(
+            $rowRequest->setOrigCity($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY,
                 $request->getStoreId()
             ));
@@ -461,7 +471,8 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
                         break;
                     case 5:
                         $errorTitle = $row[1];
-                        Mage::log(__('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.') . ': ' . $errorTitle);
+                        $message = __('Sorry, something went wrong. Please try again or contact us and we\'ll try to help.');
+                        $this->_logger->log($message . ': ' . $errorTitle);
                         break;
                     case 6:
                         if (in_array($row[3], $allowedMethods)) {

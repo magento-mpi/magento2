@@ -26,6 +26,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
     protected $_cache;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
@@ -36,6 +37,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $config,
@@ -46,7 +48,7 @@ class Magento_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
         $resourceName
     ) {
         parent::__construct(
-            $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
         );
         $this->_cache = $cache;
     }

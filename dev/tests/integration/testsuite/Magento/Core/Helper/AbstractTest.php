@@ -37,12 +37,6 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_helper->isModuleOutputEnabled());
     }
 
-    public function test__()
-    {
-        $uniqueText = uniqid('prefix_');
-        $this->assertEquals($uniqueText, __($uniqueText));
-    }
-
     /**
      * @dataProvider escapeHtmlDataProvider
      */

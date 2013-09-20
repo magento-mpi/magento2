@@ -92,10 +92,18 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
     protected $_paymentData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Sales_Helper_Data $salesData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -105,12 +113,14 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
         Magento_Sales_Helper_Data $salesData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -412,7 +422,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
+        $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
         // Check if at least one recepient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
@@ -422,10 +432,10 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE, $storeId);
             $customerName = $order->getCustomerName();
         }
 
@@ -453,7 +463,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
         }
 
         // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
+        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);
         $mailer->setTemplateParams(array(
@@ -489,7 +499,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
+        $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
         // Check if at least one recepient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
@@ -497,10 +507,10 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $storeId);
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $storeId);
             $customerName = $order->getCustomerName();
         }
 
@@ -527,7 +537,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
         }
 
         // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId));
+        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId));
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);
         $mailer->setTemplateParams(array(
@@ -544,7 +554,7 @@ class Magento_Sales_Model_Order_Shipment extends Magento_Sales_Model_Abstract
 
     protected function _getEmails($configPath)
     {
-        $data = Mage::getStoreConfig($configPath, $this->getStoreId());
+        $data = $this->_coreStoreConfig->getConfig($configPath, $this->getStoreId());
         if (!empty($data)) {
             return explode(',', $data);
         }

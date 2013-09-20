@@ -131,7 +131,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
                 __('An error has occurred while adding products to google shopping account.'),
                 $e->getMessage()
             );
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             return;
         }
 
@@ -171,7 +171,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             return;
         }
 
@@ -211,7 +211,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             return;
         }
 
@@ -244,7 +244,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
                     ->parseGdataExceptionMessage($e->getMessage())
             );
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_getSession()->addError(__('Something went wrong during Captcha confirmation.'));
         }
 

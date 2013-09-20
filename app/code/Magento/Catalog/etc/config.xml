@@ -355,16 +355,4 @@
             </msrp>
         </sales>
     </default>
-    <crontab>
-        <jobs>
-            <catalog_product_index_price_reindex_all>
-                <schedule>
-                    <cron_expr>0 2 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Catalog_Model_Observer::reindexProductPrices</model>
-                </run>
-            </catalog_product_index_price_reindex_all>
-        </jobs>
-    </crontab>
 </config>

@@ -149,7 +149,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
             } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_getSession()->addError(__('Something went wrong while deleting these versions.'));
             }
         }
