@@ -25,11 +25,22 @@ class Magento_Downloadable_Model_Observer
     protected $_helper;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
      */
-    public function __construct(Magento_Core_Helper_Data $coreData)
-    {
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
         $this->_helper = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -109,13 +120,13 @@ class Magento_Downloadable_Model_Observer
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
                 $linkPurchased = Mage::getModel('Magento_Downloadable_Model_Link_Purchased');
-                $this->_helper->copyFieldset(
+                $this->_helper->copyFieldsetToTarget(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                $this->_helper->copyFieldset(
+                $this->_helper->copyFieldsetToTarget(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -124,7 +135,7 @@ class Magento_Downloadable_Model_Observer
                 $linkSectionTitle = (
                     $product->getLinksTitle()
                         ? $product->getLinksTitle()
-                        : Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
+                        : $this->_coreStoreConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
@@ -134,7 +145,7 @@ class Magento_Downloadable_Model_Observer
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        $this->_helper->copyFieldset(
+                        $this->_helper->copyFieldsetToTarget(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],
@@ -208,7 +219,7 @@ class Magento_Downloadable_Model_Observer
         );
 
         $downloadableItemsStatuses = array();
-        $orderItemStatusToEnable = Mage::getStoreConfig(
+        $orderItemStatusToEnable = $this->_coreStoreConfig->getConfig(
             Magento_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_ITEM_STATUS, $order->getStoreId()
         );
 
@@ -302,7 +313,7 @@ class Magento_Downloadable_Model_Observer
             }
         }
 
-        if ($isContain && Mage::getStoreConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
+        if ($isContain && $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
             $result->setIsAllowed(false);
         }
 

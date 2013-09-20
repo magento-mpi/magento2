@@ -51,13 +51,58 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
     protected $_sitemapData = null;
 
     /**
-     * @param Magento_Sitemap_Helper_Data $sitemapData
-     * @param Magento_Core_Model_Resource $resource
+     * @var Magento_Catalog_Model_Resource_Product
      */
+    protected $_productResource;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Status
+     */
+    protected $_productStatus;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     */
+    protected $_mediaAttribute;
+
+    /**
+     * @var Magento_Eav_Model_ConfigFactory
+     */
+    protected $_eavConfigFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Media_Config
+     */
+    protected $_mediaConfig;
+
     public function __construct(
         Magento_Sitemap_Helper_Data $sitemapData,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_Catalog_Model_Product_Status $productStatus,
+        Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media $mediaAttribute,
+        Magento_Eav_Model_ConfigFactory $eavConfigFactory,
+        Magento_Catalog_Model_Product_Media_Config $mediaConfig
     ) {
+        $this->_productResource = $productResource;
+        $this->_storeManager = $storeManager;
+        $this->_productVisibility = $productVisibility;
+        $this->_productStatus = $productStatus;
+        $this->_mediaAttribute = $mediaAttribute;
+        $this->_eavConfigFactory = $eavConfigFactory;
+        $this->_mediaConfig = $mediaConfig;
         $this->_sitemapData = $sitemapData;
         parent::__construct($resource);
     }
@@ -151,7 +196,7 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
     protected function _getAttribute($attributeCode)
     {
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = Mage::getSingleton('Magento_Catalog_Model_Product')->getResource()->getAttribute($attributeCode);
+            $attribute = $this->_productResource->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
@@ -175,7 +220,7 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
         $products = array();
 
         /* @var $store Magento_Core_Model_Store */
-        $store = Mage::app()->getStore($storeId);
+        $store = $this->_storeManager->getStore($storeId);
         if (!$store) {
             return false;
         }
@@ -200,10 +245,8 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
                 array('url' => 'request_path'))
             ->where('w.website_id = ?', $store->getWebsiteId());
 
-        $this->_addFilter($store->getId(), 'visibility',
-            Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds(), 'in');
-        $this->_addFilter($store->getId(), 'status',
-            Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds(), 'in');
+        $this->_addFilter($store->getId(), 'visibility', $this->_productVisibility->getVisibleInSiteIds(), 'in');
+        $this->_addFilter($store->getId(), 'status', $this->_productStatus->getVisibleStatusIds(), 'in');
 
         // Join product images required attributes
         $imageIncludePolicy = $this->_sitemapData->getProductImageIncludePolicy($store->getId());
@@ -306,9 +349,7 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
     protected function _getAllProductImages($product, $storeId)
     {
         $product->setStoreId($storeId);
-        /** @var $mediaGallery Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media */
-        $mediaGallery = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media');
-        $gallery = $mediaGallery->loadGallery($product, $this->_getMediaGalleryModel());
+        $gallery = $this->_mediaAttribute->loadGallery($product, $this->_getMediaGalleryModel());
 
         $imagesCollection = array();
         if ($gallery) {
@@ -333,7 +374,7 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
     {
         if (is_null($this->_mediaGalleryModel)) {
             /** @var $eavConfig Magento_Eav_Model_Config */
-            $eavConfig = Mage::getModel('Magento_Eav_Model_Config');
+            $eavConfig = $this->_eavConfigFactory->create();
             /** @var $eavConfig Magento_Eav_Model_Attribute */
             $mediaGallery = $eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'media_gallery');
             $this->_mediaGalleryModel = $mediaGallery->getBackend();
@@ -348,6 +389,6 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
      */
     protected function _getMediaConfig()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        return $this->_mediaConfig;
     }
 }

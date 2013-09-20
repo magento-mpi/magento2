@@ -37,11 +37,6 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     /**#@-*/
 
     /**
-     * Path to configuration node that indicates how to materialize view files: with or without "duplication"
-     */
-    const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
-
-    /**
      * @var Magento_Filesystem
      */
     protected $_filesystem;
@@ -64,23 +59,41 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     protected $_viewFileSystem;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Indicates how to materialize view files: with or without "duplication"
+     *
+     * @var bool
+     */
+    protected $_allowFilesDuplication;
+
+    /**
      * View files publisher model
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Css $cssHelper
      * @param Magento_Core_Model_View_Service $viewService
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param bool $allowFilesDuplication
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Css $cssHelper,
         Magento_Core_Model_View_Service $viewService,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        $allowFilesDuplication
     ) {
         $this->_filesystem = $filesystem;
         $this->_cssHelper = $cssHelper;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_logger = $logger;
+        $this->_allowFilesDuplication = $allowFilesDuplication;
     }
 
     /**
@@ -94,18 +107,13 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     /**
      * Publish file identified by $fileId basing on information about parent file path and name.
      *
-     * The method is public only because PHP 5.3 does not permit usage of protected methods inside the closures,
-     * even if a closure is created in the same class. The method is not intended to be used by a client of this class.
-     * If you ever need to call this method externally, then ensure you have a good reason for it. As such the method
-     * would need to be added to the class's interface and proxy.
-     *
      * @param string $fileId URL to the file that was extracted from $parentFilePath
      * @param string $parentFilePath path to the file
      * @param string $parentFileName original file name identifier that was requested for processing
      * @param array $params theme/module parameters array
      * @return string
      */
-    public function publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
+    protected function _publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
     {
         $relativeFilePath = $this->_getRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params);
         return $this->_getPublishedFilePath($relativeFilePath, $params);
@@ -189,11 +197,8 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
      */
     protected function _buildPublishedFilePath($filePath, $params, $sourcePath)
     {
-        $allowPublication = (string)Mage::getConfig()->getNode(
-            self::XML_PATH_ALLOW_DUPLICATION
-        );
         $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
-        if ($allowPublication || $isCssFile) {
+        if ($this->_allowFilesDuplication || $isCssFile) {
             $targetPath = $this->_buildPublicViewRedundantFilename($filePath, $params);
         } else {
             $targetPath = $this->_buildPublicViewSufficientFilename($sourcePath, $params);
@@ -309,9 +314,8 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
     {
         $content = $this->_filesystem->read($sourcePath);
 
-        $publisher = $this;
-        $callback = function ($fileId, $originalPath) use ($publisher, $fileName, $params) {
-            $relatedPathPublic = $publisher->publishRelatedViewFile(
+        $callback = function ($fileId, $originalPath) use ($fileName, $params) {
+            $relatedPathPublic = $this->_publishRelatedViewFile(
                 $fileId, $originalPath, $fileName, $params
             );
             return $relatedPathPublic;
@@ -319,7 +323,7 @@ class Magento_Core_Model_View_Publisher implements Magento_Core_Model_View_Publi
         try {
             $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
         } catch (Magento_Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $content;
     }

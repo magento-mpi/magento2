@@ -1,18 +1,11 @@
 <?php
 /**
+ * Product controller.
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Product controller
- *
- * @category   Magento
- * @package    Magento_Catalog
  */
 class Magento_Catalog_Controller_Product
     extends Magento_Core_Controller_Front_Action
@@ -75,7 +68,7 @@ class Magento_Catalog_Controller_Product
                     $this->_forward('noRoute');
                 }
             } else {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_forward('noRoute');
             }
         }

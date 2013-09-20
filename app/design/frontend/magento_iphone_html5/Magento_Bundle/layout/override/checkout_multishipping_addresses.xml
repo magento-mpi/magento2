@@ -8,13 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_addresses">
-        <reference name="checkout_addresses">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Checkout_Cart_Item_Renderer</argument>
-                <argument name="template" xsi:type="string">Magento_Checkout::multishipping/item/default.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="checkout_addresses">
+        <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_Checkout::multishipping/item/default.phtml"/>
+    </reference>
 </layout>

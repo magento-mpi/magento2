@@ -140,7 +140,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Init entity adapter model
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectManagerMock = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
@@ -153,7 +153,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
     }
@@ -435,9 +435,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function _getModelMock()
     {
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        
         $modelMock = new Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address(
             $this->_coreDataMock,
             $this->_coreStringMock,
+            $coreStoreConfig,
             $this->_getModelDependencies()
         );
 

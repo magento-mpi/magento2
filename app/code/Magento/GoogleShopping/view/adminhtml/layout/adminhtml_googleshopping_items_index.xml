@@ -8,11 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_googleshopping_items_index">
-        <reference name="head">
-            <action method="addJs">
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-googleshopping-googleshopping-js">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_GoogleShopping::googleshopping.js</argument>
-            </action>
-        </reference>
-    </handle>
+            </arguments>
+        </block>
+    </reference>
 </layout>

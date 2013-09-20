@@ -14,4 +14,4 @@
     <event name="page_block_html_topmenu_gethtml_before">
         <observer name="magento_versionscms_add_topmenu_items" instance="Magento_VersionsCms_Model_Observer" method="addCmsToTopmenuItems" />
     </event>
-</config>
+</config>

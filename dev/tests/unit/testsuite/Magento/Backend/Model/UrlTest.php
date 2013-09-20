@@ -33,11 +33,6 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     protected $_coreSessionMock;
 
     /**
-     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_coreHelperMock;
-
-    /**
      * @var Magento_Core_Controller_Request_Http
      */
     protected $_storeConfigMock;
@@ -62,7 +57,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     protected $_requestMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false);
 
@@ -71,9 +66,6 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
         $this->_coreSessionMock = $this->getMock('Magento_Core_Model_Session', array('getFormKey'), array(), '', false);
         $this->_coreSessionMock->expects($this->any())->method('getFormKey')->will($this->returnValue('salt'));
-
-        $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data', array('getHash'), array(), '', false);
-        $this->_coreHelperMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
         $mockItem = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
         $mockItem->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
@@ -96,14 +88,16 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->with(Magento_Backend_Model_Url::XML_PATH_STARTUP_MENU_ITEM)
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
-        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array('getHash'), array(), '', false);
+        $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
         $this->_model = new Magento_Backend_Model_Url(
-            $helperMock,
-            $this->_coreHelperMock,
-            $this->_coreSessionMock,
             $this->_storeConfigMock,
+            $coreConfig,
+            $helperMock,
+            $this->_coreSessionMock,
             $this->_menuConfigMock,
             $this->_coreDataMock
         );
@@ -173,12 +167,13 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
         $urlModel = new Magento_Backend_Model_Url(
-            $helperMock,
-            $this->_coreHelperMock,
-            $this->_coreSessionMock,
             $this->_storeConfigMock,
+            $coreConfig,
+            $helperMock,
+            $this->_coreSessionMock,
             $this->_menuConfigMock,
             $this->_coreDataMock
         );
@@ -209,12 +204,13 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
         $urlModel = new Magento_Backend_Model_Url(
-            $helperMock,
-            $this->_coreHelperMock,
-            $this->_coreSessionMock,
             $this->_storeConfigMock,
+            $coreConfig,
+            $helperMock,
+            $this->_coreSessionMock,
             $this->_menuConfigMock,
             $this->_coreDataMock
         );

@@ -158,7 +158,10 @@ class Magento_Test_Integrity_Theme_ViewFilesTest extends Magento_TestFramework_T
         /** @var Magento_Core_Model_Layout_Merge $layoutUpdate */
         $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
         $fileLayoutUpdates = $layoutUpdate->getFileLayoutUpdatesXml();
-        $elements = $fileLayoutUpdates->xpath('//action[@method="addCss" or @method="addJs"]/*[1]');
+        $elements = $fileLayoutUpdates->xpath(
+            '//block[@class="Magento_Page_Block_Html_Head_Css" or @class="Magento_Page_Block_Html_Head_Script"]'
+                . '/arguments/argument[@name="file"]'
+        );
         if ($elements) {
             foreach ($elements as $filenameNode) {
                 $viewFile = (string)$filenameNode;

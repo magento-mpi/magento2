@@ -28,6 +28,22 @@ class Magento_Page_Model_Config
     protected $_pageLayouts = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Initialize page layouts list
      *
      * @return Magento_Page_Model_Config
@@ -50,13 +66,13 @@ class Magento_Page_Model_Config
      */
     protected function _appendPageLayouts($xmlPath)
     {
-        if (!Mage::getConfig()->getNode($xmlPath)) {
+        if (!$this->_coreConfig->getNode($xmlPath)) {
             return $this;
         }
         if (!is_array($this->_pageLayouts)) {
             $this->_pageLayouts = array();
         }
-        foreach (Mage::getConfig()->getNode($xmlPath)->children() as $layoutCode => $layoutConfig) {
+        foreach ($this->_coreConfig->getNode($xmlPath)->children() as $layoutCode => $layoutConfig) {
             $this->_pageLayouts[$layoutCode] = new Magento_Object(array(
                 'label'         => __((string)$layoutConfig->label),
                 'code'          => $layoutCode,

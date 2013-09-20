@@ -7,56 +7,24 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Catalog Category (Non-Anchor)" id="catalog_category_view" type="page" parent="default">
-        <reference name="left">
-            <block class="Magento_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
-        </reference>
-        <reference name="breadcrumbs.container">
-            <block class="Magento_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
-                <block class="Magento_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
-                    <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
-                        <!-- The following code shows how to set your own pager increments -->
-                        <!--
-                        <action method="setDefaultListPerPage">
-                            <argument name="limit" xsi:type="string">4</argument>
-                        </action>
-                        <action method="setDefaultGridPerPage">
-                            <argument name="limit" xsi:type="string">3</argument>
-                        </action>
-                        <action method="addPagerLimit">
-                            <argument name="mode" xsi:type="string">list</argument>
-                            <argument name="limit" xsi:type="string">2</argument>
-                        </action>
-                        <action method="addPagerLimit">
-                            <argument name="mode" xsi:type="string">list</argument>
-                            <argument name="limit" xsi:type="string">4</argument>
-                        </action>
-                        <action method="addPagerLimit">
-                            <argument name="mode" xsi:type="string">list</argument>
-                            <argument name="limit" xsi:type="string">6</argument>
-                        </action>
-                        <action method="addPagerLimit">
-                            <argument name="mode" xsi:type="string">list</argument>
-                            <argument name="limit" xsi:type="string">8</argument>
-                        </action>
-                        <action method="addPagerLimit" translate="label">
-                            <argument name="mode" xsi:type="string">list</argument>
-                            <argument name="limit" xsi:type="string">all</argument>
-                            <argument name="label" xsi:type="string">All</argument>
-                        </action>
-                        -->
-                    </block>
-                    <action method="setToolbarBlockName">
-                        <argument name="name" xsi:type="string">product_list_toolbar</argument>
-                    </action>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Category (Non-Anchor)" type="page" parent="default">
+    <reference name="left">
+        <block class="Magento_Catalog_Block_Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
+    </reference>
+    <reference name="breadcrumbs.container">
+        <block class="Magento_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
+            <block class="Magento_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
+                <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                    <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                 </block>
+                <action method="setToolbarBlockName">
+                    <argument name="name" xsi:type="string">product_list_toolbar</argument>
+                </action>
             </block>
-        </reference>
-        <update handle="MAP_popup"/>
-    </handle>
+        </block>
+    </reference>
+    <update handle="MAP_popup"/>
 </layout>

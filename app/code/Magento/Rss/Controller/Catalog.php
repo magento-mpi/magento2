@@ -10,10 +10,6 @@
 
 /**
  * Customer reviews controller
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Action
 {
@@ -23,14 +19,28 @@ class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Actio
     protected $_configScope;
 
     /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Core_Model_Config_Scope $configScope
+     * @param Magento_Core_Model_Store_Config $storeConfig
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Config_Scope $configScope
+        Magento_Core_Model_Config_Scope $configScope,
+        Magento_Core_Model_Store_Config $storeConfig
     ) {
         $this->_configScope = $configScope;
+        $this->_storeConfig = $storeConfig;
+        $this->_logger = $context->getLogger();
         parent::__construct($context);
     }
 
@@ -49,7 +59,7 @@ class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Actio
         );
         if (isset($acl[$action])) {
             $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-            if ($this->authenticateAndAuthorizeAdmin($acl[$action])) {
+            if ($this->authenticateAndAuthorizeAdmin($acl[$action], $this->_logger)) {
                 return;
             }
         }
@@ -108,7 +118,7 @@ class Magento_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Actio
      */
     protected function _isEnabled($code)
     {
-        return Mage::getStoreConfigFlag("rss/catalog/{$code}");
+        return $this->_storeConfig->getConfigFlag("rss/catalog/{$code}");
     }
 
     /**

@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_widget_index">
-        <block class="Magento_Widget_Block_Adminhtml_Widget" name="wysiwyg_widget" output="1"/>
-    </handle>
+    <block class="Magento_Widget_Block_Adminhtml_Widget" name="wysiwyg_widget" output="1"/>
 </layout>

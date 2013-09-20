@@ -41,4 +41,4 @@
     <event name="payment_method_is_active">
         <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="preparePaymentMethod" />
     </event>
-</config>
+</config>

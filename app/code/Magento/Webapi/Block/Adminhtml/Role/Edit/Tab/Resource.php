@@ -15,6 +15,11 @@
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Backend_Block_Widget_Form
 {
     /**
+     * Web API ACL resources tree root ID.
+     */
+    const RESOURCES_TREE_ROOT_ID = '__root__';
+
+    /**
      * @var Magento_Acl_Resource_ProviderInterface
      */
     protected $_resourceProvider;
@@ -70,13 +75,8 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Back
      */
     protected function _prepareForm()
     {
-        /** @var $translator Magento_Webapi_Helper_Data */
-        $translator = $this->helper('Magento_Webapi_Helper_Data');
         $resources = $this->_resourceProvider->getAclResources();
-        $this->_aclResourcesTree = $this->_mapResources(
-            $resources[1]['children'],
-            $translator
-        );
+        $this->_aclResourcesTree = $this->_mapResources($resources[1]['children']);
         return parent::_prepareForm();
     }
 
@@ -84,10 +84,9 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Back
      * Map resources
      *
      * @param array $resources
-     * @param Magento_Webapi_Helper_Data $translator
      * @return array
      */
-    protected function _mapResources(array $resources, Magento_Webapi_Helper_Data $translator)
+    protected function _mapResources(array $resources)
     {
         $output = array();
         foreach ($resources as $resource) {
@@ -99,7 +98,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Back
             }
             $item['children'] = array();
             if (isset($resource['children'])) {
-                $item['children'] = $this->_mapResources($resource['children'], $translator);
+                $item['children'] = $this->_mapResources($resource['children']);
             }
             $output[] = $item;
         }

@@ -35,7 +35,7 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
      */
     public function __construct(Magento_ObjectManager $objectManager, Magento_Core_Model_Config $config)
     {
-        parent::__construct($objectManager);
+        parent::__construct($objectManager, $config);
         // load all possible keys
         $this->_keys = preg_split('/\s+/s', trim((string)$config->getNode('global/crypt/key')));
         $this->_keyVersion = count($this->_keys) - 1;

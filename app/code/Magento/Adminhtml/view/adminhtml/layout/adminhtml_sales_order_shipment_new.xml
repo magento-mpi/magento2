@@ -8,39 +8,35 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_shipment_new">
-        <reference name="head">
-            <action method="addJs">
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-shipment-packaging-js">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/shipment/packaging.js</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create" name="sales_shipment_create">
-                <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form" name="form" template="sales/order/shipment/create/form.phtml">
-                    <block class="Magento_Adminhtml_Block_Sales_Order_View_Info" name="order_info" template="sales/order/view/info.phtml"/>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking" name="shipment_tracking" template="sales/order/shipment/create/tracking.phtml"/>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items" name="order_items" template="sales/order/shipment/create/items.phtml">
-                        <action method="addItemRender">
-                            <argument name="type" xsi:type="string">default</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Renderer_Default</argument>
-                            <argument name="template" xsi:type="string">sales/order/shipment/create/items/renderer/default.phtml</argument>
-                        </action>
-                        <action method="addColumnRender">
-                            <argument name="column" xsi:type="string">qty</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Qty</argument>
-                            <argument name="template" xsi:type="string">sales/items/column/qty.phtml</argument>
-                        </action>
-                        <action method="addColumnRender">
-                            <argument name="column" xsi:type="string">name</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Name</argument>
-                            <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
-                        </action>
-                        <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
-                    </block>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging" name="shipment_packaging" template="sales/order/shipment/packaging/popup.phtml"/>
+            </arguments>
+        </block>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create" name="sales_shipment_create">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Form" name="form" template="sales/order/shipment/create/form.phtml">
+                <block class="Magento_Adminhtml_Block_Sales_Order_View_Info" name="order_info" template="sales/order/view/info.phtml"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Tracking" name="shipment_tracking" template="sales/order/shipment/create/tracking.phtml"/>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items" name="order_items" template="sales/order/shipment/create/items.phtml">
+                    <block class="Magento_Adminhtml_Block_Sales_Items_Renderer_Default" as="default" template="sales/order/shipment/create/items/renderer/default.phtml"/>
+                    <action method="addColumnRender">
+                        <argument name="column" xsi:type="string">qty</argument>
+                        <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Qty</argument>
+                        <argument name="template" xsi:type="string">sales/items/column/qty.phtml</argument>
+                    </action>
+                    <action method="addColumnRender">
+                        <argument name="column" xsi:type="string">name</argument>
+                        <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Name</argument>
+                        <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
+                    </action>
+                    <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
                 </block>
+                <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging" name="shipment_packaging" template="sales/order/shipment/packaging/popup.phtml"/>
             </block>
-        </reference>
-    </handle>
+        </block>
+    </reference>
 </layout>

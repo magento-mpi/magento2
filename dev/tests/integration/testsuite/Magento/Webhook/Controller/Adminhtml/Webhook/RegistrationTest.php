@@ -18,13 +18,13 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
     /** @var  Magento_Webhook_Model_Subscription */
     private $_subscription;
     
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_createDummySubscription();
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
         if (isset($this->_subscription)) {
@@ -65,6 +65,8 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
     /**
      * @param array $requestParam
      * @dataProvider requestParamDataProvider
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testRegisterActionMissingRequiredFields($requestParam)
     {
@@ -116,6 +118,8 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage
     /**
      * @param array $requestParam
      * @dataProvider requestParamDataProvider2
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testRegisterActionWithRequiredFields($requestParam)
     {

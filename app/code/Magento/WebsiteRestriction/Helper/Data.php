@@ -15,6 +15,17 @@
 class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
+     * Website restriction settings
+     */
+    const XML_PATH_RESTRICTION_ENABLED            = 'general/restriction/is_active';
+    const XML_PATH_RESTRICTION_MODE               = 'general/restriction/mode';
+    const XML_PATH_RESTRICTION_LANDING_PAGE       = 'general/restriction/cms_page';
+    const XML_PATH_RESTRICTION_HTTP_STATUS        = 'general/restriction/http_status';
+    const XML_PATH_RESTRICTION_HTTP_REDIRECT      = 'general/restriction/http_redirect';
+    const XML_NODE_RESTRICTION_ALLOWED_GENERIC    = 'frontend/magento/websiterestriction/full_action_names/generic';
+    const XML_NODE_RESTRICTION_ALLOWED_REGISTER   = 'frontend/magento/websiterestriction/full_action_names/register';
+    
+    /**
      * @var Magento_Core_Model_Store_Config
      */
     protected $_storeConfig;
@@ -30,17 +41,6 @@ class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstrac
         $this->_storeConfig = $storeConfig;
         parent::__construct($context);
     }
-
-    /**
-     * Website restriction settings
-     */
-    const XML_PATH_RESTRICTION_ENABLED            = 'general/restriction/is_active';
-    const XML_PATH_RESTRICTION_MODE               = 'general/restriction/mode';
-    const XML_PATH_RESTRICTION_LANDING_PAGE       = 'general/restriction/cms_page';
-    const XML_PATH_RESTRICTION_HTTP_STATUS        = 'general/restriction/http_status';
-    const XML_PATH_RESTRICTION_HTTP_REDIRECT      = 'general/restriction/http_redirect';
-    const XML_NODE_RESTRICTION_ALLOWED_GENERIC    = 'frontend/magento/websiterestriction/full_action_names/generic';
-    const XML_NODE_RESTRICTION_ALLOWED_REGISTER   = 'frontend/magento/websiterestriction/full_action_names/register';
 
     /**
      * Define if restriction is active

@@ -8,17 +8,21 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="head">
-            <action method="addJs" ifconfig="catalog/magento_catalogevent/enabled">
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-catalogevent-js-ticker-js" ifconfig="catalog/magento_catalogevent/enabled">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_CatalogEvent::js/ticker.js</argument>
-            </action>
-            <action method="addCss" ifconfig="catalog/magento_catalogevent/enabled">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Css" name="magento-catalogevent-widgets-css" ifconfig="catalog/magento_catalogevent/enabled">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_CatalogEvent::widgets.css</argument>
-            </action>
-            <action method="addJs" ifconfig="catalog/magento_catalogevent/enabled">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="magento-catalogevent-js-carousel-js" ifconfig="catalog/magento_catalogevent/enabled">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_CatalogEvent::js/carousel.js</argument>
-            </action>
-        </reference>
-    </handle>
+            </arguments>
+        </block>
+    </reference>
 </layout>

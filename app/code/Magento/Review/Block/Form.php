@@ -25,28 +25,68 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
     protected $_reviewData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Rating_Model_RatingFactory
+     */
+    protected $_ratingFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Review_Model_Session
+     */
+    protected $_reviewSession;
+
+    /**
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Rating_Model_RatingFactory $ratingFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Review_Model_Session $reviewSession
      * @param array $data
      */
     public function __construct(
         Magento_Review_Helper_Data $reviewData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Rating_Model_RatingFactory $ratingFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Review_Model_Session $reviewSession,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
+        $this->_customerSession = $customerSession;
+        $this->_productFactory = $productFactory;
+        $this->_ratingFactory = $ratingFactory;
+        $this->_storeManager = $storeManager;
+        $this->_reviewSession = $reviewSession;
         parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
     {
-        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+        $customerSession = $this->_customerSession;
 
         parent::_construct();
 
-        $data = Mage::getSingleton('Magento_Review_Model_Session')->getFormData(true);
+        $data = $this->_reviewSession->getFormData(true);
         $data = new Magento_Object((array)$data);
 
         // add logged in customer name as nickname
@@ -62,10 +102,9 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         );
         if (!$this->getAllowWriteReviewFlag()) {
             $queryParam = $this->_coreData->urlEncode(
-                Mage::getUrl('*/*/*', array('_current' => true)) .
-                '#review-form'
+                $this->getUrl('*/*/*', array('_current' => true)) . '#review-form'
             );
-            $this->setLoginLink(Mage::getUrl(
+            $this->setLoginLink($this->getUrl(
                     'customer/account/login/',
                     array(Magento_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
@@ -74,29 +113,29 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
 
         $this->setTemplate('form.phtml')
             ->assign('data', $data)
-            ->assign('messages', Mage::getSingleton('Magento_Review_Model_Session')->getMessages(true));
+            ->assign('messages', $this->_reviewSession->getMessages(true));
     }
 
     public function getProductInfo()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = $this->_productFactory-create();
         return $product->load($this->getRequest()->getParam('id'));
     }
 
     public function getAction()
     {
-        $productId = Mage::app()->getRequest()->getParam('id', false);
-        return Mage::getUrl('review/product/post', array('id' => $productId));
+        $productId = $this->getRequest()->getParam('id', false);
+        return $this->getUrl('review/product/post', array('id' => $productId));
     }
 
     public function getRatings()
     {
-        $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
+        $ratingCollection = $this->_ratingFactory
             ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()
-            ->addRatingPerStoreName(Mage::app()->getStore()->getId())
-            ->setStoreFilter(Mage::app()->getStore()->getId())
+            ->addRatingPerStoreName($this->_storeManager->getStore()->getId())
+            ->setStoreFilter($this->_storeManager->getStore()->getId())
             ->setActiveFilter(true)
             ->load()
             ->addOptionToItems();

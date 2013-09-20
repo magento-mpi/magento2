@@ -29,9 +29,9 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     protected $_viewFileSystem;
 
-    public function setUp()
+    protected function setUp()
     {
-        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
+        $pathChunks = array(__DIR__, '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
 
         $this->_viewFileSystem = $this->getMock('Magento_Core_Model_View_FileSystem',
             array('getFilename', 'getDesignTheme'), array(), '', false);
@@ -61,15 +61,21 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento_Core_Model_View_FileSystem');
 
-        Mage::getConfig()->setModuleDir('Magento_Core', 'i18n', dirname(__FILE__) . '/_files/Magento/Core/i18n');
-        Mage::getConfig()->setModuleDir('Magento_Catalog', 'i18n',
-            dirname(__FILE__) . '/_files/Magento/Catalog/i18n');
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = $objectManager->get('Magento_Core_Model_Config');
+        $configModel->setModuleDir('Magento_Core', 'i18n', __DIR__ . '/_files/Magento/Core/i18n');
+        $configModel->setModuleDir('Magento_Catalog', 'i18n',
+            __DIR__ . '/_files/Magento/Catalog/i18n');
 
+        /** @var Magento_Core_Model_View_Design _designModel */
         $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
             array('getDesignTheme'),
             array(
-                Mage::getSingleton('Magento_Core_Model_StoreManagerInterface'),
-                Mage::getSingleton('Magento_Core_Model_Theme_FlyweightFactory')
+                $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
+                $objectManager->get('Magento_Core_Model_Theme_FlyweightFactory'),
+                $objectManager->get('Magento_Core_Model_Config'),
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                array('frontend' => 'test_default')
             )
         );
 
@@ -124,7 +130,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     public function testGetData()
     {
         $this->markTestIncomplete('Bug MAGETWO-6986');
-        $expectedData = include(dirname(__FILE__) . '/Translate/_files/_translation_data.php');
+        $expectedData = include(__DIR__ . '/Translate/_files/_translation_data.php');
         $this->assertEquals($expectedData, $this->_model->getData());
     }
 

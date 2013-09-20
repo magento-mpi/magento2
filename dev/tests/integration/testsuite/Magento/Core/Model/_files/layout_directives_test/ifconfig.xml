@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <block class="Magento_Core_Block_Text" name="block1" ifconfig="not_exists">
+        <block class="Magento_Core_Block_Text" name="block2"/>
+    </block>
+    <block class="Magento_Core_Block_Text" name="block3" ifconfig="true_options">
+        <block class="Magento_Core_Block_Text" name="block4" ifconfig="not_exists"/>
+    </block>
+</layout>

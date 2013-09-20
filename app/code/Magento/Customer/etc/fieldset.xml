@@ -9,131 +9,130 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <global>
-        <fieldsets>
-            <customer_account>
-                <prefix>
-                    <create>1</create>
-                    <update>1</update>
-                    <name>1</name>
-                </prefix>
-                <firstname>
-                    <create>1</create>
-                    <update>1</update>
-                    <name>1</name>
-                </firstname>
-                <middlename>
-                    <create>1</create>
-                    <update>1</update>
-                    <name>1</name>
-                </middlename>
-                <lastname>
-                    <create>1</create>
-                    <update>1</update>
-                    <name>1</name>
-                </lastname>
-                <suffix>
-                    <create>1</create>
-                    <update>1</update>
-                    <name>1</name>
-                </suffix>
-                <email>
-                    <create>1</create>
-                    <update>1</update>
-                </email>
-                <password>
-                    <create>1</create>
-                </password>
-                <confirmation>
-                    <create>1</create>
-                </confirmation>
-                <dob>
-                    <create>1</create>
-                    <update>1</update>
-                </dob>
-                <taxvat>
-                    <create>1</create>
-                    <update>1</update>
-                </taxvat>
-                <gender>
-                    <create>1</create>
-                    <update>1</update>
-                </gender>
-            </customer_account>
-            <customer_address>
-                <vat_id>
-                    <to_quote_address>*</to_quote_address>
-                </vat_id>
-                <vat_is_valid>
-                    <to_quote_address>*</to_quote_address>
-                </vat_is_valid>
-                <vat_request_id>
-                    <to_quote_address>*</to_quote_address>
-                </vat_request_id>
-                <vat_request_date>
-                    <to_quote_address>*</to_quote_address>
-                </vat_request_date>
-                <vat_request_success>
-                    <to_quote_address>*</to_quote_address>
-                </vat_request_success>
-            </customer_address>
-            <sales_convert_order_address>
-                <vat_id>
-                    <to_quote_address>*</to_quote_address>
-                </vat_id>
-                <vat_is_valid>
-                    <to_quote_address>*</to_quote_address>
-                </vat_is_valid>
-                <vat_request_id>
-                    <to_quote_address>*</to_quote_address>
-                </vat_request_id>
-                <vat_request_date>
-                    <to_quote_address>*</to_quote_address>
-                </vat_request_date>
-                <vat_request_success>
-                    <to_quote_address>*</to_quote_address>
-                </vat_request_success>
-            </sales_convert_order_address>
-            <sales_convert_quote_address>
-                <vat_id>
-                    <to_order_address>*</to_order_address>
-                    <to_customer_address>*</to_customer_address>
-                </vat_id>
-                <vat_is_valid>
-                    <to_order_address>*</to_order_address>
-                    <to_customer_address>*</to_customer_address>
-                </vat_is_valid>
-                <vat_request_id>
-                    <to_order_address>*</to_order_address>
-                    <to_customer_address>*</to_customer_address>
-                </vat_request_id>
-                <vat_request_date>
-                    <to_order_address>*</to_order_address>
-                    <to_customer_address>*</to_customer_address>
-                </vat_request_date>
-                <vat_request_success>
-                    <to_order_address>*</to_order_address>
-                    <to_customer_address>*</to_customer_address>
-                </vat_request_success>
-            </sales_convert_quote_address>
-            <sales_copy_order_billing_address>
-                <vat_id>
-                    <to_order>*</to_order>
-                </vat_id>
-                <vat_is_valid>
-                    <to_order>*</to_order>
-                </vat_is_valid>
-                <vat_request_id>
-                    <to_order>*</to_order>
-                </vat_request_id>
-                <vat_request_date>
-                    <to_order>*</to_order>
-                </vat_request_date>
-                <vat_request_success>
-                    <to_order>*</to_order>
-                </vat_request_success>
-            </sales_copy_order_billing_address>
-        </fieldsets>
-    </global>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Core/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="customer_account">
+            <field name="prefix">
+                <aspect name="create" />
+                <aspect name="update" />
+                <aspect name="name" />
+            </field>
+            <field name="firstname">
+                <aspect name="create" />
+                <aspect name="update" />
+                <aspect name="name" />
+            </field>
+            <field name="middlename">
+                <aspect name="create" />
+                <aspect name="update" />
+                <aspect name="name" />
+            </field>
+            <field name="lastname">
+                <aspect name="create" />
+                <aspect name="update" />
+                <aspect name="name" />
+            </field>
+            <field name="suffix">
+                <aspect name="create" />
+                <aspect name="update" />
+                <aspect name="name" />
+            </field>
+            <field name="email">
+                <aspect name="create" />
+                <aspect name="update" />
+            </field>
+            <field name="password">
+                <aspect name="create" />
+            </field>
+            <field name="confirmation">
+                <aspect name="create" />
+            </field>
+            <field name="dob">
+                <aspect name="create" />
+                <aspect name="update" />
+            </field>
+            <field name="taxvat">
+                <aspect name="create" />
+                <aspect name="update" />
+            </field>
+            <field name="gender">
+                <aspect name="create" />
+                <aspect name="update" />
+            </field>
+        </fieldset>
+        <fieldset id="customer_address">
+            <field name="vat_id">
+                <aspect name="to_quote_address" />
+            </field>
+            <field name="vat_is_valid">
+                <aspect name="to_quote_address" />
+            </field>
+            <field name="vat_request_id">
+                <aspect name="to_quote_address" />
+            </field>
+            <field name="vat_request_date">
+                <aspect name="to_quote_address" />
+            </field>
+            <field name="vat_request_success">
+                <aspect name="to_quote_address" />
+            </field>
+        </fieldset>
+        <fieldset id="sales_convert_order_address">
+            <field name="vat_id">
+                <aspect name="to_quote_address" />
+            </field>
+            <field name="vat_is_valid">
+                <aspect name="to_quote_address" />
+            </field>
+            <field name="vat_request_id">
+                <aspect name="to_quote_address" />
+            </field>
+            <field name="vat_request_date">
+                <aspect name="to_quote_address" />
+            </field>
+            <field name="vat_request_success">
+                <aspect name="to_quote_address" />
+            </field>
+        </fieldset>
+        <fieldset id="sales_convert_quote_address">
+            <field name="vat_id">
+                <aspect name="to_order_address" />
+                <aspect name="to_customer_address" />
+            </field>
+            <field name="vat_is_valid">
+                <aspect name="to_order_address" />
+                <aspect name="to_customer_address" />
+            </field>
+            <field name="vat_request_id">
+                <aspect name="to_order_address" />
+                <aspect name="to_customer_address" />
+            </field>
+            <field name="vat_request_date">
+                <aspect name="to_order_address" />
+                <aspect name="to_customer_address" />
+            </field>
+            <field name="vat_request_success">
+                <aspect name="to_order_address" />
+                <aspect name="to_customer_address" />
+            </field>
+        </fieldset>
+        <fieldset id="sales_copy_order_billing_address">
+            <field name="vat_id">
+                <aspect name="to_order" />
+            </field>
+            <field name="vat_is_valid">
+                <aspect name="to_order" />
+            </field>
+            <field name="vat_request_id">
+                <aspect name="to_order" />
+            </field>
+            <field name="vat_request_date">
+                <aspect name="to_order" />
+            </field>
+            <field name="vat_request_success">
+                <aspect name="to_order" />
+            </field>
+        </fieldset>
+    </scope>
 </config>

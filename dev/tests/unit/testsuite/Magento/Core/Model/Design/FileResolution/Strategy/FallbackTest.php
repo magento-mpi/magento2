@@ -39,7 +39,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
      */
     protected $_theme;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_fallbackFile = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
         $this->_fallbackLocale = $this->getMockForAbstractClass(
@@ -64,7 +64,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
         $this->_theme = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->_fallbackFactory = null;
         $this->_fallbackFile = null;

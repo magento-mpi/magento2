@@ -8,25 +8,25 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Logger/File.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Logger/Console.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Logger/Factory.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/FileReader.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration//System/WriterInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Writer/Memory.php';
 
 
@@ -42,14 +42,14 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest exten
      */
     protected $_fileManagerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_model = new Magento_Tools_Migration_System_Configuration_Logger_Factory();
         $this->_fileManagerMock = $this->getMock(
             'Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_fileManagerMock);

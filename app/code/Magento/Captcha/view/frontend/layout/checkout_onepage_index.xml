@@ -8,57 +8,59 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_index">
-        <reference name="checkout.onepage.login">
-            <container name="login.form.additional.info" label="Form Additional Info">
-                <block class="Magento_Captcha_Block_Captcha" name="captcha">
-                    <action method="setFormId">
-                        <argument name="formId" xsi:type="string">user_login</argument>
-                    </action>
-                    <action method="setImgWidth">
-                        <argument name="width" xsi:type="string">230</argument>
-                    </action>
-                    <action method="setImgHeight">
-                        <argument name="width" xsi:type="string">50</argument>
-                    </action>
-                </block>
-            </container>
-        </reference>
-        <reference name="checkout.onepage.billing">
-            <container name="form.additional.info" label="Form Additional Info">
-                <block class="Magento_Captcha_Block_Captcha" name="captcha.guest.checkout">
-                    <reference name="head">
-                        <action method="addJs">
+    <reference name="checkout.onepage.login">
+        <container name="login.form.additional.info" label="Form Additional Info">
+            <block class="Magento_Captcha_Block_Captcha" name="captcha">
+                <action method="setFormId">
+                    <argument name="formId" xsi:type="string">user_login</argument>
+                </action>
+                <action method="setImgWidth">
+                    <argument name="width" xsi:type="string">230</argument>
+                </action>
+                <action method="setImgHeight">
+                    <argument name="width" xsi:type="string">50</argument>
+                </action>
+            </block>
+        </container>
+    </reference>
+    <reference name="checkout.onepage.billing">
+        <container name="form.additional.info" label="Form Additional Info">
+            <block class="Magento_Captcha_Block_Captcha" name="captcha.guest.checkout">
+                <reference name="head">
+                    <block class="Magento_Page_Block_Html_Head_Script" name="magento-captcha-onepage-js">
+                        <arguments>
                             <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
-                        </action>
-                    </reference>
-                    <action method="setFormId">
-                        <argument name="formId" xsi:type="string">guest_checkout</argument>
-                    </action>
-                    <action method="setImgWidth">
-                        <argument name="width" xsi:type="string">230</argument>
-                    </action>
-                    <action method="setImgHeight">
-                        <argument name="width" xsi:type="string">50</argument>
-                    </action>
-                </block>
-                <block class="Magento_Captcha_Block_Captcha" name="captcha.register.during.checkout">
-                    <reference name="head">
-                        <action method="addJs">
+                        </arguments>
+                    </block>
+                </reference>
+                <action method="setFormId">
+                    <argument name="formId" xsi:type="string">guest_checkout</argument>
+                </action>
+                <action method="setImgWidth">
+                    <argument name="width" xsi:type="string">230</argument>
+                </action>
+                <action method="setImgHeight">
+                    <argument name="width" xsi:type="string">50</argument>
+                </action>
+            </block>
+            <block class="Magento_Captcha_Block_Captcha" name="captcha.register.during.checkout">
+                <reference name="head">
+                    <block class="Magento_Page_Block_Html_Head_Script" name="magento-captcha-onepage-js">
+                        <arguments>
                             <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
-                        </action>
-                    </reference>
-                    <action method="setFormId">
-                        <argument name="formId" xsi:type="string">register_during_checkout</argument>
-                    </action>
-                    <action method="setImgWidth">
-                        <argument name="width" xsi:type="string">230</argument>
-                    </action>
-                    <action method="setImgHeight">
-                        <argument name="width" xsi:type="string">50</argument>
-                    </action>
-                </block>
-            </container>
-        </reference>
-    </handle>
+                        </arguments>
+                    </block>
+                </reference>
+                <action method="setFormId">
+                    <argument name="formId" xsi:type="string">register_during_checkout</argument>
+                </action>
+                <action method="setImgWidth">
+                    <argument name="width" xsi:type="string">230</argument>
+                </action>
+                <action method="setImgHeight">
+                    <argument name="width" xsi:type="string">50</argument>
+                </action>
+            </block>
+        </container>
+    </reference>
 </layout>

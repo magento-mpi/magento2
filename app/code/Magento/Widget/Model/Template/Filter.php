@@ -33,6 +33,7 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
     protected $_widget;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Widget_Model_Resource_Widget $widgetResource
@@ -40,16 +41,18 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
      * @param Magento_Core_Model_Layout $layout
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Widget_Model_Resource_Widget $widgetResource,
         Magento_Widget_Model_Widget $widget,
-        Magento_Core_Model_Layout $layout
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_widgetResource = $widgetResource;
         $this->_widget = $widget;
         $this->_layout = $layout;
-        parent::__construct($coreData, $viewUrl);
+        parent::__construct($logger, $coreData, $viewUrl, $coreStoreConfig);
     }
 
     /**
@@ -80,7 +83,7 @@ class Magento_Widget_Model_Template_Filter extends Magento_Cms_Model_Template_Fi
         }
         
         // we have no other way to avoid fatal errors for type like 'cms/widget__link', '_cms/widget_link' etc. 
-        $xml = $this->_widget->getXmlElementByType($type);
+        $xml = $this->_widget->getWidgetByClassType($type);
         if ($xml === null) {
             return '';
         }

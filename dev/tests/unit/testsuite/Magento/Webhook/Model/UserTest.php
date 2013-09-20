@@ -20,7 +20,7 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockAuthorization;
 
-    public function setUp()
+    protected function setUp()
     {
         $webApiId = 'web api id';
 

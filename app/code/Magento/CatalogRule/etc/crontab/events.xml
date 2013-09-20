@@ -11,4 +11,4 @@
     <event name="catalog_product_get_final_price">
         <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="processAdminFinalPrice" />
     </event>
-</config>
+</config>

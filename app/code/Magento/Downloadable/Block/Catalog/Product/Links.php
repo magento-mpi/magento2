@@ -18,6 +18,27 @@
 class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_Block_Product_Abstract
 {
     /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $taxData, $catalogData, $coreData, $context, $data);
+    }
+
+    /**
+     * Enter description here...
+     *
      * @return boolean
      */
     public function getLinksPurchasedSeparately()
@@ -134,7 +155,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return $this->_storeConfig->getConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
     }
 
     /**
@@ -144,7 +165,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_storeConfig->getConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
     /**

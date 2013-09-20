@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="customer_account">
-        <block class="Magento_AdvancedCheckout_Block_Customer_Link" name="customer_link_sku">
-            <action method="addDashboardLink">
-                <argument name="block" xsi:type="string">customer_account_navigation</argument>
-                <argument name="name" xsi:type="string">checkout</argument>
+    <reference name="customer-account-navigation">
+        <block class="Magento_AdvancedCheckout_Block_Customer_Link" name="customer-account-navigation-checkout-sku-link">
+            <arguments>
                 <argument name="path" xsi:type="string">magento_advancedcheckout/sku</argument>
-                <argument translate="true" name="label" xsi:type="string">Order by SKU</argument>
-            </action>
+                <argument name="label" xsi:type="string">Order by SKU</argument>
+            </arguments>
         </block>
-    </handle>
+    </reference>
 </layout>

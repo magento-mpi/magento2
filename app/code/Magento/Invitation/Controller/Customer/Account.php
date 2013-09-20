@@ -113,11 +113,6 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
             $customerId = $customer->getId();
             if ($customerId) {
                 $invitation->accept(Mage::app()->getWebsite()->getId(), $customerId);
-
-                $this->_eventManager->dispatch('magento_invitation_customer_accepted', array(
-                   'customer' => $customer,
-                   'invitation' => $invitation
-                ));
             }
             return;
         } catch (Magento_Core_Exception $e) {
@@ -137,7 +132,8 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
                     return;
                 } else {
                     $this->_getSession()->addError(__('Your invitation is not valid. Please contact us at %1.',
-                            Mage::getStoreConfig('trans_email/ident_support/email'))
+                            $this->_objectManager->get('Magento_Core_Model_Store_Config')
+                                ->getConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');
                     return;

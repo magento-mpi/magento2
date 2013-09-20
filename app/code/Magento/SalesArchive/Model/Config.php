@@ -19,13 +19,29 @@ class Magento_SalesArchive_Model_Config
     const XML_PATH_ARCHIVE_ORDER_STATUSES = 'sales/magento_salesarchive/order_statuses';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Check archiving activity
      *
      * @return boolean
      */
     public function isArchiveActive()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ARCHIVE_ACTIVE);
+        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ARCHIVE_ACTIVE);
     }
 
     /**
@@ -35,7 +51,7 @@ class Magento_SalesArchive_Model_Config
      */
     public function getArchiveAge()
     {
-        return (int) Mage::getStoreConfig(self::XML_PATH_ARCHIVE_AGE);
+        return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_AGE);
     }
 
     /**
@@ -45,34 +61,12 @@ class Magento_SalesArchive_Model_Config
      */
     public function getArchiveOrderStatuses()
     {
-        $statuses = Mage::getStoreConfig(self::XML_PATH_ARCHIVE_ORDER_STATUSES);
+        $statuses = $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_ORDER_STATUSES);
 
         if (empty($statuses)) {
             return array();
         }
 
         return explode(',', $statuses);
-    }
-
-    /**
-     * Check order archiveablility for single archiving
-     *
-     * @param Magento_Sales_Model_Order $order
-     * @param boolean $checkAge check order age for archive
-     * @return boolean
-     */
-    public function isOrderArchiveable($order, $checkAge = false)
-    {
-        if (in_array($order->getStatus(), $this->getArchiveOrderStatuses())) {
-            if ($checkAge) {
-                $now = Mage::app()->getLocale()->storeDate();
-                $updated = Mage::app()->getLocale()->storeDate($order->getUpdatedAt());
-
-            }
-
-            return true;
-        }
-
-        return false;
     }
 }

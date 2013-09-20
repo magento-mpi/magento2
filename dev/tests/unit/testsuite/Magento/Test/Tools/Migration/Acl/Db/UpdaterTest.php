@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Updater.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_TestCase
@@ -32,7 +32,7 @@ class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_
      */
     protected $_map = array();
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento_Tools_Migration_Acl_Db_Reader', array(), array(), '', false);
         $this->_readerMock->expects($this->once())->method('fetchAll')->will($this->returnValue(array(

@@ -49,7 +49,7 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     /**
      * Set required values
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_customerData = $this->getMockBuilder('Magento_Customer_Helper_Data')
             ->disableOriginalConstructor()
@@ -92,6 +92,7 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->setMethods(array())
             ->getMock();
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
         $this->_model = new Magento_Customer_Model_Customer(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
@@ -102,6 +103,7 @@ class Magento_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             $this->_senderMock,
             $this->_storeManager,
             $this->_config,
+            $coreStoreConfig,
             $this->_resourceMock,
             $this->_collectionMock,
             array()

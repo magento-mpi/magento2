@@ -9,6 +9,9 @@
 -->
 <config>
     <type name="Magento_SalesRule_Model_Resource_Rule_Collection" shared="false" />
+    <type name="Magento_Sales_Model_Quote_Config">
+        <plugin name="append_sales_rule_keys_to_quote" type="Magento_SalesRule_Model_Plugin_QuoteConfigProductAttributes"/>
+    </type>
     <type name="Magento_SalesRule_Model_Quote_Discount">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />

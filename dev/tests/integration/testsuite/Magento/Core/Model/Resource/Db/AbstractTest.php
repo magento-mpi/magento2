@@ -16,7 +16,7 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
         $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
@@ -34,10 +34,6 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
 
     public function testSetMainTable()
     {
-        if (!method_exists('ReflectionMethod', 'setAccessible')) {
-            $this->markTestSkipped('Test requires ReflectionMethod::setAccessible (PHP 5 >= 5.3.2).');
-        }
-
         $setMainTableMethod = new ReflectionMethod($this->_model, '_setMainTable');
         $setMainTableMethod->setAccessible(true);
 

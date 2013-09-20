@@ -24,7 +24,7 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')

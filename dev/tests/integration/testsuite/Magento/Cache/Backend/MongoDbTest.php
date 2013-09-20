@@ -16,7 +16,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
      */
     protected $_model = null;
 
-    public function setUp()
+    protected function setUp()
     {
         if (defined('MONGODB_CONNECTION_STRING')) {
             $this->_connectionString = MONGODB_CONNECTION_STRING;
@@ -34,7 +34,7 @@ class Magento_Cache_Backend_MongoDbTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         if (!empty($this->_connectionString) && extension_loaded('mongo')) {
             $this->_model = null;

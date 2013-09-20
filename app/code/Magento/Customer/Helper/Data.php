@@ -99,20 +99,38 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Customer_Helper_Address $customerAddress,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($context);
     }
 
@@ -209,7 +227,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
 
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
-        if (!$referer && !Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
+        if (!$referer && !$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
             && !Mage::getSingleton('Magento_Customer_Model_Session')->getNoReferer()
         ) {
             $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
@@ -347,9 +365,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRegistrationAllowed()
     {
-        $result = new Magento_Object(array('is_allowed' => true));
-        $this->_eventManager->dispatch('customer_registration_is_allowed', array('result' => $result));
-        return $result->getIsAllowed();
+        return true;
     }
 
     /**
@@ -414,7 +430,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) Mage::getConfig()->getValue(
+        return (int) $this->_coreConfig->getValue(
             self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
             'default'
         );
@@ -428,7 +444,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDefaultCustomerGroupId($store = null)
     {
-        return (int)Mage::getStoreConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
+        return (int)$this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
     }
 
     /**
@@ -453,7 +469,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         );
 
         if (isset($vatClassToGroupXmlPathMap[$vatClass])) {
-            $groupId = (int)Mage::getStoreConfig($vatClassToGroupXmlPathMap[$vatClass], $store);
+            $groupId = (int)$this->_coreStoreConfig->getConfig($vatClassToGroupXmlPathMap[$vatClass], $store);
         }
 
         return $groupId;
@@ -480,8 +496,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         ));
 
         if (!extension_loaded('soap')) {
-            Mage::logException(Mage::exception('Magento_Core',
-                __('PHP SOAP extension is required.')));
+            $this->_logger->logException(Mage::exception('Magento_Core', __('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 
@@ -593,7 +608,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         $message = '';
         $isError = true;
         $customerVatClass = $this->getCustomerVatClass($customerAddress->getCountryId(), $validationResult);
-        $groupAutoAssignDisabled = Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
+        $groupAutoAssignDisabled = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
 
         $willChargeTaxMessage    = __('You will be charged tax.');
         $willNotChargeTaxMessage = __('You will not be charged tax.');
@@ -618,7 +633,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         }
         else {
             $contactUsMessage = sprintf(__('If you believe this is an error, please contact us at %s'),
-                Mage::getStoreConfig(self::XML_PATH_SUPPORT_EMAIL));
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_SUPPORT_EMAIL));
 
             $message = __('Your Tax ID cannot be validated.') . ' '
                 . (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled

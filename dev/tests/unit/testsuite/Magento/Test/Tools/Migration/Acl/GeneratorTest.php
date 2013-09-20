@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Generator.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../')
+require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Formatter.php';
 
 /**
@@ -47,7 +47,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
      */
     protected $_fileManagerMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_xmlFormatterMock = $this->getMock('Magento_Tools_Migration_Acl_Formatter');
         $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');

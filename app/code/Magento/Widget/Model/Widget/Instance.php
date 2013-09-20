@@ -41,8 +41,10 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
 
     const XML_NODE_RELATED_CACHE = 'global/widget/related_cache_types';
 
+    /** @var array  */
     protected $_layoutHandles = array();
 
+    /** @var array */
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
@@ -145,7 +147,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
             'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
         );
-        foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+        foreach (array_keys($this->_productType->getTypes()) as $typeId) {
             $layoutHandle = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE);
             $this->_layoutHandles[$typeId . '_products'] = $layoutHandle;
             $this->_specificEntitiesLayoutHandles[$typeId . '_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;
@@ -325,9 +327,9 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     /**
      * Load widget XML config and merge with theme widget config
      *
-     * @return Magento_Simplexml_Element|null
+     * @return array|null
      */
-    public function getWidgetConfig()
+    public function getWidgetConfigAsArray()
     {
         if ($this->_widgetConfigXml === null) {
             $this->_widgetConfigXml = $this->_widget->getXmlElementByType($this->getType());
@@ -341,11 +343,19 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
                 ));
 
                 if (is_readable($configFile)) {
-                    $themeWidgetsConfig = new Magento_Simplexml_Config();
-                    $themeWidgetsConfig->loadFile($configFile);
-                    $themeWidgetConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
+                    $config = $this->_reader->readFile($configFile);
+                    $widgetName = isset($this->_widgetConfigXml['name']) ? $this->_widgetConfigXml['name'] : null;
+                    $themeWidgetConfig = null;
+                    if (!is_null($widgetName)) {
+                        foreach ($config as $widget) {
+                            if (isset($widget['name']) && ($widgetName === $widget['name'])) {
+                                $themeWidgetConfig = $widget;
+                                break;
+                            }
+                        }
+                    }
                     if ($themeWidgetConfig) {
-                        $this->_widgetConfigXml->extend($themeWidgetConfig);
+                        $this->_widgetConfigXml = array_replace_recursive($this->_widgetConfigXml, $themeWidgetConfig);
                     }
                 }
             }
@@ -361,19 +371,17 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     public function getWidgetTemplates()
     {
         $templates = array();
-        if ($this->getWidgetConfig() && ($configTemplates = $this->getWidgetConfig()->parameters->template)) {
-            if ($configTemplates->values && $configTemplates->values->children()) {
-                foreach ($configTemplates->values->children() as $name => $template) {
+        $widgetConfig = $this->getWidgetConfigAsArray();
+        if ($widgetConfig && isset($widgetConfig['parameters'])
+            && isset($widgetConfig['parameters']['template'])) {
+            $configTemplates = $widgetConfig['parameters']['template'];
+            if (isset($configTemplates['values'])) {
+                foreach ($configTemplates['values'] as $name => $template) {
                     $templates[(string)$name] = array(
-                        'value' => (string)$template->value,
-                        'label' => __((string)$template->label),
+                        'value' => $template['value'],
+                        'label' => __((string)$template['label'])
                     );
                 }
-            } elseif ($configTemplates->value) {
-                $templates['default'] = array(
-                    'value' => (string)$configTemplates->value,
-                    'label' => __('Default Template')
-                );
             }
         }
         return $templates;
@@ -387,9 +395,13 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     public function getWidgetSupportedContainers()
     {
         $containers = array();
-        if ($this->getWidgetConfig() && ($configNodes = $this->getWidgetConfig()->supported_containers)) {
-            foreach ($configNodes->children() as $node) {
-                $containers[] = (string)$node->container_name;
+        $widgetConfig = $this->getWidgetConfigAsArray();
+        if (isset($widgetConfig) && isset($widgetConfig['supported_containers'])) {
+            $configNodes = $widgetConfig['supported_containers'];
+            foreach ($configNodes as $node) {
+                if (isset($node['container_name'])) {
+                    $containers[] = (string)$node['container_name'];
+                }
             }
         }
         return $containers;
@@ -405,20 +417,21 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     {
         $templates = array();
         $widgetTemplates = $this->getWidgetTemplates();
-        if ($this->getWidgetConfig()) {
-            if (!($configNodes = $this->getWidgetConfig()->supported_containers)) {
+        $widgetConfig = $this->getWidgetConfigAsArray();
+        if (isset($widgetConfig)) {
+            if (!isset($widgetConfig['supported_containers'])) {
                 return $widgetTemplates;
             }
-            foreach ($configNodes->children() as $node) {
-                if ((string)$node->container_name == $containerName) {
-                    if ($node->template && $node->template->children()) {
-                        foreach ($node->template->children() as $template) {
+            $configNodes = $widgetConfig['supported_containers'];
+            foreach ($configNodes as $node) {
+                if (isset($node['container_name']) && ((string)$node['container_name'] == $containerName)) {
+                    if (isset($node['template'])) {
+                        $templateChildren = $node['template'];
+                        foreach ($templateChildren as $template) {
                             if (isset($widgetTemplates[(string)$template])) {
                                 $templates[] = $widgetTemplates[(string)$template];
                             }
                         }
-                    } else {
-                        $templates[] = $widgetTemplates[(string)$template];
                     }
                 }
             }
@@ -484,9 +497,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         $types = $this->_config->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = $this->_list;
-            $cacheTypeList->invalidate($types);
+            $this->_list->invalidate($types);
         }
         return $this;
     }

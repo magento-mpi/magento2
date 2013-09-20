@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_user_rolegrid">
-        <update handle="formkey"/>
-        <update handle="adminhtml_user_grid_block"/>
-        <container label="Admin User Container" name="adminhtml.user.grid.container" output="1"/>
-    </handle>
+    <update handle="formkey"/>
+    <update handle="adminhtml_user_grid_block"/>
+    <container label="Admin User Container" name="adminhtml.user.grid.container" output="1"/>
 </layout>

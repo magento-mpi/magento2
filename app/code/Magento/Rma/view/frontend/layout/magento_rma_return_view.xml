@@ -7,21 +7,19 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account Return View" id="magento_rma_return_view" type="page" parent="magento_rma_return_view_handle">
-        <reference name="customer_account_navigation">
-            <action method="setActive">
-                <argument name="path" xsi:type="string">rma/return/history/</argument>
-            </action>
-        </reference>
-        <update handle="customer_account"/>
-        <reference name="my.account.wrapper">
-            <block class="Magento_Rma_Block_Return_View" name="rma.return.history">
-                <container name="rma.return.history.info" as="info" label="Customer My Account Return View"/>
-            </block>
-            <block class="Magento_Rma_Block_Return_View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
-        </reference>
-        <update handle="magento_rma_return_view_handle"/>
-        <block class="Magento_Rma_Block_Return_Tracking" name="rma.return.tracking" as="tracking"/>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Return View" type="page" parent="magento_rma_return_view_handle">
+    <reference name="customer_account_navigation">
+        <action method="setActive">
+            <argument name="path" xsi:type="string">rma/return/history/</argument>
+        </action>
+    </reference>
+    <update handle="customer_account"/>
+    <reference name="my.account.wrapper">
+        <block class="Magento_Rma_Block_Return_View" name="rma.return.history">
+            <container name="rma.return.history.info" as="info" label="Customer My Account Return View"/>
+        </block>
+        <block class="Magento_Rma_Block_Return_View" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
+    </reference>
+    <update handle="magento_rma_return_view_handle"/>
+    <block class="Magento_Rma_Block_Return_Tracking" name="rma.return.tracking" as="tracking"/>
 </layout>

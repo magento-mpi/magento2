@@ -8,72 +8,78 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_banner_edit">
-        <update handle="editor"/>
-        <reference name="head">
-            <action method="addCss">
+    <update handle="editor"/>
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
+            <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
-            </action>
-            <action method="addJs">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-iframe-transport-js">
+            <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/jquery.iframe-transport.js</argument>
-            </action>
-            <action method="addJs">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-fileupload-js">
+            <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload.js</argument>
-            </action>
-            <action method="addJs">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-load-image-min-js">
+            <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/load-image.min.js</argument>
-            </action>
-            <action method="addJs">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-canvas-to-blob-min-js">
+            <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/canvas-to-blob.min.js</argument>
-            </action>
-            <action method="addJs">
+            </arguments>
+        </block>
+        <block class="Magento_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-fileupload-fp-js">
+            <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
-            </action>
-        </reference>
-        <reference name="left">
-            <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tabs" name="banner_edit_tabs">
-                <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties" name="banner_edit_tab_properties"/>
-                <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content" name="banner_edit_tab_content"/>
-                <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions" name="banner_edit_tab_promotions" template="edit/tab/promotions.phtml">
-                    <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule" name="banner_salesrule_grid"/>
-                    <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="salesrule_grid_serializer">
-                        <reference name="salesrule_grid_serializer">
-                            <action method="initSerializerBlock">
-                                <argument name="grid_block_name" xsi:type="string">banner_salesrule_grid</argument>
-                                <argument name="data_callback" xsi:type="string">getRelatedSalesRule</argument>
-                                <argument name="hidden_input_name" xsi:type="string">banner_sales_rules</argument>
-                                <argument name="reload_param_name" xsi:type="string">selected_salesrules</argument>
-                            </action>
-                        </reference>
-                    </block>
-                    <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid"/>
-                    <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="catalogrule_grid_serializer">
-                        <reference name="catalogrule_grid_serializer">
-                            <action method="initSerializerBlock">
-                                <argument name="grid_block_name" xsi:type="string">banner_catalogrule_grid</argument>
-                                <argument name="data_callback" xsi:type="string">getRelatedCatalogRule</argument>
-                                <argument name="hidden_input_name" xsi:type="string">banner_catalog_rules</argument>
-                                <argument name="reload_param_name" xsi:type="string">selected_catalogrules</argument>
-                            </action>
-                        </reference>
-                    </block>
+            </arguments>
+        </block>
+    </reference>
+    <reference name="left">
+        <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tabs" name="banner_edit_tabs">
+            <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties" name="banner_edit_tab_properties"/>
+            <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Content" name="banner_edit_tab_content"/>
+            <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions" name="banner_edit_tab_promotions" template="edit/tab/promotions.phtml">
+                <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule" name="banner_salesrule_grid"/>
+                <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="salesrule_grid_serializer">
+                    <arguments>
+                        <argument name="grid_block" xsi:type="string">banner_salesrule_grid</argument>
+                        <argument name="callback" xsi:type="string">getRelatedSalesRule</argument>
+                        <argument name="input_element_name" xsi:type="string">banner_sales_rules</argument>
+                        <argument name="reload_param_name" xsi:type="string">selected_salesrules</argument>
+                    </arguments>
                 </block>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">properties_section</argument>
-                    <argument name="block" xsi:type="string">banner_edit_tab_properties</argument>
-                </action>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">content_section</argument>
-                    <argument name="block" xsi:type="string">banner_edit_tab_content</argument>
-                </action>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">promotions_section</argument>
-                    <argument name="block" xsi:type="string">banner_edit_tab_promotions</argument>
-                </action>
+                <block class="Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule" name="banner_catalogrule_grid"/>
+                <block class="Magento_Adminhtml_Block_Widget_Grid_Serializer" name="catalogrule_grid_serializer">
+                    <arguments>
+                        <argument name="grid_block" xsi:type="string">banner_catalogrule_grid</argument>
+                        <argument name="callback" xsi:type="string">getRelatedCatalogRule</argument>
+                        <argument name="input_element_name" xsi:type="string">banner_catalog_rules</argument>
+                        <argument name="reload_param_name" xsi:type="string">selected_catalogrules</argument>
+                    </arguments>
+                </block>
             </block>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Banner_Block_Adminhtml_Banner_Edit" name="banner_edit_content"/>
-        </reference>
-    </handle>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">properties_section</argument>
+                <argument name="block" xsi:type="string">banner_edit_tab_properties</argument>
+            </action>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">content_section</argument>
+                <argument name="block" xsi:type="string">banner_edit_tab_content</argument>
+            </action>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">promotions_section</argument>
+                <argument name="block" xsi:type="string">banner_edit_tab_promotions</argument>
+            </action>
+        </block>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Banner_Block_Adminhtml_Banner_Edit" name="banner_edit_content"/>
+    </reference>
 </layout>

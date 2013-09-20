@@ -35,25 +35,6 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     }
 
     /**
-     * Set gift messages to order item on import item
-     *
-     * @param Magento_Object $observer
-     * @return Magento_GiftMessage_Model_Observer
-     */
-    public function salesEventConvertQuoteItemToOrderItem($observer)
-    {
-        $orderItem = $observer->getEvent()->getOrderItem();
-        $quoteItem = $observer->getEvent()->getItem();
-
-        $isAvailable = $this->_giftMessageMessage
-            ->getIsMessagesAvailable('item', $quoteItem, $quoteItem->getStoreId());
-
-        $orderItem->setGiftMessageId($quoteItem->getGiftMessageId())
-            ->setGiftMessageAvailable($isAvailable);
-        return $this;
-    }
-
-    /**
      * Set gift messages to order from quote address
      *
      * @param Magento_Object $observer

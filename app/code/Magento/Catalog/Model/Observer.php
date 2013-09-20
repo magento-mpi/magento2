@@ -38,17 +38,27 @@ class Magento_Catalog_Model_Observer
      * @var Magento_Catalog_Helper_Category
      */
     protected $_catalogCategory = null;
+    
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
 
     /**
+     * Constructor
+     *
      * @param Magento_Catalog_Helper_Category $catalogCategory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Catalog_Helper_Category $catalogCategory,
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
+        Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
+        Magento_Core_Model_Config $coreConfig
     ) {
+        $this->_coreConfig = $coreConfig;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogData = $catalogData;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
@@ -88,7 +98,7 @@ class Magento_Catalog_Model_Observer
         /* @var $store Magento_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
         Mage::app()->reinitStores();
-        Mage::getConfig()->reinit();
+        $this->_coreConfig->reinit();
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
@@ -170,18 +180,6 @@ class Magento_Catalog_Model_Observer
     {
         Mage::getModel('Magento_Catalog_Model_Url')->refreshRewrites();
         Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')->refreshProductIndex();
-        return $this;
-    }
-
-    /**
-     * Catalog Product Compare Items Clean
-     *
-     * @param Magento_Event_Observer $observer
-     * @return Magento_Catalog_Model_Observer
-     */
-    public function catalogProductCompareClean(Magento_Event_Observer $observer)
-    {
-        Mage::getModel('Magento_Catalog_Model_Product_Compare_Item')->clean();
         return $this;
     }
 

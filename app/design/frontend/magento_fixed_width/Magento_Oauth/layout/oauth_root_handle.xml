@@ -8,16 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="oauth_root_handle">
-        <reference name="head">
-            <action method="removeItem">
-                <argument name="type" xsi:type="string">js</argument>
-                <argument name="file" xsi:type="string">js/enterprise/catalogevent.js</argument>
-            </action>
-        </reference>
-        <remove name="account.links"/>
-        <remove name="checkout.links"/>
-        <remove name="welcome"/>
-        <remove name="cart_sidebar"/>
-    </handle>
+    <remove name="js-magento-catalogevent-js"/>
+    <remove name="account.links"/>
+    <remove name="checkout.links"/>
+    <remove name="welcome"/>
+    <remove name="cart_sidebar"/>
 </layout>

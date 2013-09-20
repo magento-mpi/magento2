@@ -1,13 +1,10 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Enterprise_Grid
-     * @subpackage  functional_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 class Enterprise_Mage_Grid_CustomerEditRewardPointHistoryUiTest extends Mage_Selenium_TestCase
 {
     /**

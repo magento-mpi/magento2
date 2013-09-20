@@ -65,7 +65,7 @@
     <xs:complexType name="options" mixed="true">
         <xs:complexContent>
             <xs:extension base="complexType">
-                <xs:attribute name="model" use="optional"/>
+                <xs:attribute name="model" use="required"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

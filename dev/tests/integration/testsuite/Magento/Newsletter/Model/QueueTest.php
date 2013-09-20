@@ -19,6 +19,12 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriber()
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
+        $design = $objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
+
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $collection = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
@@ -43,9 +49,16 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
                 $objectManager->get('Magento_Filesystem'),
                 $objectManager->get('Magento_Core_Model_View_Url'),
                 $objectManager->get('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_Design')
+                $objectManager->get('Magento_Core_Model_View_Design'),
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento_Core_Model_Config')
             )
         );
+
+        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+        $coreStoreConfig = new ReflectionProperty($emailTemplate, '_coreStoreConfig');
+        $coreStoreConfig->setAccessible(true);
+        $coreStoreConfig->setValue($emailTemplate, $storeConfig);
 
         $emailTemplate->expects($this->exactly(2))->method('_getMail')->will($this->onConsecutiveCalls(
             $subscriberOne, $subscriberTwo
@@ -78,10 +91,17 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
                 $objectManager->get('Magento_Filesystem'),
                 $objectManager->get('Magento_Core_Model_View_Url'),
                 $objectManager->get('Magento_Core_Model_View_FileSystem'),
-                $objectManager->get('Magento_Core_Model_View_Design')
+                $objectManager->get('Magento_Core_Model_View_Design'),
+                $objectManager->get('Magento_Core_Model_Store_Config'),
+                $objectManager->get('Magento_Core_Model_Config')
             )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
+
+        $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+        $coreStoreConfig = new ReflectionProperty($template, '_coreStoreConfig');
+        $coreStoreConfig->setAccessible(true);
+        $coreStoreConfig->setValue($template, $storeConfig);
 
         $queue = Mage::getModel('Magento_Newsletter_Model_Queue',
             array('data' => array('email_template' => $template))

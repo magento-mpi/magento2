@@ -258,8 +258,18 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
         /* @var $serializer Magento_Adminhtml_Block_Widget_Grid_Serializer */
-        $serializer = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Grid_Serializer');
-        $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
+        $serializer = $this->getLayout()->createBlock(
+            'Magento_Adminhtml_Block_Widget_Grid_Serializer',
+            '',
+            array(
+                'data' => array(
+                    'grid_block' => $chooser,
+                    'callback' => 'getSelectedProducts',
+                    'input_element_name' => 'selected_products',
+                    'reload_param_name' => 'selected_products'
+                )
+            )
+        );
         $this->setBody($chooser->toHtml() . $serializer->toHtml());
     }
 
@@ -269,7 +279,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
      */
     public function blocksAction()
     {
-        /* @var $widgetInstance age_Widget_Model_Widget_Instance */
+        /* @var $widgetInstance Magento_Widget_Model_Widget_Instance */
         $widgetInstance = $this->_initWidgetInstance();
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);

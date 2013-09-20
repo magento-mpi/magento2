@@ -49,6 +49,11 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_viewUrl;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -56,19 +61,28 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     protected $_coreData = null;
 
     /**
-     * Setup callbacks for filters
+     * Core store config
      *
-     *
-     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+    
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_View_Url $viewUrl
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
+        $this->_logger = $logger;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
     }
 
@@ -198,7 +212,6 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
     public function layoutDirective($construction)
     {
         $skipParams = array('handle', 'area');
-
         $params = $this->_getIncludeParameters($construction[2]);
         $layoutParams = array();
         if (isset($params['area'])) {
@@ -206,31 +219,31 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
         }
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout', $layoutParams);
-
-        $layout->getUpdate()->addHandle($params['handle']);
-        $layout->getUpdate()->load();
+        $layout->getUpdate()->addHandle($params['handle'])
+            ->load();
 
         $layout->generateXml();
         $layout->generateElements();
 
+        $rootBlock = false;
         foreach ($layout->getAllBlocks() as $block) {
             /* @var $block Magento_Core_Block_Abstract */
+            if (!$block->getParentBlock() && !$rootBlock) {
+                $rootBlock = $block;
+            }
             foreach ($params as $k => $v) {
                 if (in_array($k, $skipParams)) {
                     continue;
                 }
-
                 $block->setDataUsingMethod($k, $v);
             }
         }
 
         /**
-         * Add output method for first block
+         * Add root block to output
          */
-        $allBlocks = $layout->getAllBlocks();
-        $firstBlock = reset($allBlocks);
-        if ($firstBlock) {
-            $layout->addOutputElement($firstBlock->getNameInLayout());
+        if ($rootBlock) {
+            $layout->addOutputElement($rootBlock->getNameInLayout());
         }
 
         $layout->setDirectOutput(false);
@@ -455,7 +468,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = Mage::getStoreConfig($params['path'], $storeId);
+            $configValue = $this->_coreStoreConfig->getConfig($params['path'], $storeId);
         }
         return $configValue;
     }
@@ -498,7 +511,7 @@ class Magento_Core_Model_Email_Template_Filter extends Magento_Filter_Template
             $value = parent::filter($value);
         } catch (Exception $e) {
             $value = '';
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $value;
     }

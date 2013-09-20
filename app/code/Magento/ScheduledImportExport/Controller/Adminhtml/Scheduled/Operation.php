@@ -152,7 +152,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                     __("We couldn't save the scheduled operation.")
                 );
@@ -181,7 +181,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
                     __('Something sent wrong deleting the scheduled operation.')
                 );
@@ -226,7 +226,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We cannot delete all items.'));
             }
         }
@@ -263,7 +263,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')
                     ->addError(__('We cannot change status for all items.'));
             }

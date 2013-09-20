@@ -8,12 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="overlay_popup">
-        <update handle="popup"/>
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">admin/overlay_popup.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <update handle="popup"/>
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">admin/overlay_popup.phtml</argument>
+        </action>
+    </reference>
 </layout>

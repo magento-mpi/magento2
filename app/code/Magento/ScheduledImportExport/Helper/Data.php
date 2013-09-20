@@ -38,6 +38,8 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
+     * @param Magento_File_Size $fileSize
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_CustomerBalance_Helper_Data $customerBalanceData,
@@ -45,11 +47,13 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        Magento_Core_Model_Config $config,
+        Magento_File_Size $fileSize,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct($eventManager, $coreHttp, $context, $config);
+        parent::__construct($eventManager, $coreHttp, $context, $config, $fileSize, $coreStoreConfig);
     }
 
     /**

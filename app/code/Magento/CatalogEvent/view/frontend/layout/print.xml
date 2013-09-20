@@ -8,11 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="print">
-        <reference name="head">
-            <action method="addCss">
+    <reference name="head">
+        <block class="Magento_Page_Block_Html_Head_Css" name="magento-catalogevent-widgets-css">
+            <arguments>
                 <argument name="file" xsi:type="string">Magento_CatalogEvent::widgets.css</argument>
-            </action>
-        </reference>
-    </handle>
+            </arguments>
+        </block>
+    </reference>
 </layout>

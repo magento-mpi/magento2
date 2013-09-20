@@ -14,4 +14,4 @@
     <event name="core_block_abstract_to_html_before">
         <observer name="magento_advancedcheckout" instance="Magento_AdvancedCheckout_Model_Observer" method="addCartLink" />
     </event>
-</config>
+</config>

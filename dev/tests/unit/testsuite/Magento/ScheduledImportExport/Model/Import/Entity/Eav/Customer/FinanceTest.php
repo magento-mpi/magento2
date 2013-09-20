@@ -127,7 +127,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     /**
      * Init entity adapter model
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->_bunchNumber = 0;
         if ($this->getName() == 'testImportDataCustomBehavior') {
@@ -162,6 +162,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             ->will($this->returnValue($this->getModelInstance('Magento_CustomerBalance_Model_Balance')));
         $rewardFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->getModelInstance('Magento_Reward_Model_Reward')));
+        
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
         $this->_model = new Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance(
             $coreData,
@@ -170,6 +172,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             $customerFactory,
             $balanceFactory,
             $rewardFactory,
+            $coreStoreConfig,
             $dependencies
         );
     }
@@ -177,7 +180,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     /**
      * Unset entity adapter model
      */
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->_model);
         unset($this->_bunchNumber);

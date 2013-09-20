@@ -47,16 +47,24 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     protected $_rulesIdsFilter;
 
     /**
+     * @var Magento_SalesRule_Model_Resource_Report_Rule
+     */
+    protected $_reportRule;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Sales_Model_Resource_Report $resource
+     * @param Magento_SalesRule_Model_Resource_Report_Rule $reportRule
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Sales_Model_Resource_Report $resource
+        Magento_Sales_Model_Resource_Report $resource,
+        Magento_SalesRule_Model_Resource_Report_Rule $reportRule
     ) {
         $resource->init($this->_aggregationTable);
+        $this->_reportRule = $reportRule;
         parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
@@ -148,10 +156,8 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
             return $this;
         }
 
-        $rulesList = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
-
+        $rulesList = $this->_reportRule->getUniqRulesNamesList();
         $rulesFilterSqlParts = array();
-
         foreach ($this->_rulesIdsFilter as $ruleId) {
             if (!isset($rulesList[$ruleId])) {
                 continue;
@@ -163,6 +169,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
         if (!empty($rulesFilterSqlParts)) {
             $this->getSelect()->where(implode($rulesFilterSqlParts, ' OR '));
         }
+        return $this;
     }
 
     /**

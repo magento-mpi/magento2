@@ -18,30 +18,31 @@
 class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Application instance
-     *
-     * @var Magento_Core_Model_App
+     * @var Magento_Core_Model_StoreManagerInterface
      */
-    protected $_app;
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Rating_Model_Resource_Rating_Option_CollectionFactory
+     */
+    protected $_ratingCollectionF;
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
-     * @param array $data
-     * @throws InvalidArgumentException
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null,
-        $data = array()
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $ratingCollectionF,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
-
-        if (!($this->_app instanceof Magento_Core_Model_App)) {
-            throw new InvalidArgumentException('Required app object is invalid');
-        }
+        $this->_storeManager = $storeManager;
+        $this->_ratingCollectionF = $ratingCollectionF;
         parent::__construct($eventManager, $fetchStrategy, $resource);
     }
 
@@ -106,7 +107,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      */
     public function setStoreFilter($storeId)
     {
-        if ($this->_app->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $this;
         }
         $adapter = $this->getConnection();
@@ -146,7 +147,8 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            $collection = Mage::getResourceModel('Magento_Rating_Model_Resource_Rating_Option_Collection')
+            /** @var Magento_Rating_Model_Resource_Rating_Option_Collection $collection */
+            $collection = $this->_ratingCollectionF->create()
                 ->addRatingFilter($arrRatingId)
                 ->setPositionOrder()
                 ->load();
@@ -191,7 +193,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
                 array('review_store' => $this->getTable('review_store')),
                 'rating_option_vote.review_id=review_store.review_id AND review_store.store_id = :store_id',
                 array());
-        if (!$this->_app->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $select->join(
                 array('rst' => $this->getTable('rating_store')),
                 'rst.rating_id = rating_option_vote.rating_id AND rst.store_id = :rst_store_id',
@@ -208,7 +210,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
 
             ':pk_value'     => $entityPkValue
         );
-        if (!$this->_app->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $bind[':rst_store_id'] = (int)$storeId;
         }
 
@@ -247,7 +249,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      */
     public function addStoresToCollection()
     {
-        if ($this->_app->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $this;
         }
         if (!$this->_isCollectionLoaded) {

@@ -2,10 +2,6 @@
 /**
  * Application configuration object. Used to access configuration when application is initialized and installed.
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -14,7 +10,6 @@
 
 
 /**
- * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -111,12 +106,21 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_storeCollection;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_Config_StorageInterface $storage
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Config_ScopeInterface $configScope
      * @param Magento_Core_Model_Config_SectionPool $sectionPool
+     * @param Magento_Config_ScopeInterface $configScope
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
@@ -124,9 +128,11 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Config_ScopeInterface $configScope,
-        Magento_Core_Model_Config_SectionPool $sectionPool
+        Magento_Core_Model_Config_SectionPool $sectionPool,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         Magento_Profiler::start('config_load');
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_objectManager = $objectManager;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
@@ -333,24 +339,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     }
 
     /**
-     * Get fieldset from configuration
-     *
-     * @param string $name fieldset name
-     * @param string $root fieldset area, could be 'admin'
-     * @return null|array
-     */
-    public function getFieldset($name, $root = 'global')
-    {
-        /** @var $config Magento_Core_Model_Config_Base */
-        $config = $this->_objectManager->get('Magento_Core_Model_Config_Fieldset');
-        $rootNode = $config->getNode($root . '/fieldsets');
-        if (!$rootNode) {
-            return null;
-        }
-        return $rootNode->$name ? $rootNode->$name->children() : null;
-    }
-
-    /**
      * Check whether given path should be secure according to configuration security requirements for URL
      * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
      *
@@ -359,7 +347,7 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     public function shouldUrlBeSecure($url)
     {
-        if (!Mage::getStoreConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
+        if (!$this->_coreStoreConfig->getConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
             return false;
         }
 
@@ -433,9 +421,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      */
     public function removeCache()
     {
-        /** @var $eventManager Magento_Core_Model_Event_Manager */
-        $eventManager = $this->_objectManager->get('Magento_Core_Model_Event_Manager');
-        $eventManager->dispatch('application_clean_cache', array('tags' => array(self::CACHE_TAG)));
         $this->_storage->removeCache();
     }
 

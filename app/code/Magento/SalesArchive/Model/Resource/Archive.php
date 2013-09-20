@@ -35,6 +35,31 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
     );
 
     /**
+     * @var Magento_SalesArchive_Model_Config
+     */
+    protected $_configModel;
+
+    /**
+     * @var Magento_SalesArchive_Model_Resource_Archive_Factory
+     */
+    protected $_archiveFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_SalesArchive_Model_Config $configModel
+     * @param Magento_SalesArchive_Model_Resource_Archive_Factory $archiveFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_SalesArchive_Model_Config $configModel,
+        Magento_SalesArchive_Model_Resource_Archive_Factory $archiveFactory
+    ) {
+        $this->_configModel = $configModel;
+        $this->_archiveFactory = $archiveFactory;
+        parent::__construct($resource);
+    }
+
+    /**
      * Model initialization
      *
      */
@@ -61,7 +86,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_SalesArchive_Model_Config');
+        return $this->_configModel;
     }
 
     /**
@@ -231,7 +256,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntitySourceTable($archiveEntity);
         $targetTable = $this->getArchiveEntityTable($archiveEntity);
-        $sourceResource = Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
+        $sourceResource = $this->_archiveFactory->get($archive->getEntityResourceModel($archiveEntity));
         if ($conditionValue instanceof Zend_Db_Expr) {
             $select = $adapter->select();
             // Remove order grid records moved to archive
@@ -263,7 +288,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         $adapter = $this->_getWriteAdapter();
         $sourceTable = $this->getArchiveEntityTable($archiveEntity);
         $targetTable = $this->getArchiveEntitySourceTable($archiveEntity);
-        $sourceResource = Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
+        $sourceResource = $this->_archiveFactory->get($archive->getEntityResourceModel($archiveEntity));
 
         $insertFields = array_intersect(
             array_keys($adapter->describeTable($targetTable)),
@@ -316,7 +341,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         }
 
         /* @var $resource Magento_Sales_Model_Resource_Abstract */
-        $resource = Mage::getResourceSingleton($archive->getEntityResourceModel($archiveEntity));
+        $resource = $this->_archiveFactory->get($archive->getEntityResourceModel($archiveEntity));
 
         $gridColumns = array_keys($this->_getWriteAdapter()->describeTable(
             $this->getArchiveEntityTable($archiveEntity)
@@ -350,7 +375,7 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
         }
 
         /** @var $resource Magento_Sales_Model_Resource_Abstract */
-        $resource = Mage::getResourceSingleton($resourceClass);
+        $resource = $this->_archiveFactory->get($resourceClass);
 
         $select = $this->_getReadAdapter()->select()
             ->from(array('main_table' => $resource->getMainTable()), 'entity_id')

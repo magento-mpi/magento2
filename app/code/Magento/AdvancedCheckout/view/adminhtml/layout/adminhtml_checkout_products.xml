@@ -8,8 +8,6 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_checkout_products">
-        <remove name="root"/>
-        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products" name="checkout.accordion.products" output="1"/>
-    </handle>
+    <remove name="root"/>
+    <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products" name="checkout.accordion.products" output="1"/>
 </layout>

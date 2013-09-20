@@ -18,7 +18,7 @@ class Magento_Webhook_Model_Job_QueueWriterTest extends PHPUnit_Framework_TestCa
     /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_jobFactory;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_jobFactory = $this->getMockBuilder('Magento_Webhook_Model_Job_Factory')
             ->disableOriginalConstructor()

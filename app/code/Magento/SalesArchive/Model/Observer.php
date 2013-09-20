@@ -31,17 +31,29 @@ class Magento_SalesArchive_Model_Observer
      *
      * @var Magento_Backend_Helper_Data
      */
-    protected $_backendData = null;
+    protected $_backendData;
+
+    /**
+     * @var Magento_SalesArchive_Model_Resource_Order_Collection
+     */
+    protected $_orderCollection;
 
     /**
      * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_SalesArchive_Model_Archive $archive
+     * @param Magento_SalesArchive_Model_Config $config
+     * @param Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData
+        Magento_Backend_Helper_Data $backendData,
+        Magento_SalesArchive_Model_Archive $archive,
+        Magento_SalesArchive_Model_Config $config,
+        Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection
     ) {
         $this->_backendData = $backendData;
-        $this->_archive = Mage::getModel('Magento_SalesArchive_Model_Archive');
-        $this->_config  = Mage::getSingleton('Magento_SalesArchive_Model_Config');
+        $this->_archive = $archive;
+        $this->_config  = $config;
+        $this->_orderCollection = $orderCollection;
     }
 
     /**
@@ -147,8 +159,7 @@ class Magento_SalesArchive_Model_Observer
         $collectionSelect = $collection->getSelect();
         $cloneSelect = clone $collectionSelect;
 
-        $union = Mage::getResourceModel('Magento_SalesArchive_Model_Resource_Order_Collection')
-            ->getOrderGridArchiveSelect($cloneSelect);
+        $union = $this->_orderCollection->getOrderGridArchiveSelect($cloneSelect);
 
         $unionParts = array($cloneSelect, $union);
 

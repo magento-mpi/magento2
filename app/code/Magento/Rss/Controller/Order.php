@@ -10,12 +10,7 @@
 
 /**
  * Customer reviews controller
- *
- * @category   Magento
- * @package    Magento_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
 {
     /**
@@ -31,6 +26,11 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config_Scope $configScope
@@ -42,6 +42,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configScope = $configScope;
+        $this->_logger = $context->getLogger();
         parent::__construct($context);
     }
 
@@ -49,7 +50,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     {
         if ('new' === $this->getRequest()->getActionName()) {
             $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-            if (!$this->authenticateAndAuthorizeAdmin('Magento_Sales::sales_order')) {
+            if (!$this->authenticateAndAuthorizeAdmin('Magento_Sales::sales_order', $this->_logger)) {
                 return;
             }
         }

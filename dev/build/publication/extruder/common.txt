@@ -1,6 +1,7 @@
 # Files or directories that are not to be part of any Magento product edition (for any reason, can be non-technical)
 #
 app/etc/aliases_to_classes_map.json
+dev/tests/api-functional
 dev/tests/functional
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Magento/Test/Legacy/FilesystemTest.php

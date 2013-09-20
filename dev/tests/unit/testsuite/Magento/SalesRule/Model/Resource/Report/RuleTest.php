@@ -55,7 +55,11 @@ class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework
             ->method('getTableName')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $model = new Magento_SalesRule_Model_Resource_Report_Rule($resourceMock);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $model = $objectManager->getObject(
+            'Magento_SalesRule_Model_Resource_Report_Rule',
+            array('resource' => $resourceMock)
+        );
 
         $expectedRuleNames = array();
         foreach ($this->_rules as $rule) {

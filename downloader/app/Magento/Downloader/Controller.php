@@ -122,7 +122,6 @@ final class Magento_Downloader_Controller
 
     //////////////////////////// ACTIONS
 
-
     /**
      * Get ftp string from post data
      *
@@ -403,7 +402,7 @@ final class Magento_Downloader_Controller
         $this->channelConfig()->setSettingsView($this->session(), $this->view());
 
         $fs_disabled =! $this->isWritable();
-        $ftpParams = $config->__get('remote_config') ? @parse_url($config->__get('remote_config')) : '';
+        $ftpParams = $config->__get('remote_config') ? parse_url($config->__get('remote_config')) : '';
 
         $this->view()->set('fs_disabled', $fs_disabled);
         $this->view()->set('deployment_type', ($fs_disabled || !empty($ftpParams) ? 'ftp' : 'fs'));
@@ -462,7 +461,7 @@ final class Magento_Downloader_Controller
      */
     public function __construct()
     {
-        $this->_rootDir = dirname(dirname(__FILE__));
+        $this->_rootDir = dirname(__DIR__);
         $this->_mageDir = dirname($this->_rootDir);
     }
 
@@ -490,13 +489,13 @@ final class Magento_Downloader_Controller
 
             if (self::$_instance->isDownloaded()) {
                 if (!class_exists('Magento', false)) {
-                    if (!file_exists(self::getBootstrapPath())) {
+                    if (!file_exists(self::$_instance->getBootstrapPath())) {
                         return false;
                     }
-                    include_once self::getBootstrapPath();
+                    include_once self::$_instance->getBootstrapPath();
                     Mage::setIsDownloader();
                 }
-                Mage::getObjectManager()->get('Magento_Core_Model_App');
+                Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_App');
                 if (self::isInstalled()) {
                     Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
                 }
@@ -843,7 +842,7 @@ final class Magento_Downloader_Controller
     protected function _getMaintenanceFilePath()
     {
         if (is_null($this->_maintenanceFile)) {
-            $path = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR;
+            $path = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
             $this->_maintenanceFile = $path . 'maintenance.flag';
         }
         return $this->_maintenanceFile;
@@ -924,7 +923,8 @@ final class Magento_Downloader_Controller
                 Mage::app()->getConfig()->reinit();
 
                 /** @var $updater Magento_Core_Model_Db_UpdaterInterface*/
-                $updater = Mage::getObjectManager()->get('Magento_Core_Model_Db_UpdaterInterface');
+                $updater = Magento_Core_Model_ObjectManager::getInstance()
+                    ->get('Magento_Core_Model_Db_UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';
@@ -1010,7 +1010,9 @@ final class Magento_Downloader_Controller
                 ->setName($archiveName)
                 ->setBackupsDir(Mage::getBaseDir('var') . DS . 'backups');
 
-            Mage::getObjectManager()->get('Magento_Core_Model_Registry')->register('backup_manager', $backupManager);
+            Magento_Core_Model_ObjectManager::getInstance()
+                ->get('Magento_Core_Model_Registry')
+                ->register('backup_manager', $backupManager);
 
             if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
@@ -1023,13 +1025,10 @@ final class Magento_Downloader_Controller
             $isSuccess = true;
         } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
             $connect->runHtmlConsole('Not enough free space to create backup.');
-            Mage::logException($e);
         } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
             $connect->runHtmlConsole('Not enough permissions to create backup.');
-            Mage::logException($e);
         } catch (Exception  $e) {
             $connect->runHtmlConsole('An error occurred while creating the backup.');
-            Mage::logException($e);
         }
 
         return $isSuccess;

@@ -17,7 +17,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
     /** @var Magento_Core_Model_DataService_Config_Reader_Factory */
     private $_readersFactoryMock;
 
-    public function setUp()
+    protected function setUp()
     {
         $reader = $this->getMockBuilder('Magento_Core_Model_DataService_Config_Reader')
             ->disableOriginalConstructor()

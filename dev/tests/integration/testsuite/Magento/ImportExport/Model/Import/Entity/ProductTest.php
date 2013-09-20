@@ -23,9 +23,9 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      */
     protected $_model;
 
-    public function setUp()
+    protected function setUp()
     {
-        $this->_model = Mage::getObjectManager()
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_ImportExport_Model_Import_Entity_Product');
     }
 

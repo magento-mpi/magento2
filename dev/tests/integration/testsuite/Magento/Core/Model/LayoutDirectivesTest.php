@@ -76,8 +76,8 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     public function testLayoutObjectArgumentsDirective()
     {
         $layout = $this->_getLayoutModel('arguments_object_type.xml');
-        $this->assertInstanceOf('Magento_Core_Block_Text', $layout->getBlock('block_with_object_args')->getOne());
-        $this->assertInstanceOf('Magento_Core_Block_Messages',
+        $this->assertInstanceOf('Magento_Data_Collection_Db', $layout->getBlock('block_with_object_args')->getOne());
+        $this->assertInstanceOf('Magento_Data_Collection_Db',
             $layout->getBlock('block_with_object_args')->getTwo()
         );
         $this->assertEquals(3, $layout->getBlock('block_with_object_args')->getThree());
@@ -103,9 +103,9 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
 
         $expectedSimpleData = 2;
 
-        $block = $layout->getBlock('block_with_object_updater_args')->getOne();
-        $this->assertInstanceOf('Magento_Core_Block_Text', $block);
-        $this->assertEquals($expectedObjectData, $block->getUpdaterCall());
+        $dataSource = $layout->getBlock('block_with_object_updater_args')->getOne();
+        $this->assertInstanceOf('Magento_Data_Collection', $dataSource);
+        $this->assertEquals($expectedObjectData, $dataSource->getUpdaterCall());
         $this->assertEquals($expectedSimpleData, $layout->getBlock('block_with_object_updater_args')->getTwo());
     }
 
@@ -219,7 +219,6 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
         );
     }
 
-
     /**
      * Prepare a layout model with pre-loaded fixture of an update XML
      *
@@ -235,8 +234,21 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
             __DIR__ . "/_files/layout_directives_test/{$fixtureFile}",
             'Magento_Core_Model_Layout_Element'
         );
-        $layout->loadString($xml->handle->asXml());
+        $layout->loadString($xml->asXml());
         $layout->generateElements();
         return $layout;
     }
+
+    /**
+     * @magentoConfigFixture current_store true_options 1
+     */
+    public function testIfConfigForBlock()
+    {
+        $layout = $this->_getLayoutModel('ifconfig.xml');
+        $this->assertFalse($layout->getBlock('block1'));
+        $this->assertInstanceOf('Magento_Core_Block', $layout->getBlock('block2'));
+        $this->assertInstanceOf('Magento_Core_Block', $layout->getBlock('block3'));
+        $this->assertFalse($layout->getBlock('block4'));
+    }
 }
+

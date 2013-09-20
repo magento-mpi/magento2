@@ -18,6 +18,11 @@
 class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
 {
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+    
+    /**
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
@@ -41,17 +46,12 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
         parent::__construct($rewardData, $coreData, $context, $session, $reward, $storeManager, $data);
     }
 
-    /**
-     * Set quote to the reward action instance
-     *
-     * @param int|string $action
-     * @return $this|void
-     */
-    public function initRewardType($action)
+    protected function _prepareLayout()
     {
-        parent::initRewardType($action);
+        parent::_prepareLayout();
         if ($this->_actionInstance) {
             $this->_actionInstance->setQuote($this->_checkoutSession->getQuote());
         }
+        return $this;
     }
 }

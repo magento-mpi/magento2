@@ -26,7 +26,7 @@ class Magento_Backend_Model_Menu_Filter_IteratorTest extends PHPUnit_Framework_T
      */
     protected $_items = array();
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_items['item1'] = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false);
         $this->_items['item1']->expects($this->any())->method('getId')->will($this->returnValue('item1'));

@@ -16,7 +16,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
      */
     protected $_objectHelper;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
     }
@@ -39,22 +39,21 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
         $domConfigFactory = $this->getMockBuilder('Magento_Config_DomFactory')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $params = array(
-            'xml' => '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
-                . '<handle id="handleId">' . trim($value) . '</handle>'
-                . '</layout>',
-            'schemaFile' => 'dummyDir' . DIRECTORY_SEPARATOR .  'layouts.xsd'
-        );
-
-        $domConfigFactory->expects($this->once())
+        $domConfigFactory->expects($this->any())
             ->method('createDom')
-            ->with($this->equalTo($params))
+            ->with(array(
+                'xml'        => '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $value . '</layout>',
+                'schemaFile' => 'dummyDir' . DIRECTORY_SEPARATOR . 'layouts.xsd'
+            ))
             ->will(
                 $isValid
                 ? $this->returnSelf()
                 : $this->throwException(new Magento_Config_Dom_ValidationException)
             );
+        $domConfigFactory->expects($this->any())
+            ->method('loadXml')
+            ->with('<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $value . '</layout>')
+            ->will($this->returnSelf());
 
         $model = $this->_objectHelper->getObject('Magento_Adminhtml_Model_LayoutUpdate_Validator', array(
             'modulesReader' => $modulesReader,

@@ -80,7 +80,7 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
 
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;
