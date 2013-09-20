@@ -52,6 +52,13 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     const QUERY_PARAM_REJECTED = 'rejected';
 
     /**
+     * Value of callback URL when it is established or if the client is unable to receive callbacks
+     *
+     * @link http://tools.ietf.org/html/rfc5849#section-2.1     Requirement in RFC-5849
+     */
+    const CALLBACK_ESTABLISHED = 'oob';
+
+    /**
      * Available endpoints list
      *
      * @var array
