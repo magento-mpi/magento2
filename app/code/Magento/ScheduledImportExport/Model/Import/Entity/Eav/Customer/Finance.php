@@ -111,8 +111,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
      * @var Magento_Reward_Model_RewardFactory
      */
     protected $_rewardFactory;
+    protected $_authSession;
 
     /**
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
@@ -123,6 +125,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_ScheduledImportExport_Helper_Data $importExportData,
@@ -137,13 +140,14 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
 
         parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
 
+        $this->_authSession = $authSession;
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;
         $this->_balanceFactory = $balanceFactory;
         $this->_importExportData = $importExportData;
 
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
-            : Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
+            : $this->_authSession->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
             __('Finance information website is not specified')

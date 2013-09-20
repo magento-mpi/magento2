@@ -28,6 +28,39 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
+     */
+    protected $_operationData;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_sourceYesno;
+
+    /**
+     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData,
+        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_operationData = $operationData;
+        $this->_sourceYesno = $sourceYesno;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare general form for scheduled operation
      *
      * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
@@ -122,15 +155,12 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'required'  => true,
         ));
 
-        /** @var $operationData Magento_ScheduledImportExport_Model_Scheduled_Operation_Data */
-        $operationData = Mage::getSingleton('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data');
-
         $fieldset->addField('freq', 'select', array(
             'name'      => 'freq',
             'title'     => __('Frequency'),
             'label'     => __('Frequency'),
             'required'  => true,
-            'values'    => $operationData->getFrequencyOptionArray()
+            'values'    => $this->_operationData->getFrequencyOptionArray()
         ));
 
         $fieldset->addField('status', 'select', array(
@@ -138,7 +168,7 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'title'     => __('Status'),
             'label'     => __('Status'),
             'required'  => true,
-            'values'    => $operationData->getStatusesOptionArray()
+            'values'    => $this->_operationData->getStatusesOptionArray()
         ));
 
         return $this;
@@ -153,9 +183,6 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
      */
     protected function _addFileSettings($form, $operation)
     {
-        /** @var $operationData Magento_ScheduledImportExport_Model_Scheduled_Operation_Data */
-        $operationData = Mage::getSingleton('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data');
-
         $fieldset = $form->addFieldset('file_settings', array(
             'legend' => $this->getFileSettingsLabel()
         ));
@@ -165,7 +192,7 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'title'     => __('Server Type'),
             'label'     => __('Server Type'),
             'required'  => true,
-            'values'    => $operationData->getServerTypesOptionArray(),
+            'values'    => $this->_operationData->getServerTypesOptionArray(),
         ));
 
         $fieldset->addField('file_path', 'text', array(
@@ -201,17 +228,15 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'name'      => 'file_info[file_mode]',
             'title'     => __('File Mode'),
             'label'     => __('File Mode'),
-            'values'    => $operationData->getFileModesOptionArray(),
+            'values'    => $this->_operationData->getFileModesOptionArray(),
             'class'     => 'ftp-server server-dependent'
         ));
 
-        /** @var $sourceYesNo Magento_Backend_Model_Config_Source_Yesno */
-        $sourceYesNo = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno');
         $fieldset->addField('passive', 'select', array(
             'name'      => 'file_info[passive]',
             'title'     => __('Passive Mode'),
             'label'     => __('Passive Mode'),
-            'values'    => $sourceYesNo->toOptionArray(),
+            'values'    => $this->_sourceYesno->toOptionArray(),
             'class'     => 'ftp-server server-dependent'
         ));
 

@@ -79,8 +79,14 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Email_Template_Mailer
+     */
+    protected $_templateMailer;
+
+    /**
      * Initialize operation model
      *
+     * @param Magento_Core_Model_Email_Template_Mailer $templateMailer
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Date $dateModel
@@ -90,6 +96,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Email_Template_Mailer $templateMailer,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Date $dateModel,
@@ -102,6 +109,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $this->_init('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation');
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dateModel = $dateModel;
+        $this->_templateMailer = $templateMailer;
     }
 
     /**
@@ -126,7 +134,6 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        $mailer = Mage::getSingleton('Magento_Core_Model_Email_Template_Mailer');
         $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
 
         $receiverEmail = $this->_coreStoreConfig->getConfig(
@@ -146,23 +153,23 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
                 $emailInfo->addBcc($email);
             }
         }
-        $mailer->addEmailInfo($emailInfo);
+        $this->_templateMailer->addEmailInfo($emailInfo);
 
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
                 $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
-                $mailer->addEmailInfo($emailInfo);
+                $this->_templateMailer->addEmailInfo($emailInfo);
             }
         }
 
         // Set all required params and send emails
-        $mailer->setSender($this->getEmailSender());
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($this->getEmailTemplate());
-        $mailer->setTemplateParams($vars);
-        $mailer->send();
+        $this->_templateMailer->setSender($this->getEmailSender());
+        $this->_templateMailer->setStoreId($storeId);
+        $this->_templateMailer->setTemplateId($this->getEmailTemplate());
+        $this->_templateMailer->setTemplateParams($vars);
+        $this->_templateMailer->send();
         return $this;
     }
 

@@ -32,6 +32,8 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
     protected $_importModel;
 
     /**
+     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -40,6 +42,8 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
      * @param array $data
      */
     public function __construct(
+        Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData,
+        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
@@ -47,7 +51,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         Magento_ImportExport_Model_Import $importModel,
         array $data = array()
     ) {
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($operationData, $sourceYesno, $registry, $formFactory, $coreData, $context, $data);
         $this->_importModel = $importModel;
     }
 
@@ -83,14 +87,12 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
             ), 'entity');
         }
 
-        /** @var $operationData Magento_ScheduledImportExport_Model_Scheduled_Operation_Data */
-        $operationData = Mage::getSingleton('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data');
         $fieldset->addField('force_import', 'select', array(
             'name'     => 'force_import',
             'title'    => __('On Error'),
             'label'    => __('On Error'),
             'required' => true,
-            'values'   => $operationData->getForcedImportOptionArray()
+            'values'   => $this->_operationData->getForcedImportOptionArray()
         ), 'freq');
 
         $form->getElement('email_template')

@@ -53,13 +53,17 @@ class Magento_ScheduledImportExport_Model_Observer
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+    protected $_templateMailer;
 
     /**
+     * @param Magento_Core_Model_Email_Template_Mailer $templateMailer
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Email_Template_Mailer $templateMailer,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_templateMailer = $templateMailer;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -183,18 +187,19 @@ class Magento_ScheduledImportExport_Model_Observer
             return $this;
         }
 
-        $mailer = Mage::getSingleton('Magento_Core_Model_Email_Template_Mailer');
         $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
         $emailInfo->addTo($receiverEmail);
 
-        $mailer->addEmailInfo($emailInfo);
+        $this->_templateMailer->addEmailInfo($emailInfo);
 
         // Set all required params and send emails
-        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($this->_coreStoreConfig->getConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId));
-        $mailer->setTemplateParams($vars);
-        $mailer->send();
+        $this->_templateMailer->setSender($this->_coreStoreConfig->getConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
+        $this->_templateMailer->setStoreId($storeId);
+        $this->_templateMailer->setTemplateId(
+            $this->_coreStoreConfig->getConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId)
+        );
+        $this->_templateMailer->setTemplateParams($vars);
+        $this->_templateMailer->send();
         return $this;
     }
 }
