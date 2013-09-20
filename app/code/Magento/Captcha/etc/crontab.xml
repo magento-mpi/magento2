@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="captcha_delete_old_attempts" instance="Magento_Captcha_Model_Observer" method="deleteOldAttempts">
+        <schedule>*/30 * * * *</schedule>
+    </job>
+    <job name="captcha_delete_expired_images" instance="Magento_Captcha_Model_Observer" method="deleteExpiredImages">
+        <schedule>*/10 * * * *</schedule>
+    </job>
+</config>
