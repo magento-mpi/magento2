@@ -25,17 +25,25 @@ class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rss_Model_Resource_Order
+     */
+    protected $_rssOrderResource;
+
+    /**
+     * @param Magento_Rss_Model_Resource_Order $rssOrderResource
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Rss_Model_Resource_Order $rssOrderResource,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_rssOrderResource = $rssOrderResource;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -64,8 +72,7 @@ class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
                 'charset'     => 'UTF-8',
                 );
         $rssObj->_addHeader($data);
-        $resourceModel = Mage::getResourceModel('Magento_Rss_Model_Resource_Order');
-        $results = $resourceModel->getAllCommentCollection($order->getId());
+        $results = $this->_rssOrderResource->getAllCommentCollection($order->getId());
         if($results){
             foreach($results as $result){
                 $urlAppend = 'view';
