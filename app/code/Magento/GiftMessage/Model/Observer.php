@@ -26,19 +26,19 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
     protected $_giftMessageMessage = null;
 
     /**
-     * @var Magento_ObjectManager
+     * @var Magento_GiftMessage_Model_MessageFactory
      */
-    protected $_objectManager;
+    protected $_messageFactory;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param Magento_GiftMessage_Model_MessageFactory $messageFactory
      * @param Magento_GiftMessage_Helper_Message $giftMessageMessage
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
+        Magento_GiftMessage_Model_MessageFactory $messageFactory,
         Magento_GiftMessage_Helper_Message $giftMessageMessage
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_messageFactory = $messageFactory;
         $this->_giftMessageMessage = $giftMessageMessage;
     }
 
@@ -84,7 +84,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
         if (is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 
-                $giftMessage = $this->_objectManager->get('Magento_GiftMessage_Model_Message');
+                $giftMessage = $this->_messageFactory->create();
 
                 switch ($message['type']) {
                     case 'quote':
@@ -155,7 +155,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
         }
         $giftMessageId = $order->getGiftMessageId();
         if ($giftMessageId) {
-            $giftMessage = $this->_objectManager->get('Magento_GiftMessage_Model_Message')->load($giftMessageId)
+            $giftMessage = $this->_messageFactory->create()->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $observer->getEvent()->getQuote()->setGiftMessageId($giftMessage->getId());
@@ -192,7 +192,7 @@ class Magento_GiftMessage_Model_Observer extends Magento_Object
         /** @var $quoteItem Magento_Sales_Model_Quote_Item */
         $quoteItem = $observer->getEvent()->getQuoteItem();
         if ($giftMessageId = $orderItem->getGiftMessageId()) {
-            $giftMessage = $this->_objectManager->get('Magento_GiftMessage_Model_Message')->load($giftMessageId)
+            $giftMessage = $this->_messageFactory->create()->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $quoteItem->setGiftMessageId($giftMessage->getId());
