@@ -72,7 +72,7 @@ class TransactionInterfaceTest extends \PHPUnit_Framework_TestCase
         foreach (glob(realpath(__DIR__ . $path ) . '/*.php') as $file) {
             $suffix = basename($file, '.php');
             if (false === strpos($suffix, 'Interface')) {
-                $result[] = array("Magento_TestFramework_Db_Adapter_{$suffix}");
+                $result[] = array("Magento\TestFramework\Db\Adapter\{$suffix}");
             }
         }
         return $result;
@@ -82,7 +82,7 @@ class TransactionInterfaceTest extends \PHPUnit_Framework_TestCase
      * Instantiate specified adapter class and block all methods that would try to execute real queries
      *
      * @param string $class
-     * @return \Magento\TestFramework\Db\Adapter\TransactionInterface|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\TestFramework\Db\Adapter\TransactionInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAdapterMock($class)
     {
