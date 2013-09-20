@@ -111,6 +111,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         $this->_eventManager = $eventManager;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_logger = $context->getLogger();
         parent::__construct($context);        
     }

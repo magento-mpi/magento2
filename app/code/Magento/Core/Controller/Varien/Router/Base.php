@@ -131,6 +131,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         $this->_urlSecurityInfo = $urlSecurityInfo;
         $this->_configScope     = $configScope;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_config          = $config;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");

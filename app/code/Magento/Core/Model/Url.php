@@ -128,8 +128,8 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
         array $data = array()
     ) {
         $this->_urlSecurityInfo = $urlSecurityInfo;
-        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreData = $coreData;
         parent::__construct($data);
     }
 

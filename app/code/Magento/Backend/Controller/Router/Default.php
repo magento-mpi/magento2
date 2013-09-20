@@ -58,8 +58,9 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @param $baseController
      * @param $routerId
      * @param $defaultRouteId
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @throws InvalidArgumentException
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
