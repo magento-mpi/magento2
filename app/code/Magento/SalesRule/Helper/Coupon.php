@@ -44,16 +44,6 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
     protected $_couponParameters;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param array $couponParameters
-     */
-    public function __construct(Magento_Core_Helper_Context $context, array $couponParameters)
-    {
-        $this->_couponParameters = $couponParameters;
-        parent::__construct($context);
-    }
-
-    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -63,12 +53,15 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param array $couponParameters
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        array $couponParameters
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_couponParameters = $couponParameters;
         parent::__construct($context);
     }
 

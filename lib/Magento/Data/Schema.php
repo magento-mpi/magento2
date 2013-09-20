@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Data_Schema extends Varien_Object
+class Magento_Data_Schema extends Magento_Object
 {
     public function load($schema)
     {
