@@ -18,17 +18,17 @@ class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Layout factory
      *
-     * @var Magento_Core_Model_LayoutFactory
+     * @var Magento_Core_Model_Layout
      */
-    protected $_layoutFactory;
+    protected $_layout;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_LayoutFactory $layoutFactory
+     * @param Magento_Core_Model_Layout $layoutFactory
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_LayoutFactory $layoutFactory)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Layout $layout)
     {
-        $this->_layoutFactory = $layoutFactory;
+        $this->_layout = $layout;
         parent::__construct($context);
     }
 
@@ -148,7 +148,7 @@ class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMethodFormBlock($method)
     {
-        $block = $this->_layoutFactory->create()->createBlock('Magento_Centinel_Block_Logo');
+        $block = $this->_layout->createBlock('Magento_Centinel_Block_Logo');
         $block->setMethod($method);
         return $block;
     }
