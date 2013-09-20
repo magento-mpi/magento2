@@ -294,8 +294,9 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function _prepareServiceRequest($httpRequest)
     {
-        //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
-        $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
+
+        //TODO : Check getHttpHost function todo and fix it
+        $requestUrl = $httpRequest->getScheme() . '://' . $this->getHttpHost($httpRequest) .
             $httpRequest->getRequestUri();
 
         $serviceRequest = array();
@@ -435,5 +436,39 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     protected function _isProtocolParameter($attrName)
     {
         return (bool)preg_match('/oauth_[a-z_-]+/', $attrName);
+    }
+
+    /**
+     * TODO : Need to check with core to fix the overriden function in Magento_Core_Controller_Request_Http. It does not
+     * work for request URLs with port
+     *
+     * Adapted from {@link Zend_Controller_Request_Http::getHttpHost()}
+     * Get the HTTP host.
+     *
+     * "Host" ":" host [ ":" port ] ; Section 3.2.2
+     * Note the HTTP Host header is not the same as the URI host.
+     * It includes the port while the URI host doesn't.
+     * @param $httpRequest Zend_Controller_Request_Http
+     * @return string
+     */
+    public function getHttpHost($httpRequest)
+    {
+        $host = $httpRequest->getServer('HTTP_HOST');
+        if (!empty($host)) {
+            return $host;
+        }
+
+        $scheme = $httpRequest->getScheme();
+        $name = $httpRequest->getServer('SERVER_NAME');
+        $port = $httpRequest->getServer('SERVER_PORT');
+
+        if (null === $name) {
+            return '';
+        } elseif (($scheme == Zend_Controller_Request_Http::SCHEME_HTTP && $port == 80) ||
+            ($scheme == Zend_Controller_Request_Http::SCHEME_HTTPS && $port == 443)) {
+            return $name;
+        } else {
+            return $name . ':' . $port;
+        }
     }
 }
