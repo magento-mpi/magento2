@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Format of merged email templates configuration
+ * Format of individual files of email templates configuration
  *
  * {license_notice}
  *
@@ -23,8 +23,6 @@
         <xs:attribute name="label" type="xs:string" use="required"/>
         <xs:attribute name="file" type="xs:string" use="required"/>
         <xs:attribute name="type" type="emailTemplateFormatType" use="required"/>
-        <!-- Module context is determined automatically during merger, it is not stored in individual config files -->
-        <xs:attribute name="module" type="xs:string" use="required"/>
     </xs:complexType>
 
     <xs:simpleType name="emailTemplateFormatType">
