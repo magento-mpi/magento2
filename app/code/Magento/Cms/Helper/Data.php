@@ -12,9 +12,7 @@
 /**
  * CMS Data helper
  *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Cms_Helper_Data extends Magento_Core_Helper_Abstract
 {
@@ -27,19 +25,27 @@ class Magento_Cms_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreConfig;
 
     /**
+     * Template filter factory
+     *
+     * @var Magento_Cms_Model_Template_Filter_Factory
+     */
+    protected $_templateFilterFactory;
+
+    /**
      * Constructor
      *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Cms_Model_Template_Filter_Factory $templateFilterFactory
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Cms_Model_Template_Filter_Factory $templateFilterFactory
     ) {
-        parent::__construct(
-            $context
-        );
+        parent::__construct($context);
         $this->_coreConfig = $coreConfig;
+        $this->_templateFilterFactory = $templateFilterFactory;
     }
 
     /**
@@ -49,8 +55,8 @@ class Magento_Cms_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPageTemplateProcessor()
     {
-        $model = (string)$this->_coreConfig->getNode(self::XML_NODE_PAGE_TEMPLATE_FILTER);
-        return Mage::getModel($model);
+        $className = (string)$this->_coreConfig->getNode(self::XML_NODE_PAGE_TEMPLATE_FILTER);
+        return $this->_templateFilterFactory->create($className);
     }
 
     /**
@@ -60,7 +66,7 @@ class Magento_Cms_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getBlockTemplateProcessor()
     {
-        $model = (string)$this->_coreConfig->getNode(self::XML_NODE_BLOCK_TEMPLATE_FILTER);
-        return Mage::getModel($model);
+        $className = (string)$this->_coreConfig->getNode(self::XML_NODE_BLOCK_TEMPLATE_FILTER);
+        return $this->_templateFilterFactory->create($className);
     }
 }

@@ -23,20 +23,42 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
      *
      * @var Magento_Cms_Helper_Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
 
     /**
-     * @param Magento_Cms_Helper_Data $cmsData
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Page factory
+     *
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Cms_Helper_Data $cmsData
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Data $cmsData,
         Magento_Core_Block_Context $context,
+        Magento_Cms_Helper_Data $cmsData,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_cmsData = $cmsData;
         parent::__construct($context, $data);
+        $this->_cmsData = $cmsData;
+        $this->_pageFactory = $pageFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -48,8 +70,9 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     {
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
-                $page = Mage::getModel('Magento_Cms_Model_Page')
-                    ->setStoreId(Mage::app()->getStore()->getId())
+                /** @var Magento_Cms_Model_Page $page */
+                $page = $this->_pageFactory->create();
+                $page->setStoreId($this->_storeManager->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {
                 $page = Mage::getSingleton('Magento_Cms_Model_Page');
@@ -73,7 +96,8 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
             && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_home_page'))
             && ($page->getIdentifier()!==$this->_storeConfig->getConfig('web/default/cms_no_route'))) {
-                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'), 'link'=>Mage::getBaseUrl()));
+                $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'),
+                    'link' => $this->_storeManager->getStore()->getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));
         }
 
