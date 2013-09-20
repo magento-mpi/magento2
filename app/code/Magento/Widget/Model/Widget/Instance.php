@@ -84,6 +84,11 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_widget;
 
     /**
+     * @var Magento_Widget_Model_Config_Reader
+     */
+    protected $_reader;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_config;
@@ -105,6 +110,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Widget_Model_Resource_Widget_Instance $resource
+     * @param Magento_Widget_Model_Config_Reader $reader
      * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Cache_TypeListInterface $list
@@ -119,6 +125,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Widget_Model_Resource_Widget_Instance $resource,
+        Magento_Widget_Model_Config_Reader $reader,
         Magento_Widget_Model_Widget $widget,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Cache_TypeListInterface $list,
@@ -129,6 +136,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         $this->_widgetData = $widgetData;
         $this->_coreData = $coreData;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_reader = $reader;
         $this->_widget = $widget;
         $this->_config = $config;
         $this->_list = $list;
@@ -339,7 +347,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     public function getWidgetConfigAsArray()
     {
         if ($this->_widgetConfigXml === null) {
-            $this->_widgetConfigXml = $this->_widget->getXmlElementByType($this->getType());
+            $this->_widgetConfigXml = $this->_widget->getWidgetByClassType($this->getType());
             if ($this->_widgetConfigXml) {
                 $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),

@@ -34,9 +34,6 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $this->_widgetModelMock = $this->getMockBuilder('Magento_Widget_Model_Widget')
             ->disableOriginalConstructor()
             ->getMock();
-        $contextMock = $this->getMockBuilder('Magento_Core_Model_Context')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_viewFileSystemMock = $this->getMockBuilder('Magento_Core_Model_View_FileSystem')
             ->disableOriginalConstructor()
             ->getMock();
@@ -46,30 +43,19 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $this->_readerMock = $this->getMockBuilder('Magento_Widget_Model_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
-        $registryMock = $this->getMockBuilder('Magento_Core_Model_Registry')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $coreData = $this->getMockBuilder('Magento_Core_Helper_Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $widgetData = $this->getMockBuilder('Magento_Widget_Helper_Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $cacheTypeList = $this->getMockBuilder('Magento_Core_Model_Cache_TypeListInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $productType = $this->getMockBuilder('Magento_Catalog_Model_Product_Type')
-            ->disableOriginalConstructor()
-            ->getMock();
+
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments('Magento_Widget_Model_Widget_Instance', array(
+            'viewFileSystem' => $this->_viewFileSystemMock,
+            'reader' => $this->_readerMock,
+            'widget' => $this->_widgetModelMock,
+            'config' => $this->_coreConfigMock
+        ));
         /** @var Magento_Widget_Model_Widget_Instance _model */
-        $this->_model = $this->getMock(
-            'Magento_Widget_Model_Widget_Instance',
-            array('_construct'),
-            array($widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock, $this->_readerMock,
-                $this->_widgetModelMock, $this->_coreConfigMock, $cacheTypeList, $productType),
-            '',
-            true
-        );
+        $this->_model = $this->getMockBuilder('Magento_Widget_Model_Widget_Instance')
+            ->setMethods(array('_construct'))
+            ->setConstructorArgs($constructArguments)
+            ->getMock();
     }
 
     public function testGetWidgetConfigAsArray()
