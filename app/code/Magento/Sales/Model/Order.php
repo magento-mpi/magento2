@@ -1379,10 +1379,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
              */
             $method = $this->getShippingMethod(true);
             if ($method instanceof Magento_Object) {
-                $className = $this->_coreStoreConfig->getConfig('carriers/' . $method->getCarrierCode() . '/model');
-                if ($className) {
-                    $carrierModel = $this->_carrierFactory->create($className);
-                }
+                $carrierModel = $this->_carrierFactory->create($method->getCarrierCode());
             }
             $this->setData('shipping_carrier', $carrierModel);
         }
