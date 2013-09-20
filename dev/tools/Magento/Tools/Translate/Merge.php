@@ -24,7 +24,7 @@ class Magento_Tools_Translate_Merge
     /**
      * Magento File CSV
      *
-     * @var Varien_File_Csv
+     * @var Magento_File_Csv
      */
     protected $_csv;
 

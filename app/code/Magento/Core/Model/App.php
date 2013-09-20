@@ -354,6 +354,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Retrieve application base currency code
      *
      * @return string
+     * @deprecated use Magento_Directory_Helper_Data::getBaseCurrencyCode()
      */
     public function getBaseCurrencyCode()
     {
