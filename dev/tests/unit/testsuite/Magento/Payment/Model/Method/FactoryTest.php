@@ -22,8 +22,7 @@ class Magento_Payment_Model_Method_FactoryTest extends PHPUnit_Framework_TestCas
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array('create', 'get', 'configure'),
-            array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $this->_factory = $objectManagerHelper->getObject('Magento_Payment_Model_Method_Factory', array(
             'objectManager' => $this->_objectManagerMock,
         ));
@@ -36,7 +35,7 @@ class Magento_Payment_Model_Method_FactoryTest extends PHPUnit_Framework_TestCas
         $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
             ->will($this->returnValue($methodMock));
 
-        $this->assertInstanceOf($className, $this->_factory->create($className));
+        $this->assertEquals($methodMock, $this->_factory->create($className));
     }
 
     public function testCreateMethodWithArguments()
@@ -47,7 +46,7 @@ class Magento_Payment_Model_Method_FactoryTest extends PHPUnit_Framework_TestCas
         $this->_objectManagerMock->expects($this->once())->method('create')->with($className, $data)
             ->will($this->returnValue($methodMock));
 
-        $this->assertInstanceOf($className, $this->_factory->create($className, $data));
+        $this->assertEquals($methodMock, $this->_factory->create($className, $data));
     }
 
     /**
@@ -56,7 +55,7 @@ class Magento_Payment_Model_Method_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function testWrongTypeException()
     {
-        $className = "WrongClass";
+        $className = 'WrongClass';
         $methodMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
             ->will($this->returnValue($methodMock));

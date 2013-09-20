@@ -105,8 +105,8 @@ class Magento_Payment_Model_Observer
         }
 
         /** @var Magento_Payment_Model_Recurring_Profile $profile */
-        $profile = $this->_profileFactory->create()
-            ->setLocale($this->_locale)
+        $profile = $this->_profileFactory->create();
+        $profile->setLocale($this->_locale)
             ->setStore($this->_storeManager->getStore())
             ->importBuyRequest($buyRequest)
             ->importProduct($product);
