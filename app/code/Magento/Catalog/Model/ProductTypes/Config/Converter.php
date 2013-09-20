@@ -13,6 +13,8 @@ class Magento_Catalog_Model_ProductTypes_Config_Converter implements Magento_Con
      * @param DOMDocument $source
      * @return array
      * @throws InvalidArgumentException
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function convert($source)
     {

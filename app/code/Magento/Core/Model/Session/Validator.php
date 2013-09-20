@@ -31,7 +31,7 @@ class Magento_Core_Model_Session_Validator
     /**
      * @var array
      */
-    protected $_skippedUserAgentList;
+    protected $_skippedAgentList;
 
     /**
      * @param Magento_Core_Model_Store_Config $storeConfig
@@ -45,7 +45,7 @@ class Magento_Core_Model_Session_Validator
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_helper = $helper;
-        $this->_skippedUserAgentList = $skippedUserAgentList;
+        $this->_skippedAgentList = $skippedUserAgentList;
     }
 
     /**
@@ -71,6 +71,8 @@ class Magento_Core_Model_Session_Validator
      * Validate data
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _validate()
     {
@@ -97,7 +99,7 @@ class Magento_Core_Model_Session_Validator
         if ($this->_storeConfig->getConfig(self::XML_PATH_USE_USER_AGENT)
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
         ) {
-            foreach ($this->_skippedUserAgentList as $agent) {
+            foreach ($this->_skippedAgentList as $agent) {
                 if (preg_match('/' . $agent . '/iu', $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY])) {
                     return true;
                 }
