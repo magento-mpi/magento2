@@ -19,28 +19,28 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
     /**
      * @var Magento_Index_Model_ProcessFactory
      */
-    protected $_indexProcessFactory;
+    protected $_processFactory;
 
     /**
      * @var Magento_Index_Model_Indexer
      */
-    protected $_indexIndexer;
+    protected $_indexer;
 
     /**
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Index_Model_ProcessFactory $indexProcessFactory
-     * @param Magento_Index_Model_Indexer $indexIndexer
+     * @param Magento_Index_Model_ProcessFactory $processFactory
+     * @param Magento_Index_Model_Indexer $indexer
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Index_Model_ProcessFactory $indexProcessFactory,
-        Magento_Index_Model_Indexer $indexIndexer
+        Magento_Index_Model_ProcessFactory $processFactory,
+        Magento_Index_Model_Indexer $indexer
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_indexProcessFactory = $indexProcessFactory;
-        $this->_indexIndexer = $indexIndexer;
+        $this->_processFactory = $processFactory;
+        $this->_indexer = $indexer;
         parent::__construct($context);
     }
 
@@ -54,7 +54,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
         $processId = $this->getRequest()->getParam('process');
         if ($processId) {
             /** @var $process Magento_Index_Model_Process */
-            $process = $this->_indexProcessFactory->create()->load($processId);
+            $process = $this->_processFactory->create()->load($processId);
             if ($process->getId() && $process->getIndexer()->isVisible()) {
                 return $process;
             }
@@ -195,7 +195,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $counter = 0;
                 foreach ($processIds as $processId) {
                     /* @var $process Magento_Index_Model_Process */
-                    $process = $this->_indexIndexer->getProcessById($processId);
+                    $process = $this->_indexer->getProcessById($processId);
                     if ($process && $process->getIndexer()->isVisible()) {
                         $process->reindexEverything();
                         $counter++;
@@ -229,7 +229,7 @@ class Magento_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Contr
                 $mode = $this->getRequest()->getParam('index_mode');
                 foreach ($processIds as $processId) {
                     /* @var $process Magento_Index_Model_Process */
-                    $process = $this->_indexProcessFactory->create()->load($processId);
+                    $process = $this->_processFactory->create()->load($processId);
                     if ($process->getId() && $process->getIndexer()->isVisible()) {
                         $process->setMode($mode)->save();
                         $counter++;
