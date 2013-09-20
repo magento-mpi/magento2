@@ -154,8 +154,8 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      */
     public function getOrderIdsForArchive($orderIds = array(), $useAge = false)
     {
-        $statuses = $this->_getConfig()->getArchiveOrderStatuses();
-        $archiveAge = ($useAge ? $this->_getConfig()->getArchiveAge() : 0);
+        $statuses = $this->_salesArchiveConfig->getArchiveOrderStatuses();
+        $archiveAge = ($useAge ? $this->_salesArchiveConfig->getArchiveAge() : 0);
 
         if (empty($statuses)) {
             return array();
@@ -201,8 +201,8 @@ class Magento_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Res
      */
     public function getOrderIdsForArchiveExpression()
     {
-        $statuses = $this->_getConfig()->getArchiveOrderStatuses();
-        $archiveAge = $this->_getConfig()->getArchiveAge();
+        $statuses = $this->_salesArchiveConfig->getArchiveOrderStatuses();
+        $archiveAge = $this->_salesArchiveConfig->getArchiveAge();
 
         if (empty($statuses)) {
             $statuses = array(0);

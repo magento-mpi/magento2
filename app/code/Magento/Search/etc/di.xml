@@ -32,4 +32,21 @@
             <instance type="Magento_Search_Model_Resource_Engine_Proxy" />
         </param>
     </type>
+    <type name="Magento_Search_Model_Observer">
+        <param name="searchSearchLayer">
+            <instance type="Magento_Search_Model_Search_Layer_Proxy" />
+        </param>
+        <param name="searchCatalogLayer">
+            <instance type="Magento_Search_Model_Catalog_Layer_Proxy" />
+        </param>
+        <param name="indexer">
+            <instance type="Magento_Index_Model_Indexer_Proxy" />
+        </param>
+        <param name="searchData">
+            <instance type="Magento_Search_Helper_Data_Proxy" />
+        </param>
+        <param name="coreRegistry">
+            <instance type="Magento_Core_Model_Registry_Proxy" />
+        </param>
+    </type>
 </config>

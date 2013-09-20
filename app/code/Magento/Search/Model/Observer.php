@@ -18,7 +18,7 @@ class Magento_Search_Model_Observer
      *
      * @var Magento_Index_Model_Indexer
      */
-    protected $_indexIndexer = null;
+    protected $_indexer;
 
     /**
      * Search catalog layer
@@ -72,7 +72,7 @@ class Magento_Search_Model_Observer
      * @param Magento_Search_Model_Resource_RecommendationsFactory $searchRecommendationsFactory
      * @param Magento_Search_Model_Search_Layer $searchSearchLayer
      * @param Magento_Search_Model_Catalog_Layer $searchCatalogLayer
-     * @param Magento_Index_Model_Indexer $indexIndexer
+     * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_Core_Model_Registry $coreRegistry
@@ -82,7 +82,7 @@ class Magento_Search_Model_Observer
         Magento_Search_Model_Resource_RecommendationsFactory $searchRecommendationsFactory,
         Magento_Search_Model_Search_Layer $searchSearchLayer,
         Magento_Search_Model_Catalog_Layer $searchCatalogLayer,
-        Magento_Index_Model_Indexer $indexIndexer,
+        Magento_Index_Model_Indexer $indexer,
         Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Search_Helper_Data $searchData,
         Magento_Core_Model_Registry $coreRegistry
@@ -91,7 +91,7 @@ class Magento_Search_Model_Observer
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
         $this->_searchSearchLayer = $searchSearchLayer;
         $this->_searchCatalogLayer = $searchCatalogLayer;
-        $this->_indexIndexer = $indexIndexer;
+        $this->_indexer = $indexer;
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
         $this->_coreRegistry = $coreRegistry;
@@ -164,7 +164,7 @@ class Magento_Search_Model_Observer
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            $this->_indexIndexer->getProcessByCode('catalogsearch_fulltext')
+            $this->_indexer->getProcessByCode('catalogsearch_fulltext')
                 ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
     }
@@ -279,7 +279,7 @@ class Magento_Search_Model_Observer
         }
 
         /* @var Magento_Search_Model_Indexer_Indexer $indexer */
-        $indexer = $this->_indexIndexer->getProcessByCode('catalogsearch_fulltext');
+        $indexer = $this->_indexer->getProcessByCode('catalogsearch_fulltext');
         if (empty($indexer)) {
             return;
         }
