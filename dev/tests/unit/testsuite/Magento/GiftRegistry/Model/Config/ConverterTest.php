@@ -80,12 +80,12 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
 
     /**
      * @expectedException InvalidArgumentException
-     * @param string $invalidConfigFileName
+     * @param string $invalidConfFileName
      * @dataProvider invalidConfigFilesDataProvider
      */
-    public function testConvertThrowsExceptionWhenDomIsInvalid($invalidConfigFileName)
+    public function testConvertThrowsExceptionWhenDomIsInvalid($invalidConfFileName)
     {
-        $this->_source->loadXML(file_get_contents($this->_filePath . $invalidConfigFileName));
+        $this->_source->loadXML(file_get_contents($this->_filePath . $invalidConfFileName));
         $this->_model->convert($this->_source);
     }
 
