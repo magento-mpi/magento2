@@ -12,15 +12,15 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="config">
         <xs:complexType>
-            <xs:sequence>
+            <xs:choice maxOccurs="unbounded">
                 <xs:element name="attribute_type" type="attributeType" minOccurs="1" maxOccurs="unbounded" />
                 <xs:element name="attribute_group" type="attributeGroup" minOccurs="1" maxOccurs="unbounded" />
                 <xs:element name="registry">
                     <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="static_attribute" type="Attribute" minOccurs="1" maxOccurs="unbounded" />
+                        <xs:choice maxOccurs="unbounded">
+                            <xs:element name="static_attribute" type="Attribute" minOccurs="1" maxOccurs="unbounded"/>
                             <xs:element name="custom_attribute" type="Attribute" minOccurs="0" maxOccurs="unbounded" />
-                        </xs:sequence>
+                        </xs:choice>
                     </xs:complexType>
                     <xs:unique name="uniqueStaticAttributeName">
                         <xs:annotation>
@@ -43,13 +43,13 @@
                 </xs:element>
                 <xs:element name="registrant">
                     <xs:complexType>
-                        <xs:sequence>
+                        <xs:choice maxOccurs="unbounded">
                             <xs:element name="static_attribute" type="Attribute" minOccurs="1" maxOccurs="unbounded"/>
                             <xs:element name="custom_attribute" type="Attribute" minOccurs="0" maxOccurs="unbounded"/>
-                        </xs:sequence>
+                        </xs:choice>
                     </xs:complexType>
                 </xs:element>
-            </xs:sequence>
+            </xs:choice>
         </xs:complexType>
         <xs:unique name="uniqueAttributeTypeName">
             <xs:annotation>
