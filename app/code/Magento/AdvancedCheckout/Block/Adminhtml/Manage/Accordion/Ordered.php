@@ -40,8 +40,23 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_Status
+     */
+    protected $_stockStatus;
+
+    /**
+     * @var Magento_Sales_Model_Resource_Order_CollectionFactory
+     */
+    protected $_ordersFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Sales_Model_Resource_Order_CollectionFactory $ordersFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -51,6 +66,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_CatalogInventory_Model_Stock_Status $stockStatus,
+        Magento_Sales_Model_Resource_Order_CollectionFactory $ordersFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -59,6 +77,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
         Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
+        $this->_catalogConfig = $catalogConfig;
+        $this->_stockStatus = $stockStatus;
+        $this->_ordersFactory = $ordersFactory;
         parent::__construct(
             $coreData,
             $context,
@@ -108,7 +129,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
 
             // Load last order of a customer
             /* @var $collection Magento_Core_Model_Resource_Db_Collection_Abstract */
-            $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+            $collection = $this->_ordersFactory
+                ->create()
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
                 ->addAttributeToFilter('store_id', array('in' => $storeIds))
                 ->addAttributeToSort('created_at', 'desc')
@@ -131,7 +153,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
                 }
                 if ($productIds) {
                     // Load products collection
-                    $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+                    $attributes = $this->_catalogConfig->getProductAttributes();
                     $products = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)
@@ -144,7 +166,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
                         )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
                         ->addStoreFilter($this->_getStore())
                         ->addIdFilter($productIds);
-                    Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($products);
+                    $this->_stockStatus->addIsInStockFilterToCollection($products);
                     $products->addOptionsToResult();
 
                     // Set products to items
