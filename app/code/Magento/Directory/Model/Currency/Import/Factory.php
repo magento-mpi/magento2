@@ -38,7 +38,7 @@ class Magento_Directory_Model_Currency_Import_Factory
     /**
      * Create new import object
      *
-     * @param $service
+     * @param string $service
      * @param array $data
      * @throws InvalidArgumentException
      * @return Magento_Directory_Model_Currency_Import_Interface
