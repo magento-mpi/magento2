@@ -65,6 +65,15 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected $_ratesFactory;
 
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Locale $locale
+     * @param Magento_Core_Model_UrlFactory $urlFactory
+     * @param Magento_Reward_Model_Resource_Reward_Rate_CollectionFactory $ratesFactory
+     */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -82,7 +91,6 @@ class Magento_Reward_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_ratesFactory = $ratesFactory;
         parent::__construct($context);
     }
-
 
     /**
      * Setter for hasRates flag

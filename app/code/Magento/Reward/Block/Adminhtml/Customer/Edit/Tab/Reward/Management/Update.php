@@ -29,6 +29,15 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
      */
     protected $_storeFactory;
 
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_System_StoreFactory $storeFactory
+     * @param array $data
+     */
     public function __construct(
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
@@ -42,7 +51,6 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
         $this->_storeFactory = $storeFactory;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
-
 
     /**
      * Getter

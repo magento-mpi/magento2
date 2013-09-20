@@ -30,7 +30,6 @@ class Magento_Reward_Model_Source_Website implements Magento_Core_Model_Option_A
         $this->_store = $store;
     }
 
-
     /**
      * Prepare and return array of website ids and their names
      *

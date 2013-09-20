@@ -75,7 +75,6 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
      */
     protected $_reward;
 
-
     /**
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Model_Context $context

@@ -23,9 +23,11 @@ class Magento_Reward_Model_Source_Customer_Groups implements Magento_Core_Model_
      */
     protected $_groupsFactory;
 
+    /**
+     * @param Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory
+     */
     public function __construct(Magento_Customer_Model_Resource_Group_CollectionFactory $groupsFactory)
     {
-
         $this->_groupsFactory = $groupsFactory;
     }
 

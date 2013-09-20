@@ -35,6 +35,13 @@ class Magento_Reward_Model_Resource_Reward_History_Collection extends Magento_Co
      */
     protected $_customerFactory;
 
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Locale $locale
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,

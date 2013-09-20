@@ -23,6 +23,10 @@ class Magento_Reward_Helper_Customer extends Magento_Core_Helper_Abstract
      */
     protected $_storeManager;
 
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager
