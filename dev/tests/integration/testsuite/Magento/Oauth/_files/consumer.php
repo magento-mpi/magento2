@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-echo "[## consumer fixture]\n";
 $url = 'http://magento.ll';
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */

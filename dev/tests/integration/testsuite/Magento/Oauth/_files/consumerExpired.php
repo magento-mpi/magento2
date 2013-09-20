@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-echo "[## EXPIRED consumer fixture]\n";
 $url = 'http://magento.ll';
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */
@@ -31,4 +30,3 @@ $consumer->save();
 $token = $objectManager->create('Magento_Oauth_Model_Token');
 $token->createVerifierToken($consumer->getId(), $url);
 
-echo 'LOADED';

@@ -26,6 +26,9 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     /** @var  Magento_Oauth_Model_Token_Factory */
     private $_tokenFactory;
 
+    /** @var  Magento_Oauth_Helper_Data */
+    protected $_helperData;
+
     /** @var  Magento_Core_Model_StoreManagerInterface */
     protected $_storeManager;
 
@@ -36,6 +39,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Model_Nonce_Factory $nonceFactory
      * @param Magento_Oauth_Model_Token_Factory $tokenFactory
+     * @param Magento_Oauth_Helper_Data $helperData
      * @param Magento_Core_Model_StoreManagerInterface
      * @param Magento_HTTP_ZendClient
      */
@@ -43,6 +47,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
         Magento_Oauth_Model_Nonce_Factory $nonceFactory,
         Magento_Oauth_Model_Token_Factory $tokenFactory,
+		Magento_Oauth_Helper_Data $helperData,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_HTTP_ZendClient $httpClient
     ) {
@@ -50,6 +55,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
         $this->_store = $storeManager->getStore();
+		$this->_helperData = $helperData;
         $this->_httpClient = $httpClient;
     }
 
@@ -128,10 +134,10 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
 
         $consumer = $this->_getConsumerByKey($signedRequest['oauth_consumer_key']);
 
-        // cannot use consumer if it was generated a while ago
+        // must use consumer within expiration period
         $consumerTS = strtotime($consumer->getCreatedAt());
-        if (time() - $consumerTS > $this->_helper->getConsumerExpirationPeriod()) {
-            throw new Magento_Oauth_Exception('', self::ERR_CONSUMER_KEY_INVALID);
+        if (time() - $consumerTS > $this->_helperData->getConsumerExpirationPeriod()) {
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_INVALID);
         }
 
         $this->_validateNonce($signedRequest['nonce'], $consumer->getId(), $signedRequest['oauth_timestamp']);
@@ -474,7 +480,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     protected function _getConsumerByKey($consumerKey)
     {
         if (strlen($consumerKey) != Magento_Oauth_Model_Consumer::KEY_LENGTH) {
-//            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_REJECTED);
         }
 
         $consumer = $this->_consumerFactory->create()->loadByKey($consumerKey);

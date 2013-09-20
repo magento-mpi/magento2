@@ -306,7 +306,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getConsumerExpirationPeriod()
     {
-        $seconds = (int) Mage::getStoreConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
+        $seconds = (int)$this->_store->getConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
         return $seconds > 0 ? $seconds : self::CONSUMER_EXPIRATION_PERIOD_DEFAULT;
     }
 
