@@ -160,7 +160,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
             array(), '', false);
-        $form = new Magento_Data_Form($factory, $collectionFactory);
+        $session = $this->getMock('Magento_Core_Model_Session', array(), array(), '', false);
+        $form = new Magento_Data_Form($session, $factory, $collectionFactory);
         $model = new Magento_Object();
         $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
 
@@ -178,7 +179,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
             array(), '', false);
-        $form = new Magento_Data_Form($factory, $collectionFactory);
+        $session = $this->getMock('Magento_Core_Model_Session', array(), array(), '', false);
+        $form = new Magento_Data_Form($session, $factory, $collectionFactory);
         $model = new Magento_Object();
         $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
 

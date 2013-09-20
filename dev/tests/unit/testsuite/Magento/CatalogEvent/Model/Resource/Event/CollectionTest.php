@@ -140,11 +140,13 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
             ->will($this->returnValue(self::MAIN_TABLE));
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
+        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
 
         $this->_collection = $this->getMock(
             'Magento_CatalogEvent_Model_Resource_Event_Collection',
             array('setModel'),
-            array($eventManager, $fetchStrategy, $application, $resource)
+            array($eventManager, $logger, $fetchStrategy, $entityFactory, $application, $resource)
         );
     }
 

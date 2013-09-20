@@ -25,20 +25,12 @@ class Magento_Backup_Media extends Magento_Backup_Abstract
     protected $_snapshotManager;
 
     /**
-     * Initialize backup manager instance
-     *
-     * @param Magento_Backup_Snapshot|null $snapshotManager
+     * @param Magento_Backup_Snapshot $snapshotManager
      */
-    public function __construct($snapshotManager = null)
-    {
-        if ($snapshotManager !== null) {
-            if (!$snapshotManager instanceof Magento_Backup_Snapshot) {
-                throw new Magento_Exception('Snapshot manager must be instance of Magento_Backup_Snapshot');
-            }
-            $this->_snapshotManager = $snapshotManager;
-        } else {
-            $this->_snapshotManager = new Magento_Backup_Snapshot();
-        }
+    public function __construct(
+        Magento_Backup_Snapshot $snapshotManager
+    ) {
+        $this->_snapshotManager = $snapshotManager;
     }
 
     /**
@@ -90,7 +82,7 @@ class Magento_Backup_Media extends Magento_Backup_Abstract
             $rootDir . DIRECTORY_SEPARATOR . 'var' => array($this->_snapshotManager->getDbBackupFilename()),
         );
 
-        foreach($map as $path => $whiteList) {
+        foreach ($map as $path => $whiteList) {
             foreach (new DirectoryIterator($path) as $item) {
                 $filename = $item->getFilename();
                 if (!$item->isDot() && !in_array($filename, $whiteList)) {

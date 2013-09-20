@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_Hook
+class Magento_Webhook_Model_Source_Hook implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Path to environments section in the config

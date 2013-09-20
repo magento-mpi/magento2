@@ -23,4 +23,12 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Customer_Model_Session">
+        <param name="eventManager">
+            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+        <param name="configShare">
+            <instance type="Magento_Customer_Model_Config_Share_Proxy" />
+        </param>
+    </type>
 </config>

@@ -16,6 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Captcha_Model_Config_Form_Abstract extends Magento_Core_Model_Config_Value
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var string

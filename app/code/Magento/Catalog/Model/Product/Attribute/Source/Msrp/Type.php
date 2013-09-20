@@ -58,14 +58,4 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type
         }
         return $this->_options;
     }
-
-    /**
-     * Get options as array
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return $this->getAllOptions();
-    }
 }

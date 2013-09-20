@@ -200,6 +200,25 @@ class Magento_DB_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements 
     protected $_queryHook = null;
 
     /**
+     * Dirs instance
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
+     * @param Magento_Core_Model_Dir $dirs
+     * @param array $config
+     */
+    public function __construct(
+        Magento_Core_Model_Dir $dirs,
+        array $config = array()
+    ) {
+        $this->_dirs = $dirs;
+        parent::__construct($config);
+    }
+
+    /**
      * Begin new DB transaction for connection
      *
      * @return Magento_DB_Adapter_Pdo_Mysql
@@ -1373,7 +1392,8 @@ class Magento_DB_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql implements 
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
         if (!$this->_debugIoAdapter) {
             $this->_debugIoAdapter = new Magento_Io_File();
-            $dir = Mage::getBaseDir() . DS . $this->_debugIoAdapter->dirname($this->_debugFile);
+            $dir = $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT)
+                . DS . $this->_debugIoAdapter->dirname($this->_debugFile);
             $this->_debugIoAdapter->checkAndCreateFolder($dir);
             $this->_debugIoAdapter->open(array('path' => $dir));
             $this->_debugFile = basename($this->_debugFile);

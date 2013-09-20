@@ -12,8 +12,8 @@
  * Sys config source model for restriction modes
  *
  */
-class Magento_WebsiteRestriction_Model_System_Config_Source_Modes
-extends Magento_Object
+class Magento_WebsiteRestriction_Model_System_Config_Source_Modes extends Magento_Object
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Get options for select
