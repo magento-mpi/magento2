@@ -24,7 +24,7 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Data $helper
-     * @param $resourceName
+     * @param string $resourceName
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param array $data
      */
@@ -49,7 +49,7 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
     }
 
     /**
-     * @return Magento_Widget_Model_Resource_Setup
+     * @return Magento_Core_Model_Resource_Setup_Migration
      */
     public function getMigrationModel()
     {
