@@ -92,7 +92,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            Mage::throwException(__('Please correct the scheduled operation type.'));
+            throw new Magento_Core_Exception(__('Please correct the scheduled operation type.'));
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''

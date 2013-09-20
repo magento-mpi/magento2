@@ -89,12 +89,12 @@ class Magento_ScheduledImportExport_Model_Observer
 
             if (!file_exists($logPath) || !is_dir($logPath)) {
                 if (!mkdir($logPath, 0777, true)) {
-                    Mage::throwException(__("We couldn't create directory " . '"%1"', $logPath));
+                    throw new Magento_Core_Exception(__("We couldn't create directory " . '"%1"', $logPath));
                 }
             }
 
             if (!is_dir($logPath) || !is_writable($logPath)) {
-                Mage::throwException(__('The directory "%1" is not writable.', $logPath));
+                throw new Magento_Core_Exception(__('The directory "%1" is not writable.', $logPath));
             }
             $saveTime = (int) $this->_coreStoreConfig->getConfig(self::SAVE_LOG_TIME_PATH) + 1;
             $dateCompass = new DateTime('-' . $saveTime . ' days');
@@ -110,7 +110,7 @@ class Magento_ScheduledImportExport_Model_Observer
                     $fs = new Magento_Io_File();
                     if (!$fs->rmdirRecursive($directory, true)) {
                         $directory = str_replace(Mage::getBaseDir() . DS, '', $directory);
-                        Mage::throwException(
+                        throw new Magento_Core_Exception(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
                     }
