@@ -41,7 +41,7 @@ class Magento_Cms_Model_Template_Filter_Factory
         $filter = $this->_objectManager->create($className, $data);
 
         if (!$filter instanceof Magento_Filter_Template) {
-            throw new Magento_Core_Exception($className . ' doesn\'t extends Magento_File_Uploader');
+            throw new Magento_Core_Exception($className . ' doesn\'t extends Magento_Filter_Template');
         }
         return $filter;
     }

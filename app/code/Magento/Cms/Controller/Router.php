@@ -54,6 +54,13 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
     protected $_url;
 
     /**
+     * Response
+     *
+     * @var Magento_Core_Controller_Response_Http
+     */
+    protected $_response;
+
+    /**
      * Construct
      *
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
@@ -62,6 +69,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
      * @param Magento_Core_Model_Config_Primary $configPrimary
      * @param Magento_Cms_Model_PageFactory $pageFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Controller_Response_Http $response
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -69,7 +77,8 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
         Magento_Core_Model_UrlInterface $url,
         Magento_Core_Model_Config_Primary $configPrimary,
         Magento_Cms_Model_PageFactory $pageFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Controller_Response_Http $response
     ) {
         parent::__construct($controllerFactory);
         $this->_eventManager = $eventManager;
@@ -77,6 +86,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
         $this->_configPrimary = $configPrimary;
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
+        $this->_response = $response;
     }
 
     /**
@@ -90,7 +100,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
     public function match(Magento_Core_Controller_Request_Http $request)
     {
         if (!$this->_configPrimary->getInstallDate()) {
-            Mage::getSingleton('Magento_Core_Controller_Response_Http')
+            $this->_response
                 ->setRedirect($this->_url->getUrl('install'))
                 ->sendResponse();
             exit;

@@ -11,9 +11,7 @@
 /**
  * Wysiwyg Images model
  *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
 {

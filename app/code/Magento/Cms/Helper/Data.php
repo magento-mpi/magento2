@@ -12,9 +12,7 @@
 /**
  * CMS Data helper
  *
- * @category   Magento
- * @package    Magento_Cms
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Cms_Helper_Data extends Magento_Core_Helper_Abstract
 {
