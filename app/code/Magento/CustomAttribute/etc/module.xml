@@ -11,12 +11,11 @@
     <module name="Magento_CustomAttribute" version="1.11.0.0" active="false">
         <sequence>
             <module name="Magento_Eav"/>
-            <module name="Magento_Adminhtml"/>
         </sequence>
         <depends>
             <module name="Magento_Eav"/>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_Core"/>
+            <module name="Magento_Backend"/>
         </depends>
     </module>
 </config>

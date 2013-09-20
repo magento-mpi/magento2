@@ -2,7 +2,7 @@
 /**
  * Obsolete methods
  *
- * Format: array(<method_name = ''>[, <class_scope> = ''[, <replacement>]])
+ * Format: array(<method_name = ''>[, <class_scope> = ''[, <replacement>[, <is_deprecated>]]])
  *
  * {license_notice}
  *
@@ -83,6 +83,7 @@ return array(
     array('_getPublicFileUrl', 'Magento_Core_Model_Design_Package', 'Magento_Core_Model_View_Url::getPublicFileUrl'),
     array('_getRangeByType', 'Magento_Log_Model_Resource_Visitor_Collection'),
     array('_getRecentProductsCollection'),
+    array('_getRequestModel', 'Magento_Authorizenet_Model_Directpost'),
     array('_getScopeCode', 'Magento_Core_Model_Config'),
     array('_getSectionConfig', 'Magento_Core_Model_Config'),
     array('_getSelectHtml', 'Magento_ImportExport_Block_Adminhtml_Export_Filter'),
@@ -416,6 +417,7 @@ return array(
     array('getPathFromArray', '', 'direct usage of /'),
     array('getPathVars', 'Magento_Core_Model_Config'),
     array('getParentProductIds', 'Magento_Catalog_Model_Resource_Product'),
+    array('getPopupObjectUrl', 'Magento_AdminNotification_Helper_Data'),
     array('getPostMaxSize', 'Magento_Adminhtml_Block_Media_Uploader', 'Magento_File_Size::getPostMaxSize()'),
     array('getPriceFormatted', 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales'),
     array('getPrices', 'Magento_Bundle_Model_Product_Price'),
@@ -579,6 +581,8 @@ return array(
     array('loadPrices', 'Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute'),
     array('loadProductPrices', 'Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice'),
     array('lockOrderInventoryData', 'Magento_CatalogInventory_Model_Observer'),
+    array('log', 'Mage', 'Magento_Core_Model_Logger::log'),
+    array('logException', 'Mage', 'Magento_Core_Model_Logger::logException'),
     array('logEncryptionKeySave'),
     array('logInvitationSave'),
     array('map', 'Magento_ObjectManager_Config_Mapper_Dom', 'Magento_ObjectManager_Config_Mapper_Dom::convert'),
@@ -790,10 +794,15 @@ return array(
     array('getHelper', 'Magento_Core_Model_App'),
     array('helper', 'Mage'),
     array('dispatchEvent', 'Mage'),
+    array('getConfig', 'Mage', 'Magento_Core_Model_Config'),
+    array('getStoreConfig', 'Mage', 'Magento_Core_Model_Store_Config'),
+    array('getStoreConfigFlag', 'Mage', 'Magento_Core_Model_Store_Config'),
     array('resetRegistry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('register', 'Mage', 'use Magento_Core_Model_Registry'),
     array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('getObjectManager', 'Mage'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
+    array('_getIndexer', 'Magento_Index_Model_Shell'),
+    array('_getApi', 'Magento_Ogone_Block_Placeform'),
 );

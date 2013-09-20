@@ -16,6 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Captcha_Model_Config_Form_Abstract extends Magento_Core_Model_Config_Value
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var string
@@ -30,7 +31,7 @@ abstract class Magento_Captcha_Model_Config_Form_Abstract extends Magento_Core_M
     public function toOptionArray()
     {
         $optionArray = array();
-        $backendConfig = Mage::getConfig()->getValue($this->_configPath, 'default');
+        $backendConfig = $this->_config->getValue($this->_configPath, 'default');
         if ($backendConfig) {
             foreach ($backendConfig as $formName => $formConfig) {
                 if (!empty($formConfig['label'])) {

@@ -67,19 +67,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     public function getShippingRates()
     {
         if (empty($this->_rates)) {
-            $groups = $this->getAddress()->getGroupedAllShippingRates();
-            /*
-            if (!empty($groups)) {
-
-                $ratesFilter = new Magento_Filter_Object_Grid();
-                $ratesFilter->addFilter($this->getStore()->getPriceFilter(), 'price');
-
-                foreach ($groups as $code => $groupItems) {
-                    $groups[$code] = $ratesFilter->filter($groupItems);
-                }
-            }
-            */
-            return $this->_rates = $groups;
+            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();
         }
         return $this->_rates;
     }
@@ -92,7 +80,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
+        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
             return $name;
         }
         return $carrierCode;

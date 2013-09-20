@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="magento_scheduled_import_export_log_clean" instance="Magento_ScheduledImportExport_Model_Observer" method="scheduledLogClean" />
+</config>

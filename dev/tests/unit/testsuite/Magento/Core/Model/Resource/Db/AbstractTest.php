@@ -57,7 +57,8 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
      */
     public function testGetConnectionInMemoryCaching()
     {
-        $connection = new Magento_DB_Adapter_Pdo_Mysql(array(
+        $dir = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $connection = new Magento_DB_Adapter_Pdo_Mysql($dir, array(
             'dbname'   => 'test_dbname',
             'username' => 'test_username',
             'password' => 'test_password',

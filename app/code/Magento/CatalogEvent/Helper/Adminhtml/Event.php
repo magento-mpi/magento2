@@ -2,18 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Event adminhtml data helper
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Abstract
 {
@@ -32,6 +26,38 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
     protected $_inEventCategoryIds = null;
 
     /**
+     * Event collection factory
+     *
+     * @var Magento_CatalogEvent_Model_Resource_Event_CollectionFactory
+     */
+    protected $_eventCollectionFactory;
+
+    /**
+     * Category model factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $factory
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_CatalogEvent_Model_Resource_Event_CollectionFactory $factory,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory
+    ) {
+        parent::__construct($context);
+
+        $this->_eventCollectionFactory = $factory;
+        $this->_categoryFactory = $categoryFactory;
+    }
+
+    /**
      * Return first and second level categories
      *
      * @return Magento_Data_Tree_Node
@@ -39,8 +65,8 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
     public function getCategories()
     {
         if ($this->_categories === null) {
-            $tree = Mage::getModel('Magento_Catalog_Model_Category')->getTreeModel();
             /** @var $tree Magento_Catalog_Model_Resource_Category_Tree */
+            $tree = $this->_categoryFactory->create()->getTreeModel();
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
             $this->_categories = $tree->getNodeById(Magento_Catalog_Model_Category::TREE_ROOT_ID)->getChildren();
@@ -122,7 +148,8 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
     {
 
         if ($this->_inEventCategoryIds === null) {
-            $collection = Mage::getModel('Magento_CatalogEvent_Model_Event')->getCollection();
+            /** @var Magento_CatalogEvent_Model_Resource_Event_Collection $collection */
+            $collection = $this->_eventCollectionFactory->create();
             $this->_inEventCategoryIds = $collection->getColumnValues('category_id');
         }
         return $this->_inEventCategoryIds;

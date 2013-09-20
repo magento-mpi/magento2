@@ -32,13 +32,29 @@ class Magento_VersionsCms_Model_Hierarchy_Config
     protected $_defaultMenuLayoutCode;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Initialization for $_contextMenuLayouts
      *
      * @return Magento_VersionsCms_Model_Hierarchy_Config
      */
     protected function _initContextMenuLayouts()
     {
-        $config = Mage::getConfig()->getNode(self::XML_PATH_CONTEXT_MENU_LAYOUTS);
+        $config = $this->_coreConfig->getNode(self::XML_PATH_CONTEXT_MENU_LAYOUTS);
         if ($this->_contextMenuLayouts !== null || !$config) {
             return $this;
         }

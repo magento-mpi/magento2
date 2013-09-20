@@ -99,6 +99,7 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
      */
     protected $_secureSilentPostHashKey = 'secure_silent_post_hash';
 
+
     /**
      * Do not validate payment form using server methods
      *
@@ -635,16 +636,16 @@ class Magento_Paypal_Model_Payflowlink extends Magento_Paypal_Model_Payflowpro
         if ($request->getParam('website')) {
             /** @var $website Magento_Core_Model_Website */
             $website = Mage::getModel('Magento_Core_Model_Website')->load($request->getParam('website'));
-            $secure = Mage::getStoreConfigFlag(
+            $secure = $this->_coreStoreConfig->getConfigFlag(
                 Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
                 $website->getDefaultStore()
             );
             $path = $secure
                 ? Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
                 : Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL;
-            $websiteUrl = Mage::getStoreConfig($path, $website->getDefaultStore());
+            $websiteUrl = $this->_coreStoreConfig->getConfig($path, $website->getDefaultStore());
         } else {
-            $secure = Mage::getStoreConfigFlag(Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT);
+            $secure = $this->_coreStoreConfig->getConfigFlag(Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT);
             $websiteUrl = Mage::getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LINK, $secure);
         }
 

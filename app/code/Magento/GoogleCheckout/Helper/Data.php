@@ -56,6 +56,25 @@ class Magento_GoogleCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_SHIPPING_PICKUP_PRICE             = 'google/checkout_shipping_pickup/price';
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if option googlecheckout shipping carrier is enabled
      *
      * @param  $storeId
@@ -63,7 +82,7 @@ class Magento_GoogleCheckout_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isShippingCarrierActive($storeId)
     {
-        return (true == Mage::getStoreConfig(self::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId));
+        return (true == $this->_coreStoreConfig->getConfig(self::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId));
     }
 
     /**

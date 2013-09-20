@@ -34,17 +34,25 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     protected $_ratingData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Rating_Helper_Data $ratingData
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Rating_Helper_Data $ratingData,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_StoreManager $storeManager
     ) {
         $this->_ratingData = $ratingData;
         $this->_storeManager = $storeManager;
+        $this->_logger = $logger;
         parent::__construct($resource);
     }
 
@@ -189,7 +197,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
                 }
                 $adapter->commit();
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 $adapter->rollBack();
             }
         }
@@ -228,7 +236,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
 
                 $adapter->commit();
             } catch (Exception $e) {
-                Mage::logException($e);
+                $this->_logger->logException($e);
                 $adapter->rollBack();
             }
         }

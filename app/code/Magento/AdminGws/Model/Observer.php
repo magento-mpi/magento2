@@ -28,6 +28,39 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     protected $_controllersMap = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * @param Magento_AdminGws_Model_Role $role
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Controller_Request_Http $request
+     */
+    public function __construct(
+        Magento_AdminGws_Model_Role $role,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Controller_Request_Http $request
+    ) {
+        parent::__construct($role);
+        $this->_coreConfig = $coreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_request = $request;
+    }
+
+    /**
      * Put websites/stores permissions data after loading admin role
      *
      * If all permissions are allowed, all possible websites / store groups / stores will be set
@@ -46,7 +79,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
 
         // set all websites and store groups
         if ($gwsIsAll) {
-            $object->setGwsWebsites(array_keys(Mage::app()->getWebsites()));
+            $object->setGwsWebsites(array_keys($this->_storeManager->getWebsites()));
             foreach ($this->_getAllStoreGroups() as $storeGroup) {
                 $storeGroupIds[] = $storeGroup->getId();
             }
@@ -77,7 +110,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
 
         // determine and set store ids
         $storeIds = array();
-        foreach (Mage::app()->getStores() as $store) {
+        foreach ($this->_storeManager->getStores() as $store) {
             if (in_array($store->getGroupId(), $storeGroupIds)) {
                 $storeIds[] = $store->getId();
             }
@@ -125,13 +158,13 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
 
         // validate specified data
         if ($object->getGwsIsAll() === 0 && empty($websiteIds) && empty($storeGroupIds)) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Please specify at least one website or one store group.')
             );
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('You need more permissions to set All Scopes to a Role.')
                 );
             }
@@ -144,16 +177,16 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             if (!is_array($websiteIds)) {
                 $websiteIds = explode(',', $websiteIds);
             }
-            $allWebsiteIds = array_keys(Mage::app()->getWebsites());
+            $allWebsiteIds = array_keys($this->_storeManager->getWebsites());
             foreach ($websiteIds as $websiteId) {
                 if (!in_array($websiteId, $allWebsiteIds)) {
-                    Mage::throwException(__('Incorrect website ID: %1', $websiteId));
+                    throw new Magento_Core_Exception(__('Incorrect website ID: %1', $websiteId));
                 }
                 // prevent granting disallowed websites
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
-                        Mage::throwException(
-                            __('You need more permissions to access website "%1".', Mage::app()->getWebsite($websiteId)->getName())
+                        throw new Magento_Core_Exception(
+                            __('You need more permissions to access website "%1".', $this->_storeManager->getWebsite($websiteId)->getName())
                         );
                     }
                 }
@@ -167,16 +200,16 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
                 $storeGroupIds = explode(',', $storeGroupIds);
             }
             $allStoreGroups = array();
-            foreach (Mage::app()->getWebsites() as $website) {
+            foreach ($this->_storeManager->getWebsites() as $website) {
                 $allStoreGroups = array_merge($allStoreGroups, $website->getGroupIds());
             }
             foreach ($storeGroupIds as $storeGroupId) {
                 if (!array($storeGroupId, $allStoreGroups)) {
-                    Mage::throwException(__('Incorrect store ID: %1', $storeGroupId));
+                    throw new Magento_Core_Exception(__('Incorrect store ID: %1', $storeGroupId));
                 }
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
-                    Mage::throwException(
+                    throw new Magento_Core_Exception(
                         __('You need more permissions to save this setting.')
                     );
                 }
@@ -253,10 +286,10 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
 
             if (!$this->_role->getIsAll()) {
                 // disable single store mode
-                Mage::app()->setIsSingleStoreModeAllowed(false);
+                $this->_storeManager->setIsSingleStoreModeAllowed(false);
 
-                // cleanup Mage::app() from disallowed stores
-                Mage::app()->reinitStores();
+                // cleanup from disallowed stores
+                $this->_storeManager->reinitStores();
 
                 // completely block some admin menu items
                 $this->_denyAclLevelRules(self::ACL_WEBSITE_LEVEL);
@@ -284,8 +317,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
             return $this;
         }
 
-        $request = Mage::app()->getRequest();
-        $storeId = $request->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $storeId = $this->_request->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }
@@ -311,7 +343,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         /* @var $session Magento_Acl_Builder */
         $builder = Mage::getSingleton('Magento_Acl_Builder');
 
-        foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
+        foreach ($this->_coreConfig->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
             $builder->getAcl()->deny($session->getUser()->getAclRole(), $rule);
         }
         return $this;
@@ -402,7 +434,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
-            $children = Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')
+            $children = $this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')
                 ->children();
             foreach ($children as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
@@ -418,10 +450,9 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         }
 
         // map request to validator callback
-        $request        = Mage::app()->getRequest();
-        $routeName      = $request->getRouteName();
-        $controllerName = $request->getControllerName();
-        $actionName     = $request->getActionName();
+        $routeName      = $this->_request->getRouteName();
+        $controllerName = $this->_request->getControllerName();
+        $actionName     = $this->_request->getActionName();
         $callback       = false;
         if (isset($this->_controllersMap['full'][$routeName])
             && isset($this->_controllersMap['full'][$routeName][$controllerName])
@@ -478,7 +509,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         // gather callbacks from mapper configuration
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
-            $callbacks = (array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
+            $callbacks = (array)$this->_coreConfig->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup);
             foreach ($callbacks as $className => $callback) {
                 $className = uc_words($className);
 

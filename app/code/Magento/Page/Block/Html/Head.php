@@ -224,7 +224,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getMediaType()
     {
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = Mage::getStoreConfig('design/head/default_media_type');
+            $this->_data['media_type'] = $this->_storeConfig->getConfig('design/head/default_media_type');
         }
         return $this->_data['media_type'];
     }
@@ -237,7 +237,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getCharset()
     {
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = Mage::getStoreConfig('design/head/default_charset');
+            $this->_data['charset'] = $this->_storeConfig->getConfig('design/head/default_charset');
         }
         return $this->_data['charset'];
     }
@@ -256,8 +256,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
         } else {
             $this->_pureTitle = $title;
         }
-        $this->_data['title'] = Mage::getStoreConfig('design/head/title_prefix') . ' ' . $title
-            . ' ' . Mage::getStoreConfig('design/head/title_suffix');
+        $this->_data['title'] = $this->_storeConfig->getConfig('design/head/title_prefix') . ' ' . $title
+            . ' ' . $this->_storeConfig->getConfig('design/head/title_suffix');
         return $this;
     }
 
@@ -295,7 +295,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     public function getDefaultTitle()
     {
-        return Mage::getStoreConfig('design/head/default_title');
+        return $this->_storeConfig->getConfig('design/head/default_title');
     }
 
     /**
@@ -306,7 +306,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getDescription()
     {
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = Mage::getStoreConfig('design/head/default_description');
+            $this->_data['description'] = $this->_storeConfig->getConfig('design/head/default_description');
         }
         return $this->_data['description'];
     }
@@ -319,7 +319,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getKeywords()
     {
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = Mage::getStoreConfig('design/head/default_keywords');
+            $this->_data['keywords'] = $this->_storeConfig->getConfig('design/head/default_keywords');
         }
         return $this->_data['keywords'];
     }
@@ -332,7 +332,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getRobots()
     {
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = Mage::getStoreConfig('design/search_engine_robots/default_robots');
+            $this->_data['robots'] = $this->_storeConfig->getConfig('design/search_engine_robots/default_robots');
         }
         return $this->_data['robots'];
     }
@@ -345,7 +345,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getIncludes()
     {
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = Mage::getStoreConfig('design/head/includes');
+            $this->_data['includes'] = $this->_storeConfig->getConfig('design/head/includes');
         }
         return $this->_data['includes'];
     }
@@ -371,7 +371,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     protected function _getFaviconFile()
     {
         $folderName = Magento_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
-        $storeConfig = Mage::getStoreConfig('design/head/shortcut_icon');
+        $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
         $faviconFile = Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
         $absolutePath = Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
 

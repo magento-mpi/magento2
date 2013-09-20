@@ -23,12 +23,20 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
     protected $_taxData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_GoogleShopping_Helper_Data $gsData
      * @param Magento_GoogleShopping_Helper_Product $gsProduct
      * @param Magento_GoogleShopping_Helper_Price $gsPrice
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_GoogleShopping_Model_Resource_Attribute $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -40,11 +48,13 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
         Magento_GoogleShopping_Helper_Price $gsPrice,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_GoogleShopping_Model_Resource_Attribute $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($gsData, $gsProduct, $gsPrice, $context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -59,7 +69,7 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
     {
         $product->setWebsiteId(Mage::app()->getStore($product->getStoreId())->getWebsiteId());
         $product->setCustomerGroupId(
-            Mage::getStoreConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $product->getStoreId())
+            $this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $product->getStoreId())
         );
 
         $store = Mage::app()->getStore($product->getStoreId());

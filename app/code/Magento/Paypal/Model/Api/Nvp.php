@@ -977,7 +977,7 @@ class Magento_Paypal_Model_Api_Nvp extends Magento_Paypal_Model_Api_Abstract
 
         // handle transport error
         if ($http->getErrno()) {
-            Mage::logException(new Exception(
+            $this->_logger->logException(new Exception(
                 sprintf('PayPal NVP CURL connection error #%s: %s', $http->getErrno(), $http->getError())
             ));
             $http->close();
@@ -989,9 +989,7 @@ class Magento_Paypal_Model_Api_Nvp extends Magento_Paypal_Model_Api_Abstract
         $http->close();
 
         if (!$this->_validateResponse($methodName, $response)) {
-            Mage::logException(new Exception(
-                __("PayPal response hasn't required fields.")
-            ));
+            $this->_logger->logException(new Exception(__("PayPal response hasn't required fields.")));
             Mage::throwException(__('Something went wrong while processing your order.'));
         }
 
@@ -1042,7 +1040,7 @@ class Magento_Paypal_Model_Api_Nvp extends Magento_Paypal_Model_Api_Abstract
                 isset($response['CORRELATIONID']) ? $response['CORRELATIONID'] : '',
                 isset($response['VERSION']) ? $response['VERSION'] : ''
             ));
-            Mage::logException($e);
+            $this->_logger->logException($e);
             $e->setMessage(__('The PayPal gateway has rejected this request. %1', $errors));
             throw $e;
         }

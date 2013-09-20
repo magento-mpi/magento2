@@ -46,39 +46,37 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_coreUrl = null;
 
     /**
-     * Retrieve customer sharing configuration model
-     *
-     * @return Magento_Customer_Model_Config_Share
-     */
-    public function getCustomerConfigShare()
-    {
-        return Mage::getSingleton('Magento_Customer_Model_Config_Share');
-    }
-
-    /**
-     * Class constructor. Initialize session namespace
-     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Config_Share $configShare
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
-     * @param string $sessionName
+     * @param null $sessionName
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Config_Share $configShare,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Url $coreUrl,
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array(),
         $sessionName = null
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
-        parent::__construct($eventManager, $coreHttp, $data);
+        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $namespace = 'customer';
-        if ($this->getCustomerConfigShare()->isWebsiteScope()) {
-            $namespace .= '_' . (Mage::app()->getStore()->getWebsite()->getCode());
+        if ($configShare->isWebsiteScope()) {
+            $namespace .= '_' . ($storeManager->getWebsite()->getCode());
         }
 
         $this->init($namespace, $sessionName);

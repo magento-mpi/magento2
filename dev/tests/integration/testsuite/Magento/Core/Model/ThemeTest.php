@@ -18,7 +18,6 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testCrud()
     {
-        Mage::getConfig();
         /** @var $themeModel Magento_Core_Model_Theme */
         $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
         $themeModel->setData($this->_getThemeValidData());

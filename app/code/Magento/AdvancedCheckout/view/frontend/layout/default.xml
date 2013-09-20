@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <reference name="head.components">
+        <block class="Magento_Core_Block_Template" name="magento_advancedcheckout_page_head_components" template="Magento_AdvancedCheckout::js/components.phtml"/>
+    </reference>
+</layout>

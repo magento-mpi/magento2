@@ -97,24 +97,4 @@
             </totals_sort>
         </sales>
     </default>
-    <crontab>
-        <jobs>
-            <magento_reward_balance_warning_notification>
-                <schedule>
-                    <cron_expr>1 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Reward_Model_Observer::scheduledBalanceExpireNotification</model>
-                </run>
-            </magento_reward_balance_warning_notification>
-            <magento_reward_expire_points>
-                <schedule>
-                    <cron_expr>1 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Reward_Model_Observer::scheduledPointsExpiration</model>
-                </run>
-            </magento_reward_expire_points>
-        </jobs>
-    </crontab>
 </config>

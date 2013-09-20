@@ -82,8 +82,12 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
     protected function setUp()
     {
         $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model
-            = new Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address($this->_getModelDependencies());
+
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_model = new Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address(
+            $coreStoreConfig,
+            $this->_getModelDependencies()
+        );
     }
 
     protected function tearDown()
@@ -106,8 +110,13 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $translator = $this->getMock('stdClass');
 
+        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+
         /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
+        $attributeCollection = $this->getMock('Magento_Data_Collection',
+            array('getEntityTypeCode'),
+            array($entityFactory)
+        );
         $attributeCollection->expects($this->once())
             ->method('getEntityTypeCode')
             ->will($this->returnValue('customer_address'));

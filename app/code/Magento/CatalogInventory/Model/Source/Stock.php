@@ -16,7 +16,7 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Source_Stock
+class Magento_CatalogInventory_Model_Source_Stock implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve option array

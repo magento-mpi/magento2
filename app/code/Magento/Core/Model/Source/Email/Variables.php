@@ -16,7 +16,8 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Source_Email_Variables
+class Magento_Core_Model_Source_Email_Variables implements Magento_Core_Model_Option_ArrayInterface
+
 {
     /**
      * Assoc array of configuration variables

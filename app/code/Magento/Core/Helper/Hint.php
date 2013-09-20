@@ -25,6 +25,27 @@ class Magento_Core_Helper_Hint extends Magento_Core_Helper_Abstract
     protected $_availableHints;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $coreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $coreConfig
+    ) {
+        parent::__construct(
+            $context
+        );
+        $this->_coreConfig = $coreConfig;
+    }
+
+    /**
      * Retrieve list of available hints as [hint code] => [hint url]
      *
      * @return array
@@ -33,7 +54,7 @@ class Magento_Core_Helper_Hint extends Magento_Core_Helper_Abstract
     {
         if (null === $this->_availableHints) {
             $hints = array();
-            $config = Mage::getConfig()->getValue('hints', 'default');
+            $config = $this->_coreConfig->getValue('hints', 'default');
             if ($config) {
                 foreach ($config as $type => $configValue) {
                     if (isset($configValue['enabled']) && $configValue['enabled']) {
