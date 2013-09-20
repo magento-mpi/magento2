@@ -89,6 +89,11 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_config;
 
     /**
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
      * @var Magento_Core_Model_Cache_TypeListInterface
      */
     protected $_list;
@@ -103,6 +108,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Cache_TypeListInterface $list
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
@@ -116,6 +122,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Widget_Model_Widget $widget,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Cache_TypeListInterface $list,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -125,8 +132,8 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         $this->_widget = $widget;
         $this->_config = $config;
         $this->_list = $list;
+        $this->_productType = $productType;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-
     }
 
     /**
