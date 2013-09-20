@@ -10,13 +10,6 @@
 class Magento_Config_Data implements Magento_Config_DataInterface
 {
     /**
-     * Internal configuration data
-     *
-     * @var Magento_Config_ScopeInterface
-     */
-    protected $_configScope;
-
-    /**
      * Configuration reader model
      *
      * @var Magento_Config_ReaderInterface
