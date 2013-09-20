@@ -492,7 +492,6 @@ return array(
     array('getTagsByType', 'Magento_Core_Model_CacheInterface', 'Magento_Cache_Frontend_Decorator_TagScope::getTag()'),
     array('getTaxAmount', 'Magento_Sales_Model_Quote_Item_Abstract'),
     array('getTaxRatesByProductClass', '', '_getAllRatesByProductClass'),
-    array('getTemplateFilename', '', 'getFilename'),
     array('getTemplateProcessor', 'Magento_Newsletter_Helper_Data',
         'Use directly model Magento_Newsletter_Model_Template_Filter'),
     array('getTempVarDir', 'Magento_Core_Model_Config', 'Magento_Core_Model_Dir::getDir()'),
