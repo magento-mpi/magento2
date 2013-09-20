@@ -1,5 +1,14 @@
 <?php
 /**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Sales
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
  * Factory class for Magento_Sales_Model_Quote_Address_Total_Abstract
  */
 class Magento_Sales_Model_Quote_Address_TotalFactory
