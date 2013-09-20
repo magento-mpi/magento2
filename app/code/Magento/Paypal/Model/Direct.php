@@ -57,7 +57,7 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Centinel_Model_Service $service
+     * @param Magento_Centinel_Model_Service $centinelService
      * @param array $data
      */
     public function __construct(
@@ -68,11 +68,11 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $service,
+        Magento_Centinel_Model_Service $centinelService,
         array $data = array()
     ) {
         parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
-            $locale, $service, $data);
+            $locale, $centinelService, $data);
         $proInstance = array_shift($data);
         if ($proInstance && ($proInstance instanceof Magento_Paypal_Model_Pro)) {
             $this->_pro = $proInstance;

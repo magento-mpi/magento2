@@ -73,7 +73,7 @@ class Magento_Pbridge_Model_Payment_Method_Worldpay_Direct extends Magento_Payme
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Centinel_Model_Service $service
+     * @param Magento_Centinel_Model_Service $centinelService
      * @param array $data
      */
     public function __construct(
@@ -85,12 +85,12 @@ class Magento_Pbridge_Model_Payment_Method_Worldpay_Direct extends Magento_Payme
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $service,
+        Magento_Centinel_Model_Service $centinelService,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
         parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
-            $locale, $service, $data);
+            $locale, $centinelService, $data);
     }
 
     /**

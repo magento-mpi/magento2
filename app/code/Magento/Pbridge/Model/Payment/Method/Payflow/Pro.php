@@ -53,7 +53,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_LocaleInterface $locale,
-     * @param Magento_Centinel_Model_Service $service,
+     * @param Magento_Centinel_Model_Service $centinelService,
      * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
@@ -67,12 +67,12 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_LocaleInterface $locale,
-        Magento_Centinel_Model_Service $service,
+        Magento_Centinel_Model_Service $centinelService,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
         parent::__construct($logger, $eventManager, $coreStoreConfig, $coreData, $moduleList, $paymentData,
-            $logAdapterFactory, $locale, $service, $data);
+            $logAdapterFactory, $locale, $centinelService, $data);
     }
 
     /**
