@@ -65,11 +65,11 @@ class Magento_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
         Magento_Acl_Resource_ProviderInterface $aclResourceProvider,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        $this->_aclBuilder = $aclBuilder;
         $this->_rootResource = $rootResource;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
-        $this->_aclBuilder = $aclBuilder;
         $this->_aclResourceProvider = $aclResourceProvider;
+        parent::__construct($coreData, $context, $data);
     }
 
     /**

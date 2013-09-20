@@ -10,6 +10,7 @@
  * Resource Setup Model
  *
  * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
