@@ -6,6 +6,8 @@
  *
  * @copyright {copyright}
  * @license   {license_link}
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
 {
