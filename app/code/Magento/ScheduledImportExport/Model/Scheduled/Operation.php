@@ -443,8 +443,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Get file based on "file_info" from server (ftp, local) and put to tmp directory
      *
-     * throws Magento_Core_Exception
      * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation
+     * @throws Magento_Core_Exception
      * @return string full file path
      */
     public function getFileSource(Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation)

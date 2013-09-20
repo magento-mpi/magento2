@@ -51,10 +51,10 @@ class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron ex
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
-
     /**
      * Add cron task
      *
+     * @throws Exception
      * @return void
      */
     protected function _afterSave()
@@ -86,5 +86,4 @@ class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron ex
             throw new Exception(__('We were unable to save the cron expression.'));
         }
     }
-
 }

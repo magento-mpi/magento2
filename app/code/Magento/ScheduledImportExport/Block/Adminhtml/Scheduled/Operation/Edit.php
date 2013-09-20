@@ -89,6 +89,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
      * Prepare page layout.
      * Set form object to container.
      *
+     * @throws Magento_Core_Exception
      * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
      */
     protected function _prepareLayout()
