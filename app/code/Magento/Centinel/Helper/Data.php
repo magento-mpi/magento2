@@ -24,7 +24,7 @@ class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Layout $layoutFactory
+     * @param Magento_Core_Model_Layout $layout
      */
     public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Layout $layout)
     {

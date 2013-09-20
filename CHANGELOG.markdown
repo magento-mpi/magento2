@@ -68,6 +68,7 @@
 * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
 * Eliminated Mage::throwException from Magento_Media module
 * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
+* Eliminated Mage:: static methods in modules Centinel, Connect, Contacts, Enterprise, GiftMessage, GoogleAnalytics
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
   * New arguments format, which introduce argument types implemented
