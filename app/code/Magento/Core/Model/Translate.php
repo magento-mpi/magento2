@@ -166,6 +166,7 @@ class Magento_Core_Model_Translate
      * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
      * @param Magento_Core_Model_ModuleList $moduleList
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $viewDesign,
@@ -175,7 +176,8 @@ class Magento_Core_Model_Translate
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Phrase_Renderer_Placeholder $placeholderRender,
         Magento_Core_Model_ModuleList $moduleList,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -185,6 +187,7 @@ class Magento_Core_Model_Translate
         $this->_placeholderRender = $placeholderRender;
         $this->_moduleList = $moduleList;
         $this->_modulesReader = $modulesReader;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**

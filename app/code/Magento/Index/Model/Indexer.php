@@ -40,21 +40,21 @@ class Magento_Index_Model_Indexer
     /**
      * @var Magento_Index_Model_Resource_Process_CollectionFactory
      */
-    protected $_resProcColFactory;
+    protected $_collectionFactory;
 
     /**
-     * @param Magento_Index_Model_Resource_Process_CollectionFactory $resProcColFactory
+     * @param Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory
      * @param Magento_Index_Model_Resource_Process $resourceProcess
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Index_Model_EventFactory $indexEventFactory
      */
     public function __construct(
-        Magento_Index_Model_Resource_Process_CollectionFactory $resProcColFactory,
+        Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory,
         Magento_Index_Model_Resource_Process $resourceProcess,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Index_Model_EventFactory $indexEventFactory
     ) {
-        $this->_resProcColFactory = $resProcColFactory;
+        $this->_collectionFactory = $collectionFactory;
         $this->_resourceProcess = $resourceProcess;
         $this->_eventManager = $eventManager;
         $this->_indexEventFactory = $indexEventFactory;
@@ -66,7 +66,7 @@ class Magento_Index_Model_Indexer
      */
     private function _createCollection()
     {
-        return $this->_resProcColFactory->create();
+        return $this->_collectionFactory->create();
     }
 
     /**

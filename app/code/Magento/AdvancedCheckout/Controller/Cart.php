@@ -191,7 +191,7 @@ class Magento_AdvancedCheckout_Controller_Cart
             return;
         } catch (Exception $e) {
             $this->_getCustomerSession()->addError(__('You cannot configure a product.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -232,7 +232,7 @@ class Magento_AdvancedCheckout_Controller_Cart
             $hasError = true;
         } catch (Exception $e) {
             $this->_getSession()->addError(__('You cannot add a product.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $hasError = true;
         }
 

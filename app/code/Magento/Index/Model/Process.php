@@ -56,7 +56,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      *
      * @var Magento_Index_Model_Indexer_Abstract
      */
-    protected $_indexer = null;
+    protected $_currentIndexer;
 
     /**
      * Lock file entity storage
@@ -94,7 +94,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     /**
      * @var Magento_Index_Model_Indexer
      */
-    protected $_indexIndexer;
+    protected $_indexer;
 
     /**
      * @var Magento_Index_Model_Resource_Event
@@ -102,14 +102,20 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_resourceEvent;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+    
+    /**
      * @param Magento_Index_Model_Resource_Event $resourceEvent
      * @param Magento_Index_Model_IndexerFactory $indexerFactory
-     * @param Magento_Index_Model_Indexer $indexIndexer
+     * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Index_Model_Lock_Storage $lockStorage
      * @param Magento_Index_Model_EventRepository $eventRepository
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -119,12 +125,13 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Index_Model_Resource_Event $resourceEvent,
         Magento_Index_Model_IndexerFactory $indexerFactory,
-        Magento_Index_Model_Indexer $indexIndexer,
+        Magento_Index_Model_Indexer $indexer,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Index_Model_Lock_Storage $lockStorage,
         Magento_Index_Model_EventRepository $eventRepository,
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -134,8 +141,9 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
         $this->_indexerFactory = $indexerFactory;
-        $this->_indexIndexer = $indexIndexer;
+        $this->_indexer = $indexer;
         $this->_resourceEvent = $resourceEvent;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -290,7 +298,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
 
         if ($this->getDepends()) {
             foreach ($this->getDepends() as $code) {
-                $process = $this->_indexIndexer->getProcessByCode($code);
+                $process = $this->_indexer->getProcessByCode($code);
                 if ($process) {
                     $process->reindexEverything();
                 }
@@ -345,14 +353,14 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      */
     public function getIndexer()
     {
-        if ($this->_indexer === null) {
+        if ($this->_currentIndexer === null) {
             $code = $this->_getData('indexer_code');
             if (!$code) {
                 throw new Magento_Core_Exception(__('Indexer code is not defined.'));
             }
-            $this->_indexer = $this->_indexerFactory->create($code);
+            $this->_currentIndexer = $this->_indexerFactory->create($code);
         }
-        return $this->_indexer;
+        return $this->_currentIndexer;
     }
 
     /**
@@ -574,7 +582,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         if (is_null($depends)) {
             $depends = array();
             $path = self::XML_PATH_INDEXER_DATA . '/' . $this->getIndexerCode();
-            $node = Mage::getConfig()->getNode($path);
+            $node = $this->_coreConfig->getNode($path);
             if ($node) {
                 $data = $node->asArray();
                 if (isset($data['depends']) && is_array($data['depends'])) {

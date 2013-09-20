@@ -36,27 +36,44 @@ class Magento_WebsiteRestriction_Model_Observer
     protected $_eventManager = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @var Magento_Core_Model_Session
      */
     protected $_coreSession;
-
 
     /**
      * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
         Magento_Core_Model_Session $coreSession,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Customer_Helper_Data $customerData,
-        Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
+        Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig
     ) {
         $this->_coreSession = $coreSession;
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_websiteRestrictionData = $websiteRestrictionData;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -84,7 +101,7 @@ class Magento_WebsiteRestriction_Model_Observer
             $request    = $controller->getRequest();
             /* @var $response Magento_Core_Controller_Response_Http */
             $response   = $controller->getResponse();
-            switch ((int)Mage::getStoreConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE)) {
+            switch ((int)$this->_coreStoreConfig->getConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE)) {
                 // show only landing page with 503 or 200 code
                 case Magento_WebsiteRestriction_Model_Mode::ALLOW_NONE:
                     if ($controller->getFullActionName() !== 'restriction_index_stub') {
@@ -94,7 +111,7 @@ class Magento_WebsiteRestriction_Model_Observer
                             ->setDispatched(false);
                         return;
                     }
-                    $httpStatus = (int)Mage::getStoreConfig(
+                    $httpStatus = (int)$this->_coreStoreConfig->getConfig(
                         Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_HTTP_STATUS
                     );
                     if (Magento_WebsiteRestriction_Model_Mode::HTTP_503 === $httpStatus) {
@@ -110,12 +127,12 @@ class Magento_WebsiteRestriction_Model_Observer
                     if (!$dispatchResult->getCustomerLoggedIn() && !$this->_customerData->isLoggedIn()) {
                         // see whether redirect is required and where
                         $redirectUrl = false;
-                        $allowedActionNames = array_keys(Mage::getConfig()
+                        $allowedActionNames = array_keys($this->_coreConfig
                             ->getNode(Magento_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_GENERIC)
                             ->asArray()
                         );
                         if ($this->_customerData->isRegistrationAllowed()) {
-                            foreach(array_keys(Mage::getConfig()
+                            foreach(array_keys($this->_coreConfig
                                 ->getNode(
                                     Magento_WebsiteRestriction_Helper_Data::XML_NODE_RESTRICTION_ALLOWED_REGISTER
                                 )
@@ -126,13 +143,13 @@ class Magento_WebsiteRestriction_Model_Observer
                         }
 
                         // to specified landing page
-                        $restrictionRedirectCode = (int)Mage::getStoreConfig(
+                        $restrictionRedirectCode = (int)$this->_coreStoreConfig->getConfig(
                             Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_HTTP_REDIRECT
                         );
                         if (Magento_WebsiteRestriction_Model_Mode::HTTP_302_LANDING === $restrictionRedirectCode) {
                             $cmsPageViewAction = 'cms_page_view';
                             $allowedActionNames[] = $cmsPageViewAction;
-                            $pageIdentifier = Mage::getStoreConfig(
+                            $pageIdentifier = $this->_coreStoreConfig->getConfig(
                                 Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_LANDING_PAGE
                             );
                             // Restrict access to CMS pages too
@@ -151,7 +168,7 @@ class Magento_WebsiteRestriction_Model_Observer
                             $response->setRedirect($redirectUrl);
                             $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                         }
-                        if (Mage::getStoreConfigFlag(
+                        if ($this->_coreStoreConfig->getConfigFlag(
                             Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                         )) {
                             $afterLoginUrl = $this->_customerData->getDashboardUrl();
@@ -177,7 +194,7 @@ class Magento_WebsiteRestriction_Model_Observer
      */
     public function addPrivateSalesLayoutUpdate($observer)
     {
-        if (in_array((int)Mage::getStoreConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE),
+        if (in_array((int)$this->_coreStoreConfig->getConfig(Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_MODE),
             array(
                 Magento_WebsiteRestriction_Model_Mode::ALLOW_REGISTER,
                 Magento_WebsiteRestriction_Model_Mode::ALLOW_LOGIN

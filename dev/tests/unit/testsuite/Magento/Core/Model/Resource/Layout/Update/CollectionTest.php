@@ -24,6 +24,7 @@ class Magento_Core_Model_Resource_Layout_Update_CollectionTest
 
         return new Magento_Core_Model_Resource_Layout_Update_Collection(
             $eventManager,
+            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface'),
             $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false),
             $this->_getResource($select)

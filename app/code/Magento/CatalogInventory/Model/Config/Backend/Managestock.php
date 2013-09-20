@@ -51,7 +51,7 @@ class Magento_CatalogInventory_Model_Config_Backend_Managestock
      */
     protected function _afterSave()
     {
-        $oldValue = Mage::getConfig()->getValue(
+        $oldValue = $this->_coreConfig->getValue(
             Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
             $this->getScope(),
             $this->getScopeId()
@@ -59,6 +59,7 @@ class Magento_CatalogInventory_Model_Config_Backend_Managestock
         if ($this->getValue() != $oldValue) {
             $this->_stockStatus->rebuild();
         }
+
         return $this;
     }
 }

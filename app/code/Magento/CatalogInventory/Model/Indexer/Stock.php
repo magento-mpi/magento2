@@ -73,7 +73,7 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
      * @var Magento_Index_Model_Indexer
@@ -82,25 +82,26 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_I
 
     /**
      * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Index_Model_Indexer $indexer,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
         $this->_indexer = $indexer;
         $this->_catalogInventoryData = $catalogInventoryData;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

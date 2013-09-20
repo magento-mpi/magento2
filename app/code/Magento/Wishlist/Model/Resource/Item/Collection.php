@@ -92,6 +92,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Wishlist_Model_Resource_Item $resource
@@ -100,13 +101,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Wishlist_Model_Resource_Item $resource
     ) {
         $this->_inventoryData = $catalogInventoryData;
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($eventManager, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**

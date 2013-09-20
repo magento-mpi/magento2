@@ -9,7 +9,7 @@
  */
 
 /** @var $this Magento_TargetRule_Model_Resource_Setup */
-$installer = $this->createMigration(array('resourceName' => 'core_setup'));
+$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('magento_targetrule', 'conditions_serialized',

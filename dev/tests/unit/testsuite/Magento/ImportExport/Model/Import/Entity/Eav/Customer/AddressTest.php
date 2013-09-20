@@ -444,9 +444,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function _getModelMock()
     {
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        
         $modelMock = new Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address(
             $this->_coreDataMock,
             $this->_coreStringMock,
+            $coreStoreConfig,
             $this->_getModelDependencies()
         );
 

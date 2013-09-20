@@ -283,12 +283,13 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
      *
      * @param string $productTypeId
      * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface
+     * @throws Magento_Core_Exception
      */
     protected function _getIndexer($productTypeId)
     {
         $types = $this->_getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            Mage::throwException(__('Unsupported product type "%1".', $productTypeId));
+            throw new Magento_Core_Exception(__('Unsupported product type "%1".', $productTypeId));
         }
         return $types[$productTypeId];
     }

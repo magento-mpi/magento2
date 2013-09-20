@@ -302,12 +302,18 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_ImportExport_Helper_Data $importExportData
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -317,11 +323,13 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Data $coreData,
         Magento_ImportExport_Helper_Data $importExportData,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_catalogData = $catalogData;
+        $this->_coreConfig = $coreConfig;
         parent::__construct($coreString, $coreData, $importExportData);
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
@@ -516,7 +524,7 @@ class Magento_ImportExport_Model_Import_Entity_Product extends Magento_ImportExp
      */
     protected function _initTypeModels()
     {
-        $config = Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
+        $config = $this->_coreConfig->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
         foreach ($config as $type => $typeModel) {
             $params = array($this, $type);
             if (!($model = Mage::getModel($typeModel, array('params' => $params)))) {

@@ -10,10 +10,6 @@
 
 /**
  * Catalog inventory module observer
- *
- * @category   Magento
- * @package    Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_CatalogInventory_Model_Observer
 {
@@ -40,9 +36,32 @@ class Magento_CatalogInventory_Model_Observer
      *
      * @var Magento_CatalogInventory_Helper_Data
      */
-    protected $_catalogInventoryData = null;
+    protected $_catalogInventoryData;
 
     /**
+     * Stock item factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     */
+    protected $_stockItemFactory;
+
+    /**
+     * Stock model factory
+     *
+     * @var Magento_CatalogInventory_Model_StockFactory
+     */
+    protected $_stockFactory;
+
+    /**
+     * Stock status factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_StatusFactory
+     */
+    protected $_stockStatusFactory;
+
+    /**
+     * Construct
+     * 
      * @var Magento_Index_Model_Indexer
      */
     protected $_indexer;
@@ -60,44 +79,52 @@ class Magento_CatalogInventory_Model_Observer
     /**
      * @var Magento_CatalogInventory_Model_Resource_Stock
      */
-    protected $_resStock;
+    protected $_resourceStock;
 
     /**
      * @var Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
-    protected $_resIdxStock;
+    protected $_resourceIndexerStock;
 
     /**
      * @var Magento_Catalog_Model_Resource_Product_Indexer_Price
      */
-    protected $_resProdIdxPrice;
+    protected $_indexerPrice;
 
     /**
-     * @param Magento_Catalog_Model_Resource_Product_Indexer_Price $resProdIdxPrice
-     * @param Magento_CatalogInventory_Model_Resource_Indexer_Stock $resIdxStock
-     * @param Magento_CatalogInventory_Model_Resource_Stock $resStock
+     * @param Magento_Catalog_Model_Resource_Product_Indexer_Price $indexerPrice
+     * @param Magento_CatalogInventory_Model_Resource_Indexer_Stock $resourceIndexerStock
+     * @param Magento_CatalogInventory_Model_Resource_Stock $resourceStock
      * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_CatalogInventory_Model_Stock $stock
      * @param Magento_CatalogInventory_Model_Stock_Status $stockStatus
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @internal param \Magento_CatalogInventory_Model_Resource_Indexer_Stock $resIndexerStock
+     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
+     * @param Magento_CatalogInventory_Model_StockFactory $stockFactory
+     * @param Magento_CatalogInventory_Model_Stock_StatusFactory $stockStatusFactory
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_Indexer_Price $resProdIdxPrice,
-        Magento_CatalogInventory_Model_Resource_Indexer_Stock $resIdxStock,
-        Magento_CatalogInventory_Model_Resource_Stock $resStock,
+        Magento_Catalog_Model_Resource_Product_Indexer_Price $indexerPrice,
+        Magento_CatalogInventory_Model_Resource_Indexer_Stock $resourceIndexerStock,
+        Magento_CatalogInventory_Model_Resource_Stock $resourceStock,
         Magento_Index_Model_Indexer $indexer,
         Magento_CatalogInventory_Model_Stock $stock,
         Magento_CatalogInventory_Model_Stock_Status $stockStatus,
-        Magento_CatalogInventory_Helper_Data $catalogInventoryData
+        Magento_CatalogInventory_Helper_Data $catalogInventoryData,
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_CatalogInventory_Model_StockFactory $stockFactory,
+        Magento_CatalogInventory_Model_Stock_StatusFactory $stockStatusFactory
     ) {
-        $this->_resProdIdxPrice = $resProdIdxPrice;
-        $this->_resIdxStock = $resIdxStock;
-        $this->_resStock = $resStock;
+        $this->_indexerPrice = $indexerPrice;
+        $this->_resourceIndexerStock = $resourceIndexerStock;
+        $this->_resourceStock = $resourceStock;
         $this->_indexer = $indexer;
         $this->_stock = $stock;
         $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
+        $this->_stockItemFactory = $stockItemFactory;
+        $this->_stockFactory = $stockFactory;
+        $this->_stockStatusFactory = $stockStatusFactory;
     }
 
     /**
@@ -112,7 +139,7 @@ class Magento_CatalogInventory_Model_Observer
         if ($product instanceof Magento_Catalog_Model_Product) {
             $productId = intval($product->getId());
             if (!isset($this->_stockItemsArray[$productId])) {
-                $this->_stockItemsArray[$productId] = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+                $this->_stockItemsArray[$productId] = $this->_stockItemFactory->create();
             }
             $productStockItem = $this->_stockItemsArray[$productId];
             $productStockItem->assignProduct($product);
@@ -148,9 +175,9 @@ class Magento_CatalogInventory_Model_Observer
     {
         $productCollection = $observer->getEvent()->getCollection();
         if ($productCollection->hasFlag('require_stock_items')) {
-            Mage::getModel('Magento_CatalogInventory_Model_Stock')->addItemsToProducts($productCollection);
+            $this->_stockFactory->create()->addItemsToProducts($productCollection);
         } else {
-            Mage::getModel('Magento_CatalogInventory_Model_Stock_Status')->addStockStatusToProducts($productCollection);
+            $this->_stockStatusFactory->create()->addStockStatusToProducts($productCollection);
         }
         return $this;
     }
@@ -164,7 +191,7 @@ class Magento_CatalogInventory_Model_Observer
     public function addInventoryDataToCollection($observer)
     {
         $productCollection = $observer->getEvent()->getProductCollection();
-        Mage::getModel('Magento_CatalogInventory_Model_Stock')->addItemsToProducts($productCollection);
+        $this->_stockFactory->create()->addItemsToProducts($productCollection);
         return $this;
     }
 
@@ -187,7 +214,7 @@ class Magento_CatalogInventory_Model_Observer
 
         $item = $product->getStockItem();
         if (!$item) {
-            $item = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+            $item = $this->_stockItemFactory->create();
         }
         $this->_prepareItemForSave($item, $product);
         $item->save();
@@ -332,6 +359,7 @@ class Magento_CatalogInventory_Model_Observer
      *
      * @param  Magento_Event_Observer $observer
      * @return Magento_CatalogInventory_Model_Observer
+     * @throws Magento_Core_Exception
      */
     public function checkQuoteItemQty($observer)
     {
@@ -420,9 +448,7 @@ class Magento_CatalogInventory_Model_Observer
 
                 /* @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Magento_CatalogInventory_Model_Stock_Item) {
-                    Mage::throwException(
-                        __('The stock item for Product in option is not valid.')
-                    );
+                    throw new Magento_Core_Exception(__('The stock item for Product in option is not valid.'));
                 }
 
                 /**
@@ -488,7 +514,7 @@ class Magento_CatalogInventory_Model_Observer
         } else {
             /* @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
             if (!$stockItem instanceof Magento_CatalogInventory_Model_Stock_Item) {
-                Mage::throwException(__('The stock item for Product is not valid.'));
+                throw new Magento_Core_Exception(__('The stock item for Product is not valid.'));
             }
 
             /**
@@ -629,7 +655,6 @@ class Magento_CatalogInventory_Model_Observer
      * Also called after every successful order placement to ensure subtraction of inventory
      *
      * @param Magento_Event_Observer $observer
-     * @return $this
      */
     public function subtractQuoteInventory(Magento_Event_Observer $observer)
     {
@@ -733,13 +758,11 @@ class Magento_CatalogInventory_Model_Observer
      * Refresh stock index for specific stock items after successful order placement
      *
      * @param $observer
-     * @return $this
      */
     public function reindexQuoteInventory($observer)
     {
         // Reindex quote ids
         $quote = $observer->getEvent()->getQuote();
-
         $productIds = array();
         foreach ($quote->getAllItems() as $item) {
             $productIds[$item->getProductId()] = $item->getProductId();
@@ -752,7 +775,7 @@ class Magento_CatalogInventory_Model_Observer
         }
 
         if (count($productIds)) {
-            $this->_resIdxStock->reindexProducts($productIds);
+            $this->_resourceIndexerStock->reindexProducts($productIds);
         }
 
         // Reindex previously remembered items
@@ -762,7 +785,7 @@ class Magento_CatalogInventory_Model_Observer
             $productIds[] = $item->getProductId();
         }
 
-        $this->_resProdIdxPrice->reindexProductIds($productIds);
+        $this->_indexerPrice->reindexProductIds($productIds);
 
         $this->_itemsForReindex = array(); // Clear list of remembered items - we don't need it anymore
 
@@ -835,9 +858,9 @@ class Magento_CatalogInventory_Model_Observer
      */
     public function updateItemsStockUponConfigChange($observer)
     {
-        $this->_resStock->updateSetOutOfStock();
-        $this->_resStock->updateSetInStock();
-        $this->_resStock->updateLowStockDate();
+        $this->_resourceStock->updateSetOutOfStock();
+        $this->_resourceStock->updateSetInStock();
+        $this->_resourceStock->updateLowStockDate();
         return $this;
     }
 

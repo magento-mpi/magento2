@@ -58,17 +58,27 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     protected $_translate;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Translate $translate
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param $locale
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Translate $translate,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         $locale = null
     ) {
         $this->_eventManager = $eventManager;
         $this->_translate = $translate;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->setLocale($locale);
     }
 
@@ -92,7 +102,7 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            $locale = $this->_coreStoreConfig->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             if (!$locale) {
                 $locale = Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE;
             }
@@ -654,8 +664,9 @@ class Magento_Core_Model_Locale implements Magento_Core_Model_LocaleInterface
         if ($storeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
             $this->_locale = new Zend_Locale(
-                Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId)
-            );
+                $this->_coreStoreConfig->getConfig(
+                    Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+            ));
             $this->_localeCode = $this->_locale->toString();
             $this->_translate->initTranslate($this->_localeCode, Magento_Core_Model_App_Area::AREA_FRONTEND, true);
         } else {
