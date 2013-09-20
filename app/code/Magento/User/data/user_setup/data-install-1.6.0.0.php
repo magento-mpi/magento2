@@ -36,7 +36,6 @@ if ($roleCollection->count() == 0) {
     }
 }
 
-/** @var $rulesCollection Magento_User_Model_Resource_Rules_Collection */
 $rulesCollection = $this->createRulesCollection()
     ->addFieldToFilter('role_id', $admGroupRole->getId())
     ->addFieldToFilter('resource_id', 'all')
@@ -52,6 +51,7 @@ if ($rulesCollection->count() == 0) {
         ))
     ->save();
 } else {
+    /** @var Magento_User_Model_Rules $rule */
     foreach ($rulesCollection as $rule) {
         $rule->setData('resource_id', 'Magento_Adminhtml::all')
             ->save();
