@@ -97,5 +97,5 @@ return array(
     array('chargeById', 'Magento_GiftCardAccount_Model_Observer'),
     array('_helper', 'Magento_GiftRegistry_Model_Entity'),
     array('_getIndexModel', 'Magento_CatalogPermissions_Model_Observer'),
-    array('_getConfig', 'Magento_SalesArchive_Model_Resource_Archive', '$this::$_salesArchiveConfig'),
+    array('_getConfig', 'Magento_SalesArchive_Model_Resource_Archive'),
 );
