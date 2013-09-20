@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Adapter_ZlibTest extends PHPUnit_Framework_TestCase
+namespace Magento\Filesystem\Adapter;
+
+class ZlibTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Filesystem\Adapter\Zlib

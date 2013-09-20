@@ -12,14 +12,16 @@
 /**
  * Test class for \Magento\Centinel\Helper\Data
  */
-class Magento_Centinel_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Centinel\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetInfoBlock()
     {
         /** @var $block Magento\Payment\Helper\Data */
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Payment\Helper\Data');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Payment\Helper\Data');
         /** @var $paymentInfo Magento\Payment\Model\Info */
-        $paymentInfo = Mage::getModel('Magento\Payment\Model\Info');
+        $paymentInfo = \Mage::getModel('Magento\Payment\Model\Info');
         $paymentInfo->setMethod('checkmo');
         $result = $block->getInfoBlock($paymentInfo);
         $this->assertInstanceOf('Magento\Payment\Block\Info\Checkmo', $result);

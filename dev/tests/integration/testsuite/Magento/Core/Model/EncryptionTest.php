@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class EncryptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Encryption
@@ -18,7 +20,7 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Encryption');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Encryption');
     }
 
     public function testEncryptDecrypt()

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class RouterListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager
@@ -20,7 +22,7 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Mage::getObjectManager();
+        $this->_objectManager = \Mage::getObjectManager();
         $this->_model = $this->_objectManager->create('Magento\Core\Model\RouterList');
     }
 

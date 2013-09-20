@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Block\Customer;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\GiftRegistry\Block\Customer\Edit
@@ -18,7 +20,7 @@ class Magento_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\GiftRegistry\Block\Customer\Edit');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\GiftRegistry\Block\Customer\Edit');
     }
 
     public function testAddInputTypeTemplate()

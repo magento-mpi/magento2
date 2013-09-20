@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_System_Variable_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\System\Variable;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -26,15 +28,15 @@ class Magento_Adminhtml_Block_System_Variable_EditTest extends PHPUnit_Framework
             'html_value' => '<b>Test Variable 1 HTML Value</b>',
             'plain_value' => 'Test Variable 1 plain Value',
         );
-        $variable = Mage::getModel('Magento\Core\Model\Variable')
+        $variable = \Mage::getModel('Magento\Core\Model\Variable')
             ->setData($data)
             ->save();
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_variable', $variable);
-        Mage::app()->getRequest()->setParam('variable_id', $variable->getId());
-        $block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\System\Variable\Edit', 'variable');
+        \Mage::app()->getRequest()->setParam('variable_id', $variable->getId());
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\System\Variable\Edit', 'variable');
         $this->assertArrayHasKey('variable-delete_button', $block->getLayout()->getAllBlocks());
     }
 }

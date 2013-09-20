@@ -11,7 +11,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+class EndpointTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Model\Resource\Endpoint */
     private $_endpointResource;
@@ -23,7 +25,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_endpointResource = $this->_objectManager->get('Magento\Webhook\Model\Resource\Endpoint');
     }
 

@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_TestAsset_InterfaceImplementation implements Magento_ObjectManager_TestAsset_Interface
+namespace Magento\ObjectManager\TestAsset;
+
+class InterfaceImplementation implements \Magento\ObjectManager\TestAsset\TestAssetInterface
 {
 }

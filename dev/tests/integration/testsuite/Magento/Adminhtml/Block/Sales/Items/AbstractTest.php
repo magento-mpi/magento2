@@ -12,12 +12,14 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Sales\Items;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetItemExtraInfoHtml()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block Magento_Adminhtml_Block_Sales_Items_Abstract */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Sales\Items\AbstractItems', 'block');
 

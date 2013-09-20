@@ -14,7 +14,9 @@
  *
  * @magentoDataFixture Magento/Catalog/_files/products_new.php
  */
-class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product;
+
+class NewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Block\Product\NewProduct
@@ -23,8 +25,8 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\NewProduct');
-        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\NewProduct');
+        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
     }
 
     public function testGetCacheKeyInfo()
@@ -38,18 +40,18 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('CATALOG_PRODUCT_NEW', $info[0]);
 
         $this->assertSame(1, array_shift($keys));
-        $this->assertEquals(Mage::app()->getStore()->getId(), $info[1]);
+        $this->assertEquals(\Mage::app()->getStore()->getId(), $info[1]);
 
         $this->assertSame(2, array_shift($keys));
 
-        $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->getDesignTheme();
 
         $this->assertEquals($themeModel->getId() ?: null, $info[2]);
 
         $this->assertSame(3, array_shift($keys));
-        $this->assertEquals(Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId(), $info[3]);
+        $this->assertEquals(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId(), $info[3]);
 
         $this->assertSame('template', array_shift($keys));
 
@@ -75,7 +77,7 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
 
         $this->_block->setProductsCount(5);
         $this->_block->setTemplate('product/widget/new/content/new_list.phtml');
-        $this->_block->setLayout(Mage::getSingleton('Magento\Core\Model\Layout'));
+        $this->_block->setLayout(\Mage::getSingleton('Magento\Core\Model\Layout'));
 
         $html = $this->_block->toHtml();
         $this->assertNotEmpty($html);

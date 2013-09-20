@@ -12,7 +12,9 @@
 /**
  * @magentoDataFixture Magento/ImportExport/_files/import_data.php
  */
-class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model;
+
+class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model object which is used for tests
@@ -57,7 +59,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\ImportExport\Model\Import');
+        $this->_model = \Mage::getModel('Magento\ImportExport\Model\Import');
     }
 
     /**
@@ -66,7 +68,7 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     public function testImportSource()
     {
         /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
-        $customersCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $customersCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
 
         $existCustomersCount = count($customersCollection->load());
 

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Block;
+
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Block\Template
@@ -18,17 +20,17 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $params = array('layout' => $objectManager->create('Magento\Core\Model\Layout', array()));
         $context = $objectManager->create('Magento\Core\Block\Template\Context', $params);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Template', '',
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Template', '',
             array('context' => $context)
         );
     }
 
     public function testConstruct()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Template', '',
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Template', '',
             array('data' => array('template' => 'value'))
         );
         $this->assertEquals('value', $block->getTemplate());
@@ -44,7 +46,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetArea()
     {
         $this->assertEquals('frontend', $this->_block->getArea());
-        $this->_block->setLayout(Mage::getModel('Magento\Core\Model\Layout', array('area' => 'some_area')));
+        $this->_block->setLayout(\Mage::getModel('Magento\Core\Model\Layout', array('area' => 'some_area')));
         $this->assertEquals('some_area', $this->_block->getArea());
         $this->_block->setArea('another_area');
         $this->assertEquals('another_area', $this->_block->getArea());
@@ -54,7 +56,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_block->getDirectOutput());
 
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $layout->setDirectOutput(true);
         $this->_block->setLayout($layout);
         $this->assertTrue($this->_block->getDirectOutput());

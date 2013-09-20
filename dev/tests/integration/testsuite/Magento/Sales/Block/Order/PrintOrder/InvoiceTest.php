@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Order_Print_InvoiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Order\PrintOrder;
+
+class InvoiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testGetInvoiceTotalsHtml()
     {
-        $order = Mage::getModel('Magento\Sales\Model\Order');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_order', $order);
-        $payment = Mage::getModel('Magento\Sales\Model\Order\Payment');
+        $payment = \Mage::getModel('Magento\Sales\Model\Order\Payment');
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Sales\Block\Order\PrintOrder\Invoice', 'block');
         $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'invoice_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
-        $invoice = Mage::getModel('Magento\Sales\Model\Order\Invoice');
+        $invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice');
         $this->assertEmpty($childBlock->getInvoice());
         $this->assertNotEquals($expectedHtml, $block->getInvoiceTotalsHtml($invoice));
 

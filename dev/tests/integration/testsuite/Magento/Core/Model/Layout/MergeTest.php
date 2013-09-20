@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class MergeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Merge
@@ -15,7 +17,7 @@ class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $layoutUtility = new Magento_Core_Utility_Layout($this);
+        $layoutUtility = new \Magento\Core\Utility\Layout($this);
         $this->_model = $layoutUtility->getLayoutUpdateFromFixture(__DIR__ . '/_files/_handles.xml');
     }
 

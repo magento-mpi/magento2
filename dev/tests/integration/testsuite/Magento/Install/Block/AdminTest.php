@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_Block_AdminTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Block;
+
+class AdminTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()
     {
@@ -21,11 +23,11 @@ class Magento_Install_Block_AdminTest extends PHPUnit_Framework_TestCase
         );
 
         /** @var $session \Magento\Core\Model\Session\Generic */
-        $session = Mage::getSingleton('Magento\Install\Model\Session');
+        $session = \Mage::getSingleton('Magento\Install\Model\Session');
         $session->setAdminData(array_merge($preserve, $omit));
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel('Magento\Core\Model\Layout', array('area' => 'install'));
+        $layout = \Mage::getModel('Magento\Core\Model\Layout', array('area' => 'install'));
         /** @var $block \Magento\Install\Block\Admin */
         $block = $layout->createBlock('Magento\Install\Block\Admin');
         $output = $block->toHtml();

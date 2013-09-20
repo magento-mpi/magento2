@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Model_Resource_Customer_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Model\Resource\Customer;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Model\Resource\Customer\Collection
@@ -17,13 +19,13 @@ class Magento_Customer_Model_Resource_Customer_CollectionTest extends PHPUnit_Fr
 
     public function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
+        $this->_collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Customer\Collection');
     }
 
     public function testAddNameToSelect()
     {
         $this->_collection->addNameToSelect();
-        $joinParts = $this->_collection->getSelect()->getPart(Zend_Db_Select::FROM);
+        $joinParts = $this->_collection->getSelect()->getPart(\Zend_Db_Select::FROM);
 
         $this->assertArrayHasKey('at_prefix', $joinParts);
         $this->assertArrayHasKey('at_firstname', $joinParts);

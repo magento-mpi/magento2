@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model;
+
+class LocaleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\LocaleInterface
@@ -22,7 +24,7 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento\Backend\Model\Locale');
+        $this->_model = \Mage::getModel('Magento\Backend\Model\Locale');
     }
 
     /**
@@ -39,9 +41,9 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
     public function testSetLocaleWithBaseInterfaceLocale()
     {
         $user = new \Magento\Object();
-        $session = Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
-        Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->setInterfaceLocale('fr_FR');
+        \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->setInterfaceLocale('fr_FR');
         $this->_checkSetLocale('fr_FR');
     }
 
@@ -50,7 +52,7 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithSessionLocale()
     {
-        Mage::getSingleton('Magento\Backend\Model\Session')->setSessionLocale('es_ES');
+        \Mage::getSingleton('Magento\Backend\Model\Session')->setSessionLocale('es_ES');
         $this->_checkSetLocale('es_ES');
     }
 
@@ -59,7 +61,7 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithRequestLocale()
     {
-        $request = Mage::app()->getRequest();
+        $request = \Mage::app()->getRequest();
         $request->setPost(array('locale' => 'de_DE'));
         $this->_checkSetLocale('de_DE');
     }

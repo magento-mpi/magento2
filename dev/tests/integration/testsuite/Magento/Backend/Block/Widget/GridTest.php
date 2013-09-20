@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget;
+
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Widget\Grid\ColumnSet
@@ -46,15 +48,15 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_columnSetMock));
         $this->_layoutMock->expects($this->any())->method('createBlock')
             ->with('Magento\Backend\Block\Widget\Button')
-            ->will($this->returnValue(Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')));
+            ->will($this->returnValue(\Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')));
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Magento\Core\Helper\Data')
             ->will($this->returnValue(
-                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
             ));
 
 
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid');
         $this->_block->setLayout($this->_layoutMock);
         $this->_block->setNameInLayout('grid');
     }
@@ -68,13 +70,13 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
     {
         return $this->getMock('Magento\Backend\Block\Widget\Grid\ColumnSet', array(), array(
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
-            Mage::getModel('Magento\Core\Block\Template\Context', array(
+            \Mage::getModel('Magento\Core\Block\Template\Context', array(
                 'dirs' => new \Magento\Core\Model\Dir(__DIR__),
                 'filesystem' => new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local),
             )),
-            Mage::getModel('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
-            Mage::getModel('Magento\Backend\Model\Widget\Grid\SubTotals'),
-            Mage::getModel('Magento\Backend\Model\Widget\Grid\Totals'),
+            \Mage::getModel('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
+            \Mage::getModel('Magento\Backend\Model\Widget\Grid\SubTotals'),
+            \Mage::getModel('Magento\Backend\Model\Widget\Grid\Totals'),
         ));
     }
 

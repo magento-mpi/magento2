@@ -9,10 +9,12 @@
  *
  * @magentoDataFixture Magento/Webapi/_files/role_with_rule.php
  */
-class Magento_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Resource\Acl;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -23,7 +25,7 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_ruleResource = $this->_objectManager->get('Magento\Webapi\Model\Resource\Acl\Rule');
     }
 

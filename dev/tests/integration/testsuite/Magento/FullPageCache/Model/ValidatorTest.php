@@ -12,7 +12,9 @@
 /**
  * Integration test for \Magento\FullPageCache\Model\Validator
  */
-class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model;
+
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model under test
@@ -23,7 +25,7 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento\FullPageCache\Model\Validator');
+        $this->_model = \Mage::getModel('Magento\FullPageCache\Model\Validator');
     }
 
     /**
@@ -45,7 +47,7 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
             ),
             'change_class_not_for_caching' => array(
                 '$type'          => 'change',
-                '$object'        => new stdClass(),
+                '$object'        => new \stdClass(),
                 '$isInvalidated' => false,
             ),
             'delete_class_for_caching' => array(
@@ -55,7 +57,7 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
             ),
             'delete_class_not_for_caching' => array(
                 '$type'          => 'delete',
-                '$object'        => new stdClass(),
+                '$object'        => new \stdClass(),
                 '$isInvalidated' => false,
             ),
         );
@@ -79,12 +81,12 @@ class Magento_FullPageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCa
     {
         $cacheType = 'full_page';
         /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled($cacheType, true);
 
         /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Cache\TypeListInterface');
 
         // manual unset cache type

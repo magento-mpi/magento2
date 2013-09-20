@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
+
+class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory
@@ -26,11 +28,11 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
      */
     protected function setUp()
     {
-        $this->_design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
+        $this->_design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Core\Model\View\DesignInterface'
         );
         $this->_design->setDesignTheme('vendor_test_child', \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA);
-        $this->_configFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+        $this->_configFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\DesignEditor\Model\Editor\Tools\Controls\Factory'
         );
     }
@@ -44,7 +46,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
      */
     public function testLoadConfigurations($type, $controlName, $controlData)
     {
-        $designTheme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $designTheme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $designTheme);
@@ -117,16 +119,16 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
     public function testSaveConfiguration($saveData, $xpathData)
     {
         $type = \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_QUICK_STYLES;
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $theme);
         $configuration->saveData($saveData);
         $this->assertFileExists($theme->getCustomization()->getCustomViewConfigPath());
 
-        $actual = new DOMDocument();
+        $actual = new \DOMDocument();
         $actual->load($theme->getCustomization()->getCustomViewConfigPath());
-        $domXpath = new DOMXPath($actual);
+        $domXpath = new \DOMXPath($actual);
         foreach ($xpathData as $xpath => $isEmpty) {
             if ($isEmpty) {
                 $this->assertEmpty($domXpath->query($xpath)->item(0));

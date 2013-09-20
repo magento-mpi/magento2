@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Type;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product\Type\AbstractType
@@ -50,7 +52,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetSetAttributes()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $attributes = $this->_model->getSetAttributes($product);
         $this->assertArrayHasKey('sku', $attributes);
@@ -79,7 +81,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetEditableAttributes()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertArrayNotHasKey('_cache_editable_attributes', $product->getData());
         $attributes = $this->_model->getEditableAttributes($product);
@@ -101,18 +103,18 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testGetAttributeById()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product')->load(1);
+        $product = \Mage::getModel('Magento\Catalog\Model\Product')->load(1);
 
         $this->assertNull($this->_model->getAttributeById(-1, $product));
         $this->assertNull($this->_model->getAttributeById(null, $product));
 
-        $sku = Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', 'sku');
+        $sku = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', 'sku');
         $this->assertSame($sku, $this->_model->getAttributeById($sku->getId(), $product));
     }
 
     public function testIsVirtual()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertFalse($this->_model->isVirtual($product));
     }
 
@@ -121,7 +123,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testIsSalable()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertTrue($this->_model->isSalable($product));
 
         $product->load(1); // fixture
@@ -137,7 +139,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testPrepareForCart()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(10); // fixture
         $this->assertEmpty($product->getCustomOption('info_buyRequest'));
 
@@ -157,7 +159,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testPrepareForCartOptionsException()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals(
             'Please specify the product required option(s).',
@@ -175,7 +177,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testCheckProductBuyState()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->setSkipCheckRequiredOption('_');
         $this->_model->checkProductBuyState($product);
     }
@@ -186,7 +188,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testCheckProductBuyStateException()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->_model->checkProductBuyState($product);
     }
@@ -197,7 +199,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testGetOrderOptions()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertEquals(array(), $this->_model->getOrderOptions($product));
 
         $product->load(1); // fixture
@@ -232,7 +234,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testBeforeSave()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $product->setData('links_purchased_separately', 'value'); // this attribute is applicable only for downloadable
         $this->_model->beforeSave($product);
@@ -246,7 +248,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetSku()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals('simple', $this->_model->getSku($product));
     }
@@ -257,7 +259,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testGetOptionSku()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertEmpty($this->_model->getOptionSku($product));
 
         $product->load(1); // fixture
@@ -309,7 +311,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     {
         $product = new \Magento\Object;
         $this->assertNull($this->_model->getStoreFilter($product));
-        $store = new StdClass;
+        $store = new \StdClass;
         $this->_model->setStoreFilter($store, $product);
         $this->assertSame($store, $this->_model->getStoreFilter($product));
     }
@@ -317,14 +319,14 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
     public function testGetForceChildItemQtyChanges()
     {
         $this->assertFalse(
-            $this->_model->getForceChildItemQtyChanges(Mage::getModel('Magento\Catalog\Model\Product'))
+            $this->_model->getForceChildItemQtyChanges(\Mage::getModel('Magento\Catalog\Model\Product'))
         );
     }
 
     public function testPrepareQuoteItemQty()
     {
         $this->assertEquals(3.0,
-            $this->_model->prepareQuoteItemQty(3, Mage::getModel('Magento\Catalog\Model\Product')));
+            $this->_model->prepareQuoteItemQty(3, \Mage::getModel('Magento\Catalog\Model\Product')));
     }
 
     public function testAssignProductToOption()
@@ -346,11 +348,11 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testSetConfig()
     {
-        $this->assertFalse($this->_model->isComposite(Mage::getModel('Magento\Catalog\Model\Product')));
+        $this->assertFalse($this->_model->isComposite(\Mage::getModel('Magento\Catalog\Model\Product')));
         $this->assertTrue($this->_model->canUseQtyDecimals());
         $config = array('composite' => 1, 'can_use_qty_decimals' => 0);
         $this->_model->setConfig($config);
-        $this->assertTrue($this->_model->isComposite(Mage::getModel('Magento\Catalog\Model\Product')));
+        $this->assertTrue($this->_model->isComposite(\Mage::getModel('Magento\Catalog\Model\Product')));
         $this->assertFalse($this->_model->canUseQtyDecimals());
     }
 
@@ -359,7 +361,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
      */
     public function testGetSearchableData()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $data = $this->_model->getSearchableData($product);
         $this->assertContains('Test Field', $data);
@@ -372,7 +374,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testGetProductsToPurchaseByReqGroups()
     {
-        $product = new StdClass;
+        $product = new \StdClass;
         $this->assertSame(array(array($product)), $this->_model->getProductsToPurchaseByReqGroups($product));
         $this->_model->setConfig(array('composite' => 1));
         $this->assertEquals(array(), $this->_model->getProductsToPurchaseByReqGroups($product));
@@ -385,7 +387,7 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
 
     public function testCheckProductConfiguration()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $buyRequest = new \Magento\Object(array('qty' => 5));
         $this->_model->checkProductConfiguration($product, $buyRequest);
     }

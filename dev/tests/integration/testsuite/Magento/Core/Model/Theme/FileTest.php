@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Theme_FileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme\File
@@ -28,7 +30,7 @@ class Magento_Core_Model_Theme_FileTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $objectManager->create('Magento\Core\Model\Theme\File');
         /** @var $themeModel \Magento\Core\Model\Theme */
         $themeModel = $objectManager->create('Magento\Core\Model\Theme');
@@ -57,7 +59,7 @@ class Magento_Core_Model_Theme_FileTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setData($this->_data);
 
-        $crud = new Magento_TestFramework_Entity($this->_model, array('file_path' => 'rename.css'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('file_path' => 'rename.css'));
         $crud->testCrud();
     }
 }

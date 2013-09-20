@@ -9,16 +9,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Job;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Job\Factory');
-        $event = Mage::getModel('Magento\Webhook\Model\Event')
+        $event = \Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
-        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $job = $factory->create($subscription, $event);

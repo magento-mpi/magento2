@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogSearch_Block_TermTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogSearch\Block;
+
+class TermTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CatalogSearch\Block\Term
@@ -18,7 +20,7 @@ class Magento_CatalogSearch_Block_TermTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\CatalogSearch\Block\Term');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\CatalogSearch\Block\Term');
     }
 
     public function testGetSearchUrl()

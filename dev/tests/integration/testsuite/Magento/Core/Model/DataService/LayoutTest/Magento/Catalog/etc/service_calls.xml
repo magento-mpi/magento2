@@ -9,7 +9,7 @@
 -->
 <service_calls>
     <service_call name="testServiceCall"
-                  service="Magento_Core_Model_DataService_LayoutTest_Magento_Catalog_Service_TestProduct"
+                  service="Magento\Core\Model\DataService\LayoutTest\Magento\Catalog\Service\TestProduct"
                   method="getTestProduct">
         <arg name="someArgName">{{request.params.foo}}</arg>
     </service_call>

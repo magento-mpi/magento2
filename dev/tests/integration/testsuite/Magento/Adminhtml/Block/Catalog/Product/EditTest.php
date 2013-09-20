@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\Catalog\Product\Edit
@@ -28,10 +30,10 @@ class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework
         );
         $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
         $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit');
     }
 
     public function testGetTypeSwitcherData()

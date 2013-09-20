@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_AdvancedCheckout_Controller_Adminhtml_CheckoutTest extends Magento_Backend_Utility_Controller
+namespace Magento\AdvancedCheckout\Controller\Adminhtml;
+
+class CheckoutTest extends \Magento\Backend\Utility\Controller
 {
     public function testLoadBlockAction()
     {

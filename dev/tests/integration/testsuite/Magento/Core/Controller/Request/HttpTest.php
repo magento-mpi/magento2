@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Request;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Request\Http
@@ -18,10 +20,10 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(\Mage::PARAM_CUSTOM_LOCAL_CONFIG
             => sprintf(\Magento\Core\Model\Config\Primary::CONFIG_TEMPLATE_INSTALL_DATE, date('r', strtotime('now')))
         ));
-        $this->_model = Mage::getModel('Magento\Core\Controller\Request\Http');
+        $this->_model = \Mage::getModel('Magento\Core\Controller\Request\Http');
     }
 
     public function testGetOriginalPathInfo()

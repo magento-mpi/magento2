@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_TestAsset_ConstructorNoArguments
+namespace Magento\ObjectManager\TestAsset;
+
+class ConstructorNoArguments
 {
     /**
      * No arguments

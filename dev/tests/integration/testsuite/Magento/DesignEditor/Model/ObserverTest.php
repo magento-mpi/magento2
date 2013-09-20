@@ -9,7 +9,9 @@
 /**
  * Test for \Magento\DesignEditor\Model\Observer
  */
-class Magento_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $area
@@ -21,12 +23,12 @@ class Magento_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testCleanJs($area, $designMode, $expectedAssets)
     {
-        $layout = Mage::app()->getLayout();
+        $layout = \Mage::app()->getLayout();
         /** @var $headBlock \Magento\Page\Block\Html\Head */
         $headBlock = $layout->createBlock('Magento\Page\Block\Html\Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $page \Magento\Core\Model\Page */
         $page = $objectManager->get('Magento\Core\Model\Page');

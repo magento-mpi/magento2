@@ -12,7 +12,9 @@
 /**
  * Test theme observer
  */
-class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Event\Observer
@@ -20,13 +22,13 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_eventObserver;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_eventObserver = $this->_createEventObserverForThemeRegistration();
     }
 

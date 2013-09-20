@@ -9,7 +9,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Paypal_Adminhtml_Paypal_ReportsTest extends Magento_Backend_Utility_Controller
+namespace Magento\Paypal\Adminhtml\Paypal;
+
+class ReportsTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoConfigFixture current_store paypal/fetch_reports/active 1

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Recurring\Profile;
+
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Block\Recurring\Profile\View
@@ -28,19 +30,19 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
 
     public function setUp()
     {
-        $this->_profile = Mage::getModel('Magento\Sales\Model\Recurring\Profile');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_profile = \Mage::getModel('Magento\Sales\Model\Recurring\Profile');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_recurring_profile', $this->_profile);
 
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\Sales\Block\Recurring\Profile\View', 'block');
     }
 
     public function tearDown()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('current_recurring_profile');
         $this->_profile = null;
         $this->_block = null;

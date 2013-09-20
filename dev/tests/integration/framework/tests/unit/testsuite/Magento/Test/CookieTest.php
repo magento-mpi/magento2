@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class CookieTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Name of the sample cookie to be used in tests
@@ -17,15 +19,15 @@ class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
     const SAMPLE_COOKIE_NAME = 'sample_cookie';
 
     /**
-     * @var Magento_TestFramework_Cookie
+     * @var \Magento\TestFramework\Cookie
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_TestFramework_Cookie(
-            new Magento_TestFramework_Request(),
-            new Magento_TestFramework_Response(
+        $this->_model = new \Magento\TestFramework\Cookie(
+            new \Magento\TestFramework\Request(),
+            new \Magento\TestFramework\Response(
                 $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
             )
         );

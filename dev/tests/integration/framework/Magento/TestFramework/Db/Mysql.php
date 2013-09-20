@@ -12,7 +12,9 @@
 /**
  * MySQL platform database handler
  */
-class Magento_TestFramework_Db_Mysql extends Magento_TestFramework_Db_DbAbstract
+namespace Magento\TestFramework\Db;
+
+class Mysql extends \Magento\TestFramework\Db\DbAbstract
 {
     /**
      * Remove all DB objects

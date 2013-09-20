@@ -13,7 +13,9 @@
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test prepare layout
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
     public function testPrepareLayout($blockAttributes, $expected)
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel(
+        $layout = \Mage::getModel(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
@@ -202,13 +204,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
     public function prepareLayoutDataProvider()
     {
         /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
-        $urlRewrite = Mage::getModel('Magento\Core\Model\Url\Rewrite');
+        $urlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
         /** @var $cmsPage \Magento\Cms\Model\Page */
-        $cmsPage = Mage::getModel('Magento\Cms\Model\Page',
+        $cmsPage = \Mage::getModel('Magento\Cms\Model\Page',
             array('data' => array('page_id' => 1, 'title' => 'Test CMS Page'))
         );
         /** @var $existingUrlRewrite \Magento\Core\Model\Url\Rewrite */
-        $existingUrlRewrite = Mage::getModel('Magento\Core\Model\Url\Rewrite',
+        $existingUrlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

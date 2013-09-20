@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Model_Segment_Condition_Combine_RootTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Model\Segment\Condition\Combine;
+
+class RootTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CustomerSegment\Model\Segment\Condition\Combine\Root
@@ -14,18 +16,18 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine_RootTest extends P
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configShare;
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
     }
 
@@ -39,7 +41,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine_RootTest extends P
      */
     public function testPrepareConditionsSql($customer, $website, $expected)
     {
-        $testMethod = new ReflectionMethod($this->_model, '_prepareConditionsSql');
+        $testMethod = new \ReflectionMethod($this->_model, '_prepareConditionsSql');
         $testMethod->setAccessible(true);
 
         $result = $testMethod->invoke($this->_model, $customer, $website);
@@ -53,7 +55,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine_RootTest extends P
         return array(
             array(
                 null,
-                new Zend_Db_Expr(1),
+                new \Zend_Db_Expr(1),
                 array('`root`.`entity_id`', '`root`.`website_id`', 'where (website_id=1)')
             ),
             array(

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogEvent\Model;
+
+class EventTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CatalogEvent\Model\Event
@@ -18,7 +20,7 @@ class Magento_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\CatalogEvent\Model\Event');
+        $this->_model = \Mage::getModel('Magento\CatalogEvent\Model\Event');
     }
 
     protected function _getDate($time = 'now')
@@ -35,7 +37,7 @@ class Magento_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
             ->setDisplayState(\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE)
             ->setSortOrder(null)
         ;
-        $crud = new Magento_TestFramework_Entity($this->_model, array(
+        $crud = new \Magento\TestFramework\Entity($this->_model, array(
             'category_id'   => 2,
             'date_start'    => $this->_getDate('-1 year'),
             'date_end'      => $this->_getDate('+1 month'),

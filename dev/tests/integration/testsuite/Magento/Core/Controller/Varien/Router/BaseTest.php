@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien\Router;
+
+class BaseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Varien\Router\Base
@@ -23,8 +25,8 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
             'baseController' => 'Magento\Core\Controller\Front\Action',
             'routerId' => 'standard'
         );
-        $this->_model = Mage::getModel('Magento\Core\Controller\Varien\Router\Base', $options);
-        $this->_model->setFront(Mage::getModel('Magento\Core\Controller\Varien\Front'));
+        $this->_model = \Mage::getModel('Magento\Core\Controller\Varien\Router\Base', $options);
+        $this->_model->setFront(\Mage::getModel('Magento\Core\Controller\Varien\Front'));
     }
 
     public function testFetchDefault()
@@ -41,11 +43,11 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
 
     public function testMatch()
     {
-        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
+        if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get match without sending headers');
         }
 
-        $request = new Magento_TestFramework_Request();
+        $request = new \Magento\TestFramework\Request();
 
         $this->assertInstanceOf('Magento\Core\Controller\Varien\Action', $this->_model->match($request));
         $request->setRequestUri('core/index/index');

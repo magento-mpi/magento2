@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test session ID
@@ -49,7 +51,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     protected $_sessionData;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -76,7 +78,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model         = $this->_objectManager->get('Magento\Core\Model\Resource\Session');
 
         /** @var $resource \Magento\Core\Model\Resource */

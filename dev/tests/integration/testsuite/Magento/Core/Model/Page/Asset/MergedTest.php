@@ -9,7 +9,9 @@
 /**
  * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
  */
-class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class MergedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Path to the public directory for view files
@@ -27,7 +29,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
 
     public static function setUpBeforeClass()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $service \Magento\Core\Model\View\Service */
         $service = $objectManager->get('Magento\Core\Model\View\Service');
         self::$_themePublicDir = $service->getPublicDir();
@@ -40,18 +42,18 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
-            Mage::PARAM_APP_DIRS => array(
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Mage::PARAM_APP_DIRS => array(
                 \Magento\Core\Model\Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
             )
         ));
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('vendor_default');
     }
 
     public function tearDown()
     {
-        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $filesystem->delete(self::$_themePublicDir . '/frontend');
         $filesystem->delete(self::$_viewPublicMergedDir);
     }
@@ -67,10 +69,10 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     {
         $assets = array();
         foreach ($files as $file) {
-            $assets[] = Mage::getModel('Magento\Core\Model\Page\Asset\ViewFile',
+            $assets[] = \Mage::getModel('Magento\Core\Model\Page\Asset\ViewFile',
                 array('file' => $file, 'contentType' => $contentType));
         }
-        $model = Mage::getModel('Magento\Core\Model\Page\Asset\Merged', array('assets' => $assets));
+        $model = \Mage::getModel('Magento\Core\Model\Page\Asset\Merged', array('assets' => $assets));
         return $model;
     }
 

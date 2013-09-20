@@ -8,12 +8,12 @@
 
 // refresh report statistics
 /** @var \Magento\Sales\Model\Resource\Report\Refunded $reportResource */
-$reportResource = Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Refunded');
+$reportResource = \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Refunded');
 $reportResource->beginTransaction(); // prevent table truncation by incrementing the transaction nesting level counter
 try {
     $reportResource->aggregate();
     $reportResource->commit();
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $reportResource->rollBack();
     throw $e;
 }

@@ -12,7 +12,9 @@
 /**
  * Implementation of the @magentoDataFixture DocBlock annotation
  */
-class Magento_TestFramework_Annotation_DataFixture
+namespace Magento\TestFramework\Annotation;
+
+class DataFixture
 {
     /**
      * @var string
@@ -43,11 +45,11 @@ class Magento_TestFramework_Annotation_DataFixture
     /**
      * Handler for 'startTestTransactionRequest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
-     * @param Magento_TestFramework_Event_Param_Transaction $param
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function startTestTransactionRequest(
-        PHPUnit_Framework_TestCase $test, Magento_TestFramework_Event_Param_Transaction $param
+        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         /* Start transaction before applying first fixture to be able to revert them all further */
         if ($this->_getFixtures('method', $test)) {
@@ -64,11 +66,11 @@ class Magento_TestFramework_Annotation_DataFixture
     /**
      * Handler for 'endTestNeedTransactionRollback' event
      *
-     * @param PHPUnit_Framework_TestCase $test
-     * @param Magento_TestFramework_Event_Param_Transaction $param
+     * @param \PHPUnit_Framework_TestCase $test
+     * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function endTestTransactionRequest(
-        PHPUnit_Framework_TestCase $test, Magento_TestFramework_Event_Param_Transaction $param
+        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         /* Isolate other tests from test-specific fixtures */
         if ($this->_appliedFixtures && $this->_getFixtures('method', $test)) {
@@ -79,9 +81,9 @@ class Magento_TestFramework_Annotation_DataFixture
     /**
      * Handler for 'startTransaction' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTransaction(PHPUnit_Framework_TestCase $test)
+    public function startTransaction(\PHPUnit_Framework_TestCase $test)
     {
         $this->_applyFixtures($this->_getFixtures('method', $test) ?: $this->_getFixtures('class', $test));
     }
@@ -98,11 +100,11 @@ class Magento_TestFramework_Annotation_DataFixture
      * Retrieve fixtures from annotation
      *
      * @param string $scope 'class' or 'method'
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      * @return array
      * @throws \Magento\Exception
      */
-    protected function _getFixtures($scope, PHPUnit_Framework_TestCase $test)
+    protected function _getFixtures($scope, \PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         $result = array();

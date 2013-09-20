@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
-interface Magento_ObjectManager_TestAsset_Interface
+namespace Magento\ObjectManager\TestAsset;
+
+interface TestAssetInterface
 {
 }

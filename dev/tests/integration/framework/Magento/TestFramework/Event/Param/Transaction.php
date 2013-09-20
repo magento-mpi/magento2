@@ -12,7 +12,9 @@
 /**
  * Parameter holder for transaction events
  */
-class Magento_TestFramework_Event_Param_Transaction
+namespace Magento\TestFramework\Event\Param;
+
+class Transaction
 {
     /**
      * @var bool

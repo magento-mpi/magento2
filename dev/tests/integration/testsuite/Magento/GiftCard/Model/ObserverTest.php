@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftCard\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of block injection classes
@@ -32,8 +34,8 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
-        $order = Mage::getModel('Magento\Sales\Model\Order');
+        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
         $event = new \Magento\Event(array('order' => $order));
@@ -51,7 +53,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('_getMail')
             ->will($this->returnValue($zendMailMock));
 
-        $model = Mage::getModel('Magento\GiftCard\Model\Observer', array(
+        $model = \Mage::getModel('Magento\GiftCard\Model\Observer', array(
             'data' => array('email_template_model' => $emailTemplateMock)
         ));
         $model->generateGiftCardAccounts($observer);
@@ -88,7 +90,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
-            $arguments[] = Mage::getModel($injectionClass);
+            $arguments[] = \Mage::getModel($injectionClass);
         }
         return $arguments;
     }

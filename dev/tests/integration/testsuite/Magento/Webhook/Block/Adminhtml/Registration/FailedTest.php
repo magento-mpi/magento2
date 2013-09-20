@@ -12,11 +12,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Registration;
+
+class FailedTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSessionError()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var \Magento\Backend\Model\Session $session */
         $session = $objectManager->create('Magento\Backend\Model\Session');

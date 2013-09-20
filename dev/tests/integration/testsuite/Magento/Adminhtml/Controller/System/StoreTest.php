@@ -9,7 +9,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_System_StoreTest extends Magento_Backend_Utility_Controller
+namespace Magento\Adminhtml\Controller\System;
+
+class StoreTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()
     {

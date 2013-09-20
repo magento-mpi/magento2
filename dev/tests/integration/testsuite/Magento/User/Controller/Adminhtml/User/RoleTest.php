@@ -14,12 +14,14 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_User_Controller_Adminhtml_User_RoleTest extends Magento_Backend_Utility_Controller
+namespace Magento\User\Controller\Adminhtml\User;
+
+class RoleTest extends \Magento\Backend\Utility\Controller
 {
     public function testEditRoleAction()
     {
-        $roleAdmin = Mage::getModel('Magento\User\Model\Role');
-        $roleAdmin->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        $roleAdmin = \Mage::getModel('Magento\User\Model\Role');
+        $roleAdmin->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
 
         $this->getRequest()->setParam('rid', $roleAdmin->getId());
 

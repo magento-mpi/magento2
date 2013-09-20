@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_Utility_Controller
+namespace Magento\Adminhtml\Controller\Catalog;
+
+class CategoryTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Core/_files/store.php
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
         /** @var $store \Magento\Core\Model\Store */
-        $store = Mage::getModel('Magento\Core\Model\Store');
+        $store = \Mage::getModel('Magento\Core\Model\Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
         );
 
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Mage::getModel('Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
         $category->load(2);
 
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
                 $body
             );
         } else {
-            $result = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
+            $result = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data')
                 ->jsonDecode($body);
             $this->assertArrayHasKey('messages', $result);
             $this->assertFalse($result['error']);

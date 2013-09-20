@@ -12,14 +12,16 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
+class MainTest extends \PHPUnit_Framework_TestCase
 {
     public function testPackageThemeElement()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', new \Magento\Object());
-        $block = Mage::app()->getLayout()->createBlock(
+        $block = \Mage::app()->getLayout()->createBlock(
             'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main');
         $block->setTemplate(null);
         $block->toHtml();

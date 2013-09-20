@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Paypal_Controller_StandardTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Paypal\Controller;
+
+class StandardTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @var \Magento\Checkout\Model\Session

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper\Product;
+
+class CompareTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Helper\Product\Compare
@@ -19,7 +21,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_helper =
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Catalog\Helper\Product\Compare');
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Helper\Product\Compare');
     }
 
     /**
@@ -28,7 +30,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
     public function testGetListUrl()
     {
         /** @var $empty \Magento\Catalog\Helper\Product\Compare */
-        $empty = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $empty = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Helper\Product\Compare');
         $this->assertContains('/catalog/product_compare/index/', $empty->getListUrl());
 
@@ -80,7 +82,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
     public function testCalculate()
     {
          /** @var $session \Magento\Catalog\Model\Session */
-        $session = Mage::getSingleton('Magento\Catalog\Model\Session');
+        $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
         try {
             $session->unsCatalogCompareItemsCount();
             $this->assertFalse($this->_helper->hasItems());
@@ -92,7 +94,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
             $this->assertTrue($this->_helper->hasItems());
 
             $session->unsCatalogCompareItemsCount();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->unsCatalogCompareItemsCount();
             throw $e;
         }
@@ -107,7 +109,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
 
     protected function _testGetProductUrl($method, $expectedFullAction)
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->setId(10);
         $url = $this->_helper->$method($product);
         $this->assertContains($expectedFullAction, $url);
@@ -120,12 +122,12 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
      */
     protected function _populateCompareList()
     {
-        $productOne = Mage::getModel('Magento\Catalog\Model\Product');
-        $productTwo = Mage::getModel('Magento\Catalog\Model\Product');
+        $productOne = \Mage::getModel('Magento\Catalog\Model\Product');
+        $productTwo = \Mage::getModel('Magento\Catalog\Model\Product');
         $productOne->load(10);
         $productTwo->load(11);
         /** @var $compareList \Magento\Catalog\Model\Product\Compare\ListCompare */
-        $compareList = Mage::getModel('Magento\Catalog\Model\Product\Compare\ListCompare');
+        $compareList = \Mage::getModel('Magento\Catalog\Model\Product\Compare\ListCompare');
         $compareList->addProduct($productOne)->addProduct($productTwo);
     }
 }

@@ -13,7 +13,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Subscription\Grid;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** Topics */
     const TOPIC_LISTENERS_THREE = 'listeners/three';
@@ -38,13 +40,13 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     public static function setUpBeforeClass()
     {
         /** @var \Magento\Webapi\Model\Acl\User $user */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Webapi\Model\Acl\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Webapi\Model\Acl\User');
         $user->loadByKey(self::API_KEY);
         if ($user->getId()) {
             self::$_apiUserId = $user->getId();
         } else {
             /** @var \Magento\Webhook\Model\Webapi\User\Factory $webapiUserFactory */
-            $webapiUserFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $webapiUserFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->create('Magento\Webhook\Model\Webapi\User\Factory');
             self::$_apiUserId = $webapiUserFactory->createUser(
                 array(
@@ -73,7 +75,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 
     public function testGetSubscriptions()
     {
-        $gridCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $gridCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Resource\Subscription\Grid\Collection',
                 array('subscriptionConfig' => $this->_config));
 
@@ -88,7 +90,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
      */
     protected function _createSubscriptionConfig()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $dirs = $objectManager->create(
             'Magento\Core\Model\Dir',
             array(
@@ -133,7 +135,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
          * Mock is used to disable caching, as far as Integration Tests Framework loads main
          * modules configuration first and it gets cached
          *
-         * @var PHPUnit_Framework_MockObject_MockObject $cache
+         * @var \PHPUnit_Framework_MockObject_MockObject $cache
          */
         $cache = $this->getMock('Magento\Core\Model\Config\Cache',
             array('load', 'save', 'clean', 'getSection'),
@@ -166,12 +168,12 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 
     protected function _createSubscriptions()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_subscriptions = array();
 
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
-        Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
+        \Mage::getConfig()->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
+        \Mage::getConfig()->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
+        \Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = $objectManager->create('Magento\Webhook\Model\Subscription');

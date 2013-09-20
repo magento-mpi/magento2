@@ -13,7 +13,9 @@
  * Test \Magento\Adminhtml\Block\Page\Header
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Page;
+
+class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\Page\Header
@@ -23,12 +25,12 @@ class Magento_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Page\Header');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Page\Header');
     }
 
     public function testGetHomeLink()
     {
-        $expected = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
+        $expected = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
             ->getHomePageUrl();
         $this->assertEquals($expected, $this->_block->getHomeLink());
     }

@@ -11,7 +11,7 @@
 
 /* Create simple product */
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)

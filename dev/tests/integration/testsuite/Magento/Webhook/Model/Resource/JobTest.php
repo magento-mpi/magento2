@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_JobTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+class JobTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture global/resources/db/table_prefix prefix_
@@ -17,7 +19,7 @@ class Magento_Webhook_Model_Resource_JobTest extends PHPUnit_Framework_TestCase
     public function testInit()
     {
         /** @var \Magento\Webhook\Model\Resource\Job $jobResource */
-        $jobResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $jobResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Resource\Job');
         $this->assertEquals('prefix_webhook_dispatch_job', $jobResource->getMainTable());
         $this->assertEquals('dispatch_job_id', $jobResource->getIdFieldName());

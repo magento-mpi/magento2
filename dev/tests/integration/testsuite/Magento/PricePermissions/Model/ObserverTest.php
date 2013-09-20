@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\PricePermissions\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
     protected $_layout = null;
@@ -20,9 +22,9 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         parent::setUp();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
     }
 
     public function testAdminhtmlBlockHtmlBeforeProductOpt()
@@ -71,7 +73,7 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
     {
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);
-        $observer = Mage::getModel('Magento\PricePermissions\Model\Observer');
+        $observer = \Mage::getModel('Magento\PricePermissions\Model\Observer');
         $observer->adminControllerPredispatch($event);
         $observer->adminhtmlBlockHtmlBefore($event);
     }
@@ -81,9 +83,9 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
      */
     protected function _initSession()
     {
-        $user = Mage::getModel('Magento\User\Model\User');
+        $user = \Mage::getModel('Magento\User\Model\User');
         $user->setId(2)->setRole(true);
-        $session = Mage::getModel('Magento\Backend\Model\Auth\Session');
+        $session = \Mage::getModel('Magento\Backend\Model\Auth\Session');
         $session->setUpdatedAt(time())->setUser($user);
     }
 }

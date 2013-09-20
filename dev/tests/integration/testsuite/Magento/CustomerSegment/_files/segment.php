@@ -15,6 +15,6 @@ $data = array(
     'is_active'   => '1',
 );
 /** @var $segment \Magento\CustomerSegment\Model\Segment */
-$segment = Mage::getModel('Magento\CustomerSegment\Model\Segment');
+$segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
 $segment->loadPost($data);
 $segment->save();

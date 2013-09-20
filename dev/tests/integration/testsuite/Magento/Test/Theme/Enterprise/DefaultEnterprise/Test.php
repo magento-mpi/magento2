@@ -12,7 +12,9 @@
 /**
  * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
  */
-class Magento_Test_Theme_Enterprise_Default_Test extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Test\Theme\Enterprise\DefaultEnterprise;
+
+class Test extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * Assert that a page content contains references to both jQuery and jQzoom JavaScript libraries

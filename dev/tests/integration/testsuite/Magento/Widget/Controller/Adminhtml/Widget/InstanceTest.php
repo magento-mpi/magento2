@@ -12,13 +12,15 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Controller_Adminhtml_Widget_InstanceTest extends Magento_Backend_Utility_Controller
+namespace Magento\Widget\Controller\Adminhtml\Widget;
+
+class InstanceTest extends \Magento\Backend\Utility\Controller
 {
     protected function setUp()
     {
         parent::setUp();
 
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();

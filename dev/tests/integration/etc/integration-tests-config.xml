@@ -18,7 +18,7 @@
             </design_fallback>
         </dev>
         <configurators>
-            <integration_tests>Magento_TestFramework_ObjectManager_Configurator</integration_tests>
+            <integration_tests>Magento\TestFramework\ObjectManager\Configurator</integration_tests>
         </configurators>
     </global>
 </config>

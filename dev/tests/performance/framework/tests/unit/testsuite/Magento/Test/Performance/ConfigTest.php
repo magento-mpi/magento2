@@ -170,7 +170,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         // Assert that the data is passed to scenarios successfully
         /** @var $scenario \Magento\TestFramework\Performance\Scenario */
         $scenario = $actualScenarios[0];
-        $this->assertInstanceOf('\Magento\TestFramework\Performance\Scenario', $scenario);
+        $this->assertInstanceOf('Magento\TestFramework\Performance\Scenario', $scenario);
 
         $this->assertEquals('Scenario', $scenario->getTitle());
         $this->assertEquals(realpath(__DIR__ . '/_files/scenario.jmx'), $scenario->getFile());

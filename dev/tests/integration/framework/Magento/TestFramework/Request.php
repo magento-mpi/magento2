@@ -12,7 +12,9 @@
 /**
  * HTTP request implementation that is used instead core one for testing
  */
-class Magento_TestFramework_Request extends \Magento\Core\Controller\Request\Http
+namespace Magento\TestFramework;
+
+class Request extends \Magento\Core\Controller\Request\Http
 {
     /**
      * Server super-global mock
@@ -39,7 +41,7 @@ class Magento_TestFramework_Request extends \Magento\Core\Controller\Request\Htt
      * Set "server" super-global mock
      *
      * @param array $server
-     * @return Magento_TestFramework_Request
+     * @return \Magento\TestFramework\Request
      */
     public function setServer(array $server)
     {

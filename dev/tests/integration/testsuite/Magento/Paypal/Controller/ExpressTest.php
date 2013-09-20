@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Paypal\Controller;
+
+class ExpressTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Sales/_files/quote.php
@@ -15,10 +17,10 @@ class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCa
     public function testReviewAction()
     {
         $this->markTestSkipped('There is a dependency that needs to be identified for this test');
-        $quote = Mage::getModel('Magento\Sales\Model\Quote');
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
         echo "Quote ID: {$quote->getId}\n";
-        Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
+        \Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
 
         $this->dispatch('paypal/express/review');
 

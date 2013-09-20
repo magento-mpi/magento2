@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Block\Account;
+
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Block\Account\Link
@@ -23,9 +25,9 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Customer\Block\Account\Link');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Customer\Block\Account\Link');
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block->setLayout($layout);
         $layout->addBlock('Magento\Page\Block\Template\Links', 'links');
         $this->_links = $layout->getBlock('links');
@@ -74,7 +76,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
      */
     public function testAddAuthLinkLogOut()
     {
-        Mage::getSingleton('Magento\Customer\Model\Session')->login('customer@example.com', 'password');
+        \Mage::getSingleton('Magento\Customer\Model\Session')->login('customer@example.com', 'password');
         $this->_block->addAuthLink('links', 1);
         $links = $this->_links->getLinks();
         $this->assertEquals('Log Out', $links[1]->getLabel());

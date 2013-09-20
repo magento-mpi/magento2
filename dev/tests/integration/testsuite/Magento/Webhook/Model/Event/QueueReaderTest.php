@@ -9,16 +9,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Event;
+
+class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testPoll()
     {
         /** @var \Magento\Webhook\Model\Event $event */
-        $event = Mage::getModel('Magento\Webhook\Model\Event')
+        $event = \Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
         /** @var \Magento\Webhook\Model\Event\QueueReader $queue */
-        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $queue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Event\QueueReader');
         $this->assertEquals($event->getId(), $queue->poll()->getId());
 

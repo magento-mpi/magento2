@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_ProductList_ToolbarTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product\ProductList;
+
+class ToolbarTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetPagerHtml()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Catalog\Block\Product\ProductList\Toolbar */
         $block = $layout->createBlock('Magento\Catalog\Block\Product\ProductList\Toolbar', 'block');
         /** @var $childBlock \Magento\Core\Block\Text */

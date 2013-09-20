@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Log_Model_Resource_ShellTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model\Resource;
+
+class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Log\Model\Resource\Shell
@@ -18,7 +20,7 @@ class Magento_Log_Model_Resource_ShellTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento\Log\Model\Resource\Shell');
+        $this->_model = \Mage::getResourceModel('Magento\Log\Model\Resource\Shell');
     }
 
     public function testGetTablesInfo()

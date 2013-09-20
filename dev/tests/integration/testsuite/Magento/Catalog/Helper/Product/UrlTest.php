@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper\Product;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Helper\Product\Url
@@ -23,12 +25,12 @@ class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
             'from' => '™',
             'to' => 'TM',
         );
-        Mage::getConfig()->setValue('url/convert/char8482', $data);
+        \Mage::getConfig()->setValue('url/convert/char8482', $data);
     }
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Product\Url');
     }
 

@@ -9,27 +9,29 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Order\PrintOrder;
+
+class CreditmemoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testGetTotalsHtml()
     {
-        $order = Mage::getModel('Magento\Sales\Model\Order');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_order', $order);
-        $payment = Mage::getModel('Magento\Sales\Model\Order\Payment');
+        $payment = \Mage::getModel('Magento\Sales\Model\Order\Payment');
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Sales\Block\Order\PrintOrder\Creditmemo', 'block');
         $childBlock = $layout->addBlock('Magento\Core\Block\Text', 'creditmemo_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
-        $creditmemo = Mage::getModel('Magento\Sales\Model\Order\Creditmemo');
+        $creditmemo = \Mage::getModel('Magento\Sales\Model\Order\Creditmemo');
         $this->assertEmpty($childBlock->getCreditmemo());
         $this->assertNotEquals($expectedHtml, $block->getTotalsHtml($creditmemo));
 

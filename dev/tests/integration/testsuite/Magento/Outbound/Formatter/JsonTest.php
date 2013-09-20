@@ -7,15 +7,17 @@
  * @copyright          {copyright}
  * @license            {license_link}
  */
+namespace Magento\Outbound\Formatter;
+
 require_once __DIR__ . '/JsonTest/Data.php';
-class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
+class JsonTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Outbound\Formatter\Json */
     protected $_formatter;
 
     public function setUp()
     {
-        $this->_formatter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_formatter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Outbound\Formatter\Json');
     }
 
@@ -52,7 +54,7 @@ class Magento_Outbound_Formatter_JsonTest extends PHPUnit_Framework_TestCase
             array(array(2.4), '[2.4]'),
             array(array(2.0), '[2]'),
             array(
-                array(new Magento_Outbound_Formatter_JsonTest_Data('public', 'protected')),
+                array(new \Magento\Outbound\Formatter\JsonTest\Data('public', 'protected')),
                 '[{"dataA":"public"}]'
             )
         );

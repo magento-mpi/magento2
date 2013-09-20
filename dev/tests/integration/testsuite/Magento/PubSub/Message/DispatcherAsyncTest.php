@@ -12,7 +12,9 @@
 /**
  * @magentoDbIsolation enabled
  */
-class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestCase
+namespace Magento\PubSub\Message;
+
+class DispatcherAsyncTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\PubSub\Message\DispatcherAsync
@@ -25,7 +27,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
     public function setUp()
     {
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $eventCollection */
-        $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $eventCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Resource\Event\Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
@@ -35,7 +37,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
             $event->save();
         }
 
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\PubSub\Message\DispatcherAsync');
     }
 
@@ -52,7 +54,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
 
         $this->_model->dispatch($topic, $data);
 
-        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $queue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\PubSub\Event\QueueReaderInterface');
         $event = $queue->poll();
 

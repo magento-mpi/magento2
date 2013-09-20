@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider setDesignConfigExceptionDataProvider
@@ -18,13 +20,13 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
     public function testSetDesignConfigException($config)
     {
         // \Magento\Core\Model\Template is an abstract class
-        $model = Mage::getModel('Magento\Core\Model\Email\Template');
+        $model = \Mage::getModel('Magento\Core\Model\Email\Template');
         $model->setDesignConfig($config);
     }
 
     public function setDesignConfigExceptionDataProvider()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = \Mage::app()->getStore()->getId();
         return array(
             array(array()),
             array(array('area' => 'frontend')),

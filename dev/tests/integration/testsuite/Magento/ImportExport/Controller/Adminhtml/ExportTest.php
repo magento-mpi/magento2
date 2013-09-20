@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_ImportExport_Controller_Adminhtml_ExportTest extends Magento_Backend_Utility_Controller
+namespace Magento\ImportExport\Controller\Adminhtml;
+
+class ExportTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Set value of $_SERVER['HTTP_X_REQUESTED_WITH'] parameter here

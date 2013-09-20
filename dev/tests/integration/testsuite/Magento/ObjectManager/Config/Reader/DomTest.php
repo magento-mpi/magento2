@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_TestCase
+namespace Magento\ObjectManager\Config\Reader;
+
+class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager\Config\Reader\Dom
@@ -23,7 +25,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
     protected $_fileResolverMock;
 
     /**
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $_mergedConfig;
 
@@ -58,7 +60,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
         $this->_validationState = new \Magento\Core\Model\Config\ValidationState(new \Magento\Core\Model\App\State());
         $this->_schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
 
-        $this->_mergedConfig = new DOMDocument();
+        $this->_mergedConfig = new \DOMDocument();
         $this->_mergedConfig->load($fixturePath . 'config_merged.xml');
     }
 

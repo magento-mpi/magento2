@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Order_TotalsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Order;
+
+class TotalsTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlChildrenInitialized()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $block = $layout->createBlock('Magento\Sales\Block\Order\Totals', 'block');
-        $block->setOrder(Mage::getModel('Magento\Sales\Model\Order'))
+        $block->setOrder(\Mage::getModel('Magento\Sales\Model\Order'))
             ->setTemplate('order/totals.phtml');
 
-        $context = Mage::getSingleton('Magento\Core\Block\Context');
+        $context = \Mage::getSingleton('Magento\Core\Block\Context');
         $childOne = $this->getMock('Magento\Core\Block\Text', array('initTotals'), array($context));
         $childOne->expects($this->once())
             ->method('initTotals');

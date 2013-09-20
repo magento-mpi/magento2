@@ -12,7 +12,9 @@
 /**
  * Test for eav abstract export model
  */
-class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export\Entity;
+
+class EavAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Skipped attribute codes
@@ -35,7 +37,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $customerAttributes = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
+        $customerAttributes = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
 
         $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
             '', false);
@@ -54,7 +56,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     public function testGetEntityTypeId()
     {
         $entityCode = 'customer';
-        $entityId = Mage::getSingleton('Magento\Eav\Model\Config')
+        $entityId = \Mage::getSingleton('Magento\Eav\Model\Config')
             ->getEntityType($entityCode)
             ->getEntityTypeId();
 
@@ -71,7 +73,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
         $this->_checkReflectionMethodSetAccessibleExists();
 
         $this->_model->setParameters($this->_getSkippedAttributes());
-        $method = new ReflectionMethod($this->_model, '_getExportAttributeCodes');
+        $method = new \ReflectionMethod($this->_model, '_getExportAttributeCodes');
         $method->setAccessible(true);
         $attributes = $method->invoke($this->_model);
         foreach (self::$_skippedAttributes as $code) {
@@ -85,7 +87,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     public function testGetAttributeOptions()
     {
         /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
-        $attributeCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
+        $attributeCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'gender');
         /** @var $attribute \Magento\Customer\Model\Attribute */
         $attribute = $attributeCollection->getFirstItem();
@@ -107,7 +109,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     protected function _getSkippedAttributes()
     {
         /** @var $attributeCollection \Magento\Customer\Model\Resource\Attribute\Collection */
-        $attributeCollection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
+        $attributeCollection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $attributeCollection->addFieldToFilter('attribute_code', array('in' => self::$_skippedAttributes));
         $skippedAttributes = array();
         /** @var $attribute  \Magento\Customer\Model\Attribute */
@@ -121,12 +123,12 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     }
 
     /**
-     * Check that method ReflectionMethod::setAccessible exists
+     * Check that method \ReflectionMethod::setAccessible exists
      */
     protected function _checkReflectionMethodSetAccessibleExists()
     {
         if (!method_exists('ReflectionMethod', 'setAccessible')) {
-            $this->markTestSkipped('Test requires ReflectionMethod::setAccessible (PHP 5 >= 5.3.2).');
+            $this->markTestSkipped('Test requires \ReflectionMethod::setAccessible (PHP 5 >= 5.3.2).');
         }
     }
 }

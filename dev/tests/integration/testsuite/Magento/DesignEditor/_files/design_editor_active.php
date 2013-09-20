@@ -8,17 +8,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
     ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-$session = Mage::getModel('Magento\DesignEditor\Model\Session');
+$session = \Mage::getModel('Magento\DesignEditor\Model\Session');
 /** @var $auth \Magento\Backend\Model\Auth */
-$auth = Mage::getModel('Magento\Backend\Model\Auth');
+$auth = \Mage::getModel('Magento\Backend\Model\Auth');
 $auth->setAuthStorage($session);
-$auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+$auth->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
 $session->activateDesignEditor();
 
 /** @var $theme \Magento\Core\Model\Theme */
-$theme = Mage::getModel('Magento\Core\Model\Theme');
+$theme = \Mage::getModel('Magento\Core\Model\Theme');
 $theme->setData(array(
     'theme_code'           => 'blank',
     'area'                 => 'frontend',

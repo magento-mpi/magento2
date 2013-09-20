@@ -12,7 +12,9 @@
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
  */
-class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Block\Cart\Item;
+
+class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Checkout\Block\Cart\Item\Renderer
@@ -21,11 +23,11 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Checkout\Block\Cart\Item\Renderer');
+        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Checkout\Block\Cart\Item\Renderer');
         /** @var $item \Magento\Sales\Model\Quote\Item */
-        $item = Mage::getModel('Magento\Sales\Model\Quote\Item');
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $item = \Mage::getModel('Magento\Sales\Model\Quote\Item');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1);
         $item->setProduct($product);
         $this->_block->setItem($item);

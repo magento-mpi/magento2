@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$robotsTxtPath = Mage::getBaseDir() . DS . 'robots.txt';
+$robotsTxtPath = \Mage::getBaseDir() . DS . 'robots.txt';
 if (is_file($robotsTxtPath)) {
     @unlink($robotsTxtPath);
 }

@@ -12,7 +12,7 @@
 /**
  * Test for abstract export model
  */
-class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framework_TestCase
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ImportExport\Model\Export\EntityAbstract
@@ -46,7 +46,7 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testGetWriter()
     {
-        $this->_model->setWriter(Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(\Mage::getModel('Magento\ImportExport\Model\Export\Adapter\Csv'));
         $this->assertInstanceOf('Magento\ImportExport\Model\Export\Adapter\Csv', $this->_model->getWriter());
     }
 
@@ -65,9 +65,9 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $model Stub_Magento_ImportExport_Model_Export_EntityAbstract */
-        $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
-        $collection = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
+        /** @var $model \Magento\ImportExport\Model\Export\StubEntityAbstract */
+        $model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\StubEntityAbstract');
+        $collection = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
         $collection = $model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
@@ -85,18 +85,5 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
                 'Disabled attribute "' . $attributeCode . '" existed in collection'
             );
         }
-    }
-}
-
-/**
- * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
- */
-abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
-    extends \Magento\ImportExport\Model\Export\EntityAbstract
-{
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_disabledAttrs = array('default_billing', 'default_shipping');
     }
 }

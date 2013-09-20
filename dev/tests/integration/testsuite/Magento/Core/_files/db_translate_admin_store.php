@@ -7,7 +7,7 @@
  */
 
 /** @var \Magento\Core\Model\Resource\Translate\String $translateString */
-$translateString = Mage::getModel('Magento\Core\Model\Resource\Translate\String');
+$translateString = \Mage::getModel('Magento\Core\Model\Resource\Translate\String');
 $translateString->saveTranslate(
     'Fixture String', 'Fixture Db Translation', null, \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
 );

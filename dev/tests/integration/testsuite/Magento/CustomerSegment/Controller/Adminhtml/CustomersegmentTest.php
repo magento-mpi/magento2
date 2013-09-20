@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends Magento_Backend_Utility_Controller
+namespace Magento\CustomerSegment\Controller\Adminhtml;
+
+class CustomersegmentTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Checks that all important blocks are successfully created and rendered.
@@ -34,7 +36,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
      */
     public function testSaveAction()
     {
-        $segment = Mage::getModel('Magento\CustomerSegment\Model\Segment');
+        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/save/id/' . $segment->getId());
         $content = $this->getResponse()->getBody();
@@ -48,11 +50,11 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
     public function testMatchActionLogging()
     {
         /** @var \Magento\Logging\Model\Event $loggingModel */
-        $loggingModel = Mage::getModel('Magento\Logging\Model\Event');
+        $loggingModel = \Mage::getModel('Magento\Logging\Model\Event');
         $result = $loggingModel->load('magento_customersegment', 'event_code');
         $this->assertEmpty($result->getId());
 
-        $segment = Mage::getModel('Magento\CustomerSegment\Model\Segment');
+        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/match/id/' . $segment->getId());
 

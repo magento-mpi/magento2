@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Controller_CartTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\GiftCardAccount\Controller;
+
+class CartTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/GiftCardAccount/_files/giftcardaccount.php

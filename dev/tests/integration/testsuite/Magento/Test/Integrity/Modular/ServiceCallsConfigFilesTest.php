@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class ServiceCallsConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -21,13 +23,13 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
     protected $_reader;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     public function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $serviceCallsFiles = $this->getServiceCallsConfigFiles();
         if (!empty($serviceCallsFiles)) {
             $this->_reader = $this->_objectManager->create('Magento\Core\Model\DataService\Config\Reader', array(
@@ -43,7 +45,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
     public function getServiceCallsConfigFiles()
     {
-        return glob(Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
+        return glob(\Mage::getBaseDir('app') . '/*/*/*/etc/service_calls.xml');
     }
 
     public function serviceCallsConfigFilesProvider()

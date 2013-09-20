@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\AbstractModel|PHPUnit_Framework_MockObject_MockObject
@@ -84,7 +86,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('id'));
 
         $test = $this->getMock(
-            'Magento_TestFramework_Entity',
+            'Magento\TestFramework\Entity',
             array('_getEmptyModel'),
             array($this->_model, array('test' => 'test'))
         );

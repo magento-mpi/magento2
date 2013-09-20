@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Job;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Subscription */
     protected $_subscription;
@@ -30,7 +32,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
 
     public function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_user = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')
             ->setApiKey(md5(rand(0, time())))
             ->save();
@@ -96,7 +98,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
     /**
      * Emulates concurrent transactions. Executes 50 seconds because of lock timeout
      *
-     * @expectedException Zend_Db_Statement_Exception
+     * @expectedException \Zend_Db_Statement_Exception
      * @expectedMessage SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
      */
     public function testParallelTransactions()
@@ -118,7 +120,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
         /** @var \Magento\Webhook\Model\Resource\Job\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
 
-        $beforeLoad = new ReflectionMethod(
+        $beforeLoad = new \ReflectionMethod(
             'Magento\Webhook\Model\Resource\Job\Collection', '_beforeLoad');
         $beforeLoad->setAccessible(true);
         $beforeLoad->invoke($collection);
@@ -132,20 +134,20 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
         /** @var \Magento\Webhook\Model\Resource\Job\Collection $collection2 */
         $collection2 = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
         $collection2->setConnection($connection);
-        $initSelect = new ReflectionMethod(
+        $initSelect = new \ReflectionMethod(
             'Magento\Webhook\Model\Resource\Job\Collection', '_initSelect');
         $initSelect->setAccessible(true);
         $initSelect->invoke($collection2);
 
 
-        $afterLoad = new ReflectionMethod(
+        $afterLoad = new \ReflectionMethod(
             'Magento\Webhook\Model\Resource\Job\Collection', '_afterLoad');
         $afterLoad->setAccessible(true);
 
 
         try {
             $collection2->getData();
-        } catch (Zend_Db_Statement_Exception $e) {
+        } catch (\Zend_Db_Statement_Exception $e) {
             $job->delete();
             $job2->delete();
             $job3->delete();

@@ -9,8 +9,10 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSetTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid;
+
+class ColumnSetTest
+    extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -21,14 +23,14 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
      */
     public function testPrepareSelect()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block  \Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet */
         $block = $layout->createBlock(
             'Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet',

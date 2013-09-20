@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-$payment = Mage::getModel('Magento\Sales\Model\Order\Payment');
+$payment = \Mage::getModel('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
-$order = Mage::getModel('Magento\Sales\Model\Order');
+$order = \Mage::getModel('Magento\Sales\Model\Order');
 $order->setIncrementId('100000001')
     ->setSubtotal(100)
     ->setBaseSubtotal(100)

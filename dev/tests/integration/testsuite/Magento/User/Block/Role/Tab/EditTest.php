@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Block\Role\Tab;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\User\Block\Role\Tab\Edit
@@ -21,11 +23,11 @@ class Magento_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $roleAdmin = Mage::getModel('Magento\User\Model\Role');
-        $roleAdmin->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
-        Mage::app()->getRequest()->setParam('rid', $roleAdmin->getId());
+        $roleAdmin = \Mage::getModel('Magento\User\Model\Role');
+        $roleAdmin->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        \Mage::app()->getRequest()->setParam('rid', $roleAdmin->getId());
 
-        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\User\Block\Role\Tab\Edit');
     }
 

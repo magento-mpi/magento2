@@ -14,14 +14,16 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block;
+
+class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \Magento\Backend\Block\Widget::getButtonHtml
      */
     public function testGetButtonHtml()
     {
-        $layout = Mage::getModel(
+        $layout = \Mage::getModel(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
@@ -43,7 +45,7 @@ class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetButtonHtmlForTwoButtonsInOneBlock()
     {
-        $layout = Mage::getModel(
+        $layout = \Mage::getModel(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
@@ -65,7 +67,7 @@ class Magento_Backend_Block_WidgetTest extends PHPUnit_Framework_TestCase
 
     public function testGetSuffixId()
     {
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Backend\Block\Widget');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Backend\Block\Widget');
         $this->assertStringEndsNotWith('_test', $block->getSuffixId('suffix'));
         $this->assertStringEndsWith('_test', $block->getSuffixId('test'));
     }

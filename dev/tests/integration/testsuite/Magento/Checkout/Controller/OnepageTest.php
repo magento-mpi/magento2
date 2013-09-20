@@ -12,14 +12,16 @@
 /**
  * @magentoDataFixture Magento/Sales/_files/quote.php
  */
-class Magento_Checkout_Controller_OnepageTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Checkout\Controller;
+
+class OnepageTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected function setUp()
     {
         parent::setUp();
-        $quote = Mage::getModel('Magento\Sales\Model\Quote');
+        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
-        Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
+        \Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
     }
 
     /**
@@ -45,12 +47,12 @@ class Magento_Checkout_Controller_OnepageTest extends Magento_TestFramework_Test
             'shipping' => array('is_show' => true),
             'shipping_method' => array('is_show' => true),
         );
-        Mage::getSingleton('Magento\Checkout\Model\Session')->setSteps($steps);
+        \Mage::getSingleton('Magento\Checkout\Model\Session')->setSteps($steps);
 
         $this->dispatch('checkout/onepage/progress');
         $html = $this->getResponse()->getBody();
         $this->assertContains('Checkout', $html);
-        $methodTitle = Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()
+        $methodTitle = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()
             ->getMethodInstance()
             ->getTitle();
         $this->assertContains('<p>' . $methodTitle . '</p>', $html);

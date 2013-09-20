@@ -13,7 +13,9 @@
  * @magentoAppIsolation enabled
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
+
+class GroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\System\Store\Edit\Form\Group
@@ -26,18 +28,18 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_F
 
         $registryData = array(
             'store_type' => 'group',
-            'store_data' => Mage::getModel('Magento\Core\Model\Store\Group'),
+            'store_data' => \Mage::getModel('Magento\Core\Model\Store\Group'),
             'store_action' => 'add'
         );
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         foreach ($registryData as $key => $value) {
             $objectManager->get('Magento\Core\Model\Registry')->register($key, $value);
         }
 
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
 
         $this->_block = $layout->createBlock('Magento\Adminhtml\Block\System\Store\Edit\Form\Group');
 
@@ -46,8 +48,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_F
 
     protected function tearDown()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('store_type');
         $objectManager->get('Magento\Core\Model\Registry')->unregister('store_data');
         $objectManager->get('Magento\Core\Model\Registry')->unregister('store_action');

@@ -12,12 +12,14 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_GridTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
+
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareColumns()
     {
         /** @var \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid $block */
-        $block = Mage::app()->getLayout()->createBlock(
+        $block = \Mage::app()->getLayout()->createBlock(
             'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid');
         $block->toHtml();
         foreach (array('code', 'label', 'store_id', 'theme', 'is_system') as $key) {

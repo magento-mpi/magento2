@@ -13,7 +13,9 @@
  * Test class for \Magento\Backend\Controller\Adminhtml\Auth
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Backend\Controller\Adminhtml;
+
+class AuthTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -37,11 +39,11 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
      */
     protected  function _login()
     {
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento\Backend\Model\Auth');
+        $this->_auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
         $this->_auth->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->_session = $this->_auth->getAuthStorage();
     }
 
@@ -51,7 +53,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
     protected function _logout()
     {
         $this->_auth->logout();
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**
@@ -79,7 +81,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
 
         $this->dispatch('backend/admin/auth/login');
         /** @var $backendUrlModel \Magento\Backend\Model\Url */
-        $backendUrlModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
+        $backendUrlModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
         $this->assertRedirect($this->stringStartsWith($expected));
@@ -94,18 +96,18 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
     {
         $this->getRequest()->setPost(array(
             'login' => array(
-                'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
-                'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD,
+                'username' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+                'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
             )
         ));
 
         $this->dispatch('backend/admin/index/index');
 
-        $response = Mage::app()->getResponse();
+        $response = \Mage::app()->getResponse();
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400, 'Incorrect response code');
 
-        $this->assertTrue(Mage::getSingleton('Magento\Backend\Model\Auth')->isLoggedIn());
+        $this->assertTrue(\Mage::getSingleton('Magento\Backend\Model\Auth')->isLoggedIn());
     }
 
     /**
@@ -117,7 +119,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
         $this->_login();
         $this->dispatch('backend/admin/auth/logout');
         $this->assertRedirect(
-            $this->equalTo(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $this->equalTo(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Backend\Helper\Data')
                 ->getHomePageUrl()
             )
@@ -136,7 +138,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
         $this->dispatch('backend/admin/auth/deniedJson');
         $data = array(
             'ajaxExpired' => 1,
-            'ajaxRedirect' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            'ajaxRedirect' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Backend\Helper\Data')
                 ->getHomePageUrl(),
         );
@@ -153,7 +155,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
     public function testDeniedIframeAction()
     {
         $this->_login();
-        $homeUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
+        $homeUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Helper\Data')
             ->getHomePageUrl();
         $this->dispatch('backend/admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
@@ -183,7 +185,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
                 array(
                     'login' => array(
                         'username' => 'test1',
-                        'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD,
+                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),
@@ -191,7 +193,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
                 array(
                     'login' => array(
                         'username' => 'test2',
-                        'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD,
+                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),
@@ -199,7 +201,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
                 array(
                     'login' => array(
                         'username' => 'test3',
-                        'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD,
+                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),

@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_NewsletterQueueTest extends Magento_Backend_Utility_Controller
+namespace Magento\Adminhtml\Controller;
+
+class NewsletterQueueTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @var \Magento\Newsletter\Model\Template
@@ -22,14 +24,14 @@ class Magento_Adminhtml_Controller_NewsletterQueueTest extends Magento_Backend_U
     public function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento\Newsletter\Model\Template');
+        $this->_model = \Mage::getModel('Magento\Newsletter\Model\Template');
     }
     public function tearDown()
     {
         /**
          * Unset messages
          */
-        Mage::getSingleton('Magento\Backend\Model\Session')->getMessages(true);
+        \Mage::getSingleton('Magento\Backend\Model\Session')->getMessages(true);
         unset($this->_model);
     }
 

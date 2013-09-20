@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Service;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Service\Customer
@@ -31,20 +33,20 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerFactory = $this->_objectManager->get('Magento\Customer\Model\CustomerFactory');
         $this->_model = $this->_objectManager->create('Magento\Customer\Service\Customer');
     }
 
     protected function tearDown()
     {
-        $previousStoreId = Mage::app()->getStore();
-        Mage::app()->setCurrentStore(Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
+        $previousStoreId = \Mage::app()->getStore();
+        \Mage::app()->setCurrentStore(\Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
             $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
         }
-        Mage::app()->setCurrentStore($previousStoreId);
+        \Mage::app()->setCurrentStore($previousStoreId);
 
         $this->_model = null;
     }
@@ -294,7 +296,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate($customerData)
     {
-        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $expected = $this->_customerFactory->create()
             ->load(1);
 
@@ -349,7 +351,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateExceptions($customerData, $exceptionName, $exceptionMessage = '')
     {
-        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        \Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $this->setExpectedException($exceptionName, $exceptionMessage);
         $this->_model->update(1, $customerData);
     }
@@ -506,10 +508,10 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             // Remove updated_at as in afterSave updated_at may be changed
             $expectedCustomerData = $customer->getData();
             unset($expectedCustomerData['updated_at']);
-            PHPUnit_Framework_Assert::assertEquals($expectedCustomerData,
+            \PHPUnit_Framework_Assert::assertEquals($expectedCustomerData,
                 $actualCustomer->toArray(array_keys($expectedCustomerData)));
-            PHPUnit_Framework_Assert::assertEquals($customerData, $actualData);
-            PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
+            \PHPUnit_Framework_Assert::assertEquals($customerData, $actualData);
+            \PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
         };
 
         $this->_model->setBeforeSaveCallback($callback);

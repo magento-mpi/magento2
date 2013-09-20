@@ -14,16 +14,18 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_User_Model_Resource_RoleTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model\Resource;
+
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetRoleUsers()
     {
-        $role = Mage::getModel('Magento\User\Model\Role');
-        $roleResource = Mage::getResourceModel('Magento\User\Model\Resource\Role');
+        $role = \Mage::getModel('Magento\User\Model\Role');
+        $roleResource = \Mage::getResourceModel('Magento\User\Model\Resource\Role');
 
         $this->assertEmpty($roleResource->getRoleUsers($role));
 
-        $role->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        $role->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         $this->assertNotEmpty($roleResource->getRoleUsers($role));
     }
 }

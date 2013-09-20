@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_TestAsset_ConstructorOneArgument
+namespace Magento\ObjectManager\TestAsset;
+
+class ConstructorOneArgument
 {
     /**
-     * @var Magento_ObjectManager_TestAsset_Basic
+     * @var \Magento\ObjectManager\TestAsset\Basic
      */
     protected $_one;
 
@@ -23,10 +25,10 @@ class Magento_ObjectManager_TestAsset_ConstructorOneArgument
     /**
      * One argument
      *
-     * @param Magento_ObjectManager_TestAsset_Basic $one
+     * @param \Magento\ObjectManager\TestAsset\Basic $one
      */
     public function __construct(
-        Magento_ObjectManager_TestAsset_Basic $one
+        \Magento\ObjectManager\TestAsset\Basic $one
     ) {
         $this->_one = $one;
     }

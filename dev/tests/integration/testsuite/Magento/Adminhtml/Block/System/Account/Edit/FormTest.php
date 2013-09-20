@@ -12,18 +12,20 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\System\Account\Edit;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()
     {
-        $user = Mage::getModel('Magento\User\Model\User')->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
+        $user = \Mage::getModel('Magento\User\Model\User')->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
 
         /** @var $session \Magento\Backend\Model\Auth\Session */
-        $session = Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
 
         /** @var \Magento\Adminhtml\Block\System\Account\Edit\Form */
         $block = $layout->createBlock('Magento\Adminhtml\Block\System\Account\Edit\Form');

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class AppTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\App
@@ -33,8 +35,8 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model       = Mage::getModel('Magento\Core\Model\App');
-        $this->_mageModel   = Mage::app();
+        $this->_model       = \Mage::getModel('Magento\Core\Model\App');
+        $this->_mageModel   = \Mage::app();
     }
 
     public function testGetCookie()
@@ -71,7 +73,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testSetCurrentStore()
     {
-        $store = Mage::getModel('Magento\Core\Model\Store');
+        $store = \Mage::getModel('Magento\Core\Model\Store');
         $this->_model->setCurrentStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }
@@ -85,7 +87,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
                 $this->fail('Error handler is not working');
             }
             restore_error_handler();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             restore_error_handler();
             throw $e;
         }
@@ -212,7 +214,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testSetGetRequest()
     {
         $this->assertInstanceOf('Magento\Core\Controller\Request\Http', $this->_model->getRequest());
-        $request = new Magento_TestFramework_Request();
+        $request = new \Magento\TestFramework\Request();
         $this->_model->setRequest($request);
         $this->assertSame($request, $this->_model->getRequest());
     }
@@ -226,8 +228,8 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
             'replace' => false
         );
         $this->assertContains($expectedHeader, $this->_model->getResponse()->getHeaders());
-        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_TestFramework_Response');
+        $response = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\TestFramework\Response');
         $this->_model->setResponse($response);
         $this->assertSame($response, $this->_model->getResponse());
         $this->assertEmpty($this->_model->getResponse()->getHeaders());

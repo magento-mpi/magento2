@@ -10,7 +10,7 @@
  */
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Mage::getModel('Magento\Catalog\Model\Product');
 
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(10)
@@ -46,7 +46,7 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
 
     ->save();
 
-$product = Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(11)
     ->setAttributeSetId(4)
@@ -84,7 +84,7 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
 
     ->save();
 
-$product = Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(12)
     ->setAttributeSetId(4)

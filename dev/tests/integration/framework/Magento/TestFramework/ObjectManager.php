@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_ObjectManager extends \Magento\Core\Model\ObjectManager
+namespace Magento\TestFramework;
+
+class ObjectManager extends \Magento\Core\Model\ObjectManager
 {
     /**
      * Classes with xml properties to explicitly call __destruct() due to https://bugs.php.net/bug.php?id=62468
@@ -22,7 +24,7 @@ class Magento_TestFramework_ObjectManager extends \Magento\Core\Model\ObjectMana
     /**
      * Clear InstanceManager cache
      *
-     * @return Magento_TestFramework_ObjectManager
+     * @return \Magento\TestFramework\ObjectManager
      */
     public function clearCache()
     {

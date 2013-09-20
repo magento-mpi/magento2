@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class UpdateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Update
@@ -18,12 +20,12 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Layout\Update');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Layout\Update');
     }
 
     public function testConstructor()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Layout\Update');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Layout\Update');
         $this->assertInstanceOf('Magento\Core\Model\Resource\Layout\Update', $this->_model->getResource());
     }
 
@@ -37,7 +39,7 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
             'xml' => '<layout/>',
             'sort_order' => 123,
         ));
-        $entityHelper = new Magento_TestFramework_Entity($this->_model, array(
+        $entityHelper = new \Magento\TestFramework\Entity($this->_model, array(
             'handle' => 'custom',
             'xml' => '<layout version="0.1.0"/>',
             'sort_order' => 456,

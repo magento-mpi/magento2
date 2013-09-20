@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Theme;
+
+class XmlFilesTest extends \PHPUnit_Framework_TestCase
 {
     const NO_VIEW_XML_FILES_MARKER = 'no-view-xml';
 
@@ -22,7 +24,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
         if ($file === self::NO_VIEW_XML_FILES_MARKER) {
             $this->markTestSkipped('No view.xml files in themes.');
         }
-        $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/etc/view.xsd');
+        $this->_validateConfigFile($file, \Mage::getBaseDir('lib') . '/Magento/Config/etc/view.xsd');
     }
 
     /**
@@ -31,7 +33,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
     public function viewConfigFileDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getBaseDir('design') . '/*/*/view.xml') as $file) {
+        foreach (glob(\Mage::getBaseDir('design') . '/*/*/view.xml') as $file) {
             $result[$file] = array($file);
         }
         return $result === array() ? array(array(self::NO_VIEW_XML_FILES_MARKER)) : $result;
@@ -52,7 +54,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
     public function themeConfigFileExistsDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getBaseDir('design') . '/*/*', GLOB_ONLYDIR) as $themeDir) {
+        foreach (glob(\Mage::getBaseDir('design') . '/*/*', GLOB_ONLYDIR) as $themeDir) {
             $result[$themeDir] = array($themeDir);
         }
         return $result;
@@ -64,7 +66,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
      */
     public function testThemeConfigFileSchema($file)
     {
-        $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/etc/theme.xsd');
+        $this->_validateConfigFile($file, \Mage::getBaseDir('lib') . '/Magento/Config/etc/theme.xsd');
     }
 
     /**
@@ -75,7 +77,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
      */
     public function testThemeConfigFileHasSingleTheme($file)
     {
-        /** @var $configXml SimpleXMLElement */
+        /** @var $configXml \SimpleXMLElement */
         $configXml = simplexml_load_file($file);
         $actualThemes = $configXml->xpath('/theme');
         $this->assertCount(1, $actualThemes, 'Single theme declaration is expected.');
@@ -87,7 +89,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
     public function themeConfigFileDataProvider()
     {
         $result = array();
-        foreach (glob(Mage::getBaseDir('design') . '/*/*/theme.xml') as $file) {
+        foreach (glob(\Mage::getBaseDir('design') . '/*/*/theme.xml') as $file) {
             $result[$file] = array($file);
         }
         return $result;
@@ -98,7 +100,7 @@ class Magento_Test_Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCa
      *
      * @param string $file
      * @param string $schemaFile
-     * @throws PHPUnit_Framework_AssertionFailedError if file is invalid
+     * @throws \PHPUnit_Framework_AssertionFailedError if file is invalid
      */
     protected function _validateConfigFile($file, $schemaFile)
     {

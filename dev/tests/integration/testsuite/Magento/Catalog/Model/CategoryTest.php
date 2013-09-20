@@ -13,13 +13,15 @@
  * Test class for \Magento\Catalog\Model\Category.
  * - general behaviour is tested
  *
- * @see Magento_Catalog_Model_CategoryTreeTest
+ * @see \Magento\Catalog\Model\CategoryTreeTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model;
+
+class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected static $_objectManager;
 
@@ -49,9 +51,9 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        self::$_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        if (Magento_TestFramework_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+        if (\Magento\TestFramework\Helper\Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
             self::markTestIncomplete('Bug MAGETWO-8513');
         }
 
@@ -195,12 +197,12 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetStoreIds()
     {
         $this->_model->load(3); /* id from fixture */
-        $this->assertContains(Mage::app()->getStore()->getId(), $this->_model->getStoreIds());
+        $this->assertContains(\Mage::app()->getStore()->getId(), $this->_model->getStoreIds());
     }
 
     public function testSetGetStoreId()
     {
-        $this->assertEquals(Mage::app()->getStore()->getId(), $this->_model->getStoreId());
+        $this->assertEquals(\Mage::app()->getStore()->getId(), $this->_model->getStoreId());
         $this->_model->setStoreId(1000);
         $this->assertEquals(1000, $this->_model->getStoreId());
     }
@@ -212,7 +214,7 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testSetStoreIdWithNonNumericValue()
     {
         /** @var $store \Magento\Core\Model\Store */
-        $store = Mage::getModel('Magento\Core\Model\Store');
+        $store = \Mage::getModel('Magento\Core\Model\Store');
         $store->load('fixturestore');
 
         $this->assertNotEquals($this->_model->getStoreId(), $store->getId());

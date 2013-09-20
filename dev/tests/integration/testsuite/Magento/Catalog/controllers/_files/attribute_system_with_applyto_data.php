@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+$model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
 $model->setName('system_attribute')
     ->setId(3)

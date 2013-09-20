@@ -9,14 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Theme;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     protected static function _getThemesCollection()
     {
-        return  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        return  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Resource\Theme\Collection');
     }
 
@@ -25,7 +27,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
      */
     public function testCollection()
     {
-        Mage::getConfig();
+        \Mage::getConfig();
         $oldTotalRecords = self::_getThemesCollection()->getSize();
 
         $collection = $this->setThemeFixture();
@@ -86,7 +88,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     public function testAddAreaFilter($area, $themeCount)
     {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeCollection->addAreaFilter($area);
         $this->assertCount($themeCount, $themeCollection);
@@ -113,7 +115,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     public function testAddTypeFilter($themeType, $themeCount)
     {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeCollection->addAreaFilter('test_area3');
         if ($themeType !== false) {
@@ -143,7 +145,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     public function testFilterVisibleThemes()
     {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeCollection->addAreaFilter('test_area3')->filterVisibleThemes();
         $this->assertCount(2, $themeCollection);
@@ -195,7 +197,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
         $themeCollection->load();
         foreach (self::getThemeList() as $themeData) {
             /** @var $themeModel \Magento\Core\Model\Theme */
-            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->create('Magento\Core\Model\Theme');
             $themeModel->setData($themeData);
             $themeCollection->addItem($themeModel);
@@ -204,7 +206,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public static function setInheritedThemeFixture()
     {
@@ -212,7 +214,7 @@ class Magento_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework
         $idByPath = array();
         foreach ($fixture as $themeData) {
             /** @var $themeModel \Magento\Core\Model\Theme */
-            $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->create('Magento\Core\Model\Theme');
             $themeModel->setData($themeData);
 

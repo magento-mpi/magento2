@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Backend;
+
+class ExceptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Design\Backend\Exceptions
@@ -18,7 +20,7 @@ class Magento_Core_Model_Design_Backend_ExceptionsTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Design\Backend\Exceptions');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Design\Backend\Exceptions');
         $this->_model->setScope('default');
         $this->_model->setScopeId(0);
         $this->_model->setPath('design/theme/ua_regexp');

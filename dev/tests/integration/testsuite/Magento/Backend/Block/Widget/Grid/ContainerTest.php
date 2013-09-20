@@ -9,12 +9,14 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_Grid_ContainerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid;
+
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPseudoConstruct()
     {
         /** @var $block \Magento\Backend\Block\Widget\Grid\Container */
-        $block = Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Container', '', array(
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Container', '', array(
             'data' => array(
                 \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'widget',
                 \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two',

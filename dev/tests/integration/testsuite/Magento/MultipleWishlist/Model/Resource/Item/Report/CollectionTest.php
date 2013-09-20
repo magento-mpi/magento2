@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_MultipleWishlist_Model_Resource_Item_Report_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\MultipleWishlist\Model\Resource\Item\Report;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
@@ -17,12 +19,12 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_CollectionTest extends
 
     public function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\MultipleWishlist\Model\Resource\Item\Report\Collection');
+        $this->_collection = \Mage::getResourceModel('Magento\MultipleWishlist\Model\Resource\Item\Report\Collection');
     }
 
     public function testAddCustomerInfo()
     {
-        $joinParts = $this->_collection->getSelect()->getPart(Zend_Db_Select::FROM);
+        $joinParts = $this->_collection->getSelect()->getPart(\Zend_Db_Select::FROM);
         $this->assertArrayHasKey('at_prefix', $joinParts);
         $this->assertArrayHasKey('at_firstname', $joinParts);
         $this->assertArrayHasKey('at_middlename', $joinParts);

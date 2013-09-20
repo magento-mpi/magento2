@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Model_Item_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rma\Model\Item;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Rma\Model\Item\Form
@@ -18,7 +20,7 @@ class Magento_Rma_Model_Item_FormTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento\Rma\Model\Item\Form');
+        $this->_model= \Mage::getModel('Magento\Rma\Model\Item\Form');
         $this->_model->setFormCode('default');
     }
 

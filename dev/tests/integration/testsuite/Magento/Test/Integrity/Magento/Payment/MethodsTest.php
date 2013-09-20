@@ -12,20 +12,22 @@
 /**
  * Locate all payment methods in the system and verify declaration of their blocks
  */
-class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Payment;
+
+class MethodsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $methodClass
      * @param string $code
      * @dataProvider paymentMethodDataProvider
-     * @throws Exception on various assertion failures
+     * @throws \Exception on various assertion failures
      */
     public function testPaymentMethod($code, $methodClass)
     {
         /** @var $blockFactory \Magento\Core\Model\BlockFactory */
-        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\BlockFactory');
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = \Mage::app()->getStore()->getId();
         /** @var $model \Magento\Payment\Model\Method\AbstractMethod */
         if (empty($methodClass)) {
             /**
@@ -33,7 +35,7 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
              */
             $this->fail("Model of '{$code}' payment method is not found."); // prevent fatal error
         }
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($methodClass);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($methodClass);
         $this->assertNotEmpty($model->getTitle());
         foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
             $message = "Block class: {$blockClass}";
@@ -43,12 +45,12 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
             $this->assertFileExists($block->getTemplateFile(), $message);
             if ($model->canUseInternal()) {
                 try {
-                    Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+                    \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
                     $block->setArea('adminhtml');
                     $this->assertFileExists($block->getTemplateFile(), $message);
-                    Mage::app()->getStore()->setId($storeId);
-                } catch (Exception $e) {
-                    Mage::app()->getStore()->setId($storeId);
+                    \Mage::app()->getStore()->setId($storeId);
+                } catch (\Exception $e) {
+                    \Mage::app()->getStore()->setId($storeId);
                     throw $e;
                 }
             }
@@ -61,7 +63,7 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
     public function paymentMethodDataProvider()
     {
         /** @var $helper \Magento\Payment\Helper\Data */
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Payment\Helper\Data');
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Payment\Helper\Data');
         $result = array();
         foreach ($helper->getPaymentMethods() as $code => $method) {
             $result[] = array($code, $method['model']);

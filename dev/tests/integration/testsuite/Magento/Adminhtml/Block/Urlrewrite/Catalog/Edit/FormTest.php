@@ -10,10 +10,12 @@
  */
 
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\FormTest
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get form instance
@@ -24,7 +26,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
     protected function _getFormInstance($args = array())
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form */
         $block = $layout->createBlock(
             'Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\Form', 'block', array('data' => $args)

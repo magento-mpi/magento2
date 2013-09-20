@@ -14,7 +14,9 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Logging\Model;
+
+class ProcessorTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * Test that configured admin actions are properly logged
@@ -28,22 +30,22 @@ class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $collection = Mage::getModel('Magento\Logging\Model\Event')->getCollection();
+        \Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $collection = \Mage::getModel('Magento\Logging\Model\Event')->getCollection();
         $eventCountBefore = count($collection);
 
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento\Backend\Model\Auth');
-        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME,
-            Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
+        $this->_auth->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(
-            array_merge($post, array('form_key' => Mage::getSingleton('Magento\Core\Model\Session')->getFormKey()))
+            array_merge($post, array('form_key' => \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey()))
         );
         $this->dispatch($url);
-        $collection = Mage::getModel('Magento\Logging\Model\Event')->getCollection();
+        $collection = \Mage::getModel('Magento\Logging\Model\Event')->getCollection();
 
         // Number 2 means we have "login" event logged first and then the tested one.
         $eventCountAfter = $eventCountBefore + 2;

@@ -12,11 +12,13 @@
 /**
  * Test class for \Magento\Customer\Block\Widget\Dob
  */
-class Magento_Customer_Block_Widget_DobTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Block\Widget;
+
+class DobTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetDateFormat()
     {
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Block\Widget\Dob');
         $this->assertNotEmpty($block->getDateFormat());
     }

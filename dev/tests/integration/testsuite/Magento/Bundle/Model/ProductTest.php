@@ -13,7 +13,9 @@
  * As far none class is present as separate bundle product,
  * this test is clone of \Magento\Catalog\Model\Product with product type "bundle"
  */
-class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
+namespace Magento\Bundle\Model;
+
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product
@@ -22,7 +24,7 @@ class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
     }
 
@@ -39,12 +41,12 @@ class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
         // singleton getter
-        $otherProduct = Mage::getModel('Magento\Catalog\Model\Product');
+        $otherProduct = \Mage::getModel('Magento\Catalog\Model\Product');
         $otherProduct->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
         $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
-        $customTypeInstance = Mage::getModel('Magento\Bundle\Model\Product\Type');
+        $customTypeInstance = \Mage::getModel('Magento\Bundle\Model\Product\Type');
         $this->_model->setTypeInstance($customTypeInstance);
         $this->assertSame($customTypeInstance, $this->_model->getTypeInstance());
     }
@@ -55,7 +57,7 @@ class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
+        \Mage::app()->setCurrentStore(\Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
         $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
             ->setAttributeSetId(4)
             ->setName('Bundle Product')->setSku(uniqid())->setPrice(10)
@@ -63,7 +65,7 @@ class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
             ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
             ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
         ;
-        $crud = new Magento_TestFramework_Entity($this->_model, array('sku' => uniqid()));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('sku' => uniqid()));
         $crud->testCrud();
     }
 

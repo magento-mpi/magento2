@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien;
+
+class FrontTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager
@@ -23,7 +25,7 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create('Magento\Core\Controller\Varien\Front');
     }
 
@@ -44,8 +46,8 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     public function testGetResponse()
     {
-        Mage::app()->setResponse(Mage::getSingleton('Magento\Core\Controller\Response\Http'));
-        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
+        \Mage::app()->setResponse(\Mage::getSingleton('Magento\Core\Controller\Response\Http'));
+        if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Can\'t test get response without sending headers');
         }
         $this->assertInstanceOf('Magento\Core\Controller\Response\Http', $this->_model->getResponse());
@@ -69,7 +71,7 @@ class Magento_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCas
 
     public function testDispatch()
     {
-        if (!Magento_TestFramework_Helper_Bootstrap::canTestHeaders()) {
+        if (!\Magento\TestFramework\Helper\Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Cant\'t test dispatch process without sending headers');
         }
         $_SERVER['HTTP_HOST'] = 'localhost';

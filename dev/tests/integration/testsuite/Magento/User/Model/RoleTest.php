@@ -12,7 +12,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Model_RoleTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model;
+
+class RoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\User\Model\Role
@@ -21,7 +23,7 @@ class Magento_User_Model_RoleTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\User\Model\Role');
+        $this->_model = \Mage::getModel('Magento\User\Model\Role');
     }
 
     public function testGetUsersCollection()
@@ -34,7 +36,7 @@ class Magento_User_Model_RoleTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->_model->getRoleUsers());
 
-        $this->_model->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
+        $this->_model->load(\Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         $this->assertNotEmpty($this->_model->getRoleUsers());
     }
 }

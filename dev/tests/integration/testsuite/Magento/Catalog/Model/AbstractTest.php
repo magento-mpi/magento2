@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Stub class name for class under test
@@ -35,13 +37,13 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
             self::$_isStubClass = true;
         }
 
-        $this->_model = Mage::getModel(self::STUB_CLASS);
+        $this->_model = \Mage::getModel(self::STUB_CLASS);
 
-        $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resourceName');
+        $resourceProperty = new \ReflectionProperty(get_class($this->_model), '_resourceName');
         $resourceProperty->setAccessible(true);
         $resourceProperty->setValue($this->_model, 'Magento\Catalog\Model\Resource\Product');
 
-        $collectionProperty = new ReflectionProperty(get_class($this->_model), '_collectionName');
+        $collectionProperty = new \ReflectionProperty(get_class($this->_model), '_collectionName');
         $collectionProperty->setAccessible(true);
         $collectionProperty->setValue($this->_model, 'Magento\Catalog\Model\Resource\Product\Collection');
     }
@@ -136,13 +138,13 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetStore()
     {
         $store = $this->_model->getStore();
-        $this->assertSame($store, Mage::app()->getStore());
+        $this->assertSame($store, \Mage::app()->getStore());
     }
 
     public function testGetWebsiteStoreIds()
     {
         $ids = $this->_model->getWebsiteStoreIds();
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = \Mage::app()->getStore()->getId();
         $this->assertEquals(array($storeId => $storeId), $ids);
     }
 

@@ -10,7 +10,7 @@
  */
 $customers = array();
 
-$customer = Mage::getModel('Magento\Customer\Model\Customer');
+$customer = \Mage::getModel('Magento\Customer\Model\Customer');
 
 $customer->setWebsiteId(1)
     ->setEntityId(1)
@@ -29,7 +29,7 @@ $customer->isObjectNew(true);
 $customer->save();
 $customers[] = $customer;
 
-$customer = Mage::getModel('Magento\Customer\Model\Customer');
+$customer = \Mage::getModel('Magento\Customer\Model\Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(2)
     ->setEntityTypeId(1)
@@ -47,7 +47,7 @@ $customer->isObjectNew(true);
 $customer->save();
 $customers[] = $customer;
 
-$customer = Mage::getModel('Magento\Customer\Model\Customer');
+$customer = \Mage::getModel('Magento\Customer\Model\Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(3)
     ->setEntityTypeId(1)
@@ -65,8 +65,8 @@ $customer->isObjectNew(true);
 $customer->save();
 $customers[] = $customer;
 
-/** @var $objectManager Magento_TestFramework_ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+/** @var $objectManager \Magento\TestFramework\ObjectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $objectManager->get('Magento\Core\Model\Registry')->unregister('_fixture/Magento\ImportExport\Customer\Collection');
 $objectManager->get('Magento\Core\Model\Registry')
     ->register('_fixture/Magento\ImportExport\Customer\Collection', $customers);

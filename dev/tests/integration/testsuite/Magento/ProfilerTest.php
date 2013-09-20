@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ScheduledImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ScheduledImportExport\Helper\Data
@@ -13,7 +15,7 @@ class Magento_ScheduledImportExport_Helper_DataTest extends PHPUnit_Framework_Te
     protected $_importExportHelper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleManagerMock;
 
@@ -25,8 +27,8 @@ class Magento_ScheduledImportExport_Helper_DataTest extends PHPUnit_Framework_Te
     protected function setUp()
     {
         $this->_moduleManagerMock = $this->getMock('Magento\Core\Model\ModuleManager', array(), array(), '', false);
-        $context = Mage::getModel('Magento\Core\Helper\Context', array('moduleManager' => $this->_moduleManagerMock));
-        $this->_importExportHelper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+        $context = \Mage::getModel('Magento\Core\Helper\Context', array('moduleManager' => $this->_moduleManagerMock));
+        $this->_importExportHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\ScheduledImportExport\Helper\Data', array('context' => $context)
         );
     }

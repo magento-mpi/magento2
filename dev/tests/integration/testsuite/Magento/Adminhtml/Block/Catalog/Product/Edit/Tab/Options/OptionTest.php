@@ -12,14 +12,16 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options;
+
+class OptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetOptionValuesCaching()
     {
-        $block = Mage::app()->getLayout()
+        $block = \Mage::app()->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Option');
         /** @var $productWithOptions \Magento\Catalog\Model\Product */
-        $productWithOptions = Mage::getModel('Magento\Catalog\Model\Product');
+        $productWithOptions = \Mage::getModel('Magento\Catalog\Model\Product');
         $productWithOptions->setTypeId('simple')
             ->setId(1)
             ->setAttributeSetId(4)
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extend
 
         $product = clone $productWithOptions;
         /** @var $option \Magento\Catalog\Model\Product\Option */
-        $option = Mage::getModel(
+        $option = \Mage::getModel(
             'Magento\Catalog\Model\Product\Option',
             array('data' => array('id' => 1, 'title' => 'some_title'))
         );

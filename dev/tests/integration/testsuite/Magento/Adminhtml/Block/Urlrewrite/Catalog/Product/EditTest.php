@@ -13,7 +13,9 @@
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test prepare layout
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUni
     public function testPrepareLayout($blockAttributes, $expected)
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getModel(
+        $layout = \Mage::getModel(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
@@ -259,17 +261,17 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUni
     public function prepareLayoutDataProvider()
     {
         /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
-        $urlRewrite = Mage::getModel('Magento\Core\Model\Url\Rewrite');
+        $urlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite');
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product',
+        $product = \Mage::getModel('Magento\Catalog\Model\Product',
             array('data' => array('entity_id' => 1, 'name' => 'Test product'))
         );
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = Mage::getModel('Magento\Catalog\Model\Category',
+        $category = \Mage::getModel('Magento\Catalog\Model\Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
         /** @var $existingUrlRewrite \Magento\Core\Model\Url\Rewrite */
-        $existingUrlRewrite = Mage::getModel('Magento\Core\Model\Url\Rewrite',
+        $existingUrlRewrite = \Mage::getModel('Magento\Core\Model\Url\Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
         return array(

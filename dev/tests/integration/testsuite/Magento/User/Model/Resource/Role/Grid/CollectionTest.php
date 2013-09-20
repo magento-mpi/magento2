@@ -9,7 +9,9 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Model_Resource_Role_Grid_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model\Resource\Role\Grid;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\User\Model\Resource\Role\Grid\Collection
@@ -18,7 +20,7 @@ class Magento_User_Model_Resource_Role_Grid_CollectionTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\User\Model\Resource\Role\Grid\Collection');
+        $this->_collection = \Mage::getResourceModel('Magento\User\Model\Resource\Role\Grid\Collection');
     }
 
     public function testGetItems()
@@ -26,7 +28,7 @@ class Magento_User_Model_Resource_Role_Grid_CollectionTest extends PHPUnit_Frame
         $expectedResult = array(
             array(
                 'role_type' => \Magento\User\Model\Acl\Role\Group::ROLE_TYPE,
-                'role_name' => Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME,
+                'role_name' => \Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME,
             ),
         );
         $actualResult = array();

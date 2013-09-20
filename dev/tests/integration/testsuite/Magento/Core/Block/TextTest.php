@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Block_TextTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Block;
+
+class TextTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Block\Text
@@ -18,7 +20,7 @@ class Magento_Core_Block_TextTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
     }
 
     public function testSetGetText()

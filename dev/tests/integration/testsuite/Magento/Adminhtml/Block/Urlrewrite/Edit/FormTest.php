@@ -10,10 +10,12 @@
  */
 
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Edit\FormTest
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Urlrewrite\Edit;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Get form instance
@@ -24,7 +26,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
     protected function _getFormInstance($args = array())
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Edit\Form */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit\Form', 'block', array('data' => $args));
         $block->setTemplate(null);
@@ -77,7 +79,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
             'options'      => 'options',
             'description'  => 'description'
         );
-        Mage::getModel('Magento\Adminhtml\Model\Session')->setUrlrewriteData($sessionValues);
+        \Mage::getModel('Magento\Adminhtml\Model\Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object()));
 
@@ -101,7 +103,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
         $this->assertInstanceOf('Magento\Data\Form\Element\Hidden', $storeElement);
 
         // Check that store value set correctly
-        $defaultStore = Mage::app()->getStore(true)->getId();
+        $defaultStore = \Mage::app()->getStore(true)->getId();
         $this->assertEquals($defaultStore, $storeElement->getValue());
     }
 
@@ -125,7 +127,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
             $storeElement->getRenderer());
 
         // Check store elements has expected values
-        $storesList = Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm();
+        $storesList = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm();
         $this->assertInternalType('array', $storeElement->getValues());
         $this->assertNotEmpty($storeElement->getValues());
         $this->assertEquals($storesList, $storeElement->getValues());

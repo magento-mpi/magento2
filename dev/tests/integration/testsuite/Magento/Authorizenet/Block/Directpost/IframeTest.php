@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Authorizenet_Block_Directpost_IframeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Authorizenet\Block\Directpost;
+
+class IframeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -18,7 +20,7 @@ class Magento_Authorizenet_Block_Directpost_IframeTest extends PHPUnit_Framework
     {
         $xssString = '</script><script>alert("XSS")</script>';
         /** @var $block \Magento\Authorizenet\Block\Directpost\Iframe */
-        $block = Mage::app()->getLayout()->createBlock('Magento\Authorizenet\Block\Directpost\Iframe');
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Authorizenet\Block\Directpost\Iframe');
         $block->setTemplate('directpost/iframe.phtml');
         $block->setParams(array(
             'redirect' => $xssString,

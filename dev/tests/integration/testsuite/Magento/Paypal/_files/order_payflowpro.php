@@ -10,17 +10,17 @@
  */
 
 $addressData = include(__DIR__ . '/address_data.php');
-$billingAddress = Mage::getModel('Magento\Sales\Model\Order\Address', array('data' => $addressData));
+$billingAddress = \Mage::getModel('Magento\Sales\Model\Order\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-$payment = Mage::getModel('Magento\Sales\Model\Order\Payment');
+$payment = \Mage::getModel('Magento\Sales\Model\Order\Payment');
 $payment->setMethod(\Magento\Paypal\Model\Config::METHOD_PAYFLOWPRO);
 
-$order = Mage::getModel('Magento\Sales\Model\Order');
+$order = \Mage::getModel('Magento\Sales\Model\Order');
 $order->setIncrementId('100000001')
     ->setSubtotal(100)
     ->setBaseSubtotal(100)

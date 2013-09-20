@@ -12,15 +12,17 @@
 /**
  * Test class for \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Form;
+
+class AbstractTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testAddAttributesToForm()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
@@ -34,11 +36,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
             'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
         $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
-        $method = new ReflectionMethod(
+        $method = new \ReflectionMethod(
             'Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 
-        $form = Mage::getObjectManager()->create('Magento\Data\Form');
+        $form = \Mage::getObjectManager()->create('Magento\Data\Form');
         $fieldset = $form->addFieldset('test_fieldset', array());
         $arguments = array(
             'data' => array(

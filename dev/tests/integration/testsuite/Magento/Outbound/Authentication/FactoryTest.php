@@ -7,14 +7,16 @@
  * @copyright          {copyright}
  * @license            {license_link}
  */
-class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Authentication;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Outbound\Authentication\Factory */
     protected $_authFactory;
 
     public function setUp()
     {
-        $this->_authFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_authFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Outbound\Authentication\Factory');
     }
 

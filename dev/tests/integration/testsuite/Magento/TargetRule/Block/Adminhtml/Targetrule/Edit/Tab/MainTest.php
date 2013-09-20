@@ -14,25 +14,27 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
+
+class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $objectManager->get('Magento\Core\Model\Registry')
-            ->register('current_target_rule', Mage::getModel('Magento\TargetRule\Model\Rule'));
+            ->register('current_target_rule', \Mage::getModel('Magento\TargetRule\Model\Rule'));
 
-        $block = Mage::app()->getLayout()->createBlock(
+        $block = \Mage::app()->getLayout()->createBlock(
             'Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main'
         );
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

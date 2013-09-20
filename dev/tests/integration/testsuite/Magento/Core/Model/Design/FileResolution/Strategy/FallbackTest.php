@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\FileResolution\Strategy;
+
+class FallbackTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -41,7 +43,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
             array(\Magento\Core\Model\Dir::THEMES => $this->_viewDir)
         );
 
-        return Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
             array('fallbackFactory' => new \Magento\Core\Model\Design\Fallback\Factory($dirs))
         );
@@ -57,7 +59,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
     protected function _getThemeModel($area, $themePath)
     {
         /** @var $collection \Magento\Core\Model\Theme\Collection */
-        $collection = Mage::getModel('Magento\Core\Model\Theme\Collection');
+        $collection = \Mage::getModel('Magento\Core\Model\Theme\Collection');
         $themeModel = $collection->setBaseDir($this->_viewDir)
             ->addDefaultPattern()
             ->addFilter('theme_path', $themePath)

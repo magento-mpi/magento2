@@ -14,13 +14,15 @@
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Catalog\Controller;
+
+class CategoryTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function assert404NotFound()
     {
         parent::assert404NotFound();
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->assertNull($objectManager->get('Magento\Core\Model\Registry')->registry('current_category'));
     }
 
@@ -68,19 +70,19 @@ class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_Test
     {
         $this->dispatch("catalog/category/view/id/$categoryId");
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $currentCategory \Magento\Catalog\Model\Category */
         $currentCategory = $objectManager->get('Magento\Core\Model\Registry')->registry('current_category');
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $currentCategory);
         $this->assertEquals($categoryId, $currentCategory->getId(), 'Category in registry.');
 
-        $lastCategoryId = Mage::getSingleton('Magento\Catalog\Model\Session')->getLastVisitedCategoryId();
+        $lastCategoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastVisitedCategoryId();
         $this->assertEquals($categoryId, $lastCategoryId, 'Last visited category.');
 
         /* Layout updates */
-        $handles = Mage::app()->getLayout()->getUpdate()->getHandles();
+        $handles = \Mage::app()->getLayout()->getUpdate()->getHandles();
         foreach ($expectedHandles as $expectedHandleName) {
             $this->assertContains($expectedHandleName, $handles);
         }
