@@ -26,15 +26,22 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
     protected $_eventManager;
 
     /**
+     * @var Magento_Core_Controller_Response_Http
+     */
+    protected $_response;
+
+    /**
+     * @param Magento_Core_Controller_Response_Http $response
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_Core_Controller_Response_Http $response,
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
         parent::__construct($controllerFactory);
-
+        $this->_response = $response;
         $this->_eventManager = $eventManager;
     }
 
@@ -68,8 +75,7 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
         $identifier = $condition->getIdentifier();
 
         if ($condition->getRedirectUrl()) {
-            Mage::getSingleton('Magento_Core_Controller_Response_Http')
-                ->setRedirect($condition->getRedirectUrl())
+            $this->_response->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
             $request->setDispatched(true);
             return $this->_controllerFactory->createController('Magento_Core_Controller_Varien_Action_Redirect',

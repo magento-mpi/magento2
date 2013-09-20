@@ -8,10 +8,45 @@
  * @license     {license_link}
  */
 
-
 class Magento_SalesRule_Model_Observer
 {
-    protected $_validator;
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_backendSession;
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_usageFactory;
+
+    /**
+     * @var Magento_SalesRule_Model_Resource_Coupon_UsageFactory
+     */
+    protected $_ruleFactory;
+
+    /**
+     * @var Magento_SalesRule_Model_Resource_Rule_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_SalesRule_Model_Resource_Rule_CollectionFactory $collectionFactory
+     * @param Magento_SalesRule_Model_Resource_Report_RuleFactory $ruleFactory
+     * @param Magento_SalesRule_Model_Resource_Coupon_UsageFactory $usageFactory
+     * @param Magento_Backend_Model_Session $backendSession
+     */
+    function __construct(
+        Magento_SalesRule_Model_Resource_Rule_CollectionFactory $collectionFactory,
+        Magento_SalesRule_Model_Resource_Report_RuleFactory $ruleFactory,
+        Magento_SalesRule_Model_Resource_Coupon_UsageFactory $usageFactory,
+        Magento_Backend_Model_Session $backendSession
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        $this->_ruleFactory = $ruleFactory;
+        $this->_usageFactory = $usageFactory;
+        $this->_backendSession = $backendSession;
+    }
 
     public function salesOrderAfterPlace($observer)
     {
@@ -64,8 +99,7 @@ class Magento_SalesRule_Model_Observer
             $coupon->setTimesUsed($coupon->getTimesUsed() + 1);
             $coupon->save();
             if ($customerId) {
-                $couponUsage = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Usage');
-                $couponUsage->updateCustomerCouponTimesUsed($customerId, $coupon->getId());
+                $this->_usageFactory->create()->updateCustomerCouponTimesUsed($customerId, $coupon->getId());
             }
         }
     }
@@ -81,7 +115,7 @@ class Magento_SalesRule_Model_Observer
         Mage::app()->getLocale()->emulate(0);
         $currentDate = Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->aggregate($date);
+        $this->_ruleFactory->create()->aggregate($date);
         Mage::app()->getLocale()->revert();
         return $this;
     }
@@ -96,8 +130,7 @@ class Magento_SalesRule_Model_Observer
     protected function _checkSalesRulesAvailability($attributeCode)
     {
         /* @var $collection Magento_SalesRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Rule_Collection')
-            ->addAttributeInConditionFilter($attributeCode);
+        $collection = $this->_collectionFactory->create()->addAttributeInConditionFilter($attributeCode);
 
         $disabledRulesCount = 0;
         foreach ($collection as $rule) {
@@ -112,7 +145,7 @@ class Magento_SalesRule_Model_Observer
         }
 
         if ($disabledRulesCount) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(
+            $this->_backendSession->addWarning(
                 __('%1 Shopping Cart Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 
