@@ -20,44 +20,20 @@
 class Magento_Adminhtml_Helper_Media_Js extends Magento_Core_Helper_Js
 {
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @inheritdoc
      */
-    public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_View_Url $viewUrl
-    )
+    protected function _initTranslateData()
     {
-        parent::__construct($coreData, $context, $configReader, $configCacheType, $viewUrl);
-        $this->_translateData = array(
-            'Complete' => __('Complete'),
-            'The file size should be more than 0 bytes.' => __('The file size should be more than 0 bytes.'),
-            'Upload Security Error' => __('Upload Security Error'),
-            'Upload HTTP Error'     => __('Upload HTTP Error'),
-            'Upload I/O Error'     => __('Upload I/O Error'),
-            'SSL Error: Invalid or self-signed certificate' => __('SSL Error: Invalid or self-signed certificate'),
-            'Tb' => __('Tb'),
-            'Gb' => __('Gb'),
-            'Mb' => __('Mb'),
-            'Kb' => __('Kb'),
-            'b' => __('b')
-        );
-    }
-
-    /**
-     * Retrieve JS translator initialization javascript
-     *
-     * @return string
-     */
-    public function getTranslatorScript()
-    {
-        $script = '(function($) {$.mage.translate.add(' . $this->getTranslateJson() . ')})(jQuery);';
-        return $this->getScript($script);
+        $this->_addTranslation('Complete', __('Complete'));
+        $this->_addTranslation('The file size should be more than 0 bytes.', __('The file size should be more than 0 bytes.'));
+        $this->_addTranslation('Upload Security Error', __('Upload Security Error'));
+        $this->_addTranslation('Upload HTTP Error'    , __('Upload HTTP Error'));
+        $this->_addTranslation('Upload I/O Error'    , __('Upload I/O Error'));
+        $this->_addTranslation('SSL Error: Invalid or self-signed certificate', __('SSL Error: Invalid or self-signed certificate'));
+        $this->_addTranslation('Tb', __('Tb'));
+        $this->_addTranslation('Gb', __('Gb'));
+        $this->_addTranslation('Mb', __('Mb'));
+        $this->_addTranslation('Kb', __('Kb'));
+        $this->_addTranslation('b', __('b'));
     }
 }
