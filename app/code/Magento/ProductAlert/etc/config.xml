@@ -54,13 +54,4 @@
             </productalert_cron>
         </catalog>
     </default>
-    <crontab>
-        <jobs>
-            <catalog_product_alert>
-                <run>
-                    <model>Magento_ProductAlert_Model_Observer::process</model>
-                </run>
-            </catalog_product_alert>
-        </jobs>
-    </crontab>
 </config>

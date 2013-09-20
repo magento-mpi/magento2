@@ -29,7 +29,7 @@ class Magento_Core_Model_Factory
     /**
      * Create new model object
      *
-     * @param $model
+     * @param string $model
      * @param array $data
      * @throws InvalidArgumentException
      * @return Magento_Core_Model_Abstract

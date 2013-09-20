@@ -18,6 +18,9 @@
  */
 class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services extends Magento_Backend_Block_Template
 {
+    /**
+     * @inherit
+     */
     protected $_template = 'system/currency/rate/services.phtml';
 
     /**

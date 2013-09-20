@@ -31,4 +31,9 @@ return array(
     '/config/global/cache/types/*/tags' => 'use /config/global/cache/types/*/class node instead',
     '/config/global/disable_local_modules' => '',
     '/config/*/layout' => 'Use convention for layout files placement instead of configuration',
+    '/config/install' => 'Configurations moved to DI file settings',
+    '/config/install/design' => 'Configurations moved to DI file settings',
+    '/config/adminhtml/design' => 'Configurations moved to DI file settings',
+    '/config/frontend/design' => 'Configurations moved to DI file settings',
+    '/config/crontab' => 'All cron configurations moved to crontab.xml',
 );

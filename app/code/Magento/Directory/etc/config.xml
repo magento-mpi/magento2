@@ -78,13 +78,4 @@
             </local>
         </general>
     </default>
-    <crontab>
-        <jobs>
-            <currency_rates_update>
-                <run>
-                    <model>Magento_Directory_Model_Observer::scheduledUpdateCurrencyRates</model>
-                </run>
-            </currency_rates_update>
-        </jobs>
-    </crontab>
 </config>
