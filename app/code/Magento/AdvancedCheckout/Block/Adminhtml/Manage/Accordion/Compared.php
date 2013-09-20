@@ -24,21 +24,15 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
     protected $_listType = 'compared';
 
     /**
-     * Adminhtml sales
-     *
      * @var Magento_Adminhtml_Helper_Sales
      */
-    protected $_adminhtmlSales = null;
+    protected $_adminhtmlSales;
 
     /**
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param array $data
+     * @var Magento_Catalog_Model_Product_Compare_ListFactory|null
      */
+    protected $_compareListFactory;
+
     public function __construct(
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Core_Helper_Data $coreData,
@@ -46,10 +40,12 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
         array $data = array()
     ) {
-        $this->_adminhtmlSales = $adminhtmlSales;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_adminhtmlSales = $adminhtmlSales;
+        $this->_compareListFactory = $compareListFactory;
     }
 
     protected function _construct()
@@ -63,7 +59,6 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
         }
     }
 
-
     /**
      * Return items collection
      *
@@ -73,7 +68,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
     {
         if (!$this->hasData('items_collection')) {
             $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-            $collection = Mage::getModel('Magento_Catalog_Model_Product_Compare_List')
+            $collection = $this->_compareListFactory->create()
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())

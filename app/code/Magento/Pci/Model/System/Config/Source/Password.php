@@ -13,6 +13,7 @@
  *
  */
 class Magento_Pci_Model_System_Config_Source_Password extends Magento_Object
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Get options for select

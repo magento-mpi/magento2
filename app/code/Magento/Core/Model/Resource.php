@@ -68,13 +68,25 @@ class Magento_Core_Model_Resource
     protected $_cache;
 
     /**
+     * Dirs instance
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
      * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Dir $dirs
      */
-    public function __construct(Magento_Core_Model_Config_Resource $resourceConfig, Magento_Core_Model_CacheInterface $cache)
-    {
+    public function __construct(
+        Magento_Core_Model_Config_Resource $resourceConfig,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Dir $dirs
+    ) {
         $this->_resourceConfig = $resourceConfig;
         $this->_cache = $cache;
+        $this->_dirs = $dirs;
     }
 
     /**
@@ -177,7 +189,7 @@ class Magento_Core_Model_Resource
         // try to get adapter and create connection
         $className  = $this->_getConnectionAdapterClassName($type);
         if ($className) {
-            $connection = new $className($config);
+            $connection = new $className($this->_dirs, $config);
             if ($connection instanceof Magento_DB_Adapter_Interface) {
                 /** @var Zend_Db_Adapter_Abstract $connection */
 
@@ -240,7 +252,7 @@ class Magento_Core_Model_Resource
         if (!isset($this->_connectionTypes[$type])) {
             $config = $this->_resourceConfig->getResourceTypeConfig($type);
             $typeClass = $config->getClassName();
-            $this->_connectionTypes[$type] = new $typeClass();
+            $this->_connectionTypes[$type] = new $typeClass($this->_dirs);
         }
         return $this->_connectionTypes[$type];
     }

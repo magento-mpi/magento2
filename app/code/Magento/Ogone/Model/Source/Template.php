@@ -11,7 +11,7 @@
 /**
  * Ogone template Action Dropdown source
  */
-class Magento_Ogone_Model_Source_Template
+class Magento_Ogone_Model_Source_Template implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Prepare ogone template mode list as option array

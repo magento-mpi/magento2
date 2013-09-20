@@ -12,13 +12,21 @@
 class Magento_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_Condition_Combine
 {
     /**
-     * Set condition type
-     *
+     * @var Magento_TargetRule_Model_Rule_Condition_Product_AttributesFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @param Magento_TargetRule_Model_Rule_Condition_Product_AttributesFactory $attributesFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_TargetRule_Model_Rule_Condition_Product_AttributesFactory $attributesFactory,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_attributeFactory = $attributesFactory;
         parent::__construct($context, $data);
         $this->setType('Magento_TargetRule_Model_Rule_Condition_Combine');
     }
@@ -35,7 +43,7 @@ class Magento_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model
                 'value' => $this->getType(),
                 'label' => __('Conditions Combination')
             ),
-            Mage::getModel('Magento_TargetRule_Model_Rule_Condition_Product_Attributes')->getNewChildSelectOptions(),
+            $this->_attributeFactory->create()->getNewChildSelectOptions(),
         );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);

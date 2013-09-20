@@ -15,6 +15,20 @@
 class Magento_TargetRule_Model_Observer
 {
     /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param Magento_Index_Model_Indexer $indexer
+     */
+    public function __construct(Magento_Index_Model_Indexer $indexer)
+    {
+        $this->_indexer = $indexer;
+    }
+
+
+    /**
      * Prepare target rule data
      *
      * @param Magento_Event_Observer $observer
@@ -47,7 +61,7 @@ class Magento_TargetRule_Model_Observer
         /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
 
-        Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+        $this->_indexer->logEvent(
             new Magento_Object(array(
                 'id' => $product->getId(),
                 'store_id' => $product->getStoreId(),
@@ -68,7 +82,7 @@ class Magento_TargetRule_Model_Observer
      */
     public function catalogProductSaveCommitAfter(Magento_Event_Observer $observer)
     {
-        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+        $this->_indexer->indexEvents(
             Magento_TargetRule_Model_Index::ENTITY_PRODUCT,
             Magento_TargetRule_Model_Index::EVENT_TYPE_REINDEX_PRODUCTS
         );
@@ -84,12 +98,12 @@ class Magento_TargetRule_Model_Observer
     {
         if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled'
             && $observer->getDataObject()->isValueChanged()) {
-            Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+            $this->_indexer->logEvent(
                 new Magento_Object(array('type_id' => null, 'store' => null)),
                 Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
                 Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
             );
-            Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+            $this->_indexer->indexEvents(
                 Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
                 Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
             );

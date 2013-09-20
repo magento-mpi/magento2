@@ -41,7 +41,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -51,7 +51,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
      */
     protected function _getDirectPostSession()
     {
-        return Mage::getSingleton('Magento_Authorizenet_Model_Directpost_Session');
+        return $this->_objectManager->get('Magento_Authorizenet_Model_Directpost_Session');
     }
 
     /**
@@ -63,7 +63,7 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
         $params = array();
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod Magento_Authorizenet_Model_DirectPost */
-        $paymentMethod = Mage::getModel('Magento_Authorizenet_Model_Directpost');
+        $paymentMethod = $this->_objectManager->create('Magento_Authorizenet_Model_Directpost');
 
         $result = array();
         if (!empty($data['x_invoice_num'])) {
@@ -185,9 +185,9 @@ class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Co
         $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();
         if ($incrementId && $this->_getDirectPostSession()->isCheckoutOrderIncrementIdExist($incrementId)) {
             /* @var $order Magento_Sales_Model_Order */
-            $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($incrementId);
+            $order = $this->_objectManager->create('Magento_Sales_Model_Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
-                $quote = Mage::getModel('Magento_Sales_Model_Quote')
+                $quote = $this->_objectManager->create('Magento_Sales_Model_Quote')
                     ->load($order->getQuoteId());
                 if ($quote->getId()) {
                     $quote->setIsActive(1)
