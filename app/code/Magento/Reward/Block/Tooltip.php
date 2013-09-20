@@ -10,13 +10,26 @@
 
 /**
  * Advertising Tooltip block to show different messages for gaining reward points
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Reward_Helper_Data
+     */
+    protected $_rewardHelper;
+
+    /**
+     * Reward instance
+     *
+     * @var Magento_Reward_Model_Reward
+     */
+    protected $_rewardInstance;
+
     /**
      * Reward action instance
      *
@@ -25,63 +38,52 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
     protected $_actionInstance;
 
     /**
-     * @var Magento_Reward_Helper_Data
-     */
-    protected $_rewardHelper;
-
-    /**
-     * @var Magento_Customer_Model_Session
-     */
-    protected $_customerSession;
-
-    /**
-     * @var Magento_Reward_Model_Reward
-     */
-    protected $_reward;
-
-    /**
      * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Customer_Model_Session $customerSession
-     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Reward_Helper_Data $rewardHelper
-     * @param Magento_Reward_Model_Reward $reward
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Reward_Model_Reward $rewardInstance
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Core_Model_StoreManager $storeManager,
         Magento_Reward_Helper_Data $rewardHelper,
-        Magento_Reward_Model_Reward $reward,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Reward_Model_Reward $rewardInstance,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
+        parent::__construct($coreData, $context, $data);
         $this->_customerSession = $customerSession;
-        $this->_storeManager = $storeManager;
         $this->_rewardHelper = $rewardHelper;
-        $this->_reward = $reward;
-        parent::__construct($coreHelper, $context, $data);
+        $this->_rewardInstance = $rewardInstance;
+        $this->_storeManager = $storeManager;
     }
 
+    /**
+     * @return $this|Magento_Core_Block_Abstract
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if ($action = $this->getRewardType()) {
+        $action = $this->getRewardType();
+        if ($action) {
             if (!$this->_rewardHelper->isEnabledOnFront()) {
                 return $this;
             }
-            $this->_reward
+            $this->_rewardInstance
                 ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
                 ->setCustomer($this->_customerSession->getCustomer())
                 ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
                 ->loadByCustomer();
-            $this->_actionInstance = $this->_reward->getActionInstance($action, true);
+            $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
         }
         return $this;
     }
@@ -100,6 +102,11 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
         return $this->_rewardHelper->formatAmount($amount, $asCurrency);
     }
 
+    /**
+     * @param string $format
+     * @param null|string $anchorText
+     * @return string
+     */
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
     {
         $anchorText = null === $anchorText ? __('Learn more...') : $anchorText;
