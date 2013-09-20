@@ -57,7 +57,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
     protected $_shippingConfig;
 
     /**
-     * @var Magento_Sales_Model_Order_Shipment
+     * @var Magento_Sales_Model_Order_ShipmentFactory
      */
     protected $_shipmentFactory;
 
@@ -67,7 +67,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
      * @param Magento_Core_Model_LocaleInterface $coreLocale
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Shipping_Model_Config $shippingConfig
-     * @param Magento_Sales_Model_Order_Shipment $shipmentFactory
+     * @param Magento_Sales_Model_Order_ShipmentFactory $shipmentFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -78,7 +78,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
         Magento_Core_Model_LocaleInterface $coreLocale,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Shipping_Model_Config $shippingConfig,
-        Magento_Sales_Model_Order_Shipment $shipmentFactory,
+        Magento_Sales_Model_Order_ShipmentFactory $shipmentFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()

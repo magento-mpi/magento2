@@ -19,7 +19,7 @@ class Magento_Sales_Model_Resource_Report_Order extends Magento_Sales_Model_Reso
     protected $_createDatFactory;
 
     /**
-     * @var Magento_Sales_Model_Resource_Report_Order_Updatedat
+     * @var Magento_Sales_Model_Resource_Report_Order_UpdatedatFactory
      */
     protected $_updateDatFactory;
 
@@ -27,13 +27,13 @@ class Magento_Sales_Model_Resource_Report_Order extends Magento_Sales_Model_Reso
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Sales_Model_Resource_Report_Order_CreatedatFactory $createDatFactory
-     * @param Magento_Sales_Model_Resource_Report_Order_Updatedat $updateDatFactory
+     * @param Magento_Sales_Model_Resource_Report_Order_UpdatedatFactory $updateDatFactory
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
         Magento_Sales_Model_Resource_Report_Order_CreatedatFactory $createDatFactory,
-        Magento_Sales_Model_Resource_Report_Order_Updatedat $updateDatFactory
+        Magento_Sales_Model_Resource_Report_Order_UpdatedatFactory $updateDatFactory
     ) {
         parent::__construct($logger, $resource);
         $this->_createDatFactory = $createDatFactory;
