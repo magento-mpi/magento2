@@ -20,19 +20,33 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      * @var Magento_AdminGws_Helper_Data
      */
     protected $_adminGwsData = null;
+    /**
+     * Catalog category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory = null;
 
     /**
-     * Initialize helper
-     * 
-     * @param Magento_AdminGws_Helper_Data $adminGwsData
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager = null;
+
+    /**
      * @param Magento_AdminGws_Model_Role $role
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
         Magento_AdminGws_Helper_Data $adminGwsData,
-        Magento_AdminGws_Model_Role $role
+        Magento_AdminGws_Model_Role $role,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
-        $this->_adminGwsData = $adminGwsData;
         parent::__construct($role);
+        $this->_adminGwsData = $adminGwsData;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -209,7 +223,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
         // force to assign to SV
         $storeIds = $model->getStores();
         if (!$storeIds || !$this->_role->hasStoreAccess($storeIds)) {
-            Mage::throwException(__('Please assign this entity to a store view.'));
+            throw new Magento_Core_Exception(__('Please assign this entity to a store view.'));
         }
 
         // make sure disallowed store ids won't be modified
@@ -596,7 +610,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     public function salesOrderBeforeSave($model)
     {
         if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('You can create an order in an active store only.')
             );
         }
@@ -684,7 +698,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      */
     public function catalogEventSaveBefore($model)
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category')->load($model->getCategoryId());
+        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwSave();
         }
@@ -721,7 +735,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     public function catalogEventDeleteBefore($model)
     {
         // delete only in exclusive mode
-        $category = Mage::getModel('Magento_Catalog_Model_Category')->load($model->getCategoryId());
+        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwDelete();
         }
@@ -737,7 +751,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      */
     public function catalogEventLoadAfter($model)
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category')->load($model->getCategoryId());
+        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
         if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
             $model->setIsReadonly(true);
             $model->setIsDeleteable(false);
@@ -875,7 +889,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      */
     public function salesOrderSaveBefore($model)
     {
-        $this->_salesEntitySaveBefore(Mage::app()->getStore($model->getStoreId())->getWebsiteId());
+        $this->_salesEntitySaveBefore($this->_storeManager->getStore($model->getStoreId())->getWebsiteId());
     }
 
     /**
@@ -888,7 +902,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     public function salesOrderEntitySaveBefore($model)
     {
         $this->_salesEntitySaveBefore(
-            Mage::app()->getStore($model->getOrder()->getStoreId())->getWebsiteId()
+            $this->_storeManager->getStore($model->getOrder()->getStoreId())->getWebsiteId()
         );
     }
 
@@ -1054,7 +1068,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     {
         if (count(array_intersect($websiteIds, $this->_role->getWebsiteIds())) === 0 &&
             count($this->_role->getWebsiteIds())) {
-            Mage::throwException(__('Please assign this item to a store view.'));
+            throw new Magento_Core_Exception(__('Please assign this item to a store view.'));
         }
         return $websiteIds;
     }
@@ -1070,7 +1084,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     {
         if (count(array_intersect($storeIds, $this->_role->getStoreIds())) === 0 &&
             count($this->_role->getStoreIds())) {
-            Mage::throwException(__('Please assign this item to a store view.'));
+            throw new Magento_Core_Exception(__('Please assign this item to a store view.'));
         }
         return $storeIds;
     }
@@ -1080,7 +1094,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      */
     protected function _throwSave()
     {
-        Mage::throwException(
+        throw new Magento_Core_Exception(
             __('You need more permissions to save this item.')
         );
     }
@@ -1090,7 +1104,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      */
     protected function _throwDelete()
     {
-        Mage::throwException(
+        throw new Magento_Core_Exception(
             __('You need more permissions to delete this item.')
         );
     }
@@ -1100,10 +1114,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
      */
     private function _throwLoad()
     {
-        throw Mage::exception(
-            'Magento_AdminGws_Controller',
-            __('You need more permissions to view this item.')
-        );
+        throw new Magento_AdminGws_Controller_Exception(__('You need more permissions to view this item.'));
     }
 
     /**

@@ -25,7 +25,7 @@ class Magento_Adminhtml_Controller_Survey extends Magento_Adminhtml_Controller_A
     public function indexAction()
     {
         if ($this->getRequest()->getParam('isAjax', false)) {
-            Magento_AdminNotification_Model_Survey::saveSurveyViewed(true);
+            $this->_objectManager->get('Magento_AdminNotification_Model_Survey')->saveSurveyViewed(true);
         }
         $this->getResponse()->setBody(Zend_Json::encode(array('survey_decision_saved' => 1)));
     }

@@ -53,6 +53,23 @@ class Magento_AdminGws_Model_Role extends Magento_Object
     protected $_exclusiveAccessToCategory = array();
 
     /**
+     * @var Magento_Core_Model_StoreManager|null
+     */
+    protected $_storeManager = null;
+
+    /**
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Set ACL role and determine its limitations
      *
      * @param Magento_User_Model_Role $role
@@ -63,18 +80,18 @@ class Magento_AdminGws_Model_Role extends Magento_Object
             $this->_adminRole = $role;
 
             // find role disallowed data
-            foreach (Mage::app()->getWebsites(true) as $websiteId => $website) {
+            foreach ($this->_storeManager->getWebsites(true) as $websiteId => $website) {
                 if (!in_array($websiteId, $this->getRelevantWebsiteIds())) {
                     $this->_disallowedWebsiteIds[] = $websiteId;
                 }
             }
-            foreach (Mage::app()->getStores(true) as $storeId => $store) {
+            foreach ($this->_storeManager->getStores(true) as $storeId => $store) {
                 if (!in_array($storeId, $this->getStoreIds())) {
                     $this->_disallowedStores[] = $store;
                     $this->_disallowedStoreIds[] = $storeId;
                 }
             }
-            foreach (Mage::app()->getGroups(true) as $groupId => $group) {
+            foreach ($this->_storeManager->getGroups(true) as $groupId => $group) {
                 if (!in_array($groupId, $this->getStoreGroupIds())) {
                     $this->_disallowedStoreGroups[] = $group;
                     $this->_disallowedStoreGroupIds[] = $groupId;
@@ -404,7 +421,7 @@ class Magento_AdminGws_Model_Role extends Magento_Object
 
     /**
      * Find a store group by id
-     * Note: For case when we can't Mage::app()->getGroup() bc it will try to load
+     * Note: For case when we can't $this->_storeManager->getGroup() bc it will try to load
      * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
@@ -412,7 +429,7 @@ class Magento_AdminGws_Model_Role extends Magento_Object
      */
     public function getGroup($findGroupId)
     {
-        foreach (Mage::app()->getGroups() as $groupId =>$group) {
+        foreach ($this->_storeManager->getGroups() as $groupId =>$group) {
             if ($findGroupId == $groupId) {
                 return $group;
             }
