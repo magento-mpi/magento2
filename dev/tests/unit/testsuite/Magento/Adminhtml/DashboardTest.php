@@ -15,8 +15,9 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
+            ->disableOriginalConstructor()
+            ->getMock();
         /** @var $request \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject */
         $this->_request = $objectManagerHelper->getObject('Magento\Core\Controller\Request\Http',
             array('helper' => $helperMock));

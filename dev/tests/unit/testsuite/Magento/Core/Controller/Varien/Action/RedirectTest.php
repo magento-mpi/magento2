@@ -31,8 +31,9 @@ class Magento_Core_Controller_Varien_Action_RedirectTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_request  = new \Magento\Core\Controller\Request\Http($helperMock);
         $this->_response = new \Magento\Core\Controller\Response\Http(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)

@@ -36,8 +36,9 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      */
     protected function setUp()
     {
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_request = $this->getMock(
             'Magento\Core\Controller\Request\Http',
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'),
@@ -82,8 +83,9 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
     {
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
+            ->disableOriginalConstructor()
+            ->getMock();
         $request = new \Magento\Core\Controller\Request\Http($helperMock);
         $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
