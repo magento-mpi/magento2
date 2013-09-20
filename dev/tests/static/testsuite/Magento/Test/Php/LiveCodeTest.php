@@ -55,7 +55,7 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
             "PHP Code Sniffer has found $result error(s): See detailed report in $reportFile"
         );
     }
-    /*
+
     public function testCodeMess()
     {
         $reportFile = self::$_reportDir . '/phpmd_report.xml';
@@ -91,7 +91,6 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
             "PHP Copy/Paste Detector has found error(s): See detailed report in $reportFile"
         );
     }
-    */
 
     /**
      * Read all text files by specified glob pattern and combine them into an array of valid files/directories
