@@ -57,6 +57,8 @@ class Magento_User_Model_Resource_Setup extends Magento_Core_Model_Resource_Setu
      * @param Magento_User_Model_Resource_Rules_CollectionFactory $rulesCollectionFactory
      * @param Magento_User_Model_RoleFactory $roleFactory
      * @param Magento_User_Model_RulesFactory $rulesFactory
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,

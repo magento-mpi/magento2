@@ -41,17 +41,21 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
      * Construct
      *
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Customer_Model_Resource_Customer_CollectionFactory $customerCollectionFactory,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_customerCollectionFactory = $customerCollectionFactory;
     }
 
