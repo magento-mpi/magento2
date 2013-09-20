@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paygate
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -180,12 +178,17 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
     protected $_paygateData = null;
 
     /**
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Paygate_Helper_Data $paygateData
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Centinel_Model_Service $service
      * @param array $data
      */
     public function __construct(
@@ -195,10 +198,14 @@ class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Centinel_Model_Service $service,
         array $data = array()
     ) {
         $this->_paygateData = $paygateData;
-        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
+            $locale, $service, $data);
     }
 
     /**
