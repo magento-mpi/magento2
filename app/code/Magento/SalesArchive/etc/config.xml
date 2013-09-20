@@ -29,16 +29,4 @@
             </magento_salesarchive>
         </sales>
     </default>
-    <crontab>
-        <jobs>
-            <magento_salesarchive_archive_orders>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_SalesArchive_Model_Observer::archiveOrdersByCron</model>
-                </run>
-            </magento_salesarchive_archive_orders>
-        </jobs>
-    </crontab>
 </config>
