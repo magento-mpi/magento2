@@ -38,6 +38,24 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
     protected $_sourceYesno;
 
     /**
+     * @var Magento_Backend_Model_Config_Source_Email_Identity
+     */
+    protected $_emailIdentity;
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Email_Method
+     */
+    protected $_emailMethod;
+
+    /**
+     * @var Magento_Core_Model_Option_ArrayPool
+     */
+    protected $_optionArrayPool;
+
+    /**
+     * @param Magento_Core_Model_Option_ArrayPool $optionArrayPool
+     * @param Magento_Backend_Model_Config_Source_Email_Method $emailMethod
+     * @param Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity
      * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData
      * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
      * @param Magento_Core_Model_Registry $registry
@@ -47,6 +65,9 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Option_ArrayPool $optionArrayPool,
+        Magento_Backend_Model_Config_Source_Email_Method $emailMethod,
+        Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity,
         Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData,
         Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
         Magento_Core_Model_Registry $registry,
@@ -55,6 +76,9 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_optionArrayPool = $optionArrayPool;
+        $this->_emailMethod = $emailMethod;
+        $this->_emailIdentity = $emailIdentity;
         $this->_operationData = $operationData;
         $this->_sourceYesno = $sourceYesno;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
@@ -136,7 +160,7 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'required'  => false
         ));
 
-        $entities = Mage::getModel(
+        $entities = $this->_optionArrayPool->get(
             'Magento_ImportExport_Model_Source_' . uc_words($operation->getOperationType()) . '_Entity'
         )->toOptionArray();
 
@@ -256,21 +280,18 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'legend' => $this->getEmailSettingsLabel()
         ));
 
-        /** @var $sourceEmailIdentity Magento_Backend_Model_Config_Source_Email_Identity */
-        $sourceEmailIdentity = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Identity');
-
         $fieldset->addField('email_receiver', 'select', array(
             'name'      => 'email_receiver',
             'title'     => __('Failed Email Receiver'),
             'label'     => __('Failed Email Receiver'),
-            'values'    => $sourceEmailIdentity->toOptionArray()
+            'values'    => $this->_emailIdentity->toOptionArray()
         ));
 
         $fieldset->addField('email_sender', 'select', array(
             'name'      => 'email_sender',
             'title'     => __('Failed Email Sender'),
             'label'     => __('Failed Email Sender'),
-            'values'    => $sourceEmailIdentity->toOptionArray()
+            'values'    => $this->_emailIdentity->toOptionArray()
         ));
 
         $fieldset->addField('email_template', 'select', array(
@@ -285,14 +306,11 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'label'     => __('Send Failed Email Copy To')
         ));
 
-        /** @var $sourceEmailMethod Magento_Backend_Model_Config_Source_Email_Method */
-        $sourceEmailMethod = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Method');
-
         $fieldset->addField('email_copy_method', 'select', array(
             'name'      => 'email_copy_method',
             'title'     => __('Send Failed Email Copy Method'),
             'label'     => __('Send Failed Email Copy Method'),
-            'values'    => $sourceEmailMethod->toOptionArray()
+            'values'    => $this->_emailMethod->toOptionArray()
         ));
 
         return $this;

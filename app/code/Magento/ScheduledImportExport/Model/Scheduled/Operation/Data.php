@@ -44,18 +44,20 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     /**
      * Constructor
      *
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_ConfigFactory $configFactory
      * @param Magento_ImportExport_Model_Config $config
      * @param array $data
      */
     public function __construct(
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_ImportExport_Model_ConfigFactory $configFactory,
         Magento_ImportExport_Model_Config $config,
         array $data = array()
     ) {
         $this->_config = $config;
-        $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
-            : Mage::getModel('Magento_ImportExport_Model_Config');
-        $this->_importModel = isset($data['import_model']) ? $data['import_model']
-            : Mage::getModel('Magento_ImportExport_Model_Import');
+        $this->_importExportConfig = $configFactory->create();
+        $this->_importModel = $importFactory->create();
     }
 
     /**

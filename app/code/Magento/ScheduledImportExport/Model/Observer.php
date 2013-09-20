@@ -53,16 +53,36 @@ class Magento_ScheduledImportExport_Model_Observer
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_Core_Model_Email_Template_Mailer
+     */
     protected $_templateMailer;
 
     /**
+     * @var Magento_ScheduledImportExport_Model_Scheduled_OperationFactory
+     */
+    protected $_operationFactory;
+
+    /**
+     * @var Magento_Core_Model_Email_InfoFactory
+     */
+    protected $_emailInfoFactory;
+
+    /**
+     * @param Magento_ScheduledImportExport_Model_Scheduled_OperationFactory $operationFactory
+     * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
      * @param Magento_Core_Model_Email_Template_Mailer $templateMailer
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_ScheduledImportExport_Model_Scheduled_OperationFactory $operationFactory,
+        Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
         Magento_Core_Model_Email_Template_Mailer $templateMailer,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_operationFactory = $operationFactory;
+        $this->_emailInfoFactory = $emailInfoFactory;
         $this->_templateMailer = $templateMailer;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -162,7 +182,7 @@ class Magento_ScheduledImportExport_Model_Observer
      */
     public function processScheduledOperation($schedule, $forceRun = false)
     {
-        $operation = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation')
+        $operation = $this->_operationFactory->create()
             ->loadByJobCode($schedule->getJobCode());
 
         $result = false;
@@ -187,7 +207,8 @@ class Magento_ScheduledImportExport_Model_Observer
             return $this;
         }
 
-        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+        /** @var Magento_Core_Model_Email_Info $emailInfo */
+        $emailInfo = $this->_emailInfoFactory->create();
         $emailInfo->addTo($receiverEmail);
 
         $this->_templateMailer->addEmailInfo($emailInfo);

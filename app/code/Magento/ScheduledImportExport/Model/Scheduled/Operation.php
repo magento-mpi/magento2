@@ -84,8 +84,30 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     protected $_templateMailer;
 
     /**
-     * Initialize operation model
-     *
+     * @var Magento_Core_Model_Config_Value
+     */
+    protected $_configValueFactory;
+
+    /**
+     * @var Magento_Core_Model_Email_InfoFactory
+     */
+    protected $_emailInfoFactory;
+
+    /**
+     * @var Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory
+     */
+    protected $_operationFactory;
+
+    /**
+     * @var Magento_ScheduledImportExport_Model_Scheduled_Operation_Factory
+     */
+    protected $_schedOperFactory;
+
+    /**
+     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Factory $schedOperFactory
+     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory $operationFactory
+     * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
+     * @param Magento_Core_Model_Config_Value $configValueFactory
      * @param Magento_Core_Model_Email_Template_Mailer $templateMailer
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -96,6 +118,10 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * @param array $data
      */
     public function __construct(
+        Magento_ScheduledImportExport_Model_Scheduled_Operation_Factory $schedOperFactory,
+        Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory $operationFactory,
+        Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
+        Magento_Core_Model_Config_Value $configValueFactory,
         Magento_Core_Model_Email_Template_Mailer $templateMailer,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -110,6 +136,10 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_dateModel = $dateModel;
         $this->_templateMailer = $templateMailer;
+        $this->_configValueFactory = $configValueFactory;
+        $this->_emailInfoFactory = $emailInfoFactory;
+        $this->_operationFactory = $operationFactory;
+        $this->_schedOperFactory = $schedOperFactory;
     }
 
     /**
@@ -134,7 +164,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+        /** @var Magento_Core_Model_Email_Info $emailInfo */
+        $emailInfo = $this->_emailInfoFactory->create();
 
         $receiverEmail = $this->_coreStoreConfig->getConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
@@ -158,7 +189,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+                /** @var Magento_Core_Model_Email_Info $emailInfo */
+                $emailInfo = $this->_emailInfoFactory->create();
                 $emailInfo->addTo($email);
                 $this->_templateMailer->addEmailInfo($emailInfo);
             }
@@ -264,13 +296,13 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $exprPath  = $this->getExprConfigPath();
         $modelPath = $this->getModelConfigPath();
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            $this->_configValueFactory->create()
                 ->load($exprPath, 'path')
                 ->setValue($cronExprString)
                 ->setPath($exprPath)
                 ->save();
 
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            $this->_configValueFactory->create()
                 ->load($modelPath, 'path')
                 ->setValue(self::CRON_MODEL)
                 ->setPath($modelPath)
@@ -291,10 +323,10 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     protected function _dropCronTask()
     {
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            $this->_configValueFactory->create()
                 ->load($this->getExprConfigPath(), 'path')
                 ->delete();
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            $this->_configValueFactory->create()
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
         } catch (Exception $e) {
@@ -428,8 +460,10 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * @param string $fileContent
      * @return bool
      */
-    public function saveFileSource(Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation, $fileContent)
-    {
+    public function saveFileSource(
+        Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation,
+        $fileContent
+    ) {
         $result = false;
 
         $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
@@ -456,14 +490,14 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * Supported import, export
      *
      * @throws Magento_Core_Exception
-     * @return Magento_ScheduledImportExport_Model_Export|Magento_ScheduledImportExport_Model_Import
+     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface
      */
     public function getInstance()
     {
-        $operation = Mage::getModel('Magento_ScheduledImportExport_Model_' . uc_words($this->getOperationType()));
-        if (!$operation || !($operation instanceof Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface)) {
-            throw new Magento_Core_Exception(__('Please correct the scheduled operation.'));
-        }
+        /** @var Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation */
+        $operation = $this->_schedOperFactory->create(
+            'Magento_ScheduledImportExport_Model_' . uc_words($this->getOperationType())
+        );
 
         $operation->initialize($this);
         return $operation;
@@ -478,7 +512,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     public function getServerIoDriver()
     {
         $fileInfo = $this->getFileInfo();
-        $availableTypes = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data')
+        $availableTypes = $this->_operationFactory->create()
             ->getServerTypesOptionArray();
         if (!isset($fileInfo['server_type'])
             || !$fileInfo['server_type']

@@ -33,6 +33,12 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_ScheduledImportExport_Model_Scheduled_OperationFactory
+     */
+    protected $_operationFactory;
+
+    /**
+     * @param Magento_ScheduledImportExport_Model_Scheduled_OperationFactory $operationFactory
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -40,12 +46,14 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
      * @param array $data
      */
     public function __construct(
+        Magento_ScheduledImportExport_Model_Scheduled_OperationFactory $operationFactory,
         Magento_ScheduledImportExport_Helper_Data $importExportData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_operationFactory = $operationFactory;
         $this->_coreRegistry = $registry;
         $this->_importExportData = $importExportData;
         parent::__construct($coreData, $context, $data);
@@ -64,7 +72,8 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         $this->_controller = 'adminhtml_scheduled_operation';
 
         $operationId = (int)$this->getRequest()->getParam($this->_objectId);
-        $operation = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        /** @var Magento_ScheduledImportExport_Model_Scheduled_Operation $operation */
+        $operation = $this->_operationFactory->create();
         if ($operationId) {
             $operation->load($operationId);
         } else {

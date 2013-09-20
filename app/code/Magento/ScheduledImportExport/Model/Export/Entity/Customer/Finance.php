@@ -86,11 +86,13 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     protected $_importExportData;
 
     /**
+     * @param Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory,
         Magento_ScheduledImportExport_Helper_Data $importExportData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
@@ -99,8 +101,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
             : Mage::getResourceModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
-        $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
-            : Mage::getModel('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
+        $this->_customerEntity = $eavCustomerFactory->create();
         $this->_importExportData = isset($data['module_helper']) ? $data['module_helper']
             : $importExportData;
 

@@ -1,17 +1,11 @@
 <?php
 /**
  * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Core
+ *   
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Array optioned object factory
- */
-class Magento_Core_Model_Option_ArrayFactory
+class Magento_ScheduledImportExport_Model_Scheduled_Operation_Factory
 {
     /**
      * @var Magento_ObjectManager
@@ -29,7 +23,7 @@ class Magento_Core_Model_Option_ArrayFactory
     /**
      * Create array optioned object
      *
-     * @param $model
+     * @param string $model
      * @param array $data
      * @throws InvalidArgumentException
      * @return Magento_Core_Model_Option_ArrayInterface
@@ -37,9 +31,9 @@ class Magento_Core_Model_Option_ArrayFactory
     public function create($model, array $data = array())
     {
         $modelInstance = $this->_objectManager->create($model, $data);
-        if (false == ($modelInstance instanceof Magento_Core_Model_Option_ArrayInterface)) {
+        if (false == ($modelInstance instanceof Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface)) {
             throw new InvalidArgumentException(
-                $model . 'doesn\'t implement Magento_Core_Model_Option_ArrayInterface'
+                $model . 'doesn\'t implement Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface'
             );
         }
         return $modelInstance;

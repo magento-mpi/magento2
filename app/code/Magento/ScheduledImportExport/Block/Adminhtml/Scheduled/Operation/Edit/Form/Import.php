@@ -32,6 +32,15 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
     protected $_importModel;
 
     /**
+     * @var Magento_Backend_Model_Config_Source_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory
+     * @param Magento_Core_Model_Option_ArrayPool $optionArrayPool
+     * @param Magento_Backend_Model_Config_Source_Email_Method $emailMethod
+     * @param Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity
      * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData
      * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
      * @param Magento_Core_Model_Registry $registry
@@ -42,6 +51,10 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory,
+        Magento_Core_Model_Option_ArrayPool $optionArrayPool,
+        Magento_Backend_Model_Config_Source_Email_Method $emailMethod,
+        Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity,
         Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData,
         Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
         Magento_Core_Model_Registry $registry,
@@ -51,8 +64,12 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         Magento_ImportExport_Model_Import $importModel,
         array $data = array()
     ) {
-        parent::__construct($operationData, $sourceYesno, $registry, $formFactory, $coreData, $context, $data);
+        $this->_templateFactory = $templateFactory;
         $this->_importModel = $importModel;
+        parent::__construct(
+            $optionArrayPool, $emailMethod, $emailIdentity, $operationData, $sourceYesno, $registry, $formFactory,
+            $coreData, $context, $data
+        );
     }
 
     /**
@@ -75,15 +92,13 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         // add behaviour fields
         $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
-            /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
-            $behaviorSource = Mage::getModel($behaviorClass);
             $fieldset->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
                 'title'    => __('Import Behavior'),
                 'label'    => __('Import Behavior'),
                 'required' => true,
                 'disabled' => true,
-                'values'   => $behaviorSource->toOptionArray()
+                'values'   => $this->_optionArrayPool->get($behaviorClass)->toOptionArray()
             ), 'entity');
         }
 
@@ -96,7 +111,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         ), 'freq');
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
+            ->setValues($this->_templateFactory->create()
                 ->setPath('magento_scheduledimportexport_import_failed')
                 ->toOptionArray()
             );
