@@ -102,12 +102,18 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      */
     protected $_storeManager;
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
 
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
     protected $_productCollFactory;
 
     /**
-     * Fedex constructor
-     *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
@@ -122,10 +128,12 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Config_Modules_Reader $configReader,
         Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
@@ -140,18 +148,21 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_productCollFactory = $productCollFactory;
         parent::__construct(
-            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory, $trackFactory, $trackErrorFactory,
-            $trackStatusFactory, $regionFactory, $countryFactory, $currencyFactory, $directoryData, $data
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
         );
         $wsdlBasePath = $configReader->getModuleDir('etc', 'Magento_Usa')  . DS . 'wsdl' . DS . 'FedEx' . DS;
         $this->_shipServiceWsdl = $wsdlBasePath . 'ShipService_v10.wsdl';
         $this->_rateServiceWsdl = $wsdlBasePath . 'RateService_v10.wsdl';
         $this->_trackServiceWsdl = $wsdlBasePath . 'TrackService_v5.wsdl';
+        $this->_logger = $logger;
     }
 
     /**
@@ -262,7 +273,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig(
+            $origCountry = $this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             );
@@ -272,7 +283,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig(
+            $r->setOrigPostal($this->_coreStoreConfig->getConfig(
                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -444,7 +455,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                 $debugData['result'] = $response;
             } catch (Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         } else {
             $response = unserialize($response);
@@ -756,7 +767,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                 throw new Exception(__('Failed to parse xml document: %1', $xmlContent));
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
             return false;
         }
     }
@@ -1037,7 +1048,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                 $debugData['result'] = $response;
             } catch (Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         } else {
             $response = unserialize($response);
@@ -1316,7 +1327,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                     'PaymentType' => $paymentType,
                     'Payor' => array(
                         'AccountNumber' => $this->getConfigData('account'),
-                        'CountryCode'   => Mage::getStoreConfig(
+                        'CountryCode'   => $this->_coreStoreConfig->getConfig(
                             Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                             $request->getStoreId()
                         )
@@ -1360,7 +1371,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                         'PaymentType' => $paymentType,
                         'Payor' => array(
                             'AccountNumber' => $this->getConfigData('account'),
-                            'CountryCode'   => Mage::getStoreConfig(
+                            'CountryCode'   => $this->_coreStoreConfig->getConfig(
                                 Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                                 $request->getStoreId()
                             )

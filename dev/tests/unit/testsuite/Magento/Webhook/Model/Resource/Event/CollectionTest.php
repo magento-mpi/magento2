@@ -32,10 +32,10 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $mockResourceEvent->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
-        
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
 
         $collection = new Magento_Webhook_Model_Resource_Event_Collection(
-            $eventManager, $mockFetchStrategy, $entityFactory, $mockResourceEvent
+            $eventManager, $logger, $mockFetchStrategy, $entityFactory, $mockResourceEvent
         );
         $this->assertInstanceOf('Magento_Webhook_Model_Resource_Event_Collection', $collection);
         $this->assertEquals('Magento_Webhook_Model_Resource_Event', $collection->getResourceModelName());

@@ -162,6 +162,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             ->will($this->returnValue($this->getModelInstance('Magento_CustomerBalance_Model_Balance')));
         $rewardFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->getModelInstance('Magento_Reward_Model_Reward')));
+        
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
 
         $this->_model = new Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance(
             $coreData,
@@ -170,6 +172,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             $customerFactory,
             $balanceFactory,
             $rewardFactory,
+            $coreStoreConfig,
             $dependencies
         );
     }

@@ -389,8 +389,8 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             if (isset($configTemplates['values'])) {
                 foreach ($configTemplates['values'] as $name => $template) {
                     $templates[(string)$name] = array(
-                        'value' => (string)$template['value'],
-                        'label' => __((string)$template['label'])->render()
+                        'value' => $template['value'],
+                        'label' => __((string)$template['label'])
                     );
                 }
             }
@@ -505,7 +505,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      */
     protected function _invalidateCache()
     {
-        $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
+        $types = $this->_coreConfig->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
             $this->_typeList->invalidate($types);

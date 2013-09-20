@@ -91,7 +91,7 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         );
         $rssObj->_addHeader($data);
 
-        $globalNotifyStockQty = (float) Mage::getStoreConfig(
+        $globalNotifyStockQty = (float) $this->_storeConfig->getConfig(
             Magento_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
         $this->_rssData->disableFlat();
         /* @var $product Magento_Catalog_Model_Product */

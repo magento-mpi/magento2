@@ -29,7 +29,7 @@ class Magento_Eav_Model_Form_Factory
     /**
      * Create new form object
      *
-     * @param $form
+     * @param string $form
      * @param array $data
      * @throws InvalidArgumentException
      * @return Magento_Eav_Model_Form

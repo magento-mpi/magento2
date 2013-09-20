@@ -64,6 +64,6 @@ class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Templa
      */
     public function displayNoscriptNotice()
     {
-        return Mage::getStoreConfig('web/browser_capabilities/javascript');
+        return $this->_storeConfig->getConfig('web/browser_capabilities/javascript');
     }
 }

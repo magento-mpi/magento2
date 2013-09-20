@@ -19,6 +19,22 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
     extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
+    /**
      * Validate process
      *
      * @param Magento_Object $object
@@ -60,7 +76,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
                     $available = explode(',', $available);
                 }
                 $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
-                       Mage::getStoreConfig("catalog/frontend/default_sort_by");
+                       $this->_coreStoreConfig->getConfig("catalog/frontend/default_sort_by");
                 if (!in_array($data, $available)) {
                     Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
                 }

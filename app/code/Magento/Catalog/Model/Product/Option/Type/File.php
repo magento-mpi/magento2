@@ -55,6 +55,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Filesystem $filesystem
      * @param Magento_File_Size $fileSize
      * @param array $data
@@ -62,6 +63,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Filesystem $filesystem,
         Magento_File_Size $fileSize,
         $data = array()
@@ -71,7 +73,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         $this->_filesystem = $filesystem;
         $this->_fileSize = $fileSize;
         $this->_data = $data;
-        parent::__construct($data);
+        parent::__construct($coreStoreConfig, $data);
     }
 
 

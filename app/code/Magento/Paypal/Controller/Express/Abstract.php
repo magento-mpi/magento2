@@ -110,7 +110,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_getCheckoutSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getCheckoutSession()->addError(__('We can\'t start Express Checkout.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
 
         $this->_redirect('checkout/cart');
@@ -128,7 +128,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
     }
 
@@ -159,7 +159,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_getCheckoutSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getCheckoutSession()->addError(__('Unable to cancel Express Checkout'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
 
         $this->_redirect('checkout/cart');
@@ -181,7 +181,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         }
         catch (Exception $e) {
             Mage::getSingleton('Magento_Checkout_Model_Session')->addError(__('We can\'t process Express Checkout approval.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
     }
@@ -212,7 +212,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
                 __('We can\'t initialize Express Checkout review.')
             );
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
     }
@@ -251,7 +251,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__('We can\'t update shipping method.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         if ($isAjax) {
             $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
@@ -279,7 +279,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__('We can\'t update Order data.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
             . Mage::getUrl('*/*/review') . ';</script>');
@@ -305,7 +305,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__('We can\'t update Order data.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         if ($isAjax) {
             $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
@@ -377,7 +377,7 @@ abstract class Magento_Paypal_Controller_Express_Abstract extends Magento_Core_C
         }
         catch (Exception $e) {
             $this->_getSession()->addError(__('We can\'t place the order.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/review');
     }

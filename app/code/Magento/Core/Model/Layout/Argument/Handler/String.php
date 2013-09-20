@@ -21,7 +21,7 @@ class Magento_Core_Model_Layout_Argument_Handler_String extends Magento_Core_Mod
      * Process argument value
      *
      * @param array $argument
-     * @return string|Magento_Phrase
+     * @return string
      * @throws InvalidArgumentException
      */
     public function process(array $argument)

@@ -44,10 +44,16 @@ class Magento_TestFramework_Annotation_ConfigFixture
      */
     protected function _getConfigValue($configPath, $storeCode = false)
     {
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         if ($storeCode === false) {
-            $result = Mage::getConfig()->getNode($configPath);
+            /** @var Magento_Core_Model_Config $configModel */
+            $configModel = $objectManager->get('Magento_Core_Model_Config');
+            $result = $configModel->getNode($configPath);
         } else {
-            $result = Mage::getStoreConfig($configPath, $storeCode);
+            /** @var Magento_Core_Model_Store_Config $storeConfig */
+            $storeConfig = $objectManager->get('Magento_Core_Model_Store_Config');
+            $result = $storeConfig->getConfig($configPath, $storeCode);
         }
         if ($result instanceof SimpleXMLElement) {
             $result = (string)$result;
@@ -66,13 +72,15 @@ class Magento_TestFramework_Annotation_ConfigFixture
     {
         if ($storeCode === false) {
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            /** @var $configModel Magento_Core_Model_Config */
+            $configModel = $objectManager->get('Magento_Core_Model_Config');
             // @todo refactor this method when all types of configuration are represented by array
             if (strpos($configPath, 'default/') === 0) {
                 $configPath = substr($configPath, 8);
-                Mage::getConfig()->setValue($configPath, $value);
+                $configModel->setValue($configPath, $value);
                 $objectManager->get('Magento_Core_Model_Config')->setValue($configPath, $value);
             } else {
-                Mage::getConfig()->setNode($configPath, $value);
+                $configModel->setNode($configPath, $value);
                 $objectManager->get('Magento_Core_Model_Config')->setNode($configPath, $value);
                 $objectManager->get('Magento_Core_Model_Config_Primary')->setNode($configPath, $value);
             }

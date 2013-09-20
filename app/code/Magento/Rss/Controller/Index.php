@@ -36,7 +36,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        if (Mage::getStoreConfig('rss/config/active')) {
+        if ($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('rss/config/active')) {
             $this->loadLayout();
             $this->renderLayout();
         } else {
@@ -64,7 +64,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
      */
     public function wishlistAction()
     {
-        if (Mage::getStoreConfig('rss/wishlist/active')) {
+        if ($this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('rss/wishlist/active')) {
             $wishlist = $this->_getWishlist();
             if ($wishlist && ($wishlist->getVisibility()
                 || $this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)

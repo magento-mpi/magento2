@@ -148,7 +148,10 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     if (Mage::getIsDeveloperMode()) {
         throw new Exception($errorMessage);
     } else {
-        Mage::log($errorMessage, Zend_Log::ERR);
+        $dirs = new Magento_Core_Model_Dir('.');
+        $fileSystem = new Magento_Io_File();
+        $logger = new Magento_Core_Model_Logger($dirs, $fileSystem);
+        $logger->log($errorMessage, Zend_Log::ERR);
     }
 }
 
@@ -271,61 +274,17 @@ function is_dir_writeable($dir)
 /**
  * Create value-object Magento_Phrase
  *
- * @return Magento_Phrase
+ * @return string
  */
 function __()
 {
     $argc = func_get_args();
 
-    return new Magento_Phrase(array_shift($argc), $argc);
-}
-
-/**
- * Display exception
- *
- * @param Exception $e
- * @param string $extra
- */
-function magePrintException(Exception $e, $extra = '')
-{
-    $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-    $mode = $objectManager->get('Magento_Core_Model_App_State')->getMode();
-    if ($mode == Magento_Core_Model_App_State::MODE_DEVELOPER) {
-        print '<pre>';
-
-        if (!empty($extra)) {
-            print $extra . "\n\n";
-        }
-
-        print $e->getMessage() . "\n\n";
-        print $e->getTraceAsString();
-        print '</pre>';
-    } else {
-
-        $reportData = array(
-            !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
-            $e->getTraceAsString()
-        );
-
-        // retrieve server data
-        if (isset($_SERVER)) {
-            if (isset($_SERVER['REQUEST_URI'])) {
-                $reportData['url'] = $_SERVER['REQUEST_URI'];
-            }
-            if (isset($_SERVER['SCRIPT_NAME'])) {
-                $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
-            }
-        }
-        // attempt to specify store as a skin
-        try {
-            $storeCode = $objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getCode();
-            $reportData['skin'] = $storeCode;
-        } catch (Exception $e) {
-        }
-        /** @var Magento_Core_Model_Dir $dirs */
-        $dirs = $objectManager->get('Magento_Core_Model_Dir');
-        require_once($dirs->getDir(Magento_Core_Model_Dir::PUB) . DS . 'errors' . DS . 'report.php');
-    }
-
-    die();
+    /**
+     * Type casting to string is a workaround.
+     * Many places in client code at the moment are unable to handle the Magento_Phrase object properly.
+     * The intended behavior is to use __toString(),
+     * so that rendering of the phrase happens only at the last moment when needed
+     */
+    return (string)new Magento_Phrase(array_shift($argc), $argc);
 }

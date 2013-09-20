@@ -33,16 +33,14 @@ class Magento_FullPageCache_Model_Validator
      * Constructor dependency injection
      *
      * @param Magento_Core_Model_Cache_TypeListInterface $typeList
-     * @param array $data
+     * @param Magento_Core_Model_Config $coreConfig
      */
-    public function __construct(Magento_Core_Model_Cache_TypeListInterface $typeList, array $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Cache_TypeListInterface $typeList,
+        Magento_Core_Model_Config $coreConfig
+    ) {
         $this->_typeList = $typeList;
-        if (isset($data['config'])) {
-            $this->_config = $data['config'];
-        } else {
-            $this->_config = Mage::getConfig();
-        }
+        $this->_config = $coreConfig;
     }
 
     /**
