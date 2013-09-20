@@ -89,7 +89,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         Magento_ImportExport_Model_Import_ConfigInterface $importConfig,
         array $data = array()
     ) {
-        parent::__construct($data);
+        parent::__construct($logger, $data);
         $this->_importExportData = $importExportData;
         $this->_importConfig = $importConfig;
     }

@@ -74,7 +74,7 @@ class Magento_Backend_Model_Url extends Magento_Core_Model_Url
         Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($securityInfo, $coreData, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($securityInfo, $coreStoreConfig, $coreData, $data);
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $coreSession;

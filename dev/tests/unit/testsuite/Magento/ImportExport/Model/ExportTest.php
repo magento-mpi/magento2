@@ -57,11 +57,13 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
             ->method('getFileExtension')
             ->will($this->returnValue($this->_exportFileExtension));
 
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+
         /** @var $mockModelExport Magento_ImportExport_Model_Export */
         $mockModelExport = $this->getMock(
             'Magento_ImportExport_Model_Export',
             array('getEntityAdapter', '_getEntityAdapter', '_getWriter'),
-            array($this->_exportConfigMock, array())
+            array($logger, $this->_exportConfigMock, array())
         );
         $mockModelExport->expects($this->any())
             ->method('getEntityAdapter')

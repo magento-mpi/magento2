@@ -33,6 +33,8 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
 
         $validatorMock = $this->getMock('Magento_Core_Model_Session_Validator', array(), array(), '', false);
 
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         /** @var Magento_Checkout_Model_Session $session */
         $session = $this->getMock(
             'Magento_Checkout_Model_Session',
