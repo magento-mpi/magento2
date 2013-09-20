@@ -107,7 +107,6 @@ class Magento_PersistentHistory_Model_Observer
      */
     protected $_wishListFactory;
 
-
     /**
      * @param Magento_Persistent_Helper_Session $persistentSession
      * @param Magento_Wishlist_Helper_Data $wishlistData
@@ -124,6 +123,7 @@ class Magento_PersistentHistory_Model_Observer
      * @param Magento_Core_Model_Config_ValueFactory $valueFactory
      * @param Magento_Reports_Model_Product_Index_ComparedFactory $comparedFactory
      * @param Magento_Reports_Model_Product_Index_ViewedFactory $viewedFactory
+     * @param Magento_Wishlist_Model_WishlistFactory $wishListFactory
      */
     public function __construct(
         Magento_Persistent_Helper_Session $persistentSession,

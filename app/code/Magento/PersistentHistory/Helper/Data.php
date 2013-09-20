@@ -37,6 +37,11 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected $_storeConfig;
 
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
@@ -46,7 +51,6 @@ class Magento_PersistentHistory_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_config = $config;
         $this->_storeConfig = $storeConfig;
     }
-
 
     /**
      * Retrieve path for config file
