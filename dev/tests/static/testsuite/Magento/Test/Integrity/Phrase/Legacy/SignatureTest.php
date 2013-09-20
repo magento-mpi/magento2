@@ -14,6 +14,9 @@ use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
  */
 namespace Magento\Test\Integrity\Phrase\Legacy;
 
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\Translate\MethodCollector;
+
 class SignatureTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 {
     /**

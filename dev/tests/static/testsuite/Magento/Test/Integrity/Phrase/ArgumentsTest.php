@@ -15,6 +15,9 @@ use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
  */
 namespace Magento\Test\Integrity\Phrase;
 
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
+
 class ArgumentsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 {
     /**
@@ -24,7 +27,7 @@ class ArgumentsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 
     protected function setUp()
     {
-        $this->_phraseCollector = new \PhraseCollector(new \Tokenizer());
+        $this->_phraseCollector = new PhraseCollector(new Tokenizer());
     }
 
     public function testArguments()
