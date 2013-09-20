@@ -60,8 +60,12 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($this->_store));
 
-        $this->_object = new Magento_Directory_Helper_Data($context, $configCacheType, $this->_countryCollection,
-            $regCollFactory, $this->_coreHelper, $storeManager);
+        $coreConfigMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+
+        $this->_object = new Magento_Directory_Helper_Data(
+            $coreConfigMock, $context, $configCacheType, $this->_countryCollection,
+            $regCollFactory, $this->_coreHelper, $storeManager
+        );
     }
 
     public function testGetRegionJson()
