@@ -42,7 +42,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(\Mage::PARAM_MODE, $initParams, 'Application mode is not configured');
         $this->assertEquals(
             \Magento\Core\Model\App\State::MODE_DEVELOPER,
-            $initParams[Mage::PARAM_MODE],
+            $initParams[\Mage::PARAM_MODE],
             'Wrong application mode configured'
         );
     }
