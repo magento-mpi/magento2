@@ -1,4 +1,5 @@
 * Configuration improvements:
+  * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
   * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
   * Product type configuration was moved from config.xml to product_types.xml files with new format;
   * Product option configuration was moved from config.xml to product_options.xml files with new format;

@@ -59,7 +59,7 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
      * @param Magento_Core_Controller_Varien_Front $frontController
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param $isRenderInherited
+     * @param boolean $isRenderInherited
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
