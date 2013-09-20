@@ -57,7 +57,6 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Rating_Model_RatingFactory $ratingFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Review_Model_Session $reviewSession
      * @param array $data
      */
     public function __construct(
@@ -68,7 +67,6 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Rating_Model_RatingFactory $ratingFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Review_Model_Session $reviewSession,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
@@ -76,7 +74,8 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
         $this->_productFactory = $productFactory;
         $this->_ratingFactory = $ratingFactory;
         $this->_storeManager = $storeManager;
-        $this->_reviewSession = $reviewSession;
+        /** @todo Should be fixed in scope of MAGETWO-14639 */
+        $this->_reviewSession = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Review_Model_Session');
         parent::__construct($coreData, $context, $data);
     }
 
