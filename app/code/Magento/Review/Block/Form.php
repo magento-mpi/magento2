@@ -115,7 +115,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
 
     public function getProductInfo()
     {
-        $product = $this->_productFactory-create();
+        $product = $this->_productFactory->create();
         return $product->load($this->getRequest()->getParam('id'));
     }
 
