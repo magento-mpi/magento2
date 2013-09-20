@@ -28,17 +28,31 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     const VALUE_TYPE_CHILD_OF       = 'child_of';
 
     /**
-     * Define action type and default value
-     *
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_type;
+
+    /**
+     * @var Magento_Rule_Block_Editable
+     */
+    protected $_editable;
+
+    /**
+     * @param Magento_Rule_Block_Editable $editable
+     * @param Magento_Catalog_Model_Product_Type $type
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Rule_Block_Editable $editable,
+        Magento_Catalog_Model_Product_Type $type,
         Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
+        $this->_editable = $editable;
+        $this->_type = $type;
         parent::__construct($backendData, $context, $data);
         $this->setType('Magento_TargetRule_Model_Actions_Condition_Product_Attributes');
         $this->setValue(null);
@@ -66,8 +80,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueOption($option = null)
     {
         if (!$this->getData('value_option') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getAllOption();
-            $this->setData('value_option', $options);
+            $this->setData('value_option', $this->_type->getAllOption());
         }
         return parent::getValueOption($option);
     }
@@ -81,8 +94,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueSelectOptions()
     {
         if (!$this->getData('value_select_options') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getAllOptions();
-            $this->setData('value_select_options', $options);
+            $this->setData('value_select_options', $this->_type->getAllOption());
         }
         return parent::getValueSelectOptions();
     }
@@ -191,7 +203,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
             'value'         => $this->getValueType(),
             'value_name'    => $this->getValueTypeName(),
             'class'         => 'value-type-chooser',
-        ))->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Editable'));
+        ))->setRenderer($this->_editable);
         return $element;
     }
 

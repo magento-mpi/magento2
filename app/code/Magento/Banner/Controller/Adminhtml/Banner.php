@@ -15,17 +15,17 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry = null;
 
     /**
      * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Registry $registry
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $registry
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->_registry = $registry;
         parent::__construct($context);
     }
 
@@ -104,7 +104,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
             }
 
             //Filter disallowed data
-            $currentStores = array_keys(Mage::app()->getStores(true));
+            $currentStores = array_keys($this->_objectManager->get('Magento_Core_Model_StoreManager')->getStores(true));
             if (isset($data['store_contents_not_use'])) {
                 $data['store_contents_not_use'] = array_intersect($data['store_contents_not_use'], $currentStores);
             }
@@ -149,7 +149,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                     __('We cannot save the banner.')
                 );
                 $redirectBack = true;
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
             if ($redirectBack) {
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
@@ -170,7 +170,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
         if ($bannerId) {
             try {
                 // init model and delete
-                $model = Mage::getModel('Magento_Banner_Model_Banner');
+                $model = $this->_objectManager->create('Magento_Banner_Model_Banner');
                 $model->load($bannerId);
                 $model->delete();
                 // display success message
@@ -188,7 +188,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                     __('Something went wrong deleting banner data. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
                 );
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 // save data in session
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
@@ -231,7 +231,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                     __('Something went wrong mass-deleting banners. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
                 );
-                Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 return;
             }
         }
@@ -250,12 +250,12 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
         $this->_title(__('Banners'));
 
         $bannerId = (int)$this->getRequest()->getParam($idFieldName);
-        $model = Mage::getModel('Magento_Banner_Model_Banner');
+        $model = $this->_objectManager->create('Magento_Banner_Model_Banner');
         if ($bannerId) {
             $model->load($bannerId);
         }
-        if (!$this->_coreRegistry->registry('current_banner')) {
-            $this->_coreRegistry->register('current_banner', $model);
+        if (!$this->_registry->registry('current_banner')) {
+            $this->_registry->register('current_banner', $model);
         }
         return $model;
     }
@@ -338,7 +338,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
     public function salesRuleBannersGridAction()
     {
         $ruleId = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Magento_SalesRule_Model_Rule');
+        $model = $this->_objectManager->create('Magento_SalesRule_Model_Rule');
 
         if ($ruleId) {
             $model->load($ruleId);
@@ -350,8 +350,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                 return;
             }
         }
-        if (!$this->_coreRegistry->registry('current_promo_quote_rule')) {
-            $this->_coreRegistry->register('current_promo_quote_rule', $model);
+        if (!$this->_registry->registry('current_promo_quote_rule')) {
+            $this->_registry->register('current_promo_quote_rule', $model);
         }
         $this->loadLayout();
         $this->getLayout()
@@ -367,7 +367,7 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
     public function catalogRuleBannersGridAction()
     {
         $ruleId = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Magento_CatalogRule_Model_Rule');
+        $model = $this->_objectManager->create('Magento_CatalogRule_Model_Rule');
 
         if ($ruleId) {
             $model->load($ruleId);
@@ -379,8 +379,8 @@ class Magento_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Contr
                 return;
             }
         }
-        if (!$this->_coreRegistry->registry('current_promo_catalog_rule')) {
-            $this->_coreRegistry->register('current_promo_catalog_rule', $model);
+        if (!$this->_registry->registry('current_promo_catalog_rule')) {
+            $this->_registry->register('current_promo_catalog_rule', $model);
         }
         $this->loadLayout();
         $this->getLayout()

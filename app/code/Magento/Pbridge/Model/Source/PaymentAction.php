@@ -11,7 +11,7 @@
 /**
  * Payment Action Dropdown source
  */
-class Magento_Pbridge_Model_Source_PaymentAction
+class Magento_Pbridge_Model_Source_PaymentAction implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Return list of available payment actions for gateway

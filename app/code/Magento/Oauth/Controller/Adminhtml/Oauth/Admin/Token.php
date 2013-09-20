@@ -110,7 +110,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__('An error occurred on update revoke status.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/index');
     }
@@ -149,7 +149,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(__('An error occurred on delete action.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/index');
     }

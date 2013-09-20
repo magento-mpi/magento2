@@ -12,7 +12,6 @@
 /**
  * Prepare Log Online Visitors Model
  *
- * @method Magento_Log_Model_Resource_Visitor_Online _getResource()
  * @method Magento_Log_Model_Resource_Visitor_Online getResource()
  * @method string getVisitorType()
  * @method Magento_Log_Model_Visitor_Online setVisitorType(string $value)

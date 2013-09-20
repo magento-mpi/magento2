@@ -207,6 +207,12 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
     protected $_coreStoreConfig;
     
     /**
+     * @var Magento_Core_Model_Logger $logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Factory_Helper $factoryHelper
      * @param Magento_Core_Helper_Data $coreData
@@ -220,6 +226,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * @param string $area
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Factory_Helper $factoryHelper,
         Magento_Core_Helper_Data $coreData,
@@ -246,6 +253,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $this->_renderingOutput = new Magento_Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
+        $this->_logger = $logger;
     }
 
     /**
@@ -709,7 +717,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $row = $this->_scheduledStructure->getStructureElement($key);
 
         if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT])) {
-            Mage::log("Broken reference: missing declaration of the element '{$key}'.", Zend_Log::CRIT);
+            $this->_logger->log("Broken reference: missing declaration of the element '{$key}'.", Zend_Log::CRIT);
             $this->_scheduledStructure->unsetPathElement($key);
             $this->_scheduledStructure->unsetStructureElement($key);
             return;
@@ -724,9 +732,10 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             if ($this->_structure->hasElement($parentName)) {
                 $this->_structure->setAsChild($name, $parentName, $alias);
             } else {
-                Mage::log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
-                    . 'because the latter doesn\'t exist', Zend_Log::CRIT
-                );
+                $this->_logger
+                    ->log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
+                        . 'because the latter doesn\'t exist', Zend_Log::CRIT
+                    );
             }
         }
         $this->_scheduledStructure->unsetStructureElement($key);
@@ -960,11 +969,11 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             if ($childName !== $sibling) {
                 $siblingParentName = $this->_structure->getParentId($sibling);
                 if ($parentName !== $siblingParentName) {
-                    Mage::log(
-                        "Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', "
-                        . "but their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
-                        Zend_Log::CRIT
-                    );
+                    $this->_logger
+                        ->log("Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', but "
+                            . "their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
+                            Zend_Log::CRIT
+                        );
                     return;
                 }
                 $this->_structure->reorderToSibling($parentName, $childName, $sibling, $after ? 1 : -1);

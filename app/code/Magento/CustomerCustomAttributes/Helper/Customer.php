@@ -32,18 +32,20 @@ class Magento_CustomerCustomAttributes_Helper_Customer extends Magento_CustomAtt
     protected $_inputValidator;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Helper_Context $context
      * @param Magento_CustomerCustomAttributes_Helper_Data $dataHelper
      * @param Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Helper_Context $context,
         Magento_CustomerCustomAttributes_Helper_Data $dataHelper,
         Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
     ) {
-        parent::__construct($context);
+        parent::__construct($eavConfig, $locale, $context);
         $this->_dataHelper = $dataHelper;
         $this->_inputValidator = $inputValidator;
     }

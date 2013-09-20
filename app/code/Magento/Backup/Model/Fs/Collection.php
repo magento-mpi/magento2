@@ -38,18 +38,19 @@ class Magento_Backup_Model_Fs_Collection extends Magento_Data_Collection_Filesys
     protected $_dir;
 
     /**
-     * Set collection specific parameters and make sure backups folder will exist
-     *
      * @param Magento_Backup_Helper_Data $backupData
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
         Magento_Backup_Helper_Data $backupData,
         Magento_Filesystem $filesystem,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Dir $dir
     ) {
-        parent::__construct();
+        $this->_backupData = $backupData;
+        parent::__construct($entityFactory);
 
         $this->_backupData = $backupData;
         $this->_filesystem = $filesystem;

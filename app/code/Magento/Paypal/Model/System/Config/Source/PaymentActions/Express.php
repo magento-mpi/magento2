@@ -12,6 +12,7 @@
  * Source model for available paypal express payment actions
  */
 class Magento_Paypal_Model_System_Config_Source_PaymentActions_Express
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Options getter

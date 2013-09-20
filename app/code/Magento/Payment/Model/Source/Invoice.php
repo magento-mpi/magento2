@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Source_Invoice
+class Magento_Payment_Model_Source_Invoice implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

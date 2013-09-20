@@ -139,17 +139,25 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Constructor
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Catalog_Model_Resource_Product_Collection $collection,
         Magento_Core_Model_Config $coreConfig
     ) {
         $this->_entityCollection = $collection;
         $this->_coreConfig = $coreConfig;
+        $this->_logger = $logger;
         parent::__construct();
 
         $this->_initTypeModels()
@@ -996,7 +1004,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 }
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $exportData;
     }

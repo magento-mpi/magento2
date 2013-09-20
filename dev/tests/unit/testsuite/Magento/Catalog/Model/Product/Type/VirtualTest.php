@@ -23,12 +23,14 @@ class Magento_Catalog_Model_Product_Type_VirtualTest extends PHPUnit_Framework_T
         $coreRegistryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $fileStorageDbMock = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_model = new Magento_Catalog_Model_Product_Type_Virtual(
             $eventManager,
             $coreDataMock,
             $fileStorageDbMock,
             $filesystem,
-            $coreRegistryMock
+            $coreRegistryMock,
+            $logger
         );
     }
 

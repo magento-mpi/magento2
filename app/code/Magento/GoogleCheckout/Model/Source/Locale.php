@@ -9,7 +9,7 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Locale
+class Magento_GoogleCheckout_Model_Source_Locale implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

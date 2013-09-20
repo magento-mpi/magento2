@@ -15,7 +15,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Source_Urlrewrite_Options
+class Magento_Core_Model_Source_Urlrewrite_Options implements Magento_Core_Model_Option_ArrayInterface
 {
     const TEMPORARY = 'R';
     const PERMANENT = 'RP';
@@ -50,5 +50,15 @@ class Magento_Core_Model_Source_Urlrewrite_Options
     public function getRedirectOptions()
     {
         return array(self::TEMPORARY, self::PERMANENT);
+    }
+
+    /**
+     * Return option array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->getAllOptions();
     }
 }

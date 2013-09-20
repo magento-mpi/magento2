@@ -40,6 +40,12 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
     protected $_errors = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -49,6 +55,7 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
      * @param string $connectionName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDb,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -58,7 +65,7 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
         $connectionName = null
     ) {
         $this->_init('Magento_Core_Model_Resource_File_Storage_Database');
-
+        $this->_logger = $logger;
         parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -210,7 +217,7 @@ class Magento_Core_Model_File_Storage_Database extends Magento_Core_Model_File_S
                 $this->_getResource()->saveFile($file);
             } catch (Exception $e) {
                 $this->_errors[] = $e->getMessage();
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 

@@ -24,6 +24,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     protected $_coreData;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -35,6 +36,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
@@ -46,7 +48,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
         $resourceName
     ) {
         parent::__construct(
-            $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
             $resource, $modulesReader, $cache, $resourceName
         );
         $this->_coreData = $coreData;
