@@ -191,7 +191,7 @@ class Proxy extends \Magento\Code\Generator\EntityAbstract
         return array(
             'name'       => '__construct',
             'parameters' => array(
-                array('name' => 'objectManager', 'type' => 'Magento\ObjectManager'),
+                array('name' => 'objectManager', 'type' => '\Magento\ObjectManager'),
                 array('name' => 'instanceName', 'defaultValue' => $this->_getSourceClassName()),
                 array('name' => 'shared', 'defaultValue' => true),
             ),
@@ -203,7 +203,7 @@ class Proxy extends \Magento\Code\Generator\EntityAbstract
                 'tags'             => array(
                     array(
                         'name'        => 'param',
-                        'description' => 'Magento\ObjectManager $objectManager'
+                        'description' => '\Magento\ObjectManager $objectManager'
                     ),
                     array(
                         'name'        => 'param',
