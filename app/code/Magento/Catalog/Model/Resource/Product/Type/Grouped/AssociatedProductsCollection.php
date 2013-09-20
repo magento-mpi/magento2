@@ -35,8 +35,10 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
@@ -44,13 +46,17 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Catalog_Model_ProductTypes_ConfigInterface $config,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_config = $config;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig);
+        parent::__construct($catalogData, $catalogProductFlat, 
+            $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
     }
 
     /**

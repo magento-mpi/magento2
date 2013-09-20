@@ -125,6 +125,11 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Catalog_Helper_Image $catalogImage
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -133,6 +138,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Catalog_Model_Resource_Product $resource
      * @param Magento_Catalog_Model_Resource_Product_Collection $resourceCollection
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
@@ -144,12 +150,14 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
         Magento_Core_Model_Registry $registry,
         Magento_Catalog_Model_Resource_Product $resource,
         Magento_Catalog_Model_Resource_Product_Collection $resourceCollection,
+        Magento_Data_CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogImage = $catalogImage;
         $this->_catalogData = $catalogData;
         $this->_catalogProduct = $catalogProduct;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -987,7 +995,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     public function getMediaGalleryImages()
     {
         if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
-            $images = new Magento_Data_Collection();
+            $images = $this->_collectionFactory->create();
             foreach ($this->getMediaGallery('images') as $image) {
                 if (isset($image['disabled']) && $image['disabled']) {
                     continue;

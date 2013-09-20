@@ -9,8 +9,7 @@
  */
 
 /**
- * Private sales and stubs observer
- *
+ * Private sales and stubs observer 
  */
 class Magento_WebsiteRestriction_Model_Observer
 {

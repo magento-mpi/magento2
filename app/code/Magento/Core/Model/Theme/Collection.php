@@ -42,12 +42,14 @@ class Magento_Core_Model_Theme_Collection extends Magento_Data_Collection
     /**
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_Filesystem $filesystem,
-        Magento_Core_Model_Dir $dirs
+        Magento_Core_Model_Dir $dirs,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
-        parent::__construct();
+        parent::__construct($entityFactory);
         $this->_filesystem = $filesystem;
         $this->setBaseDir($dirs->getDir(Magento_Core_Model_Dir::THEMES));
     }

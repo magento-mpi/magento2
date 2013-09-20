@@ -32,6 +32,24 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
     );
 
     /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param Magento_Index_Model_Indexer $indexer
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Index_Model_Indexer $indexer,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_indexer = $indexer;
+        parent::__construct($resource);
+    }
+
+
+    /**
      * Initialize main table and table id field
      */
     protected function _construct()
@@ -117,7 +135,7 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
             ? null
             : $object->getData('apply_to');
 
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+        $this->_indexer->processEntityAction(
             new Magento_Object(array('type_id' => $typeId)),
             Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
             Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
@@ -135,7 +153,7 @@ class Magento_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource
      */
     protected function _beforeDelete(Magento_Core_Model_Abstract $object)
     {
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+        $this->_indexer->processEntityAction(
             new Magento_Object(array('type_id' => $object->getData('apply_to'))),
             Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
             Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES

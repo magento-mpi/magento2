@@ -15,7 +15,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Source_Import_Entity
+class Magento_ImportExport_Model_Source_Import_Entity implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Magento_ImportExport_Model_Import_ConfigInterface

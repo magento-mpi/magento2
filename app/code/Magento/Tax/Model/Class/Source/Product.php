@@ -65,16 +65,6 @@ class Magento_Tax_Model_Class_Source_Product extends Magento_Eav_Model_Entity_At
     }
 
     /**
-     * Convert to options array
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return $this->getAllOptions();
-    }
-
-    /**
      * Retrieve flat column definition
      *
      * @return array

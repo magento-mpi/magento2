@@ -15,7 +15,7 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout
+class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
