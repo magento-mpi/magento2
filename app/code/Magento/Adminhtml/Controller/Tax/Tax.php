@@ -115,7 +115,7 @@ class Tax extends \Magento\Adminhtml\Controller\Action
      */
     protected function _processClassName($className)
     {
-        $className = trim($this->_objectManager->get('\Magento\Tax\Helper\Data')->escapeHtml($className));
+        $className = trim($this->_objectManager->get('Magento\Tax\Helper\Data')->escapeHtml($className));
         if ($className == '') {
             \Mage::throwException(__('Invalid name of tax class specified.'));
         }

@@ -29,7 +29,8 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     public function testConfigLoad($fixtureDir, $expectedUrl)
     {
         $bootstrap =
-            new \Magento\TestFramework\Performance\Bootstrap($fixtureDir, $this->_getBaseFixtureDir() . '/app_base_dir');
+            new \Magento\TestFramework\Performance\Bootstrap($fixtureDir,
+                $this->_getBaseFixtureDir() . '/app_base_dir');
         $config = $bootstrap->getConfig();
         $this->assertInstanceOf('Magento\TestFramework\Performance\Config', $config);
         $this->assertEquals($expectedUrl, $config->getApplicationUrlHost());

@@ -47,11 +47,12 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/TemplateFilesTest
 dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Backend/Block/System/Config/FormStub.php
 dev/tests/integration/tmp
-dev/tests/unit/testsuite/Magento/FilesystemTest.php
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expected
 dev/tests/static/testsuite/Magento/Test/Legacy/_files
+dev/tests/unit/testsuite/Magento/FilesystemTest.php
+dev/tests/unit/testsuite/Magento/Logging/Model/ProcessorTest.php
 lib/Magento/Archive.php
 lib/Magento/Archive/AbstractArchive.php
 lib/Magento/Archive/Bz.php

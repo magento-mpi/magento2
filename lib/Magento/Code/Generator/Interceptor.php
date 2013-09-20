@@ -39,7 +39,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'Object Manager factory',
                     'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento\ObjectManager\Factory')
+                        array('name' => 'var', 'description' => 'Magento\ObjectManager\Factory')
                     )
                 ),
             ),
@@ -49,7 +49,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'Object Manager instance',
                     'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento\ObjectManager')
+                        array('name' => 'var', 'description' => 'Magento\ObjectManager')
                     )
                 ),
             ),
@@ -79,7 +79,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'docblock' => array(
                     'shortDescription' => 'List of plugins',
                     'tags' => array(
-                        array('name' => 'var', 'description' => '\Magento\Interception\PluginList')
+                        array('name' => 'var', 'description' => 'Magento\Interception\PluginList')
                     )
                 ),
             ),
@@ -106,10 +106,10 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
         return array(
             'name'       => '__construct',
             'parameters' => array(
-                array('name' => 'factory', 'type' => '\Magento\ObjectManager\Factory'),
-                array('name' => 'objectManager', 'type' => '\Magento\ObjectManager\ObjectManager'),
+                array('name' => 'factory', 'type' => 'Magento\ObjectManager\Factory'),
+                array('name' => 'objectManager', 'type' => 'Magento\ObjectManager\ObjectManager'),
                 array('name' => 'subjectType'),
-                array('name' => 'pluginList', 'type' => '\Magento\Interception\PluginList'),
+                array('name' => 'pluginList', 'type' => 'Magento\Interception\PluginList'),
                 array('name' => 'arguments', 'type' => 'array'),
             ),
             'body' => "\$this->_factory = \$factory;"
@@ -122,11 +122,11 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                 'tags' => array(
                     array(
                         'name' => 'param',
-                        'description' => '\Magento\ObjectManager\Factory $factory',
+                        'description' => 'Magento\ObjectManager\Factory $factory',
                     ),
                     array(
                         'name' => 'param',
-                        'description' => '\Magento\ObjectManager\ObjectManager $objectManager',
+                        'description' => 'Magento\ObjectManager\ObjectManager $objectManager',
                     ),
                     array(
                         'name' => 'param',
@@ -134,7 +134,7 @@ class Interceptor extends \Magento\Code\Generator\EntityAbstract
                     ),
                     array(
                         'name' => 'param',
-                        'description' => '\Magento\Interception\PluginList $pluginList',
+                        'description' => 'Magento\Interception\PluginList $pluginList',
                     ),
                     array(
                         'name' => 'param',

@@ -32,7 +32,8 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_reportDir = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/dev/tests/static/report';
+        self::$_reportDir = \Magento\TestFramework\Utility\Files::init()->getPathToSource()
+            . '/dev/tests/static/report';
         if (!is_dir(self::$_reportDir)) {
             mkdir(self::$_reportDir, 0777);
         }

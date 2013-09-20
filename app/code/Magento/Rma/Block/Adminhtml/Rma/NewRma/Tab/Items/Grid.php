@@ -150,7 +150,7 @@ class Grid
             'index' => 'qty_ordered',
             'sortable' => false,
             'order_data' => $this->getOrderItemsData(),
-            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
         ));
@@ -214,7 +214,7 @@ class Grid
         $this->addColumn('action',
             array(
                 'header'    =>  __('Action'),
-                'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
+                'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
                 'actions'   => $actionsArray,
                 'sortable'  => false,
                 'is_system' => true,

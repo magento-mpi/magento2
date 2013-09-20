@@ -648,7 +648,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
 
         // Render page
         /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
-        $helper = $this->_objectManager->get('\Magento\Adminhtml\Helper\Catalog\Product\Composite');
+        $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Catalog\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;

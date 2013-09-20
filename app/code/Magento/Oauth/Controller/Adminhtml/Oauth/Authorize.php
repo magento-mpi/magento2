@@ -211,7 +211,7 @@ class Authorize extends \Magento\Adminhtml\Controller\Action
         try {
             $token = $server->checkAuthorizeRequest();
             /** @var $oauthData \Magento\Oauth\Helper\Data */
-            $oauthData = $this->_objectManager->get('\Magento\Oauth\Helper\Data');
+            $oauthData = $this->_objectManager->get('Magento\Oauth\Helper\Data');
             if (($callback = $oauthData->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
                 return $this;

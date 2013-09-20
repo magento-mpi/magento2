@@ -22,7 +22,7 @@ class WeightTest extends \PHPUnit_Framework_TestCase
         $currentProduct = \Mage::getModel('Magento\Catalog\Model\Product');
         $currentProduct->setTypeInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($type));
 
-        $block = \Mage::getObjectManager()->create('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight');
+        $block = Mage::getObjectManager()->create('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight');
 
         $form = \Mage::getObjectManager()->create('Magento\Data\Form');
         $form->setDataObject($currentProduct);
@@ -52,7 +52,7 @@ class WeightTest extends \PHPUnit_Framework_TestCase
         $currentProduct = \Mage::getModel('Magento\Catalog\Model\Product');
         $currentProduct->setTypeInstance(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($type));
 
-        $block = \Mage::getObjectManager()->create('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight');
+        $block = Mage::getObjectManager()->create('Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight');
 
         $form = \Mage::getObjectManager()->create('Magento\Data\Form');
         $form->setDataObject($currentProduct);

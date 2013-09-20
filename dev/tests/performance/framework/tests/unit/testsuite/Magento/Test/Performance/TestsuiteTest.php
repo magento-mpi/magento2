@@ -52,7 +52,8 @@ class TestsuiteTest extends \PHPUnit_Framework_TestCase
         $this->_application = $this->getMock(
             'Magento\TestFramework\Application', array('applyFixtures'), array($this->_config, $shell)
         );
-        $this->_handler = $this->getMockForAbstractClass('Magento\TestFramework\Performance\Scenario\HandlerInterface');
+        $this->_handler = $this->getMockForAbstractClass(
+            'Magento\TestFramework\Performance\Scenario\HandlerInterface');
         $this->_object =
             new \Magento\TestFramework\Performance\Testsuite($this->_config, $this->_application, $this->_handler);
     }
@@ -170,8 +171,8 @@ class TestsuiteTest extends \PHPUnit_Framework_TestCase
 
     public function testOnScenarioFailure()
     {
-        $scenario = new \Magento\TestFramework\Performance\Scenario('Scenario with Error', 'scenario_error.jmx', array(),
-            array(), array());
+        $scenario = new \Magento\TestFramework\Performance\Scenario(
+            'Scenario with Error', 'scenario_error.jmx', array(), array(), array());
         $scenarioOneFailure = $this->throwException(
             new \Magento\TestFramework\Performance\Scenario\FailureException($scenario)
         );

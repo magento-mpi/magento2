@@ -30,7 +30,8 @@ class FileFormatTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_handler = $this->getMockForAbstractClass('Magento\TestFramework\Performance\Scenario\HandlerInterface');
+        $this->_handler = $this->getMockForAbstractClass(
+            'Magento\TestFramework\Performance\Scenario\HandlerInterface');
         $this->_object = new \Magento\TestFramework\Performance\Scenario\Handler\FileFormat();
         $this->_object->register('jmx', $this->_handler);
         $this->_scenario =

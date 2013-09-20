@@ -10,10 +10,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 namespace Magento\Test\Integrity;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
