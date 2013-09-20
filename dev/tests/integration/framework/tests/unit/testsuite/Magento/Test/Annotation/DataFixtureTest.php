@@ -9,24 +9,28 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Test\Annotation;
+
 /**
  * Test class for \Magento\TestFramework\Annotation\DataFixture.
  *
  * @magentoDataFixture sampleFixtureOne
  */
-namespace Magento\Test\Annotation;
 
 class DataFixtureTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TestFramework\Annotation\DataFixture|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Annotation\DataFixture|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
     protected function setUp()
     {
         $this->_object = $this->getMock(
-            'Magento\TestFramework\Annotation\DataFixture', array('_applyOneFixture'), array(__DIR__ . '/_files')
+            'Magento\TestFramework\Annotation\DataFixture',
+            array('_applyOneFixture'),
+            array(__DIR__ . '/_files')
         );
     }
 
