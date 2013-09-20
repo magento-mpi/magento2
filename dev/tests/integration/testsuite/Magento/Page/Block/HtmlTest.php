@@ -29,7 +29,7 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
         $urlBuilder = $this->getMock(
             'Magento_Core_Model_Url',
             array('getBaseUrl'),
-            array($securityInfoMock, $urlHelperMock, array())
+            array($securityInfoMock, $storeConfig, $urlHelperMock, array())
         );
         $urlBuilder->expects($this->any())
             ->method('getBaseUrl')
