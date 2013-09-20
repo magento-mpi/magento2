@@ -13,7 +13,6 @@
  */
 class Magento_Rating_Model_Observer
 {
-
     /**
      * @var Magento_Rating_Model_Resource_Rating
      */
@@ -26,6 +25,7 @@ class Magento_Rating_Model_Observer
     {
         $this->_resourceRating = $resourceRating;
     }
+
     /**
      * Cleanup product ratings after product delete
      *
