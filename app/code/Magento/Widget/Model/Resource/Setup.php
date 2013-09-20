@@ -52,7 +52,7 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
      * @param $data
      * @return Magento_Core_Model_Resource_Setup_Migration
      */
-    public function getMigrationInstance($data)
+    public function createMigrationSetup($data)
     {
         return $this->_migrationFactory->create($data);
     }

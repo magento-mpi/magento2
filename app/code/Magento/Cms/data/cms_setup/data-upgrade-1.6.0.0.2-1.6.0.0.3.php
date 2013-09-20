@@ -9,7 +9,7 @@
  */
 
 /** @var $this Magento_Cms_Model_Resource_Setup */
-$installer = $this->getMigrationInstance(array('resourceName' => 'core_setup'));;
+$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));;
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('cms_block', 'content',
