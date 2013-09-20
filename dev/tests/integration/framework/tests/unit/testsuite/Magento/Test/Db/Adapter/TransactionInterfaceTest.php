@@ -72,7 +72,7 @@ class TransactionInterfaceTest extends \PHPUnit_Framework_TestCase
         foreach (glob(realpath(__DIR__ . $path ) . '/*.php') as $file) {
             $suffix = basename($file, '.php');
             if (false === strpos($suffix, 'Interface')) {
-                $result[] = array("Magento\TestFramework\Db\Adapter\{$suffix}");
+                $result[] = array("Magento\TestFramework\Db\Adapter\\{$suffix}");
             }
         }
         return $result;
