@@ -86,6 +86,16 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     protected $_importExportData;
 
     /**
+     * @var Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory
+     */
+    protected $_customerCollFactory;
+
+    /**
+     * @var Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory
+     */
+    protected $_eavCustomerFactory;
+
+    /**
      * @param Magento_ScheduledImportExport_Model_Resource_Customer_CollectionFactory $customerCollFactory
      * @param Magento_ImportExport_Model_Export_Entity_Eav_CustomerFactory $eavCustomerFactory
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
@@ -101,8 +111,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
     ) {
         parent::__construct($coreStoreConfig, $data);
 
-        $this->_customerCollection = $customerCollFactory->create();
-        $this->_customerEntity = $eavCustomerFactory->create();
+        $this->_customerCollFactory = $customerCollFactory;
+        $this->_eavCustomerFactory = $eavCustomerFactory;
         $this->_importExportData = $importExportData;
 
         $this->_initFrontendWebsites()
@@ -131,6 +141,9 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
      */
     protected function _getEntityCollection()
     {
+        if (empty($this->_customerCollection)) {
+            $this->_customerCollection = $this->_customerCollFactory->create();
+        }
         return $this->_customerCollection;
     }
 
@@ -206,6 +219,9 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
      */
     public function setParameters(array $parameters)
     {
+        if (empty($this->_customerEntity)) {
+            $this->_customerEntity = $this->_eavCustomerFactory->create();
+        }
         //  push filters from post into export customer model
         $this->_customerEntity->setParameters($parameters);
         $this->_customerEntity->filterEntityCollection($this->_getEntityCollection());

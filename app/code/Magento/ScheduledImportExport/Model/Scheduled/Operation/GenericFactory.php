@@ -26,7 +26,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_GenericFactory
      * @param string $model
      * @param array $data
      * @throws InvalidArgumentException
-     * @return Magento_Core_Model_Option_ArrayInterface
+     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface
      */
     public function create($model, array $data = array())
     {
