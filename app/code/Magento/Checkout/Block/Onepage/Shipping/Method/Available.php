@@ -48,24 +48,9 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
 
     public function getShippingRates()
     {
-
         if (empty($this->_rates)) {
             $this->getAddress()->collectShippingRates()->save();
-
-            $groups = $this->getAddress()->getGroupedAllShippingRates();
-            /*
-            if (!empty($groups)) {
-                $ratesFilter = new Magento_Filter_Object_Grid();
-                $ratesFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'price');
-
-                foreach ($groups as $code => $groupItems) {
-                    $groups[$code] = $ratesFilter->filter($groupItems);
-                }
-            }
-            */
-
-            return $this->_rates = $groups;
-        }
+            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();        }
 
         return $this->_rates;
     }

@@ -15,7 +15,7 @@
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Model_Config_Mode
+class Magento_Captcha_Model_Config_Mode implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Get options for captcha mode selection field

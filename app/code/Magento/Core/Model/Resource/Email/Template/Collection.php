@@ -16,7 +16,7 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Email_Template_Collection extends  Magento_Core_Model_Resource_Db_Collection_Abstract
+class Magento_Core_Model_Resource_Email_Template_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Template table name
