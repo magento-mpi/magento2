@@ -24,7 +24,6 @@
  * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
  * @method Core_Mage_CheckoutOnePage_Helper|Enterprise_Mage_CheckoutOnePage_Helper                     checkoutOnePageHelper()
  * @method Core_Mage_CmsPages_Helper                                                                   cmsPagesHelper()
- * @method Core_Mage_CmsPolls_Helper                                                                   cmsPollsHelper()
  * @method Core_Mage_CmsStaticBlocks_Helper                                                            cmsStaticBlocksHelper()
  * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper                               cmsWidgetsHelper()
  * @method Core_Mage_CompareProducts_Helper                                                            compareProductsHelper()

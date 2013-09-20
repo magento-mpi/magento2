@@ -615,7 +615,6 @@ return array(
     array('Mage_Page_Block_Html_Wrapper'),
     array('Mage_Page_Block_Template_Links'),
     array('Mage_Paypal_Block_Adminhtml_Settlement_Report_Grid'),
-    array('Mage_Poll_Block_Poll'),
     array('Mage_ProductAlert_Block_Price'),
     array('Mage_ProductAlert_Block_Stock'),
     array('Mage_Reports_Model_Resource_Coupons_Collection'),

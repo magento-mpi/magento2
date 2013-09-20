@@ -30,7 +30,6 @@
             <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/CmsPolls</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CmsStaticBlocks</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CmsWidgets</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CompareProducts</directory>

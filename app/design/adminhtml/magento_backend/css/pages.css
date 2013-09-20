@@ -287,27 +287,6 @@
 }
 
 /*
-    CMS -> Polls
--------------------------------------- */
-
-/* Poll Answers */
-.field-poll_answers_container .control {
-    width: 600px;
-}
-
-.field-poll_answers_container .col-poll_votes_count {
-    width: 90px;
-}
-
-.field-poll_answers_container .action-add {
-    margin-top: 7px;
-}
-
-.field-poll_answers_container .data-table tbody tr td {
-    vertical-align: top;
-}
-
-/*
     CMS -> Banners
 -------------------------------------- */
 

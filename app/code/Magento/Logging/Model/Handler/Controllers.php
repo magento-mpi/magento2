@@ -210,28 +210,6 @@ class Magento_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Custom handler for poll save fail's action
-     *
-     * @param array $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
-     */
-    public function postDispatchPollValidation($config, $eventModel)
-    {
-        $out = json_decode(Mage::app()->getResponse()->getBody());
-        if (!empty($out->error)) {
-            $pollId = Mage::app()->getRequest()->getParam('id');
-            return $eventModel->setIsSuccess(false)->setInfo($pollId == 0 ? '' : $pollId);
-        } else {
-            $poll = $this->_coreRegistry->registry('current_poll_model');
-            if ($poll && $poll->getId()) {
-                return $eventModel->setIsSuccess(true)->setInfo($poll->getId());
-            }
-        }
-        return false;
-    }
-
-    /**
      * Custom handler for customer validation fail's action
      *
      * @param array $config

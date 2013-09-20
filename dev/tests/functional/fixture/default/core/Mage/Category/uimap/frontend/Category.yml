@@ -79,15 +79,6 @@ category_page_before_reindex:
                     recently_viewed:
                         xpath: //div[@class[contains(.,'block-viewed')]]
                 -
-                    community_poll:
-                        xpath: //div[@class='block block-poll']
-                        pageelements:
-                          poll_title: //p[@class='block-subtitle' and contains(text(),'%pollTitle%')]
-                        buttons:
-                          vote: //button[span='Vote']
-                        radiobuttons:
-                            vote: //li[span/label='%answer%']/input
-                -
                     newsletter:
                         xpath: //div[contains(@class,'subscribe')]
                         buttons:

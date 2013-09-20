@@ -8,13 +8,6 @@
  * @license     {license_link}
  */
 
-/**
- * Poll index controller
- *
- * @file        IndexController.php
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
 class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**

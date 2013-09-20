@@ -38,7 +38,6 @@
                     <cms_hierarchy_node>Magento_VersionsCms_Model_Hierarchy_Node</cms_hierarchy_node>
                     <banner>Magento_Banner_Model_Banner</banner>
                     <core_store_group>Magento_Core_Model_Store_Group</core_store_group>
-                    <poll>Magento_Poll_Model_Poll</poll>
                 </change>
                 <delete>
                     <catalog_category>Magento_Catalog_Model_Category</catalog_category>
@@ -47,7 +46,6 @@
                     <cms_hierarchy_node>Magento_VersionsCms_Model_Hierarchy_Node</cms_hierarchy_node>
                     <banner>Magento_Banner_Model_Banner</banner>
                     <core_store_group>Magento_Core_Model_Store_Group</core_store_group>
-                    <poll>Magento_Poll_Model_Poll</poll>
                 </delete>
             </dependency>
         </cache>

@@ -187,15 +187,6 @@ system_configuration:
                                         cms_no_cookies_page_use_default: //input[@name='groups[default][fields][cms_no_cookies][inherit]']
                                         show_breadcrumbs_for_cms_pages_use_default: //input[@name='groups[default][fields][show_cms_breadcrumbs][inherit]']
                             -
-                                polls:
-                                    xpath: //fieldset[@id='web_polls']
-                                    links:
-                                        polls_link: //parent::div//a[@id='web_polls-head']
-                                    dropdowns:
-                                        disallow_voting_from_same_ip: //select[@name='groups[polls][fields][poll_check_by_ip][value]']
-                                    checkboxes:
-                                        disallow_voting_from_same_ip_use_default: //input[@name='groups[polls][fields][poll_check_by_ip][inherit]']
-                            -
                                 session_cookie_management:
                                     xpath: //fieldset[@id='web_cookie']
                                     links:
