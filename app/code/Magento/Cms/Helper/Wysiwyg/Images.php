@@ -59,7 +59,10 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      */
     protected $_eventManager = null;
 
+    protected $_imagesStorage;
+
     /**
+     * @param Magento_Cms_Model_Wysiwyg_Images_Storage $imagesStorage
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Core_Helper_Data $coreData
@@ -67,12 +70,14 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
+        Magento_Cms_Model_Wysiwyg_Images_Storage $imagesStorage,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Backend_Helper_Data $backendData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Filesystem $filesystem
     ) {
+        $this->_imagesStorage = $imagesStorage;
         $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
@@ -278,7 +283,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      */
     public function getStorage()
     {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage');
+        return $this->_imagesStorage;
     }
 
     /**

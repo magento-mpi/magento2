@@ -26,15 +26,23 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     protected $_cmsData = null;
 
     /**
+     * @var Magento_Cms_Model_Page
+     */
+    protected $_page;
+
+    /**
+     * @param Magento_Cms_Model_Page $page
      * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Cms_Model_Page $page,
         Magento_Cms_Helper_Data $cmsData,
         Magento_Core_Block_Context $context,
         array $data = array()
     ) {
+        $this->_page = $page;
         $this->_cmsData = $cmsData;
         parent::__construct($context, $data);
     }
@@ -52,7 +60,7 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
                     ->setStoreId(Mage::app()->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {
-                $page = Mage::getSingleton('Magento_Cms_Model_Page');
+                $page = $this->_page;
             }
             $this->setData('page', $page);
         }

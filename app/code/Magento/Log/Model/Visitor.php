@@ -63,6 +63,30 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Core_Model_Session $session
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Context $context
@@ -72,8 +96,14 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Core_Model_Session $session,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Context $context,
@@ -84,6 +114,10 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_quoteFactory = $quoteFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_session = $session;
+        $this->_storeManager = $storeManager;
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -114,7 +148,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Core_Model_Session');
+        return $this->_session;
     }
 
     /**
@@ -127,7 +161,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         $this->addData(array(
             'server_addr'           => $this->_coreHttp->getServerAddr(true),
             'remote_addr'           => $this->_coreHttp->getRemoteAddr(true),
-            'http_secure'           => Mage::app()->getStore()->isCurrentlySecure(),
+            'http_secure'           => $this->_storeManager->getStore()->isCurrentlySecure(),
             'http_host'             => $this->_coreHttp->getHttpHost(true),
             'http_user_agent'       => $this->_coreHttp->getHttpUserAgent(true),
             'http_accept_language'  => $this->_coreHttp->getHttpAcceptLanguage(true),
@@ -314,7 +348,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         if (intval($customerId) <= 0) {
             return $this;
         }
-        $customerData = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        $customerData = $this->_customerFactory->create()->load($customerId);
         $newCustomerData = array();
         foreach ($customerData->getData() as $propName => $propValue) {
             $newCustomerData['customer_' . $propName] = $propValue;
@@ -334,7 +368,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         if (intval($quoteId) <= 0) {
             return $this;
         }
-        $data->setQuoteData(Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId));
+        $data->setQuoteData($this->_quoteFactory->create()->load($quoteId));
         return $this;
     }
 
