@@ -65,6 +65,7 @@
   * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
   * Eliminated Mage:: static methods in Magento_Sendfriend
   * Eliminated Mage:: static methods in Magento_Usa
+  * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
   * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
   * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
   * Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_User module
