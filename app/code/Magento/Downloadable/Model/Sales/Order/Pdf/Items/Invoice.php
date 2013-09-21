@@ -33,6 +33,8 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Dir $coreDir
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
+     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -44,6 +46,8 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Dir $coreDir,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
+        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -55,6 +59,8 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
             $registry,
             $coreDir,
             $coreStoreConfig,
+            $purchasedFactory,
+            $itemsFactory,
             $resource,
             $resourceCollection,
             $data

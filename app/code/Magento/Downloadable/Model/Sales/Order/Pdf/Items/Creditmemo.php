@@ -37,6 +37,8 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Dir $coreDir,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
+        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -48,6 +50,8 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
             $registry,
             $coreDir,
             $coreStoreConfig,
+            $purchasedFactory,
+            $itemsFactory,
             $resource,
             $resourceCollection,
             $data

@@ -52,7 +52,7 @@ class Magento_Downloadable_Model_Observer
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection
+     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory
      */
     protected $_itemsFactory;
 
@@ -63,7 +63,7 @@ class Magento_Downloadable_Model_Observer
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Downloadable_Model_Link_Purchased_ItemFactory $itemFactory
      * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection $itemsFactory
+     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
@@ -72,7 +72,7 @@ class Magento_Downloadable_Model_Observer
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Downloadable_Model_Link_Purchased_ItemFactory $itemFactory,
         Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection $itemsFactory
+        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
     ) {
         $this->_helper = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
