@@ -26,6 +26,8 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Dir $coreDir
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
+     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
