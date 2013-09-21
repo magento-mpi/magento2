@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Checkout\Controller;
+
 /**
  * Test class for \Magento\Checkout\Controller\Multishipping
  *
  * @magentoAppArea frontend
  */
-namespace Magento\Checkout\Controller;
-
 class MultishippingTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**

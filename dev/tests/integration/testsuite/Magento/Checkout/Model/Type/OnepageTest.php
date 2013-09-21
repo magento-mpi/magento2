@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Checkout\Model\Type;
+
 /**
  * @magentoAppArea frontend
  */
-namespace Magento\Checkout\Model\Type;
-
 class OnepageTest extends \PHPUnit_Framework_TestCase
 {
     /**
