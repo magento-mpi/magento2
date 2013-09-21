@@ -109,7 +109,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
      */
     public function testCronAction()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Session')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Session')
             ->getMesseges(true);
         /** @var $collection Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection */
         $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection');
