@@ -24,6 +24,7 @@
             <module name="Magento_Eav"/>
             <module name="Magento_Page" type="soft"/>
             <module name="Magento_GiftMessage" type="soft"/>
+            <module name="Magento_Directory"/>
         </depends>
     </module>
 </config>
