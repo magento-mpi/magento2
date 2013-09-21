@@ -41,6 +41,28 @@ class Magento_Backend_Block_Widget_Grid_Export
      */
     protected $_exportPath;
 
+    /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+
     protected function _construct()
     {
         parent::_construct();
@@ -472,7 +494,7 @@ class Magento_Backend_Block_Widget_Grid_Export
         if (null === $baseCollection) {
             $baseCollection = $this->getParentBlock()->getPreparedCollection();
         }
-        $collection = new Magento_Data_Collection();
+        $collection = $this->_collectionFactory->create();
 
         /** @var $item Magento_Object */
         foreach ($baseCollection as $item) {

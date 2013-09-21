@@ -24,11 +24,19 @@ class Magento_AdvancedCheckout_Model_Observer
     protected $_checkoutData = null;
 
     /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
      */
     public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_AdvancedCheckout_Helper_Data $checkoutData
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_checkoutData = $checkoutData;
     }
 
@@ -174,7 +182,7 @@ class Magento_AdvancedCheckout_Model_Observer
 
         /** @var $quote Magento_Sales_Model_Quote */
         $quote = Mage::getModel('Magento_Sales_Model_Quote');
-        $collection = new Magento_Data_Collection();
+        $collection = $this->_collectionFactory->create();
 
         foreach ($this->_checkoutData->getFailedItems(false) as $item) {
             /** @var $item Magento_Sales_Model_Quote_Item */
