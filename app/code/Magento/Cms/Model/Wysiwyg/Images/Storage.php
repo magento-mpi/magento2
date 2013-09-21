@@ -134,12 +134,16 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $conditions = array('reg_exp' => array(), 'plain' => array());
         $config = $this->getConfig();
 
-        foreach ($config['dirs']['exclude'] as $dir) {
-            $conditions[$dir->getAttribute('regexp') ? 'reg_exp' : 'plain'][$dir] = true;
+        if (is_array($config['dirs']['exclude'])) {
+            foreach ($config['dirs']['exclude'] as $dir) {
+                $conditions[$dir->getAttribute('regexp') ? 'reg_exp' : 'plain'][$dir] = true;
+            }
         }
-        // "include" section takes precedence and can revoke directory exclusion
-        foreach ($config['dirs']['include'] as $dir) {
-            unset($conditions['regexp'][(string) $dir], $conditions['plain'][$dir]);
+        if (is_array($config['dirs']['include'])) {
+            // "include" section takes precedence and can revoke directory exclusion
+            foreach ($config['dirs']['include'] as $dir) {
+                unset($conditions['regexp'][(string) $dir], $conditions['plain'][$dir]);
+            }
         }
 
         $regExp = $conditions['reg_exp'] ? ('~' . implode('|', array_keys($conditions['reg_exp'])) . '~i') : null;
