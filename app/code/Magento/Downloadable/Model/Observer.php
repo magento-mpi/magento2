@@ -32,15 +32,55 @@ class Magento_Downloadable_Model_Observer
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Downloadable_Model_Link_PurchasedFactory
+     */
+    protected $_purchasedFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Downloadable_Model_Link_Purchased_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection
+     */
+    protected $_itemsFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Downloadable_Model_Link_Purchased_ItemFactory $itemFactory
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection $itemsFactory
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Downloadable_Model_Link_Purchased_ItemFactory $itemFactory,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection $itemsFactory
     ) {
         $this->_helper = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_purchasedFactory = $purchasedFactory;
+        $this->_productFactory = $productFactory;
+        $this->_itemFactory = $itemFactory;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_itemsFactory = $itemsFactory;
     }
 
     /**
@@ -106,20 +146,19 @@ class Magento_Downloadable_Model_Observer
         if ($product && $product->getTypeId() != Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             return $this;
         }
-        $purchasedLink = Mage::getModel('Magento_Downloadable_Model_Link_Purchased')
-            ->load($orderItem->getId(), 'order_item_id');
+        $purchasedLink = $this->_createPurchasedModel()->load($orderItem->getId(), 'order_item_id');
         if ($purchasedLink->getId()) {
             return $this;
         }
         if (!$product) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = $this->_createProductModel()
                 ->setStoreId($orderItem->getOrder()->getStoreId())
                 ->load($orderItem->getProductId());
         }
         if ($product->getTypeId() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
-                $linkPurchased = Mage::getModel('Magento_Downloadable_Model_Link_Purchased');
+                $linkPurchased = $this->_createPurchasedModel();
                 $this->_helper->copyFieldsetToTarget(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
@@ -141,7 +180,7 @@ class Magento_Downloadable_Model_Observer
                     ->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
-                        $linkPurchasedItem = Mage::getModel('Magento_Downloadable_Model_Link_Purchased_Item')
+                        $linkPurchasedItem = $this->_createPurchasedItemModel()
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
@@ -176,8 +215,7 @@ class Magento_Downloadable_Model_Observer
      */
     public function setHasDownloadableProducts($observer)
     {
-        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
-        if (!$session->getHasDownloadableProducts()) {
+        if (!$this->_checkoutSession->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
                 /* @var $item Magento_Sales_Model_Order_Item */
@@ -185,7 +223,7 @@ class Magento_Downloadable_Model_Observer
                     || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
                     || $item->getProductOptionByCode('is_downloadable')
                 ) {
-                    $session->setHasDownloadableProducts(true);
+                    $this->_checkoutSession->setHasDownloadableProducts(true);
                     break;
                 }
             }
@@ -277,8 +315,10 @@ class Magento_Downloadable_Model_Observer
         }
 
         if ($downloadableItemsStatuses) {
-            $linkPurchased = Mage::getResourceModel('Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection')
-            ->addFieldToFilter('order_item_id', array('in' => array_keys($downloadableItemsStatuses)));
+            $linkPurchased = $this->_createItemsCollection()->addFieldToFilter(
+                'order_item_id',
+                array('in' => array_keys($downloadableItemsStatuses))
+            );
             foreach ($linkPurchased as $link) {
                 if ($link->getStatus() != $linkStatuses['expired']
                     && !empty($downloadableItemsStatuses[$link->getOrderItemId()])
@@ -398,5 +438,37 @@ class Magento_Downloadable_Model_Observer
         }
         $newProduct->setDownloadableData($downloadableData);
         return $this;
+    }
+
+    /**
+     * @return Magento_Downloadable_Model_Link_Purchased
+     */
+    protected function _createPurchasedModel()
+    {
+        return $this->_purchasedFactory->create();
+    }
+
+    /**
+     * @return Magento_Catalog_Model_Product
+     */
+    protected function _createProductModel()
+    {
+        return $this->_productFactory->create();
+    }
+
+    /**
+     * @return Magento_Downloadable_Model_Link_Purchased_Item
+     */
+    protected function _createPurchasedItemModel()
+    {
+        return $this->_itemFactory->create();
+    }
+
+    /**
+     * @return Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection
+     */
+    protected function _createItemsCollection()
+    {
+        return $this->_itemsFactory->create();
     }
 }
