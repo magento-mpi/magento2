@@ -46,8 +46,8 @@ class Magento_Sales_Model_Resource_Order_Payment extends Magento_Sales_Model_Res
         Magento_Eav_Model_Entity_TypeFactory $eavEntityTypeFactory,
         Magento_Sales_Model_Payment_Method_Converter $paymentConverter
     ) {
-        parent::__construct($eventManager, $resource, $eavEntityTypeFactory);
         $this->_paymentConverter = $paymentConverter;
+        parent::__construct($eventManager, $resource, $eavEntityTypeFactory);
     }
 
     /**
