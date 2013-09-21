@@ -21,7 +21,7 @@ class Magento_ScheduledImportExport_Model_ObserverTest extends PHPUnit_Framework
         $templateMailer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Email_Template_Mailer');
         $storeManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Store_Config');
+            ->get('Magento_Core_Model_StoreManager');
         $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Store_Config');
         $model = new Magento_ScheduledImportExport_Model_Observer(
