@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Captcha\Model;
+
 /**
  * Test captcha observer behavior
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Captcha\Model;
-
 class ObserverTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
