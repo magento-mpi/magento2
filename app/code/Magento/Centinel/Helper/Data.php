@@ -16,6 +16,23 @@
 class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
+     * Layout factory
+     *
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Layout $layout
+     */
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Layout $layout)
+    {
+        $this->_layout = $layout;
+        parent::__construct($context);
+    }
+
+    /**
      * Return label for cmpi field
      *
      * @param string $fieldName
@@ -131,9 +148,7 @@ class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMethodFormBlock($method)
     {
-        $blockType = 'Magento_Centinel_Block_Logo';
-        $layout = Mage::app()->getLayout();
-        $block = $layout->createBlock($blockType);
+        $block = $this->_layout->createBlock('Magento_Centinel_Block_Logo');
         $block->setMethod($method);
         return $block;
     }

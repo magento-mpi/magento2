@@ -14,6 +14,13 @@
 class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
 {
     /**
+     * Checkout session
+     *
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * Strage for identifiers of related blocks
      *
      * @var array
@@ -27,6 +34,22 @@ class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
      * @var bool
      */
     protected $_authenticationStartMode = false;
+
+    /**
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Add identifier of related block
@@ -57,7 +80,7 @@ class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $method = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()->getMethodInstance();
+        $method = $this->_checkoutSession->getQuote()->getPayment()->getMethodInstance();
         if ($method->getIsCentinelValidationEnabled()) {
             $centinel = $method->getCentinelValidator();
             if ($centinel && $centinel->shouldAuthenticate()) {
