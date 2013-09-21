@@ -21,9 +21,9 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
     protected $_systemStore;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var Magento_Directory_Helper_Data
      */
-    protected $_app;
+    protected $_directoryHelper;
 
     /**
      * @param Magento_Core_Model_Registry $registry
@@ -32,7 +32,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_System_Store $systemStore
-     * @param Magento_Core_Model_App $app
+     * @param Magento_Directory_Helper_Data $directoryHelper
      * @param array $data
      */
     public function __construct(
@@ -42,12 +42,12 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_System_Store $systemStore,
-        Magento_Core_Model_App $app,
+        Magento_Directory_Helper_Data $directoryHelper,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_app = $app;
+        $this->_directoryHelper = $directoryHelper;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -146,7 +146,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
             'name'     => 'base_price',
             'required' => true,
             'class'    => 'validate-not-negative-number',
-            'after_element_html' => '<strong>[' .  $this->_app->getBaseCurrencyCode() . ']</strong>'
+            'after_element_html' => '<strong>[' .  $this->_directoryHelper->getBaseCurrencyCode() . ']</strong>'
         ));
 
         $uploadButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')

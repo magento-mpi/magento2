@@ -50,11 +50,16 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     protected $_productFactory;
 
     /**
+     * @var Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory
+     */
+    protected $_wrappingCollFactory;
+
+    /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection
+     * @param Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory
      * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Checkout_Model_CartFactory $checkoutCartFactory
      * @param Magento_Catalog_Model_ProductFactory $productFactory
@@ -65,7 +70,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection,
+        Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory,
         Magento_Checkout_Model_Session $checkoutSession,
         Magento_Checkout_Model_CartFactory $checkoutCartFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
@@ -73,7 +78,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         $this->_storeManager = $storeManager;
-        $this->_wrappingCollection = $wrappingCollection;
+        $this->_wrappingCollFactory = $wrappingCollFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCartFactory = $checkoutCartFactory;
         $this->_productFactory = $productFactory;
@@ -89,7 +94,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     {
         if (is_null($this->_designCollection)) {
             $store = $this->_storeManager->getStore();
-            $this->_designCollection = $this->_wrappingCollection
+            $this->_designCollection = $this->_wrappingCollFactory->create()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());

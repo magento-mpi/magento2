@@ -33,24 +33,24 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     /**
      * @var Magento_GiftWrapping_Model_Resource_Wrapping_Collection
      */
-    protected $_wrappingCollection;
+    protected $_wrappingCollFactory;
 
     /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection
+     * @param Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory
      * @param array $data
      */
     public function __construct(
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection,
+        Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_wrappingCollection = $wrappingCollection;
+        $this->_wrappingCollFactory = $wrappingCollFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -62,7 +62,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $this->_designCollection = $this->_wrappingCollection
+            $this->_designCollection = $this->_wrappingCollFactory->create()
                 ->addStoreAttributesToResult($this->getStore()->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($this->getStore()->getWebsiteId());

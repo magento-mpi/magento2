@@ -53,8 +53,8 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
      * Init model
      *
      * @param string $requestParam
-     * @throws Magento_Core_Exception
      * @return Magento_Giftwrapping_Model_Wrapping
+     * @throws Magento_Core_Exception
      */
     protected function _initModel($requestParam = 'id')
     {

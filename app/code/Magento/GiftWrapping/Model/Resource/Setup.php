@@ -14,9 +14,9 @@
 class Magento_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var Magento_Catalog_Model_Product_TypeFactory
      */
-    protected $_productType;
+    protected $_productTypeFactory;
 
     /**
      * @var Magento_Catalog_Model_Resource_SetupFactory
@@ -34,7 +34,7 @@ class Magento_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Reso
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
      * @param $resourceName
-     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_Catalog_Model_Product_TypeFactory $productTypeFactory
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
      */
     public function __construct(
@@ -48,10 +48,10 @@ class Magento_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Reso
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
         $resourceName,
-        Magento_Catalog_Model_Product_Type $productType,
+        Magento_Catalog_Model_Product_TypeFactory $productTypeFactory,
         Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
     ) {
-        $this->_productType = $productType;
+        $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
         parent::__construct(
             $logger,
@@ -72,7 +72,7 @@ class Magento_GiftWrapping_Model_Resource_Setup extends Magento_Sales_Model_Reso
      */
     public function getProductType()
     {
-        return $this->_productType;
+        return $this->_productTypeFactory->create();
     }
 
     /**

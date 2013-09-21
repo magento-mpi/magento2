@@ -29,7 +29,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection
+     * @param Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory
      * @param Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory
      * @param array $data
      */
@@ -39,7 +39,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection,
+        Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory,
         Magento_GiftWrapping_Model_WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
@@ -50,7 +50,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
             $context,
             $registry,
             $storeManager,
-            $wrappingCollection,
+            $wrappingCollFactory,
             $data
         );
     }

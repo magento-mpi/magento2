@@ -39,7 +39,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
     /**
      * @var Magento_GiftWrapping_Model_Resource_Wrapping_Collection
      */
-    protected $_wrappingCollection;
+    protected $_wrappingCollFactory;
 
     /**
      * Store list manager
@@ -54,7 +54,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection
+     * @param Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory
      * @param array $data
      */
     public function __construct(
@@ -63,13 +63,13 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection,
+        Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory $wrappingCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
         $this->_storeManager = $storeManager;
-        $this->_wrappingCollection = $wrappingCollection;
+        $this->_wrappingCollFactory = $wrappingCollFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -102,7 +102,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
     {
         if (is_null($this->_designCollection)) {
             $store = $this->_storeManager->getStore($this->getStoreId());
-            $this->_designCollection = $this->_wrappingCollection
+            $this->_designCollection = $this->_wrappingCollFactory->create()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());
