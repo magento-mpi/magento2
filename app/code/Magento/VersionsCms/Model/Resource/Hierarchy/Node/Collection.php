@@ -8,19 +8,39 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Page Hierarchy Tree Nodes Collection
- *
- * @category    Magento
- * @package     Magento_VersionsCms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
+     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Define resource model for collection
-     *
      */
     protected function _construct()
     {
@@ -86,7 +106,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection extends Magen
             $subSelect = $this->getConnection()->select();
             $subSelect->from(array('store' => $this->getTable('cms_page_store')), array())
                 ->where('store.page_id = main_table.page_id');
-            $subSelect = Mage::getResourceHelper('Magento_Core')->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
+            $subSelect = $this->_resourceHelper->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
             $this->getSelect()->columns(array('page_in_stores' => new Zend_Db_Expr('(' . $subSelect . ')')));
 
             // save subSelect to use later
@@ -153,7 +173,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection extends Magen
                         'menu_list_type',
                         'top_menu_visibility',
                         'top_menu_excluded'
-                    ));
+            ));
         }
         $this->setFlag('meta_data_joined', true);
         return $this;
@@ -179,12 +199,13 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection extends Magen
             $ifPageExistExpr = $connection->getCheckSql('clone.node_id IS NULL', '0', '1');
             $ifCurrentPageExpr = $connection->quoteInto(
                 $connection->getCheckSql('main_table.page_id = ?', '1', '0'),
-                $page);
+                $page
+            );
             $this->getSelect()->joinLeft(
-                    array('clone' => $this->getResource()->getMainTable()),
-                    $connection->quoteInto($onClause, $page),
-                    array('page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr)
-                );
+                array('clone' => $this->getResource()->getMainTable()),
+                $connection->quoteInto($onClause, $page),
+                array('page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr)
+            );
 
             $this->setFlag('page_exists_joined', true);
         }
@@ -251,6 +272,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection extends Magen
      * Apply filter to retrieve only proper scope nodes.
      *
      * @param string $scope Scope name: default|store|website
+     * @return $this
      */
     public function applyScope($scope)
     {
@@ -262,6 +284,7 @@ class Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection extends Magen
      * Apply filter to retrieve only proper scope ID nodes.
      *
      * @param int $codeId
+     * @return $this
      */
     public function applyScopeId($codeId)
     {

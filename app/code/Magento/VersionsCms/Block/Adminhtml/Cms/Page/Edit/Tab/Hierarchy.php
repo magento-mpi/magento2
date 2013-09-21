@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Page Edit Hierarchy Tab Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     extends Magento_Backend_Block_Template
@@ -21,29 +17,36 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
 {
     /**
      * Array of nodes for tree
+     *
      * @var array|null
      */
     protected $_nodes = null;
-    
+
     /**
      * Cms hierarchy
      *
      * @var Magento_VersionsCms_Helper_Hierarchy
      */
-    protected $_cmsHierarchy = null;
+    protected $_cmsHierarchy;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_VersionsCms_Model_Resource_Hierarchy_Node_CollectionFactory
+     */
+    protected $_nodeCollFactory;
 
     /**
      * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node_CollectionFactory $nodeCollFactory
      * @param array $data
      */
     public function __construct(
@@ -51,10 +54,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_VersionsCms_Model_Resource_Hierarchy_Node_CollectionFactory $nodeCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
+        $this->_nodeCollFactory = $nodeCollFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -92,7 +97,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                 $data = null;
             }
 
-            $collection = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node')->getCollection()
+            /** @var Magento_VersionsCms_Model_Resource_Hierarchy_Node_Collection $collection */
+            $collection = $this->_nodeCollFactory->create()
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo($this->getPage());
@@ -121,7 +127,6 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                     $this->_nodes[] = $node;
                 }
             } else {
-
                 foreach ($collection as $item) {
                     if ($item->getLevel() == Magento_VersionsCms_Model_Hierarchy_Node::NODE_LEVEL_FAKE) {
                         continue;
@@ -234,8 +239,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     {
         if (!$this->getPage()->getId()
             || !$this->_cmsHierarchy->isEnabled()
-            || !$this->_authorization->isAllowed('Magento_VersionsCms::hierarchy'))
-        {
+            || !$this->_authorization->isAllowed('Magento_VersionsCms::hierarchy')
+        ) {
             return false;
         }
         return true;

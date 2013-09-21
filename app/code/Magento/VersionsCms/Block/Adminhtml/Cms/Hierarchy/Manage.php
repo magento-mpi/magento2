@@ -10,13 +10,42 @@
 
 /**
  * Cms Hierarchy Copy Form Container Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_System_Store $systemStore,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_systemStore = $systemStore;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Retrieve Delete Hierarchies Url
      *
@@ -56,12 +85,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
         $currentStore   = $this->getRequest()->getParam('store');
         $excludeScopes = array();
         if ($currentStore) {
-            $storeId = Mage::app()->getStore($currentStore)->getId();
+            $storeId = $this->_storeManager->getStore($currentStore)->getId();
             $excludeScopes = array(
                 Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_STORE . $storeId
             );
         } elseif ($currentWebsite) {
-            $websiteId = Mage::app()->getWebsite($currentWebsite)->getId();
+            $websiteId = $this->_storeManager->getWebsite($currentWebsite)->getId();
             $excludeScopes = array(
                 Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
             );
@@ -102,8 +131,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
      */
     protected function _prepareOptions($all = false, $excludeScopes)
     {
-        $storeStructure = Mage::getSingleton('Magento_Core_Model_System_Store')
-                ->getStoresStructure($all);
+        $storeStructure = $this->_systemStore->getStoresStructure($all);
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         $options = array();
 
@@ -121,7 +149,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_B
                         $storeViewOptions = array();
                         foreach ($store['children'] as $storeView) {
                             $storeView['value'] = Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_STORE
-                                                  . $storeView['value'];
+                                . $storeView['value'];
                             if (!in_array($storeView['value'], $excludeScopes)) {
                                 $storeView['label'] = str_repeat($nonEscapableNbspChar, 4) . $storeView['label'];
                                 $storeViewOptions[] = $storeView;

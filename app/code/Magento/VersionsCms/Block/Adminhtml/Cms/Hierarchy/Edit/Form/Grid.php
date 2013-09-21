@@ -8,18 +8,38 @@
  * @license     {license_link}
  */
 
-
 /**
  * Cms Hierarchy Pages Tree Edit Cms Page Grid Block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @var Magento_Cms_Model_Resource_Page_CollectionFactory
+     */
+    protected $_pageCollFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Cms_Model_Resource_Page_CollectionFactory $pageCollFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Cms_Model_Resource_Page_CollectionFactory $pageCollFactory,
+        array $data = array()
+    ) {
+        $this->_pageCollFactory = $pageCollFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize Grid block
-     *
      */
     protected function _construct()
     {
@@ -39,7 +59,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends M
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
+        $collection = $this->_pageCollFactory->create()->getCollection();
 
         $store = $this->_getStore();
         if ($store->getId()) {
@@ -107,7 +127,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends M
      */
     protected function _getStore()
     {
-        $storeId = (int) $this->getRequest()->getParam('store', 0);
-        return Mage::app()->getStore($storeId);
+        $storeId = (int)$this->getRequest()->getParam('store', 0);
+        return $this->_storeManager->getStore($storeId);
     }
 }

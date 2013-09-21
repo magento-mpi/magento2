@@ -10,10 +10,6 @@
 
 /**
  * Store switcher block
- *
- * @category   Magento
- * @package    Magento_VersionsCms
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend_Block_System_Config_Switcher
 {
@@ -23,6 +19,27 @@ class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend
      * @var array
      */
     protected $_options = null;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
 
     /**
      * Get scope switcher options
@@ -62,6 +79,6 @@ class Magento_VersionsCms_Block_Adminhtml_Scope_Switcher extends Magento_Backend
      */
     protected function _toHtml()
     {
-        return Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
+        return $this->_storeManager->isSingleStoreMode() == false ? parent::_toHtml() : '';
     }
 }

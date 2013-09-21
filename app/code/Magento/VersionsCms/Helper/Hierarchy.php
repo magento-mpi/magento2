@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * CMS Hierarchy data helper
- *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
 {
@@ -35,14 +31,22 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -193,7 +197,6 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
 
         $default = array('pager_visibility' => array(self::METADATA_VISIBILITY_PARENT => $paginationDefault,
                                                      self::METADATA_VISIBILITY_NO => $paginationDefault),
-
                          'menu_visibility' => array('0' => $menuDefault));
 
         return isset($default[$field][$value]) ? $default[$field][$value] : null;
@@ -211,7 +214,7 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
         if ($scope === Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE) {
             return array(
                 Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE,
-                Mage::app()->getStore($scopeId)->getWebsiteId(),
+                $this->_storeManager->getStore($scopeId)->getWebsiteId(),
             );
         } elseif ($scope === Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE) {
             return array(
