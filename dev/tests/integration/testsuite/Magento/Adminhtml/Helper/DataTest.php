@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Helper;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Helper;
-
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()

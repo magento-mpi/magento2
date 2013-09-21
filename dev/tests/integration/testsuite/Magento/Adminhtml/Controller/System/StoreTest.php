@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\System;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller\System;
-
 class StoreTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()

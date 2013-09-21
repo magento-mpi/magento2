@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Page;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Page;
-
 class HeadTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()

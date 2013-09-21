@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\Sales;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller\Sales;
-
 class OrderTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()

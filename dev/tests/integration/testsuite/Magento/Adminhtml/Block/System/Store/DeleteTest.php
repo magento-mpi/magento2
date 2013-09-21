@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Store;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\System\Store;
-
 class DeleteTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHeaderText()

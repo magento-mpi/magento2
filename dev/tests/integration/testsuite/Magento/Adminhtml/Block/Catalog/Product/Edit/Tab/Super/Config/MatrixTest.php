@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
-
 class MatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**

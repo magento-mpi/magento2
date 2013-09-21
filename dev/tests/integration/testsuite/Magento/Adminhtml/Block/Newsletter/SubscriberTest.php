@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Newsletter;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Newsletter;
-
 class SubscriberTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetShowQueueAdd()

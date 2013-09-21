@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Model;
-
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
