@@ -43,7 +43,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
     /**
      * @var Magento_Core_Model_StoreManagerInterface
      */
-    protected $_storeMnager;
+    protected $_storeManager;
 
     /**
      * Constructor
@@ -56,8 +56,8 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_Core_Model_ConfigInterface $coreConfig
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
@@ -67,15 +67,15 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        Magento_Core_Model_ConfigInterface $coreConfig,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
         $this->_locale = $locale;
-        $this->_storeMnager = $storeManager;
+        $this->_storeManager = $storeManager;
         parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $coreConfig);
     }
 
@@ -103,7 +103,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         $storeId = $rma->getOrder()->getStore()->getId();
         if ($storeId) {
             $this->_locale->emulate($storeId);
-            $this->_storeMnager->setCurrentStore($storeId);
+            $this->_storeManager->setCurrentStore($storeId);
         }
 
         $page = $this->newPage();
