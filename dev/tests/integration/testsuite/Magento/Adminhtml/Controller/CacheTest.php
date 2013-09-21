@@ -6,10 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller;
 
 class CacheTest extends \Magento\Backend\Utility\Controller
 {
