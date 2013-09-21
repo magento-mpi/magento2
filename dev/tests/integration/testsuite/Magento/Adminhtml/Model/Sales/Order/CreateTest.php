@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Model\Sales\Order;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Model\Sales\Order;
-
 class CreateTest extends \PHPUnit_Framework_TestCase
 {
     /**

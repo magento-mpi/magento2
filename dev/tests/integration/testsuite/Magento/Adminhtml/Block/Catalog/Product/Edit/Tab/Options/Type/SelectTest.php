@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type;
-
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlFormId()

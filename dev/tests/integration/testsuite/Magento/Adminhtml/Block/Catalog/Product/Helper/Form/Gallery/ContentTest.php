@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery;
-
 class ContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetUploader()

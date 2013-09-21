@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()

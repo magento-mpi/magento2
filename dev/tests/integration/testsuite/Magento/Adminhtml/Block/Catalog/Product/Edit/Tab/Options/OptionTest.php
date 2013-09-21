@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options;
-
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetOptionValuesCaching()

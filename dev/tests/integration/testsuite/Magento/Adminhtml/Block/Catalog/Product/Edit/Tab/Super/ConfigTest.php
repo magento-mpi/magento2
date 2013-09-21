@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
-
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**

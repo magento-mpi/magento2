@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\Tax;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Controller\Tax;
-
 class TaxTest extends \Magento\Backend\Utility\Controller
 {
     /**

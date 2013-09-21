@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Category;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Catalog\Category;
-
 class TreeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Adminhtml\Block\Catalog\Category\Tree */
