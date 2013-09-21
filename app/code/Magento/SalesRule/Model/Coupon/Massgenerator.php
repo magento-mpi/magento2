@@ -41,6 +41,12 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
     protected $_salesRuleCoupon = null;
 
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @param Magento_Core_Model_Date $coreDate
      * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -49,6 +55,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Date $coreDate,
         Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -56,6 +63,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_coreDate = $coreDate;
         $this->_salesRuleCoupon = $salesRuleCoupon;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -145,9 +153,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
             $this->setLength($length);
         }
 
-        $now = $this->getResource()->formatDate(
-            Mage::getSingleton('Magento_Core_Model_Date')->gmtTimestamp()
-        );
+        $now = $this->getResource()->formatDate($this->_coreDate->gmtTimestamp());
 
         for ($i = 0; $i < $size; $i++) {
             $attempt = 0;

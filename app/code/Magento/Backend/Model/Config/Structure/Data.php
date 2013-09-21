@@ -29,6 +29,9 @@ class Magento_Backend_Model_Config_Structure_Data extends Magento_Config_Data
      */
     public function merge(array $config)
     {
-        parent::merge($config['config']['system']);
+        if (isset($config['config']['system'])) {
+            $config = $config['config']['system'];
+        }
+        parent::merge($config);
     }
 }

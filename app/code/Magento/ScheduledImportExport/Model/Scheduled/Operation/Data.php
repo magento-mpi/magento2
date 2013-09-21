@@ -23,20 +23,6 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     const STATUS_PENDING = 2;
 
     /**
-     * Import/export config model
-     *
-     * @var Magento_ImportExport_Model_Config
-     */
-    protected $_importExportConfig;
-
-    /**
-     * Import entity model
-     *
-     * @var Magento_ImportExport_Model_Import
-     */
-    protected $_importModel;
-
-    /**
      * @var Magento_ImportExport_Model_Config
      */
     protected $_config;
@@ -52,10 +38,6 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
         array $data = array()
     ) {
         $this->_config = $config;
-        $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
-            : Mage::getModel('Magento_ImportExport_Model_Config');
-        $this->_importModel = isset($data['import_model']) ? $data['import_model']
-            : Mage::getModel('Magento_ImportExport_Model_Import');
     }
 
     /**

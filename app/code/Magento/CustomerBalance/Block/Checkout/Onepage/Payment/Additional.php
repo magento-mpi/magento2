@@ -25,13 +25,58 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
     protected $_balanceModel = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_CustomerBalance_Model_BalanceFactory
+     */
+    protected $_balanceFactory;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_balanceFactory = $balanceFactory;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get quote instance
      *
      * @return Magento_Sales_Model_Quote
      */
     protected function _getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -52,9 +97,9 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
     protected function _getBalanceModel()
     {
         if (is_null($this->_balanceModel)) {
-            $this->_balanceModel = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $this->_balanceModel = $this->_balanceFactory->create()
                 ->setCustomer($this->_getCustomer())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
 
             //load customer balance for customer in case we have
             //registered customer and this is not guest checkout
@@ -72,7 +117,7 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
      */
     protected function _getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     /**
