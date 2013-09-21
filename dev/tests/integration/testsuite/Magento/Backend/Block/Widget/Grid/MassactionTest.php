@@ -9,13 +9,14 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Block\Widget\Grid;
+
 /**
  * @magentoDataFixture Magento/Backend/Block/_files/backend_theme.php
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Block\Widget\Grid;
-
 class MassactionTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller\Router;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Controller\Router;
-
 class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**

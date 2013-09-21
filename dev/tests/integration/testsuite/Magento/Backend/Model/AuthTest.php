@@ -9,13 +9,14 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Model;
+
 /**
  * Test class for \Magento\Backend\Model\Auth.
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Model;
-
 class AuthTest extends \PHPUnit_Framework_TestCase
 {
     /**

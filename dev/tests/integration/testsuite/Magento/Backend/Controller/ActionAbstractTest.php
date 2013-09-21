@@ -9,12 +9,13 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller;
+
 /**
  * Test class for \Magento\Backend\Controller\ActionAbstract.
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Controller;
-
 class ActionAbstractTest extends \Magento\Backend\Utility\Controller
 {
     /**
