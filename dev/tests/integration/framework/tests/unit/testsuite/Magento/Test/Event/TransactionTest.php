@@ -27,7 +27,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
     protected $_eventManager;
 
     /**
-     * @var \Magento\TestFramework\Db\Adapter\TransactionInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Db\Adapter\TransactionInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_adapter;
 

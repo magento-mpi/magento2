@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
 
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
-
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**

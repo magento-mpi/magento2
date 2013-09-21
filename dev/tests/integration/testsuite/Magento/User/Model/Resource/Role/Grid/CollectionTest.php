@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource\Role\Grid;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Model\Resource\Role\Grid;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**

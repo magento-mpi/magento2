@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Webapi\Block\Adminhtml;
-
 class FormTestAbstract extends \PHPUnit_Framework_TestCase
 {
     /**

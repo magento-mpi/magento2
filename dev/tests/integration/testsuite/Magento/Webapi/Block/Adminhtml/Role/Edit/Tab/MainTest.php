@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
-
 class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
