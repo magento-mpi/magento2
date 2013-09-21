@@ -32,7 +32,6 @@ class Magento_CatalogPermissions_Model_Adminhtml_System_Config_Source_Customer_G
         $this->_groupCollFactory = $groupCollFactory;
     }
 
-
     public function toOptionArray()
     {
         if (!$this->_options) {
