@@ -31,7 +31,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
 
     protected static function _getTmpDir()
     {
-        return \Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        return \Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR .'LocalTest';
     }
 
     /**
