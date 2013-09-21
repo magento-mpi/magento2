@@ -297,8 +297,8 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                 if (!empty($comment)) {
                     /** @var $dateModel Magento_Core_Model_Date */
                     $dateModel = $this->_objectManager->get('Magento_Core_Model_Date');
-                    /** @var $statusHistory Magento_Sales_Model_Order_Config */
-                    $statusHistory = $this->_objectManager->create('Magento_Sales_Model_Order_Config');
+                    /** @var $statusHistory Magento_Rma_Model_Rma_Status_History */
+                    $statusHistory = $this->_objectManager->create('Magento_Rma_Model_Rma_Status_History');
                     $result = $statusHistory
                         ->setRmaEntityId($this->_coreRegistry->registry('current_rma')->getEntityId())
                         ->setComment($comment)
