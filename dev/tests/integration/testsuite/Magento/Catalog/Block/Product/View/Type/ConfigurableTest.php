@@ -8,14 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Product\View\Type;
 
 /**
  * Test class for \Magento\Catalog\Block\Product\View\Type\Configurable.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
  */
-namespace Magento\Catalog\Block\Product\View\Type;
-
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product\ProductList;
+
 /**
  * Test class for \Magento\Catalog\Block\Product\ProductList\Crosssell.
  *
  * @magentoDataFixture Magento/Catalog/_files/products_crosssell.php
  */
-namespace Magento\Catalog\Block\Product\ProductList;
-
 class CrosssellTest extends \PHPUnit_Framework_TestCase
 {
     public function testAll()
