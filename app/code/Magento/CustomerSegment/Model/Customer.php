@@ -97,6 +97,8 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory,
