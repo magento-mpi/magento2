@@ -28,7 +28,7 @@ class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Blo
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Rma_Model_ItemFactory $itemFactory
-     * @param Magento_Rma_Model_Item_Form $itemFormFactory
+     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
@@ -36,7 +36,7 @@ class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Blo
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Rma_Model_ItemFactory $itemFactory,
-        Magento_Rma_Model_Item_Form $itemFormFactory,
+        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;

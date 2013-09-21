@@ -34,7 +34,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
     protected $_translate;
 
     /**
-     * @var Magento_Core_Model_Email_Template
+     * @var Magento_Core_Model_Email_TemplateFactory
      */
     protected $_templateFactory;
 
@@ -50,7 +50,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
      * @param Magento_Rma_Model_RmaFactory $rmaFactory
      * @param Magento_Rma_Model_Config $rmaConfig
      * @param Magento_Core_Model_Translate_Proxy $translate
-     * @param Magento_Core_Model_Email_Template $templateFactory
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_Core_Model_Date $date
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -63,7 +63,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
         Magento_Rma_Model_RmaFactory $rmaFactory,
         Magento_Rma_Model_Config $rmaConfig,
         Magento_Core_Model_Translate_Proxy $translate,
-        Magento_Core_Model_Email_Template $templateFactory,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory,
         Magento_Core_Model_Date $date,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
@@ -175,7 +175,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
 
         $this->_translate->setTranslateInline(false);
         /** @var $mailTemplate Magento_Core_Model_Email_Template */
-        $mailTemplate = $this->_templateFactory->_createValidatorBeforeSave();
+        $mailTemplate = $this->_templateFactory->create();
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
