@@ -8,28 +8,23 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product alert for back in stock resource model
- *
- * @category    Magento
- * @package     Magento_ProductAlert
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_ProductAlert_Model_Resource_Stock extends Magento_ProductAlert_Model_Resource_Abstract
 {
     /**
-     * @var Magento_Core_Model_Date
+     * @var Magento_Core_Model_DateFactory
      */
     protected $_dateFactory;
 
     /**
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Date $dateFactory
+     * @param Magento_Core_Model_DateFactory $dateFactory
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Date $dateFactory
+        Magento_Core_Model_DateFactory $dateFactory
     ) {
         $this->_dateFactory = $dateFactory;
         parent::__construct($resource);
