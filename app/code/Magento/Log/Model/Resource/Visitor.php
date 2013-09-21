@@ -206,7 +206,7 @@ class Magento_Log_Model_Resource_Visitor extends Magento_Core_Model_Resource_Db_
         $data = new Magento_Object(array(
             'url_id'        => $visitor->getLastUrlId(),
             'visitor_id'    => $visitor->getId(),
-            'visit_time'    => $this->date->gmtDate()
+            'visit_time'    => $this->_date->gmtDate()
         ));
         $bind = $this->_prepareDataForTable($data, $this->getTable('log_url'));
 
