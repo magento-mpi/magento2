@@ -42,7 +42,6 @@ class Magento_Rss_Block_List extends Magento_Core_Block_Template
         parent::__construct($coreData, $context, $data);
     }
 
-
     /**
      * Add Link elements to head
      *

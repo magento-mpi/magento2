@@ -49,7 +49,6 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         parent::__construct($catalogData, $customerSession, $coreData, $context, $data);
     }
 
-
     protected function _construct()
     {
         /*

@@ -60,7 +60,6 @@ class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
         parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
     }
 
-
     /**
      * Retrieve Wishlist model
      *
