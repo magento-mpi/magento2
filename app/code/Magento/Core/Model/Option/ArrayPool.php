@@ -19,11 +19,6 @@ class Magento_Core_Model_Option_ArrayPool
     protected $_objectManager;
 
     /**
-     * @var array
-     */
-    protected $_pool = array();
-
-    /**
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(Magento_ObjectManager $objectManager)
@@ -40,16 +35,12 @@ class Magento_Core_Model_Option_ArrayPool
      */
     public function get($model)
     {
-        if (!empty($this->_pool[$model])) {
-            return $this->_pool[$model];
-        }
-        $modelInstance = $this->_objectManager->create($model);
+        $modelInstance = $this->_objectManager->get($model);
         if (false == ($modelInstance instanceof Magento_Core_Model_Option_ArrayInterface)) {
             throw new InvalidArgumentException(
                 $model . 'doesn\'t implement Magento_Core_Model_Option_ArrayInterface'
             );
         }
-        $this->_pool[$model] = $modelInstance;
         return $modelInstance;
     }
 }

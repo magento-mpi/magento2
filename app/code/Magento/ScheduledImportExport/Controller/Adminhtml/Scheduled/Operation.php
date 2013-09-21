@@ -30,23 +30,15 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
     protected $_observer;
 
     /**
-     * @var Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_CollectionFactory
-     */
-    protected $_operCollFactory;
-
-    /**
-     * @param Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_CollectionFactory $operCollFactory
      * @param Magento_ScheduledImportExport_Model_Observer $observer
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
-        Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_CollectionFactory $operCollFactory,
         Magento_ScheduledImportExport_Model_Observer $observer,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
-        $this->_operCollFactory = $operCollFactory;
         $this->_observer = $observer;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -237,7 +229,9 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             /** @var Magento_Backend_Model_Session $backendSession */
             $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
             try {
-                $operations = $this->_operCollFactory->create();
+                $operations = $this->_objectManager->create(
+                    'Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection'
+                );
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
                 foreach ($operations as $operation) {
                     $operation->delete();
@@ -269,7 +263,9 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             /** @var Magento_Backend_Model_Session $backendSession */
             $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
             try {
-                $operations = $this->_operCollFactory->create();
+                $operations = $this->_objectManager->create(
+                    'Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection'
+                );
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
 
                 foreach ($operations as $operation) {
@@ -352,7 +348,8 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
                 $design->getConfigurationDesignTheme(Magento_Core_Model_App_Area::AREA_FRONTEND)
             );
 
-            $result = $this->_observer->processScheduledOperation($schedule, true);
+            $result = $this->_objectManager->get('Magento_ScheduledImportExport_Model_Observer')
+                ->processScheduledOperation($schedule, true);
 
             // restore current design area and theme
             $design->setDesignTheme($theme, $area);
@@ -377,7 +374,8 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
     public function logCleanAction()
     {
         $schedule = new Magento_Object();
-        $result = $this->_observer->scheduledLogClean($schedule, true);
+        $result = $this->_objectManager->get('Magento_ScheduledImportExport_Model_Observer')
+            ->scheduledLogClean($schedule, true);
         if ($result) {
             $this->_getSession()
                 ->addSuccess(
