@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
+
 /**
  * Test class for \Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
-
 class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Controller\Adminhtml\User;
+
 /**
  * Test class for \Magento\User\Controller\Adminhtml\User\Role.
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Controller\Adminhtml\User;
-
 class RoleTest extends \Magento\Backend\Utility\Controller
 {
     public function testEditRoleAction()

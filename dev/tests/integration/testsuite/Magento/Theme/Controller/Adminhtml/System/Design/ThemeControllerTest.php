@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Theme\Controller\Adminhtml\System\Design;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Theme\Controller\Adminhtml\System\Design;
-
 class ThemeControllerTest extends \Magento\Backend\Utility\Controller
 {
     /** @var \Magento\Filesystem */

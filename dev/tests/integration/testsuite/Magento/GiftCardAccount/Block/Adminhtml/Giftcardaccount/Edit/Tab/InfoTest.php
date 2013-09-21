@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
+
 /**
  * Test class for \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
-
 class InfoTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info */

@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
+
 /**
  * Test class for block \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
  * @magentoAppArea adminhtml
  */
-namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**

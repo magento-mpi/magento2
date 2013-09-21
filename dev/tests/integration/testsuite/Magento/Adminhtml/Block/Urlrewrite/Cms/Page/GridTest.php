@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
+
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
-
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**

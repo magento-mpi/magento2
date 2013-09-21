@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Report\Filter;
+
 /**
  * Test class for \Magento\Adminhtml\Block\Report\Filter\Form
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Report\Filter;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**

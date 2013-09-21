@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
+
 /**
  * Test class for \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
-
 class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
