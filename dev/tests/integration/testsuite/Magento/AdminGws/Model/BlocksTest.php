@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\AdminGws\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\AdminGws\Model;
-
 class BlocksTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected function setUp()

@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml;
-
 class DashboardTest extends \Magento\Backend\Utility\Controller
 {
     public function testTunnelAction()
