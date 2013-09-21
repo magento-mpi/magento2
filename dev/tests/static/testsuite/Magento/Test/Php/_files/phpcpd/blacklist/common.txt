@@ -26,7 +26,7 @@ Magento/CatalogInventory/Model/Source
 Magento/CatalogSearch/Model/Resource/Helper
 Magento/Centinel/Controller
 Magento/Centinel/Model/State
-Magento/Checkout/Block/Js/
+Magento/Checkout/Block/Js
 Magento/Checkout/Block/Multishipping/Payment
 Magento/Checkout/Model/Type
 Magento/Connect/Block/Adminhtml/Extension/Custom/Edit/Tab
