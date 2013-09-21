@@ -53,9 +53,9 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     protected $_itemFactory;
 
     /**
-     * @var Magento_Rma_Model_Item_Form
+     * @var Magento_Eav_Model_Form_Factory
      */
-    protected $_formFactory;
+    protected $_itemFormFactory;
 
     /**
      * @var Magento_Customer_Model_Session
@@ -69,7 +69,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
 
     /**
      * @param Magento_Core_Model_Factory $modelFactory
-     * @param \Magento_Eav_Model_Form_Factory|\Magento_Rma_Model_Item_Form $formFactory
+     * @param Magento_Eav_Model_Form_Factory $formFactory
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
@@ -78,7 +78,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
      * @param Magento_Rma_Model_Resource_Item_CollectionFactory $itemsFactory
      * @param Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $historiesFactory
      * @param Magento_Rma_Model_ItemFactory $itemFactory
-     * @param Magento_Rma_Model_Item_Form|Magento_Rma_Model_Item_FormFactory $formFactory
+     * @param Magento_Rma_Model_Item_FormFactory $itemFormFactory
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Eav_Model_Config $eavConfig
      * @param array $data
@@ -94,7 +94,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         Magento_Rma_Model_Resource_Item_CollectionFactory $itemsFactory,
         Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $historiesFactory,
         Magento_Rma_Model_ItemFactory $itemFactory,
-        Magento_Rma_Model_Item_FormFactory $formFactory,
+        Magento_Rma_Model_Item_FormFactory $itemFormFactory,
         Magento_Customer_Model_Session $customerSession,
         Magento_Eav_Model_Config $eavConfig,
         array $data = array()
@@ -105,7 +105,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         $this->_itemsFactory = $itemsFactory;
         $this->_historiesFactory = $historiesFactory;
         $this->_itemFactory = $itemFactory;
-        $this->_formFactory = $formFactory;
+        $this->_itemFormFactory = $itemFormFactory;
         $this->_customerSession = $customerSession;
         $this->_eavConfig = $eavConfig;
         parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
@@ -157,7 +157,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm Magento_Rma_Model_Item_Form */
-        $itemForm = $this->_formFactory->create();
+        $itemForm = $this->_itemFormFactory->create();
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);
@@ -193,7 +193,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         foreach ($items as $item) {
             if (!$itemForm) {
                 /* @var $itemForm Magento_Rma_Model_Item_Form */
-                $itemForm = $this->_formFactory->create();
+                $itemForm = $this->_itemFormFactory->create();
                 $itemForm->setFormCode('default')
                     ->setStore($this->getStore())
                     ->setEntity($item);
