@@ -98,7 +98,6 @@ class Magento_CustomerCustomAttributes_Model_Observer
             $quoteAddress = $this->_quoteAddressFactory->create();
             $quoteAddress->attachDataToEntities($collection->getItems());
         }
-
         return $this;
     }
 
@@ -129,9 +128,9 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
         if ($quoteAddress instanceof Magento_Core_Model_Abstract) {
-            /** @var $quoteAddress Magento_CustomerCustomAttributes_Model_Sales_Quote_Address */
-            $quoteAddress = $this->_quoteAddressFactory->create();
-            $quoteAddress->saveAttributeData($quoteAddress);
+            /** @var $quoteAddressModel Magento_CustomerCustomAttributes_Model_Sales_Quote_Address */
+            $quoteAddressModel = $this->_quoteAddressFactory->create();
+            $quoteAddressModel->saveAttributeData($quoteAddress);
         }
         return $this;
     }
@@ -215,9 +214,9 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $orderAddress = $observer->getEvent()->getAddress();
         if ($orderAddress instanceof Magento_Core_Model_Abstract) {
-            /** @var $orderAddress Magento_CustomerCustomAttributes_Model_Sales_Order_Address */
-            $orderAddress = $this->_orderAddressFactory->create();
-            $orderAddress->saveAttributeData($orderAddress);
+            /** @var $orderAddressModel Magento_CustomerCustomAttributes_Model_Sales_Order_Address */
+            $orderAddressModel = $this->_orderAddressFactory->create();
+            $orderAddressModel->saveAttributeData($orderAddress);
         }
         return $this;
     }
