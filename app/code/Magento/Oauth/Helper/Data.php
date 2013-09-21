@@ -92,7 +92,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     const ERR_PERMISSION_UNKNOWN = 14;
     const ERR_PERMISSION_DENIED = 15;
     const ERR_METHOD_NOT_ALLOWED = 16;
-	const ERR_CONSUMER_KEY_INVALID = 17;
+    const ERR_CONSUMER_KEY_INVALID = 17;
     /**#@-*/
 
     /**#@+
@@ -204,6 +204,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param int $length String length
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _generateRandomString($length)
     {

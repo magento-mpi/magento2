@@ -1,6 +1,6 @@
 <?php
 /**
- * Services must throw this exception when encountering an unautorization operation
+ * Services must throw this exception when encountering an unauthorized operation
  *
  * {license_notice}
  *

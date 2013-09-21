@@ -21,7 +21,7 @@ require_once __DIR__ . '/../../../../../lib/OAuth/bootstrap.php';
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Authentication_Rest_OauthClient extends AbstractService
+class Magento_TestFramework_Authentication_Rest_OauthClient extends AbstractService
 {
     /** @var string|null */
     protected $_oauthVerifier = null;
