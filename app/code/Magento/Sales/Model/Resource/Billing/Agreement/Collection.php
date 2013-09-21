@@ -51,6 +51,7 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_customerResource = $customerResource;
     }
+
     /**
      * Collection initialization
      */
