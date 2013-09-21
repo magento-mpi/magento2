@@ -22,7 +22,7 @@ class Magento_Adminhtml_Helper_Media_Js extends Magento_Core_Helper_Js
     /**
      * @inheritdoc
      */
-    protected function _initTranslateData()
+    protected function _populateTranslateData()
     {
         $this->_addTranslation('Complete', __('Complete'));
         $this->_addTranslation('The file size should be more than 0 bytes.', __('The file size should be more than 0 bytes.'));

@@ -98,17 +98,18 @@ class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
     public function getTranslateData()
     {
         if ($this->_translateData === null) {
-            $this->_initTranslateData();
+            $this->_translateData = array();
+            $this->_populateTranslateData();
         }
         return $this->_translateData;
     }
 
     /**
-     * Helper function that initializes _translateData with default values.
+     * Helper function that populates _translateData with default values.
      *
      * @SuppressWarnings(PHPMD)
      */
-    protected function _initTranslateData()
+    protected function _populateTranslateData()
     {
         // @codingStandardsIgnoreStart
         //flexuploader.js
@@ -267,10 +268,7 @@ class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
      */
     protected function _addTranslation($key, $translatedText) 
     {
-        if ($this->_translateData === null) {
-            $this->_translateData = array();
-        }
-        if ($key != $translatedText) {
+        if ($key !== $translatedText) {
             $this->_translateData[$key] = $translatedText;
         }
     }
