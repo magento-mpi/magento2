@@ -28,9 +28,6 @@
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
-        <param name="imagesStorage">
-            <instance type="Magento_Cms_Model_Wysiwyg_Images_Storage_Proxy" />
-        </param>
     </type>
     <type name="Magento_Cms_Model_Page">
         <param name="eventManager">
