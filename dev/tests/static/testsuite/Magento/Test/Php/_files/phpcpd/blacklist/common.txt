@@ -26,6 +26,7 @@ Magento/CatalogInventory/Model/Source
 Magento/CatalogSearch/Model/Resource/Helper
 Magento/Centinel/Controller
 Magento/Centinel/Model/State
+Magento/Checkout/Block/Js
 Magento/Checkout/Block/Multishipping/Payment
 Magento/Checkout/Model/Type
 Magento/Connect/Block/Adminhtml/Extension/Custom/Edit/Tab
@@ -44,6 +45,7 @@ Magento/GiftMessage/Block/Adminhtml/Sales/Order
 Magento/ImportExport/Model
 Magento/Index/Model/Process
 Magento/Install/Block/Db
+Magento/Page/Block/Js/
 Magento/Payment/Block/Form
 Magento/Payment/Model/Method
 Magento/Payment/Model/Config
@@ -62,6 +64,7 @@ Magento/CatalogRule/Model
 Magento/Tax/Model/Sales/Pdf
 Magento/Usa/Model/Shipping/Carrier
 Magento/Webapi/Model
+Magento/Widget/Model/Widget/Instance
 Magento/Wishlist/Model
 lib/Magento/Archive
 lib/Magento/Connect/Channel

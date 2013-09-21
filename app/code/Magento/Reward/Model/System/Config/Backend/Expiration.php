@@ -17,16 +17,6 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
     const XML_PATH_EXPIRATION_DAYS = 'magento_reward/general/expiration_days';
 
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @var Magento_Core_Model_Resource_Config_Data_CollectionFactory
      */
     protected $_configFactory;
@@ -62,7 +52,7 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
         $this->_config = $config;
         $this->_configFactory = $configFactory;
         $this->_historyFactory = $historyFactory;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -15,7 +15,7 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Model_Source_Layout
+class Magento_Page_Model_Source_Layout implements Magento_Core_Model_Option_ArrayInterface
 {
 
     /**

@@ -10,10 +10,11 @@
 
 
 class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Protection_Value
+    extends Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Generic
 {
     public function toOptionArray()
     {
-        $carrier = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Dhl');
+        $carrier = $this->_shippingDhl;
         $arr = array();
         foreach ($carrier->getAdditionalProtectionValueTypes() as $k=>$v) {
             $arr[] = array('value'=>$k, 'label'=>$v);

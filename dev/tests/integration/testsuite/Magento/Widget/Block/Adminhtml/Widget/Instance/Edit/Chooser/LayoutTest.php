@@ -26,9 +26,10 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
 
         $layoutUtility = new Magento_Core_Utility_Layout($this);
         $args = array(
-            'context'            => Mage::getSingleton('Magento_Core_Block_Template_Context'),
-            'layoutMergeFactory' => Mage::getSingleton('Magento_Core_Model_Layout_MergeFactory'),
-            'themesFactory'      => Mage::getSingleton('Magento_Core_Model_Resource_Theme_CollectionFactory'),
+            'layoutMergeFactory' => $this->getMock('Magento_Core_Model_Layout_MergeFactory',
+                array(), array(), '', false),
+            'themeCollFactory' => Mage::getSingleton('Magento_Core_Model_Resource_Theme_CollectionFactory'),
+            'context' => Mage::getSingleton('Magento_Core_Block_Template_Context'),
             'data' => array(
                 'name'  => 'page_type',
                 'id'    => 'page_types_select',

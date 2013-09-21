@@ -3,11 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_WebsiteRestriction
+ * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+/**
+ * Setup model
+ */
 class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
@@ -16,35 +19,30 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
     protected $_migrationFactory;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Helper_Data $helper
-     * @param string $resourceName
      * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
-     * @param array $data
+     * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Config_Resource $resourcesConfig,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Helper_Data $helper,
-        $resourceName,
         Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
-        array $data = array()
+        $resourceName
     ) {
         $this->_migrationFactory = $migrationFactory;
         parent::__construct(
-            $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $filesystem,
-            $helper, $resourceName, $data
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $resourceName
         );
     }
 

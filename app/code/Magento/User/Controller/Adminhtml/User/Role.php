@@ -132,7 +132,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
         $rid = $this->getRequest()->getParam('rid', false);
 
         $currentUser = Mage::getModel('Magento_User_Model_User')->setId(
-            Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId()
+            $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser()->getId()
         );
 
         if (in_array($rid, $currentUser->getRoles()) ) {

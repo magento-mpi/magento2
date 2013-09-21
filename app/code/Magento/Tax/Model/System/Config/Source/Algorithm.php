@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_System_Config_Source_Algorithm
+class Magento_Tax_Model_System_Config_Source_Algorithm implements Magento_Core_Model_Option_ArrayInterface
 {
     protected $_options;
 

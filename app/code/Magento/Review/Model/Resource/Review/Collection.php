@@ -78,16 +78,20 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Review_Helper_Data $reviewData,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Rating_Model_Rating_Option_VoteFactory $voteFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
@@ -96,7 +100,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
         $this->_voteFactory = $voteFactory;
         $this->_storeManager = $storeManager;
 
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**

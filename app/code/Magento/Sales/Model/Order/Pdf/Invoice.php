@@ -186,7 +186,7 @@ class Magento_Sales_Model_Order_Pdf_Invoice extends Magento_Sales_Model_Order_Pd
             /* Add totals */
             $this->insertTotals($page, $invoice);
             if ($invoice->getStoreId()) {
-                $this->_storeManager->revert();
+                $this->_locale->revert();
             }
         }
         $this->_afterGetPdf();

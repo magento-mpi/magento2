@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="magento_giftcardaccount_update_states" instance="Magento_GiftCardAccount_Model_Cron" method="updateStates">
+        <schedule>0 1 * * *</schedule>
+    </job>
+    <job name="magento_giftcardaccount_generage_codes_pool" instance="Magento_GiftCardAccount_Model_Pool" method="applyCodesGeneration">
+        <schedule>30 * * * *</schedule>
+    </job>
+</config>

@@ -9,7 +9,8 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Freemethod extends Magento_Usa_Model_Shipping_Carrier_Ups_Source_Method
+class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Freemethod
+    extends Magento_Usa_Model_Shipping_Carrier_Ups_Source_Method
 {
     public function toOptionArray()
     {

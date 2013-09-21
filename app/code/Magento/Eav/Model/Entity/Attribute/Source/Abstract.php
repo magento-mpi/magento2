@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_Eav_Model_Entity_Attribute_Source_Abstract
-    implements Magento_Eav_Model_Entity_Attribute_Source_Interface
+    implements Magento_Eav_Model_Entity_Attribute_Source_Interface, Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Reference to the attribute instance
@@ -137,5 +137,15 @@ abstract class Magento_Eav_Model_Entity_Attribute_Source_Abstract
     public function getIndexOptionText($value)
     {
         return $this->getOptionText($value);
+    }
+
+    /**
+     * Get options as array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->getAllOptions();
     }
 }

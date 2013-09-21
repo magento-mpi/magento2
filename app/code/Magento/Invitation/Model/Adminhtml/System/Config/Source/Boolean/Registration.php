@@ -12,6 +12,7 @@
  * Invitation config source for customer registration field
  */
 class Magento_Invitation_Model_Adminhtml_System_Config_Source_Boolean_Registration
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

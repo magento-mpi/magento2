@@ -41,6 +41,7 @@
  * @category    Magento
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
@@ -98,6 +99,77 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     protected $_checkDateForStore = array();
 
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_TargetRule_Model_Rule_Condition_CombineFactory
+     */
+    protected $_ruleFactory;
+
+    /**
+     * @var Magento_TargetRule_Model_Actions_Condition_CombineFactory
+     */
+    protected $_actionFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_iterator;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Resource_Iterator $iterator
+     * @param Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory
+     * @param Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Resource_Iterator $iterator,
+        Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory,
+        Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_locale = $locale;
+        $this->_iterator = $iterator;
+        $this->_productFactory = $productFactory;
+        $this->_ruleFactory = $ruleFactory;
+        $this->_actionFactory = $actionFactory;
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
+    }
+
+
+    /**
      * Set resource model
      */
     protected function _construct()
@@ -129,7 +201,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_TargetRule_Model_Rule_Condition_Combine');
+        return $this->_ruleFactory->create();
     }
 
     /**
@@ -139,7 +211,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_TargetRule_Model_Actions_Condition_Combine');
+        return $this->_actionFactory->create();
     }
 
     /**
@@ -174,7 +246,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+        $productCollection = $this->_productCollectionFactory->create();
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);
@@ -185,14 +257,14 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
 
             $this->_productIds = array();
             $this->_products   = array();
-            Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+            $this->_iterator->walk(
                 $productCollection->getSelect(),
                 array(
                     array($this, 'callbackValidateProduct')
                 ),
                 array(
                     'attributes'    => $this->getCollectedAttributes(),
-                    'product'       => Mage::getModel('Magento_Catalog_Model_Product'),
+                    'product'       => $this->_productFactory->create(),
                     'onlyId'        => (bool) $onlyId
                 )
             );
@@ -259,8 +331,11 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function checkDateForStore($storeId)
     {
         if (!isset($this->_checkDateForStore[$storeId])) {
-            $this->_checkDateForStore[$storeId] = Mage::app()->getLocale()
-                ->isStoreDateInInterval(null, $this->getFromDate(), $this->getToDate());
+            $this->_checkDateForStore[$storeId] = $this->_locale->isStoreDateInInterval(
+                null,
+                $this->getFromDate(),
+                $this->getToDate()
+            );
         }
         return $this->_checkDateForStore[$storeId];
     }
@@ -333,7 +408,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
                     continue;
                 }
                 if (!class_exists($actionArgs['type'])) {
-                    Mage::throwException(
+                    throw new Magento_Core_Exception(
                         __('Model class name for attribute is invalid')
                     );
                 }
