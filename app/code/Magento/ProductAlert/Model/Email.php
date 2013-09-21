@@ -86,10 +86,34 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Core_Model_App_Emulation
+     */
+    protected $_appEmulation;
+
+    /**
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
      * @param Magento_ProductAlert_Helper_Data $productAlertData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Core_Model_App_Emulation $appEmulation
+     * @param Magento_Core_Model_Email_TemplateFactory $templateFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -99,12 +123,20 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Core_Model_App_Emulation $appEmulation,
+        Magento_Core_Model_Email_TemplateFactory $templateFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_customerFactory = $customerFactory;
+        $this->_appEmulation = $appEmulation;
+        $this->_templateFactory = $templateFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -148,7 +180,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
      */
     public function setWebsiteId($websiteId)
     {
-        $this->_website = Mage::app()->getWebsite($websiteId);
+        $this->_website = $this->_storeManager->getWebsite($websiteId);
         return $this;
     }
 
@@ -160,7 +192,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        $this->_customer = $this->_customerFactory->create()->load($customerId);
         return $this;
     }
 
@@ -274,8 +306,7 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
             return false;
         }
 
-        $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
-        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+        $initialEnvironmentInfo = $this->_appEmulation->startEnvironmentEmulation($storeId);
 
         if ($this->_type == 'price') {
             $this->_getPriceBlock()
@@ -299,9 +330,9 @@ class Magento_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
             $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId);
         }
 
-        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+        $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
-        Mage::getModel('Magento_Core_Model_Email_Template')
+        $this->_templateFactory->create()
             ->setDesignConfig(array(
                 'area'  => Magento_Core_Model_App_Area::AREA_FRONTEND,
                 'store' => $storeId

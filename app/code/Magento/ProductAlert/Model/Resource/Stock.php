@@ -19,6 +19,23 @@
 class Magento_ProductAlert_Model_Resource_Stock extends Magento_ProductAlert_Model_Resource_Abstract
 {
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_dateFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Date $dateFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Date $dateFactory
+    ) {
+        $this->_dateFactory = $dateFactory;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -43,7 +60,7 @@ class Magento_ProductAlert_Model_Resource_Stock extends Magento_ProductAlert_Mod
             }
         }
         if (is_null($object->getAddDate())) {
-            $object->setAddDate(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
+            $object->setAddDate($this->_dateFactory->create()->gmtDate());
             $object->setStatus(0);
         }
         return parent::_beforeSave($object);
