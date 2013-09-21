@@ -86,3 +86,7 @@ Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit
 Magento/User/Block/User/Edit
 var/generation
 dev/tools/nmparser
+Magento/Core/Model/Design/Backend
+Magento/CatalogEvent/Block/Catalog
+app/code/Magento/Core/Model/Design/Backend
+app/code/Magento/CatalogEvent/Block/Catalog
