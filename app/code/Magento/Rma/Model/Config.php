@@ -10,10 +10,6 @@
 
 /**
  * RMA config
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Config extends Magento_Object
 {
@@ -54,7 +50,7 @@ class Magento_Rma_Model_Config extends Magento_Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -64,12 +60,12 @@ class Magento_Rma_Model_Config extends Magento_Object
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {

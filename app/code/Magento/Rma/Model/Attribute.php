@@ -10,10 +10,6 @@
 
 /**
  * RMA Item model
- *
- * @category   Magento
- * @package    Magento_Rma
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
 {
@@ -77,7 +73,6 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
         $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $registry, $resource, $resourceCollection, $data);
     }
-
 
     /**
      * Set active website instance
