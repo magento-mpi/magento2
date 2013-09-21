@@ -6,12 +6,6 @@
  *
  * @copyright  {copyright}
  * @license    {license_link}
- */
-
-
-/**
- * oAuth nonce model
- *
  * @author Magento Core Team <core@magentocommerce.com>
  * @method string getNonce()
  * @method Magento_Oauth_Model_Nonce setNonce() setNonce(string $nonce)

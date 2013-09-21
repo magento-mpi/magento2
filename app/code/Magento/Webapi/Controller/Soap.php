@@ -37,8 +37,11 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     /** @var Magento_Core_Model_App */
     protected $_application;
 
-    /** @var Magento_Webapi_Model_Authentication */
-    protected $_authentication;
+    /** @var Magento_Oauth_Service_OauthV1Interface */
+    protected $_oauthService;
+
+    /** @var  Magento_Oauth_Helper_Data */
+    protected $_oauthHelper;
 
     /**
      * Initialize dependencies.
@@ -50,7 +53,8 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
      * @param Magento_Webapi_Controller_ErrorProcessor $errorProcessor
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_App $application
-     * @param Magento_Webapi_Model_Authentication $authentication
+     * @param Magento_Oauth_Service_OauthV1Interface $oauthService
+     * @param Magento_Oauth_Helper_Data $oauthHelper
      */
     public function __construct(
         Magento_Webapi_Controller_Soap_Request $request,
@@ -60,7 +64,8 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
         Magento_Webapi_Controller_ErrorProcessor $errorProcessor,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_App $application,
-        Magento_Webapi_Model_Authentication $authentication
+        Magento_Oauth_Service_OauthV1Interface $oauthService,
+        Magento_Oauth_Helper_Data $oauthHelper
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -69,7 +74,8 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
         $this->_errorProcessor = $errorProcessor;
         $this->_appState = $appState;
         $this->_application = $application;
-        $this->_authentication = $authentication;
+        $this->_oauthService = $oauthService;
+        $this->_oauthHelper = $oauthHelper;
     }
 
     /**
@@ -100,7 +106,9 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
                 );
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
             } else {
-                $this->_authentication->authenticate($this->_request);
+                // $this->_oauthService->validateAccessToken(
+                //    $this->_oauthHelper->_prepareServiceRequest($this->_request)
+                //);
                 $responseBody = $this->_soapServer->handle();
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }

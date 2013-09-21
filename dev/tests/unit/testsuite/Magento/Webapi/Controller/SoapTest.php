@@ -33,8 +33,11 @@ class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Core_Model_App */
     protected $_applicationMock;
 
-    /** @var Magento_Webapi_Model_Authentication */
-    protected $_authenticationMock;
+    /** @var Magento_Oauth_Service_OauthV1 */
+    protected $_oauthServiceMock;
+
+    /** @var Magento_Oauth_Helper_Data */
+    protected $_oauthHelperMock;
 
     /**
      * Set up Controller object.
@@ -80,9 +83,12 @@ class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
         $this->_applicationMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         $this->_applicationMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
 
-        $this->_authenticationMock = $this->getMockBuilder('Magento_Webapi_Model_Authentication')
+        $this->_oauthServiceMock = $this->getMockBuilder('Magento_Oauth_Service_OauthV1')
             ->disableOriginalConstructor()
-            ->setMethods(['authenticate'])
+            ->getMock();
+
+        $this->_oauthHelperMock = $this->getMockBuilder('Magento_Oauth_Helper_Data')
+            ->disableOriginalConstructor()
             ->getMock();
 
         $this->_responseMock->expects($this->any())->method('clearHeaders')->will($this->returnSelf());
@@ -98,7 +104,8 @@ class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
             $this->_errorProcessorMock,
             $this->_appStateMock,
             $this->_applicationMock,
-            $this->_authenticationMock
+            $this->_oauthServiceMock,
+            $this->_oauthHelperMock
         );
     }
 
@@ -169,7 +176,7 @@ EXPECTED_MESSAGE;
         $this->_wsdlGeneratorMock->expects($this->any())
             ->method('generate')
             ->will($this->returnValue($wsdl));
-        $this->_authenticationMock->expects($this->never())->method('authenticate');
+        $this->_oauthServiceMock->expects($this->never())->method('validateAccessToken');
 
         $this->_soapController->dispatch();
         $this->assertEquals($wsdl, $this->_responseMock->getBody());
@@ -187,7 +194,8 @@ EXPECTED_MESSAGE;
         $this->_soapServerMock->expects($this->any())
             ->method('handle')
             ->will($this->returnValue($soapResponse));
-        $this->_authenticationMock->expects($this->once())->method('authenticate');
+        // TODO: Should be changed after authentication is enabled
+        $this->_oauthServiceMock->expects($this->never())->method('validateAccessToken');
 
         $this->_soapController->dispatch();
         $this->assertEquals($soapResponse, $this->_responseMock->getBody());

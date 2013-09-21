@@ -82,7 +82,6 @@ interface Magento_Oauth_Service_OauthV1Interface
      */
     public function getAccessToken($request);
 
-
     /**
      * Validate an access token
      *
