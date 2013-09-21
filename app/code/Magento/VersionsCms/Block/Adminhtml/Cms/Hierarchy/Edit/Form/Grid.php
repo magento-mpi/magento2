@@ -59,7 +59,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends M
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_pageCollFactory->create()->getCollection();
+        $collection = $this->_pageCollFactory->create();
 
         $store = $this->_getStore();
         if ($store->getId()) {

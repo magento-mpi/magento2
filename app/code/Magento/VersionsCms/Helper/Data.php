@@ -21,17 +21,17 @@ class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_usersHash = null;
 
     /**
-     * @var Magento_User_Model_UserFactory
+     * @var Magento_User_Model_Resource_User_CollectionFactory
      */
     protected $_userCollFactory;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_User_Model_Resource_User_Collection $userCollFactory
+     * @param Magento_User_Model_Resource_User_CollectionFactory $userCollFactory
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_User_Model_Resource_User_Collection $userCollFactory
+        Magento_User_Model_Resource_User_CollectionFactory $userCollFactory
     ) {
         $this->_userCollFactory = $userCollFactory;
         parent::__construct($context);
