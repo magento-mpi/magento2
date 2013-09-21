@@ -48,10 +48,10 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
+        $this->_locale = $locale;
         parent::__construct(
             $eventManager, $logger, $fetchStrategy, $entityFactory, $resource
         );
-        $this->_locale = $locale;
     }
 
     /**
