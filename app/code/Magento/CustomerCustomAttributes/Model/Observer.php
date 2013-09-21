@@ -10,7 +10,6 @@
 
 /**
  * Customer observer
- *
  */
 class Magento_CustomerCustomAttributes_Model_Observer
 {
@@ -22,18 +21,48 @@ class Magento_CustomerCustomAttributes_Model_Observer
     const CONVERT_TYPE_CUSTOMER_ADDRESS     = 'customer_address';
 
     /**
-     * Customer data
-     *
      * @var Magento_CustomerCustomAttributes_Helper_Data
      */
-    protected $_customerData = null;
+    protected $_customerData;
+
+    /**
+     * @var Magento_CustomerCustomAttributes_Model_Sales_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_CustomerCustomAttributes_Model_Sales_Order_AddressFactory
+     */
+    protected $_orderAddressFactory;
+
+    /**
+     * @var Magento_CustomerCustomAttributes_Model_Sales_QuoteFactory
+     */
+    protected $_quoteFactory;
+
+    /**
+     * @var Magento_CustomerCustomAttributes_Model_Sales_Quote_AddressFactory
+     */
+    protected $_quoteAddressFactory;
 
     /**
      * @param Magento_CustomerCustomAttributes_Helper_Data $customerData
+     * @param Magento_CustomerCustomAttributes_Model_Sales_OrderFactory $orderFactory
+     * @param Magento_CustomerCustomAttributes_Model_Sales_Order_AddressFactory $orderAddressFactory
+     * @param Magento_CustomerCustomAttributes_Model_Sales_QuoteFactory $quoteFactory
+     * @param Magento_CustomerCustomAttributes_Model_Sales_Quote_AddressFactory $quoteAddressFactory
      */
     public function __construct(
-        Magento_CustomerCustomAttributes_Helper_Data $customerData
+        Magento_CustomerCustomAttributes_Helper_Data $customerData,
+        Magento_CustomerCustomAttributes_Model_Sales_OrderFactory $orderFactory,
+        Magento_CustomerCustomAttributes_Model_Sales_Order_AddressFactory $orderAddressFactory,
+        Magento_CustomerCustomAttributes_Model_Sales_QuoteFactory $quoteFactory,
+        Magento_CustomerCustomAttributes_Model_Sales_Quote_AddressFactory $quoteAddressFactory
     ) {
+        $this->_orderFactory = $orderFactory;
+        $this->_orderAddressFactory = $orderAddressFactory;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_quoteAddressFactory = $quoteAddressFactory;
         $this->_customerData = $customerData;
     }
 
@@ -47,11 +76,11 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof Magento_Core_Model_Abstract) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote')
-                ->load($quote->getId())
-                ->attachAttributeData($quote);
+            /** @var $quoteModel Magento_CustomerCustomAttributes_Model_Sales_Quote */
+            $quoteModel = $this->_quoteFactory->create();
+            $quoteModel->load($quote->getId());
+            $quoteModel->attachAttributeData($quote);
         }
-
         return $this;
     }
 
@@ -65,8 +94,9 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $collection = $observer->getEvent()->getQuoteAddressCollection();
         if ($collection instanceof Magento_Data_Collection_Db) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote_Address')
-                ->attachDataToEntities($collection->getItems());
+            /** @var $quoteAddress Magento_CustomerCustomAttributes_Model_Sales_Quote_Address */
+            $quoteAddress = $this->_quoteAddressFactory->create();
+            $quoteAddress->attachDataToEntities($collection->getItems());
         }
 
         return $this;
@@ -82,10 +112,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $quote = $observer->getEvent()->getQuote();
         if ($quote instanceof Magento_Core_Model_Abstract) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote')
-                ->saveAttributeData($quote);
+            /** @var $quoteModel Magento_CustomerCustomAttributes_Model_Sales_Quote */
+            $quoteModel = $this->_quoteFactory->create();
+            $quoteModel->saveAttributeData($quote);
         }
-
         return $this;
     }
 
@@ -99,10 +129,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $quoteAddress = $observer->getEvent()->getQuoteAddress();
         if ($quoteAddress instanceof Magento_Core_Model_Abstract) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote_Address')
-                ->saveAttributeData($quoteAddress);
+            /** @var $quoteAddress Magento_CustomerCustomAttributes_Model_Sales_Quote_Address */
+            $quoteAddress = $this->_quoteAddressFactory->create();
+            $quoteAddress->saveAttributeData($quoteAddress);
         }
-
         return $this;
     }
 
@@ -116,11 +146,11 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof Magento_Core_Model_Abstract) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order')
-                ->load($order->getId())
-                ->attachAttributeData($order);
+            /** @var $orderModel Magento_CustomerCustomAttributes_Model_Sales_Order */
+            $orderModel = $this->_orderFactory->create();
+            $orderModel->load($order->getId());
+            $orderModel->attachAttributeData($order);
         }
-
         return $this;
     }
 
@@ -134,10 +164,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $collection = $observer->getEvent()->getOrderAddressCollection();
         if ($collection instanceof Magento_Data_Collection_Db) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order_Address')
-                ->attachDataToEntities($collection->getItems());
+            /** @var $orderAddress Magento_CustomerCustomAttributes_Model_Sales_Order_Address */
+            $orderAddress = $this->_orderAddressFactory->create();
+            $orderAddress->attachDataToEntities($collection->getItems());
         }
-
         return $this;
     }
 
@@ -151,10 +181,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $order = $observer->getEvent()->getOrder();
         if ($order instanceof Magento_Core_Model_Abstract) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order')
-                ->saveAttributeData($order);
+            /** @var $orderModel Magento_CustomerCustomAttributes_Model_Sales_Order */
+            $orderModel = $this->_orderFactory->create();
+            $orderModel->saveAttributeData($order);
         }
-
         return $this;
     }
 
@@ -168,10 +198,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $address = $observer->getEvent()->getAddress();
         if ($address instanceof Magento_Core_Model_Abstract) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order_Address')
-                ->attachDataToEntities(array($address));
+            /** @var $orderAddress Magento_CustomerCustomAttributes_Model_Sales_Order_Address */
+            $orderAddress = $this->_orderAddressFactory->create();
+            $orderAddress->attachDataToEntities(array($address));
         }
-
         return $this;
     }
 
@@ -185,10 +215,10 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $orderAddress = $observer->getEvent()->getAddress();
         if ($orderAddress instanceof Magento_Core_Model_Abstract) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order_Address')
-                ->saveAttributeData($orderAddress);
+            /** @var $orderAddress Magento_CustomerCustomAttributes_Model_Sales_Order_Address */
+            $orderAddress = $this->_orderAddressFactory->create();
+            $orderAddress->saveAttributeData($orderAddress);
         }
-
         return $this;
     }
 
@@ -197,6 +227,7 @@ class Magento_CustomerCustomAttributes_Model_Observer
      *
      * @param Magento_Event_Observer $observer
      * @return Magento_CustomerCustomAttributes_Model_Observer
+     * @throws Magento_Eav_Exception
      */
     public function enterpriseCustomerAttributeBeforeSave(Magento_Event_Observer $observer)
     {
@@ -210,7 +241,7 @@ class Magento_CustomerCustomAttributes_Model_Observer
                 'max' => $attributeCodeMaxLength
             ));
             if (!$validate) {
-                throw Mage::exception('Magento_Eav',
+                throw new Magento_Eav_Exception(
                     __('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)
                 );
             }
@@ -229,12 +260,13 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote')
-                ->saveNewAttribute($attribute);
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order')
-                ->saveNewAttribute($attribute);
+            /** @var $quoteModel Magento_CustomerCustomAttributes_Model_Sales_Quote */
+            $quoteModel = $this->_quoteFactory->create();
+            $quoteModel->saveNewAttribute($attribute);
+            /** @var $orderModel Magento_CustomerCustomAttributes_Model_Sales_Order */
+            $orderModel = $this->_orderFactory->create();
+            $orderModel->saveNewAttribute($attribute);
         }
-
         return $this;
     }
 
@@ -248,12 +280,13 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && !$attribute->isObjectNew()) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote')
-                ->deleteAttribute($attribute);
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order')
-                ->deleteAttribute($attribute);
+            /** @var $quoteModel Magento_CustomerCustomAttributes_Model_Sales_Quote */
+            $quoteModel = $this->_quoteFactory->create();
+            $quoteModel->deleteAttribute($attribute);
+            /** @var $orderModel Magento_CustomerCustomAttributes_Model_Sales_Order */
+            $orderModel = $this->_orderFactory->create();
+            $orderModel->deleteAttribute($attribute);
         }
-
         return $this;
     }
 
@@ -267,12 +300,13 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && $attribute->isObjectNew()) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote_Address')
-                ->saveNewAttribute($attribute);
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order_Address')
-                ->saveNewAttribute($attribute);
+            /** @var $quoteAddress Magento_CustomerCustomAttributes_Model_Sales_Quote_Address */
+            $quoteAddress = $this->_quoteAddressFactory->create();
+            $quoteAddress->saveNewAttribute($attribute);
+            /** @var $orderAddress Magento_CustomerCustomAttributes_Model_Sales_Order_Address */
+            $orderAddress = $this->_orderAddressFactory->create();
+            $orderAddress->saveNewAttribute($attribute);
         }
-
         return $this;
     }
 
@@ -286,12 +320,13 @@ class Magento_CustomerCustomAttributes_Model_Observer
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute instanceof Magento_Customer_Model_Attribute && !$attribute->isObjectNew()) {
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Quote_Address')
-                ->deleteAttribute($attribute);
-            Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order_Address')
-                ->deleteAttribute($attribute);
+            /** @var $quoteAddress Magento_CustomerCustomAttributes_Model_Sales_Quote_Address */
+            $quoteAddress = $this->_quoteAddressFactory->create();
+            $quoteAddress->deleteAttribute($attribute);
+            /** @var $orderAddress Magento_CustomerCustomAttributes_Model_Sales_Order_Address */
+            $orderAddress = $this->_orderAddressFactory->create();
+            $orderAddress->deleteAttribute($attribute);
         }
-
         return $this;
     }
 
