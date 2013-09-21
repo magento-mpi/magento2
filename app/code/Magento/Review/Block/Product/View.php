@@ -23,6 +23,11 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
     protected $_reviewsCollection;
 
     /**
+     * @var Magento_Review_Model_Resource_Review_CollectionFactory
+     */
+    protected $_reviewsColFactory;
+
+    /**
      * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
@@ -49,7 +54,7 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_reviewsCollection = $collectionFactory->create();
+        $this->_reviewsColFactory = $collectionFactory;
         $this->_storeManager = $storeManager;
         parent::__construct($coreRegistry, $coreString, $taxData, $catalogData, $coreData, $context, $data);
     }
@@ -91,7 +96,7 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
     public function getReviewsCollection()
     {
         if (null === $this->_reviewsCollection) {
-            $this->_reviewsCollection
+            $this->_reviewsColFactory->create()
                 ->addStoreFilter($this->_storeManager->getStore()->getId())
                 ->addStatusFilter(Magento_Review_Model_Review::STATUS_APPROVED)
                 ->addEntityFilter('product', $this->getProduct()->getId())
