@@ -16,7 +16,7 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Adminhtml_System_Config_Source_Engine
+class Magento_Search_Model_Adminhtml_System_Config_Source_Engine implements Magento_Core_Model_Option_ArrayInterface
 {
     const FULLTEXT = 'Magento_CatalogSearch_Model_Resource_Fulltext_Engine';
     const SOLR = 'Magento_Search_Model_Resource_Engine';

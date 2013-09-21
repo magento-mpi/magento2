@@ -3,11 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_WebsiteRestriction
+ * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+/**
+ * Setup model
+ */
 class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**

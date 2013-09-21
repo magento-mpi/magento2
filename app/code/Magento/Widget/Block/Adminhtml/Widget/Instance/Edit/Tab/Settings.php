@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
-    extends Magento_Adminhtml_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
@@ -45,9 +45,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
         Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
         $this->_themeLabelFactory = $themeLabelFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $coreData, $context, $data);
     }
 
     protected function _construct()

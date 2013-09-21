@@ -103,6 +103,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Backend_Block_W
     /**
      * Return array of available widgets based on configuration
      *
+     * @param bool $withEmptyElement
      * @return array
      */
     protected function _getAvailableWidgets($withEmptyElement = false)

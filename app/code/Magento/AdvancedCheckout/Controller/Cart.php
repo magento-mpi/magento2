@@ -102,7 +102,7 @@ class Magento_AdvancedCheckout_Controller_Cart
             $this->_getSession()->addMessages($cart->getMessages());
 
             if ($cart->hasErrorMessage()) {
-                Mage::throwException($cart->getErrorMessage());
+                throw new Magento_Core_Exception($cart->getErrorMessage());
             }
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
@@ -210,8 +210,8 @@ class Magento_AdvancedCheckout_Controller_Cart
         try {
             $cart = $this->_getCart();
 
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
+                ->setStoreId($this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getId())
                 ->load($id);
 
             $cart->addProduct($product, $buyRequest)->save();

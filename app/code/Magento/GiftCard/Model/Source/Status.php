@@ -9,6 +9,7 @@
  */
 
 class Magento_GiftCard_Model_Source_Status extends Magento_Core_Model_Abstract
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

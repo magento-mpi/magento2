@@ -25,14 +25,20 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Model_Factory $modelFactory
+     * @param Magento_Eav_Model_Form_Factory $formFactory
      * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Factory $modelFactory,
+        Magento_Eav_Model_Form_Factory $formFactory,
         Magento_Rma_Helper_Data $rmaData,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -40,7 +46,7 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
     }
 
     public function _construct()

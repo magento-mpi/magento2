@@ -15,7 +15,7 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listtype
+class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listtype implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve options array

@@ -51,7 +51,9 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Catalog_Model_Resource_Product $product
      */
@@ -60,18 +62,16 @@ class Magento_Reports_Model_Resource_Product_Lowstock_Collection extends Magento
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Catalog_Model_Resource_Product $product
     ) {
         $this->_inventoryData = $catalogInventoryData;
         parent::__construct(
-            $catalogProductFlat,
-            $catalogData,
-            $eventManager,
-            $fetchStrategy,
-            $coreStoreConfig,
-            $product
+            $catalogProductFlat, $catalogData, $eventManager, $logger,
+            $fetchStrategy, $coreStoreConfig, $entityFactory, $product
         );
     }
 

@@ -42,6 +42,29 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract exte
     protected $_template = 'sku/errors.phtml';
 
     /**
+     * Advanced checkout cart factory
+     *
+     * @var Magento_AdvancedCheckout_Model_CartFactory
+     */
+    protected $_cartFactory = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_AdvancedCheckout_Model_CartFactory $cartFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_AdvancedCheckout_Model_CartFactory $cartFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_cartFactory = $cartFactory;
+    }
+
+    /**
      * Define ID
      */
     protected function _construct()
@@ -137,7 +160,7 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract exte
     public function getCart()
     {
         if (!isset($this->_cart)) {
-            $this->_cart =  Mage::getModel('Magento_AdvancedCheckout_Model_Cart');
+            $this->_cart =  $this->_cartFactory->create();
         }
         return $this->_cart;
     }

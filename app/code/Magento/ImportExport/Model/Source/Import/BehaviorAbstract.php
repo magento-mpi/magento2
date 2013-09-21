@@ -16,6 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Magento_ImportExport_Model_Source_Import_BehaviorAbstract
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Get array of possible values

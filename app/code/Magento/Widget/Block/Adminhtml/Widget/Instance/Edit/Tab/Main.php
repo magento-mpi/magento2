@@ -17,7 +17,7 @@
  */
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Store list manager

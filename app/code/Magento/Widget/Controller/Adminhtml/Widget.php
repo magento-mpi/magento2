@@ -35,17 +35,33 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
     protected $_widget;
 
     /**
+     * @var Magento_Widget_Model_Widget_Config
+     */
+    protected $_widgetConfig;
+
+    /**
+     * @var Magento_Widget_Model_Widget
+     */
+    protected $_widget;
+
+    /**
+     * @param Magento_Widget_Model_Widget_Config $widgetConfig
+     * @param Magento_Widget_Model_Widget $widget
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Widget_Model_Widget_Config $widgetConfig
      * @param Magento_Widget_Model_Widget $widget
      */
     public function __construct(
+        Magento_Widget_Model_Widget_Config $widgetConfig,
+        Magento_Widget_Model_Widget $widget,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Widget_Model_Widget_Config $widgetConfig,
         Magento_Widget_Model_Widget $widget
     ) {
+        $this->_widgetConfig = $widgetConfig;
+        $this->_widget = $widget;
         $this->_coreRegistry = $coreRegistry;
         $this->_widgetConfig = $widgetConfig;
         $this->_widget = $widget;

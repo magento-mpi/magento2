@@ -80,6 +80,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Sales_Model_Resource_Order $resource,
         Magento_Core_Model_Resource_Store_CollectionFactory $storeCollFactory,
@@ -89,7 +90,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
         $this->_orderResource = $resource;
         $this->_storeCollFactory = $storeCollFactory;
         $this->_storeManager = $storeManager;
-        parent::__construct($fetchStrategy, $this->_orderResource->getReadConnection());
+        parent::__construct($logger, $fetchStrategy, $this->_orderResource->getReadConnection());
     }
 
     /**
@@ -128,7 +129,6 @@ class Magento_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collecti
         $this->_orderStateValue     = (!is_array($state)) ? array($state) : $state;
         return $this;
     }
-
 
     /**
      * Before load action

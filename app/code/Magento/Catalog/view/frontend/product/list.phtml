@@ -53,7 +53,7 @@ $_helper = $this->helper('Magento_Catalog_Helper_Output');
                     <?php if ($_product->isSaleable()): ?>
                     <p>
                         <button type="button" title="<?php echo __('Add to Cart') ?>" class="button btn-cart"
-                                data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_product) ?>'}">
+                                data-mage-init="{redirectUrl: {url: '<?php echo $this->getAddToCartUrl($_product) ?>'}}">
                             <span><span><?php echo __('Add to Cart') ?></span></span></button>
                     </p>
                     <?php else: ?>
@@ -82,7 +82,6 @@ $_helper = $this->helper('Magento_Catalog_Helper_Output');
     </ol>
     <script type="text/javascript">
         jQuery('#products-list').decorate('list');
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php else: ?>
 
@@ -114,7 +113,7 @@ $_helper = $this->helper('Magento_Catalog_Helper_Output');
             <div class="actions">
                 <?php if ($_product->isSaleable()): ?>
                 <button type="button" title="<?php echo __('Add to Cart') ?>" class="button btn-cart"
-                        data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_product) ?>'}">
+                        data-mage-init="{redirectUrl: {url: '<?php echo $this->getAddToCartUrl($_product) ?>'}}">
                     <span><span><?php echo __('Add to Cart') ?></span></span></button>
                 <?php else: ?>
                 <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
@@ -138,7 +137,6 @@ $_helper = $this->helper('Magento_Catalog_Helper_Output');
         <?php endforeach ?>
     <script type="text/javascript">
         jQuery('ul.products-grid > li').decorate('generic', ['odd', 'even', 'first', 'last']);
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php endif; ?>
 

@@ -228,68 +228,35 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getCategoryChangefreq($storeId),
             'priority' => $helper->getCategoryPriority($storeId),
-            'collection' => $this->_getCategoryItemsCollection($storeId)
+            'collection' => $this->_categoryFactory->create()->getCollection($storeId)
         ));
 
         $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getProductChangefreq($storeId),
             'priority' => $helper->getProductPriority($storeId),
-            'collection' => $this->_getProductItemsCollection($storeId)
+            'collection' => $this->_productFactory->create()->getCollection($storeId)
         ));
 
         $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getPageChangefreq($storeId),
             'priority' => $helper->getPagePriority($storeId),
-            'collection' => $this->_getPageItemsCollection($storeId)
+            'collection' => $this->_cmsFactory->create()->getCollection($storeId)
         ));
 
         $this->_tags = array(
             self::TYPE_INDEX => array(
                 self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                    . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL,
+                . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL,
                 self::CLOSE_TAG_KEY => '</sitemapindex>'
             ),
             self::TYPE_URL => array(
                 self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                    . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
-                    . ' xmlns:content="http://www.google.com/schemas/sitemap-content/1.0"'
-                    . ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . PHP_EOL,
+                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
+                . ' xmlns:content="http://www.google.com/schemas/sitemap-content/1.0"'
+                . ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . PHP_EOL,
                 self::CLOSE_TAG_KEY => '</urlset>'
             )
         );
-    }
-
-    /**
-     * Get category items collection
-     *
-     * @param int $storeId
-     * @return array
-     */
-    protected function _getCategoryItemsCollection($storeId)
-    {
-        return $this->_categoryFactory->create()->getCollection($storeId);
-    }
-
-    /**
-     * Get product items collection
-     *
-     * @param int $storeId
-     * @return array
-     */
-    protected function _getProductItemsCollection($storeId)
-    {
-        return $this->_productFactory->create()->getCollection($storeId);
-    }
-
-    /**
-     * Get cms page items collection
-     *
-     * @param int $storeId
-     * @return array
-     */
-    protected function _getPageItemsCollection($storeId)
-    {
-        return $this->_cmsFactory->create()->getCollection($storeId);
     }
 
     /**

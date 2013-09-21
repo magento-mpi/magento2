@@ -22,7 +22,7 @@
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php if (!$this->getHasException()) : ?>
-        <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
+        <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form" data-mage-init="{validation: {}}">
             <div class="fieldset">
                 <div class="col2-set">
                     <div class="col-1 registered-users">
@@ -43,7 +43,7 @@
                             </li>
                         </ul>
                         <div class="buttons-set form-buttons btn-only">
-                            <button type="button" class="button" onclick="rejectToken(); return false;"><span><span><?php echo __('Reject') ?></span></span></button>
+                            <button type="button" class="button" data-mage-init="{redirectUrl: {url: '<?php echo $this->getRejectUrl() ?>'}}"><span><span><?php echo __('Reject') ?></span></span></button>
                             <button type="submit" class="button" name="send" id="send2"><span><span><?php echo __('Login') ?></span></span></button>
                         </div>
                         <p class="required"><?php echo __('* Required Fields') ?></p>
@@ -52,14 +52,5 @@
             </div>
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
         </form>
-        <script type="text/javascript">
-        //<![CDATA[
-            var dataForm = new VarienForm('login-form', true);
-            /* Go to token reject action */
-            function rejectToken() {
-                document.location.href = '<?php echo $this->getRejectUrl() ?>';
-            }
-        //]]>
-        </script>
     <?php endif; ?>
 </div>

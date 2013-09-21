@@ -10,14 +10,12 @@
 
 
 class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Method
+    extends Magento_Usa_Model_Shipping_Carrier_Ups_Source_Generic
 {
-    public function toOptionArray()
-    {
-        $ups = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Ups');
-        $arr = array();
-        foreach ($ups->getCode('method') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>__($v));
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'method';
 }

@@ -14,7 +14,7 @@
  * @category   Magento
  * @package    Magento_Sitemap
  */
-class Magento_Sitemap_Model_Source_Product_Image_Include
+class Magento_Sitemap_Model_Source_Product_Image_Include implements Magento_Core_Model_Option_ArrayInterface
 {
     /**#@+
      * Add Images into Sitemap possible values

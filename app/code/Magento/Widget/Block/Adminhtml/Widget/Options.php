@@ -24,6 +24,11 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     protected $_widget;
 
     /**
+     * @var Magento_Widget_Model_Widget_Instance_OptionsFactory
+     */
+    protected $_optionsFactory;
+    
+    /**
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
@@ -162,7 +167,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         }
 
         // prepare element dropdown values
-        if ($values  = $parameter->getValues()) {
+        if ($values = $parameter->getValues()) {
             // dropdown options are specified in configuration
             $data['values'] = array();
             foreach ($values as $option) {

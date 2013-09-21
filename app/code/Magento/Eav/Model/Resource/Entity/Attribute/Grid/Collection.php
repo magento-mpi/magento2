@@ -25,18 +25,22 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Grid_Collection
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Registry $registryManager
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Core_Model_Registry $registryManager,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_registryManager = $registryManager;
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**

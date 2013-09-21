@@ -9,6 +9,7 @@
  */
 
 class Magento_GiftCardAccount_Model_Source_Format extends Magento_Core_Model_Abstract
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Return list of gift card account code formats
