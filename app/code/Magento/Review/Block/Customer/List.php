@@ -26,6 +26,11 @@ class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_
     protected $_collection;
 
     /**
+     * @var Magento_Review_Model_Resource_Review_Product_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
      * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
@@ -51,7 +56,7 @@ class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_collection = $collectionFactory->create();
+        $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
         $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
@@ -59,6 +64,7 @@ class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_
 
     protected function _initCollection()
     {
+        $this->_collection = $this->_collectionFactory->create();
         $this->_collection
             ->addStoreFilter($this->_storeManager->getStore()->getId())
             ->addCustomerFilter($this->_customerSession->getCustomerId())
