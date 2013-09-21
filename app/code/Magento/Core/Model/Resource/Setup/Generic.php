@@ -5,8 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Magento_CatalogRule_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resource_Setup
 {
     /**
      * @var Magento_Core_Model_Resource_Setup_MigrationFactory
@@ -42,12 +41,12 @@ class Magento_CatalogRule_Model_Resource_Setup extends Magento_Core_Model_Resour
     }
 
     /**
-     * Get new instance of Magento_Core_Model_Resource_Setup_Migration
+     * Get migration instance
      *
      * @param array $data
      * @return Magento_Core_Model_Resource_Setup_Migration
      */
-    public function getMigrationSetup(array $data = array())
+    public function createMigrationSetup(array $data = array())
     {
         return $this->_migrationFactory->create($data);
     }

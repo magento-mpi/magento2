@@ -9,8 +9,8 @@
  */
 
 /** @var $installer Magento_Core_Model_Resource_Setup_Migration */
-/** @var $this Magento_CatalogRule_Model_Resource_Setup */
-$installer = $this->getMigrationSetup(array('resourceName' => 'core_setup'));
+/** @var $this Magento_Core_Model_Resource_Setup_Generic */
+$installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('catalogrule', 'conditions_serialized',

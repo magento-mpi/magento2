@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Widget_Model_Resource_Setup */
+/** @var $this Magento_Core_Model_Resource_Setup_Generic */
 /** @var $installer Magento_Core_Model_Resource_Setup_Migration */
 $installer = $this->createMigrationSetup(array('resourceName' => 'core_setup'));
 $installer->startSetup();
