@@ -50,6 +50,11 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_resLogFactory;
 
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
         $this->_resLogFactory = $this->getMock('Magento_Captcha_Model_Resource_LogFactory',
@@ -58,25 +63,28 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_getResourceModelStub()));
 
-        $this->_typeOnepage = $this->getMock('Magento_Checkout_Model_Type_Onepage', array(), array(), '', false);
         $this->_session = $this->getMock('Magento_Core_Model_Session_Abstract', array(), array(), '', false);
-        $this->_backendSession = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
+        $this->_typeOnepage = $this->getMock('Magento_Checkout_Model_Type_Onepage', array(), array(), '', false);
+        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_customerData = $this->getMock('Magento_Customer_Helper_Data', array(), array(), '', false);
         $this->_helper = $this->getMock('Magento_Captcha_Helper_Data', array(), array(), '', false);
         $this->_urlManager = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $this->_customerData = $this->getMock('Magento_Customer_Helper_Data', array(), array(), '', false);
-
-        $this->_observer = new Magento_Captcha_Model_Observer(
-            $this->_resLogFactory,
-            $this->_session,
-            $this->_typeOnepage,
-            $this->_coreData,
-            $this->_customerData,
-            $this->_helper,
-            $this->_urlManager,
-            $this->_filesystem
+        
+        $this->_observer = $this->_objectManager->getObject(
+            'Magento_Captcha_Model_Observer',
+            array(
+                'resLogFactory' => $this->_resLogFactory,
+                'session' => $this->_session,
+                'typeOnepage' => $this->_typeOnepage,
+                'coreData' => $this->_coreData,
+                'customerData' => $this->_customerData,
+                'helper' => $this->_helper,
+                'urlManager' => $this->_urlManager,
+                'filesystem' => $this->_filesystem,
+            )
         );
+
         $this->_captcha = $this->getMock('Magento_Captcha_Model_Default', array(), array(), '', false);
     }
 

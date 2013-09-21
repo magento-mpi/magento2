@@ -29,15 +29,29 @@ class Magento_AdvancedCheckout_Model_Observer
     protected $_collectionFactory;
 
     /**
+     * @var Magento_Sales_Model_Quote_AddressFactory
+     */
+    protected $_addressFactory = null;
+
+    /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory = null;
+
+    /**
      * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
      */
     public function __construct(
         Magento_Data_CollectionFactory $collectionFactory,
-        Magento_AdvancedCheckout_Helper_Data $checkoutData
+        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Sales_Model_Quote_AddressFactory $addressFactory
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_checkoutData = $checkoutData;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_addressFactory = $addressFactory;
     }
 
     /**
@@ -149,7 +163,7 @@ class Magento_AdvancedCheckout_Model_Observer
      */
     protected function _copyAddress($quote, $realAddress)
     {
-        $address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+        $address = $this->_addressFactory->create();
         $address->setData($realAddress->getData());
         $address
             ->setId(null)
@@ -181,7 +195,7 @@ class Magento_AdvancedCheckout_Model_Observer
         }
 
         /** @var $quote Magento_Sales_Model_Quote */
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $quote = $this->_quoteFactory->create();
         $collection = $this->_collectionFactory->create();
 
         foreach ($this->_checkoutData->getFailedItems(false) as $item) {

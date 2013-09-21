@@ -97,15 +97,11 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     protected $_currentStore = null;
 
     /**
-     * Customer data
-     *
      * @var Magento_Customer_Helper_Data
      */
     protected $_customerData = null;
 
     /**
-     * Checkout data
-     *
      * @var Magento_AdvancedCheckout_Helper_Data
      */
     protected $_checkoutData = null;
@@ -118,18 +114,73 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
-     * @param Magento_Customer_Helper_Data $customerData
+     * Sales quote factory
+     *
+     * @var Magento_Sales_Model_QuoteFactory
      */
+    protected $_quoteFactory;
+
+    /**
+     * Catalog product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Wishlist factory
+     *
+     * @var Magento_Wishlist_Model_WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
+     * Catalog inventory stock item factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     */
+    protected $_stockItemFactory;
+
+    /**
+     * Catalog product option factory
+     *
+     * @var Magento_Catalog_Model_Product_OptionFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_AdvancedCheckout_Helper_Data $checkoutData,
-        Magento_Customer_Helper_Data $customerData
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Catalog_Model_Product_OptionFactory $optionFactory,
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
         $this->_customerData = $customerData;
+        $this->_optionFactory = $optionFactory;
+        $this->_stockItemFactory = $stockItemFactory;
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_productFactory = $productFactory;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
     }
 
     /**
@@ -190,7 +241,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             return $this->_quote;
         }
 
-        $this->_quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $this->_quote = $this->_quoteFactory->create();
 
         if ($this->getCustomer() !== null) {
             $this->_quote
@@ -220,7 +271,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      */
     public function getActualQuote()
     {
-        if (Mage::app()->getStore()->isAdmin()) {
+        if ($this->_storeManager->getStore()->isAdmin()) {
             return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
         } else {
             if (!$this->getCustomer()) {
@@ -242,7 +293,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     public function getQuoteSharedStoreIds()
     {
         if ($this->getStoreId()) {
-            return Mage::app()->getStore($this->getStoreId())
+            return $this->_storeManager->getStore($this->getStoreId())
                 ->getWebsite()
                 ->getStoreIds();
         }
@@ -250,7 +301,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             return array();
         }
         if ((bool)$this->getCustomer()->getSharingConfig()->isWebsiteScope()) {
-            return Mage::app()->getWebsite($this->getCustomer()->getWebsiteId())->getStoreIds();
+            return $this->_storeManager->getWebsite($this->getCustomer()->getWebsiteId())->getStoreIds();
         } else {
             return $this->getCustomer()->getSharedStoreIds();
         }
@@ -307,8 +358,8 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         } else {
             $customerStoreIds = $this->getQuoteSharedStoreIds(); //$customer->getSharedStoreIds();
             $storeId = array_shift($customerStoreIds);
-            if (Mage::app()->getStore($storeId)->isAdmin()) {
-                $defaultStore = Mage::app()->getAnyStoreView();
+            if ($this->_storeManager->getStore($storeId)->isAdmin()) {
+                $defaultStore = $this->_storeManager->getAnyStoreView();
                 if ($defaultStore) {
                     $storeId = $defaultStore->getId();
                 }
@@ -329,6 +380,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      *
      * @param   mixed $product
      * @param   array|float|int|Magento_Object $config
+     * @throws  Magento_Core_Exception
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
     public function addProduct($product, $config = 1)
@@ -346,12 +398,12 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
 
         if (!($product instanceof Magento_Catalog_Model_Product)) {
             $productId = $product;
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = $this->_productFactory->create()
                 ->setStore($this->getStore())
                 ->setStoreId($this->getStore()->getId())
                 ->load($product);
             if (!$product->getId()) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Failed to add a product to cart by id "%1".', $productId)
                 );
             }
@@ -375,7 +427,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         } else {
             $item = $this->getQuote()->addProduct($product, $config);
             if (is_string($item)) {
-                Mage::throwException($item);
+                throw new Magento_Core_Exception($item);
             }
             $item->checkData();
         }
@@ -395,10 +447,10 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     public function reorderItem(Magento_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            Mage::throwException(__('Something went wrong reordering this product.'));
+            throw new Magento_Core_Exception(__('Something went wrong reordering this product.'));
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product')
+        $product = $this->_productFactory->create()
             ->setStoreId($this->getStore()->getId())
             ->load($orderItem->getProductId());
 
@@ -408,7 +460,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             $product->setSkipCheckRequiredOption(true);
             $item = $this->createQuote()->addProduct($product, $info);
             if (is_string($item)) {
-                Mage::throwException($item);
+                throw new Magento_Core_Exception($item);
             }
 
             $item->setQty($qty);
@@ -431,7 +483,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             return $item;
 
         } else {
-            Mage::throwException(__('Something went wrong reordering this product.'));
+            throw new Magento_Core_Exception(__('Something went wrong reordering this product.'));
         }
     }
 
@@ -572,9 +624,9 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             if ($moveTo[0] == 'wishlist') {
                 $wishlist = null;
                 if (!isset($moveTo[1])) {
-                    $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($this->getCustomer(), true);
+                    $wishlist = $this->_wishlistFactory->create()->loadByCustomer($this->getCustomer(), true);
                 } else {
-                    $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->load($moveTo[1]);
+                    $wishlist = $this->_wishlistFactory->create()->load($moveTo[1]);
                     if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {
                         $wishlist = null;
                     }
@@ -816,11 +868,11 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     protected function _loadProductBySku($sku)
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product')
+        $product = $this->_productFactory->create()
             ->setStore($this->getCurrentStore())
             ->loadByAttribute('sku', $sku);
         if ($product && $product->getId()) {
-            Mage::getModel('Magento_CatalogInventory_Model_Stock_Item')->assignProduct($product);
+            $this->_stockItemFactory->create()->assignProduct($product);
         }
 
         return $product;
@@ -896,7 +948,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             $this->_successOptions = array();
 
             /** @var $option Magento_Catalog_Model_Product_Option */
-            $option = Mage::getModel('Magento_Catalog_Model_Product_Option')
+            $option = $this->_optionFactory->create()
                 ->setAddRequiredFilter(true)
                 ->setAddRequiredFilterValue(true);
 
@@ -1099,7 +1151,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             return true;
         }
 
-        return (Mage::app()->getStore()->isAdmin())
+        return ($this->_storeManager->getStore()->isAdmin())
             ? Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_WEBSITE
             : Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU;
     }
@@ -1121,7 +1173,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             if (!Zend_Validate::is($qty, 'Float')) {
                 $code = Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER;
             } else {
-                $qty = Mage::app()->getLocale()->getNumber($qty);
+                $qty = $this->_locale->getNumber($qty);
                 if ($qty <= 0) {
                     $code = Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE;
                 } elseif ($qty < 0.0001 || $qty > 99999999.9999) {
@@ -1164,7 +1216,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         }
 
         /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+        $stockItem = $this->_stockItemFactory->create();
         $stockItem->loadByProduct($product);
         $stockItem->setProduct($product);
         return !$stockItem->getIsInStock();
@@ -1263,7 +1315,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
 
         // copy data to temporary quote
         /** @var $temporaryQuote Magento_Sales_Model_Quote */
-        $temporaryQuote = Mage::getModel('Magento_Sales_Model_Quote');
+        $temporaryQuote = $this->_quoteFactory->create();
         $temporaryQuote->setStore($quote->getStore())->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;
@@ -1363,7 +1415,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      */
     public function getAffectedItems($storeId = null)
     {
-        $storeId = (is_null($storeId)) ? Mage::app()->getStore()->getId() : (int)$storeId;
+        $storeId = (is_null($storeId)) ? $this->_storeManager->getStore()->getId() : (int)$storeId;
         $affectedItems = $this->_getHelper()->getSession()->getAffectedItems();
 
         return (isset($affectedItems[$storeId]) && is_array($affectedItems[$storeId]))
@@ -1396,7 +1448,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      */
     public function setAffectedItems($items, $storeId = null)
     {
-        $storeId = (is_null($storeId)) ? Mage::app()->getStore()->getId() : (int)$storeId;
+        $storeId = (is_null($storeId)) ? $this->_storeManager->getStore()->getId() : (int)$storeId;
         $affectedItems = $this->_getHelper()->getSession()->getAffectedItems();
         if (!is_array($affectedItems)) {
             $affectedItems = array();
@@ -1604,7 +1656,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     public function getCurrentStore()
     {
         if (is_null($this->_currentStore)) {
-            return Mage::app()->getStore();
+            return $this->_storeManager->getStore();
         }
         return $this->_currentStore;
     }
@@ -1618,7 +1670,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     public function setCurrentStore($store)
     {
         if (!is_null($store)) {
-            $this->_currentStore = Mage::app()->getStore($store);
+            $this->_currentStore = $this->_storeManager->getStore($store);
         }
         return $this;
     }
