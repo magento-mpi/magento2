@@ -62,7 +62,6 @@ class Magento_Backend_Block_Widget_Grid_Export
         parent::__construct($coreData, $context, $data);
     }
 
-
     protected function _construct()
     {
         parent::_construct();
