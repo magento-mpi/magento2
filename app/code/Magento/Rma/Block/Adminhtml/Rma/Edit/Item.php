@@ -75,8 +75,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
             $this->_populateItemWithProductData($item);
         }
 
-        /* @var $customerForm Magento_Customer_Model_Form */
-        $customerForm = $this->_formFactory->create();
+        /* @var $customerForm Magento_Rma_Model_Item_Form */
+        $customerForm = $this->_itemFormFactory->create();
         $customerForm->setEntity($item)
             ->setFormCode('default')
             ->initDefaultValues();
