@@ -106,7 +106,7 @@ return array(
             ),
         ),
         'supported_containers' => array(
-            '0' => array(
+            array(
                 'container_name' => 'left',
                 'template' => array(
                     'default' => 'default_template',
@@ -114,14 +114,14 @@ return array(
                     'images_only' => 'list_images'
                 )
             ),
-            '1' => array(
+            array(
                 'container_name' => 'content',
                 'template' => array(
                     'grid' => 'default',
                     'list' => 'list'
                 )
             ),
-            '2' => array(
+            array(
                 'container_name' => 'right',
                 'template' => array(
                     'default' => 'default_template',
