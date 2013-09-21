@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Country collection
- *
- * @category    Magento
- * @package     Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
@@ -33,8 +28,34 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
     protected $_countryTable;
 
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct(
+            $eventManager, $logger, $fetchStrategy, $entityFactory, $resource
+        );
+        $this->_locale = $locale;
+    }
+
+    /**
      * Define main, country, locale region name tables
-     *
      */
     protected function _construct()
     {
@@ -55,7 +76,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
     protected function _initSelect()
     {
         parent::_initSelect();
-        $locale = Mage::app()->getLocale()->getLocaleCode();
+        $locale = $this->_locale->getLocaleCode();
 
         $this->addBindParam(':region_locale', $locale);
         $this->getSelect()->joinLeft(
@@ -96,7 +117,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
             ->joinLeft(
                 array('country' => $this->_countryTable),
                 'main_table.country_id = country.country_id'
-                )
+            )
             ->where('country.iso3_code = ?', $countryCode);
 
         return $this;
