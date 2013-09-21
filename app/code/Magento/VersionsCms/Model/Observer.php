@@ -521,7 +521,9 @@ class Magento_VersionsCms_Model_Observer
      */
     public function affectCmsPageRender(Magento_Event_Observer $observer)
     {
-        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
+        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node'))
+            || !$this->_cmsHierarchy->isEnabled()
+        ) {
             return $this;
         }
 
