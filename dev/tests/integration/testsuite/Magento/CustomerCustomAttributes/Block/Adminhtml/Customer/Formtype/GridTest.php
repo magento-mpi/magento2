@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
-
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareColumns()

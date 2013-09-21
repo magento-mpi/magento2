@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Payment\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Payment\Model;
-
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**

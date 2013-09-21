@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rss\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Rss\Controller;
-
 class OrderTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**

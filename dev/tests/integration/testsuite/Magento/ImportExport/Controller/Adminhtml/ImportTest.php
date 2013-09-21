@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\ImportExport\Controller\Adminhtml;
-
 class ImportTest extends \Magento\Backend\Utility\Controller
 {
     public function testGetFilterAction()

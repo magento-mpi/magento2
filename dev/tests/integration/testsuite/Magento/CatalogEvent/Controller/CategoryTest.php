@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogEvent\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\CatalogEvent\Controller;
-
 class CategoryTest extends \Magento\Backend\Utility\Controller
 {
     /**

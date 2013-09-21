@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Paypal\Adminhtml\Paypal;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Paypal\Adminhtml\Paypal;
-
 class ReportsTest extends \Magento\Backend\Utility\Controller
 {
     /**

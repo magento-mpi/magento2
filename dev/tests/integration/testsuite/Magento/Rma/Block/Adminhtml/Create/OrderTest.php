@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Create;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Rma\Block\Adminhtml\Create;
-
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtml()

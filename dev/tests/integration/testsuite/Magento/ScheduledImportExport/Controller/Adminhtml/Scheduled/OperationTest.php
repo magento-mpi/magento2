@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;
-
 class OperationTest
     extends \Magento\Backend\Utility\Controller
 {

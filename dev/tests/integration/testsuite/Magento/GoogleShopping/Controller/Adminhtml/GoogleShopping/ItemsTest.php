@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\GoogleShopping\Controller\Adminhtml\GoogleShopping;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\GoogleShopping\Controller\Adminhtml\GoogleShopping;
-
 class ItemsTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()

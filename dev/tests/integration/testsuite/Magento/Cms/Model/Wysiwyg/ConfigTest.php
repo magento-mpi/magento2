@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model\Wysiwyg;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Cms\Model\Wysiwyg;
-
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**

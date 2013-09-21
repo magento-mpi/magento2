@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftRegistry\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\GiftRegistry\Controller\Adminhtml;
-
 class GiftregistryTest extends \Magento\Backend\Utility\Controller
 {
     public function testNewAction()

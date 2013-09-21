@@ -13,11 +13,11 @@
  * Test for \Magento\Index\Model\Lock\Storage
  */
 
+namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
-
 class CouponTest extends \PHPUnit_Framework_TestCase
 {
     /**

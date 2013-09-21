@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Centinel;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Centinel;
-
 class CreateOrderTest extends \Magento\Backend\Utility\Controller
 {
     /**

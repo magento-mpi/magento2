@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\PromotionPermissions\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\PromotionPermissions\Model;
-
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
