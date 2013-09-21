@@ -29,7 +29,7 @@ class Magento_Core_Model_Option_ArrayPool
     /**
      * Get array optioned object
      *
-     * @param $model
+     * @param string $model
      * @throws InvalidArgumentException
      * @return Magento_Core_Model_Option_ArrayInterface
      */
