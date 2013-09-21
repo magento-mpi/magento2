@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product;
+
 /**
  * Test class for \Magento\Catalog\Model\Product\Url.
  *
  * @magentoDataFixture Magento/Catalog/_files/url_rewrites.php
  */
-namespace Magento\Catalog\Model\Product;
-
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
  * Test class for \Magento\Catalog\Model\Layer.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-namespace Magento\Catalog\Model;
-
 class LayerTest extends \PHPUnit_Framework_TestCase
 {
     /**

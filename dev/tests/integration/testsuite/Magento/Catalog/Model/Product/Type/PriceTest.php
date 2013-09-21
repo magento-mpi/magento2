@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Type;
+
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-namespace Magento\Catalog\Model\Product\Type;
-
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**

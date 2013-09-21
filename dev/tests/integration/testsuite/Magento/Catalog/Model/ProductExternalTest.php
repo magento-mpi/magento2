@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
  * Tests product model:
  * - external interaction is tested
@@ -17,8 +19,6 @@
  * @see \Magento\Catalog\Model\ProductPriceTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-namespace Magento\Catalog\Model;
-
 class ProductExternalTest extends \PHPUnit_Framework_TestCase
 {
     /**
