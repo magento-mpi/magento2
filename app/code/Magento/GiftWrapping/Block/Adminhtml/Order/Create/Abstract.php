@@ -31,7 +31,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     protected $_giftWrappingData;
 
     /**
-     * @var Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @var Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory
      */
     protected $_wrappingCollFactory;
 

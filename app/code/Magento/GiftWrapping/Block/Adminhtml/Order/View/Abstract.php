@@ -37,7 +37,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
     protected $_giftWrappingData = null;
 
     /**
-     * @var Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @var Magento_GiftWrapping_Model_Resource_Wrapping_CollectionFactory
      */
     protected $_wrappingCollFactory;
 
