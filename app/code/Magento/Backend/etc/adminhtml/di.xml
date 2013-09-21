@@ -47,6 +47,9 @@
         </param>
     </type>
     <type name="Magento_Backend_Model_Config_Structure_Data">
+        <param name="reader">
+            <instance type="Magento_Backend_Model_Config_Structure_Reader" />
+        </param>
         <param name="cacheId">
             <value>backend_system_configuration_structure</value>
         </param>
