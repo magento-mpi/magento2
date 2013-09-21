@@ -21,7 +21,7 @@ class Magento_AdvancedCheckout_Model_Observer
      *
      * @var Magento_AdvancedCheckout_Helper_Data
      */
-    protected $_checkoutData = null;
+    protected $_checkoutData;
 
     /**
      * @var Magento_Data_CollectionFactory
@@ -31,16 +31,18 @@ class Magento_AdvancedCheckout_Model_Observer
     /**
      * @var Magento_Sales_Model_Quote_AddressFactory
      */
-    protected $_addressFactory = null;
+    protected $_addressFactory;
 
     /**
      * @var Magento_Sales_Model_QuoteFactory
      */
-    protected $_quoteFactory = null;
+    protected $_quoteFactory;
 
     /**
      * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Sales_Model_Quote_AddressFactory $addressFactory
      */
     public function __construct(
         Magento_Data_CollectionFactory $collectionFactory,

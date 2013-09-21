@@ -76,12 +76,16 @@ class Magento_Captcha_Model_Observer
     protected $_resLogFactory;
 
     /**
+     * @param Magento_Captcha_Model_Resource_LogFactory $resLogFactory
+     * @param Magento_Core_Model_Session_Abstract $session
+     * @param Magento_Checkout_Model_Type_Onepage $typeOnepage
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Customer_Helper_Data $customerData
-     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Captcha_Helper_Data $helper
      * @param Magento_Core_Model_Url $urlManager
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
         Magento_Captcha_Model_Resource_LogFactory $resLogFactory,
