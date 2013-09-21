@@ -9,12 +9,13 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller\Router\Validator;
+
 /**
  * Test class \Magento\Backend\Controller\Router\DefaultRouter
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Controller\Router\Validator;
-
 class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**

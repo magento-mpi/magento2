@@ -6,13 +6,14 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
+
 /**
  * @magentoDataFixture Magento/SalesRule/_files/cart_rule_40_percent_off.php
  * @magentoDataFixture Magento/SalesRule/_files/cart_rule_50_percent_off.php
  * @magentoAppArea adminhtml
  */
-namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
-
 class SalesruleTest extends \PHPUnit_Framework_TestCase
 {
     /**

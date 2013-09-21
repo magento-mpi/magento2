@@ -17,7 +17,6 @@ namespace Magento\Test\Annotation;
  *
  * @magentoDataFixture sampleFixtureOne
  */
-
 class DataFixtureTest extends \PHPUnit_Framework_TestCase
 {
     /**

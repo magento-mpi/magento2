@@ -16,7 +16,6 @@ namespace Magento\Test\Annotation;
  *
  * @magentoDbIsolation enabled
  */
-
 class DbIsolationTest extends \PHPUnit_Framework_TestCase
 {
     /**

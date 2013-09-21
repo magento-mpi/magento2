@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Model;
-
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
