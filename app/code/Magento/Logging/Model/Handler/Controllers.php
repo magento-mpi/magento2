@@ -30,7 +30,7 @@ class Magento_Logging_Model_Handler_Controllers
     /**
      * @var Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
      */
-    protected $_adminhtmlActionAttribute = null;
+    protected $_actionAttribute = null;
 
     /**
      * Core registry
@@ -54,7 +54,7 @@ class Magento_Logging_Model_Handler_Controllers
      * @param Magento_Backend_Model_Session $session
      * @param Magento_Logging_Helper_Data $loggingData
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute
+     * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $actionAttribute
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
@@ -62,7 +62,7 @@ class Magento_Logging_Model_Handler_Controllers
         Magento_Backend_Model_Session $session,
         Magento_Logging_Helper_Data $loggingData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute,
+        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $actionAttribute,
         Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_structureConfig = $structureConfig;
@@ -70,7 +70,7 @@ class Magento_Logging_Model_Handler_Controllers
         $this->_coreRegistry = $coreRegistry;
         $this->_loggingData = $loggingData;
         $this->_coreData = $coreData;
-        $this->_adminhtmlActionAttribute = $adminhtmlActionAttribute;
+        $this->_actionAttribute = $actionAttribute;
     }
 
     /**
@@ -291,7 +291,7 @@ class Magento_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = $this->_adminhtmlActionAttribute->prepareFilterString($filter);
+            $filterData = $this->_actionAttribute->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
@@ -389,7 +389,7 @@ class Magento_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = $this->_adminhtmlActionAttribute->getProductIds();
+            $products = $this->_actionAttribute->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
