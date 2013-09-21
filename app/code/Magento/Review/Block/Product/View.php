@@ -96,7 +96,7 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
     public function getReviewsCollection()
     {
         if (null === $this->_reviewsCollection) {
-            $this->_reviewsColFactory->create()
+            $this->_reviewsCollection = $this->_reviewsColFactory->create()
                 ->addStoreFilter($this->_storeManager->getStore()->getId())
                 ->addStatusFilter(Magento_Review_Model_Review::STATUS_APPROVED)
                 ->addEntityFilter('product', $this->getProduct()->getId())
