@@ -23,7 +23,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     /**
      * @var Magento_Customer_Model_Session
      */
-    protected $_session;
+    protected $_customerSession;
 
     /**
      * @var Magento_CustomerBalance_Model_Balance_HistoryFactory
@@ -38,7 +38,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     /**
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory
-     * @param Magento_Customer_Model_Session $session
+     * @param Magento_Customer_Model_Session $custoomerSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
@@ -46,13 +46,13 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory,
-        Magento_Customer_Model_Session $session,
+        Magento_Customer_Model_Session $custoomerSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        $this->_session = $session;
+        $this->_customerSession = $custoomerSession;
         $this->_historyFactory = $historyFactory;
         parent::__construct($coreData, $context, $data);
     }
@@ -74,7 +74,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
      */
     public function getEvents()
     {
-        $customerId = $this->_session->getCustomerId();
+        $customerId = $this->_customerSession->getCustomerId();
         if (!$customerId) {
             return false;
         }
