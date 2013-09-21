@@ -18,6 +18,9 @@
 class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
 {
+    /**
+     * @var Magento_Core_Model_Resource_Db_Collection_Abstract
+     */
     protected $_designCollection;
 
     /**
@@ -25,21 +28,29 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
      *
      * @var Magento_GiftWrapping_Helper_Data
      */
-    protected $_giftWrappingData = null;
+    protected $_giftWrappingData;
+
+    /**
+     * @var Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     */
+    protected $_wrappingCollection;
 
     /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection
      * @param array $data
      */
     public function __construct(
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_wrappingCollection = $wrappingCollection;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -51,7 +62,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $this->_designCollection = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->getCollection()
+            $this->_designCollection = $this->_wrappingCollection
                 ->addStoreAttributesToResult($this->getStore()->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($this->getStore()->getWebsiteId());

@@ -17,6 +17,9 @@
  */
 class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Core_Model_Resource_Db_Collection_Abstract
+     */
     protected $_designCollection;
 
     /**
@@ -34,10 +37,24 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
     protected $_giftWrappingData = null;
 
     /**
+     * @var Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     */
+    protected $_wrappingCollection;
+
+    /**
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection
      * @param array $data
      */
     public function __construct(
@@ -45,14 +62,18 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_storeManager = $storeManager;
+        $this->_wrappingCollection = $wrappingCollection;
         parent::__construct($coreData, $context, $data);
     }
 
-    /*
+    /**
      * Retrieve order model instance
      *
      * @return Magento_Sales_Model_Order
@@ -62,7 +83,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
         return $this->_coreRegistry->registry('sales_order');
     }
 
-    /*
+    /**
      * Get store id
      *
      * @return int
@@ -80,8 +101,8 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $store = Mage::app()->getStore($this->getStoreId());
-            $this->_designCollection = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->getCollection()
+            $store = $this->_storeManager->getStore($this->getStoreId());
+            $this->_designCollection = $this->_wrappingCollection
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());

@@ -52,6 +52,8 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
     /**
      * Init model
      *
+     * @param string $requestParam
+     * @throws Magento_Core_Exception
      * @return Magento_Giftwrapping_Model_Wrapping
      */
     protected function _initModel($requestParam = 'id')
@@ -60,14 +62,14 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
         if ($model) {
            return $model;
         }
-        $model = Mage::getModel('Magento_GiftWrapping_Model_Wrapping');
+        $model = $this->_objectManager->create('Magento_GiftWrapping_Model_Wrapping');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
         $wrappingId = $this->getRequest()->getParam($requestParam);
         if ($wrappingId) {
             $model->load($wrappingId);
             if (!$model->getId()) {
-                Mage::throwException(__('Please request the correct gift wrapping.'));
+                throw new Magento_Core_Exception(__('Please request the correct gift wrapping.'));
             }
         }
         $this->_coreRegistry->register('current_giftwrapping_model', $model);
@@ -101,7 +103,7 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
     {
         $model = $this->_initModel();
         $this->_initAction();
-        $formData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData();
+        $formData = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getFormData();
         if ($formData) {
             $model->addData($formData);
         }
@@ -129,12 +131,13 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
                     try {
                         $model->attachUploadedImage('image_name');
                     } catch (Exception $e) {
-                        Mage::throwException(__('You have not uploaded the image.'));
+                        throw new Magento_Core_Exception(__('You have not uploaded the image.'));
                     }
                 }
 
                 $model->save();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the gift wrapping.'));
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                    ->addSuccess(__('You saved the gift wrapping.'));
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
@@ -142,11 +145,12 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
                     return;
                 }
             } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                    ->addError(__("We couldn't save the gift wrapping."));
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
@@ -166,15 +170,16 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
                 try {
                     $model->attachUploadedImage('image_name', true);
                 } catch (Exception $e) {
-                    Mage::throwException(__('You have not updated the image.'));
+                    throw new Magento_Core_Exception(__('You have not updated the image.'));
                 }
             } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
+                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                    ->addError(__("We couldn't save the gift wrapping."));
                 $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
@@ -194,7 +199,8 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
         $wrappingIds = (array)$this->getRequest()->getParam('wrapping_ids');
         $status = (int)(bool)$this->getRequest()->getParam('status');
         try {
-            $wrappingCollection = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->getCollection();
+            $wrappingCollection = $this->_objectManager
+                ->create('Magento_GiftWrapping_Model_Resource_Wrapping_Collection');
             $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
             foreach ($wrappingCollection as $wrapping) {
                 $wrapping->setStatus($status);
@@ -223,7 +229,8 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
             $this->_getSession()->addError(__('Please select items.'));
         } else {
             try {
-                $wrappingCollection = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->getCollection();
+                $wrappingCollection = $this->_objectManager
+                    ->create('Magento_GiftWrapping_Model_Resource_Wrapping_Collection');
                 $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
                 foreach ($wrappingCollection as $wrapping) {
                     $wrapping->delete();
@@ -245,7 +252,7 @@ class Magento_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_Adm
      */
     public function deleteAction()
     {
-        $wrapping = Mage::getModel('Magento_GiftWrapping_Model_Wrapping');
+        $wrapping = $this->_objectManager->create('Magento_GiftWrapping_Model_Wrapping');
         $wrapping->load($this->getRequest()->getParam('id', false));
         if ($wrapping->getId()) {
             try {

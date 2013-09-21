@@ -17,8 +17,14 @@
  */
 class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Template
 {
+    /**
+     * @var Magento_Core_Model_Resource_Db_Collection_Abstract
+     */
     protected $_designCollection;
 
+    /**
+     * @var bool
+     */
     protected $_giftWrappingAvailable = false;
 
     /**
@@ -29,18 +35,48 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     protected $_giftWrappingData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Checkout_Model_CartFactory
+     */
+    protected $_checkoutCartFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Checkout_Model_CartFactory $checkoutCartFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_GiftWrapping_Model_Resource_Wrapping_Collection $wrappingCollection,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Checkout_Model_CartFactory $checkoutCartFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
+        $this->_storeManager = $storeManager;
+        $this->_wrappingCollection = $wrappingCollection;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_checkoutCartFactory = $checkoutCartFactory;
+        $this->_productFactory = $productFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -52,8 +88,8 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $store = Mage::app()->getStore();
-            $this->_designCollection = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->getCollection()
+            $store = $this->_storeManager->getStore();
+            $this->_designCollection = $this->_wrappingCollection
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());
@@ -86,7 +122,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -340,8 +376,8 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function canDisplayGiftWrapping()
     {
-        $cartItems      = Mage::getModel('Magento_Checkout_Model_Cart')->getItems();
-        $productModel   = Mage::getModel('Magento_Catalog_Model_Product');
+        $cartItems = $this->_checkoutCartFactory->create()->getItems();
+        $productModel = $this->_productFactory->create();
         foreach ($cartItems as $item) {
             $product = $productModel->load($item->getProductId());
             if ($product->getGiftWrappingAvailable()) {
