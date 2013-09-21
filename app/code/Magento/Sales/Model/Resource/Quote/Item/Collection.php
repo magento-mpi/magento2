@@ -44,7 +44,9 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Sales_Model_Resource_Quote_Item_Option_CollectionFactory $itemOptionCollFactory
      * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
      * @param Magento_Sales_Model_Quote_Config $quoteConfig
@@ -52,13 +54,15 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Sales_Model_Resource_Quote_Item_Option_CollectionFactory $itemOptionCollFactory,
         Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
         Magento_Sales_Model_Quote_Config $quoteConfig,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_itemOptionCollFactory = $itemOptionCollFactory;
         $this->_productCollFactory = $productCollFactory;
         $this->_quoteConfig = $quoteConfig;

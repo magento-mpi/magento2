@@ -35,6 +35,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
      * @param array $data
      */
@@ -42,11 +43,12 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;
-        parent::__construct($registry, $coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     protected function _construct()
