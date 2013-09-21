@@ -31,16 +31,12 @@ class Controller extends \Magento\TestFramework\TestCase\ControllerAbstract
 
     protected function setUp()
     {
-        var_dump("setUp");
         parent::setUp();
 
         \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
 
-        var_dump("before");
         $this->_auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
-        var_dump("after");
         $this->_session = $this->_auth->getAuthStorage();
-        var_dump("got session");
         $this->_auth->login(
             \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
     }
