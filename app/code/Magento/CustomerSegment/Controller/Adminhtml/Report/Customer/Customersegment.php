@@ -23,23 +23,31 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
      *
      * @var Magento_Backend_Model_Auth_Session
      */
-    protected $_adminSession = null;
+    protected $_adminSession;
 
     /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * @var Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment_CollectionFactory $collectionFactory,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -140,13 +148,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
         $this->_title(__('Customer Segment Report'));
 
         if ($this->_initSegment()) {
-
             // Add help Notice to Combined Report
             if ($this->_getAdminSession()->getMassactionIds()) {
-                $collection = Mage::getResourceModel('Magento_CustomerSegment_Model_Resource_Segment_Collection')
+                $collection = $this->_collectionFactory->create()
                     ->addFieldToFilter(
                         'segment_id',
-                        array('in' => $this->_getAdminSession()->getMassactionIds())
+                        array(
+                            'in' => $this->_getAdminSession()->getMassactionIds(),
+                        )
                     );
 
                 $segments = array();

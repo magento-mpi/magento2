@@ -35,12 +35,14 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
     protected $_orderConfig;
 
     /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Sales_Model_Order_Config $orderConfig
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
         Magento_Sales_Model_Order_Config $orderConfig,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Rule_Model_Condition_Context $context,
@@ -48,7 +50,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
     ) {
         $this->_orderConfig = $orderConfig;
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $data);
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Status');
         $this->setValue(null);
     }

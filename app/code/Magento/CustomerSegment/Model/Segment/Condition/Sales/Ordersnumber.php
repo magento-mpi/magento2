@@ -15,12 +15,16 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     extends Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
     /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber');
         $this->setValue(null);
     }

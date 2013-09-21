@@ -36,17 +36,35 @@ class Magento_CustomerSegment_Model_Observer
     protected $_customer;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_CustomerSegment_Model_Customer $customer
      * @param Magento_Backend_Model_Config_Source_Yesno $configSourceYesno
      * @param Magento_CustomerSegment_Helper_Data $segmentHelper
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
         Magento_CustomerSegment_Model_Customer $customer,
         Magento_Backend_Model_Config_Source_Yesno $configSourceYesno,
         Magento_CustomerSegment_Helper_Data $segmentHelper,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
         $this->_customer = $customer;
         $this->_configSourceYesno = $configSourceYesno;
         $this->_coreRegistry = $coreRegistry;
@@ -104,11 +122,11 @@ class Magento_CustomerSegment_Model_Observer
 
         // For visitors use customer instance from customer session
         if (!$customer) {
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $customer = $this->_customerSession->getCustomer();
         }
 
         $this->_customer->processEvent($observer->getEvent()->getName(), $customer,
-            Mage::app()->getStore()->getWebsite());
+            $this->_storeManager->getStore()->getWebsite());
     }
 
     /**

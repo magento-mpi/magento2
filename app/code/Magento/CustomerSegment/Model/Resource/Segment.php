@@ -24,14 +24,22 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
     protected $_configShare;
 
     /**
+     * @var Magento_CustomerSegment_Model_Resource_HelperPool
+     */
+    protected $_resourceHelperPool;
+
+    /**
+     * @param Magento_CustomerSegment_Model_Resource_HelperPool $resourceHelperPool
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Customer_Model_Config_Share $configShare
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_HelperPool $resourceHelperPool,
         Magento_Core_Model_Resource $resource,
         Magento_Customer_Model_Config_Share $configShare
     ) {
         parent::__construct($resource);
+        $this->_resourceHelperPool = $resourceHelperPool;
         $this->_configShare = $configShare;
     }
 
@@ -279,7 +287,8 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
      */
     public function getSqlOperator($operator)
     {
-        return Mage::getResourceHelper('Magento_CustomerSegment')->getSqlOperator($operator);
+        return $this->_resourceHelperPool->create()
+            ->getSqlOperator($operator);
     }
 
     /**

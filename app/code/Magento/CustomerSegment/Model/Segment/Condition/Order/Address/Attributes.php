@@ -37,6 +37,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
     protected $_eavConfig;
 
     /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Directory_Model_Config_Source_CountryFactory $countryFactory
      * @param Magento_Directory_Model_Config_Source_AllregionFactory $allregionFactory
@@ -44,6 +45,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Directory_Model_Config_Source_CountryFactory $countryFactory,
         Magento_Directory_Model_Config_Source_AllregionFactory $allregionFactory,
@@ -53,7 +55,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
         $this->_eavConfig = $eavConfig;
         $this->_countryFactory = $countryFactory;
         $this->_allregionFactory = $allregionFactory;
-        parent::__construct($context, $data);
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes');
         $this->setValue(null);
     }

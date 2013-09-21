@@ -25,17 +25,19 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
     protected $_eavConfig;
 
     /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $data);
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Default');
         $this->setValue('default_billing');
     }

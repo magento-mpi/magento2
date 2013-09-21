@@ -71,6 +71,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
             array('getConditionsSql', 'getConditions'), array(), '', false);
 
         $this->_resourceModel = new Magento_CustomerSegment_Model_Resource_Segment(
+            $this->getMock('Magento_CustomerSegment_Model_Resource_HelperPool', array(), array(), '', false),
             $this->_resource,
             $this->_configShare
         );

@@ -21,13 +21,21 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
     protected $_coreRegistry;
 
     /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_conditionFactory = $conditionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -171,7 +179,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
 
         $segment = $this->_objectManager->create('Magento_CustomerSegment_Model_Segment');
         $segment->setApplyTo((int) $this->getRequest()->getParam('apply_to'));
-        $model = Mage::getModel($type)
+
+        $model = $this->_conditionFactory->create($type)
             ->setId($id)
             ->setType($type)
             ->setRule($segment)

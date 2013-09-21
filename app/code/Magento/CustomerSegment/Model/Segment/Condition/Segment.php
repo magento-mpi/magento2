@@ -38,6 +38,12 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
     protected $_customer;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_CustomerSegment_Model_Customer $customer
      * @param Magento_CustomerSegment_Helper_Data $customerSegmentData
      * @param Magento_Backend_Helper_Data $adminhtmlData
@@ -45,12 +51,14 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
         Magento_CustomerSegment_Model_Customer $customer,
         Magento_CustomerSegment_Helper_Data $customerSegmentData,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
         $this->_customer = $customer;
         $this->_customerSegmentData = $customerSegmentData;
         $this->_adminhtmlData = $adminhtmlData;
@@ -173,21 +181,19 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
         if (!$this->_customerSegmentData->isEnabled()) {
             return false;
         }
-        $customer = null;
         if ($object->getQuote()) {
             $customer = $object->getQuote()->getCustomer();
         }
-        if (!$customer) {
+        if (!isset($customer)) {
             return false;
         }
 
         $quoteWebsiteId = $object->getQuote()->getStore()->getWebsite()->getId();
+        $segments = array();
         if (!$customer->getId()) {
-            $visitorSegmentIds = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
+            $visitorSegmentIds = $this->_customerSession->getCustomerSegmentIds();
             if (is_array($visitorSegmentIds) && isset($visitorSegmentIds[$quoteWebsiteId])) {
                 $segments = $visitorSegmentIds[$quoteWebsiteId];
-            } else {
-                $segments = array();
             }
         } else {
             $segments = $this->_customer->getCustomerSegmentIdsForWebsite($customer->getId(), $quoteWebsiteId);

@@ -25,17 +25,19 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
     protected $_conditionFactory;
 
     /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
         Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
         $this->_conditionFactory = $conditionFactory;
-        parent::__construct($context, $data);
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine');
     }
 
@@ -47,17 +49,14 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            $this->_conditionFactory->create('Magento_CustomerSegment_Model_Segment_Condition_Order_Status')
-                ->getNewChildSelectOptions(),
+            $this->_conditionFactory->create('Order_Status')->getNewChildSelectOptions(),
             // date ranges
             array(
                 'value' => array(
-                    $this->_conditionFactory->create('Magento_CustomerSegment_Model_Segment_Condition_Uptodate')
-                        ->getNewChildSelectOptions(),
-                    $this->_conditionFactory->create('Magento_CustomerSegment_Model_Segment_Condition_Daterange')
-                        ->getNewChildSelectOptions(),
+                    $this->_conditionFactory->create('Uptodate')->getNewChildSelectOptions(),
+                    $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions(),
                 ),
-                'label' => __('Date Ranges')
+                'label' => __('Date Ranges'),
             ),
         ));
     }

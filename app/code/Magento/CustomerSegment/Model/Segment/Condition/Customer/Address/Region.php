@@ -33,12 +33,14 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     protected $_eavConfig;
 
     /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
         Magento_Eav_Model_Config $eavConfig,
         Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
         Magento_Rule_Model_Condition_Context $context,
@@ -46,7 +48,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_conditionFactory = $conditionFactory;
-        parent::__construct($context, $data);
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region');
         $this->setValue(1);
     }
@@ -58,8 +60,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
      */
     public function getMatchedEvents()
     {
-        return $this->_conditionFactory
-            ->create('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes')
+        return $this->_conditionFactory->create('Customer_Address_Attributes')
             ->getMatchedEvents();
     }
 

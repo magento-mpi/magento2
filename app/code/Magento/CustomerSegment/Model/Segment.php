@@ -65,6 +65,14 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     protected $_conditionFactory;
 
     /**
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Rule_Model_Action_CollectionFactory $collectionFactory
      * @param Magento_Log_Model_Visitor $visitor
      * @param Magento_Log_Model_VisitorFactory $visitorFactory
@@ -77,6 +85,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Rule_Model_Action_CollectionFactory $collectionFactory,
         Magento_Log_Model_Visitor $visitor,
         Magento_Log_Model_VisitorFactory $visitorFactory,
@@ -88,6 +97,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
         $this->_visitor = $visitor;
         $this->_visitorFactory = $visitorFactory;
@@ -145,8 +155,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
      */
     public function getConditionsInstance()
     {
-        return $this->_conditionFactory
-            ->create('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
+        return $this->_conditionFactory->create('Combine_Root');
     }
 
     /**
@@ -234,7 +243,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
      */
     public function validate(Magento_Object $object)
     {
-        $website = Mage::app()->getWebsite();
+        $website = $this->_storeManager->getWebsite();
         if ($object instanceof Magento_Customer_Model_Customer) {
             if (!$object->getId()) {
                 $this->setVisitorId($this->_visitor->getId());
@@ -267,13 +276,12 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
             $customerId = $customer;
         }
 
-        $website = Mage::app()->getWebsite($website);
         $params = array();
         if (strpos($sql, ':customer_id')) {
             $params['customer_id']  = $customerId;
         }
         if (strpos($sql, ':website_id')) {
-            $params['website_id']   = $website->getId();
+            $params['website_id'] = $this->_storeManager->getWebsite($website)->getId();
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {

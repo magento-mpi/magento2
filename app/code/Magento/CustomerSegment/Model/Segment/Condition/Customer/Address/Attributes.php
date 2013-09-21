@@ -30,6 +30,19 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
     protected $_eavConfig;
 
     /**
+     * @var Magento_Customer_Model_Resource_Address
+     */
+    protected $_resourceAddress;
+
+    /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
+     * @param Magento_Customer_Model_Resource_Address $resourceAddress
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Directory_Model_Config_Source_CountryFactory $countryFactory
      * @param Magento_Directory_Model_Config_Source_AllregionFactory $allregionFactory
@@ -37,16 +50,21 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
      * @param array $data
      */
     public function __construct(
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_Customer_Model_Resource_Address $resourceAddress,
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Directory_Model_Config_Source_CountryFactory $countryFactory,
         Magento_Directory_Model_Config_Source_AllregionFactory $allregionFactory,
         Magento_Rule_Model_Condition_Context $context,
         array $data = array()
     ) {
+        $this->_conditionFactory = $conditionFactory;
+        $this->_resourceAddress = $resourceAddress;
         $this->_eavConfig = $eavConfig;
         $this->_countryFactory = $countryFactory;
         $this->_allregionFactory = $allregionFactory;
-        parent::__construct($context, $data);
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes');
         $this->setValue(null);
     }
@@ -68,16 +86,15 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
      */
     public function getNewChildSelectOptions()
     {
-        $prefix = 'Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_';
-        $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
-        foreach ($attributes as $code => $label) {
+        foreach ($this->loadAttributeOptions()->getAttributeOption() as $code => $label) {
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
-        $conditions = array_merge($conditions, Mage::getModel($prefix . 'Region')->getNewChildSelectOptions());
+        $conditions = array_merge($conditions,
+            $this->_conditionFactory->create('Customer_Address_Region')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label' => __('Address Attributes')
+            'label' => __('Address Attributes'),
         );
     }
 
@@ -88,8 +105,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
      */
     public function loadAttributeOptions()
     {
-        $customerAttributes = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Address')
-            ->loadAllAttributes()
+        $customerAttributes = $this->_resourceAddress->loadAllAttributes()
             ->getAttributesByCode();
 
         $attributes = array();
@@ -102,9 +118,9 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
             }
         }
-
         asort($attributes);
         $this->setAttributeOption($attributes);
+
         return $this;
     }
 

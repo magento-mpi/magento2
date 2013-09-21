@@ -115,7 +115,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
             ),
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('grid_segment_website', array(
                 'header'    => __('Website'),
                 'align'     => 'left',
