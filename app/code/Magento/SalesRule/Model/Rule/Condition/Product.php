@@ -26,16 +26,24 @@ class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_
     /**
      * @param Magento_Backend_Helper_Data $backendData
      * @param Magento_Rule_Model_Condition_Context $context
+     * @param Magento_Eav_Model_Config $config
+     * @param Magento_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
         Magento_Rule_Model_Condition_Context $context,
+        Magento_Eav_Model_Config $config,
+        Magento_Catalog_Model_Product $product,
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection $attrSetCollection,
         Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
-        parent::__construct($backendData, $context, $data);
+        parent::__construct($backendData, $context, $config, $product, $productResource, $attrSetCollection, $data);
         $this->_productFactory = $productFactory;
     }
 
