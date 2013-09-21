@@ -57,6 +57,7 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_resLogFactory = $this->getMock('Magento_Captcha_Model_Resource_LogFactory',
             array('create'), array(), '', false);
         $this->_resLogFactory->expects($this->any())
