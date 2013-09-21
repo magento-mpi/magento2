@@ -267,6 +267,9 @@ class Magento_Core_Helper_Js extends Magento_Core_Helper_Abstract
      */
     protected function _addTranslation($key, $translatedText) 
     {
+        if ($this->_translateData === null) {
+            $this->_translateData = array();
+        }
         if ($key != $translatedText) {
             $this->_translateData[$key] = $translatedText;
         }
