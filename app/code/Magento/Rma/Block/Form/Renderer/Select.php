@@ -24,6 +24,7 @@ class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Blo
     protected $_itemFormFactory;
 
     /**
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Rma_Model_ItemFactory $itemFactory
@@ -31,6 +32,7 @@ class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Blo
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Rma_Model_ItemFactory $itemFactory,
@@ -39,7 +41,7 @@ class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Blo
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($locale, $coreData, $context, $data);
     }
 
     /**

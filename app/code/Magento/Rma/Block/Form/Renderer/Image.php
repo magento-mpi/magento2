@@ -20,19 +20,21 @@ class Magento_Rma_Block_Form_Renderer_Image extends Magento_CustomAttribute_Bloc
     protected $_storeManager;
 
     /**
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($locale, $coreData, $context, $data);
     }
 
     /**
