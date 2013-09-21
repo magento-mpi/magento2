@@ -42,7 +42,8 @@ class Magento_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Fr
         $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
         $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $countryFactory = $this->getMock('Magento_Directory_Model_Resource_CountryFactory', array(), array(), '', false);
+        $countryFactory = $this->getMock('Magento_Directory_Model_Resource_CountryFactory',
+            array(), array(), '', false);
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = array(
             'logger' => $logger,
