@@ -34,7 +34,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Model_Config_Source_Yesno $sourceFactory
+     * @param Magento_Backend_Model_Config_Source_YesnoFactory $sourceFactory
      * @param array $data
      */
     public function __construct(
@@ -44,7 +44,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Backend_Model_Config_Source_Yesno $sourceFactory,
+        Magento_Backend_Model_Config_Source_YesnoFactory $sourceFactory,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
