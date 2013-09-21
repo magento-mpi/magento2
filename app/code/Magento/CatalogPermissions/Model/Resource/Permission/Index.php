@@ -920,7 +920,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         }
 
         $collection->getSelect()->joinLeft(
-            array('permission_index'=>$this->getTable('enterprise_catalogpermissions_index')),
+            array('permission_index'=>$this->getTable('magento_catalogpermissions_index')),
             'permission_index.category_id = ' . $tableAlias . '.entity_id'
             . ' AND ' . $adapter->quoteInto('permission_index.website_id = ?', $websiteId)
             . ' AND ' . $adapter->quoteInto('permission_index.customer_group_id = ?', $customerGroupId),
@@ -975,7 +975,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         } else {
             $collection->getSelect()
                 ->joinLeft(
-                    array('permission_index_product' => $this->getTable('enterprise_catalogpermissions_index_product')),
+                    array('permission_index_product' => $this->getTable('magento_catalogpermissions_index_product')),
                     $condition,
                     array('grant_catalog_category_view',
                         'grant_catalog_product_price',
@@ -1047,7 +1047,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     {
         $adapter = $this->_getReadAdapter();
         $select  = $adapter->select()
-            ->from($this->getTable('enterprise_catalogpermissions_index_product'),
+            ->from($this->getTable('magento_catalogpermissions_index_product'),
                 array(
                     'grant_catalog_category_view',
                     'grant_catalog_product_price',
@@ -1094,7 +1094,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         }
 
         $select = $adapter->select()
-            ->from($this->getTable('enterprise_catalogpermissions_index_product'),
+            ->from($this->getTable('magento_catalogpermissions_index_product'),
                 array(
                     'product_id',
                     'grant_catalog_category_view',
