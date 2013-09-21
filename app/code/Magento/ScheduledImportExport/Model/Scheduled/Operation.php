@@ -84,7 +84,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     protected $_templateMailer;
 
     /**
-     * @var Magento_Core_Model_Config_Value
+     * @var Magento_Core_Model_Config_ValueFactory
      */
     protected $_configValueFactory;
 
@@ -119,7 +119,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_GenericFactory $schedOperFactory
      * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory $operationFactory
      * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
-     * @param Magento_Core_Model_Config_Value $configValueFactory
+     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
      * @param Magento_Core_Model_Email_Template_Mailer $templateMailer
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -135,7 +135,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         Magento_ScheduledImportExport_Model_Scheduled_Operation_GenericFactory $schedOperFactory,
         Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory $operationFactory,
         Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
-        Magento_Core_Model_Config_Value $configValueFactory,
+        Magento_Core_Model_Config_ValueFactory $configValueFactory,
         Magento_Core_Model_Email_Template_Mailer $templateMailer,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
