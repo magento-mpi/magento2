@@ -1,9 +1,5 @@
 <?php
 /**
- * Magento_Webhook_Block_AdminHtml_Subscription_Edit_Form
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Block\Adminhtml\Subscription\Edit;
 
+/**
+ * Magento_Webhook_Block_AdminHtml_Subscription_Edit_Form
+ *
+ * @magentoAppArea adminhtml
+ */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()

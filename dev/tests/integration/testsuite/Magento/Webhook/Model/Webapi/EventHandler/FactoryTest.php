@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Webapi\EventHandler\Factory
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +7,11 @@
  */
 namespace Magento\Webhook\Model\Webapi\EventHandler;
 
+/**
+ * \Magento\Webhook\Model\Webapi\EventHandler\Factory
+ *
+ * @magentoDbIsolation enabled
+ */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()

@@ -1,15 +1,16 @@
 <?php
 /**
- * \Magento\Webhook\Model\Event
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @magentoDbIsolation enabled
  */
 namespace Magento\Webhook\Model;
 
+/**
+ * \Magento\Webhook\Model\Event
+ * @magentoDbIsolation enabled
+ */
 class EventTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Model\Event */

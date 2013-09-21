@@ -1,7 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Resource\Job\Collection
- *
  * {license_notice}
  *
  * @category    Magento
@@ -11,6 +9,9 @@
  */
 namespace Magento\Webhook\Model\Resource\Job;
 
+/**
+ * \Magento\Webhook\Model\Resource\Job\Collection
+ */
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Subscription */

@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Event\QueueWriter
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +7,11 @@
  */
 namespace Magento\Webhook\Model\Event;
 
+/**
+ * \Magento\Webhook\Model\Event\QueueWriter
+ *
+ * @magentoDbIsolation enabled
+ */
 class QueueWriterTest extends \PHPUnit_Framework_TestCase
 {
     public function testOfferWebhookEvent()

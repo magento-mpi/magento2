@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Job\Factory
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +7,11 @@
  */
 namespace Magento\Webhook\Model\Job;
 
+/**
+ * \Magento\Webhook\Model\Job\Factory
+ *
+ * @magentoDbIsolation enabled
+ */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()

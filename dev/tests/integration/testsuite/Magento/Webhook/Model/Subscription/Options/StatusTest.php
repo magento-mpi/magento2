@@ -1,7 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Subscription\Options\Status
- *
  * {license_notice}
  *
  * @category    Magento
@@ -11,6 +9,9 @@
  */
 namespace Magento\Webhook\Model\Subscription\Options;
 
+/**
+ * \Magento\Webhook\Model\Subscription\Options\Status
+ */
 class StatusTest extends \PHPUnit_Framework_TestCase
 {
     public function testToOptionArray()

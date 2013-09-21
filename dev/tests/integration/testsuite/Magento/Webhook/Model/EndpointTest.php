@@ -1,7 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Endpoint
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Webhook\Model;
 
+/**
+ * \Magento\Webhook\Model\Endpoint
+ */
 class EndpointTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMethods()

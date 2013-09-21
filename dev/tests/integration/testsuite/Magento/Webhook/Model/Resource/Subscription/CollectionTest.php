@@ -1,11 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Resource\Subscription\Collection
- *
- * We need DB isolation to avoid confusing interactions with the other Webhook tests.
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -15,6 +9,13 @@
  */
 namespace Magento\Webhook\Model\Resource\Subscription;
 
+/**
+ * \Magento\Webhook\Model\Resource\Subscription\Collection
+ *
+ * We need DB isolation to avoid confusing interactions with the other Webhook tests.
+ *
+ * @magentoDbIsolation enabled
+ */
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     const TOPIC_LISTENERS_THREE = 'listeners/three';

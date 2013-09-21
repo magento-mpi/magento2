@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\User
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Model;
 
+/**
+ * \Magento\Webhook\Model\User
+ *
+ * @magentoDbIsolation enabled
+ */
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSharedSecret()

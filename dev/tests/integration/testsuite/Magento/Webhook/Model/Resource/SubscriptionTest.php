@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Resource\Subscription
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -13,6 +9,11 @@
  */
 namespace Magento\Webhook\Model\Resource;
 
+/**
+ * \Magento\Webhook\Model\Resource\Subscription
+ *
+ * @magentoDbIsolation enabled
+ */
 class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Model\Resource\Subscription */

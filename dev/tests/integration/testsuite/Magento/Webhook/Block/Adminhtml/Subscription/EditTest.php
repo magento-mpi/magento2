@@ -1,9 +1,5 @@
 <?php
 /**
- * Magento_Webhook_Block_AdminHtml_Subscription_Edit
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Block\Adminhtml\Subscription;
 
+/**
+ * Magento_Webhook_Block_AdminHtml_Subscription_Edit
+ *
+ * @magentoAppArea adminhtml
+ */
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Registry */

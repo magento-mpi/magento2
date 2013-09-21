@@ -2,8 +2,6 @@
 /**
  * \Magento\PubSub\Event\QueueHandler
  *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +9,9 @@
  */
 namespace Magento\PubSub\Event;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class QueueHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**

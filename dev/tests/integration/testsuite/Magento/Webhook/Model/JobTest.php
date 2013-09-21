@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Job
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +7,11 @@
  */
 namespace Magento\Webhook\Model;
 
+/**
+ * \Magento\Webhook\Model\Job
+ *
+ * @magentoDbIsolation enabled
+ */
 class JobTest extends \PHPUnit_Framework_TestCase
 {
     /**

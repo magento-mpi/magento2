@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Registration\Failed
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Block\Adminhtml\Registration;
 
+/**
+ * \Magento\Webhook\Block\Adminhtml\Registration\Failed
+ *
+ * @magentoAppArea adminhtml
+ */
 class FailedTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSessionError()

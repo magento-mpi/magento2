@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Service\SubscriptionV1
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Service;
 
+/**
+ * \Magento\Webhook\Service\SubscriptionV1
+ *
+ * @magentoDbIsolation enabled
+ */
 class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 {
     /** Constants for validation of field data */

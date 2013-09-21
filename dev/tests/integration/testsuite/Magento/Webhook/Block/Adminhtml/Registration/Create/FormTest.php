@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Block\Adminhtml\Registration\Create;
 
+/**
+ * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form
+ *
+ * @magentoAppArea adminhtml
+ */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()

@@ -1,7 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Event\Factory
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Webhook\Model\Event;
 
+/**
+ * \Magento\Webhook\Model\Event\Factory
+ */
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()

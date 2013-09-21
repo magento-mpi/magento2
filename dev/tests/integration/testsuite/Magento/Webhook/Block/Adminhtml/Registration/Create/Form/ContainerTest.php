@@ -1,10 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form\Container
- *
- * @magentoDbIsolation enabled
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -15,6 +10,12 @@
  */
 namespace Magento\Webhook\Block\Adminhtml\Registration\Create\Form;
 
+/**
+ * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form\Container
+ *
+ * @magentoDbIsolation enabled
+ * @magentoAppArea adminhtml
+ */
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMethods()

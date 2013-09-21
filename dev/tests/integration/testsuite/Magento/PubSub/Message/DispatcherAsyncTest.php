@@ -8,12 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\PubSub\Message;
 
 /**
  * @magentoDbIsolation enabled
  */
-namespace Magento\PubSub\Message;
-
 class DispatcherAsyncTest extends \PHPUnit_Framework_TestCase
 {
     /**

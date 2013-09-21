@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Subscription
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Block\Adminhtml;
 
+/**
+ * \Magento\Webhook\Block\Adminhtml\Subscription
+ *
+ * @magentoAppArea adminhtml
+ */
 class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\ObjectManager */

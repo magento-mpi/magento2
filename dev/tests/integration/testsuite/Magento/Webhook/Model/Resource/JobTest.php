@@ -1,7 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Resource\Job
- *
  * {license_notice}
  *
  * @category    Magento
@@ -11,6 +9,9 @@
  */
 namespace Magento\Webhook\Model\Resource;
 
+/**
+ * \Magento\Webhook\Model\Resource\Job
+ */
 class JobTest extends \PHPUnit_Framework_TestCase
 {
     /**

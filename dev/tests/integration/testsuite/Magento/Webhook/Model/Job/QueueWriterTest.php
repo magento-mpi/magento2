@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Job\QueueWriter
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +7,11 @@
  */
 namespace Magento\Webhook\Model\Job;
 
+/**
+ * \Magento\Webhook\Model\Job\QueueWriter
+ *
+ * @magentoDbIsolation enabled
+ */
 class QueueWriterTest extends \PHPUnit_Framework_TestCase
 {
     public function testOffer()

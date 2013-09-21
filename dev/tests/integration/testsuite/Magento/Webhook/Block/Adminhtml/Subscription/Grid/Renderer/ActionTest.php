@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -14,6 +10,11 @@
  */
 namespace Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer;
 
+/**
+ * \Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action
+ *
+ * @magentoAppArea adminhtml
+ */
 class ActionTest extends \PHPUnit_Framework_TestCase
 {
     public function testRender()

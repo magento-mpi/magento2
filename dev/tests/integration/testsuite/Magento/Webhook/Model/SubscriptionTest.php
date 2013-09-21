@@ -1,10 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Subscription
- *
- * @magentoAppArea adminhtml
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -15,6 +10,12 @@
  */
 namespace Magento\Webhook\Model;
 
+/**
+ * \Magento\Webhook\Model\Subscription
+ *
+ * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
+ */
 class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
