@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Controller\Adminhtml\Widget;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Widget\Controller\Adminhtml\Widget;
-
 class InstanceTest extends \Magento\Backend\Utility\Controller
 {
     protected function setUp()

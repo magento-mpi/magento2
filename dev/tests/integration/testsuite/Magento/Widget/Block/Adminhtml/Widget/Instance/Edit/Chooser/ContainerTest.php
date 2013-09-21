@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
-
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**

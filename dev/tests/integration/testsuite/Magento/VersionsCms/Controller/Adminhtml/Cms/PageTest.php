@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
-
 class PageTest extends \Magento\Backend\Utility\Controller
 {
     /**

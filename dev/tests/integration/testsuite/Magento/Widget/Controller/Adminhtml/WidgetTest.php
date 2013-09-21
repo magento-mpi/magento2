@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Widget\Controller\Adminhtml;
-
 class WidgetTest extends \Magento\Backend\Utility\Controller
 {
     /**

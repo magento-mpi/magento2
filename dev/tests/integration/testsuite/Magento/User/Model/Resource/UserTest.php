@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Model\Resource;
-
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\User\Model\Resource\User */

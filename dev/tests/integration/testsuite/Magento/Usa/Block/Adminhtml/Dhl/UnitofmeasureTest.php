@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Usa\Block\Adminhtml\Dhl;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Usa\Block\Adminhtml\Dhl;
-
 class UnitofmeasureTest extends \PHPUnit_Framework_TestCase
 {
     /**

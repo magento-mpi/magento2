@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\User\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Block\User\Edit\Tab;
-
 class MainTest extends \Magento\Backend\Utility\Controller
 {
     /**
