@@ -24,7 +24,7 @@ class Magento_SalesArchive_Model_System_Config_Backend_Active
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_SalesArchive_Model_Archive $archive
      * @param Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection
@@ -35,7 +35,7 @@ class Magento_SalesArchive_Model_System_Config_Backend_Active
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Config $config,
         Magento_SalesArchive_Model_Archive $archive,
         Magento_SalesArchive_Model_Resource_Order_Collection $orderCollection,
