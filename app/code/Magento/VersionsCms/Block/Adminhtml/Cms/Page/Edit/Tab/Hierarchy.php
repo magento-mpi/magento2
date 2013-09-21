@@ -118,7 +118,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                         'page_id'               => $v['page_id'],
                         'current_page'          => (bool)$v['current_page']
                     );
-                    if ($item = $collection->getItemById($v['node_id'])) {
+                    $item = $collection->getItemById($v['node_id']);
+                    if ($item) {
                         $node['assigned_to_stores'] = $this->getPageStoreIds($item);
                     } else {
                         $node['assigned_to_stores'] = array();
@@ -149,6 +150,10 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
         return $this->_nodes;
     }
 
+    /**
+     * @param object $node
+     * @return array
+     */
     public function getPageStoreIds($node)
     {
         if (!$node->getPageId() || !$node->getPageInStores()) {
