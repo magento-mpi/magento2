@@ -36,16 +36,4 @@
             </options>
         </persistent>
     </default>
-    <crontab>
-        <jobs>
-            <persistent_clear_expired>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Persistent_Model_Observer::clearExpiredCronJob</model>
-                </run>
-            </persistent_clear_expired>
-        </jobs>
-    </crontab>
 </config>

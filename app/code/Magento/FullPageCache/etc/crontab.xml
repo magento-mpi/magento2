@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="magento_full_page_cache_crawler" instance="Magento_FullPageCache_Model_Crawler" method="crawl">
+        <schedule>0 3 * * *</schedule>
+    </job>
+</config>

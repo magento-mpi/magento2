@@ -20,7 +20,9 @@ class Magento_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Frame
     protected function _getInvoiceCollection(array $invoicesData)
     {
         $className = 'Magento_Sales_Model_Order_Invoice';
-        $result = new Magento_Data_Collection();
+        $result = new Magento_Data_Collection(
+            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        );
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($invoicesData as $oneInvoiceData) {
             $arguments = $objectManagerHelper->getConstructArguments($className, array('data' => $oneInvoiceData));

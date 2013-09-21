@@ -16,7 +16,7 @@
  * @package     Magento_Usa
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Mode
+class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Mode implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

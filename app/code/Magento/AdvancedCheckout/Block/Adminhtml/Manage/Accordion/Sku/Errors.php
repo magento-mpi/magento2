@@ -19,26 +19,26 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
     extends Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract
 {
     /**
-     * Core registry
-     *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_AdvancedCheckout_Model_CartFactory $cartFactory
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_AdvancedCheckout_Model_CartFactory $cartFactory,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
+        $this->_registry = $registry;
+        parent::__construct($coreData, $context, $cartFactory, $data);
     }
 
     /**
@@ -48,8 +48,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
      */
     public function getConfigureUrl()
     {
-        $customer = $this->_coreRegistry->registry('checkout_current_customer');
-        $store = $this->_coreRegistry->registry('checkout_current_store');
+        $customer = $this->_registry->registry('checkout_current_customer');
+        $store = $this->_registry->registry('checkout_current_store');
         $params = array(
             'customer'   => $customer->getId(),
             'store'    => $store->getId()
@@ -74,7 +74,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
      */
     public function getStore()
     {
-        return $this->_coreRegistry->registry('checkout_current_store');
+        return $this->_registry->registry('checkout_current_store');
     }
 
     /**

@@ -22,10 +22,12 @@ class Magento_Logging_Model_Archive_Collection extends Magento_Data_Collection_F
 
     /**
      * Set target dir for scanning
+     *
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
-    public function __construct()
+    public function __construct(Magento_Core_Model_EntityFactory $entityFactory)
     {
-        parent::__construct();
+        parent::__construct($entityFactory);
         $basePath = Mage::getModel('Magento_Logging_Model_Archive')->getBasePath();
         $file = new Magento_Io_File();
         $file->setAllowCreateFolders(true)->createDestinationDir($basePath);

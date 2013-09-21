@@ -149,7 +149,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
 
     public function deleteAction()
     {
-        $currentUser = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
+        $currentUser = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser();
 
         if ($userId = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $userId ) {

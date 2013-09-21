@@ -12,8 +12,8 @@
  * Sys config source model for private sales redirect modes
  *
  */
-class Magento_WebsiteRestriction_Model_System_Config_Source_Redirect
-extends Magento_Object
+class Magento_WebsiteRestriction_Model_System_Config_Source_Redirect extends Magento_Object
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Get options for select

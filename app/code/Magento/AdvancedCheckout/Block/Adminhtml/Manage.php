@@ -22,22 +22,30 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Bl
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
+        $this->_locale = $locale;
     }
 
     protected function _construct()
@@ -217,7 +225,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Bl
      */
     public function getCurrencySymbol($code)
     {
-        $currency = Mage::app()->getLocale()->currency($code);
+        $currency = $this->_locale->currency($code);
         return $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
     }
 

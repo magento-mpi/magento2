@@ -21,6 +21,39 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
 
 {
     /**
+     * @var Magento_Backend_Block_Widget_Form_Renderer_Fieldset
+     */
+    protected $_fieldset;
+
+    /**
+     * @var Magento_TargetRule_Block_Adminhtml_Actions_Conditions
+     */
+    protected $_conditions;
+
+    /**
+     * @param Magento_TargetRule_Block_Adminhtml_Actions_Conditions $conditions
+     * @param Magento_Backend_Block_Widget_Form_Renderer_Fieldset $fieldset
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_TargetRule_Block_Adminhtml_Actions_Conditions $conditions,
+        Magento_Backend_Block_Widget_Form_Renderer_Fieldset $fieldset,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_conditions = $conditions;
+        $this->_fieldset = $fieldset;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare target rule actions form before rendering HTML
      *
      * @return Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
@@ -39,8 +72,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
         $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
-        $renderer   = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
-            ->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')
+        $renderer   = $this->_fieldset->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);
 
@@ -49,7 +81,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
             'required'  => true
         ));
         $element->setRule($model);
-        $element->setRenderer(Mage::getBlockSingleton('Magento_TargetRule_Block_Adminhtml_Actions_Conditions'));
+        $element->setRenderer($this->_conditions);
 
         $model->getActions()->setJsFormObject($fieldset->getHtmlId());
         $form->setValues($model->getData());
