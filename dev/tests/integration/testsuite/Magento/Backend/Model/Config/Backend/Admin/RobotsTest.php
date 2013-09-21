@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\Backend\Model\Config\Backend\Admin;
-
 class RobotsTest extends \PHPUnit_Framework_TestCase
 {
     /**

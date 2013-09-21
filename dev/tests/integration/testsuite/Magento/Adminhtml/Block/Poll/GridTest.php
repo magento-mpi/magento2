@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Poll;
+
 /**
  * Test class for \Magento\Adminhtml\Block\Poll\Grid
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Poll;
-
 class GridTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareColumns()

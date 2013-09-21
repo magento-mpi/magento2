@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
+
 /**
  * Test class for \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General
  * @magentoAppArea adminhtml
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
-
 class GeneralTest
     extends \PHPUnit_Framework_TestCase
 {

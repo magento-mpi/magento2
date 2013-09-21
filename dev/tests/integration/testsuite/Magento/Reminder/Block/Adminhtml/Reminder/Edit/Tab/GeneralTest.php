@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
 /**
  * Test class for \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General
  * @magentoAppArea adminhtml
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
-
 class GeneralTest extends \PHPUnit_Framework_TestCase
 {
     /**

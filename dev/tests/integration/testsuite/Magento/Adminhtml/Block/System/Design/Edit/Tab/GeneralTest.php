@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Design\Edit\Tab;
+
 /**
  * Test class for \Magento\Adminhtml\Block\System\Design\Edit\Tab\General
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\System\Design\Edit\Tab;
-
 class GeneralTest extends \PHPUnit_Framework_TestCase
 {
     /**

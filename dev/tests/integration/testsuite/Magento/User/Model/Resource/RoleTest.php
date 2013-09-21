@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
+
 /**
  * Role resource test
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Model\Resource;
-
 class RoleTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetRoleUsers()

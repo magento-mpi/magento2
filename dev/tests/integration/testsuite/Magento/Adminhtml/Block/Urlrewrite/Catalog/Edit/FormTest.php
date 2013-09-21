@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
+
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit\FormTest
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Edit;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**

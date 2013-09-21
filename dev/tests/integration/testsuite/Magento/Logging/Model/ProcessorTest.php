@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Logging\Model;
+
 /**
  * Test Enterprise logging processor
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Logging\Model;
-
 class ProcessorTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**

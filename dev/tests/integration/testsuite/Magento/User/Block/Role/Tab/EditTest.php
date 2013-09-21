@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-namespace Magento\User\Block\Role\Tab;
-
 class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**

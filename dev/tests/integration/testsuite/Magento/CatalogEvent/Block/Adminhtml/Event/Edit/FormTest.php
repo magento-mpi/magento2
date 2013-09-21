@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
+
 /**
  * Test class for \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form
  * @magentoAppArea adminhtml
  */
-namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**

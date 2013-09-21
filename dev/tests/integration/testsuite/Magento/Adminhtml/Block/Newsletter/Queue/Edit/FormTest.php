@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
+
 /**
  * Test class for \Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form
  * @magentoAppArea adminhtml
  */
-namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**

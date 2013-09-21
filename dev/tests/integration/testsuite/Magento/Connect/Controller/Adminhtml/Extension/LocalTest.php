@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Connect\Controller\Adminhtml\Extension;
+
 /**
  * Test \Magento\Connect\Controller\Adminhtml\Extension\Local
  *
  * @magentoAppArea adminhtml
  */
-namespace Magento\Connect\Controller\Adminhtml\Extension;
-
 class LocalTest extends \Magento\Backend\Utility\Controller
 {
     public function testIndexAction()
