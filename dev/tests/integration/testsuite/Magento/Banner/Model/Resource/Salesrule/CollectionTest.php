@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Model\Resource\Salesrule;
+
 /**
  * @magentoDataFixture Magento/Banner/_files/banner_enabled_40_to_50_percent_off.php
  * @magentoDataFixture Magento/Banner/_files/banner_disabled_40_percent_off.php
  */
-namespace Magento\Banner\Model\Resource\Salesrule;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
