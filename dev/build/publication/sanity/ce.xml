@@ -191,7 +191,15 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsIntegration.tx</path>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsIntegration.txt</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsIntegration.txt</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsStatic.txt</path>
         </item>
         <item>
             <word>Magento_JobQueue</word>
