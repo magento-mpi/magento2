@@ -25,21 +25,13 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_ScheduledImportExport_Model_Observer
-     */
-    protected $_observer;
-
-    /**
-     * @param Magento_ScheduledImportExport_Model_Observer $observer
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
-        Magento_ScheduledImportExport_Model_Observer $observer,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
-        $this->_observer = $observer;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
