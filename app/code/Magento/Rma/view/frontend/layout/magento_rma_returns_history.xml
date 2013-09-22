@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Returns History" type="page" parent="magento_rma_return_view">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Returns History" type="page" parent="magento_rma_returns_view">
     <update handle="customer_account"/>
     <reference name="customer_account_navigation">
         <action method="setActive">
@@ -15,8 +15,8 @@
         </action>
     </reference>
     <reference name="my.account.wrapper">
-        <block class="Magento\Rma\Block\Returns\History" name="rma.returns.history">
-            <container name="rma.returns.history.info" as="info" label="Returns History Info"/>
+        <block class="Magento\Rma\Block\Returns\History" name="rma.return.history">
+            <container name="rma.return.history.info" as="info" label="Returns History Info"/>
         </block>
         <block class="Magento\Customer\Block\Account\Dashboard" name="customer.account.link.back" template="Magento_Customer::account/link/back.phtml"/>
     </reference>

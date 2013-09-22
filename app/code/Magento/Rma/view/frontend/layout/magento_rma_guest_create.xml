@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Guest Order Create Return" type="page" parent="magento_rma_return_create_handle">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Guest Order Create Return" type="page" parent="magento_rma_returns_create_handle">
     <reference name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
@@ -25,6 +25,6 @@
             </action>
         </block>
     </reference>
-    <update handle="magento_rma_return_create_handle"/>
+    <update handle="magento_rma_returns_create_handle"/>
     <update handle="sales_order_info_rma_guest_links"/>
 </layout>

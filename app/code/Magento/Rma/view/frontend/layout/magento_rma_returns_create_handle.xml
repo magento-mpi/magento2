@@ -17,7 +17,7 @@
             </action>
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">textarea</argument>
-                <argument name="renderer_block" xsi:type="string">\Magento\CustomAttribute\Block\Form\Renderer\Textarea</argument>
+                <argument name="renderer_block" xsi:type="string">Magento\CustomAttribute\Block\Form\Renderer\Textarea</argument>
                 <argument name="template" xsi:type="string">Magento_Rma::form/renderer/textarea.phtml</argument>
             </action>
             <action method="addRenderer">
