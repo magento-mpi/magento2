@@ -110,7 +110,6 @@ class Magento_Persistent_Model_Observer
             return $this;
         }
 
-        $xPath = '//instances/blocks/*[block_type="' . get_class($block) . '"]';
         $configFilePath = $observer->getEvent()->getConfigFilePath();
         if (!$configFilePath) {
             $configFilePath = $this->_persistentData->getPersistentConfigFilePath();
@@ -120,8 +119,8 @@ class Magento_Persistent_Model_Observer
         $persistentConfig = Mage::getModel('Magento_Persistent_Model_Persistent_Config')
             ->setConfigFilePath($configFilePath);
 
-        foreach ($persistentConfig->getXmlConfig()->xpath($xPath) as $persistentConfigInfo) {
-            $persistentConfig->fireOne($persistentConfigInfo->asArray(), $block);
+        foreach ($persistentConfig->getBlockConfigInfo(get_class($block)) as $persistentConfigInfo) {
+            $persistentConfig->fireOne($persistentConfigInfo, $block);
         }
 
         return $this;

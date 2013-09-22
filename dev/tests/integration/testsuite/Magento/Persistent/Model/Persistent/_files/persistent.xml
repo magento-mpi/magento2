@@ -23,7 +23,7 @@
                 <name_in_layout>left.reports.product.viewed</name_in_layout>
                 <class>Magento_PersistentHistory_Model_Observer</class>
                 <method>emulateViewedProductsBlock</method>
-                <block_type>Magento_Reports_Block_Product_Viewed</block_type>
+                <block_type>Magento_Sales_Block_Reorder_Sidebar</block_type>
             </reference>
             <reference id="compared_products">
                 <name_in_layout>right.reports.product.compared</name_in_layout>
@@ -31,18 +31,7 @@
                 <method>emulateComparedProductsBlock</method>
                 <block_type>Magento_Reports_Block_Product_Compared</block_type>
             </reference>
-            <reference id="compare_products">
-                <name_in_layout>catalog.compare.sidebar</name_in_layout>
-                <class>Magento_PersistentHistory_Model_Observer</class>
-                <method>emulateCompareProductsBlock</method>
-                <block_type>Magento_Catalog_Block_Product_Compare_Sidebar</block_type>
-            </reference>
-            <reference id="compare_products_list">
-                <name_in_layout>catalog.compare.list</name_in_layout>
-                <class>Magento_PersistentHistory_Model_Observer</class>
-                <method>emulateCompareProductsListBlock</method>
-                <block_type>Magento_Catalog_Block_Product_Compare_List</block_type>
-            </reference>
         </blocks>
     </instances>
 </config>
+
