@@ -148,7 +148,7 @@ class Logger
      * @param int $level
      * @param string $file
      */
-    public function logFile($message, $level = Zend_Log::DEBUG, $file = '')
+    public function logFile($message, $level = \Zend_Log::DEBUG, $file = '')
     {
         if (!isset($file)) {
             $this->log($message, $level);

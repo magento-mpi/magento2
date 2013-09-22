@@ -73,33 +73,33 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_targetRuleData = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManger;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     protected $_ruleCollectionFactory;
 
     /**
-     * @param Magento_TargetRule_Model_Resource_Rule_CollectionFactory $ruleCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Customer_Model_Session $session
+     * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Customer\Model\Session $session
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -110,11 +110,11 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_TargetRule_Model_Resource_Rule_CollectionFactory $ruleCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Customer_Model_Session $session,
+        \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -171,7 +171,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         $type = $this->getData('type');
         if (is_null($type)) {
-            throw new Magento_Core_Exception(__('Undefined Catalog Product List Type'));
+            throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
         }
         return $type;
     }
@@ -271,8 +271,8 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     public function getProduct()
     {
         $product = $this->getData('product');
-        if (!$product instanceof Magento_Object) {
-            throw new Magento_Core_Exception(__('Please define a product data object.'));
+        if (!$product instanceof \Magento\Object) {
+            throw new \Magento\Core\Exception(__('Please define a product data object.'));
         }
         return $product;
     }
@@ -322,7 +322,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function getRuleCollection()
     {
-        /* @var $collection Magento_TargetRule_Model_Resource_Rule_Collection */
+        /* @var $collection \Magento\TargetRule\Model\Resource\Rule\Collection */
         $collection = $this->_ruleCollectionFactory->create();
         $collection->addApplyToFilter($this->getType())
             ->addProductFilter($this->getProduct()->getId())
@@ -356,9 +356,9 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
             /* @var $website \Magento\Core\Model\Website */
             $store = $website->getDefaultStore();
             $date  = $this->_locale->storeDate($store);
-            if ($date->equals(0, Zend_Date::HOUR)) {
+            if ($date->equals(0, \Zend_Date::HOUR)) {
                 $this->_indexer->logEvent(
-                    new Magento_Object(array('type_id' => null, 'store' => $website->getStoreIds())),
+                    new \Magento\Object(array('type_id' => null, 'store' => $website->getStoreIds())),
                     self::ENTITY_TARGETRULE,
                     self::EVENT_TYPE_CLEAN_TARGETRULES
                 );

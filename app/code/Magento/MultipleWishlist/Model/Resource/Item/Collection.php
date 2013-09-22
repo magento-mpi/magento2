@@ -31,19 +31,19 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Wishlist_Model_Resource_Item $resource
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Core\Model\Event\Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_wishlistData = $wishlistData;

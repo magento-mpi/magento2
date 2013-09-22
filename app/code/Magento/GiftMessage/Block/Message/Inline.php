@@ -34,19 +34,19 @@ class Inline extends \Magento\Core\Block\Template
     protected $_giftMessageMessage = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Customer_Model_Session $session
+     * @param \Magento\Customer\Model\Session $session
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $session,
+        \Magento\Customer\Model\Session $session,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,

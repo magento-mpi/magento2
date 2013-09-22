@@ -35,23 +35,23 @@ class Collection
     protected $_fieldsetConfig;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_MultipleWishlist_Model_Resource_Item $resource
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\MultipleWishlist\Model\Resource\Item $resource
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\MultipleWishlist\Model\Resource\Item $resource
     ) {
         $this->_wishlistData = $wishlistData;

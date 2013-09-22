@@ -17,15 +17,15 @@ namespace Magento\Enterprise\Model\Observer;
 class Install
 {
     /**
-     * @var Magento_Install_Model_Installer
+     * @var \Magento\Install\Model\Installer
      */
     protected $_installer;
 
     /**
-     * @param Magento_Install_Model_Installer $installer
+     * @param \Magento\Install\Model\Installer $installer
      */
     public function __construct(
-        Magento_Install_Model_Installer $installer
+        \Magento\Install\Model\Installer $installer
     ) {
         $this->_installer = $installer;
     }

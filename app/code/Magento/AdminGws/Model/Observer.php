@@ -35,26 +35,26 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_coreConfig;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @param Magento_AdminGws_Model_Role $role
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\AdminGws\Model\Role $role
+     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        Magento_AdminGws_Model_Role $role,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Controller_Request_Http $request
+        \Magento\AdminGws\Model\Role $role,
+        \Magento\Core\Model\Config $coreConfig,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Controller\Request\Http $request
     ) {
         parent::__construct($role);
         $this->_coreConfig = $coreConfig;
@@ -160,13 +160,13 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
         // validate specified data
         if ($object->getGwsIsAll() === 0 && empty($websiteIds) && empty($storeGroupIds)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Please specify at least one website or one store group.')
             );
         }
         if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('You need more permissions to set All Scopes to a Role.')
                 );
             }
@@ -182,12 +182,12 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $allWebsiteIds = array_keys($this->_storeManager->getWebsites());
             foreach ($websiteIds as $websiteId) {
                 if (!in_array($websiteId, $allWebsiteIds)) {
-                    throw new Magento_Core_Exception(__('Incorrect website ID: %1', $websiteId));
+                    throw new \Magento\Core\Exception(__('Incorrect website ID: %1', $websiteId));
                 }
                 // prevent granting disallowed websites
                 if (!$this->_role->getIsAll()) {
                     if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
-                        throw new Magento_Core_Exception(
+                        throw new \Magento\Core\Exception(
                             __('You need more permissions to access website "%1".', $this->_storeManager->getWebsite($websiteId)->getName())
                         );
                     }
@@ -207,11 +207,11 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             }
             foreach ($storeGroupIds as $storeGroupId) {
                 if (!array($storeGroupId, $allStoreGroups)) {
-                    throw new Magento_Core_Exception(__('Incorrect store ID: %1', $storeGroupId));
+                    throw new \Magento\Core\Exception(__('Incorrect store ID: %1', $storeGroupId));
                 }
                 // prevent granting disallowed store group
                 if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('You need more permissions to save this setting.')
                     );
                 }
@@ -319,7 +319,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this;
         }
 
-        $storeId = $this->_request->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $storeId = $this->_request->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }

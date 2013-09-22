@@ -209,12 +209,12 @@ class Layout extends \Magento\Simplexml\Config
     protected $_coreStoreConfig;
     
     /**
-     * @var Magento_Core_Model_Logger $logger
+     * @var \Magento\Core\Model\Logger $logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Factory\Helper $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
@@ -228,7 +228,7 @@ class Layout extends \Magento\Simplexml\Config
      * @param string $area
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Factory\Helper $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
@@ -719,7 +719,7 @@ class Layout extends \Magento\Simplexml\Config
         $row = $this->_scheduledStructure->getStructureElement($key);
 
         if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT])) {
-            $this->_logger->log("Broken reference: missing declaration of the element '{$key}'.", Zend_Log::CRIT);
+            $this->_logger->log("Broken reference: missing declaration of the element '{$key}'.", \Zend_Log::CRIT);
             $this->_scheduledStructure->unsetPathElement($key);
             $this->_scheduledStructure->unsetStructureElement($key);
             return;
@@ -736,7 +736,7 @@ class Layout extends \Magento\Simplexml\Config
             } else {
                 $this->_logger
                     ->log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
-                        . 'because the latter doesn\'t exist', Zend_Log::CRIT
+                        . 'because the latter doesn\'t exist', \Zend_Log::CRIT
                     );
             }
         }
@@ -974,7 +974,7 @@ class Layout extends \Magento\Simplexml\Config
                     $this->_logger
                         ->log("Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', but "
                             . "their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
-                            Zend_Log::CRIT
+                            \Zend_Log::CRIT
                         );
                     return;
                 }

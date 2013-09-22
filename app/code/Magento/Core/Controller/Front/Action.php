@@ -48,7 +48,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
      * If not authenticated, will try to do it using credentials from HTTP-request
      *
      * @param string $aclResource
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @return bool
      */
     public function authenticateAndAuthorizeAdmin($aclResource, $logger)
@@ -66,7 +66,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
                 ->getHttpAuthCredentials($this->getRequest());
             try {
                 $auth->login($login, $password);
-            } catch (Magento_Backend_Model_Auth_Exception $e) {
+            } catch (\Magento\Backend\Model\Auth\Exception $e) {
                 $logger->logException($e);
             }
         }

@@ -37,16 +37,16 @@ class Order
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Sales_Model_Resource_Report $resource
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Sales\Model\Resource\Report $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init('sales_refunded_aggregated_order');

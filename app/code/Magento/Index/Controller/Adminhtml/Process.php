@@ -19,26 +19,26 @@ class Process extends \Magento\Adminhtml\Controller\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Index_Model_ProcessFactory
+     * @var \Magento\Index\Model\ProcessFactory
      */
     protected $_processFactory;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Index_Model_ProcessFactory $processFactory
-     * @param Magento_Index_Model_Indexer $indexer
+     * @param \Magento\Index\Model\ProcessFactory $processFactory
+     * @param \Magento\Index\Model\Indexer $indexer
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Index_Model_ProcessFactory $processFactory,
-        Magento_Index_Model_Indexer $indexer
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Index\Model\ProcessFactory $processFactory,
+        \Magento\Index\Model\Indexer $indexer
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_processFactory = $processFactory;
@@ -55,7 +55,7 @@ class Process extends \Magento\Adminhtml\Controller\Action
     {
         $processId = $this->getRequest()->getParam('process');
         if ($processId) {
-            /** @var $process Magento_Index_Model_Process */
+            /** @var $process \Magento\Index\Model\Process */
             $process = $this->_processFactory->create()->load($processId);
             if ($process->getId() && $process->getIndexer()->isVisible()) {
                 return $process;
@@ -196,7 +196,7 @@ class Process extends \Magento\Adminhtml\Controller\Action
             try {
                 $counter = 0;
                 foreach ($processIds as $processId) {
-                    /* @var $process Magento_Index_Model_Process */
+                    /* @var $process \Magento\Index\Model\Process */
                     $process = $this->_indexer->getProcessById($processId);
                     if ($process && $process->getIndexer()->isVisible()) {
                         $process->reindexEverything();
@@ -230,7 +230,7 @@ class Process extends \Magento\Adminhtml\Controller\Action
                 $counter = 0;
                 $mode = $this->getRequest()->getParam('index_mode');
                 foreach ($processIds as $processId) {
-                    /* @var $process Magento_Index_Model_Process */
+                    /* @var $process \Magento\Index\Model\Process */
                     $process = $this->_processFactory->create()->load($processId);
                     if ($process->getId() && $process->getIndexer()->isVisible()) {
                         $process->setMode($mode)->save();

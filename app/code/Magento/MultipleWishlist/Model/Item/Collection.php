@@ -23,15 +23,15 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Wishlist_Helper_Data $wishlistData
-     * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Wishlist_Model_Resource_Item $resource
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Wishlist\Model\Resource\Item $resource
      */
     public function __construct(
         \Magento\Core\Model\Registry $coreRegistry,
@@ -39,9 +39,9 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Core\Model\Event\Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_coreRegistry = $coreRegistry;

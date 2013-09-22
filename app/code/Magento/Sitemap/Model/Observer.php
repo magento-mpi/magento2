@@ -47,7 +47,7 @@ class Observer
     const XML_PATH_ERROR_RECIPIENT = 'sitemap/generate/error_email';
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_coreTranslate;
 
@@ -59,11 +59,11 @@ class Observer
     protected $_coreStoreConfig;
     
     /**
-     * @param Magento_Core_Model_Translate $coreTranslate
+     * @param \Magento\Core\Model\Translate $coreTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Translate $coreTranslate,
+        \Magento\Core\Model\Translate $coreTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreTranslate = $coreTranslate;

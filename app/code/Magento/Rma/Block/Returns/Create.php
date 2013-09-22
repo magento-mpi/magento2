@@ -27,20 +27,20 @@ class Create extends \Magento\Rma\Block\Form
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Factory $modelFactory
-     * @param Magento_Eav_Model_Form_Factory $formFactory
-     * @param Magento_Rma_Helper_Data $rmaData
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Helper_Data $coreData
+     * @param \Magento\Core\Model\Factory $modelFactory
+     * @param \Magento\Eav\Model\Form\Factory $formFactory
+     * @param \Magento\Rma\Helper\Data $rmaData
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Factory $modelFactory,
-        Magento_Eav_Model_Form_Factory $formFactory,
+        \Magento\Core\Model\Factory $modelFactory,
+        \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        Magento_Eav_Model_Config $eavConfig,
+        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,

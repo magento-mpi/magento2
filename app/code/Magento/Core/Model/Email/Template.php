@@ -91,7 +91,7 @@ class Template extends \Magento\Core\Model\Template
     protected $_viewFileSystem;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 

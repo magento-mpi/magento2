@@ -28,16 +28,16 @@ class Observer extends \Magento\Object
     protected $_giftMessageMessage = null;
 
     /**
-     * @var Magento_GiftMessage_Model_MessageFactory
+     * @var \Magento\GiftMessage\Model\MessageFactory
      */
     protected $_messageFactory;
 
     /**
-     * @param Magento_GiftMessage_Model_MessageFactory $messageFactory
+     * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
-        Magento_GiftMessage_Model_MessageFactory $messageFactory,
+        \Magento\GiftMessage\Model\MessageFactory $messageFactory,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
         $this->_messageFactory = $messageFactory;

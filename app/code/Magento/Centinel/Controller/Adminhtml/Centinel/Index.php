@@ -57,7 +57,7 @@ class Index extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $result['message'] = $e->getMessage();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result['message'] = __('Validation failed.');
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -108,7 +108,7 @@ class Index extends \Magento\Adminhtml\Controller\Action
     private function _getPayment()
     {
         $model = \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
-        return $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create')->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create')->getQuote()->getPayment();
     }
 
     /**

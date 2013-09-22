@@ -35,12 +35,12 @@ class Send extends \Magento\Core\Block\Template
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
@@ -48,7 +48,7 @@ class Send extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
@@ -73,7 +73,7 @@ class Send extends \Magento\Core\Block\Template
             return trim($name);
         }
 
-        /* @var $session Magento_Customer_Model_Session */
+        /* @var $session \Magento\Customer\Model\Session */
         $session = $this->_customerSession;
 
         if ($session->isLoggedIn()) {
@@ -95,7 +95,7 @@ class Send extends \Magento\Core\Block\Template
             return trim($email);
         }
 
-        /* @var $session Magento_Customer_Model_Session */
+        /* @var $session \Magento\Customer\Model\Session */
         $session = $this->_customerSession;
 
         if ($session->isLoggedIn()) {

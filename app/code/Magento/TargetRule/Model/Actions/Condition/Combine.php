@@ -14,25 +14,25 @@ namespace Magento\TargetRule\Model\Actions\Condition;
 class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
-     * @var Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory
+     * @var \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory
      */
     protected $_attributeFactory;
 
     /**
-     * @var Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory
+     * @var \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory
      */
     protected $_specialFactory;
 
     /**
-     * @param Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory
-     * @param Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory $attributeFactory
+     * @param \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory $specialFactory
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory,
-        Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory,
-        Magento_Rule_Model_Condition_Context $context,
+        \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory $attributeFactory,
+        \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory $specialFactory,
+        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_attributeFactory = $attributeFactory;

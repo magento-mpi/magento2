@@ -151,7 +151,7 @@ class User extends \Magento\Backend\Controller\ActionAbstract
 
     public function deleteAction()
     {
-        $currentUser = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser();
+        $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
 
         if ($userId = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $userId ) {

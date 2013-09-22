@@ -29,8 +29,8 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     protected $_coreApp;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Widget_Model_Widget $widget
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Widget\Model\Widget $widget
      * @param \Magento\Widget\Model\Resource\Widget $widgetResource
      * @param \Magento\Core\Model\App $coreApp
      * @param \Magento\Core\Helper\Data $coreData
@@ -38,7 +38,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Widget\Model\Widget $widget,
         \Magento\Widget\Model\Resource\Widget $widgetResource,
         \Magento\Core\Model\App $coreApp,

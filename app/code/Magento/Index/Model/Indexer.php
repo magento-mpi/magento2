@@ -23,7 +23,7 @@ class Indexer
     protected $_processesCollection;
 
     /**
-     * @var Magento_Index_Model_Resource_Process
+     * @var \Magento\Index\Model\Resource\Process
      */
     protected $_resourceProcess;
 
@@ -35,26 +35,26 @@ class Indexer
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Index_Model_EventFactory
+     * @var \Magento\Index\Model\EventFactory
      */
     protected $_indexEventFactory;
 
     /**
-     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     * @var \Magento\Index\Model\Resource\Process\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory
-     * @param Magento_Index_Model_Resource_Process $resourceProcess
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Index_Model_EventFactory $indexEventFactory
+     * @param \Magento\Index\Model\Resource\Process\CollectionFactory $collectionFactory
+     * @param \Magento\Index\Model\Resource\Process $resourceProcess
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Index\Model\EventFactory $indexEventFactory
      */
     public function __construct(
-        Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory,
-        Magento_Index_Model_Resource_Process $resourceProcess,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Index_Model_EventFactory $indexEventFactory
+        \Magento\Index\Model\Resource\Process\CollectionFactory $collectionFactory,
+        \Magento\Index\Model\Resource\Process $resourceProcess,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Index\Model\EventFactory $indexEventFactory
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_resourceProcess = $resourceProcess;

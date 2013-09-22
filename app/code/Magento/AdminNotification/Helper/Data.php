@@ -51,19 +51,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_unreadNoticeCounts;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_AdminNotification_Model_InboxFactory
+     * @var \Magento\AdminNotification\Model\InboxFactory
      */
     protected $_inboxFactory;
 
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_AdminNotification_Model_InboxFactory $inboxFactory
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\AdminNotification\Model\InboxFactory $inboxFactory
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;

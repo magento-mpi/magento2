@@ -52,10 +52,10 @@ class Currencysymbol extends \Magento\Adminhtml\Controller\Action
             }
         }
 
-        /** @var Magento_Backend_Model_Session $backendSession */
-        $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
+        /** @var \Magento\Backend\Model\Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
-            $this->_objectManager->create('Magento_CurrencySymbol_Model_System_Currencysymbol')
+            $this->_objectManager->create('Magento\CurrencySymbol\Model\System\Currencysymbol')
                 ->setCurrencySymbolsData($symbolsDataArray);
             $backendSession->addSuccess(__('The custom currency symbols were applied.'));
         } catch (\Exception $e) {
@@ -70,7 +70,7 @@ class Currencysymbol extends \Magento\Adminhtml\Controller\Action
      */
     public function resetAction()
     {
-        $this->_objectManager->create('Magento_CurrencySymbol_Model_System_Currencysymbol')->resetValues();
+        $this->_objectManager->create('Magento\CurrencySymbol\Model\System\Currencysymbol')->resetValues();
         $this->_redirectReferer();
     }
 

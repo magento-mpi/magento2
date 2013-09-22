@@ -112,12 +112,12 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_typeList;
 
@@ -134,7 +134,7 @@ class Observer
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\DesignPackage\Rules $designRules
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
@@ -151,7 +151,7 @@ class Observer
         \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
         \Magento\FullPageCache\Model\DesignPackage\Rules $designRules,
         \Magento\Core\Model\Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Cache\TypeListInterface $typeList,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {

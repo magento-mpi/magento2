@@ -17,8 +17,8 @@ class Magento_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Framewor
      */
     public function testToHtml()
     {
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $session = Mage::getModel('Magento_Customer_Model_Session', array($logger));
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $session = Mage::getModel('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
 
         $utility = new Magento_Core_Utility_Layout($this);

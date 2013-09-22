@@ -46,20 +46,20 @@ abstract class AbstractErrors extends \Magento\Adminhtml\Block\Widget
     /**
      * Advanced checkout cart factory
      *
-     * @var Magento_AdvancedCheckout_Model_CartFactory
+     * @var \Magento\AdvancedCheckout\Model\CartFactory
      */
     protected $_cartFactory = null;
 
     /**
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_AdvancedCheckout_Model_CartFactory $cartFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\AdvancedCheckout\Model\CartFactory $cartFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
-        Magento_AdvancedCheckout_Model_CartFactory $cartFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

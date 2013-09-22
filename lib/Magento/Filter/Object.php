@@ -16,14 +16,14 @@ class Object extends \Zend_Filter
     protected $_columnFilters = array();
 
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_entityFactory;
 
     /**
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
-    public function __construct(Magento_Core_Model_EntityFactory $entityFactory)
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory)
     {
         $this->_entityFactory = $entityFactory;
     }

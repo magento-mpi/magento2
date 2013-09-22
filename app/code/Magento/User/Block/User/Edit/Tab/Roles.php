@@ -21,12 +21,12 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
 
 
     /**
-     * @var Magento_User_Model_Resource_Role_CollectionFactory
+     * @var \Magento\User\Model\Resource\Role\CollectionFactory
      */
     protected $_userRolesFactory;
 
     /**
-     * @param Magento_User_Model_Resource_Role_CollectionFactory $userRolesFactory
+     * @param \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -35,7 +35,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param array $data
      */
     public function __construct(
-        Magento_User_Model_Resource_Role_CollectionFactory $userRolesFactory,
+        \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

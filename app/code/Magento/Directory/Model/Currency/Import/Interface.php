@@ -11,12 +11,12 @@
 /**
  * Import currency model interface
  */
-interface Magento_Directory_Model_Currency_Import_Interface
+interface \Magento\Directory\Model\Currency\Import\Interface
 {
     /**
      * Import rates
      *
-     * @return Magento_Directory_Model_Currency_Import_Abstract
+     * @return \Magento\Directory\Model\Currency_Import_Abstract
      */
     public function importRates();
 

@@ -28,12 +28,12 @@ class Config extends \Magento\Sales\Model\Order\Total\Config\Base
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Config $coreConfig
     ) {

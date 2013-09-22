@@ -134,16 +134,16 @@ abstract class AbstractAdapter
     );
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      */
-    public function __construct(Magento_Core_Model_Logger $logger)
+    public function __construct(\Magento\Core\Model\Logger $logger)
     {
         $this->_logger = $logger;
     }

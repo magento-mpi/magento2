@@ -28,17 +28,17 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_flag     = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Resource $resource
      */
-    public function __construct(Magento_Core_Model_Logger $logger, Magento_Core_Model_Resource $resource)
+    public function __construct(\Magento\Core\Model\Logger $logger, \Magento\Core\Model\Resource $resource)
     {
         $this->_logger = $logger;
         parent::__construct($resource);

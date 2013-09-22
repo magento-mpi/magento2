@@ -28,11 +28,11 @@ class Collection extends \Magento\Data\Collection\Filesystem
      * Constructor
      *
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_EntityFactory $entityFactory
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         $this->_filesystem = $filesystem;
         parent::__construct($entityFactory);

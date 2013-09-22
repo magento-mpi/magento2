@@ -51,11 +51,11 @@ class Magento_TestFramework_Helper_Api
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
-        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', true);
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', true);
         $result = call_user_func_array(array($handlerMock, $path), $params);
-        $objectManager->get('Magento_Core_Model_Registry')->unregister('isSecureArea');
-        $objectManager->get('Magento_Core_Model_Registry')->register('isSecureArea', false);
+        $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
+        $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', false);
 
         self::restoreErrorHandler();
         return $result;

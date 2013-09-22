@@ -17,7 +17,7 @@
  */
 
 /**
- * TODO: Refactor use of Magento_Core_Model_Option_ArrayInterface in library. Probably will be refactored while
+ * TODO: Refactor use of \Magento\Core\Model\Option\ArrayInterface in library. Probably will be refactored while
  * moving Magento_Core to library
  */
 namespace Magento\Data;
@@ -100,14 +100,14 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     protected $_flags = array();
 
     /**
-     * @var Magento_Core_Model_EntityFactory
+     * @var \Magento\Core\Model\EntityFactory
      */
     protected $_entityFactory;
 
     /**
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
-    public function __construct(Magento_Core_Model_EntityFactory $entityFactory)
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory)
     {
         $this->_entityFactory = $entityFactory;
     }
@@ -118,7 +118,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * @param string $field
      * @param string $value
      * @param string $type and|or|string
-     * @return Magento_Data_Collection
+     * @return \Magento\Data\Collection
      */
     public function addFilter($field, $value, $type = 'and')
     {

@@ -72,19 +72,19 @@ class Resource
     /**
      * Dirs instance
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
      * @param \Magento\Core\Model\Config\Resource $resourceConfig
      * @param \Magento\Core\Model\CacheInterface $cache
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Core\Model\Dir $dirs
      */
     public function __construct(
-        Magento_Core_Model_Config_Resource $resourceConfig,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Dir $dirs
+        \Magento\Core\Model\Config\Resource $resourceConfig,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Dir $dirs
     ) {
         $this->_resourceConfig = $resourceConfig;
         $this->_cache = $cache;
@@ -192,7 +192,7 @@ class Resource
         $className  = $this->_getConnectionAdapterClassName($type);
         if ($className) {
             $connection = new $className($this->_dirs, $config);
-            if ($connection instanceof Magento_DB_Adapter_Interface) {
+            if ($connection instanceof \Magento\DB\Adapter\AdapterInterface) {
                 /** @var Zend_Db_Adapter_Abstract $connection */
 
                 // Set additional params for Magento profiling tool

@@ -21,50 +21,50 @@ namespace Magento\Banner\Model\Resource;
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @var Magento_Banner_Model_BannerFactory
+     * @var \Magento\Banner\Model\BannerFactory
      */
     protected $_bannerFactory;
 
     /**
-     * @var Magento_Widget_Model_Widget_InstanceFactory
+     * @var \Magento\Widget\Model\Widget\InstanceFactory
      */
     protected $_widgetFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_Collection
+     * @var \Magento\Core\Model\Resource\Theme\Collection
      */
     protected $_themeCollection;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Resource_Theme_Collection $themeCollection
-     * @param Magento_Widget_Model_Widget_InstanceFactory $widgetFactory
-     * @param Magento_Banner_Model_BannerFactory $bannerFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
+     * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
+     * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param $resourceName
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Resource_Theme_Collection $themeCollection,
-        Magento_Widget_Model_Widget_InstanceFactory $widgetFactory,
-        Magento_Banner_Model_BannerFactory $bannerFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
+        \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
+        \Magento\Banner\Model\BannerFactory $bannerFactory,
         $resourceName
     ) {
         parent::__construct(

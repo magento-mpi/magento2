@@ -130,7 +130,7 @@ abstract class AbstractBlock extends \Magento\Object
     protected $_cacheState;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 

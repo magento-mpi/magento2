@@ -27,16 +27,16 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig
     ) {
         $this->_fieldsetConfig = $fieldsetConfig;

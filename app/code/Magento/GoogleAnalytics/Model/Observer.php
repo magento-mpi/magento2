@@ -33,23 +33,23 @@ class Observer
     protected $_googleAnalyticsData = null;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\App $application
      * @param \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_App $application,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\App $application,
         \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;

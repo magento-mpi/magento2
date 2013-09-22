@@ -55,49 +55,49 @@ class Service extends \Magento\Object
     /**
      * Config
      *
-     * @var Magento_Centinel_Model_Config
+     * @var \Magento\Centinel\Model\Config
      */
     protected $_config;
 
     /**
      * Backend url
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_backendUrl;
 
     /**
      * Frontend url
      *
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_frontendUrl;
 
     /**
      * Centinel session
      *
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_centinelSession;
 
     /**
      * Session
      *
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
      * Store manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * State factory
      *
-     * @var Magento_Centinel_Model_StateFactory
+     * @var \Magento\Centinel\Model\StateFactory
      */
     protected $_stateFactory;
 
@@ -109,25 +109,25 @@ class Service extends \Magento\Object
     protected $_validationState;
 
     /**
-     * @param Magento_Centinel_Model_Config $config
-     * @param Magento_Centinel_Model_Api $api
-     * @param Magento_Core_Model_UrlInterface $backendUrl
-     * @param Magento_Core_Model_UrlInterface $frontendUrl
-     * @param Magento_Core_Model_Session_Abstract $centinelSession
-     * @param Magento_Core_Model_Session $session
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Centinel_Model_StateFactory $stateFactory
+     * @param \Magento\Centinel\Model\Config $config
+     * @param \Magento\Centinel\Model\Api $api
+     * @param \Magento\Core\Model\UrlInterface $backendUrl
+     * @param \Magento\Core\Model\UrlInterface $frontendUrl
+     * @param \Magento\Core\Model\Session\AbstractSession $centinelSession
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Centinel\Model\StateFactory $stateFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Centinel_Model_Config $config,
-        Magento_Centinel_Model_Api $api,
-        Magento_Core_Model_UrlInterface $backendUrl,
-        Magento_Core_Model_UrlInterface $frontendUrl,
-        Magento_Core_Model_Session_Abstract $centinelSession,
-        Magento_Core_Model_Session $session,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Centinel_Model_StateFactory $stateFactory,
+        \Magento\Centinel\Model\Config $config,
+        \Magento\Centinel\Model\Api $api,
+        \Magento\Core\Model\UrlInterface $backendUrl,
+        \Magento\Core\Model\UrlInterface $frontendUrl,
+        \Magento\Core\Model\Session\AbstractSession $centinelSession,
+        \Magento\Core\Model\Session $session,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Centinel\Model\StateFactory $stateFactory,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -144,7 +144,7 @@ class Service extends \Magento\Object
     /**
      * Return value from section of centinel config
      *
-     * @return Magento_Centinel_Model_Config
+     * @return \Magento\Centinel\Model\Config
      */
     protected function _getConfig()
     {
@@ -334,12 +334,12 @@ class Service extends \Magento\Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                throw new Magento_Core_Exception(__('Payment information error. Please start over.'));
+                throw new \Magento\Core\Exception(__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Please verify the card with the issuer bank before placing the order.')
             );
         } else {
@@ -350,7 +350,7 @@ class Service extends \Magento\Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            throw new Magento_Core_Exception(__('This card has failed validation and cannot be used.'));
+            throw new \Magento\Core\Exception(__('This card has failed validation and cannot be used.'));
         }
     }
 

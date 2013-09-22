@@ -36,18 +36,18 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_ratingData = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Rating\Helper\Data $ratingData
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Rating\Helper\Data $ratingData,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\StoreManager $storeManager

@@ -78,8 +78,8 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
     public function testCountTotals()
     {
         // prepare collection
-        $collection = new Magento_Data_Collection(
-            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        $collection = new \Magento\Data\Collection(
+            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(
             new \Magento\Object(array('test1' => '1', 'test2' => '2')),
@@ -101,8 +101,8 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
         $this->_model->setColumn('test5', 'avg');
 
         // prepare collection
-        $collection = new Magento_Data_Collection(
-            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        $collection = new \Magento\Data\Collection(
+            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(
             new \Magento\Object(array('children' => new \Magento\Object(array('test4' => '1','test5' => '2')))),
@@ -111,8 +111,8 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
         );
         foreach ($items as $item) {
             // prepare sub-collection
-            $subCollection = new Magento_Data_Collection(
-                $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+            $subCollection = new \Magento\Data\Collection(
+                $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
             );
             $subCollection->addItem(new \Magento\Object(array('test4' => '1','test5' => '2')));
             $subCollection->addItem(new \Magento\Object(array('test4' => '2','test5' => '2')));

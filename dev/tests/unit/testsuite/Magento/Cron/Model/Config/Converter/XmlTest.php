@@ -11,7 +11,7 @@
 class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cron_Model_Config_Converter_Xml
+     * @var \Magento\Cron\Model\Config\Converter\Xml
      */
     protected $_converter;
 
@@ -20,7 +20,7 @@ class Magento_Cron_Model_Config_Converter_XmlTest extends PHPUnit_Framework_Test
      */
     protected function setUp()
     {
-        $this->_converter = new Magento_Cron_Model_Config_Converter_Xml();
+        $this->_converter = new \Magento\Cron\Model\Config\Converter\Xml();
     }
 
     /**

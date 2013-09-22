@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Pci_Model_Resource_Setup */
+/* @var $installer \Magento\Pci\Model\Resource\Setup */
 
 $installer = $this;
 $installer->startSetup();

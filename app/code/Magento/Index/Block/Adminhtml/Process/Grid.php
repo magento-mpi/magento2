@@ -34,13 +34,13 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_eventRepository;
 
     /**
-     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     * @var \Magento\Index\Model\Resource\Process\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory
-     * @param Magento_Index_Model_Process $indexProcess
+     * @param \Magento\Index\Model\Resource\Process\CollectionFactory $collectionFactory
+     * @param \Magento\Index\Model\Process $indexProcess
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -49,8 +49,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
-        Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory,
-        Magento_Index_Model_Process $indexProcess,
+        \Magento\Index\Model\Resource\Process\CollectionFactory $collectionFactory,
+        \Magento\Index\Model\Process $indexProcess,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

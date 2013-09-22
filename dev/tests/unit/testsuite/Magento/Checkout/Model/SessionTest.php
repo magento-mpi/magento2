@@ -28,8 +28,8 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($orderMock));
         $coreHttp = $this->getMock('Magento\Core\Helper\Http', array(), array(), '', false);
 
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
 
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);

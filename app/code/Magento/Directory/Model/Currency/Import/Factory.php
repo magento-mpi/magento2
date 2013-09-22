@@ -8,28 +8,30 @@
  * @license     {license_link}
  */
 
+namespace Magento\Directory\Model\Currency\Import;
+
 /**
  * Import currency model factory
  */
-class Magento_Directory_Model_Currency_Import_Factory
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_ConfigInterface $coreConfig
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\ConfigInterface $coreConfig
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_ConfigInterface $coreConfig
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\ConfigInterface $coreConfig
     ) {
         $this->_objectManager = $objectManager;
         $this->_coreConfig = $coreConfig;
@@ -41,16 +43,16 @@ class Magento_Directory_Model_Currency_Import_Factory
      * @param string $service
      * @param array $data
      * @throws InvalidArgumentException
-     * @return Magento_Directory_Model_Currency_Import_Interface
+     * @return \Magento\Directory\Model\Currency\Import\Interface
      */
     public function create($service, array $data = array())
     {
         $serviceClass = $this->_coreConfig->getNode('global/currency/import/services/' . $service . '/model')
             ->asArray();
         $service = $this->_objectManager->create($serviceClass, $data);
-        if (false == ($service instanceof Magento_Directory_Model_Currency_Import_Interface)) {
+        if (false == ($service instanceof \Magento\Directory\Model\Currency\Import\Interface)) {
             throw new InvalidArgumentException(
-                $serviceClass . ' doesn\'t implement Magento_Directory_Model_Currency_Import_Interface'
+                $serviceClass . ' doesn\'t implement \Magento\Directory\Model\Currency\Import\Interface'
             );
         }
         return $service;

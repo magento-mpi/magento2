@@ -151,11 +151,11 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                     $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
                         ->getSuccessSaveMessage($operation->getOperationType())
                 );
-            } catch (Magento_Core_Exception $e) {
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Magento\Core\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
                     __("We couldn't save the scheduled operation.")
                 );
             }
@@ -180,11 +180,11 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                         $request->getParam('type')
                     )
                 );
-            } catch (Magento_Core_Exception $e) {
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Magento\Core\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
                     __('Something sent wrong deleting the scheduled operation.')
                 );
             }
@@ -225,11 +225,11 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('We deleted a total of %1 record(s).', count($operations))
                 );
-            } catch (Magento_Core_Exception $e) {
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Magento\Core\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We cannot delete all items.'));
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We cannot delete all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -262,11 +262,11 @@ class Operation extends \Magento\Adminhtml\Controller\Action
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('A total of %1 record(s) have been updated.', count($operations))
                 );
-            } catch (Magento_Core_Exception $e) {
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Magento\Core\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->addError(__('We cannot change status for all items.'));
             }
         }

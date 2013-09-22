@@ -55,7 +55,7 @@ class Extension extends \Magento\Object
     /**
      * Session
      *
-     * @var Magento_Connect_Model_Session
+     * @var \Magento\Connect\Model\Session
      */
     protected $_session;
 
@@ -63,14 +63,14 @@ class Extension extends \Magento\Object
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Connect\Helper\Data $connectData
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Connect_Model_Session $session
+     * @param \Magento\Connect\Model\Session $session
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Connect\Helper\Data $connectData,
         \Magento\Filesystem $filesystem,
-        Magento_Connect_Model_Session $session,
+        \Magento\Connect\Model\Session $session,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -110,7 +110,7 @@ class Extension extends \Magento\Object
             ->_setContents();
         if (!$this->getPackage()->validate()) {
             $message = $this->getPackage()->getErrors();
-            throw new Magento_Core_Exception(__($message[0]));
+            throw new \Magento\Core\Exception(__($message[0]));
         }
         $this->setPackageXml($this->getPackage()->getPackageXml());
         return $this;

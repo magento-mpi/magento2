@@ -127,7 +127,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Data_CollectionFactory
+     * @var \Magento\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -140,7 +140,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product $resource
      * @param \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection
-     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
@@ -152,7 +152,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Product $resource,
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
-        Magento_Data_CollectionFactory $collectionFactory,
+        \Magento\Data\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

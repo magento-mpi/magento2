@@ -29,8 +29,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_CategoryTest extends PHPUn
             ->method('getAttributeCode')
             ->will($this->returnValue('category_ids'));
 
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $model = new Magento_Catalog_Model_Product_Attribute_Backend_Category($logger);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $model = new \Magento\Catalog\Model\Product\Attribute\Backend\Category($logger);
         $model->setAttribute($categoryAttribute);
 
         $model->afterLoad($product);

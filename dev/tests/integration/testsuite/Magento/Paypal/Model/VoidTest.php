@@ -29,9 +29,9 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
 
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        /** @var Magento_Paypal_Model_Payflowpro $instance */
-        $instance = $this->getMock('Magento_Paypal_Model_Payflowpro', array('_postRequest'),
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        /** @var \Magento\Paypal\Model\Payflowpro $instance */
+        $instance = $this->getMock('Magento\Paypal\Model\Payflowpro', array('_postRequest'),
             array($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $logger));
 
         $response = new \Magento\Object(array(

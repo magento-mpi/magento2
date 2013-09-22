@@ -27,18 +27,18 @@ class Shell extends \Magento\Core\Model\ShellAbstract
     protected $_hasErrors = false;
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Filesystem $filesystem
      * @param string $entryPoint
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Filesystem $filesystem,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Filesystem $filesystem,
         $entryPoint
     ) {
         $this->_indexer = $indexer;

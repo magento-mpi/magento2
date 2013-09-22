@@ -57,12 +57,12 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_ImportExport_Model_Config $config
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\ImportExport\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\ImportExport\Model\Config $config,
         array $data = array()
     ) {
@@ -128,7 +128,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
 
             if (isset($validWriters[$this->getFileFormat()])) {
                 try {
-                    $this->_writer = Mage::getModel($validWriters[$this->getFileFormat()]['model']);
+                    $this->_writer = \Mage::getModel($validWriters[$this->getFileFormat()]['model']);
                 } catch (\Exception $e) {
                     $this->_logger->logException($e);
                     \Mage::throwException(

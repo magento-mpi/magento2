@@ -110,10 +110,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $translator = $this->getMock('stdClass');
 
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
 
-        /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Magento_Data_Collection',
+        /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
+        $attributeCollection = $this->getMock('Magento\Data\Collection',
             array('getEntityTypeCode'),
             array($entityFactory)
         );

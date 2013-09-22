@@ -27,17 +27,17 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected $_resourceMock;
 
     /**
-     * @var Magento_Sitemap_Model_Resource_Catalog_Category
+     * @var \Magento\Sitemap\Model\Resource\Catalog\Category
      */
     protected $_sitemapCategoryMock;
 
     /**
-     * @var Magento_Sitemap_Model_Resource_Catalog_Product
+     * @var \Magento\Sitemap\Model\Resource\Catalog\Product
      */
     protected $_sitemapProductMock;
 
     /**
-     * @var Magento_Sitemap_Model_Resource_Cms_Page
+     * @var \Magento\Sitemap\Model\Resource\Cms\Page
      */
     protected $_sitemapCmsPageMock;
 
@@ -47,13 +47,13 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helperMockCore = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
-        $this->_sitemapCategoryMock = $this->getMockBuilder('Magento_Sitemap_Model_Resource_Catalog_Category')
+        $this->_sitemapCategoryMock = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Catalog\Category')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_sitemapProductMock = $this->getMockBuilder('Magento_Sitemap_Model_Resource_Catalog_Product')
+        $this->_sitemapProductMock = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Catalog\Product')
         ->disableOriginalConstructor()
         ->getMock();
-        $this->_sitemapCmsPageMock = $this->getMockBuilder('Magento_Sitemap_Model_Resource_Cms_Page')
+        $this->_sitemapCmsPageMock = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Cms\Page')
         ->disableOriginalConstructor()
         ->getMock();
         $this->_helperMockSitemap = $this->getMock('Magento\Sitemap\Helper\Data', array(
@@ -503,19 +503,19 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->method('getCollection')
             ->will($this->returnValue(array()));
 
-        /** @var $model Magento_Sitemap_Model_Sitemap */
-        $model = $this->getMockBuilder('Magento_Sitemap_Model_Sitemap')
+        /** @var $model Magento\Sitemap\Model\Sitemap */
+        $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
             ->setMethods($methods)
             ->setConstructorArgs(array(
                 $this->_sitemapCategoryMock,
                 $this->_sitemapProductMock,
                 $this->_sitemapCmsPageMock,
-                $this->getMock('Magento_Core_Model_Date', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Date', array(), array(), '', false),
                 $this->_helperMockCore,
                 $this->_helperMockSitemap,
-                $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
-                $this->getMock('Magento_Filesystem', array(), array(), '', false),
-                $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+                $this->getMock('Magento\Filesystem', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
             ))
             ->getMock();
 
@@ -571,12 +571,12 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 $this->_sitemapCategoryMock,
                 $this->_sitemapProductMock,
                 $this->_sitemapCmsPageMock,
-                $this->getMock('Magento_Core_Model_Date', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Date', array(), array(), '', false),
                 $this->_helperMockCore,
                 $this->_helperMockSitemap,
                 $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
                 $filesystem,
-                $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
+                $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
             ))
             ->getMock();
 

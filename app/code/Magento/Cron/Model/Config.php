@@ -8,24 +8,26 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cron\Model;
+
 /**
  * Configuration entry point for client using
  */
-class Magento_Cron_Model_Config implements Magento_Cron_Model_ConfigInterface
+class Config implements \Magento\Cron\Model\ConfigInterface
 {
     /**
      * Cron config data
      *
-     * @var Magento_Cron_Model_Config_Data
+     * @var \Magento\Cron\Model\Config\Data
      */
     protected $_configData;
 
     /**
      * Initialize needed parameters
      *
-     * @param Magento_Cron_Model_Config_Data $configData
+     * @param \Magento\Cron\Model\Config\Data $configData
      */
-    public function __construct(Magento_Cron_Model_Config_Data $configData)
+    public function __construct(\Magento\Cron\Model\Config\Data $configData)
     {
         $this->_configData = $configData;
     }

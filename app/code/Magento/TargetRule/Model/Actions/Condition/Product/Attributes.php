@@ -30,25 +30,25 @@ class Attributes
     const VALUE_TYPE_CHILD_OF       = 'child_of';
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_type;
 
     /**
-     * @var Magento_Rule_Block_Editable
+     * @var \Magento\Rule\Block\Editable
      */
     protected $_editable;
 
     /**
-     * @param Magento_Rule_Block_Editable $editable
-     * @param Magento_Catalog_Model_Product_Type $type
+     * @param \Magento\Rule\Block\Editable $editable
+     * @param \Magento\Catalog\Model\Product\Type $type
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Rule_Block_Editable $editable,
-        Magento_Catalog_Model_Product_Type $type,
+        \Magento\Rule\Block\Editable $editable,
+        \Magento\Catalog\Model\Product\Type $type,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()

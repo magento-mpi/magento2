@@ -20,15 +20,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Layout factory
      *
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Layout $layout
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Layout $layout
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Layout $layout)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\Layout $layout)
     {
         $this->_layout = $layout;
         parent::__construct($context);

@@ -44,8 +44,8 @@ class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends 
 
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
 
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
 
         /** @var $collectionMock \Magento\Data\Collection\Db|PHPUnit_Framework_MockObject_MockObject */
         $collectionMock = $this->getMock('Magento\Data\Collection\Db',

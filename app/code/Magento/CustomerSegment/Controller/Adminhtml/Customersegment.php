@@ -247,8 +247,8 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We're unable to save the segment."));
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__("We're unable to save the segment."));
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -268,8 +268,8 @@ class Customersegment extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We're unable to delete the segement."));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__("We're unable to delete the segement."));
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }

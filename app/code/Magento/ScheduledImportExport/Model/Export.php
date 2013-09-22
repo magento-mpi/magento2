@@ -36,12 +36,12 @@ class Export extends \Magento\ImportExport\Model\Export
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_ImportExport_Model_Config $config
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\ImportExport\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\ImportExport\Model\Config $config,
         array $data = array())
     {

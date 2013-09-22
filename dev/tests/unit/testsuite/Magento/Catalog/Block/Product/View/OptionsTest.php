@@ -67,10 +67,10 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
         
         $this->_optionsBlock->setProduct(
             $this->_objectHelper->getObject(
-                'Magento_Catalog_Model_Product',
+                'Magento\Catalog\Model\Product',
                 array(
                     'collectionFactory' => $this->getMock(
-                        'Magento_Data_CollectionFactory',
+                        'Magento\Data\CollectionFactory',
                         array(),
                         array(),
                         '',

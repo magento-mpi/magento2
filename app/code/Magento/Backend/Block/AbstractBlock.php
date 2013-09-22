@@ -27,7 +27,7 @@ class AbstractBlock extends \Magento\Core\Block\AbstractBlock
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -36,7 +36,7 @@ class AbstractBlock extends \Magento\Core\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
+        \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
         parent::__construct($context, $data);

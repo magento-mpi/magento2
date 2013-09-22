@@ -18,11 +18,11 @@ class Collection extends \Magento\Data\Collection
 
     /**
      * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Core_Model_EntityFactory $entityFactory
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         $this->_cacheTypeList = $cacheTypeList;
         parent::__construct($entityFactory);

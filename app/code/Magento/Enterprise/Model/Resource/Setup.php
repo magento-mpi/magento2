@@ -6,41 +6,43 @@
  * @license     {license_link}
  */
 
+namespace Magento\Enterprise\Model\Resource;
+
 /**
  * Enterprise resource setup
  */
-class Magento_Enterprise_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Block model factory
      *
-     * @var Magento_Cms_Model_BlockFactory
+     * @var \Magento\Cms\Model\BlockFactory
      */
     protected $_modelBlockFactory;
 
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param $resourceName
-     * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
+     * @param \Magento\Cms\Model\BlockFactory $modelBlockFactory
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         $resourceName,
-        Magento_Cms_Model_BlockFactory $modelBlockFactory
+        \Magento\Cms\Model\BlockFactory $modelBlockFactory
     ) {
         parent::__construct($logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource,
             $modulesReader, $resourceName);

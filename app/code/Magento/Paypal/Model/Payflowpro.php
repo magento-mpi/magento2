@@ -113,7 +113,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -122,7 +122,7 @@ class Payflowpro extends  \Magento\Payment\Model\Method\Cc
         \Magento\Core\Model\ModuleListInterface $moduleList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

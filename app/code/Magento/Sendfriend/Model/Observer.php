@@ -21,15 +21,15 @@ namespace Magento\Sendfriend\Model;
 class Observer
 {
     /**
-     * @var Magento_Sendfriend_Model_SendfriendFactory
+     * @var \Magento\Sendfriend\Model\SendfriendFactory
      */
     protected $_sendfriendFactory;
 
     /**
-     * @param Magento_Sendfriend_Model_SendfriendFactory $sendfriendFactory
+     * @param \Magento\Sendfriend\Model\SendfriendFactory $sendfriendFactory
      */
     public function __construct(
-        Magento_Sendfriend_Model_SendfriendFactory $sendfriendFactory
+        \Magento\Sendfriend\Model\SendfriendFactory $sendfriendFactory
     ) {
         $this->_sendfriendFactory = $sendfriendFactory;
     }

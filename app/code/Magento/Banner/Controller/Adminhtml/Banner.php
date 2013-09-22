@@ -20,12 +20,12 @@ class Banner extends \Magento\Adminhtml\Controller\Action
     protected $_registry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $registry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $registry
     ) {
         $this->_registry = $registry;
         parent::__construct($context);
@@ -106,7 +106,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
             }
 
             //Filter disallowed data
-            $currentStores = array_keys($this->_objectManager->get('Magento_Core_Model_StoreManager')->getStores(true));
+            $currentStores = array_keys($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStores(true));
             if (isset($data['store_contents_not_use'])) {
                 $data['store_contents_not_use'] = array_intersect($data['store_contents_not_use'], $currentStores);
             }
@@ -151,7 +151,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                     __('We cannot save the banner.')
                 );
                 $redirectBack = true;
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
             if ($redirectBack) {
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
@@ -172,7 +172,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
         if ($bannerId) {
             try {
                 // init model and delete
-                $model = $this->_objectManager->create('Magento_Banner_Model_Banner');
+                $model = $this->_objectManager->create('Magento\Banner\Model\Banner');
                 $model->load($bannerId);
                 $model->delete();
                 // display success message
@@ -190,7 +190,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                     __('Something went wrong deleting banner data. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
                 );
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 // save data in session
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
@@ -233,7 +233,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
                     __('Something went wrong mass-deleting banners. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
                 );
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 return;
             }
         }
@@ -252,7 +252,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
         $this->_title(__('Banners'));
 
         $bannerId = (int)$this->getRequest()->getParam($idFieldName);
-        $model = $this->_objectManager->create('Magento_Banner_Model_Banner');
+        $model = $this->_objectManager->create('Magento\Banner\Model\Banner');
         if ($bannerId) {
             $model->load($bannerId);
         }
@@ -340,7 +340,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
     public function salesRuleBannersGridAction()
     {
         $ruleId = $this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create('Magento_SalesRule_Model_Rule');
+        $model = $this->_objectManager->create('Magento\SalesRule\Model\Rule');
 
         if ($ruleId) {
             $model->load($ruleId);
@@ -369,7 +369,7 @@ class Banner extends \Magento\Adminhtml\Controller\Action
     public function catalogRuleBannersGridAction()
     {
         $ruleId = $this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create('Magento_CatalogRule_Model_Rule');
+        $model = $this->_objectManager->create('Magento\CatalogRule\Model\Rule');
 
         if ($ruleId) {
             $model->load($ruleId);

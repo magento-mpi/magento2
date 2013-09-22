@@ -39,7 +39,7 @@ class Session
     protected $_aclBuilder;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Core\Helper\Http $coreHttp
@@ -48,7 +48,7 @@ class Session
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Core\Helper\Http $coreHttp,

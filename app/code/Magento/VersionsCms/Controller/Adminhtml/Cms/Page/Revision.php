@@ -368,8 +368,8 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong while deleting the revision.'));
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while deleting the revision.'));
                 $error = true;
             }
 

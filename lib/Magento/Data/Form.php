@@ -31,7 +31,7 @@ class Form extends \Magento\Data\Form\AbstractForm
     protected $_allElements;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
@@ -47,13 +47,13 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetElementRenderer;
 
     /**
-     * @param Magento_Core_Model_Session $session
+     * @param \Magento\Core\Model\Session $session
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
-        Magento_Core_Model_Session $session,
+        \Magento\Core\Model\Session $session,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()

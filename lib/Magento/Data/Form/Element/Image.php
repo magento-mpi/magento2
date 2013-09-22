@@ -20,21 +20,21 @@ namespace Magento\Data\Form\Element;
 class Image extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param array $attributes
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        Magento_Core_Model_UrlInterface $urlBuilder,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
         $attributes = array()
     ) {
         $this->_urlBuilder = $urlBuilder;

@@ -66,7 +66,7 @@ class Expiration extends \Magento\Core\Model\Config\Value
         parent::_beforeDelete();
         if ($this->getWebsiteCode()) {
             $default = (string)$this->_coreConfig->getValue(self::XML_PATH_EXPIRATION_DAYS, 'default');
-            $websiteIds = array(Mage::app()->getWebsite($this->getWebsiteCode())->getId());
+            $websiteIds = array(\Mage::app()->getWebsite($this->getWebsiteCode())->getId());
             \Mage::getResourceModel('Magento\Reward\Model\Resource\Reward\History')
                 ->updateExpirationDate($default, $websiteIds);
         }

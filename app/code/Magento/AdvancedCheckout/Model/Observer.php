@@ -19,29 +19,29 @@ namespace Magento\AdvancedCheckout\Model;
 class Observer
 {
     /**
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
 
     /**
-     * @var Magento_Sales_Model_Quote_AddressFactory
+     * @var \Magento\Sales\Model\Quote\AddressFactory
      */
     protected $_addressFactory = null;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory = null;
 
     /**
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Sales_Model_Quote_AddressFactory $addressFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      */
     public function __construct(
-        Magento_AdvancedCheckout_Helper_Data $checkoutData,
-        Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Sales_Model_Quote_AddressFactory $addressFactory
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
+        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\Quote\AddressFactory $addressFactory
     ) {
         $this->_checkoutData = $checkoutData;
         $this->_quoteFactory = $quoteFactory;
@@ -188,9 +188,9 @@ class Observer
             return;
         }
 
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->_quoteFactory->create();
-        $collection = new Magento_Data_Collection();
+        $collection = new \Magento\Data\Collection();
 
         foreach ($this->_checkoutData->getFailedItems(false) as $item) {
             /** @var $item \Magento\Sales\Model\Quote\Item */

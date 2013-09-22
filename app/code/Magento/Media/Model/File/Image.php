@@ -65,7 +65,7 @@ class Image extends \Magento\Core\Model\Resource\AbstractResource
      * Create image resource for operation from file
      *
      * @param \Magento\Media\Model\Image $object
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return \Magento\Media\Model\File\Image
      */
     public function getImage(\Magento\Media\Model\Image $object)
@@ -86,7 +86,7 @@ class Image extends \Magento\Core\Model\Resource\AbstractResource
                 break;
         }
         if (!$resource) {
-            throw new Magento_Core_Exception(__('The image does not exist or is invalid.'));
+            throw new \Magento\Core\Exception(__('The image does not exist or is invalid.'));
         }
         return $resource;
     }
@@ -143,8 +143,8 @@ class Image extends \Magento\Core\Model\Resource\AbstractResource
      *
      * @param \Magento\Media\Model\Image $object
      * @param string|null $extension
-     * @throws Magento_Core_Exception
-     * @return Magento_Media_Model_File_Image
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Media\Model\File\Image
      */
     public function saveAs(\Magento\Media\Model\Image $object, $extension=null)
     {
@@ -166,7 +166,7 @@ class Image extends \Magento\Core\Model\Resource\AbstractResource
                 break;
         }
         if (!$result) {
-            throw new Magento_Core_Exception(__('Something went wrong while creating the image.'));
+            throw new \Magento\Core\Exception(__('Something went wrong while creating the image.'));
         }
         return $this;
     }
@@ -175,14 +175,14 @@ class Image extends \Magento\Core\Model\Resource\AbstractResource
      * Retrive image dimensions
      *
      * @param \Magento\Media\Model\Image $object
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return \Magento\Object
      */
     public function getDimensions(\Magento\Media\Model\Image $object)
     {
         $info = @getimagesize($object->getFilePath());
         if (!$info) {
-            throw new Magento_Core_Exception(__('The image does not exist or is invalid.'));
+            throw new \Magento\Core\Exception(__('The image does not exist or is invalid.'));
         }
         $info = array('width'=>$info[0], 'height'=>$info[1], 'type'=>$info[2]);
         return new \Magento\Object($info);

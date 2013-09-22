@@ -46,7 +46,7 @@ class Currency extends \Magento\Adminhtml\Controller\Action
     protected function _initCurrency()
     {
         $code = $this->getRequest()->getParam('currency');
-        $currency = $this->_objectManager->create('Magento_Directory_Model_Currency')->load($code);
+        $currency = $this->_objectManager->create('Magento\Directory\Model\Currency')->load($code);
 
         $this->_coreRegistry->register('currency', $currency);
         return $this;
@@ -67,8 +67,8 @@ class Currency extends \Magento\Adminhtml\Controller\Action
 
     public function fetchRatesAction()
     {
-        /** @var Magento_Backend_Model_Session $backendSession */
-        $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
+        /** @var \Magento\Backend\Model\Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
             $service = $this->getRequest()->getParam('rate_services');
             $this->_getSession()->setCurrencyRateService($service);
@@ -76,11 +76,11 @@ class Currency extends \Magento\Adminhtml\Controller\Action
                 throw new \Exception(__('Please specify a correct Import Service.'));
             }
             try {
-                /** @var Magento_Directory_Model_Currency_Import_Interface $importModel */
-                $importModel = $this->_objectManager->get('Magento_Directory_Model_Currency_Import_Factory')
+                /** @var \Magento\Directory\Model\Currency\Import\Interface $importModel */
+                $importModel = $this->_objectManager->get('Magento\Directory\Model\Currency\Import\Factory')
                     ->create($service);
             } catch (\Exception $e) {
-                throw new Magento_Core_Exception(__('We can\'t initialize the import model.'));
+                throw new \Magento\Core\Exception(__('We can\'t initialize the import model.'));
             }
             $rates = $importModel->fetchRates();
             $errors = $importModel->getMessages();
@@ -105,13 +105,13 @@ class Currency extends \Magento\Adminhtml\Controller\Action
     {
         $data = $this->getRequest()->getParam('rate');
         if (is_array($data)) {
-            /** @var Magento_Backend_Model_Session $backendSession */
-            $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
+            /** @var \Magento\Backend\Model\Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {
                         $value = abs($this->_objectManager
-                                ->get('Magento_Core_Model_LocaleInterface')
+                                ->get('Magento\Core\Model\LocaleInterface')
                                 ->getNumber($value)
                         );
                         $data[$currencyCode][$currencyTo] = $value;
@@ -123,10 +123,10 @@ class Currency extends \Magento\Adminhtml\Controller\Action
                     }
                 }
 
-                $this->_objectManager->create('Magento_Directory_Model_Currency')->saveRates($data);
+                $this->_objectManager->create('Magento\Directory\Model\Currency')->saveRates($data);
                 $backendSession->addSuccess(__('All valid rates have been saved.'));
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Backend_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
             }
         }
 

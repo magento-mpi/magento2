@@ -49,7 +49,7 @@ class Custom extends \Magento\Adminhtml\Controller\Action
      */
     public function resetAction()
     {
-        $this->_objectManager->get('Magento_Connect_Model_Session')->unsCustomExtensionPackageFormData();
+        $this->_objectManager->get('Magento\Connect\Model\Session')->unsCustomExtensionPackageFormData();
         $this->_redirect('*/*/edit');
     }
 
@@ -61,11 +61,11 @@ class Custom extends \Magento\Adminhtml\Controller\Action
     {
         $packageName = base64_decode(strtr($this->getRequest()->getParam('id'), '-_,', '+/='));
         if ($packageName) {
-            $session = $this->_objectManager->get('Magento_Connect_Model_Session');
+            $session = $this->_objectManager->get('Magento\Connect\Model\Session');
             try {
                 $data = $this->_objectManager->get('Magento\Connect\Helper\Data')->loadLocalPackage($packageName);
                 if (!$data) {
-                    throw new Magento_Core_Exception(__('Something went wrong loading the package data.'));
+                    throw new \Magento\Core\Exception(__('Something went wrong loading the package data.'));
                 }
                 $data = array_merge($data, array('file_name' => $packageName));
                 $session->setCustomExtensionPackageFormData($data);
@@ -85,7 +85,7 @@ class Custom extends \Magento\Adminhtml\Controller\Action
      */
     public function saveAction()
     {
-        $session = $this->_objectManager->get('Magento_Connect_Model_Session');
+        $session = $this->_objectManager->get('Magento\Connect\Model\Session');
         $p = $this->getRequest()->getPost();
 
         if (!empty($p['_create'])) {
@@ -99,8 +99,8 @@ class Custom extends \Magento\Adminhtml\Controller\Action
 
         $session->setCustomExtensionPackageFormData($p);
         try {
-            $ext = $this->_objectManager->create('Magento_Connect_Model_Extension');
-            /** @var $ext Magento_Connect_Model_Extension */
+            $ext = $this->_objectManager->create('Magento\Connect\Model\Extension');
+            /** @var $ext \Magento\Connect\Model\Extension */
             $ext->setData($p);
             if ($ext->savePackage()) {
                 $session->addSuccess(__('The package data has been saved.'));
@@ -128,11 +128,11 @@ class Custom extends \Magento\Adminhtml\Controller\Action
      */
     public function createAction()
     {
-        $session = $this->_objectManager->get('Magento_Connect_Model_Session');
+        $session = $this->_objectManager->get('Magento\Connect\Model\Session');
         try {
             $post = $this->getRequest()->getPost();
             $session->setCustomExtensionPackageFormData($post);
-            $ext = $this->_objectManager->create('Magento_Connect_Model_Extension');
+            $ext = $this->_objectManager->create('Magento\Connect\Model\Extension');
             $ext->setData($post);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {

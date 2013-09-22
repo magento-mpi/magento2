@@ -28,39 +28,39 @@ class Related
     protected $_mapRenderer = 'msrp_noform';
 
     /**
-     * @var Magento_Checkout_Model_Cart
+     * @var \Magento\Checkout\Model\Cart
      */
     protected $_cart;
 
     /**
-     * @param Magento_Checkout_Model_Cart $cart
-     * @param Magento_TargetRule_Model_Resource_Index $index
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
-     * @param Magento_Catalog_Model_Product_Visibility $visibility
-     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_TargetRule_Helper_Data $targetRuleData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Checkout\Model\Cart $cart
+     * @param \Magento\TargetRule\Model\Resource\Index $index
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
-        Magento_Checkout_Model_Cart $cart,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
-        Magento_Catalog_Model_Product_Visibility $visibility,
-        Magento_TargetRule_Model_IndexFactory $indexFactory,
-        Magento_TargetRule_Model_Resource_Index $index,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_TargetRule_Helper_Data $targetRuleData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\TargetRule\Model\IndexFactory $indexFactory,
+        \Magento\TargetRule\Model\Resource\Index $index,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_cart = $cart;

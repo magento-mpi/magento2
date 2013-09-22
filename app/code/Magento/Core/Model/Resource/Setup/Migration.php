@@ -131,7 +131,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      * @param \Magento\Core\Model\Config $config
@@ -145,7 +145,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
         \Magento\Core\Model\Config $config,

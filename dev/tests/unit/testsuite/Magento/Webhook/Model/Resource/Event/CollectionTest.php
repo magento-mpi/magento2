@@ -13,14 +13,14 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
 {
     public function testConstructor()
     {
-        /** @var Magento_Core_Model_Event_Manager $eventManager */
+        /** @var \Magento\Core\Model\Event\Manager $eventManager */
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
-        /** @var Magento_Data_Collection_Db_FetchStrategyInterface $mockFetchStrategy */
+        /** @var \Magento\Data\Collection\Db\FetchStrategyInterface $mockFetchStrategy */
         $mockFetchStrategy = $this->getMockBuilder('Magento\Data\Collection\Db\FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        /** @var Magento_Core_Model_EntityFactory $entityFactory */
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        /** @var \Magento\Core\Model\EntityFactory $entityFactory */
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
 
         $mockDBAdapter = $this->getMockBuilder('Magento\DB\Adapter\Pdo\Mysql')
             ->disableOriginalConstructor()
@@ -32,9 +32,9 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $mockResourceEvent->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
 
-        $collection = new Magento_Webhook_Model_Resource_Event_Collection(
+        $collection = new \Magento\Webhook\Model\Resource\Event\Collection(
             $eventManager, $logger, $mockFetchStrategy, $entityFactory, $mockResourceEvent
         );
         $this->assertInstanceOf('Magento\Webhook\Model\Resource\Event\Collection', $collection);

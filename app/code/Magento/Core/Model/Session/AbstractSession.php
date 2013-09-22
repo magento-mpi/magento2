@@ -65,7 +65,7 @@ class AbstractSession extends \Magento\Object
     protected $_skipSessionIdFlag   = false;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -101,7 +101,7 @@ class AbstractSession extends \Magento\Object
      * By default is looking for first argument as array and assigns it as object attributes
      * This behavior may change in child classes
      *
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -109,7 +109,7 @@ class AbstractSession extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -495,7 +495,7 @@ class AbstractSession extends \Magento\Object
             "\n",
             $exception->getTraceAsString());
         $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
-        $this->_logger->logFile($message, Zend_Log::DEBUG, $file);
+        $this->_logger->logFile($message, \Zend_Log::DEBUG, $file);
 
         $this->addMessage(\Mage::getSingleton('Magento\Core\Model\Message')->error($alternativeText));
         return $this;

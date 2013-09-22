@@ -9,17 +9,17 @@
  */
 
 /**
- * Class Magento_Cron_Model_Config
+ * Class \Magento\Cron\Model\Config
  */
 class Magento_Cron_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cron_Model_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cron\Model\Config\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configData;
 
     /**
-     * @var Magento_Cron_Model_Config
+     * @var \Magento\Cron\Model\Config
      */
     protected $_config;
 
@@ -28,10 +28,10 @@ class Magento_Cron_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_configData = $this->getMockBuilder('Magento_Cron_Model_Config_Data')
+        $this->_configData = $this->getMockBuilder('Magento\Cron\Model\Config\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_config = new Magento_Cron_Model_Config($this->_configData);
+        $this->_config = new \Magento\Cron\Model\Config($this->_configData);
     }
 
     /**

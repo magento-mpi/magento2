@@ -68,8 +68,8 @@ class Magento_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Frame
      */
     protected function _getTestCollection()
     {
-        $collection = new Magento_Data_Collection(
-            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        $collection = new \Magento\Data\Collection(
+            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(
             new \Magento\Object(array('test1' => '1', 'test2' => '2')),

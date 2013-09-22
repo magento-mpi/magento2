@@ -35,25 +35,25 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_aclCache;
 
     /**
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\Acl\CacheInterface $aclCache
      */
     public function __construct(
-        Magento_Acl_Builder $aclBuilder,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\Acl\CacheInterface $aclCache

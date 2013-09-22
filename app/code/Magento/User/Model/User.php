@@ -184,13 +184,13 @@ class User
     public function __wakeup()
     {
         parent::__wakeup();
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        $this->_eventManager    = $objectManager->get('Magento_Core_Model_Event_Manager');
-        $this->_sender          = $objectManager->get('Magento_Core_Model_Sender');
-        $this->_coreData        = $objectManager->get('Magento_Core_Helper_Data');
-        $this->_userData        = $objectManager->get('Magento_User_Helper_Data');
-        $this->_coreStoreConfig = $objectManager->get('Magento_Core_Model_Store_Config');
-        $this->_coreRegistry    = $objectManager->get('Magento_Core_Model_Registry');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $this->_eventManager    = $objectManager->get('Magento\Core\Model\Event\Manager');
+        $this->_sender          = $objectManager->get('Magento\Core\Model\Sender');
+        $this->_coreData        = $objectManager->get('Magento\Core\Helper\Data');
+        $this->_userData        = $objectManager->get('Magento\User\Helper\Data');
+        $this->_coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $this->_coreRegistry    = $objectManager->get('Magento\Core\Model\Registry');
     }
 
     /**

@@ -16,7 +16,7 @@ class Magento_Cron_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_Test
     protected $_moduleReaderMock;
 
     /**
-     * @var Magento_Cron_Model_Config_SchemaLocator
+     * @var \Magento\Cron\Model\Config\SchemaLocator
      */
     protected $_locator;
 
@@ -25,12 +25,12 @@ class Magento_Cron_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_Test
      */
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        $this->_moduleReaderMock = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_moduleReaderMock->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Cron')->will($this->returnValue('schema_dir'));
-        $this->_locator = new Magento_Cron_Model_Config_SchemaLocator($this->_moduleReaderMock);
+        $this->_locator = new \Magento\Cron\Model\Config\SchemaLocator($this->_moduleReaderMock);
     }
 
     /**

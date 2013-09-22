@@ -104,7 +104,7 @@ class Cart
             $this->_getSession()->addMessages($cart->getMessages());
 
             if ($cart->hasErrorMessage()) {
-                throw new Magento_Core_Exception($cart->getErrorMessage());
+                throw new \Magento\Core\Exception($cart->getErrorMessage());
             }
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
@@ -193,7 +193,7 @@ class Cart
             return;
         } catch (\Exception $e) {
             $this->_getCustomerSession()->addError(__('You cannot configure a product.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -212,8 +212,8 @@ class Cart
         try {
             $cart = $this->_getCart();
 
-            $product = $this->_objectManager->create('Magento_Catalog_Model_Product')
-                ->setStoreId($this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getId())
+            $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
+                ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
                 ->load($id);
 
             $cart->addProduct($product, $buyRequest)->save();
@@ -234,7 +234,7 @@ class Cart
             $hasError = true;
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('You cannot add a product.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $hasError = true;
         }
 

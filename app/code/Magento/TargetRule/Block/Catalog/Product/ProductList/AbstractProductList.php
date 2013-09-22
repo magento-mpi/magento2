@@ -43,46 +43,46 @@ abstract class AbstractProductList
     protected $_allProductIds = null;
 
     /**
-     * @var Magento_TargetRule_Model_IndexFactory
+     * @var \Magento\TargetRule\Model\IndexFactory
      */
     protected $_indexFactory;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_visibility;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 
     /**
-     * @param Magento_TargetRule_Model_Resource_Index $index
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
-     * @param Magento_Catalog_Model_Product_Visibility $visibility
-     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_TargetRule_Helper_Data $targetRuleData
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\TargetRule\Model\Resource\Index $index
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
-        Magento_Catalog_Model_Product_Visibility $visibility,
-        Magento_TargetRule_Model_IndexFactory $indexFactory,
-        Magento_TargetRule_Model_Resource_Index $index,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_TargetRule_Helper_Data $targetRuleData,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\TargetRule\Model\IndexFactory $indexFactory,
+        \Magento\TargetRule\Model\Resource\Index $index,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Tax\Helper\Data $taxData,
+        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -123,7 +123,7 @@ abstract class AbstractProductList
                 break;
 
             default:
-                throw new Magento_Core_Exception(__('Undefined Catalog Product List Type'));
+                throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
         }
         return $prefix;
     }
@@ -226,7 +226,7 @@ abstract class AbstractProductList
                 break;
 
             default:
-                throw new Magento_Core_Exception(__('Undefined Catalog Product List Type'));
+                throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
         }
 
         if (!is_null($limit)) {
@@ -303,7 +303,7 @@ abstract class AbstractProductList
 
         $items = array();
         if ($productIds) {
-            /** @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+            /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
             $collection = $this->_productCollectionFactory->create();
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             $this->_addProductAttributesAndPrices($collection);

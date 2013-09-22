@@ -42,12 +42,12 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_errors = array();
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -57,7 +57,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param string $connectionName
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -66,7 +66,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         array $data = array(),
         $connectionName = null
     ) {
-        $this->_init('Magento_Core_Model_Resource_File_Storage_Database');
+        $this->_init('Magento\Core\Model\Resource\File\Storage\Database');
         $this->_logger = $logger;
         parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
     }

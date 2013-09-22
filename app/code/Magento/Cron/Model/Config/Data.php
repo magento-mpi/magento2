@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cron\Model\Config;
+
 /**
  * Prepare cron jobs data
  */
-class Magento_Cron_Model_Config_Data extends Magento_Config_Data
+class Data extends \Magento\Config\Data
 {
     /**
      * Scope visibility
@@ -23,17 +25,17 @@ class Magento_Cron_Model_Config_Data extends Magento_Config_Data
     /**
      * Initialize parameters
      *
-     * @param Magento_Cron_Model_Config_Reader_Xml $reader
-     * @param Magento_Config_ScopeInterface        $configScope
-     * @param Magento_Config_CacheInterface        $cache
-     * @param Magento_Cron_Model_Config_Reader_Db  $dbReader
+     * @param \Magento\Cron\Model\Config\Reader\Xml $reader
+     * @param \Magento\Config\ScopeInterface        $configScope
+     * @param \Magento\Config\CacheInterface        $cache
+     * @param \Magento\Cron\Model\Config\Reader\Db  $dbReader
      * @param string                               $cacheId
      */
     public function __construct(
-        Magento_Cron_Model_Config_Reader_Xml $reader,
-        Magento_Config_ScopeInterface $configScope,
-        Magento_Config_CacheInterface $cache,
-        Magento_Cron_Model_Config_Reader_Db $dbReader,
+        \Magento\Cron\Model\Config\Reader\Xml $reader,
+        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Config\CacheInterface $cache,
+        \Magento\Cron\Model\Config\Reader\Db $dbReader,
         $cacheId = 'crontab_config_cache'
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);

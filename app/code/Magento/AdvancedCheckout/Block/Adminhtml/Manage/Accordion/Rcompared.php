@@ -26,17 +26,17 @@ class Rcompared
     protected $_listType = 'rcompared';
 
     /**
-     * @var Magento_Adminhtml_Helper_Sales
+     * @var \Magento\Adminhtml\Helper\Sales
      */
     protected $_adminhtmlSales;
 
     /**
-     * @var Magento_Catalog_Model_Product_Compare_ListFactory
+     * @var \Magento\Catalog\Model\Product\Compare\ListFactory
      */
     protected $_compareListFactory;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
@@ -47,8 +47,8 @@ class Rcompared
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;

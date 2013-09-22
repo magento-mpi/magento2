@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <job name="magento_search_index_reindex_all" instance="Magento_Search_Model_Indexer_Indexer" method="reindexAll">
+    <job name="magento_search_index_reindex_all" instance="Magento\Search\Model\Indexer\Indexer" method="reindexAll">
         <schedule>0 3 * * *</schedule>
     </job>
 </config>

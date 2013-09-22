@@ -79,7 +79,7 @@ class Notification extends \Magento\Backend\Controller\ActionAbstract
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
+                    $model = $this->_objectManager->create('Magento\AdminNotification\Model\Inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRead(1)
@@ -103,7 +103,7 @@ class Notification extends \Magento\Backend\Controller\ActionAbstract
     public function removeAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
+            $model = $this->_objectManager->create('Magento\AdminNotification\Model\Inbox')
                 ->load($id);
 
             if (!$model->getId()) {
@@ -141,7 +141,7 @@ class Notification extends \Magento\Backend\Controller\ActionAbstract
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
+                    $model = $this->_objectManager->create('Magento\AdminNotification\Model\Inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRemove(1)

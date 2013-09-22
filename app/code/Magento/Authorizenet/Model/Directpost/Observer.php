@@ -41,17 +41,17 @@ class Observer
     protected $_authorizenetData;
 
     /**
-     * @var Magento_Authorizenet_Model_DirectpostFactory
+     * @var \Magento\Authorizenet\Model\DirectpostFactory
      */
     protected $_modelFactory;
 
     /**
-     * @var Magento_Authorizenet_Model_Directpost_Session
+     * @var \Magento\Authorizenet\Model\Directpost\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -59,17 +59,17 @@ class Observer
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Authorizenet_Model_DirectpostFactory $modelFactory
-     * @param Magento_Authorizenet_Model_Directpost_Session $session
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Authorizenet\Model\DirectpostFactory $modelFactory
+     * @param \Magento\Authorizenet\Model\Directpost\Session $session
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_Authorizenet_Helper_Data $authorizenetData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Authorizenet_Model_DirectpostFactory $modelFactory,
-        Magento_Authorizenet_Model_Directpost_Session $session,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\Authorizenet\Helper\Data $authorizenetData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Authorizenet\Model\DirectpostFactory $modelFactory,
+        \Magento\Authorizenet\Model\Directpost\Session $session,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_authorizenetData = $authorizenetData;
@@ -108,7 +108,7 @@ class Observer
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
             if ($payment && $payment->getMethod() == $this->_modelFactory->create()->getCode()) {
-                /* @var $controller Magento_Core_Controller_Varien_Action */
+                /* @var $controller \Magento\Core\Controller\Varien\Action */
                 $controller = $observer->getEvent()->getData('controller_action');
                 $result = $this->_coreData->jsonDecode(
                     $controller->getResponse()->getBody('default'),

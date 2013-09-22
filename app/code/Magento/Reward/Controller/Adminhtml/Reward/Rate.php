@@ -142,7 +142,7 @@ class Rate extends \Magento\Adminhtml\Controller\Action
                 $rate->save();
                 $this->_getSession()->addSuccess(__('You saved the rate.'));
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_getSession()->addError(__('We cannot save Rate.'));
                 return $this->_redirect('*/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }

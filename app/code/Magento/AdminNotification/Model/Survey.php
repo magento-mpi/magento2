@@ -28,27 +28,27 @@ class Survey
     protected $_flagCode  = 'admin_notification_survey';
 
     /**
-     * @var Magento_Core_Model_Flag
+     * @var \Magento\Core\Model\Flag
      */
     protected $_flagModel = null;
 
     /**
-     * @var Magento_Core_Model_FlagFactory
+     * @var \Magento\Core\Model\FlagFactory
      */
     protected $_flagFactory;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @param Magento_Core_Model_FlagFactory $flagFactory
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Model\FlagFactory $flagFactory
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        Magento_Core_Model_FlagFactory $flagFactory,
-        Magento_Core_Controller_Request_Http $request
+        \Magento\Core\Model\FlagFactory $flagFactory,
+        \Magento\Core\Controller\Request\Http $request
     ) {
         $this->_request = $request;
         $this->_flagFactory = $flagFactory;

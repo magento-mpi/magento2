@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Customer_Model_Entity_Setup */
+/** @var $installer \Magento\Customer\Model\Entity\Setup */
 $installer = $this;
 
 $installer->getConnection()->addColumn($installer->getTable('customer_entity'), 'disable_auto_group_change', array(

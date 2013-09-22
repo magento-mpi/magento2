@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftMessage\Model;
+
 /**
  * Factory class for Eav Entity Types
  */
-class Magento_GiftMessage_Model_TypeFactory
+class TypeFactory
 {
     /**
      * Allowed types of entities for using of gift messages
@@ -19,26 +21,26 @@ class Magento_GiftMessage_Model_TypeFactory
      * @var array
      */
     protected $_allowedEntityTypes = array(
-        'order'         => 'Magento_Sales_Model_Order',
-        'order_item'    => 'Magento_Sales_Model_Order_Item',
-        'order_address' => 'Magento_Sales_Model_Order_Address',
-        'quote'         => 'Magento_Sales_Model_Quote',
-        'quote_item'    => 'Magento_Sales_Model_Quote_Item',
-        'quote_address' => 'Magento_Sales_Model_Quote_Address',
-        'quote_address_item' => 'Magento_Sales_Model_Quote_Address_Item'
+        'order'         => 'Magento\Sales\Model\Order',
+        'order_item'    => 'Magento\Sales\Model\Order\Item',
+        'order_address' => 'Magento\Sales\Model\Order_Address',
+        'quote'         => 'Magento\Sales\Model\Quote',
+        'quote_item'    => 'Magento\Sales\Model\Quote\Item',
+        'quote_address' => 'Magento\Sales\Model\Quote\Address',
+        'quote_address_item' => 'Magento\Sales\Model\Quote\Address\Item'
     );
 
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -49,13 +51,13 @@ class Magento_GiftMessage_Model_TypeFactory
      * @param $eavType
      *
      * @return Magento_Eav_Model_Entity_Abstract
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function createType($eavType)
     {
         $types = $this->_allowedEntityTypes;
         if(!isset($types[$eavType])) {
-            throw new Magento_Core_Exception(__('Unknown entity type'));
+            throw new \Magento\Core\Exception(__('Unknown entity type'));
         }
         return $this->_objectManager->create($types[$eavType]);
     }

@@ -217,7 +217,7 @@ class Consumer extends \Magento\Adminhtml\Controller\Action
             $this->getRequest()->setParam('back', 'edit');
         } catch (\Exception $e) {
             $this->_setFormData(null);
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(__('An error occurred on saving consumer data.'));
         }
 

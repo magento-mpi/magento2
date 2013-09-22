@@ -35,12 +35,12 @@ class File extends \Magento\Core\Model\Config\Value
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_File_UploaderFactory
+     * @var \Magento\Core\Model\File\UploaderFactory
      */
     protected $_uploaderFactory;
 
     /**
-     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -54,7 +54,7 @@ class File extends \Magento\Core\Model\Config\Value
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManager $storeManager,

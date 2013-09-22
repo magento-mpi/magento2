@@ -38,20 +38,20 @@
             </value>
         </param>
     </type>
-    <type name="Magento_Install_Model_Config_Reader">
+    <type name="Magento\Install\Model\Config\Reader">
         <param name="fileName">
             <value>install_wizard.xml</value>
         </param>
         <param name="converter">
-            <instance type="Magento_Install_Model_Config_Converter" />
+            <instance type="Magento\Install\Model\Config\Converter" />
         </param>
         <param name="schemaLocator">
-            <instance type="Magento_Install_Model_Config_SchemaLocator" />
+            <instance type="Magento\Install\Model\Config\SchemaLocator" />
         </param>
     </type>
-    <type name="Magento_Install_Model_Config_Data">
+    <type name="Magento\Install\Model\Config\Data">
         <param name='reader'>
-            <instance type="Magento_Install_Model_Config_Reader" />
+            <instance type="Magento\Install\Model\Config\Reader" />
         </param>
         <param name="cacheId">
             <value>install_wizard_config</value>

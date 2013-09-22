@@ -31,33 +31,33 @@ class Edit extends \Magento\Backend\Block\Widget\Form
     protected $_rootResource;
 
     /**
-     * @var Magento_Acl_Builder
+     * @var \Magento\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var Magento_User_Model_Resource_Rules_CollectionFactory
+     * @var \Magento\User\Model\Resource\Rules\CollectionFactory
      */
     protected $_userRulesFactory;
 
     /**
-     * @var Magento_Acl_Resource_Provider
+     * @var \Magento\Acl\Resource\Provider
      */
     protected $_aclProvider;
 
     /**
-     * @param Magento_Acl_Builder $aclBuilder
-     * @param Magento_Acl_Resource_ProviderInterface $aclProvider
-     * @param Magento_User_Model_Resource_Rules_CollectionFactory $userRulesFactory
+     * @param \Magento\Acl\Builder $aclBuilder
+     * @param \Magento\Acl\Resource\ProviderInterface $aclProvider
+     * @param \Magento\User\Model\Resource\Rules\CollectionFactory $userRulesFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param array $data
      */
     public function __construct(
-        Magento_Acl_Builder $aclBuilder,
-        Magento_Acl_Resource_ProviderInterface $aclProvider,
-        Magento_User_Model_Resource_Rules_CollectionFactory $userRulesFactory,
+        \Magento\Acl\Builder $aclBuilder,
+        \Magento\Acl\Resource\ProviderInterface $aclProvider,
+        \Magento\User\Model\Resource\Rules\CollectionFactory $userRulesFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Acl\RootResource $rootResource,

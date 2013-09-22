@@ -116,30 +116,30 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     /**
      * Core Date
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_coreDate;
 
     /**
-     * @var Magento_Sitemap_Model_Resource_Catalog_Category
+     * @var \Magento\Sitemap\Model\Resource\Catalog\Category
      */
     protected $_sitemapCategory;
 
     /**
-     * @var Magento_Sitemap_Model_Resource_Catalog_Product
+     * @var \Magento\Sitemap\Model\Resource\Catalog\Product
      */
     protected $_sitemapProduct;
 
     /**
-     * @var Magento_Sitemap_Model_Resource_Cms_Page
+     * @var \Magento\Sitemap\Model\Resource\Cms\Page
      */
     protected $_sitemapCmsPage;
 
     /**
-     * @param Magento_Sitemap_Model_Resource_Catalog_Category $sitemapCategory
-     * @param Magento_Sitemap_Model_Resource_Catalog_Product $sitemapProduct
-     * @param Magento_Sitemap_Model_Resource_Cms_Page $sitemapCmsPage
-     * @param Magento_Core_Model_Date $coreDate
+     * @param \Magento\Sitemap\Model\Resource\Catalog\Category $sitemapCategory
+     * @param \Magento\Sitemap\Model\Resource\Catalog\Product $sitemapProduct
+     * @param \Magento\Sitemap\Model\Resource\Cms\Page $sitemapCmsPage
+     * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\Core\Model\Context $context
@@ -150,10 +150,10 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        Magento_Sitemap_Model_Resource_Catalog_Category $sitemapCategory,
-        Magento_Sitemap_Model_Resource_Catalog_Product $sitemapProduct,
-        Magento_Sitemap_Model_Resource_Cms_Page $sitemapCmsPage,
-        Magento_Core_Model_Date $coreDate,
+        \Magento\Sitemap\Model\Resource\Catalog\Category $sitemapCategory,
+        \Magento\Sitemap\Model\Resource\Catalog\Product $sitemapProduct,
+        \Magento\Sitemap\Model\Resource\Cms\Page $sitemapCmsPage,
+        \Magento\Core\Model\Date $coreDate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\Core\Model\Context $context,

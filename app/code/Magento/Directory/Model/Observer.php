@@ -26,7 +26,7 @@ class Observer
     const XML_PATH_ERROR_RECIPIENT = 'currency/import/error_email';
 
     /**
-     * @var Magento_Directory_Model_Currency_Import_Factory
+     * @var \Magento\Directory\Model\Currency\Import\Factory
      */
     protected $_importFactory;
     
@@ -38,12 +38,12 @@ class Observer
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Directory_Model_Currency_Import_Factory $importFactory
+     * @param \Magento\Directory\Model\Currency\Import\Factory $importFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
-        Magento_Directory_Model_Currency_Import_Factory $importFactory,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        \Magento\Directory\Model\Currency\Import\Factory $importFactory,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_importFactory = $importFactory;
         $this->_coreStoreConfig = $coreStoreConfig;

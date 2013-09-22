@@ -418,8 +418,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
         $fetchStrategy = $this->getMockForAbstractClass(
             'Magento\Data\Collection\Db\FetchStrategyInterface', array('fetchAll')
         );
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
 
         $optionCollection = $this->getMock(
             'Magento\Data\Collection\Db',

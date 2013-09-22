@@ -20,13 +20,13 @@ namespace Magento\Install\Model;
 class Config
 {
 
-    /** @var  Magento_Install_Model_Config_Data */
+    /** @var  \Magento\Install\Model\Config\Data */
     protected $_dataStorage;
 
     /**
-     * @param Magento_Install_Model_Config_Data $dataStorage
+     * @param \Magento\Install\Model\Config\Data $dataStorage
      */
-    public function __construct(Magento_Install_Model_Config_Data $dataStorage)
+    public function __construct(\Magento\Install\Model\Config\Data $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }
@@ -43,7 +43,7 @@ class Config
         $data = $this->_dataStorage->get();
         $steps = array();
         foreach ($data['steps'] as $step) {
-            $stepObject = new Magento_Object($step);
+            $stepObject = new \Magento\Object($step);
             $steps[] = $stepObject;
         }
         return $steps;

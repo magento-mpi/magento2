@@ -38,14 +38,14 @@ class Collection extends \Magento\Data\Collection\Filesystem
     /**
      * Set base dir
      *
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
-    public function __construct(Magento_Core_Model_Dir $dirs, Magento_Core_Model_EntityFactory $entityFactory)
+    public function __construct(\Magento\Core\Model\Dir $dirs, \Magento\Core\Model\EntityFactory $entityFactory)
     {
         parent::__construct($entityFactory);
         $this->_baseDir = $dirs->getDir('var') . DS . 'connect';
-        $io = new Magento_Io_File();
+        $io = new \Magento\Io\File();
         $io->setAllowCreateFolders(true)->createDestinationDir($this->_baseDir);
         $this->addTargetDir($this->_baseDir);
     }

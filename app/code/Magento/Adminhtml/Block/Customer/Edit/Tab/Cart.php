@@ -28,12 +28,12 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Data_CollectionFactory
+     * @var \Magento\Data\CollectionFactory
      */
     protected $_dataCollectionFactory;
 
     /**
-     * @param Magento_Data_CollectionFactory $dataCollectionFactory
+     * @param \Magento\Data\CollectionFactory $dataCollectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -42,7 +42,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
-        Magento_Data_CollectionFactory $dataCollectionFactory,
+        \Magento\Data\CollectionFactory $dataCollectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

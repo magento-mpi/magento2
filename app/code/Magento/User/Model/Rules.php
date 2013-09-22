@@ -35,10 +35,10 @@ namespace Magento\User\Model;
 class Rules extends \Magento\Core\Model\AbstractModel
 {
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_User_Model_Resource_Rules $resource,
-        Magento_User_Model_Resource_Permissions_Collection $resourceCollection,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\User\Model\Resource\Rules $resource,
+        \Magento\User\Model\Resource\Permissions\Collection $resourceCollection,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

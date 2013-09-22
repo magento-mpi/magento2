@@ -95,13 +95,13 @@ class Collection extends \Magento\Data\Collection
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Zend_DateFactory $dateFactory
      * @param \Magento\Reports\Model\Resource\Report\Collection\Factory $collectionFactory
-     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Zend_DateFactory $dateFactory,
-        Magento_Reports_Model_Resource_Report_Collection_Factory $collectionFactory,
-        Magento_Core_Model_EntityFactory $entityFactory
+        \Magento\Reports\Model\Resource\Report\Collection\Factory $collectionFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         $this->_dateFactory = $dateFactory;
         $this->_locale = $locale;

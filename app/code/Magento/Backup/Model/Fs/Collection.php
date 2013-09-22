@@ -40,16 +40,16 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected $_dir;
 
     /**
-     * @param Magento_Backup_Helper_Data $backupData
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Core_Model_Dir $dir
+     * @param \Magento\Backup\Helper\Data $backupData
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_Core_Model_Dir $dir
+        \Magento\Backup\Helper\Data $backupData,
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Core\Model\Dir $dir
     ) {
         $this->_backupData = $backupData;
         parent::__construct($entityFactory);

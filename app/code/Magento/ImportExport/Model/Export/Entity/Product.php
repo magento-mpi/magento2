@@ -141,19 +141,19 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_coreConfig;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Catalog\Model\Resource\Product\Collection $collection,
         \Magento\Core\Model\Config $coreConfig
     ) {

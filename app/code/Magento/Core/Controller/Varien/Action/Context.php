@@ -42,12 +42,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\ObjectManager $objectManager
@@ -56,7 +56,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Controller\Response\Http $response,
         \Magento\ObjectManager $objectManager,
@@ -122,7 +122,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {

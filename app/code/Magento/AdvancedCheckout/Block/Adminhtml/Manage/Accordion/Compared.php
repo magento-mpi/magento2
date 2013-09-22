@@ -26,14 +26,14 @@ class Compared
     protected $_listType = 'compared';
 
     /**
-     * @var Magento_Adminhtml_Helper_Sales
+     * @var \Magento\Adminhtml\Helper\Sales
      *
      * @var \Magento\Adminhtml\Helper\Sales
      */
     protected $_adminhtmlSales;
 
     /**
-     * @var Magento_Catalog_Model_Product_Compare_ListFactory|null
+     * @var \Magento\Catalog\Model\Product\Compare\ListFactory|null
      */
     protected $_compareListFactory;
 
@@ -44,7 +44,7 @@ class Compared
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
@@ -71,7 +71,7 @@ class Compared
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = \Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
             $collection = $this->_compareListFactory->create()
                 ->getItemCollection()
                 ->useProductItem(true)

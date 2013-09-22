@@ -101,63 +101,63 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_checkDateForStore = array();
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
-     * @var Magento_TargetRule_Model_Rule_Condition_CombineFactory
+     * @var \Magento\TargetRule\Model\Rule\Condition\CombineFactory
      */
     protected $_ruleFactory;
 
     /**
-     * @var Magento_TargetRule_Model_Actions_Condition_CombineFactory
+     * @var \Magento\TargetRule\Model\Actions\Condition\CombineFactory
      */
     protected $_actionFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Iterator
+     * @var \Magento\Core\Model\Resource\Iterator
      */
     protected $_iterator;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 
     /**
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Resource_Iterator $iterator
-     * @param Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory
-     * @param Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory
-     * @param Magento_Catalog_Model_ProductFactory $productFactory
-     * @param Magento_Data_Form_Factory $formFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\Iterator $iterator
+     * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
+     * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Resource_Iterator $iterator,
-        Magento_TargetRule_Model_Rule_Condition_CombineFactory $ruleFactory,
-        Magento_TargetRule_Model_Actions_Condition_CombineFactory $actionFactory,
-        Magento_Catalog_Model_ProductFactory $productFactory,
-        Magento_Data_Form_Factory $formFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\Iterator $iterator,
+        \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
+        \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -409,7 +409,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     continue;
                 }
                 if (!class_exists($actionArgs['type'])) {
-                    throw new Magento_Core_Exception(
+                    throw new \Magento\Core\Exception(
                         __('Model class name for attribute is invalid')
                     );
                 }

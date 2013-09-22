@@ -27,12 +27,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Controller_Request_HttpProxy
+     * @var \Magento\Core\Controller\Request\HttpProxy
      */
     protected $_httpRequest;
 
@@ -52,8 +52,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_fieldsetConfig;
     
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Translate $translator
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\ModuleManager $moduleManager
      * @param \Magento\Core\Controller\Request\HttpProxy $httpRequest
      * @param \Magento\Core\Model\Cache\Config $cacheConfig
@@ -62,7 +62,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\ModuleManager $moduleManager,
         \Magento\Core\Controller\Request\HttpProxy $httpRequest,
@@ -138,7 +138,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
     
     /**
-     * @return Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {

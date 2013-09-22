@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Generic implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
+
+class Generic implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var Magento_Usa_Model_Shipping_Carrier_Ups

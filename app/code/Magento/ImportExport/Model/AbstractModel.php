@@ -47,17 +47,17 @@ abstract class AbstractModel extends \Magento\Object
     protected $_logTrace = array();
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_Logger $logger, array $data = array())
+    public function __construct(\Magento\Core\Model\Logger $logger, array $data = array())
     {
         $this->_logger = $logger;
         parent::__construct($data);

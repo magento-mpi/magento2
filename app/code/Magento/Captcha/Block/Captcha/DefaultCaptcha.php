@@ -27,12 +27,12 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
     protected $_captcha;
 
     /**
-     * @var Magento_Captcha_Helper_Data
+     * @var \Magento\Captcha\Helper\Data
      */
     protected $_captchaData;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -40,14 +40,14 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
      * @param \Magento\Captcha\Helper\Data $captchaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Captcha\Helper\Data $captchaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

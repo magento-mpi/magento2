@@ -22,20 +22,20 @@ class Form extends \Magento\Payment\Block\Form\Cc
     protected $_template = 'directpost/info.phtml';
 
     /**
-     * @var Magento_Authorizenet_Model_Directpost
+     * @var \Magento\Authorizenet\Model\Directpost
      */
     protected $_model;
 
     /**
-     * @var Magento_Checkout_Model_Type_Onepage
+     * @var \Magento\Checkout\Model\Type\Onepage
      */
     protected $_checkoutModel;
 
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Authorizenet_Model_Directpost $model,
-        Magento_Checkout_Model_Type_Onepage $checkoutModel,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Authorizenet\Model\Directpost $model,
+        \Magento\Checkout\Model\Type\Onepage $checkoutModel,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

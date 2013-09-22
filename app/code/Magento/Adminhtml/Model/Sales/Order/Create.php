@@ -119,7 +119,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -143,7 +143,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -152,7 +152,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

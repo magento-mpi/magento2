@@ -42,7 +42,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     /**
      * Prepare custom option for display, returns false if there's no value
      *
-     * @param \Magento\Catalog\Model\Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @param $code
      * @return bool|mixed
      */
@@ -61,7 +61,7 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     /**
      * Get gift card option list
      *
-     * @param \Magento\Catalog\Model\Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
      */
     public function getGiftcardOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)

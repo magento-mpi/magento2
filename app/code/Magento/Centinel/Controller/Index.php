@@ -79,7 +79,7 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     private function _getPayment()
     {
-        return $this->_objectManager->get('Magento_Checkout_Model_Session')->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote()->getPayment();
     }
 
     /**

@@ -22,15 +22,15 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Logger instance
      *
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\View\Url $viewUrl
      */
-    public function __construct(Magento_Core_Model_Logger $logger, Magento_Core_Model_View_Url $viewUrl)
+    public function __construct(\Magento\Core\Model\Logger $logger, \Magento\Core\Model\View\Url $viewUrl)
     {
         $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
@@ -47,7 +47,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Get logger instance
      *
-     * @return Magento_Core_Model_Logger
+     * @return \Magento\Core\Model\Logger
      */
     public function getLogger()
     {

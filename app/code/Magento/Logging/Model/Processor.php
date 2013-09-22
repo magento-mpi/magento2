@@ -104,7 +104,7 @@ class Processor
     protected $_httpHelper;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -535,14 +535,14 @@ class Processor
         try {
             $classPath = explode('::', $srtCallback);
             if (count($classPath) == 2) {
-                $return['handler'] = Mage::getSingleton(str_replace('__', '/', $classPath[0]));
+                $return['handler'] = \Mage::getSingleton(str_replace('__', '/', $classPath[0]));
                 $return['callback'] = $classPath[1];
             } else {
                 $return['callback'] = $classPath[0];
             }
             if (!$return['handler'] || !$return['callback'] || !method_exists($return['handler'],
                 $return['callback'])) {
-                Mage::throwException("Unknown callback function: {$srtCallback}");
+                \Mage::throwException("Unknown callback function: {$srtCallback}");
             }
         } catch (Exception $e) {
             $return['handler'] = false;

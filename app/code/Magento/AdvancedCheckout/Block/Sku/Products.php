@@ -20,7 +20,7 @@ namespace Magento\AdvancedCheckout\Block\Sku;
 class Products extends \Magento\Checkout\Block\Cart
 {
     /**
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData;
 
@@ -30,7 +30,7 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_coreUrl;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -40,7 +40,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
@@ -49,7 +49,7 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;

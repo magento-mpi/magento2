@@ -21,25 +21,25 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 class Container extends \Magento\Core\Block\Html\Select
 {
     /**
-     * @var Magento_Core_Model_Layout_MergeFactory
+     * @var \Magento\Core\Model\Layout\MergeFactory
      */
     protected $_layoutMergeFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_themeCollFactory;
 
     /**
-     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory
-     * @param Magento_Core_Block_Context $context
+     * @param \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollFactory
+     * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
-        Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory,
-        Magento_Core_Block_Context $context,
+        \Magento\Core\Model\Layout\MergeFactory $layoutMergeFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollFactory,
+        \Magento\Core\Block\Context $context,
         array $data = array()
     ) {
         $this->_layoutMergeFactory = $layoutMergeFactory;
@@ -69,7 +69,7 @@ class Container extends \Magento\Core\Block\Html\Select
             $layoutMergeParams = array(
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );
-            /** @var $layoutMerge Magento_Core_Model_Layout_Merge */
+            /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
             $layoutMerge = $this->_layoutMergeFactory->create($layoutMergeParams);
             $layoutMerge->addPageHandles(array($this->getLayoutHandle()));
             $layoutMerge->load();
@@ -100,7 +100,7 @@ class Container extends \Magento\Core\Block\Html\Select
      */
     protected function _getThemeInstance($themeId)
     {
-        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
+        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
         $themeCollection = $this->_themeCollFactory->create();
         return $themeCollection->getItemById($themeId);
     }

@@ -29,7 +29,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_connectData = null;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Connect\Helper\Data $connectData
      * @param \Magento\Core\Helper\Http $coreHttp
@@ -38,7 +38,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Connect\Helper\Data $connectData,
         \Magento\Core\Helper\Http $coreHttp,

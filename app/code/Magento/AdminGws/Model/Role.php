@@ -55,16 +55,16 @@ class Role extends \Magento\Object
     protected $_exclusiveAccessToCategory = array();
 
     /**
-     * @var Magento_Core_Model_StoreManager|null
+     * @var \Magento\Core\Model\StoreManager|null
      */
     protected $_storeManager = null;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($data);

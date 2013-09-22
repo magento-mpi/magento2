@@ -5,10 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Generic
+
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method;
+
+class Generic
 {
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Dhl_International
+     * @var \Magento\Usa\Model\Shipping\Carrier\Dhl\International
      */
     protected $_shippingDhlInt;
 
@@ -18,9 +21,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Generic
     protected $_code = '';
 
     /**
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhlInt
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\International $shippingDhlInt
      */
-    public function __construct(Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhlInt)
+    public function __construct(\Magento\Usa\Model\Shipping\Carrier\Dhl\International $shippingDhlInt)
     {
         $this->_shippingDhlInt = $shippingDhlInt;
     }

@@ -21,21 +21,21 @@ class Errors
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param Magento_AdvancedCheckout_Model_CartFactory $cartFactory
+     * @param \Magento\AdvancedCheckout\Model\CartFactory $cartFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        Magento_AdvancedCheckout_Model_CartFactory $cartFactory,
+        \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {

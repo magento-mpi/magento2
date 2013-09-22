@@ -204,16 +204,16 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     /**
      * Dirs instance
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Core\Model\Dir $dirs
      * @param array $config
      */
     public function __construct(
-        Magento_Core_Model_Dir $dirs,
+        \Magento\Core\Model\Dir $dirs,
         array $config = array()
     ) {
         $this->_dirs = $dirs;
@@ -1394,7 +1394,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
         if (!$this->_debugIoAdapter) {
             $this->_debugIoAdapter = new \Magento\Io\File();
-            $dir = $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT)
+            $dir = $this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT)
                 . DS . $this->_debugIoAdapter->dirname($this->_debugFile);
             $this->_debugIoAdapter->checkAndCreateFolder($dir);
             $this->_debugIoAdapter->open(array('path' => $dir));

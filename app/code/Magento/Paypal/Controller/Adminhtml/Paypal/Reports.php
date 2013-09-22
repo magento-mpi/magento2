@@ -97,13 +97,13 @@ class Reports extends \Magento\Adminhtml\Controller\Action
                     $this->_getSession()->addError(
                         __("We couldn't fetch reports from '%1@%2'.", $config['username'], $config['hostname'])
                     );
-                    $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 }
             }
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*/index');
     }

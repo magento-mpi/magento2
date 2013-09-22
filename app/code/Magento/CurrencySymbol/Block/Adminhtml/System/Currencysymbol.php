@@ -20,20 +20,20 @@ namespace Magento\CurrencySymbol\Block\Adminhtml\System;
 class Currencysymbol extends \Magento\Backend\Block\Widget\Form
 {
     /**
-     * @var Magento_CurrencySymbol_Model_System_Currencysymbol_Factory
+     * @var \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory
      */
     protected $_symbolSystemFactory;
 
     /**
-     * @param Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolSystemFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolSystemFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolSystemFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\CurrencySymbol\Model\System\Currencysymbol\Factory $symbolSystemFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_symbolSystemFactory = $symbolSystemFactory;

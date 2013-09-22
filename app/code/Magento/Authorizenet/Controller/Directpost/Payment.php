@@ -43,7 +43,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
      */
     protected function _getCheckout()
     {
-        return $this->_objectManager->get('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento\Checkout\Model\Session');
     }
 
     /**
@@ -53,7 +53,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
      */
     protected function _getDirectPostSession()
     {
-        return $this->_objectManager->get('Magento_Authorizenet_Model_Directpost_Session');
+        return $this->_objectManager->get('Magento\Authorizenet\Model\Directpost\Session');
     }
 
     /**
@@ -65,7 +65,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
         $params = array();
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod Magento_Authorizenet_Model_DirectPost */
-        $paymentMethod = $this->_objectManager->create('Magento_Authorizenet_Model_Directpost');
+        $paymentMethod = $this->_objectManager->create('Magento\Authorizenet\Model\Directpost');
 
         $result = array();
         if (!empty($data['x_invoice_num'])) {
@@ -78,12 +78,12 @@ class Payment extends \Magento\Core\Controller\Front\Action
             }
             $paymentMethod->process($data);
             $result['success'] = 1;
-        } catch (Magento_Core_Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = $e->getMessage();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = __('We couldn\'t process your order right now. Please try again later.');
         }
@@ -186,10 +186,10 @@ class Payment extends \Magento\Core\Controller\Front\Action
     {
         $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();
         if ($incrementId && $this->_getDirectPostSession()->isCheckoutOrderIncrementIdExist($incrementId)) {
-            /* @var $order Magento_Sales_Model_Order */
-            $order = $this->_objectManager->create('Magento_Sales_Model_Order')->loadByIncrementId($incrementId);
+            /* @var $order \Magento\Sales\Model\Order */
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
-                $quote = $this->_objectManager->create('Magento_Sales_Model_Quote')
+                $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')
                     ->load($order->getQuoteId());
                 if ($quote->getId()) {
                     $quote->setIsActive(1)

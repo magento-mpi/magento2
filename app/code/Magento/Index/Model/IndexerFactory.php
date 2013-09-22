@@ -8,28 +8,30 @@
  * @license     {license_link}
  */
 
+namespace Magento\Index\Model;
+
 /**
  * Indexer factory
  */
-class Magento_Index_Model_IndexerFactory
+class IndexerFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_coreConfig;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_ConfigInterface $coreConfig
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\ConfigInterface $coreConfig
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Magento_Core_Model_ConfigInterface $coreConfig
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\ConfigInterface $coreConfig
     ) {
         $this->_objectManager = $objectManager;
         $this->_coreConfig = $coreConfig;
@@ -41,21 +43,21 @@ class Magento_Index_Model_IndexerFactory
      * @param string $indexerCode
      * @param array $data
      * @throws InvalidArgumentException
-     * @return Magento_Index_Model_IndexerInterface
+     * @return \Magento\Index\Model\IndexerInterface
      */
     public function create($indexerCode, array $data = array())
     {
         $config = $this->_coreConfig->getNode(
-            Magento_Index_Model_Process::XML_PATH_INDEXER_DATA . '/' . $indexerCode
+            \Magento\Index\Model\Process::XML_PATH_INDEXER_DATA . '/' . $indexerCode
         );
         if (!$config || empty($config->model)) {
             throw new InvalidArgumentException('Indexer model for ' . $indexerCode . ' is not defined.');
         }
 
         $indexer = $this->_objectManager->create((string)$config->model, $data);
-        if (false == ($indexer instanceof Magento_Index_Model_IndexerInterface)) {
+        if (false == ($indexer instanceof \Magento\Index\Model\IndexerInterface)) {
             throw new InvalidArgumentException(
-                (string)$config->model . ' doesn\'t implement Magento_Index_Model_IndexerInterface'
+                (string)$config->model . ' doesn\'t implement \Magento\Index\Model\IndexerInterface'
             );
         }
 

@@ -148,10 +148,10 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     if (\Mage::getIsDeveloperMode()) {
         throw new \Exception($errorMessage);
     } else {
-        $dirs = new Magento_Core_Model_Dir('.');
-        $fileSystem = new Magento_Io_File();
-        $logger = new Magento_Core_Model_Logger($dirs, $fileSystem);
-        $logger->log($errorMessage, Zend_Log::ERR);
+        $dirs = new \Magento\Core\Model\Dir('.');
+        $fileSystem = new \Magento\Io\File();
+        $logger = new \Magento\Core\Model\Logger($dirs, $fileSystem);
+        $logger->log($errorMessage, \Zend_Log::ERR);
     }
 }
 

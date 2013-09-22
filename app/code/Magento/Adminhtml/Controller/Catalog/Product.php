@@ -74,8 +74,8 @@ class Product extends \Magento\Adminhtml\Controller\Action
             try {
                 $product->load($productId);
             } catch (\Exception $e) {
-                $product->setTypeId(Magento_Catalog_Model_Product_Type::DEFAULT_TYPE);
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $product->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
 
@@ -893,7 +893,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
                     ->setProductData($data);
                 $redirectBack = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
             }
@@ -940,7 +940,7 @@ class Product extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addSuccess(__('You duplicated the product.'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('_current'=>true));
         }

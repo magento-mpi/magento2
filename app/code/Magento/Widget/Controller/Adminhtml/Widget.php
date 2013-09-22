@@ -27,24 +27,24 @@ class Widget extends \Magento\Adminhtml\Controller\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Widget_Model_Widget_Config
+     * @var \Magento\Widget\Model\Widget\Config
      */
     protected $_widgetConfig;
 
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_widget;
 
     /**
-     * @param Magento_Widget_Model_Widget_Config $widgetConfig
-     * @param Magento_Widget_Model_Widget $widget
+     * @param \Magento\Widget\Model\Widget\Config $widgetConfig
+     * @param \Magento\Widget\Model\Widget $widget
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Widget_Model_Widget_Config $widgetConfig,
-        Magento_Widget_Model_Widget $widget,
+        \Magento\Widget\Model\Widget\Config $widgetConfig,
+        \Magento\Widget\Model\Widget $widget,
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {

@@ -12,8 +12,8 @@
 /**
  * Tests for obsolete methods in Product Type instances
  */
-class Magento_Test_Legacy_Magento_Downloadable_Model_Product_TypeTest
-    extends Magento_Test_Legacy_Magento_Catalog_Model_Product_AbstractTypeTest
+class Magento_Test_Legacy_\Magento\Downloadable\Model\Product\TypeTest
+    extends Magento_Test_Legacy_\Magento\Catalog\Model\Product_AbstractTypeTest
 {
     /**
      * @var array

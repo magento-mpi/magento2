@@ -127,7 +127,7 @@ abstract class AbstractType
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -137,7 +137,7 @@ abstract class AbstractType
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -146,7 +146,7 @@ abstract class AbstractType
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

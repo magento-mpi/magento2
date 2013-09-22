@@ -165,7 +165,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 \Mage::getSingleton('Magento\Core\Model\Session')->addError(
                     __('We cannot create a new return transaction. Please try again later.')
                 );
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
         $this->loadLayout();

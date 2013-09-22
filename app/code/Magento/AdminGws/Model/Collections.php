@@ -16,17 +16,17 @@ namespace Magento\AdminGws\Model;
 class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager = null;
 
     /**
-     * @param Magento_AdminGws_Model_Role $role
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\AdminGws\Model\Role $role
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_AdminGws_Model_Role $role,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\AdminGws\Model\Role $role,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         parent::__construct($role);
         $this->_storeManager = $storeManager;

@@ -11,7 +11,7 @@
 class Magento_Cron_Model_Config_Converter_DbTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cron_Model_Config_Converter_Db
+     * @var \Magento\Cron\Model\Config\Converter\Db
      */
     protected $_converter;
 
@@ -20,7 +20,7 @@ class Magento_Cron_Model_Config_Converter_DbTest extends PHPUnit_Framework_TestC
      */
     protected function setUp()
     {
-        $this->_converter = new Magento_Cron_Model_Config_Converter_Db();
+        $this->_converter = new \Magento\Cron\Model\Config\Converter\Db();
     }
 
     /**

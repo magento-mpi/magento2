@@ -108,12 +108,12 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var \Magento\Catalog\Model\Product\Type
      */
     protected $_productType;
 
@@ -123,7 +123,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
@@ -132,7 +132,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,

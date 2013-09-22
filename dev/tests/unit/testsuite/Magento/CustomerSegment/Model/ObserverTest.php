@@ -52,10 +52,10 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $factoryElement = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $session = $this->getMock('Magento_Core_Model_Session', array(), array(), '', false);
-        $form = new Magento_Data_Form($session, $factoryElement, $collectionFactory);
-        $model = new Magento_Object();
-        $block = new Magento_Object(array('layout' => $layout));
+        $session = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
+        $form = new \Magento\Data\Form($session, $factoryElement, $collectionFactory);
+        $model = new \Magento\Object();
+        $block = new \Magento\Object(array('layout' => $layout));
 
         $this->_segmentHelper
             ->expects($this->once())->method('addSegmentFieldsToForm')->with($form, $model, $formDependency);
@@ -75,10 +75,10 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $factoryElement = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $session = $this->getMock('Magento_Core_Model_Session', array(), array(), '', false);
-        $form = new Magento_Data_Form($session, $factoryElement, $collectionFactory);
-        $model = new Magento_Object();
-        $block = new Magento_Object(array('layout' => $layout));
+        $session = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
+        $form = new \Magento\Data\Form($session, $factoryElement, $collectionFactory);
+        $model = new \Magento\Object();
+        $block = new \Magento\Object(array('layout' => $layout));
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 

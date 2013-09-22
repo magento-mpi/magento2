@@ -40,26 +40,26 @@ class Import extends \Magento\Object
     );
 
     /**
-     * @var Magento_AdvancedCheckout_Helper_Data
+     * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
 
     /**
      * File uploader factory
      *
-     * @var Magento_Core_Model_File_UploaderFactory
+     * @var \Magento\Core\Model\File\UploaderFactory
      */
     protected $_uploaderFactory = null;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dir = null;
 
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
-        Magento_Core_Model_Dir $dir,
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
+        \Magento\Core\Model\Dir $dir,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
@@ -81,24 +81,24 @@ class Import extends \Magento\Object
     /**
      * Upload file
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return void
      */
     public function uploadFile()
     {
-        /** @var $uploader Magento_Core_Model_File_Uploader */
+        /** @var $uploader \Magento\Core\Model\File\Uploader */
         $uploader  = $this->_uploaderFactory->create(array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
-            throw new Magento_Core_Exception($this->_getFileTypeMessageText());
+            throw new \Magento\Core\Exception($this->_getFileTypeMessageText());
         }
 
         try {
             $result = $uploader->save($this->_getWorkingDir());
             $this->_uploadedFile = $result['path'] . $result['file'];
         } catch (\Exception $e) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 $this->_checkoutData->getFileGeneralErrorText()
             );
         }
@@ -107,7 +107,7 @@ class Import extends \Magento\Object
     /**
      * Get rows from file
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return array
      */
     public function getRows()
@@ -118,19 +118,19 @@ class Import extends \Magento\Object
             return $this->$method();
         }
 
-        throw new Magento_Core_Exception($this->_getFileTypeMessageText());
+        throw new \Magento\Core\Exception($this->_getFileTypeMessageText());
     }
 
     /**
      * Get rows from CSV file
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return array
      */
     public function getDataFromCsv()
     {
         if (!$this->_uploadedFile || !file_exists($this->_uploadedFile)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 $this->_checkoutData->getFileGeneralErrorText()
             );
         }
@@ -154,7 +154,7 @@ class Import extends \Magento\Object
                     if (false !== $found) {
                         $requiredColumnsPositions[] = $found;
                     } else {
-                        throw new Magento_Core_Exception(
+                        throw new \Magento\Core\Exception(
                             $this->_checkoutData->getSkuEmptyDataMessageText()
                         );
                     }
@@ -174,7 +174,7 @@ class Import extends \Magento\Object
                 fclose($fileHandler);
             }
         } catch (\Exception $e) {
-            throw new Magento_Core_Exception(__('The file is corrupt.'));
+            throw new \Magento\Core\Exception(__('The file is corrupt.'));
         }
         return $csvData;
     }
@@ -193,7 +193,7 @@ class Import extends \Magento\Object
      * Get Method to load data by file extension
      *
      * @param string $extension
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return string
      */
     protected function _getMethodByExtension($extension)
@@ -204,7 +204,7 @@ class Import extends \Magento\Object
             }
         }
 
-        throw new Magento_Core_Exception($this->_getFileTypeMessageText());
+        throw new \Magento\Core\Exception($this->_getFileTypeMessageText());
     }
 
     /**

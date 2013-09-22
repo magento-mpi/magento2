@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Install_Model_Config_Converter
+ * \Magento\Install\Model\Config_Converter
  *
  * {license_notice}
  *
@@ -11,13 +11,13 @@ class Magento_Install_Model_Config_ConverterTest extends PHPUnit_Framework_TestC
 {
 
     /**
-     * @var Magento_Install_Model_Config_Converter
+     * @var \Magento\Install\Model\Config\Converter
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Install_Model_Config_Converter();
+        $this->_model = new \Magento\Install\Model\Config\Converter();
     }
 
     public function testConvert()

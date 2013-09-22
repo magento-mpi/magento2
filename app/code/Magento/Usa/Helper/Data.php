@@ -18,17 +18,17 @@ namespace Magento\Usa\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Helper_Context $context
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_locale = $locale;
         parent::__construct($context);

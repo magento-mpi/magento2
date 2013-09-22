@@ -19,8 +19,8 @@ class Magento_Rma_Controller_ReturnsTest extends Magento_TestFramework_TestCase_
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_customerSession = Mage::getModel('Magento_Customer_Model_Session', array($logger));
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_customerSession = Mage::getModel('Magento\Customer\Model\Session', array($logger));
         $this->_customerSession->login('customer@example.com', 'password');
     }
 

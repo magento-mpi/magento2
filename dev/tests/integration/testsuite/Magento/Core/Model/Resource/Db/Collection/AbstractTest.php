@@ -33,12 +33,12 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
             ->get('Magento\Core\Model\Event\Manager');
 
         $entityFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_EntityFactory');
+            ->get('Magento\Core\Model\EntityFactory');
         $logger = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Logger');
+            ->get('Magento\Core\Model\Logger');
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Resource_Db_Collection_Abstract',
+            'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
             array($eventManager, $logger, $fetchStrategy, $entityFactory, $resource)
         );
     }

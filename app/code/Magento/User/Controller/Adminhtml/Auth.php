@@ -30,8 +30,8 @@ class Auth extends \Magento\Backend\Controller\ActionAbstract
         if (!empty($email) && !empty($params)) {
             // Validate received data to be an email address
             if (\Zend_Validate::is($email, 'EmailAddress')) {
-                $collection = $this->_objectManager->get('Magento_User_Model_Resource_User_Collection');
-                /** @var $collection Magento_User_Model_Resource_User_Collection */
+                $collection = $this->_objectManager->get('Magento\User\Model\Resource\User\Collection');
+                /** @var $collection \Magento\User\Model\Resource\User\Collection */
                 $collection->addFieldToFilter('email', $email);
                 $collection->load(false);
 

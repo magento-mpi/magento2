@@ -28,7 +28,7 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_resourceConfig;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -40,13 +40,13 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_dbConfig;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Config\Resource $resourceConfig
      * @param array $dbConfig
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger, 
-        Magento_Core_Model_Config_Resource $resourceConfig,
+        \Magento\Core\Model\Logger $logger, 
+        \Magento\Core\Model\Config\Resource $resourceConfig,
         array $dbConfig
     )
     {
@@ -111,7 +111,7 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
             }
 
             // TODO: check user roles
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_logger->logException($e);
             \Mage::throwException(__($e->getMessage()));
         } catch (\Exception $e) {

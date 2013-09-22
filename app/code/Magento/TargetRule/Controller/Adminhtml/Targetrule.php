@@ -81,8 +81,8 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Related Products Rule'));
 
-        /* @var $model Magento_TargetRule_Model_Rule */
-        $model  = $this->_objectManager->create('Magento_TargetRule_Model_Rule');
+        /* @var $model \Magento\TargetRule\Model\Rule */
+        $model  = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
         $ruleId = $this->getRequest()->getParam('id', null);
 
         if ($ruleId) {
@@ -96,7 +96,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
 
         $this->_title($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
-        $data = $this->_objectManager->get('Magento_Adminhtml_Model_Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -132,8 +132,8 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
         $data = $this->getRequest()->getPost();
 
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $model Magento_TargetRule_Model_Rule */
-            $model          = $this->_objectManager->create('Magento_TargetRule_Model_Rule');
+            /* @var $model \Magento\TargetRule\Model\Rule */
+            $model          = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
             $redirectBack   = $this->getRequest()->getParam('back', false);
             $hasError       = false;
 
@@ -143,7 +143,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
                 if ($ruleId) {
                     $model->load($ruleId);
                     if ($ruleId != $model->getId()) {
-                        throw new Magento_Core_Exception(__('Please specify a correct rule.'));
+                        throw new \Magento\Core\Exception(__('Please specify a correct rule.'));
                     }
                 }
 
@@ -187,8 +187,8 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
                     __('An error occurred while saving Product Rule.')
                 );
 
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setPageData($data);
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -212,21 +212,21 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = $this->_objectManager->create('Magento_TargetRule_Model_Rule');
+                $model = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('*/*/');
                 return;
             }
             catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento_Adminhtml_Model_Session')
+        $this->_objectManager->get('Magento\Adminhtml\Model\Session')
             ->addError(__("We can't find a page to delete."));
         $this->_redirect('*/*/');
     }
@@ -245,7 +245,7 @@ class Targetrule extends \Magento\Adminhtml\Controller\Action
         $model = $this->_objectManager->create($type)
             ->setId($id)
             ->setType($type)
-            ->setRule($this->_objectManager->create('Magento_TargetRule_Model_Rule'))
+            ->setRule($this->_objectManager->create('Magento\TargetRule\Model\Rule'))
             ->setPrefix($prefix);
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);

@@ -13,17 +13,17 @@ namespace Magento\Index\Model;
 class Observer
 {
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      *
      * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
+     * @param \Magento\Index\Model\Indexer $indexer
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer
+        \Magento\Index\Model\Indexer $indexer
     ) {
         $this->_indexer = $indexer;
     }

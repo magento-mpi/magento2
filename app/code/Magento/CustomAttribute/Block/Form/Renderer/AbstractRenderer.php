@@ -49,20 +49,20 @@ abstract class AbstractRenderer extends \Magento\Core\Block\Template
     protected $_fieldNameFormat = '%1$s';
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_locale = $locale;
@@ -124,7 +124,7 @@ abstract class AbstractRenderer extends \Magento\Core\Block\Template
         if ($filterCode) {
             $filterClass = 'Magento\\Data\\Form\\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $format = $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 $filter = new $filterClass($format);
             } else {
                 $filter = new $filterClass();

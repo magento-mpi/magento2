@@ -21,24 +21,24 @@ class Api extends \Magento\Core\Controller\Front\Action
     protected $_order;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_salesOrderFactory;
 
     /**
-     * @var Magento_Core_Model_Resource_TransactionFactory
+     * @var \Magento\Core\Model\Resource_TransactionFactory
      */
     protected $_transactionFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_TransactionFactory $transactionFactory
-     * @param Magento_Sales_Model_OrderFactory $salesOrderFactory
-     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param \Magento\Core\Model\Resource_TransactionFactory $transactionFactory
+     * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
+     * @param \Magento\Core\Controller\Varien\Action_Context $context
      */
     public function __construct(
-        Magento_Core_Model_Resource_TransactionFactory $transactionFactory,
-        Magento_Sales_Model_OrderFactory $salesOrderFactory,
-        Magento_Core_Controller_Varien_Action_Context $context
+        \Magento\Core\Model\Resource_TransactionFactory $transactionFactory,
+        \Magento\Sales\Model\OrderFactory $salesOrderFactory,
+        \Magento\Core\Controller\Varien\Action_Context $context
     ) {
         parent::__construct($context);
         $this->_transactionFactory = $transactionFactory;
@@ -52,7 +52,7 @@ class Api extends \Magento\Core\Controller\Front\Action
      */
     protected function _getCheckout()
     {
-        return $this->_objectManager->get('Magento_Checkout_Model_Session');
+        return $this->_objectManager->get('Magento\Checkout\Model\Session');
     }
 
     /**
@@ -62,7 +62,7 @@ class Api extends \Magento\Core\Controller\Front\Action
      */
     protected function _getApi()
     {
-        return $this->_objectManager->get('Magento_Ogone_Model_Api');
+        return $this->_objectManager->get('Magento\Ogone\Model\Api');
     }
 
     /**
@@ -279,9 +279,9 @@ class Api extends \Magento\Core\Controller\Front\Action
                     __('Authorization Waiting from Ogone')
                 );
                 $order->save();
-            } elseif ($order->getState() == Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
-                if ($status ==  Magento_Ogone_Model_Api::OGONE_AUTHORIZED) {
-                    if ($order->getStatus() != Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+            } elseif ($order->getState() == \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {
+                if ($status ==  \Magento\Ogone\Model\Api::OGONE_AUTHORIZED) {
+                    if ($order->getStatus() != \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {
                         $order->setState(
                             \Magento\Sales\Model\Order::STATE_PROCESSING,
                             \Magento\Ogone\Model\Api::PROCESSING_OGONE_STATUS,

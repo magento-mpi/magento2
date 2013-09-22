@@ -98,34 +98,34 @@ class Form extends \Magento\Core\Block\Template
     protected $_fieldNameFormat = '%1$s';
 
     /**
-     * @var Magento_Core_Model_Factory
+     * @var \Magento\Core\Model\Factory
      */
     protected $_modelFactory;
 
     /**
-     * @var Magento_Eav_Model_Form_Factory
+     * @var \Magento\Eav\Model\Form\Factory
      */
     protected $_formFactory;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @param Magento_Core_Model_Factory $modelFactory
-     * @param Magento_Eav_Model_Form_Factory $formFactory
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Model\Factory $modelFactory
+     * @param \Magento\Eav\Model\Form\Factory $formFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Factory $modelFactory,
-        Magento_Eav_Model_Form_Factory $formFactory,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Model\Factory $modelFactory,
+        \Magento\Eav\Model\Form\Factory $formFactory,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_modelFactory = $modelFactory;
@@ -162,10 +162,10 @@ class Form extends \Magento\Core\Block\Template
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            throw new Magento_Core_Exception(__('The current module XML block name is undefined.'));
+            throw new \Magento\Core\Exception(__('The current module XML block name is undefined.'));
         }
         if (empty($this->_formModelPath)) {
-            throw new Magento_Core_Exception(__('The current module form model pathname is undefined.'));
+            throw new \Magento\Core\Exception(__('The current module form model pathname is undefined.'));
         }
 
         /* $var $template \Magento\CustomAttribute\Block\Form\Template */

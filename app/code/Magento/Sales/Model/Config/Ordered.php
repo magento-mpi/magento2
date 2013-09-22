@@ -60,18 +60,18 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
     protected $_configCacheType;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Simplexml\Element $sourceData
      */
     public function __construct(
-            Magento_Core_Model_Logger $logger,
-            Magento_Core_Model_Cache_Type_Config $configCacheType,
+            \Magento\Core\Model\Logger $logger,
+            \Magento\Core\Model\Cache\Type\Config $configCacheType,
             $sourceData = null
     ) {
         parent::__construct($sourceData);

@@ -11,8 +11,8 @@ class Magento_Backend_Model_Config_Backend_SecureTest extends PHPUnit_Framework_
     {
         $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface');
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $context = new Magento_Core_Model_Context($logger, $eventDispatcher, $cacheManager);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager);
 
         $resource = $this->getMock('Magento\Core\Model\Resource\Config\Data', array(), array(), '', false);
         $resource->expects($this->any())

@@ -13,8 +13,8 @@ class Magento_Backup_NomediaTest extends PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $dir = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
-        $snapshot = $this->getMock('Magento_Backup_Snapshot', array('create'), array($dir));
+        $dir = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
+        $snapshot = $this->getMock('Magento\Backup\Snapshot', array('create'), array($dir));
         $snapshot->expects($this->any())
             ->method('create')
             ->will($this->returnValue(true));
@@ -24,7 +24,7 @@ class Magento_Backup_NomediaTest extends PHPUnit_Framework_TestCase
 
         $rootDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
 
-        $model = new Magento_Backup_Nomedia($snapshot);
+        $model = new \Magento\Backup\Nomedia($snapshot);
         $model->setRootDir($rootDir);
 
         $this->assertTrue($model->create());

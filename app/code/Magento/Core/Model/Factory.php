@@ -8,20 +8,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Model object factory
  */
-class Magento_Core_Model_Factory
+class Factory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -32,14 +34,14 @@ class Magento_Core_Model_Factory
      * @param string $model
      * @param array $data
      * @throws InvalidArgumentException
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function create($model, array $data = array())
     {
         $modelInstance = $this->_objectManager->create($model, $data);
-        if (false == ($modelInstance instanceof Magento_Core_Model_Abstract)) {
+        if (false == ($modelInstance instanceof \Magento\Core\Model\AbstractModel)) {
             throw new InvalidArgumentException(
-                $model . ' is not instance of Magento_Core_Model_Abstract'
+                $model . ' is not instance of \Magento\Core\Model\AbstractModel'
             );
         }
         return $modelInstance;

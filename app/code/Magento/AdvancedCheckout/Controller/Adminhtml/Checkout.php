@@ -34,12 +34,12 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     protected $_registry = null;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $registry
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Core\Model\Registry $registry
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
@@ -71,12 +71,12 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     protected function _initData($useRedirects = true)
     {
         $customerId = $this->getRequest()->getParam('customer');
-        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer')->load($customerId);
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
         if (!$customer->getId()) {
             throw new \Magento\AdvancedCheckout\Exception(__('Customer not found'));
         }
 
-        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManager');
+        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
         if ($storeManager->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
             if ($useRedirects) {
                 $this->_getSession()->addError(
@@ -124,7 +124,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         if ($quote->getId()) {
             $quoteCurrencyCode = $quote->getData('quote_currency_code');
             if ($quoteCurrencyCode != $storeManager->getStore($storeId)->getCurrentCurrencyCode()) {
-                $quoteCurrency = $this->_objectManager->create('Magento_Directory_Model_Currency')
+                $quoteCurrency = $this->_objectManager->create('Magento\Directory\Model\Currency')
                     ->load($quoteCurrencyCode);
                 $quote->setForcedCurrency($quoteCurrency);
                 $storeManager->getStore($storeId)->setCurrentCurrencyCode($quoteCurrency->getCode());
@@ -188,7 +188,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -236,7 +236,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
                 foreach ($source['source_ordered'] as $orderItemId => $qty) {
-                    $orderItem = $this->_objectManager->create('Magento_Sales_Model_Order_Item')->load($orderItemId);
+                    $orderItem = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($orderItemId);
                     $cart->reorderItem($orderItem, $qty);
                 }
                 unset($source['source_ordered']);
@@ -258,7 +258,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
 
             // Remove items from wishlist
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
-                $wishlist = $this->_objectManager->create('Magento_Wishlist_Model_Wishlist')->loadByCustomer($customer)
+                $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomer($customer)
                     ->setStore($store)
                     ->setSharedStoreIds($store->getWebsite()->getStoreIds());
                 if ($wishlist->getId()) {
@@ -268,7 +268,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                     }
                     foreach ($source['source_wishlist'] as $productId => $qty) {
                         if (in_array($productId, $quoteProductIds)) {
-                            $wishlistItem = $this->_objectManager->create('Magento_Wishlist_Model_Item')
+                            $wishlistItem = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                                 ->loadByProductWishlist(
                                     $wishlist->getId(),
                                     $productId,
@@ -368,7 +368,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     public function createOrderAction()
     {
         if (!$this->_authorization->isAllowed('Magento_Sales::create')) {
-            throw new Magento_Core_Exception(__('You do not have access to this.'));
+            throw new \Magento\Core\Exception(__('You do not have access to this.'));
         }
         try {
             $this->_initData();
@@ -392,7 +392,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -492,19 +492,19 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             $this->_initData();
 
             $customer   = $this->_registry->registry('checkout_current_customer');
-            $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $customerId = ($customer instanceof \Magento\Customer\Model\Customer) ? $customer->getId() : (int) $customer;
             $store      = $this->_registry->registry('checkout_current_store');
-            $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
+            $storeId    = ($store instanceof \Magento\Core\Model\Store) ? $store->getId() : (int) $store;
 
             $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
-                throw new Magento_Core_Exception(__('The wish list item id is not received.'));
+                throw new \Magento\Core\Exception(__('The wish list item id is not received.'));
             }
 
-            $item = $this->_objectManager->create('Magento_Wishlist_Model_Item')
+            $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                 ->loadWithOptions($itemId, 'info_buyRequest');
             if (!$item->getId()) {
-                throw new Magento_Core_Exception(__('The wish list item is not loaded.'));
+                throw new \Magento\Core\Exception(__('The wish list item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -537,19 +537,19 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             $this->_initData();
 
             $customer   = $this->_registry->registry('checkout_current_customer');
-            $customerId = ($customer instanceof Magento_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
+            $customerId = ($customer instanceof \Magento\Customer\Model\Customer) ? $customer->getId() : (int) $customer;
             $store      = $this->_registry->registry('checkout_current_store');
-            $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
+            $storeId    = ($store instanceof \Magento\Core\Model\Store) ? $store->getId() : (int) $store;
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
-                throw new Magento_Core_Exception(__('Ordered item id is not received.'));
+                throw new \Magento\Core\Exception(__('Ordered item id is not received.'));
             }
 
-            $item = $this->_objectManager->create('Magento_Sales_Model_Order_Item')
+            $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')
                 ->load($itemId);
             if (!$item->getId()) {
-                throw new Magento_Core_Exception(__('Ordered item is not loaded.'));
+                throw new \Magento\Core\Exception(__('Ordered item is not loaded.'));
             }
 
             $configureResult->setOk(true)
@@ -579,7 +579,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         if ($e instanceof \Magento\Core\Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof \Exception) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $result = array(
                 'error' => __('An error has occurred. See error log for details.')
             );
@@ -590,13 +590,13 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     /**
      * Acl check for quote modifications
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return boolean
      */
     protected function _isModificationAllowed()
     {
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')) {
-            throw new Magento_Core_Exception(__('You do not have access to this.'));
+            throw new \Magento\Core\Exception(__('You do not have access to this.'));
         }
     }
 
@@ -626,16 +626,16 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
             $quoteItemId = (int) $this->getRequest()->getParam('id');
 
             if (!$quoteItemId) {
-                throw new Magento_Core_Exception(__('Quote item id is not received.'));
+                throw new \Magento\Core\Exception(__('Quote item id is not received.'));
             }
 
-            $quoteItem = $this->_objectManager->create('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
+            $quoteItem = $this->_objectManager->create('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                throw new Magento_Core_Exception(__('Quote item is not loaded.'));
+                throw new \Magento\Core\Exception(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);
-            $optionCollection = $this->_objectManager->create('Magento_Sales_Model_Quote_Item_Option')->getCollection()
+            $optionCollection = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')->getCollection()
                     ->addItemFilter(array($quoteItemId));
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
@@ -739,7 +739,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
         $buyRequest = new \Magento\Object();
         switch ($listType) {
             case 'wishlist':
-                $item = $this->_objectManager->create('Magento_Wishlist_Model_Item')
+                $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 if ($item->getId()) {
                     $productId = $item->getProductId();
@@ -747,7 +747,7 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                 }
                 break;
             case 'ordered':
-                $item = $this->_objectManager->create('Magento_Sales_Model_Order_Item')
+                $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')
                     ->load($itemId);
                 if ($item->getId()) {
                     $productId = $item->getProductId();
@@ -894,10 +894,10 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
                     } else {
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
-                        } catch (Magento_Core_Exception $e){
-                            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                        } catch (\Magento\Core\Exception $e){
+                            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                         } catch (Exception $e){
-                            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                         }
                     }
                 }
@@ -980,8 +980,8 @@ class Checkout extends \Magento\Adminhtml\Controller\Action
     {
         try {
             $this->_initData();
-        } catch (Magento_Core_Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_redirect('*/customer');
             $this->_redirectFlag = true;
         }

@@ -20,22 +20,22 @@ namespace Magento\Backup;
 class Db extends \Magento\Backup\AbstractBackup
 {
     /**
-     * @var Magento_Backup_Model_BackupFactory
+     * @var \Magento\Backup\Model\BackupFactory
      */
     protected $_backupFactory;
 
     /**
-     * @var Magento_Backup_Model_DbFactory
+     * @var \Magento\Backup\Model\DbFactory
      */
     protected $_backupDbFactory;
 
     /**
-     * @param Magento_Backup_Model_BackupFactory $backupFactory
-     * @param Magento_Backup_Model_DbFactory $backupDbFactory
+     * @param \Magento\Backup\Model\BackupFactory $backupFactory
+     * @param \Magento\Backup\Model\DbFactory $backupDbFactory
      */
     public function __construct(
-        Magento_Backup_Model_BackupFactory $backupFactory,
-        Magento_Backup_Model_DbFactory $backupDbFactory
+        \Magento\Backup\Model\BackupFactory $backupFactory,
+        \Magento\Backup\Model\DbFactory $backupDbFactory
     ) {
         $this->_backupFactory = $backupFactory;
         $this->_backupDbFactory = $backupDbFactory;

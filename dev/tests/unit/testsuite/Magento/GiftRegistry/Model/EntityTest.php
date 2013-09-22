@@ -79,10 +79,10 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
 
         $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $context = new Magento_Core_Model_Context($logger, $eventDispatcher, $cacheManager);
-        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
-        $giftRegistryData = $this->getMock('Magento_GiftRegistry_Helper_Data', array('escapeHtml', 'getRegistryLink'),
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager);
+        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
+        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('escapeHtml', 'getRegistryLink'),
             array(), '', false, false);
         $giftRegistryData->expects($this->any())
             ->method('escapeHtml')

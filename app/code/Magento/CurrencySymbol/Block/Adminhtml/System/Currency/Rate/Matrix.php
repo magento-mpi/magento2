@@ -22,27 +22,27 @@ class Matrix extends \Magento\Backend\Block\Template
     protected $_template = 'system/currency/rate/matrix.phtml';
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_adminSession;
 
     /**
-     * @var Magento_Directory_Model_Currency_Factory
+     * @var \Magento\Directory\Model\Currency\Factory
      */
     protected $_dirCurrencyFactory;
 
     /**
-     * @param Magento_Directory_Model_Currency_Factory $dirCurrencyFactory
-     * @param Magento_Backend_Model_Session $adminSession
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Directory\Model\Currency\Factory $dirCurrencyFactory
+     * @param \Magento\Backend\Model\Session $adminSession
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Directory_Model_Currency_Factory $dirCurrencyFactory,
-        Magento_Backend_Model_Session $adminSession,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Directory\Model\Currency\Factory $dirCurrencyFactory,
+        \Magento\Backend\Model\Session $adminSession,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_dirCurrencyFactory = $dirCurrencyFactory;

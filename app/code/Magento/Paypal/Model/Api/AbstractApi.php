@@ -86,7 +86,7 @@ abstract class AbstractApi extends \Magento\Object
     protected $_customerAddress = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -99,8 +99,8 @@ abstract class AbstractApi extends \Magento\Object
      * @param \Magento\Customer\Helper\Address $customerAddress
      */
     public function __construct(
-        Magento_Customer_Helper_Address $customerAddress,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Customer\Helper\Address $customerAddress,
+        \Magento\Core\Model\Logger $logger,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;

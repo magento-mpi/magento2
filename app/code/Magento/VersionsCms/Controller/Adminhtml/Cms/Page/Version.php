@@ -202,7 +202,7 @@ class Version extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_getSession()->addError(__('Something went wrong while deleting the revisions.'));
             }
         }
@@ -234,8 +234,8 @@ class Version extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('Something went wrong while deleting this version.'));
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong while deleting this version.'));
                 $error = true;
             }
 

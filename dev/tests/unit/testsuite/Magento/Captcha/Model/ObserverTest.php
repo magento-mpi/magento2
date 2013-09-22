@@ -48,12 +48,12 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_customerSession = $this->getMock('Magento_Customer_Model_Session', array(), array(), '', false);
-        $this->_helper = $this->getMock('Magento_Captcha_Helper_Data', array(), array(), '', false);
-        $this->_urlManager = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
+        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->_helper = $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false);
+        $this->_urlManager = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
 
         $this->_observer = $this->_objectManager->getObject(
-            'Magento_Captcha_Model_Observer',
+            'Magento\Captcha\Model\Observer',
             array(
                 'customerSession' => $this->_customerSession,
                 'helper' => $this->_helper,

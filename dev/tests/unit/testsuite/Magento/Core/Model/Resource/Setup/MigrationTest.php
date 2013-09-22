@@ -134,7 +134,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     public function testAppendClassAliasReplace()
     {
         $setupModel = new \Magento\Core\Model\Resource\Setup\Migration(
-            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config\Resource', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false),
@@ -194,7 +194,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
         $tableRowsCount = count($tableData);
 
         $setupModel = new \Magento\Core\Model\Resource\Setup\Migration(
-            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Config\Resource', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false),

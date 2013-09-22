@@ -25,7 +25,7 @@ if ($_item->getQtyMaxAllowed()) {
 // disable the qty field if there is no product associated with the sku (i.e. invalid sku) or if sku failed for
 // out of stock scenario
 $qtyDisabled = !$this->hasProductUrl() ||
-        $_item->getCode() == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
+        $_item->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
 ?>
 <tr data-mage-init='{orderBySkuFailure:{}}'>
     <td>

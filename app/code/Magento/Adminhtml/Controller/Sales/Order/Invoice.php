@@ -295,14 +295,14 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
                 try {
                     $invoice->sendEmail(!empty($data['send_email']), $comment);
                 } catch (\Exception $e) {
-                    $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                     $this->_getSession()->addError(__('We can\'t send the invoice email.'));
                 }
                 if ($shipment) {
                     try {
                         $shipment->sendEmail(!empty($data['send_email']));
                     } catch (\Exception $e) {
-                        $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                        $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                         $this->_getSession()->addError(__('We can\'t send the shipment.'));
                     }
                 }
@@ -316,7 +316,7 @@ class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstrac
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t save the invoice.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
         $this->_redirect('*/*/new', array('order_id' => $orderId));
     }

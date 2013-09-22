@@ -26,7 +26,7 @@ class Survey
     protected $_urlBuilder;
 
     /**
-     * @var Magento_AdminNotification_Model_Survey
+     * @var \Magento\AdminNotification\Model\Survey
      */
     protected $_survey;
 
@@ -34,13 +34,13 @@ class Survey
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
-     * @param Magento_AdminNotification_Model_Survey $survey
+     * @param \Magento\AdminNotification\Model\Survey $survey
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $authSession,
-        Magento_AuthorizationInterface $authorization,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_AdminNotification_Model_Survey $survey
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\AdminNotification\Model\Survey $survey
     ) {
         $this->_authorization = $authorization;
         $this->_authSession = $authSession;

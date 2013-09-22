@@ -20,20 +20,20 @@ namespace Magento\Checkout\Block\Multishipping;
 class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
-     * @var Magento_Filter_Object_GridFactory
+     * @var \Magento\Filter\Object\GridFactory
      */
     protected $_filterGridFactory;
 
     /**
-     * @param Magento_Filter_Object_GridFactory $filterGridFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Filter\Object\GridFactory $filterGridFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Filter_Object_GridFactory $filterGridFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Filter\Object\GridFactory $filterGridFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
@@ -62,7 +62,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     {
         $items = $this->getCheckout()->getQuoteShippingAddressesItems();
         $itemsFilter = $this->_filterGridFactory->create();
-        $itemsFilter->addFilter(new Magento_Filter_Sprintf('%d'), 'qty');
+        $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
 

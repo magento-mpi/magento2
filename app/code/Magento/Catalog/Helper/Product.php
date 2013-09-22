@@ -76,7 +76,7 @@ class Product extends \Magento\Core\Helper\Url
     protected $_coreConfig;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -400,7 +400,7 @@ class Product extends \Magento\Core\Helper\Url
                 'product' => $product,
                 'controller_action' => $controller
             ));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }

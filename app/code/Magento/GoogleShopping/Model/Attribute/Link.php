@@ -35,14 +35,14 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param array $data
      */
     public function __construct(
-        Magento_GoogleShopping_Helper_Data $gsData,
-        Magento_GoogleShopping_Helper_Product $gsProduct,
-        Magento_GoogleShopping_Helper_Price $gsPrice,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_GoogleShopping_Model_Resource_Attribute $resource,
-        Magento_Data_Collection_Db $resourceCollection = null,
+        \Magento\GoogleShopping\Helper\Data $gsData,
+        \Magento\GoogleShopping\Helper\Product $gsProduct,
+        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

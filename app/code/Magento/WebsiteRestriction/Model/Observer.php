@@ -50,12 +50,12 @@ class Observer
     protected $_coreConfig;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_coreSession;
 
     /**
-     * @param Magento_Core_Model_Session $coreSession
+     * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestrictionData
@@ -63,7 +63,7 @@ class Observer
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Session $coreSession,
+        \Magento\Core\Model\Session $coreSession,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\WebsiteRestriction\Helper\Data $websiteRestrictionData,

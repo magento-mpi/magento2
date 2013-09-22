@@ -11,27 +11,27 @@
 class Magento_Cron_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cron_Model_Config_Reader_Xml|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cron\Model\Config\Reader\Xml|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_reader;
 
     /**
-     * @var Magento_Core_Model_Config_Scope|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Config\Scope|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_scope;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Cache\Type\Config|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cache;
 
     /**
-     * @var Magento_Cron_Model_Config_Reader_Db|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cron\Model\Config\Reader\Db|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dbReader;
 
     /**
-     * @var Magento_Cron_Model_Config_Data
+     * @var \Magento\Cron\Model\Config\Data
      */
     protected $_configData;
 
@@ -45,19 +45,19 @@ class Magento_Cron_Model_Config_DataTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_reader = $this->getMockBuilder('Magento_Cron_Model_Config_Reader_Xml')
+        $this->_reader = $this->getMockBuilder('Magento\Cron\Model\Config\Reader\Xml')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_scope = $this->getMockBuilder('Magento_Core_Model_Config_Scope')
+        $this->_scope = $this->getMockBuilder('Magento\Core\Model\Config\Scope')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_cache = $this->getMockBuilder('Magento_Core_Model_Cache_Type_Config')
+        $this->_cache = $this->getMockBuilder('Magento\Core\Model\Cache\Type\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_dbReader = $this->getMockBuilder('Magento_Cron_Model_Config_Reader_Db')
+        $this->_dbReader = $this->getMockBuilder('Magento\Cron\Model\Config\Reader\Db')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_configData = new Magento_Cron_Model_Config_Data(
+        $this->_configData = new \Magento\Cron\Model\Config\Data(
             $this->_reader, $this->_scope, $this->_cache, $this->_dbReader, $this->_cacheId
         );
     }

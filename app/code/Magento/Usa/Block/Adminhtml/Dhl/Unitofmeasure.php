@@ -28,12 +28,12 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
     protected $_usaData = null;
 
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Dhl_International
+     * @var \Magento\Usa\Model\Shipping\Carrier\Dhl\International
      */
     protected $_shippingDhl;
 
     /**
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhl
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\International $shippingDhl
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -41,7 +41,7 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
      * @param array $data
      */
     public function __construct(
-        Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhl,
+        \Magento\Usa\Model\Shipping\Carrier\Dhl\International $shippingDhl,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,

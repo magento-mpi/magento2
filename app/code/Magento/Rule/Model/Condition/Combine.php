@@ -21,7 +21,7 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
     static protected $_conditionModels = array();
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 

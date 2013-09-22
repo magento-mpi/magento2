@@ -78,12 +78,12 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     protected $_targetRuleData = null;
 
     /**
-     * @var Magento_TargetRule_Model_Resource_Index
+     * @var \Magento\TargetRule\Model\Resource\Index
      */
     protected $_resourceIndex;
 
     /**
-     * @param Magento_TargetRule_Model_Resource_Index $index
+     * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Tax\Helper\Data $taxData
@@ -93,7 +93,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      * @param array $data
      */
     public function __construct(
-        Magento_TargetRule_Model_Resource_Index $index,
+        \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Tax\Helper\Data $taxData,
@@ -146,7 +146,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
                 // Perform rotation mode
                 $select = $this->_linkCollection->getSelect();
                 $rotationMode = $this->_targetRuleData->getRotationMode($this->getProductListType());
-                if ($rotationMode == Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
+                if ($rotationMode == \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE) {
                     $this->_resourceIndex->orderRand($select);
                 } else {
                     $select->order('link_attribute_position_int.value ASC');

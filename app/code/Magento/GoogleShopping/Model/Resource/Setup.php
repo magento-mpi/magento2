@@ -15,7 +15,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_googleShoppingData = null;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\GoogleShopping\Helper\Data $googleShoppingData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
@@ -27,7 +27,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     public function __construct(
         \Magento\GoogleShopping\Helper\Data $googleShoppingData,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
         \Magento\Core\Model\Config $modulesConfig,

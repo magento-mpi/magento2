@@ -45,7 +45,7 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -68,14 +68,14 @@ class Observer
      * 
      * @param \Magento\Backup\Helper\Data $backupData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Dir $dir
      */
     public function __construct(
         \Magento\Backup\Helper\Data $backupData,
         \Magento\Core\Model\Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Dir $dir
     ) {
@@ -123,7 +123,7 @@ class Observer
         } catch (\Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
-            $this->_logger->log($e->getMessage(), Zend_Log::ERR);
+            $this->_logger->log($e->getMessage(), \Zend_Log::ERR);
             $this->_logger->logException($e);
         }
 

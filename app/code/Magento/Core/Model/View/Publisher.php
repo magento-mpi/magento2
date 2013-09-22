@@ -61,7 +61,7 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
     protected $_viewFileSystem;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -75,15 +75,15 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
     /**
      * View files publisher model
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Filesystem $filesystem
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\Css $cssHelper
      * @param \Magento\Core\Model\View\Service $viewService
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param bool $allowFilesDuplication
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Helper\Css $cssHelper,
         \Magento\Core\Model\View\Service $viewService,
@@ -324,7 +324,7 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
         };
         try {
             $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
-        } catch (Magento_Exception $e) {
+        } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
         }
         return $content;

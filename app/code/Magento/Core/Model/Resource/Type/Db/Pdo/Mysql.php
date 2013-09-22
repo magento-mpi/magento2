@@ -16,15 +16,15 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     /**
      * Dirs instance
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Core\Model\Dir $dirs
      */
     public function __construct(
-        Magento_Core_Model_Dir $dirs
+        \Magento\Core\Model\Dir $dirs
     ) {
         $this->_dirs = $dirs;
         parent::__construct();

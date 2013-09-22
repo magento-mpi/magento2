@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <job name="paypal_fetch_settlement_reports" instance="Magento_Paypal_Model_Observer" method="fetchReports" />
+    <job name="paypal_fetch_settlement_reports" instance="Magento\Paypal\Model\Observer" method="fetchReports" />
 </config>

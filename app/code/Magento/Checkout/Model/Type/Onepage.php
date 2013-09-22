@@ -50,7 +50,7 @@ class Onepage
     protected $_helper;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -82,11 +82,11 @@ class Onepage
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Checkout_Helper_Data $helper,
-        Magento_Customer_Helper_Data $customerData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Checkout\Helper\Data $helper,
+        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;

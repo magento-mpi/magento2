@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cron\Model\Config\Reader;
+
 /**
  * Reader for XML files
  */
-class Magento_Cron_Model_Config_Reader_Xml extends Magento_Config_Reader_Filesystem
+class Xml extends \Magento\Config\Reader\Filesystem
 {
     /**
      * Mapping XML name nodes
@@ -25,22 +27,22 @@ class Magento_Cron_Model_Config_Reader_Xml extends Magento_Config_Reader_Filesys
     /**
      * Initialize parameters
      *
-     * @param Magento_Config_FileResolverInterface    $fileResolver
-     * @param Magento_Cron_Model_Config_Converter_Xml $converter
-     * @param Magento_Cron_Model_Config_SchemaLocator $schemaLocator
-     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param \Magento\Config\FileResolverInterface    $fileResolver
+     * @param \Magento\Cron\Model\Config\Converter\Xml $converter
+     * @param \Magento\Cron\Model\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string                                  $fileName
      * @param array                                   $idAttributes
      * @param string                                  $domDocumentClass
      */
     public function __construct(
-        Magento_Config_FileResolverInterface $fileResolver,
-        Magento_Cron_Model_Config_Converter_Xml $converter,
-        Magento_Cron_Model_Config_SchemaLocator $schemaLocator,
-        Magento_Config_ValidationStateInterface $validationState,
+        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Cron\Model\Config\Converter\Xml $converter,
+        \Magento\Cron\Model\Config\SchemaLocator $schemaLocator,
+        \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'crontab.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Config_Dom'
+        $domDocumentClass = 'Magento\Config\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

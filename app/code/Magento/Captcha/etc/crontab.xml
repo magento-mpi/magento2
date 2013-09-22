@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <job name="captcha_delete_old_attempts" instance="Magento_Captcha_Model_Observer" method="deleteOldAttempts">
+    <job name="captcha_delete_old_attempts" instance="Magento\Captcha\Model\Observer" method="deleteOldAttempts">
         <schedule>*/30 * * * *</schedule>
     </job>
-    <job name="captcha_delete_expired_images" instance="Magento_Captcha_Model_Observer" method="deleteExpiredImages">
+    <job name="captcha_delete_expired_images" instance="Magento\Captcha\Model\Observer" method="deleteExpiredImages">
         <schedule>*/10 * * * *</schedule>
     </job>
 </config>

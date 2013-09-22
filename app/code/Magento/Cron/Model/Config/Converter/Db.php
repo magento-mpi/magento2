@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cron\Model\Config\Converter;
+
 /**
  * Convert data incoming from data base storage
  */
-class Magento_Cron_Model_Config_Converter_Db implements Magento_Config_ConverterInterface
+class Db implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert data

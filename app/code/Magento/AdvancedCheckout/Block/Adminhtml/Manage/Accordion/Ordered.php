@@ -42,7 +42,7 @@ class Ordered
     protected $_coreConfig;
 
     /**
-     * @var Magento_Catalog_Model_ProductFactory
+     * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
@@ -53,7 +53,7 @@ class Ordered
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Config $coreConfig,
-        Magento_Catalog_Model_ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         parent::__construct(
@@ -129,7 +129,7 @@ class Ordered
                 }
                 if ($productIds) {
                     // Load products collection
-                    $attributes = \Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+                    $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
                     $products = $this->_productFactory->create()->getCollection()
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)

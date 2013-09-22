@@ -188,8 +188,8 @@ class Quote extends \Magento\Adminhtml\Controller\Action
             } catch (\Exception $e) {
                 $this->_getSession()->addError(
                     __('An error occurred while saving the rule data. Please review the log and try again.'));
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -214,7 +214,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
             } catch (\Exception $e) {
                 $this->_getSession()->addError(
                     __('An error occurred while deleting the rule. Please review the log and try again.'));
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -394,7 +394,7 @@ class Quote extends \Magento\Adminhtml\Controller\Action
                 $result['error'] = $e->getMessage();
             } catch (\Exception $e) {
                 $result['error'] = __('Something went wrong while generating coupons. Please review the log and try again.');
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             }
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));

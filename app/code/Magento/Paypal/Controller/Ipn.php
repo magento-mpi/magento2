@@ -24,9 +24,9 @@ class Ipn extends \Magento\Core\Controller\Front\Action
 
         try {
             $data = $this->getRequest()->getPost();
-            \Mage::getModel('Magento_Paypal_Model_Ipn')->processIpnRequest($data, new Magento_HTTP_Adapter_Curl());
+            \Mage::getModel('Magento_Paypal_Model_Ipn')->processIpnRequest($data, new \Magento\HTTP\Adapter\Curl());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
     }
 }

@@ -40,12 +40,12 @@ class Product extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_TargetRule_Model_Source_Position
+     * @var \Magento\TargetRule\Model\Source\Position
      */
     protected $_position;
 
     /**
-     * @param Magento_TargetRule_Model_Source_Position $position
+     * @param \Magento\TargetRule\Model\Source\Position $position
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Helper\Data $coreData
@@ -54,7 +54,7 @@ class Product extends \Magento\Backend\Block\Widget
      * @param array $data
      */
     public function __construct(
-        Magento_TargetRule_Model_Source_Position $position,
+        \Magento\TargetRule\Model\Source\Position $position,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Data $coreData,

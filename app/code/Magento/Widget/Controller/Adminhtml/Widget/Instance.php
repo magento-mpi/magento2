@@ -23,24 +23,24 @@ class Instance extends \Magento\Adminhtml\Controller\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Widget_Model_Widget_InstanceFactory
+     * @var \Magento\Widget\Model\Widget\InstanceFactory
      */
     protected $_instanceFactory;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Widget_Model_Widget_InstanceFactory $instanceFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Widget\Model\Widget\InstanceFactory $instanceFactory
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
-        Magento_Widget_Model_Widget_InstanceFactory $instanceFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Widget\Model\Widget\InstanceFactory $instanceFactory,
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
@@ -75,7 +75,7 @@ class Instance extends \Magento\Adminhtml\Controller\Action
     {
         $this->_title(__('Frontend Apps'));
 
-        /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
+        /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         $widgetInstance = $this->_instanceFactory->create();
 
         $instanceId = $this->getRequest()->getParam('instance_id', null);

@@ -36,24 +36,24 @@ class Role extends \Magento\Core\Model\AbstractModel
 {
 
     /**
-     * @var Magento_User_Model_Resource_Role_User_CollectionFactory
+     * @var \Magento\User\Model\Resource\Role\User\CollectionFactory
      */
     protected $_userRolesFactory;
 
     /**
-     * @param Magento_User_Model_Resource_Role_User_CollectionFactory $userRolesFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_User_Model_Resource_Role $resource
-     * @param Magento_User_Model_Resource_Role_Collection $resourceCollection
+     * @param \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\User\Model\Resource\Role $resource
+     * @param \Magento\User\Model\Resource\Role\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_User_Model_Resource_Role_User_CollectionFactory $userRolesFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_User_Model_Resource_Role $resource,
-        Magento_User_Model_Resource_Role_Collection $resourceCollection,
+        \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\User\Model\Resource\Role $resource,
+        \Magento\User\Model\Resource\Role\Collection $resourceCollection,
         array $data = array()
     ) {
         $this->_userRolesFactory = $userRolesFactory;
@@ -75,10 +75,10 @@ class Role extends \Magento\Core\Model\AbstractModel
     public function __wakeup()
     {
         parent::__wakeup();
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        $this->_userRolesFactory = $objectManager->get('Magento_User_Model_Resource_Role_User_CollectionFactory');
-        $this->_resource = $objectManager->get('Magento_User_Model_Resource_Role');
-        $this->_resourceCollection = $objectManager->get('Magento_User_Model_Resource_Role_Collection');
+        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $this->_userRolesFactory = $objectManager->get('Magento\User\Model\Resource\Role\User\CollectionFactory');
+        $this->_resource = $objectManager->get('Magento\User\Model\Resource\Role');
+        $this->_resourceCollection = $objectManager->get('Magento\User\Model\Resource\Role\Collection');
     }
 
     /**

@@ -17,14 +17,14 @@ namespace Magento\TargetRule\Model;
 class Observer
 {
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
+     * @param \Magento\Index\Model\Indexer $indexer
      */
-    public function __construct(Magento_Index_Model_Indexer $indexer)
+    public function __construct(\Magento\Index\Model\Indexer $indexer)
     {
         $this->_indexer = $indexer;
     }
@@ -64,7 +64,7 @@ class Observer
         $product = $observer->getEvent()->getProduct();
 
         $this->_indexer->logEvent(
-            new Magento_Object(array(
+            new \Magento\Object(array(
                 'id' => $product->getId(),
                 'store_id' => $product->getStoreId(),
                 'rule' => $product->getData('rule'),
@@ -85,8 +85,8 @@ class Observer
     public function catalogProductSaveCommitAfter(\Magento\Event\Observer $observer)
     {
         $this->_indexer->indexEvents(
-            Magento_TargetRule_Model_Index::ENTITY_PRODUCT,
-            Magento_TargetRule_Model_Index::EVENT_TYPE_REINDEX_PRODUCTS
+            \Magento\TargetRule\Model\Index::ENTITY_PRODUCT,
+            \Magento\TargetRule\Model\Index::EVENT_TYPE_REINDEX_PRODUCTS
         );
     }
 
@@ -101,13 +101,13 @@ class Observer
         if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled'
             && $observer->getDataObject()->isValueChanged()) {
             $this->_indexer->logEvent(
-                new Magento_Object(array('type_id' => null, 'store' => null)),
-                Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
-                Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+                new \Magento\Object(array('type_id' => null, 'store' => null)),
+                \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
+                \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
             );
             $this->_indexer->indexEvents(
-                Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
-                Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+                \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
+                \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
             );
         }
         return $this;

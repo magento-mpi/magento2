@@ -42,12 +42,12 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_registry = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     private $_storeManager = null;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app = null;
 
@@ -56,16 +56,16 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\App $app
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Controller\Request\Http $request,
-        \Magento\ObjectManager $objectManager
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_App $app
+        \Magento\ObjectManager $objectManager,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\App $app
     ) {
         $this->_registry = $registry;
         parent::__construct($role);
@@ -154,7 +154,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function validateCatalogProductReview($controller)
     {
-        $reviewStores = $this->_objectManager->create('Magento_Review_Model_Review')
+        $reviewStores = $this->_objectManager->create('Magento\Review\Model\Review')
             ->load($controller->getRequest()->getParam('id'))
             ->getStores();
 
@@ -177,7 +177,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
 
-        $store = $this->_storeManager->getStore($this->_request->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        $store = $this->_storeManager->getStore($this->_request->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
         if (!$this->_role->hasStoreAccess($store->getId())) {
             $this->_forward();
         }
@@ -190,7 +190,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function validateCustomerEdit($controller)
     {
-        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer')
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')
             ->load($this->_request->getParam('id'));
         if ($customer->getId() && !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
@@ -205,7 +205,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!$id = $this->_request->getParam('id')) {
             return $this->_forward();
         }
-        $customer = $this->_objectManager->create('Magento_Customer_Model_Customer')->load($id);
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($id);
         if ((!$customer->getId()) || !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
@@ -256,7 +256,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                         $forward = true; // no adding root categories
                     }
                 } else {
-                    $category = $this->_objectManager->create('Magento_Catalog_Model_Category')->load($controller->getRequest()->getParam('id'));
+                    $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($controller->getRequest()->getParam('id'));
                     if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
                         $forward = true; // no viewing wrong categories
                     }
@@ -296,7 +296,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // instead of generic (we are capped by allowed store groups root categories)
         // check whether attempting to create event for wrong category
         if ('new' === $this->_request->getActionName()) {
-            $category = $this->_objectManager->create('Magento_Catalog_Model_Category')
+            $category = $this->_objectManager->create('Magento\Catalog\Model\Category')
                 ->load($this->_request->getParam('category_id'));
             if (($this->_request->getParam('category_id') && !$this->_isCategoryAllowed($category)) ||
                 !$this->_role->getIsWebsiteLevel()) {
@@ -317,9 +317,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         // avoid viewing disallowed events
-        $catalogEvent = $this->_objectManager->create('Magento_CatalogEvent_Model_Event')
+        $catalogEvent = $this->_objectManager->create('Magento\CatalogEvent\Model\Event')
             ->load($this->_request->getParam('id'));
-        $category     = $this->_objectManager->create('Magento_Catalog_Model_Category')
+        $category     = $this->_objectManager->create('Magento\Catalog\Model\Category')
             ->load($catalogEvent->getCategoryId());
         if (!$this->_isCategoryAllowed($category)) {
             return $this->_forward();
@@ -552,7 +552,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('order_id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento_Sales_Model_Order')->load($id);
+            $object = $this->_objectManager->create('Magento\Sales\Model\Order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -577,7 +577,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = $this->_objectManager->create('Magento_Sales_Model_Order_Creditmemo')->load($id);
+            $object = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -602,7 +602,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = $this->_objectManager->create('Magento_Sales_Model_Order_Invoice')->load($id);
+            $object = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -627,7 +627,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $id = $this->_request->getParam('id');
         }
         if ($id) {
-            $object = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment')->load($id);
+            $object = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -740,7 +740,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if ($ids) {
             if ($ids && is_array($ids)) {
                 foreach ($ids as $id) {
-                    $object = $this->_objectManager->create('Magento_Sales_Model_Order')->load($id);
+                    $object = $this->_objectManager->create('Magento\Sales\Model\Order')->load($id);
                     if ($object && $object->getId()) {
                         $store = $object->getStoreId();
                         if (!$this->_role->hasStoreAccess($store)) {
@@ -764,7 +764,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('order_id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento_Sales_Model_Order')->load($id);
+            $object = $this->_objectManager->create('Magento\Sales\Model\Order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -786,7 +786,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('track_id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento_Sales_Model_Order_Shipment_Track')->load($id);
+            $object = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
                 if (!$this->_role->hasStoreAccess($store)) {
@@ -808,7 +808,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento_Checkout_Model_Agreement')->load($id);
+            $object = $this->_objectManager->create('Magento\Checkout\Model\Agreement')->load($id);
             if ($object && $object->getId()) {
                 $stores = $object->getStoreId();
                 foreach ($stores as $store) {
@@ -832,7 +832,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento_Core_Model_Url_Rewrite')->load($id);
+            $object = $this->_objectManager->create('Magento\Core\Model\Url\Rewrite')->load($id);
             if ($object && $object->getId()) {
                 if (!$this->_role->hasStoreAccess($object->getStoreId())) {
                     $this->_forward();
@@ -979,7 +979,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _validateCatalogSubCategoryAddPermission($categoryId)
     {
-        $category = $this->_objectManager->create('Magento_Catalog_Model_Category')->load($categoryId);
+        $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
         if ($category->getId()) {
             /**
              * viewing for parent category allowed and
@@ -1074,7 +1074,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id', $this->_request->getParam('entity_id'));
         if ($id) {
-            $websiteId = $this->_objectManager->create('Magento_GiftRegistry_Model_Entity')
+            $websiteId = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity')
                 ->getResource()->getWebsiteIdByEntityId($id);
             if (!in_array($websiteId, $this->_role->getWebsiteIds())) {
                 $this->_forward();

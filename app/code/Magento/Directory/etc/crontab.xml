@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <job name="currency_rates_update" instance="Magento_Directory_Model_Observer" method="scheduledUpdateCurrencyRates" />
+    <job name="currency_rates_update" instance="Magento\Directory\Model\Observer" method="scheduledUpdateCurrencyRates" />
 </config>

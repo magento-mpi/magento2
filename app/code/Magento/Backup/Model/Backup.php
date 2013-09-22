@@ -113,7 +113,7 @@ class Backup extends \Magento\Object
             'extension' => $this->_helper->getExtensionByType($backupData->getType()),
             'display_name' => $this->_helper->nameToDisplayName($backupData->getName()),
             'name' => $backupData->getName(),
-            'date_object' => new Zend_Date((int)$backupData->getTime(), $this->_locale->getLocaleCode())
+            'date_object' => new \Zend_Date((int)$backupData->getTime(), $this->_locale->getLocaleCode())
         ));
 
         $this->setType($backupData->getType());

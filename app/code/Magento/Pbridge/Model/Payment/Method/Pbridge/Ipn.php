@@ -62,16 +62,16 @@ class Ipn
     protected $_pbridgeData = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData
     ) {
         $this->_pbridgeData = $pbridgeData;

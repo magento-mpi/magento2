@@ -161,22 +161,22 @@ class International
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_coreDate;
 
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Dhl_Label_PdfFactory
+     * @var \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory
      */
     protected $_pdfFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_configReader;
 
@@ -188,20 +188,20 @@ class International
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Helper\String $coreString
-     * @param Magento_Core_Model_Date $coreDate
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_Label_PdfFactory $pdfFactory
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
-     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
-     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
-     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
-     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
-     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
-     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
+     * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
@@ -211,20 +211,20 @@ class International
         \Magento\Core\Helper\Data $coreData,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Helper\String $coreString,
-        Magento_Core_Model_Date $coreDate,
-        Magento_Usa_Model_Shipping_Carrier_Dhl_Label_PdfFactory $pdfFactory,
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Date $coreDate,
+        \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory,
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
-        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
-        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
-        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
-        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
-        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
-        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
+        \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
+        \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
+        \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
@@ -475,7 +475,7 @@ class International
                     $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
                     break;
                 default:
-                    throw new Magento_Core_Exception(__('Wrong Content Type'));
+                    throw new \Magento\Core\Exception(__('Wrong Content Type'));
             }
         }
         $methods = array();
@@ -974,7 +974,7 @@ class International
                                     break;
                                 }
                             }
-                            throw new Magento_Core_Exception(__('Error #%1 : %2', trim($code), trim($data)));
+                            throw new \Magento\Core\Exception(__('Error #%1 : %2', trim($code), trim($data)));
                         }
 
                         $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
@@ -989,13 +989,13 @@ class International
                             $result = new \Magento\Object();
                             $result->setTrackingNumber((string)$xml->AirwayBillNumber);
                             try {
-                                /* @var $pdf Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf */
+                                /* @var $pdf \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf */
                                 $pdf = $this->_pdfFactory->create(
                                     array('arguments' => array('info' => $xml, 'request' => $this->_request))
                                 );
                                 $result->setShippingLabelContent($pdf->render());
                             } catch (\Exception $e) {
-                                throw new Magento_Core_Exception(__($e->getMessage()));
+                                throw new \Magento\Core\Exception(__($e->getMessage()));
                             }
                             return $result;
                         } else {
@@ -1010,13 +1010,13 @@ class International
             $this->_errors[] = $responseError;
         }
 
-        /* @var $result Magento_Shipping_Model_Rate_Result */
+        /* @var $result \Magento\Shipping\Model\Rate\Result */
         $result = $this->_rateFactory->create();
         if ($this->_rates) {
             foreach ($this->_rates as $rate) {
                 $method = $rate['service'];
                 $data = $rate['data'];
-                /* @var $rate Magento_Shipping_Model_Rate_Result_Method */
+                /* @var $rate \Magento\Shipping\Model\Rate\Result\Method */
                 $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier(self::CODE);
                 $rate->setCarrierTitle($this->getConfigData('title'));
@@ -1028,7 +1028,7 @@ class International
             }
         } else if (!empty($this->_errors)) {
             if ($this->_isShippingLabelFlag) {
-                throw new Magento_Core_Exception($responseError);
+                throw new \Magento\Core\Exception($responseError);
             }
             return $this->_showError();
         }
@@ -1059,7 +1059,7 @@ class International
             $dhlProductDescription  = $this->getDhlProductTitle($dhlProduct);
 
             if ($currencyCode != $baseCurrencyCode) {
-                /* @var $currency Magento_Directory_Model_Currency */
+                /* @var $currency \Magento\Directory\Model\Currency */
                 $currency = $this->_currencyFactory->create();
                 $rates = $currency->getCurrencyRates($currencyCode, array($baseCurrencyCode));
                 if (!empty($rates) && isset($rates[$baseCurrencyCode])) {
@@ -1113,7 +1113,7 @@ class International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $measureUnit = $this->getCountryParams($countryId)->getMeasureUnit();
         if (empty($measureUnit)) {
-            throw new Magento_Core_Exception(__("Cannot identify measure unit for %1", $countryId));
+            throw new \Magento\Core\Exception(__("Cannot identify measure unit for %1", $countryId));
         }
         return $measureUnit;
     }
@@ -1128,7 +1128,7 @@ class International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $weightUnit = $this->getCountryParams($countryId)->getWeightUnit();
         if (empty($weightUnit)) {
-            throw new Magento_Core_Exception(__("Cannot identify weight unit for %1", $countryId));
+            throw new \Magento\Core\Exception(__("Cannot identify weight unit for %1", $countryId));
         }
         return $weightUnit;
     }
@@ -1206,7 +1206,7 @@ class International
         $showMethod = $this->getConfigData('showmethod');
 
         if ($showMethod) {
-            /* @var $error Magento_Shipping_Model_Rate_Result_Error */
+            /* @var $error \Magento\Shipping\Model\Rate\Result\Error */
             $error = $this->_rateErrorFactory->create();
             $error->setCarrier(self::CODE);
             $error->setCarrierTitle($this->getConfigData('title'));
@@ -1252,7 +1252,7 @@ class International
                 $minValue = $this->_getMinDimension($params['dimension_units']);
                 if ($params['width'] < $minValue || $params['length'] < $minValue || $params['height'] < $minValue) {
                     $message = __('Height, width and length should be equal or greater than %1', $minValue);
-                    throw new Magento_Core_Exception($message);
+                    throw new \Magento\Core\Exception($message);
                 }
             }
 
@@ -1301,7 +1301,7 @@ class International
         )->getRegion();
 
         if (!$originRegion) {
-            throw new Magento_Core_Exception(__('Wrong Region'));
+            throw new \Magento\Core\Exception(__('Wrong Region'));
         }
 
         if ($originRegion == 'AM') {
@@ -1773,7 +1773,7 @@ class International
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            throw new Magento_Core_Exception(__('No packages for request'));
+            throw new \Magento\Core\Exception(__('No packages for request'));
         }
         $result = $this->_doShipmentRequest($request);
 

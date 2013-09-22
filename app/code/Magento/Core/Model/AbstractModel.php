@@ -116,7 +116,7 @@ abstract class AbstractModel extends \Magento\Object
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 

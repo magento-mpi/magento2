@@ -26,27 +26,27 @@ class Services extends \Magento\Backend\Block\Template
     protected $_template = 'system/currency/rate/services.phtml';
 
     /**
-     * @var Magento_Backend_Model_Config_Source_Currency_ServiceFactory
+     * @var \Magento\Backend\Model\Config\Source\Currency\ServiceFactory
      */
     protected $_srcCurrencyFactory;
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_adminSession;
 
     /**
-     * @param Magento_Backend_Model_Session $adminSession
-     * @param Magento_Backend_Model_Config_Source_Currency_ServiceFactory $srcCurrencyFactory
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Model\Session $adminSession
+     * @param \Magento\Backend\Model\Config\Source\Currency\ServiceFactory $srcCurrencyFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Model_Session $adminSession,
-        Magento_Backend_Model_Config_Source_Currency_ServiceFactory $srcCurrencyFactory,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Model\Session $adminSession,
+        \Magento\Backend\Model\Config\Source\Currency\ServiceFactory $srcCurrencyFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_adminSession = $adminSession;
@@ -63,7 +63,7 @@ class Services extends \Magento\Backend\Block\Template
     {
         $this->setChild(
             'import_services',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
                 ->setOptions($this->_srcCurrencyFactory->create()->toOptionArray(0))
                 ->setId('rate_services')
                 ->setName('rate_services')

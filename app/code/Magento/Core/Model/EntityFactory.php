@@ -5,21 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_EntityFactory
+
+namespace Magento\Core\Model;
+
+class EntityFactory
 {
     /**
      * Object Manager instance
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -30,7 +33,7 @@ class Magento_Core_Model_EntityFactory
      * @param $className
      * @param array $data
      * @throws LogicException
-     * @return Magento_Object
+     * @return \Magento\Object
      */
     public function create($className, array $data = array())
     {

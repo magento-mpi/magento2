@@ -83,8 +83,8 @@ class Magento_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_
      */
     protected function _getTestCollection()
     {
-        $collection = new Magento_Data_Collection(
-            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        $collection = new \Magento\Data\Collection(
+            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(
             new \Magento\Object(array('sub_test1' => '1', 'sub_test2' => '2')),

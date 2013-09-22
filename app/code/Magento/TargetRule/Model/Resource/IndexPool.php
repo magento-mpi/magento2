@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\TargetRule\Model\Resource;
+
 /**
  * TargetRule Product Index Pool
  *
@@ -15,17 +17,17 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Resource_IndexPool
+class IndexPool
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -36,30 +38,30 @@ class Magento_TargetRule_Model_Resource_IndexPool
      * @param string $type
      * @param array $arguments
      * @throws LogicException
-     * @return Magento_TargetRule_Model_Resource_Index_Abstract
+     * @return \Magento\TargetRule\Model\Resource\Index_Abstract
      */
     public function get($type, array $arguments = array())
     {
         switch ($type) {
-            case Magento_TargetRule_Model_Rule::RELATED_PRODUCTS:
+            case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
                 $model = 'Related';
                 break;
-            case Magento_TargetRule_Model_Rule::UP_SELLS:
+            case \Magento\TargetRule\Model\Rule::UP_SELLS:
                 $model = 'Upsell';
                 break;
-            case Magento_TargetRule_Model_Rule::CROSS_SELLS:
+            case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
                 $model = 'Crosssell';
                 break;
             default:
-                throw new LogicException($type . ' is undefined catalog product list type');
+                throw new \LogicException($type . ' is undefined catalog product list type');
         }
 
-        $className = 'Magento_TargetRule_Model_Resource_Index_' . $model;
+        $className = 'Magento\TargetRule\Model\Resource\Index\\' . $model;
         $indexResource = $this->_objectManager->get($className, $arguments);
 
-        if (false === ($indexResource instanceof Magento_TargetRule_Model_Resource_Index_Abstract)) {
-            throw new LogicException(
-                $className . ' doesn\'t extend Magento_TargetRule_Model_Resource_Index_Abstract'
+        if (false === ($indexResource instanceof \Magento\TargetRule\Model\Resource\Index\AbstractIndex)) {
+            throw new \LogicException(
+                $className . ' doesn\'t extend \Magento\TargetRule\Model\Resource\Index\AbstractIndex'
             );
         }
 

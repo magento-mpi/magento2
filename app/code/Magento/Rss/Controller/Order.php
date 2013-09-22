@@ -33,7 +33,7 @@ class Order extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -56,7 +56,7 @@ class Order extends \Magento\Core\Controller\Front\Action
     public function preDispatch()
     {
         if ('new' === $this->getRequest()->getActionName()) {
-            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
             if (!$this->authenticateAndAuthorizeAdmin('Magento_Sales::sales_order', $this->_logger)) {
                 return;
             }

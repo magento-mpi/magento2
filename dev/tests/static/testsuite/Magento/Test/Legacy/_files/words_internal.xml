@@ -18,10 +18,10 @@
         <word>Magento_Core_Utility_Theme</word>
         <word>@group module:</word>
         <word>Magento_Test_Di_InstanceManager</word>
-        <word>Magento_ObjectManager_Zend</word>
+        <word>\Magento\ObjectManager_Zend</word>
         <word>base_public_url</word>
         <word>secure_public_url}}js/</word>
-        <word>Magento_Core_Model_App_Options</word>
+        <word>\Magento\Core\Model\App_Options</word>
         <word>Magento_Adminhtml_Utility_Controller</word>
         <word>saas</word>
         <word>tmt</word>

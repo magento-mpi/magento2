@@ -28,7 +28,7 @@ class End extends \Magento\Install\Block\AbstractBlock
     protected $_coreConfig;
 
     /**
-     * @var Magento_AdminNotification_Model_Survey
+     * @var \Magento\AdminNotification\Model\Survey
      */
     protected $_survey;
 
@@ -36,7 +36,7 @@ class End extends \Magento\Install\Block\AbstractBlock
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Config $coreConfig,
-        Magento_AdminNotification_Model_Survey $survey,
+        \Magento\AdminNotification\Model\Survey $survey,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
@@ -65,7 +65,7 @@ class End extends \Magento\Install\Block\AbstractBlock
     public function getIframeSourceUrl()
     {
         if (!$this->_survey->isSurveyUrlValid()
-            || \Mage::getSingleton('Magento_Install_Model_Installer')->getHideIframe()) {
+            || \Mage::getSingleton('Magento\Install\Model\Installer')->getHideIframe()) {
             return null;
         }
         return $this->_survey->getSurveyUrl();

@@ -48,9 +48,9 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_coreUrl = null;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Config_Share $configShare
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Config\Share $configShare
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -61,9 +61,9 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param null $sessionName
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Config_Share $configShare,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Config\Share $configShare,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Event\Manager $eventManager,

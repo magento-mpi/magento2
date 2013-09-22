@@ -27,10 +27,10 @@ class Media extends \Magento\Backup\AbstractBackup
     protected $_snapshotManager;
 
     /**
-     * @param Magento_Backup_Snapshot $snapshotManager
+     * @param \Magento\Backup\Snapshot $snapshotManager
      */
     public function __construct(
-        Magento_Backup_Snapshot $snapshotManager
+        \Magento\Backup\Snapshot $snapshotManager
     ) {
         $this->_snapshotManager = $snapshotManager;
     }

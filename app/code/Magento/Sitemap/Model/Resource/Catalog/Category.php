@@ -41,11 +41,11 @@ class Category extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param Magento_Catalog_Model_Resource_Category $categoryResource
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
         Magento_Catalog_Model_Resource_Category $categoryResource,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_categoryResource = $categoryResource;
         parent::__construct($resource);

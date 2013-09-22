@@ -76,7 +76,7 @@ class Magento_Core_Utility_Layout
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         return array(
-            'logger'             => $objectManager->get('Magento_Core_Model_Logger'),
+            'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
             'eventManager'       => $objectManager->get('Magento\Core\Model\Event\Manager'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),

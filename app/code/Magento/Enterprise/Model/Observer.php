@@ -17,15 +17,15 @@ namespace Magento\Enterprise\Model;
 class Observer
 {
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $authSession
+        \Magento\Backend\Model\Auth\Session $authSession
     ) {
         $this->_authSession = $authSession;
     }

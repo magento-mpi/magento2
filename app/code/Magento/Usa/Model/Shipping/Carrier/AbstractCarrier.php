@@ -38,52 +38,52 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     protected $_directoryData = null;
 
     /**
-     * @var Magento_Usa_Model_Simplexml_ElementFactory
+     * @var \Magento\Usa\Model\Simplexml\ElementFactory
      */
     protected $_xmlElFactory;
 
     /**
-     * @var Magento_Shipping_Model_Rate_ResultFactory
+     * @var \Magento\Shipping\Model\Rate\ResultFactory
      */
     protected $_rateFactory;
 
     /**
-     * @var Magento_Shipping_Model_Rate_Result_MethodFactory
+     * @var \Magento\Shipping\Model\Rate\Result\MethodFactory
      */
     protected $_rateMethodFactory;
 
     /**
-     * @var Magento_Shipping_Model_Rate_Result_ErrorFactory
+     * @var \Magento\Shipping\Model\Rate\Result\ErrorFactory
      */
     protected $_rateErrorFactory;
 
     /**
-     * @var Magento_Shipping_Model_Tracking_ResultFactory
+     * @var \Magento\Shipping\Model\Tracking\ResultFactory
      */
     protected $_trackFactory;
 
     /**
-     * @var Magento_Shipping_Model_Tracking_Result_ErrorFactory
+     * @var \Magento\Shipping\Model\Tracking\Result\ErrorFactory
      */
     protected $_trackErrorFactory;
 
     /**
-     * @var Magento_Shipping_Model_Tracking_Result_StatusFactory
+     * @var \Magento\Shipping\Model\Tracking\Result\StatusFactory
      */
     protected $_trackStatusFactory;
 
     /**
-     * @var Magento_Directory_Model_RegionFactory
+     * @var \Magento\Directory\Model\RegionFactory
      */
     protected $_regionFactory;
 
     /**
-     * @var Magento_Directory_Model_CountryFactory
+     * @var \Magento\Directory\Model\CountryFactory
      */
     protected $_countryFactory;
 
     /**
-     * @var Magento_Directory_Model_CurrencyFactory
+     * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
 
@@ -93,32 +93,32 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
-     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
-     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
-     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
-     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
-     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
-     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
-     * @param Magento_Directory_Model_RegionFactory $regionFactory
-     * @param Magento_Directory_Model_CountryFactory $countryFactory
-     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
+     * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
+     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
-        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
-        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
-        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
-        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
-        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
-        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
-        Magento_Directory_Model_RegionFactory $regionFactory,
-        Magento_Directory_Model_CountryFactory $countryFactory,
-        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
+        \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
+        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
+        \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
+        \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
@@ -400,7 +400,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            throw new Magento_Core_Exception(__('No packages for request'));
+            throw new \Magento\Core\Exception(__('No packages for request'));
         }
         if ($request->getStoreId() != null) {
             $this->setStore($request->getStoreId());
@@ -449,7 +449,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
         $request->setIsReturn(true);
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            throw new Magento_Core_Exception(__('No packages for request'));
+            throw new \Magento\Core\Exception(__('No packages for request'));
         }
         if ($request->getStoreId() != null) {
             $this->setStore($request->getStoreId());

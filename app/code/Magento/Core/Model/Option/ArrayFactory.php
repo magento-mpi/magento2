@@ -8,20 +8,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Option;
+
 /**
  * Array optioned object factory
  */
-class Magento_Core_Model_Option_ArrayFactory
+class ArrayFactory
 {
     /**
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_ObjectManager $objectManager
+     * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_ObjectManager $objectManager)
+    public function __construct(\Magento\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -32,14 +34,14 @@ class Magento_Core_Model_Option_ArrayFactory
      * @param $model
      * @param array $data
      * @throws InvalidArgumentException
-     * @return Magento_Core_Model_Option_ArrayInterface
+     * @return \Magento\Core\Model\Option\ArrayInterface
      */
     public function create($model, array $data = array())
     {
         $modelInstance = $this->_objectManager->create($model, $data);
-        if (false == ($modelInstance instanceof Magento_Core_Model_Option_ArrayInterface)) {
+        if (false == ($modelInstance instanceof \Magento\Core\Model\Option\ArrayInterface)) {
             throw new InvalidArgumentException(
-                $model . 'doesn\'t implement Magento_Core_Model_Option_ArrayInterface'
+                $model . 'doesn\'t implement \Magento\Core\Model\Option\ArrayInterface'
             );
         }
         return $modelInstance;

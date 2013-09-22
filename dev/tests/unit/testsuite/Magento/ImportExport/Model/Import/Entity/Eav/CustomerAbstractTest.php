@@ -82,8 +82,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
      */
     protected function _getModelMock()
     {
-        $customerCollection = new Magento_Data_Collection(
-            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        $customerCollection = new \Magento\Data\Collection(
+            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_customers as $customer) {
             $customerCollection->addItem(new \Magento\Object($customer));

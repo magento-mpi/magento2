@@ -8,30 +8,32 @@
  * @license     {license_link}
  */
 
+namespace Magento\Centinel\Model;
+
 /**
  * Factory class for Credit Card types
  */
-class Magento_Centinel_Model_StateFactory
+class StateFactory
 {
     /**
      * Object manager
      *
-     * @var Magento_ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Config
      *
-     * @var Magento_Centinel_Model_Config
+     * @var \Magento\Centinel\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     * @param Magento_Centinel_Model_Config $config
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Centinel\Model\Config $config
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_Centinel_Model_Config $config)
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Centinel\Model\Config $config)
     {
         $this->_objectManager = $objectManager;
         $this->_config = $config;

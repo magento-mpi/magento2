@@ -34,17 +34,17 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     );
 
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Core_Model_Resource $resource
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_indexer = $indexer;
         parent::__construct($resource);
@@ -138,9 +138,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             : $object->getData('apply_to');
 
         $this->_indexer->processEntityAction(
-            new Magento_Object(array('type_id' => $typeId)),
-            Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
-            Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+            new \Magento\Object(array('type_id' => $typeId)),
+            \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
+            \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
 
         return $this;
@@ -156,9 +156,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_indexer->processEntityAction(
-            new Magento_Object(array('type_id' => $object->getData('apply_to'))),
-            Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
-            Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+            new \Magento\Object(array('type_id' => $object->getData('apply_to'))),
+            \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
+            \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
 
         parent::_beforeDelete($object);

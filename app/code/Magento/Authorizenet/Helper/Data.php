@@ -20,38 +20,38 @@ namespace Magento\Authorizenet\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Sales_Model_OrderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_urlBuilder;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Sales_Model_OrderFactory $orderFactory
-     * @param Magento_Backend_Model_Url $urlBuilder
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Backend\Model\Url $urlBuilder
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Sales_Model_OrderFactory $orderFactory,
-        Magento_Backend_Model_Url $urlBuilder
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Backend\Model\Url $urlBuilder
     ) {
         parent::__construct($context);
         $this->_application = $application;

@@ -53,54 +53,54 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_sitemapData = null;
 
     /**
-     * @var Magento_Catalog_Model_Product_Status
+     * @var \Magento\Catalog\Model\Product\Status
      */
     protected $_productStatus;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_productVisibility;
 
     /**
-     * @var Magento_Eav_Model_Config
+     * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
-     * @var Magento_Catalog_Model_Product_Media_Config
+     * @var \Magento\Catalog\Model\Product\Media\Config
      */
     protected $_mediaConfig;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
     protected $_mediaResource;
 
     /**
      * Catalog product resource
      *
-     * @var Magento_Catalog_Model_Resource_Product
+     * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_productResource;
 
     /**
-     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
-     * @param Magento_Catalog_Model_Product_Status $productStatus
-     * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
-     * @param Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media $mediaResource
-     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Catalog\Model\Product\Status $productStatus
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaResource
+     * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_Catalog_Model_Product_Visibility $productVisibility,
-        Magento_Catalog_Model_Product_Status $productStatus,
-        Magento_Eav_Model_Config $eavConfig,
-        Magento_Catalog_Model_Product_Media_Config $mediaConfig,
-        Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media $mediaResource,
-        Magento_Catalog_Model_Resource_Product $productResource,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        \Magento\Catalog\Model\Product\Status $productStatus,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
+        \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaResource,
+        \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\Core\Model\Resource $resource
     ) {
@@ -324,7 +324,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
             $imagesCollection = $this->_getAllProductImages($product, $storeId);
         } elseif (\Magento\Sitemap\Model\Source\Product\Image\IncludeImage::INCLUDE_BASE == $imageIncludePolicy
             && $product->getImage() && $product->getImage() != self::NOT_SELECTED_IMAGE) {
-            $imagesCollection = array(new Magento_Object(array(
+            $imagesCollection = array(new \Magento\Object(array(
                 'url' => $this->_mediaConfig->getBaseMediaUrlAddition() . $product->getImage()
             )));
         }
@@ -380,7 +380,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getMediaGalleryModel()
     {
         if (is_null($this->_mediaGalleryModel)) {
-            $mediaGallery = $this->_eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'media_gallery');
+            $mediaGallery = $this->_eavConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'media_gallery');
             $this->_mediaGalleryModel = $mediaGallery->getBackend();
         }
         return $this->_mediaGalleryModel;

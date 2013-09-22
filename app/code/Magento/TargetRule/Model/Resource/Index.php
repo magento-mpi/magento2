@@ -50,54 +50,54 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_customerSegmentData = null;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_CustomerSegment_Model_Customer
+     * @var \Magento\CustomerSegment\Model\Customer
      */
     protected $_customer;
 
     /**
-     * @var Magento_Catalog_Model_Product_Visibility
+     * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_visibility;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_CustomerSegment_Model_Resource_Segment
+     * @var \Magento\CustomerSegment\Model\Resource\Segment
      */
     protected $_segmentCollectionFactory;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
      */
     protected $_productCollectionFactory;
 
     /**
-     * @var Magento_TargetRule_Model_Resource_Rule
+     * @var \Magento\TargetRule\Model\Resource\Rule
      */
     protected $_rule;
 
     /**
-     * @var Magento_TargetRule_Model_Resource_IndexPool
+     * @var \Magento\TargetRule\Model\Resource\IndexPool
      */
     protected $_indexPool;
 
     /**
-     * @param Magento_TargetRule_Model_Resource_IndexPool $indexPool
-     * @param Magento_TargetRule_Model_Resource_Rule $rule
-     * @param Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Catalog_Model_Product_Visibility $visibility
-     * @param Magento_CustomerSegment_Model_Customer $customer
-     * @param Magento_Customer_Model_Session $session
+     * @param \Magento\TargetRule\Model\Resource\IndexPool $indexPool
+     * @param \Magento\TargetRule\Model\Resource\Rule $rule
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\CustomerSegment\Model\Customer $customer
+     * @param \Magento\Customer\Model\Session $session
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -106,14 +106,14 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_TargetRule_Model_Resource_IndexPool $indexPool,
-        Magento_TargetRule_Model_Resource_Rule $rule,
-        Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory,
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Catalog_Model_Product_Visibility $visibility,
-        Magento_CustomerSegment_Model_Customer $customer,
-        Magento_Customer_Model_Session $session,
+        \Magento\TargetRule\Model\Resource\IndexPool $indexPool,
+        \Magento\TargetRule\Model\Resource\Rule $rule,
+        \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\CustomerSegment\Model\Customer $customer,
+        \Magento\Customer\Model\Session $session,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -291,7 +291,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     {
         $rule->afterLoad();
 
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $this->_productCollectionFactory->create()
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId())

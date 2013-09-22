@@ -540,8 +540,8 @@ class Editor extends \Magento\Adminhtml\Controller\Action
         $defaultStore = -1;
         $emptyStores = -2;
         if ($stores == $defaultStore) {
-            /** @var Magento_Core_Model_StoreManagerInterface $storeManager */
-            $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface');
+            /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
+            $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
             $ids = array_keys($storeManager->getStores());
             $stores = array(array_shift($ids));
         } elseif ($stores == $emptyStores) {

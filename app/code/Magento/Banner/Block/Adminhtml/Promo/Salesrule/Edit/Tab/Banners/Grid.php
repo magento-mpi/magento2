@@ -14,12 +14,12 @@ class Grid
     extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
-     * @var Magento_Banner_Model_BannerFactory
+     * @var \Magento\Banner\Model\BannerFactory
      */
     protected $_bannerFactory;
 
@@ -28,8 +28,8 @@ class Grid
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Banner_Model_BannerFactory $bannerFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param array $data
      */
     public function __construct(
@@ -37,8 +37,8 @@ class Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
-        Magento_Core_Model_Registry $registry,
-        Magento_Banner_Model_BannerFactory $bannerFactory,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Banner\Model\BannerFactory $bannerFactory,
         array $data = array()
     ) {
         $this->_registry = $registry;

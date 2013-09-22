@@ -46,7 +46,7 @@ class Payment
      */
     protected function _getDirectPostSession()
     {
-        return $this->_objectManager->get('Magento_Authorizenet_Model_Directpost_Session');
+        return $this->_objectManager->get('Magento\Authorizenet\Model\Directpost\Session');
     }
 
     /**
@@ -56,7 +56,7 @@ class Payment
      */
     protected function _getOrderSession()
     {
-        return $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
     }
 
     /**
@@ -66,7 +66,7 @@ class Payment
      */
     protected function _getOrderCreateModel()
     {
-        return $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create');
+        return $this->_objectManager->get('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     /**
@@ -113,7 +113,7 @@ class Payment
                 $payment = $order->getPayment();
                 if ($payment
                     && $payment->getMethod()
-                        == $this->_objectManager->create('Magento_Authorizenet_Model_Directpost')->getCode()
+                        == $this->_objectManager->create('Magento\Authorizenet\Model\Directpost')->getCode()
                 ) {
                     //return json with data.
                     $session = $this->_getDirectPostSession();
@@ -125,7 +125,7 @@ class Payment
                     $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
                     $requestToPaygate->setStoreId($this->_getOrderCreateModel()->getQuote()->getStoreId());
 
-                    $adminUrl = $this->_objectManager->get('Magento_Backend_Model_Url');
+                    $adminUrl = $this->_objectManager->get('Magento\Backend\Model\Url');
                     if ($adminUrl->useSecretKey()) {
                         $requestToPaygate->setKey(
                             $adminUrl->getSecretKey('adminhtml', 'authorizenet_directpost_payment', 'redirect')
@@ -150,7 +150,7 @@ class Payment
             if ($isError) {
                 $result['success'] = 0;
                 $result['error'] = 1;
-                $result['redirect'] = $this->_objectManager->get('Magento_Backend_Model_Url')->getUrl('*/sales_order_create/');
+                $result['redirect'] = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('*/sales_order_create/');
             }
 
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -181,8 +181,8 @@ class Payment
             //cancel old order
             $oldOrder = $this->_getOrderCreateModel()->getSession()->getOrder();
             if ($oldOrder->getId()) {
-                /* @var $order Magento_Sales_Model_Order */
-                $order = $this->_objectManager->create('Magento_Sales_Model_Order')
+                /* @var $order \Magento\Sales\Model\Order */
+                $order = $this->_objectManager->create('Magento\Sales\Model\Order')
                     ->loadByIncrementId($redirectParams['x_invoice_num']);
                 if ($order->getId()) {
                     $oldOrder->cancel()
@@ -194,8 +194,8 @@ class Payment
             //clear sessions
             $this->_getSession()->clear();
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->clear();
-            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addSuccess(__('You created the order.'));
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->clear();
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
         }
 
         if (!empty($redirectParams['error_msg'])) {
@@ -228,8 +228,8 @@ class Payment
     {
         $incrementId = $this->_getDirectPostSession()->getLastOrderIncrementId();
         if ($incrementId && $this->_getDirectPostSession()->isCheckoutOrderIncrementIdExist($incrementId)) {
-            /* @var $order Magento_Sales_Model_Order */
-            $order = $this->_objectManager->create('Magento_Sales_Model_Order')->loadByIncrementId($incrementId);
+            /* @var $order \Magento\Sales\Model\Order */
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($incrementId);
             if ($order->getId()) {
                 $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($order->getIncrementId());
                 if ($cancelOrder && $order->getState() == \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {

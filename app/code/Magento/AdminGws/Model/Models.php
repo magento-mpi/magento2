@@ -25,25 +25,25 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Catalog category factory
      *
-     * @var Magento_Catalog_Model_CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager = null;
 
     /**
-     * @param Magento_AdminGws_Model_Role $role
-     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\AdminGws\Model\Role $role
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        Magento_AdminGws_Helper_Data $adminGwsData,
-        Magento_AdminGws_Model_Role $role,
-        Magento_Catalog_Model_CategoryFactory $categoryFactory,
-        Magento_Core_Model_StoreManager $storeManager
+        \Magento\AdminGws\Helper\Data $adminGwsData,
+        \Magento\AdminGws\Model\Role $role,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         parent::__construct($role);
         $this->_adminGwsData = $adminGwsData;
@@ -225,7 +225,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // force to assign to SV
         $storeIds = $model->getStores();
         if (!$storeIds || !$this->_role->hasStoreAccess($storeIds)) {
-            throw new Magento_Core_Exception(__('Please assign this entity to a store view.'));
+            throw new \Magento\Core\Exception(__('Please assign this entity to a store view.'));
         }
 
         // make sure disallowed store ids won't be modified
@@ -612,7 +612,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function salesOrderBeforeSave($model)
     {
         if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('You can create an order in an active store only.')
             );
         }
@@ -1070,7 +1070,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         if (count(array_intersect($websiteIds, $this->_role->getWebsiteIds())) === 0 &&
             count($this->_role->getWebsiteIds())) {
-            throw new Magento_Core_Exception(__('Please assign this item to a store view.'));
+            throw new \Magento\Core\Exception(__('Please assign this item to a store view.'));
         }
         return $websiteIds;
     }
@@ -1086,7 +1086,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         if (count(array_intersect($storeIds, $this->_role->getStoreIds())) === 0 &&
             count($this->_role->getStoreIds())) {
-            throw new Magento_Core_Exception(__('Please assign this item to a store view.'));
+            throw new \Magento\Core\Exception(__('Please assign this item to a store view.'));
         }
         return $storeIds;
     }
@@ -1096,7 +1096,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _throwSave()
     {
-        throw new Magento_Core_Exception(
+        throw new \Magento\Core\Exception(
             __('You need more permissions to save this item.')
         );
     }
@@ -1106,7 +1106,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _throwDelete()
     {
-        throw new Magento_Core_Exception(
+        throw new \Magento\Core\Exception(
             __('You need more permissions to delete this item.')
         );
     }

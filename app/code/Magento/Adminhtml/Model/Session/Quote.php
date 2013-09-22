@@ -50,7 +50,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     protected $_order   = null;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Http $coreHttp
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -58,7 +58,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Http $coreHttp,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

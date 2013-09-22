@@ -9,17 +9,17 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <reference name="checkout.cart">
-        <block class="Magento_AdvancedCheckout_Block_Sku_Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
-            <block class="Magento_AdvancedCheckout_Block_Sku_Products_Info" name="additional.product.info" template="cart/sku/failed/info.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="default" template="Magento_AdvancedCheckout::cart/item/failed.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="simple" template="Magento_AdvancedCheckout::cart/item/failed.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="grouped" template="Magento_AdvancedCheckout::cart/item/failed.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer_Configurable" as="configurable" template="cart/item/default.phtml"/>
-            <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_Checkout::cart/item/default.phtml"/>
-            <block class="Magento_GiftCard_Block_Checkout_Cart_Item_Renderer" as="giftcard" template="Magento_Checkout::cart/item/default.phtml"/>
-            <block class="Magento_Downloadable_Block_Checkout_Cart_Item_Renderer" as="downloadable" template="Magento_Checkout::cart/item/default.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="virtual" template="cart/item/default.phtml"/>
-            <block class="Magento_Checkout_Block_Cart_Item_Renderer" as="undefined" template="Magento_AdvancedCheckout::cart/item/failed.phtml"/>
+        <block class="Magento\AdvancedCheckout\Block\Sku\Products" name="sku.failed.products" template="cart/sku/failed.phtml" as="shopping.cart.table.after">
+            <block class="Magento\AdvancedCheckout\Block\Sku\Products\Info" name="additional.product.info" template="cart/sku/failed/info.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_AdvancedCheckout::cart/item/failed.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_AdvancedCheckout::cart/item/failed.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="grouped" template="Magento_AdvancedCheckout::cart/item/failed.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="cart/item/default.phtml"/>
+            <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_Checkout::cart/item/default.phtml"/>
+            <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_Checkout::cart/item/default.phtml"/>
+            <block class="Magento\Downloadable\Block\Checkout\Cart\Item\Renderer" as="downloadable" template="Magento_Checkout::cart/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="virtual" template="cart/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="undefined" template="Magento_AdvancedCheckout::cart/item/failed.phtml"/>
         </block>
     </reference>
 </layout>

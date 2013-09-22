@@ -15,8 +15,8 @@ class Magento_Data_CollectionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = new Magento_Data_Collection(
-            $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+        $this->_model = new \Magento\Data\Collection(
+            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
     }
 

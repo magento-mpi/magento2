@@ -29,7 +29,7 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_object = new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value();
+        $this->_object = new Stub_UnitTest_\Magento\Catalog\Model\Resource\Product_Option_Value();
     }
 
     protected function tearDown()
@@ -44,7 +44,7 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
      */
     public function testSaveValueTitles()
     {
-        $object = new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_Core_Model_Stub(
+        $object = new Stub_UnitTest_\Magento\Catalog\Model\Resource\Product_Option_Value_Magento_Core_Model_Stub(
             $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
             null,
@@ -56,7 +56,7 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
     }
 }
 
-class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value
+class Stub_UnitTest_\Magento\Catalog\Model\Resource\Product_Option_Value
     extends \Magento\Catalog\Model\Resource\Product\Option\Value
 {
     /**
@@ -66,9 +66,9 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value
     {
         $this->_connections = array(
             'read' =>
-                new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql(),
+                new Stub_UnitTest_\Magento\Catalog\Model\Resource\Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql(),
             'write' =>
-                new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql(),
+                new Stub_UnitTest_\Magento\Catalog\Model\Resource\Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql(),
         );
     }
 
@@ -97,7 +97,7 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value
 /*
  * Extend \Magento\DB\Adapter\Pdo\Mysql and stub needed methods
  */
-class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql
+class Stub_UnitTest_\Magento\Catalog\Model\Resource\Product_Option_Value_Magento_DB_Adapter_Pdo_Mysql
     extends \Magento\DB\Adapter\Pdo\Mysql
 {
     /**
@@ -119,11 +119,11 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_
         PHPUnit_Framework_TestCase::assertEquals('catalog_product_option_type_title', $table);
         PHPUnit_Framework_TestCase::assertInternalType('array', $where);
         PHPUnit_Framework_TestCase::assertEquals(
-            Magento_Catalog_Model_Resource_Product_Option_ValueTest::$valueTitleData['id'],
+            \Magento\Catalog\Model\Resource\Product_Option_ValueTest::$valueTitleData['id'],
             $where['option_type_id = ?']
         );
         PHPUnit_Framework_TestCase::assertEquals(
-            Magento_Catalog_Model_Resource_Product_Option_ValueTest::$valueTitleData['store_id'],
+            \Magento\Catalog\Model\Resource\Product_Option_ValueTest::$valueTitleData['store_id'],
             $where['store_id = ?']
         );
 
@@ -134,7 +134,7 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_
 /*
  * Because \Magento\Core\Model\AbstractModel is abstract - we can't instantiate it directly
  */
-class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_Core_Model_Stub
+class Stub_UnitTest_\Magento\Catalog\Model\Resource\Product_Option_Value_Magento_Core_Model_Stub
     extends \Magento\Core\Model\AbstractModel
 {
 }

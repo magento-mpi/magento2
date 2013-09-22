@@ -60,7 +60,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel impleme
      * Register data required by process in event object
      *
      * @param \Magento\Index\Model\Event $event
-     * @return Magento_Index_Model_IndexerInterface
+     * @return \Magento\Index\Model\IndexerInterface
      */
     public function register(\Magento\Index\Model\Event $event)
     {

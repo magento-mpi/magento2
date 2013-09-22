@@ -21,34 +21,34 @@ namespace Magento\GiftMessage\Model\Resource;
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
-     * @var Magento_Catalog_Model_Resource_SetupFactory
+     * @var \Magento\Catalog\Model\Resource\SetupFactory
      */
     protected $_catalogSetupFactory;
 
     /**
-     * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $modulesConfig
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $modulesConfig
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
+     * @param \Magento\Core\Model\CacheInterface $cache
      * @param $resourceName
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $modulesConfig,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
-        Magento_Core_Model_CacheInterface $cache,
+        \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $modulesConfig,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
+        \Magento\Core\Model\CacheInterface $cache,
         $resourceName
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;

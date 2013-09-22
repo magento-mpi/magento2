@@ -95,14 +95,14 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\ImportExport\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\ImportExport\Model\Config $config,

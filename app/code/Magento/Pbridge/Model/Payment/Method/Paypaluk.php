@@ -58,8 +58,8 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -67,7 +67,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

@@ -40,7 +40,7 @@ class Observer
     protected $_coreData = null;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -48,13 +48,13 @@ class Observer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData,
-        Magento_Paypal_Helper_Hss $paypalHss,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Paypal\Helper\Hss $paypalHss,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;

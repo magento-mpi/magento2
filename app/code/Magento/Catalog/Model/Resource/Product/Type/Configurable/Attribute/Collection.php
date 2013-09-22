@@ -51,18 +51,18 @@ class Collection
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute $resource
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
+        \Magento\Core\Model\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_EntityFactory $entityFactory,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute  $resource
     ) {
         $this->_catalogData = $catalogData;

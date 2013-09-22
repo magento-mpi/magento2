@@ -15,7 +15,7 @@
             <widget_setup>
                 <setup>
                     <module>Magento_Widget</module>
-                    <class>Magento_Widget_Model_Resource_Setup</class>
+                    <class>Magento\Widget\Model\Resource\Setup</class>
                 </setup>
             </widget_setup>
         </resources>
