@@ -28,7 +28,7 @@ class HandlerAbstractTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @param array $expectedResult
      * @dataProvider parseDataProvider
      */

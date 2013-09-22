@@ -106,7 +106,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param \Magento\Core\Model\Layout\Element $node
      * @param $expected array
      * @dataProvider parseDataProvider
      */
