@@ -12,11 +12,11 @@ namespace Magento\Code;
 
 require_once __DIR__ . '/GeneratorTest/SourceClassWithNamespace.php';
 
+require_once __DIR__ . '/GeneratorTest/ParentClassWithNamespace.php';
+
 /**
  * @magentoAppIsolation enabled
  */
-require_once __DIR__ . '/GeneratorTest/ParentClassWithNamespace.php';
-
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento\Code\GeneratorTest\SourceClassWithoutNamespace';
