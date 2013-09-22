@@ -53,7 +53,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach (\Mage::app()->getWebsites() as $website) {
             $websiteCode = $website->getCode();
             // CSV data

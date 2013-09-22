@@ -24,7 +24,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $testWebsite Magento_Core_Model_Website */
+        /** @var $testWebsite \Magento\Core\Model\Website */
         $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('Magento\ScheduledImportExport\Model\Website');
         if ($testWebsite) {
@@ -53,7 +53,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $testWebsite Magento_Core_Model_Website */
+        /** @var $testWebsite \Magento\Core\Model\Website */
         $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
             ->registry('Magento\ScheduledImportExport\Model\Website');
         \Mage::app()->getWebsite($testWebsite->getId());

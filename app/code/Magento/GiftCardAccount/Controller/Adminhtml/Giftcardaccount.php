@@ -285,7 +285,7 @@ class Giftcardaccount extends \Magento\Adminhtml\Controller\Action
      * Load GCA from request
      *
      * @param string $idFieldName
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _initGca($idFieldName = 'id')
     {

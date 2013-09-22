@@ -242,7 +242,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions after object delete
      * Prepare rating data for reaggregate all data for reviews
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)

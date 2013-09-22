@@ -44,7 +44,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $customer = reset($items);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach (\Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
                 . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
