@@ -16,6 +16,7 @@ class QueueWriterTest extends \PHPUnit_Framework_TestCase
 {
     public function testOfferWebhookEvent()
     {
+        $this->markTestSkipped("MAGETWO-11929 suite interaction issue.");
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         // New collection must be created to avoid interference between QueueReader tests
         $collection =  $objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');

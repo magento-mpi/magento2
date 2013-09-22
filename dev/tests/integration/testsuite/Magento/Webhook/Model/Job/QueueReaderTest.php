@@ -16,6 +16,7 @@ class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testPoll()
     {
+        $this->markTestSkipped("MAGETWO-11929 memory issue.");
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $event = \Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
