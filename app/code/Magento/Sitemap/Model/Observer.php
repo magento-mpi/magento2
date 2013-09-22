@@ -47,18 +47,26 @@ class Observer
     const XML_PATH_ERROR_RECIPIENT = 'sitemap/generate/error_email';
 
     /**
+     * @var Magento_Core_Model_Translate
+     */
+    protected $_coreTranslate;
+
+    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-
+    
     /**
+     * @param Magento_Core_Model_Translate $coreTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Translate $coreTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
+        $this->_coreTranslate = $coreTranslate;
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -90,9 +98,7 @@ class Observer
         }
 
         if ($errors && $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-            /* @var $translate \Magento\Core\Model\Translate */
-            $translate->setTranslateInline(false);
+            $this->_coreTranslate->setTranslateInline(false);
 
             $emailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
             /* @var $emailTemplate \Magento\Core\Model\Email\Template */
@@ -105,7 +111,7 @@ class Observer
                     array('warnings' => join("\n", $errors))
                 );
 
-            $translate->setTranslateInline(true);
+            $this->_coreTranslate->setTranslateInline(true);
         }
     }
 }

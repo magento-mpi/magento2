@@ -133,8 +133,8 @@ class Role extends \Magento\Backend\Controller\ActionAbstract
     {
         $rid = $this->getRequest()->getParam('rid', false);
 
-        $currentUser = \Mage::getModel('Magento\User\Model\User')->setId(
-            \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId()
+        $currentUser = Mage::getModel('Magento_User_Model_User')->setId(
+            $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser()->getId()
         );
 
         if (in_array($rid, $currentUser->getRoles()) ) {

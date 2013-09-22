@@ -20,6 +20,7 @@ namespace Magento\Connect\Model;
 
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
+
     /**
      * Connect data
      *
@@ -28,6 +29,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_connectData = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Connect\Helper\Data $connectData
      * @param \Magento\Core\Helper\Http $coreHttp
@@ -36,6 +38,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Connect\Helper\Data $connectData,
         \Magento\Core\Helper\Http $coreHttp,
@@ -44,7 +47,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         array $data = array()
     ) {
         $this->_connectData = $connectData;
-        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('adminhtml');
     }
 

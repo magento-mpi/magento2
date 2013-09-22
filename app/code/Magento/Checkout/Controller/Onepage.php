@@ -460,7 +460,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $result['error'] = $e->getMessage();
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['error'] = __('Unable to set Payment Method');
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -555,9 +555,9 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 'name' => 'payment-method',
                 'html' => $this->_getPaymentMethodsHtml()
             );
-        } catch (\Magento\Core\Exception $e) {
-            \Mage::logException($e);
-            $this->_objectManager->get('Magento\Checkout\Helper\Data')->sendPaymentFailedEmail(
+        } catch (Magento_Core_Exception $e) {
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Checkout_Helper_Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
                 $e->getMessage()
             );
@@ -582,8 +582,8 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 $this->getOnepage()->getCheckout()->setUpdateSection(null);
             }
         } catch (\Exception $e) {
-            \Mage::logException($e);
-            $this->_objectManager->get('Magento\Checkout\Helper\Data')->sendPaymentFailedEmail(
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Checkout_Helper_Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
                 $e->getMessage()
             );

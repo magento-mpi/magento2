@@ -36,14 +36,25 @@ class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_T
         $this->_filesystem = $this->getMock('Magento\Filesystem', array('searchKeys', 'isDirectory'), array(
             $this->getMockForAbstractClass('Magento\Filesystem\AdapterInterface')
         ));
-        $this->_themeCollection = $this->getMock('Magento\Core\Model\Theme\Collection', array('isLoaded'), array(
+        $this->_themeCollection = $this->getMock(
+            'Magento_Core_Model_Theme_Collection',
+            array('isLoaded'),
+            array(
+                $this->_filesystem,
+                new Magento_Core_Model_Dir(__DIR__),
+                $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false)
+            )
+        );
+        $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));
+        $this->_fallbackRule = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
+        $this->_object = new Magento_Tools_View_Generator_CopyRule(
             $this->_filesystem,
             new \Magento\Core\Model\Dir(__DIR__)
         ));
-        $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));
-        $this->_fallbackRule = $this->getMockForAbstractClass('Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
+            $this->_themeCollection,
+            $this->_fallbackRule
         $this->_object = new \Magento\Tools\View\Generator\CopyRule($this->_filesystem, $this->_themeCollection,
-            $this->_fallbackRule);
+        );
     }
 
     protected function tearDown()

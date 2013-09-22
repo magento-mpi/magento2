@@ -101,7 +101,6 @@ class Merge
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param \Magento\Core\Helper\Data $helper
      * @param \Magento\Core\Model\Theme $theme Non-injectable theme instance
      */
     public function __construct(

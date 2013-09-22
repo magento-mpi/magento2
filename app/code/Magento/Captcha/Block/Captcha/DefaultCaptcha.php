@@ -27,26 +27,32 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
     protected $_captcha;
 
     /**
-     * Captcha data
-     *
-     * @var \Magento\Captcha\Helper\Data
+     * @var Magento_Captcha_Helper_Data
      */
-    protected $_captchaData = null;
+    protected $_captchaData;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Captcha\Helper\Data $captchaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Captcha\Helper\Data $captchaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        $this->_captchaData = $captchaData;
         parent::__construct($coreData, $context, $data);
+        $this->_captchaData = $captchaData;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -67,14 +73,14 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
     public function getRefreshUrl()
     {
         $urlPath = 'captcha/refresh';
-        $params = array('_secure' => \Mage::app()->getStore()->isCurrentlySecure());
+        $params = array('_secure' => $this->_storeManager->getStore()->isCurrentlySecure());
 
-        if (\Mage::app()->getStore()->isAdmin()) {
+        if ($this->_storeManager->getStore()->isAdmin()) {
             $urlPath = 'adminhtml/refresh/refresh';
             $params = array_merge($params, array('_nosecret' => true));
         }
 
-        return \Mage::app()->getStore()->getUrl($urlPath, $params);
+        return $this->_storeManager->getStore()->getUrl($urlPath, $params);
     }
 
     /**

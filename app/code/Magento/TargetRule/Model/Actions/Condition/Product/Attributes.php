@@ -30,17 +30,31 @@ class Attributes
     const VALUE_TYPE_CHILD_OF       = 'child_of';
 
     /**
-     * Define action type and default value
-     *
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_type;
+
+    /**
+     * @var Magento_Rule_Block_Editable
+     */
+    protected $_editable;
+
+    /**
+     * @param Magento_Rule_Block_Editable $editable
+     * @param Magento_Catalog_Model_Product_Type $type
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Rule_Block_Editable $editable,
+        Magento_Catalog_Model_Product_Type $type,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
+        $this->_editable = $editable;
+        $this->_type = $type;
         parent::__construct($backendData, $context, $data);
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Attributes');
         $this->setValue(null);
@@ -68,8 +82,7 @@ class Attributes
     public function getValueOption($option = null)
     {
         if (!$this->getData('value_option') && $this->getAttribute() == 'type_id') {
-            $options = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getAllOption();
-            $this->setData('value_option', $options);
+            $this->setData('value_option', $this->_type->getAllOption());
         }
         return parent::getValueOption($option);
     }
@@ -83,8 +96,7 @@ class Attributes
     public function getValueSelectOptions()
     {
         if (!$this->getData('value_select_options') && $this->getAttribute() == 'type_id') {
-            $options = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getAllOptions();
-            $this->setData('value_select_options', $options);
+            $this->setData('value_select_options', $this->_type->getAllOption());
         }
         return parent::getValueSelectOptions();
     }
@@ -193,7 +205,7 @@ class Attributes
             'value'         => $this->getValueType(),
             'value_name'    => $this->getValueTypeName(),
             'class'         => 'value-type-chooser',
-        ))->setRenderer(\Mage::getBlockSingleton('Magento\Rule\Block\Editable'));
+        ))->setRenderer($this->_editable);
         return $element;
     }
 

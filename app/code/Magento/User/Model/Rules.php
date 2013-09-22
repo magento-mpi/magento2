@@ -34,6 +34,16 @@ namespace Magento\User\Model;
 
 class Rules extends \Magento\Core\Model\AbstractModel
 {
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_User_Model_Resource_Rules $resource,
+        Magento_User_Model_Resource_Permissions_Collection $resourceCollection,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
     protected function _construct()
     {
         $this->_init('Magento\User\Model\Resource\Rules');
@@ -43,11 +53,6 @@ class Rules extends \Magento\Core\Model\AbstractModel
     {
         $this->getResource()->update($this);
         return $this;
-    }
-
-    public function getCollection()
-    {
-        return \Mage::getResourceModel('Magento\User\Model\Resource\Permissions\Collection');
     }
 
     public function saveRel()

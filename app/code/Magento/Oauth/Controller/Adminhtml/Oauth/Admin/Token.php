@@ -112,7 +112,7 @@ class Token extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred on update revoke status.'));
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/index');
     }
@@ -151,7 +151,7 @@ class Token extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred on delete action.'));
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/index');
     }

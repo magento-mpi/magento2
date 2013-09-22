@@ -30,14 +30,24 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param Magento_Customer_Model_Session $customerSession
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Customer_Model_Session $customerSession
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
 
@@ -48,19 +58,19 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     public function getUserName()
     {
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if (!$this->_customerSession->isLoggedIn()) {
             return '';
         }
-        $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        $customer = $this->_customerSession->getCustomer();
         return trim($customer->getName());
     }
 
     public function getUserEmail()
     {
-        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+        if (!$this->_customerSession->isLoggedIn()) {
             return '';
         }
-        $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+        $customer = $this->_customerSession->getCustomer();
         return $customer->getEmail();
     }
 }

@@ -19,15 +19,43 @@ namespace Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate;
 
 class Matrix extends \Magento\Backend\Block\Template
 {
-
     protected $_template = 'system/currency/rate/matrix.phtml';
+
+    /**
+     * @var Magento_Backend_Model_Session
+     */
+    protected $_adminSession;
+
+    /**
+     * @var Magento_Directory_Model_Currency_Factory
+     */
+    protected $_dirCurrencyFactory;
+
+    /**
+     * @param Magento_Directory_Model_Currency_Factory $dirCurrencyFactory
+     * @param Magento_Backend_Model_Session $adminSession
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Directory_Model_Currency_Factory $dirCurrencyFactory,
+        Magento_Backend_Model_Session $adminSession,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_dirCurrencyFactory = $dirCurrencyFactory;
+        $this->_adminSession = $adminSession;
+        parent::__construct($coreData, $context, $data);
+    }
 
     protected function _prepareLayout()
     {
-        $newRates = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRates();
-        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->unsetData('rates');
+        $newRates = $this->_adminSession->getRates();
+        $this->_adminSession->unsetData('rates');
 
-        $currencyModel = \Mage::getModel('Magento\Directory\Model\Currency');
+        $currencyModel = $this->_dirCurrencyFactory->create();
         $currencies = $currencyModel->getConfigAllowCurrencies();
         $defaultCurrencies = $currencyModel->getConfigBaseCurrencies();
         $oldCurrencies = $this->_prepareRates($currencyModel->getCurrencyRates($defaultCurrencies, $currencies));

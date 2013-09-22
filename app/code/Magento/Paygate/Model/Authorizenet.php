@@ -183,6 +183,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     protected $_paygateData = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Paygate\Helper\Data $paygateData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -191,6 +192,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Paygate\Helper\Data $paygateData,
         \Magento\Core\Model\ModuleListInterface $moduleList,
@@ -199,7 +201,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         array $data = array()
     ) {
         $this->_paygateData = $paygateData;
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
     }
 
     /**

@@ -119,7 +119,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We could not cancel the billing agreement.'));
-                \Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
             $this->_redirect('*/*/view', array('_current' => true));
         }
@@ -143,7 +143,7 @@ class Agreement extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We could not delete the billing agreement.'));
-                \Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
             $this->_redirect('*/*/view', array('_current' => true));
         }

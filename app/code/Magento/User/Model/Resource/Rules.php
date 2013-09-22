@@ -35,18 +35,34 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_aclCache;
 
     /**
+     * @var Magento_Acl_Builder
+     */
+    protected $_aclBuilder;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Acl_Builder $aclBuilder
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\Acl\CacheInterface $aclCache
      */
     public function __construct(
+        Magento_Acl_Builder $aclBuilder,
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\Acl\CacheInterface $aclCache
     ) {
+        $this->_aclBuilder = $aclBuilder;
         parent::__construct($resource);
         $this->_rootResource = $rootResource;
         $this->_aclCache = $aclCache;
+        $this->_logger = $logger;
     }
 
     /**
@@ -93,8 +109,8 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
-                    $acl = \Mage::getSingleton('Magento\Acl\Builder')->getAcl();
-                    /** @var $resource \Magento\Acl\Resource */
+                    $acl = $this->_aclBuilder->getAcl();
+                    /** @var $resource Magento_Acl_Resource */
                     foreach ($acl->getResources() as $resourceId) {
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';
                         $row['resource_id'] = $resourceId;
@@ -112,7 +128,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             throw $e;
         } catch (\Exception $e){
             $adapter->rollBack();
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
     }
 }

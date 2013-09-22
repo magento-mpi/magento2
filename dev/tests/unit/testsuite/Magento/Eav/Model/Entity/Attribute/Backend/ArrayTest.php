@@ -26,7 +26,8 @@ class Magento_Eav_Model_Entity_Attribute_Backend_ArrayTest extends PHPUnit_Frame
         $this->_attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute', array('getAttributeCode'), array(), '', false
         );
-        $this->_model = new \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend();
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $this->_model = new Magento_Eav_Model_Entity_Attribute_Backend_Array($logger);
         $this->_model->setAttribute($this->_attribute);
     }
 

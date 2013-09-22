@@ -19,8 +19,49 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
 class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Theme_LabelFactory
+     */
+    protected $_themeLabelFactory;
+
+    /**
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_systemStore = $systemStore;
+        $this->_storeManager = $storeManager;
+        $this->_themeLabelFactory = $themeLabelFactory;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Internal constructor
      *
@@ -120,8 +161,8 @@ class Main
             'disabled' => true
         ));
 
-        /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
+        /** @var $label Magento_Core_Model_Theme_Label */
+        $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'  => 'theme_id',
@@ -140,14 +181,13 @@ class Main
             'required' => true,
         ));
 
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('store_ids', 'multiselect', array(
                 'name'      => 'store_ids[]',
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')
-                    ->getStoreValuesForForm(false, true),
+                'values'    => $this->_systemStore->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');

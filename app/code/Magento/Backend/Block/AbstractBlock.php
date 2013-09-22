@@ -27,12 +27,20 @@ class AbstractBlock extends \Magento\Core\Block\AbstractBlock
     protected $_authorization;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Backend\Block\Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
         parent::__construct($context, $data);
         $this->_authorization = $context->getAuthorization();
+        $this->_logger = $context->getLogger();
     }
 }

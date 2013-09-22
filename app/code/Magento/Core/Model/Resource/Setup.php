@@ -100,6 +100,12 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
     protected $_eventManager;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      * @param \Magento\Core\Model\Config $config
@@ -109,6 +115,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
         \Magento\Core\Model\Config $config,
@@ -141,6 +148,7 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
             $connection = $this->_resourceModel->getConnection($this->_resourceName);
         }
         $this->_conn = $connection;
+        $this->_logger = $logger;
     }
 
     /**
@@ -513,9 +521,9 @@ class Setup implements \Magento\Core\Model\Resource\SetupInterface
 
                 if ($result) {
                     $this->_setResourceVersion($actionType, $file['toVersion']);
-                    \Mage::log($fileName);
+                    $this->_logger->log($fileName);
                 } else {
-                    \Mage::log("Failed resource setup: {$fileName}");
+                    $this->_logger->log("Failed resource setup: {$fileName}");
                 }
             } catch (\Exception $e) {
                 throw new \Magento\Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);

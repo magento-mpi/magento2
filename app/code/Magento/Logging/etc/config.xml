@@ -35,16 +35,4 @@
             </rotation>
         </system>
     </default>
-    <crontab>
-        <jobs>
-            <magento_logging_rotate_logs>
-                <schedule>
-                    <cron_expr>1 2 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento\Logging\Model\Observer::rotateLogs</model>
-                </run>
-            </magento_logging_rotate_logs>
-        </jobs>
-    </crontab>
 </config>

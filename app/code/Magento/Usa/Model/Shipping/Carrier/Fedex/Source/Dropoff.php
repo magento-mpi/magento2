@@ -17,15 +17,12 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
 
-class Dropoff
+class Dropoff extends \Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Generic
 {
-    public function toOptionArray()
-    {
-        $fedex = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Fedex');
-        $arr = array();
-        foreach ($fedex->getCode('dropoff') as $k => $v) {
-            $arr[] = array('value' => $k, 'label' => $v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'dropoff';
 }

@@ -58,7 +58,8 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     /**
      * Constructor
      *
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -66,6 +67,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -74,7 +76,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $moduleList, $paymentData, $coreStoreConfig, $data);
+        parent::__construct($logger, $eventManager, $moduleList, $paymentData, $coreStoreConfig, $data);
         $this->_pro->setPaymentMethod($this);
     }
 

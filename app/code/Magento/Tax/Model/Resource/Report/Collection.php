@@ -39,16 +39,20 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Sales\Model\Resource\Report $resource
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Sales_Model_Resource_Report $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init($this->_aggregationTable);
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**

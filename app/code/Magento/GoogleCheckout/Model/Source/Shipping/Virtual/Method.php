@@ -11,7 +11,7 @@
 
 namespace Magento\GoogleCheckout\Model\Source\Shipping\Virtual;
 
-class Method
+class Method implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

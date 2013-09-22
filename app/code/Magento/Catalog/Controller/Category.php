@@ -67,8 +67,8 @@ class Category extends \Magento\Core\Controller\Front\Action
                     'controller_action' => $this
                 )
             );
-        } catch (\Magento\Core\Exception $e) {
-            \Mage::logException($e);
+        } catch (Magento_Core_Exception $e) {
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             return false;
         }
 

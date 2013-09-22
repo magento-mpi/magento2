@@ -36,17 +36,25 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_ratingData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Rating\Helper\Data $ratingData
      * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Rating\Helper\Data $ratingData,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_ratingData = $ratingData;
         $this->_storeManager = $storeManager;
+        $this->_logger = $logger;
         parent::__construct($resource);
     }
 
@@ -191,7 +199,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
                 }
                 $adapter->commit();
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_logger->logException($e);
                 $adapter->rollBack();
             }
         }
@@ -230,7 +238,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
 
                 $adapter->commit();
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_logger->logException($e);
                 $adapter->rollBack();
             }
         }

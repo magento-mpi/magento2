@@ -35,6 +35,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -44,10 +45,11 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_downloadableFile = $downloadableFile;
-        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $data);
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
     /**

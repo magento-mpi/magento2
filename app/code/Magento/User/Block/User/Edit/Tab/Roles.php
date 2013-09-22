@@ -19,7 +19,14 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected $_coreRegistry = null;
 
+
     /**
+     * @var Magento_User_Model_Resource_Role_CollectionFactory
+     */
+    protected $_userRolesFactory;
+
+    /**
+     * @param Magento_User_Model_Resource_Role_CollectionFactory $userRolesFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -28,6 +35,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param array $data
      */
     public function __construct(
+        Magento_User_Model_Resource_Role_CollectionFactory $userRolesFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -35,6 +43,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_userRolesFactory = $userRolesFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -71,7 +80,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
 
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\User\Model\Resource\Role\Collection');
+        $collection = $this->_userRolesFactory->create();
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();

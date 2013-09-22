@@ -15,7 +15,7 @@
  */
 namespace Magento\Tax\Model\System\Config\Source\Tax\Display;
 
-class Type
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 

@@ -15,6 +15,7 @@
  * @category    Magento
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\TargetRule\Model\Resource;
 
@@ -49,17 +50,83 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_customerSegmentData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_CustomerSegment_Model_Customer
+     */
+    protected $_customer;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_CustomerSegment_Model_Resource_Segment
+     */
+    protected $_segmentCollectionFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @var Magento_TargetRule_Model_Resource_Rule
+     */
+    protected $_rule;
+
+    /**
+     * @var Magento_TargetRule_Model_Resource_IndexPool
+     */
+    protected $_indexPool;
+
+    /**
+     * @param Magento_TargetRule_Model_Resource_IndexPool $indexPool
+     * @param Magento_TargetRule_Model_Resource_Rule $rule
+     * @param Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
+     * @param Magento_CustomerSegment_Model_Customer $customer
+     * @param Magento_Customer_Model_Session $session
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Resource $resource
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_TargetRule_Model_Resource_IndexPool $indexPool,
+        Magento_TargetRule_Model_Resource_Rule $rule,
+        Magento_CustomerSegment_Model_Resource_Segment $segmentCollectionFactory,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Visibility $visibility,
+        Magento_CustomerSegment_Model_Customer $customer,
+        Magento_Customer_Model_Session $session,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Resource $resource
     ) {
+        $this->_indexPool = $indexPool;
+        $this->_rule = $rule;
+        $this->_segmentCollectionFactory = $segmentCollectionFactory;
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_visibility = $visibility;
+        $this->_customer = $customer;
+        $this->_session = $session;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSegmentData = $customerSegmentData;
         $this->_targetRuleData = $targetRuleData;
@@ -83,36 +150,6 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     public function getOverfillLimit()
     {
         return 20;
-    }
-
-    /**
-     * Retrieve catalog product list index by type
-     *
-     * @param int $type
-     * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
-     */
-    public function getTypeIndex($type)
-    {
-        switch ($type) {
-            case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $model = 'Related';
-                break;
-
-            case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $model = 'Upsell';
-                break;
-
-            case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $model = 'Crosssell';
-                break;
-
-            default:
-                \Mage::throwException(
-                    __('Undefined Catalog Product List Type')
-                );
-        }
-
-        return \Mage::getResourceSingleton('Magento\TargetRule\Model\Resource\Index\\' . $model);
     }
 
     /**
@@ -169,11 +206,11 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         foreach ($segmentsIds as $segmentId) {
             if (in_array($segmentId, $foundSegmentIndexes)) {
                 $productIds = array_merge($productIds,
-                    $this->getTypeIndex($object->getType())->loadProductIdsBySegmentId($object, $segmentId));
+                    $this->_indexPool->get($object->getType())->loadProductIdsBySegmentId($object, $segmentId));
             } else {
                 $matchedProductIds = $this->_matchProductIdsBySegmentId($object, $segmentId);
                 $productIds = array_merge($matchedProductIds, $productIds);
-                $this->getTypeIndex($object->getType())
+                $this->_indexPool->get($object->getType())
                     ->saveResultForCustomerSegments($object, $segmentId, implode(',', $matchedProductIds));
                 $this->saveFlag($object, $segmentId);
             }
@@ -254,11 +291,11 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     {
         $rule->afterLoad();
 
-        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        $collection = $this->_productCollectionFactory->create()
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId())
-            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
+            ->setVisibility($this->_visibility->getVisibleInCatalogIds());
 
         $actionSelect = $rule->getActionSelect();
         $actionBind   = $rule->getActionSelectBind();
@@ -530,7 +567,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
 
         if (is_null($typeId)) {
             foreach ($this->getTypeIds() as $typeId) {
-                $this->getTypeIndex($typeId)->cleanIndex($store);
+                $this->_indexPool->get($typeId)->cleanIndex($store);
             }
 
             $where = (is_null($store)) ? '' : array('store_id IN(?)' => $store);
@@ -541,7 +578,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                 $where['store_id IN(?)'] = $store;
             }
             $adapter->delete($this->getMainTable(), $where);
-            $this->getTypeIndex($typeId)->cleanIndex($store);
+            $this->_indexPool->get($typeId)->cleanIndex($store);
         }
 
         return $this;
@@ -564,10 +601,10 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
 
         if (is_null($typeId)) {
             foreach ($this->getTypeIds() as $typeId) {
-                $this->getTypeIndex($typeId)->removeIndex($productIds);
+                $this->_indexPool->get($typeId)->removeIndex($productIds);
             }
         } else {
-            $this->getTypeIndex($typeId)->removeIndex($productIds);
+            $this->_indexPool->get($typeId)->removeIndex($productIds);
             $where['type_id=?'] = $typeId;
         }
 
@@ -586,10 +623,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      */
     public function removeProductIndex($productId = null, $ruleId = null)
     {
-        /** @var $targetRule \Magento\TargetRule\Model\Resource\Rule */
-        $targetRule = \Mage::getResourceSingleton('Magento\TargetRule\Model\Resource\Rule');
-        $targetRule->unbindRuleFromEntity($ruleId, $productId, 'product');
-
+        $this->_rule->unbindRuleFromEntity($ruleId, $productId, 'product');
         return $this;
     }
 
@@ -604,10 +638,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      */
     public function saveProductIndex($ruleId, $productId, $storeId)
     {
-        /** @var $targetRule \Magento\TargetRule\Model\Resource\Rule */
-        $targetRule = \Mage::getResourceSingleton('Magento\TargetRule\Model\Resource\Rule');
-        $targetRule->bindRuleToEntity($ruleId, $productId, 'product');
-
+        $this->_rule->bindRuleToEntity($ruleId, $productId, 'product');
         return $this;
     }
 
@@ -635,23 +666,21 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         if ($this->_customerSegmentData->isEnabled()) {
             $customer = $this->_coreRegistry->registry('segment_customer');
             if (!$customer) {
-                $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+                $customer = $this->_session->getCustomer();
             }
-            $websiteId = \Mage::app()->getWebsite()->getId();
+            $websiteId = $this->_storeManager->getWebsite()->getId();
 
             if (!$customer->getId()) {
-                $allSegmentIds = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerSegmentIds();
+                $allSegmentIds = $this->_session->getCustomerSegmentIds();
                 if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
                     $segmentIds = $allSegmentIds[$websiteId];
                 }
             } else {
-                $segmentIds = \Mage::getSingleton('Magento\CustomerSegment\Model\Customer')
-                    ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
+                $segmentIds = $this->_customer->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
             }
 
-            if(count($segmentIds)) {
-                $segmentIds = \Mage::getResourceModel('Magento\CustomerSegment\Model\Resource\Segment')
-                    ->getActiveSegmentsByIds($segmentIds);
+            if (count($segmentIds)) {
+                $segmentIds = $this->_segmentCollectionFactory->getActiveSegmentsByIds($segmentIds);
             }
         }
         return $segmentIds;

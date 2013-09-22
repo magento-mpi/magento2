@@ -67,12 +67,14 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Init corresponding total models
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Store|null $store
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
@@ -80,7 +82,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
-        parent::__construct($configCacheType);
+        parent::__construct($logger, $configCacheType);
         $this->_store = $store ?: \Mage::app()->getStore();
         $this->_initModels()
             ->_initCollectors()

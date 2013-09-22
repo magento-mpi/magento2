@@ -11,15 +11,12 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Usps\Source;
 
-class Method
+class Method extends \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Generic
 {
-    public function toOptionArray()
-    {
-        $usps = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Usps');
-        $arr = array();
-        foreach ($usps->getCode('method') as $v) {
-            $arr[] = array('value'=>$v, 'label'=>$v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'method';
 }

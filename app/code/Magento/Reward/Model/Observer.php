@@ -35,6 +35,11 @@ class Observer
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -42,15 +47,18 @@ class Observer
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
+        $this->_logger = $logger;
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -155,7 +163,7 @@ class Observer
                 $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
             } catch (\Exception $e) {
                 //save exception if something were wrong during saving reward and allow to register customer
-                \Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
         return $this;

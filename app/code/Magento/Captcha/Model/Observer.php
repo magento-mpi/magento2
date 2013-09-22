@@ -20,9 +20,7 @@ namespace Magento\Captcha\Model;
 class Observer
 {
     /**
-     * Customer Session
-     *
-     * @var \Magento\Customer\Model\Session
+     * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
 
@@ -34,9 +32,7 @@ class Observer
     protected $_helper;
 
     /**
-     * URL manager
-     *
-     * @var \Magento\Core\Model\Url
+     * @var Magento_Core_Model_Url
      */
     protected $_urlManager;
 
@@ -46,18 +42,24 @@ class Observer
     protected $_filesystem;
 
     /**
-     * Customer data
-     *
-     * @var \Magento\Customer\Helper\Data
+     * @var Magento_Customer_Helper_Data
      */
-    protected $_customerData = null;
+    protected $_customerData;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -66,14 +68,18 @@ class Observer
      * @param \Magento\Captcha\Helper\Data $helper
      * @param \Magento\Core\Model\Url $urlManager
      * @param \Magento\Filesystem $filesystem
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Customer\Helper\Data $customerData,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Captcha\Helper\Data $helper,
-        \Magento\Core\Model\Url $urlManager,
-        \Magento\Filesystem $filesystem
+        Magento_Core_Helper_Data $coreData,
+        Magento_Customer_Helper_Data $customerData,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Captcha_Helper_Data $helper,
+        Magento_Core_Model_Url $urlManager,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
         $this->_coreData = $coreData;
         $this->_customerData = $customerData;
@@ -81,6 +87,8 @@ class Observer
         $this->_helper = $helper;
         $this->_urlManager = $urlManager;
         $this->_filesystem = $filesystem;
+        $this->_request = $request;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -96,9 +104,9 @@ class Observer
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('Incorrect CAPTCHA'));
-                $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
-                $controller->getResponse()->setRedirect(\Mage::getUrl('*/*/forgotpassword'));
+                \Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('Incorrect CAPTCHA'));
+                $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+                $controller->getResponse()->setRedirect($this->_urlManager->getUrl('*/*/forgotpassword'));
             }
         }
         return $this;
@@ -164,10 +172,10 @@ class Observer
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('Incorrect CAPTCHA'));
-                $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
-                \Mage::getSingleton('Magento\Customer\Model\Session')->setCustomerFormData($controller->getRequest()->getPost());
-                $controller->getResponse()->setRedirect(\Mage::getUrl('*/*/create'));
+                \Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('Incorrect CAPTCHA'));
+                $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+                \Mage::getSingleton('Magento_Customer_Model_Session')->setCustomerFormData($controller->getRequest()->getPost());
+                $controller->getResponse()->setRedirect($this->_urlManager->getUrl('*/*/create'));
             }
         }
         return $this;
@@ -233,7 +241,7 @@ class Observer
         $captchaModel = $this->_helper->getCaptcha($formId);
         $login = $observer->getEvent()->getUsername();
         if ($captchaModel->isRequired($login)) {
-            if (!$captchaModel->isCorrect($this->_getCaptchaString(\Mage::app()->getRequest(), $formId))) {
+            if (!$captchaModel->isCorrect($this->_getCaptchaString($this->_request, $formId))) {
                 $captchaModel->logAttempt($login);
                 throw new \Magento\Backend\Model\Auth\Plugin\Exception(
                     __('Incorrect CAPTCHA.')
@@ -321,7 +329,7 @@ class Observer
      */
     public function deleteExpiredImages()
     {
-        foreach (\Mage::app()->getWebsites(true) as $website) {
+        foreach ($this->_storeManager->getWebsites(true) as $website) {
             $expire = time() - $this->_helper->getConfigNode('timeout', $website->getDefaultStore()) * 60;
             $imageDirectory = $this->_helper->getImgDir($website);
             foreach ($this->_filesystem->getNestedKeys($imageDirectory) as $filePath) {

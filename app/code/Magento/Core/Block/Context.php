@@ -85,6 +85,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheState;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Core\Controller\Request\Http $request
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -99,6 +104,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\View\Config $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -116,6 +122,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\View\Config $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
+        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -132,6 +139,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_viewUrl         = $viewUrl;
         $this->_viewConfig      = $viewConfig;
         $this->_cacheState      = $cacheState;
+        $this->_logger          = $logger;
     }
 
     /**
@@ -244,5 +252,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getCacheState()
     {
         return $this->_cacheState;
+    }
+
+    /**
+     * @return \Magento_Core_Model_Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
     }
 }

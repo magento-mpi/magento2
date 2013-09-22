@@ -17,7 +17,7 @@
  */
 namespace Magento\Downloadable\Model\System\Config\Source;
 
-class Contentdisposition
+class Contentdisposition implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

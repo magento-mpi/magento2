@@ -20,15 +20,19 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
     . ' validate-number-range number-range-0.0001-99999999.9999';
 ?>
 <div class="widget widget-addbysku">
-    <div class="block block-addbysku">
+    <div class="block block-addbysku"
+            data-mage-init="{itemTable: {addBlockData: {uniqueSuffix: '<?php echo $uniqueSuffix; ?>'}}}">
         <?php if (!$this->getIsTitleHidden()): ?>
         <div class="block-title">
             <strong><span><?php echo __('Order by SKU') ?></span></strong>
         </div>
         <?php endif ?>
-        <form id="<?php echo $skuFormId; ?>" action="<?php echo $this->getFormAction(); ?>" method="post" <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <form id="<?php echo $skuFormId; ?>" action="<?php echo $this->getFormAction(); ?>" method="post"
+                data-mage-init="{validation: {}}"
+                <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <div class="block-content">
-                <table id="items-table<?php echo $uniqueSuffix; ?>" class="sku-table data-table" cellspacing="0" cellpadding="0">
+                <table id="items-table<?php echo $uniqueSuffix; ?>" class="sku-table data-table" cellspacing="0"
+                       cellpadding="0">
                     <colgroup>
                         <col class="col-sku" />
                         <col class="col-qty" />
@@ -42,162 +46,46 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                     <tfoot>
                         <tr class="last">
                             <td colspan="2" class="last">
-                                <span href="#" id="add_new_item_button<?php echo $uniqueSuffix; ?>" title="<?php echo __('Add Row') ?>" class="add-row"><?php echo __('Add Row') ?></span>
+                                <span href="#" id="add_new_item_button<?php echo $uniqueSuffix; ?>"
+                                        title="<?php echo __('Add Row') ?>" class="add-row" data-role="add">
+                                    <?php echo __('Add Row') ?>
+                                </span>
                             </td>
                         </tr>
                     </tfoot>
-                    <tbody>
-                        <tr class="order-row">
-                            <td><div class="input-box"><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][sku]" class="input-text" /></div></td>
-                            <td class="last"><div class="input-box"><input type="text" name="items[0<?php echo $uniqueSuffix; ?>][qty]" class="input-text qty" maxlength="13" /></div></td>
-                        </tr>
+                    <tbody data-container="items">
                     </tbody>
                 </table>
                 <?php echo $this->getChildHtml(); ?>
                 <div class="actions">
-                    <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit" title="<?php echo __('Add to Cart') ?>" class="button"><span><span><?php echo __('Add to Cart') ?></span></span></button>
+                    <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit"
+                            title="<?php echo __('Add to Cart') ?>" class="button">
+                        <span><span><?php echo __('Add to Cart') ?></span></span>
+                    </button>
                 </div>
                 <?php if ($this->getLink()): ?>
                     <p class="link-widget-sku"><?php echo $this->getLink(); ?></p>
                 <?php endif; ?>
             </div>
         </form>
+        <script data-template="add-block" type="text/x-jQuery-tmpl">
+            <tr class="order-row" data-mage-init="{deletableItem: {}}">
+                <td>
+                    <div class="input-box">
+                        <input type="text" name="items[${rowIndex}${uniqueSuffix}][sku]" class="input-text"
+                               data-id="${rowIndex}${uniqueSuffix}sku"
+                               data-validate="{'required-if-not-specified': '#customer_sku_csv'}"/>
+                    </div>
+                </td>
+                <td class="last">
+                    <div class="input-box">
+                        <input type="text" name="items[${rowIndex}${uniqueSuffix}][qty]" class="input-text qty"
+                               maxlength="13"
+                               data-validate="{'required-if-specified': '[data-id=${rowIndex}${uniqueSuffix}sku]', 'validate-greater-than-zero': true}"/>
+                    </div>
+                    <span class="btn-remove" title="<?php echo __('Remove Row') ?>" data-role="delete"></span>
+                </td>
+            </tr>
+        </script>
     </div>
 </div>
-
-<script type="text/javascript">
-//<![CDATA[
-var itemOptions = itemOptions || {};
-
-itemOptions["<?php echo $uniqueSuffix; ?>"] = {
-    table: $('items-table<?php echo $uniqueSuffix; ?>').select('tbody')[0],
-    templateSyntax: /(^|.|\r|\n)({{(\w+)}})/,
-    templateText:
-        '<tr class="order-row">'
-            + '<td><div class="input-box"><input type="text" name="items[{{id}}][sku]" class="input-text" /></div></td>'
-            + '<td class="last"><div class="input-box"><input type="text" name="items[{{id}}][qty]" class="input-text qty" maxlength="13" /></div><span class="btn-remove" title="<?php echo __('Remove Row') ?>"></span></td>'
-        + '</tr>',
-    itemCount: 1,
-
-    add: function(data) {
-        this.template = new Template(this.templateText, this.templateSyntax);
-        if (!data.id) {
-            data = {};
-            data.id  = this.itemCount + '<?php echo $uniqueSuffix; ?>';
-        }
-        Element.insert(this.table, {bottom: this.template.evaluate(data)});
-        this.bindRemoveButtons();
-        this.bindValidationOnBlur(data.id);
-        this.itemCount++;
-    },
-    remove: function(event) {
-        var element = $(Event.findElement(event, 'tr'));
-        if (element) {
-            element.remove();
-        }
-    },
-    bindRemoveButtons: function() {
-        var buttons = $$('#<?php echo $skuFormId; ?> .btn-remove');
-        for (var i = 0; i < buttons.length; i++) {
-            if (!$(buttons[i]).binded) {
-                $(buttons[i]).binded = true;
-                Event.observe(buttons[i], 'click', this.remove.bind(this));
-            }
-        }
-    },
-    bindValidationOnBlur: function(id) {
-        Event.observe(
-            $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][sku]"]')[0],
-            'blur',
-            this.validateRowDeferred
-        );
-        Event.observe(
-            $('<?php echo $skuFormId; ?>').select('[name="items[' + id + '][qty]"]')[0],
-            'blur',
-            this.validateRowDeferred
-        );
-    },
-    validateRowDeferred: function() {
-        setTimeout(function() {
-            itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow.apply(this, [true]);
-        }.bind(this), 200);
-    },
-    validateRow: function(checkActiveElement) {
-        var form = $('<?php echo $skuFormId; ?>'),
-            skuInput = form.select('[name="' + this.name.replace('[qty]', '[sku]') + '"]')[0],
-            qtyInput = form.select('[name="' + this.name.replace('[sku]', '[qty]') + '"]')[0];
-
-
-        var isSkuInputEmpty = Validation.get('IsEmpty').test(skuInput.value);
-        if ((!checkActiveElement || document.activeElement != qtyInput) && !isSkuInputEmpty) {
-            qtyInput.addClassName('<?php echo $qtyValidationClasses; ?>');
-        } else {
-            if (typeof qtyInput.keepValidation == 'undefined' || !qtyInput.keepValidation || isSkuInputEmpty) {
-                qtyInput.removeClassName('<?php echo $qtyValidationClasses; ?>');
-                var validationElements = $(qtyInput.parentNode).select('.validation-advice');
-                if (validationElements.length > 0) {
-                    validationElements[0].remove();
-                }
-                qtyInput.keepValidation = true;
-            }
-            if (isSkuInputEmpty) {
-                qtyInput.keepValidation = false;
-            }
-        }
-
-        return Validation.validate(qtyInput);
-    }
-}
-
-document.observe('dom:loaded', function() {
-    Event.observe(
-        'add_new_item_button<?php echo $uniqueSuffix; ?>',
-        'click',
-        itemOptions["<?php echo $uniqueSuffix; ?>"].add.bind(itemOptions["<?php echo $uniqueSuffix; ?>"])
-    );
-    Event.observe(
-        $('<?php echo $skuFormId; ?>').select('[name="items[0<?php echo $uniqueSuffix; ?>][sku]"]')[0],
-        'blur',
-        itemOptions["<?php echo $uniqueSuffix; ?>"].validateRowDeferred
-    );
-    Event.observe(
-        $('<?php echo $skuFormId; ?>').select('[name="items[0<?php echo $uniqueSuffix; ?>][qty]"]')[0],
-        'blur',
-        itemOptions["<?php echo $uniqueSuffix; ?>"].validateRowDeferred
-    );
-
-    Event.observe(
-        $('<?php echo $skuFormId; ?>'),
-        'submit',
-        function (e) {
-            Event.stop(e);
-            var skuForm = $('<?php echo $skuFormId; ?>');
-            var skuFileImportedParamName = '<?php echo $this->getRequestParameterSkuFileImportedFlag(); ?>';
-            if (typeof skuForm[skuFileImportedParamName] == 'undefined') {
-                skuForm.insert(new Element('input', {
-                    'type': 'hidden',
-                    'name': skuFileImportedParamName,
-                    'value': '0'
-                }));
-            }
-            if (typeof skuForm.sku_file != 'undefined' && $(skuForm.sku_file).present()) {
-                skuForm[skuFileImportedParamName].value = '1';
-            }
-            var validator = itemOptions["<?php echo $uniqueSuffix; ?>"].validator;
-            if (validator && validator.validate()) {
-                this.submit();
-            }
-
-            var valid = true;
-            $$('#items-table<?php echo $uniqueSuffix; ?> tbody input.input-text').each(function(element) {
-                valid = itemOptions["<?php echo $uniqueSuffix; ?>"].validateRow.apply(element, [false]) && valid;
-            });
-            if (valid) {
-                this.submit();
-            }
-            return false;
-        }
-    );
-});
-//]]>
-</script>

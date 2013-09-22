@@ -243,7 +243,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
                 $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
             }
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage(
@@ -523,7 +523,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $response->setError(true);
             $response->setMessage(__('An error occurred while creating shipping label.'));
         }
@@ -565,7 +565,7 @@ class Shipment extends \Magento\Adminhtml\Controller\Sales\Shipment\ShipmentAbst
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_getSession()
                 ->addError(__('An error occurred while creating shipping label.'));
        }

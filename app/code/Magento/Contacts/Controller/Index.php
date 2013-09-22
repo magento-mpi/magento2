@@ -43,7 +43,7 @@ class Index extends \Magento\Core\Controller\Front\Action
     {
         $this->loadLayout();
         $this->getLayout()->getBlock('contactForm')
-            ->setFormAction( \Mage::getUrl('*/*/post') );
+            ->setFormAction($this->_objectManager->create('Magento_Core_Model_Url')->getUrl('*/*/post'));
 
         $this->_initLayoutMessages('Magento\Customer\Model\Session');
         $this->_initLayoutMessages('Magento\Catalog\Model\Session');
@@ -63,8 +63,8 @@ class Index extends \Magento\Core\Controller\Front\Action
         }
         $post = $this->getRequest()->getPost();
         if ($post) {
-            $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
-            /* @var $translate \Magento\Core\Model\Translate */
+            $translate = $this->_objectManager->get('Magento_Core_Model_Translate');
+            /* @var $translate Magento_Core_Model_Translate */
             $translate->setTranslateInline(false);
             try {
                 $postObject = new \Magento\Object();
@@ -91,11 +91,12 @@ class Index extends \Magento\Core\Controller\Front\Action
                 if ($error) {
                     throw new \Exception();
                 }
-                $mailTemplate = \Mage::getModel('Magento\Core\Model\Email\Template');
-                /* @var $mailTemplate \Magento\Core\Model\Email\Template */
+                $mailTemplate = $this->_objectManager->create('Magento_Core_Model_Email_Template');
+                /* @var $mailTemplate Magento_Core_Model_Email_Template */
                 $mailTemplate->setDesignConfig(array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => \Mage::app()->getStore()->getId()
+                    'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                    'store' => $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')
+                        ->getStore()->getId()
                 ))
                     ->setReplyTo($post['email'])
                     ->sendTransactional(
@@ -112,14 +113,18 @@ class Index extends \Magento\Core\Controller\Front\Action
 
                 $translate->setTranslateInline(true);
 
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addSuccess(__('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.'));
+                $this->_objectManager->get('Magento_Customer_Model_Session')->addSuccess(
+                    __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')
+                );
                 $this->_redirect('*/*/');
 
                 return;
             } catch (\Exception $e) {
                 $translate->setTranslateInline(true);
 
-                \Mage::getSingleton('Magento\Customer\Model\Session')->addError(__('Something went wrong submitting your request.'));
+                $this->_objectManager->get('Magento_Customer_Model_Session')->addError(
+                    __('Something went wrong submitting your request.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }

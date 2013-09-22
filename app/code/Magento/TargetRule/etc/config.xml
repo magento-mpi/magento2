@@ -42,16 +42,4 @@
             </magento_targetrule>
         </catalog>
     </default>
-    <crontab>
-        <jobs>
-            <magento_targetrule_index_reindex>
-                <schedule>
-                    <cron_expr>0 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento\TargetRule\Model\Index::cron</model>
-                </run>
-            </magento_targetrule_index_reindex>
-        </jobs>
-    </crontab>
 </config>

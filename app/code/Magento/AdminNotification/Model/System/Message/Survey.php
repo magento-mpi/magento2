@@ -26,18 +26,26 @@ class Survey
     protected $_urlBuilder;
 
     /**
+     * @var Magento_AdminNotification_Model_Survey
+     */
+    protected $_survey;
+
+    /**
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param Magento_AdminNotification_Model_Survey $survey
      */
     public function __construct(
-        \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\UrlInterface $urlBuilder
+        Magento_Backend_Model_Auth_Session $authSession,
+        Magento_AuthorizationInterface $authorization,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_AdminNotification_Model_Survey $survey
     ) {
         $this->_authorization = $authorization;
         $this->_authSession = $authSession;
         $this->_urlBuilder = $urlBuilder;
+        $this->_survey = $survey;
     }
 
     /**
@@ -47,7 +55,7 @@ class Survey
      */
     public function getSurveyUrl()
     {
-        return \Magento\AdminNotification\Model\Survey::getSurveyUrl();
+        return $this->_survey->getSurveyUrl();
     }
 
     /**
@@ -69,8 +77,8 @@ class Survey
     {
         if ($this->_authSession->getHideSurveyQuestion()
             || false == $this->_authorization->isAllowed(null)
-            || \Magento\AdminNotification\Model\Survey::isSurveyViewed()
-            || false == \Magento\AdminNotification\Model\Survey::isSurveyUrlValid()
+            || $this->_survey->isSurveyViewed()
+            || false == $this->_survey->isSurveyUrlValid()
         ) {
             return false;
         }
@@ -89,7 +97,7 @@ class Survey
             'actionLink' => array(
                 'event' => 'surveyYes',
                 'eventData' => array(
-                    'surveyUrl' => \Magento\AdminNotification\Model\Survey::getSurveyUrl(),
+                    'surveyUrl' => $this->_survey->getSurveyUrl(),
                     'surveyAction' => $this->_urlBuilder->getUrl('*/survey/index', array('_current' => true)),
                     'decision' => 'yes',
                 ),

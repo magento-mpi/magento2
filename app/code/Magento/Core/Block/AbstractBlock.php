@@ -130,6 +130,11 @@ abstract class AbstractBlock extends \Magento\Object
     protected $_cacheState;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Core\Block\Context $context
      * @param array $data
      */
@@ -149,6 +154,7 @@ abstract class AbstractBlock extends \Magento\Object
         $this->_viewUrl         = $context->getViewUrl();
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
+        $this->_logger          = $context->getLogger();
         parent::__construct($data);
         $this->_construct();
     }
@@ -731,7 +737,8 @@ abstract class AbstractBlock extends \Magento\Object
         try {
             return $this->_viewUrl->getViewFileUrl($file, $params);
         } catch (\Magento\Exception $e) {
-            \Mage::logException($e);
+
+            $this->_logger->logException($e);
             return $this->_getNotFoundUrl();
         }
     }

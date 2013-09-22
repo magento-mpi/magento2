@@ -132,11 +132,11 @@ class Backup extends \Magento\Adminhtml\Controller\Action
             $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
             $errorMessage = __('You need more free space to create a backup.');
-        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
-            \Mage::log($e->getMessage());
+        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
+            $this->_objectManager->get('Magento_Core_Model_Logger')->log($e->getMessage());
             $errorMessage = __('You need more permissions to create a backup.');
         } catch (\Exception  $e) {
-            \Mage::log($e->getMessage());
+            $this->_objectManager->get('Magento_Core_Model_Logger')->log($e->getMessage());
             $errorMessage = __('Something went wrong creating the backup.');
         }
 
@@ -278,11 +278,11 @@ class Backup extends \Magento\Adminhtml\Controller\Action
             $errorMsg = __('We couldn\'t connect to the FTP.');
         } catch (\Magento\Backup\Exception\FtpValidationFailed $e) {
             $errorMsg = __('Failed to validate FTP');
-        } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
-            \Mage::log($e->getMessage());
+        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
+            $this->_objectManager->get('Magento_Core_Model_Logger')->log($e->getMessage());
             $errorMsg = __('You need more permissions to create a backup.');
         } catch (\Exception $e) {
-            \Mage::log($e->getMessage());
+            $this->_objectManager->get('Magento_Core_Model_Logger')->log($e->getMessage());
             $errorMsg = __('Failed to rollback');
         }
 

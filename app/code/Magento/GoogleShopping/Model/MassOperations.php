@@ -30,17 +30,20 @@ class MassOperations
     protected $_gleShoppingCategory = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\GoogleShopping\Helper\Data $gleShoppingData
      * @param \Magento\GoogleShopping\Helper\Category $gleShoppingCategory
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\GoogleShopping\Helper\Data $gleShoppingData,
         \Magento\GoogleShopping\Helper\Category $gleShoppingCategory,
         array $data = array()
     ) {
         $this->_gleShoppingData = $gleShoppingData;
         $this->_gleShoppingCategory = $gleShoppingCategory;
+        $this->_logger = $logger;
     }
 
     /**
@@ -63,6 +66,11 @@ class MassOperations
      * @var \Magento\GoogleShopping\Model\Flag
      */
     protected $_flag;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
 
     /**
      * Set process locking flag.
@@ -119,7 +127,7 @@ class MassOperations
                 } catch (\Magento\Core\Exception $e) {
                     $errors[] = __('The product "%1" cannot be added to Google Content. %2', $product->getName(), $e->getMessage());
                 } catch (\Exception $e) {
-                    \Mage::logException($e);
+                    $this->_logger->logException($e);
                     $errors[] = __('The product "%1" hasn\'t been added to Google Content.', $product->getName());
                 }
             }
@@ -203,7 +211,7 @@ class MassOperations
                     $errors[] = __('The item "%1" cannot be updated at Google Content. %2', $item->getProduct()->getName(), $e->getMessage());
                     $totalFailed++;
                 } catch (\Exception $e) {
-                    \Mage::logException($e);
+                    $this->_logger->logException($e);
                     $errors[] = __('The item "%1" hasn\'t been updated.', $item->getProduct()->getName());
                     $totalFailed++;
                 }
@@ -258,7 +266,7 @@ class MassOperations
                     $errors[] = $this->_gleShoppingData
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                 } catch (\Exception $e) {
-                    \Mage::logException($e);
+                    $this->_logger->logException($e);
                     $errors[] = __('The item "%1" hasn\'t been deleted.', $item->getProduct()->getName());
                 }
             }

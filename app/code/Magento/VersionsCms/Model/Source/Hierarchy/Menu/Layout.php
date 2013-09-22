@@ -17,7 +17,7 @@
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
-class Layout
+class Layout implements Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return options for displaying Hierarchy Menu

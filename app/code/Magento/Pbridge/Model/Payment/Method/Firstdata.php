@@ -68,6 +68,7 @@ class Firstdata extends \Magento\Payment\Model\Method\Cc
     protected $_pbridgeData = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -76,6 +77,7 @@ class Firstdata extends \Magento\Payment\Model\Method\Cc
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Model\ModuleListInterface $moduleList,
@@ -84,7 +86,7 @@ class Firstdata extends \Magento\Payment\Model\Method\Cc
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
+        parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $data);
     }
 
     /**

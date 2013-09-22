@@ -28,6 +28,24 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_listType;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_product;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product $product
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product $product,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_product = $product;
+        parent::__construct($resource);
+    }
+
+
+    /**
      * Retrieve Product List Type identifier
      *
      * @throws \Magento\Core\Exception
@@ -37,7 +55,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getListType()
     {
         if (is_null($this->_listType)) {
-            \Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('The product list type identifier is not defined.')
             );
         }
@@ -63,7 +81,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getProductResource()
     {
-        return \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product');
+        return $this->_product;
     }
 
     public function loadProductIdsBySegmentId($object, $segmentId)

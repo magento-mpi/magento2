@@ -21,13 +21,38 @@ class Api extends \Magento\Core\Controller\Front\Action
     protected $_order;
 
     /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_salesOrderFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource_TransactionFactory
+     */
+    protected $_transactionFactory;
+
+    /**
+     * @param Magento_Core_Model_Resource_TransactionFactory $transactionFactory
+     * @param Magento_Sales_Model_OrderFactory $salesOrderFactory
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_TransactionFactory $transactionFactory,
+        Magento_Sales_Model_OrderFactory $salesOrderFactory,
+        Magento_Core_Controller_Varien_Action_Context $context
+    ) {
+        parent::__construct($context);
+        $this->_transactionFactory = $transactionFactory;
+        $this->_salesOrderFactory = $salesOrderFactory;
+    }
+
+    /**
      * Get checkout session namespace
      *
      * @return \Magento\Checkout\Model\Session
      */
     protected function _getCheckout()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session');
+        return $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 
     /**
@@ -37,7 +62,7 @@ class Api extends \Magento\Core\Controller\Front\Action
      */
     protected function _getApi()
     {
-        return \Mage::getSingleton('Magento\Ogone\Model\Api');
+        return $this->_objectManager->get('Magento_Ogone_Model_Api');
     }
 
     /**
@@ -49,8 +74,8 @@ class Api extends \Magento\Core\Controller\Front\Action
     {
         if (empty($this->_order)) {
             $orderId = $this->getRequest()->getParam('orderID');
-            $this->_order = \Mage::getModel('Magento\Sales\Model\Order');
-            $this->_order->loadByIncrementId($orderId);
+            $this->_order = $this->_salesOrderFactory->create()
+                ->loadByIncrementId($orderId);
         }
         return $this->_order;
     }
@@ -86,7 +111,7 @@ class Api extends \Magento\Core\Controller\Front\Action
         }
 
         $order = $this->_getOrder();
-        if (!$order->getId()){
+        if (!$order->getId()) {
             $this->_getCheckout()->addError(__('The order is not valid.'));
             return false;
         }
@@ -101,8 +126,8 @@ class Api extends \Magento\Core\Controller\Front\Action
     {
         $lastIncrementId = $this->_getCheckout()->getLastRealOrderId();
         if ($lastIncrementId) {
-            $order = \Mage::getModel('Magento\Sales\Model\Order');
-            $order->loadByIncrementId($lastIncrementId);
+            $order = $this->_salesOrderFactory->create()
+                ->loadByIncrementId($lastIncrementId);
             if ($order->getId()) {
                 $order->setState(
                     \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT,
@@ -154,7 +179,7 @@ class Api extends \Magento\Core\Controller\Front\Action
     public function offlineProcessAction()
     {
         if (!$this->_validateOgoneData()) {
-            $this->getResponse()->setHeader("Status","404 Not Found");
+            $this->getResponse()->setHeader("Status", "404 Not Found");
             return false;
         }
         $this->_ogoneProcess();
@@ -231,7 +256,7 @@ class Api extends \Magento\Core\Controller\Front\Action
                     break;
                 default:
                     throw new \Exception (__('Can\'t detect Ogone payment action'));
-             }
+            }
         } catch(\Exception $e) {
             $this->_getCheckout()->addError(__('The order cannot be saved.'));
             $this->_redirect('checkout/cart');
@@ -241,7 +266,6 @@ class Api extends \Magento\Core\Controller\Front\Action
 
     /**
      * Process Configured Payment Action: Direct Sale, create invoce if state is Pending
-     *
      */
     protected function _processDirectSale()
     {
@@ -255,9 +279,9 @@ class Api extends \Magento\Core\Controller\Front\Action
                     __('Authorization Waiting from Ogone')
                 );
                 $order->save();
-            }elseif ($order->getState()==\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {
-                if ($status ==  \Magento\Ogone\Model\Api::OGONE_AUTHORIZED) {
-                    if ($order->getStatus() != \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {
+            } elseif ($order->getState() == Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+                if ($status ==  Magento_Ogone_Model_Api::OGONE_AUTHORIZED) {
+                    if ($order->getStatus() != Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                         $order->setState(
                             \Magento\Sales\Model\Order::STATE_PROCESSING,
                             \Magento\Ogone\Model\Api::PROCESSING_OGONE_STATUS,
@@ -278,7 +302,7 @@ class Api extends \Magento\Core\Controller\Front\Action
                     $invoice->setState(\Magento\Sales\Model\Order\Invoice::STATE_PAID);
                     $invoice->getOrder()->setIsInProcess(true);
 
-                    $transactionSave = \Mage::getModel('Magento\Core\Model\Resource\Transaction')
+                    $this->_transactionFactory->create()
                         ->addObject($invoice)
                         ->addObject($invoice->getOrder())
                         ->save();
@@ -378,7 +402,6 @@ class Api extends \Magento\Core\Controller\Front\Action
             return;
         }
 
-        $exception = '';
         switch($params['STATUS']) {
             case \Magento\Ogone\Model\Api::OGONE_PAYMENT_UNCERTAIN_STATUS :
                 $exception = __('Something went wrong during the payment process, and so the result is unpredictable.');
@@ -478,7 +501,9 @@ class Api extends \Magento\Core\Controller\Front\Action
     /**
      * Cancel action, used for decline and cancel processes
      *
-     * @return \Magento\Ogone\Controller\Api
+     * @param string $status
+     * @param string $comment
+     * @return Magento_Ogone_Controller_Api
      */
     protected function _cancelOrder($status, $comment='')
     {

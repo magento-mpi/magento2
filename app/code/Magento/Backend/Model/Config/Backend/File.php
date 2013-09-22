@@ -35,6 +35,12 @@ class File extends \Magento\Core\Model\Config\Value
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -44,8 +50,11 @@ class File extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManager $storeManager,
@@ -56,6 +65,7 @@ class File extends \Magento\Core\Model\Config\Value
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_uploaderFactory = $uploaderFactory;
         parent::__construct(
             $context,
             $registry,
@@ -90,7 +100,7 @@ class File extends \Magento\Core\Model\Config\Value
         if (!empty($file)) {
             $uploadDir = $this->_getUploadDir();
             try {
-                $uploader = new \Magento\Core\Model\File\Uploader($file);
+                $uploader = $this->_uploaderFactory->create(array('fileId' => $file));
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);
                 $uploader->addValidateCallback('size', $this, 'validateMaxSize');

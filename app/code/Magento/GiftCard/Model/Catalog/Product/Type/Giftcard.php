@@ -65,6 +65,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
@@ -77,13 +78,14 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_store = $storeManager->getStore();
         $this->_locale = $locale;
-        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $data);
+        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
     /**
@@ -179,7 +181,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         } catch (\Magento\Core\Exception $e) {
             return $e->getMessage();
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
             return __('Something went wrong  preparing the gift card.');
         }
 

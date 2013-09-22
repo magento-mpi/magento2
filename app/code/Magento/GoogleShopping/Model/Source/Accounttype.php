@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleShopping\Model\Source;
 
-class Accounttype
+class Accounttype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve option array with account types

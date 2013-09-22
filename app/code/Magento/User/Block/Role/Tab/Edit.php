@@ -31,17 +31,41 @@ class Edit extends \Magento\Backend\Block\Widget\Form
     protected $_rootResource;
 
     /**
+     * @var Magento_Acl_Builder
+     */
+    protected $_aclBuilder;
+
+    /**
+     * @var Magento_User_Model_Resource_Rules_CollectionFactory
+     */
+    protected $_userRulesFactory;
+
+    /**
+     * @var Magento_Acl_Resource_Provider
+     */
+    protected $_aclProvider;
+
+    /**
+     * @param Magento_Acl_Builder $aclBuilder
+     * @param Magento_Acl_Resource_ProviderInterface $aclProvider
+     * @param Magento_User_Model_Resource_Rules_CollectionFactory $userRulesFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param array $data
      */
     public function __construct(
+        Magento_Acl_Builder $aclBuilder,
+        Magento_Acl_Resource_ProviderInterface $aclProvider,
+        Magento_User_Model_Resource_Rules_CollectionFactory $userRulesFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         array $data = array()
     ) {
+        $this->_aclBuilder = $aclBuilder;
+        $this->_aclProvider = $aclProvider;
+        $this->_userRulesFactory = $userRulesFactory;
         parent::__construct($coreData, $context, $data);
         $this->_rootResource = $rootResource;
     }
@@ -95,8 +119,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form
 
         $rid = \Mage::app()->getRequest()->getParam('rid', false);
 
-        $acl = \Mage::getSingleton('Magento\Acl\Builder')->getAcl();
-        $rulesSet = \Mage::getResourceModel('Magento\User\Model\Resource\Rules\Collection')->getByRoles($rid)->load();
+        $acl = $this->_aclBuilder->getAcl();
+        $rulesSet = $this->_userRulesFactory->create()->getByRoles($rid)->load();
 
         $selectedResourceIds = array();
 
@@ -127,9 +151,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
      */
     public function getTree()
     {
-        /** @var $resourceProvider \Magento\Acl\Resource\ProviderInterface */
-        $resourceProvider = \Mage::getSingleton('Magento\Acl\Resource\ProviderInterface');
-        $resources = $resourceProvider->getAclResources();
+        $resources = $this->_aclProvider->getAclResources();
         $rootArray = $this->_mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array()
         );

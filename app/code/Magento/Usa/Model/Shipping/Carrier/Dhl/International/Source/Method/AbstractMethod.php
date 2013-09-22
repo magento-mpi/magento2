@@ -17,7 +17,7 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method;
 
-abstract class AbstractMethod
+abstract class AbstractMethod extends \Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method\Generic
 {
     /**
      * Carrier Product Type Indicator
@@ -40,8 +40,8 @@ abstract class AbstractMethod
      */
     public function toOptionArray()
     {
-        /* @var $carrierModel \Magento\Usa\Model\Shipping\Carrier\Dhl\International */
-        $carrierModel   = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Dhl\International');
+        /* @var $carrierModel Magento_Usa_Model_Shipping_Carrier_Dhl_International */
+        $carrierModel   = $this->_shippingDhlInt;
         $dhlProducts    = $carrierModel->getDhlProducts($this->_contentType);
 
         $options = array();

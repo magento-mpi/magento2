@@ -31,7 +31,7 @@ class Item extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         $cacheKeyInfo = parent::getCacheKeyInfo();
 
-        foreach (\Mage::app()->getLayout()->getXpath('//action[@method="addPriceBlockType"]') as $element) {
+        foreach ($this->_layout->getXpath('//action[@method="addPriceBlockType"]') as $element) {
             if (!empty($element->type)) {
                 $prefix = 'price_block_type_' . (string)$element->type;
                 $cacheKeyInfo[$prefix . '_block'] = empty($element->block) ? '' : (string)$element->block;

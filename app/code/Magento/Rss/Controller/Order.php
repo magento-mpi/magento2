@@ -33,6 +33,11 @@ class Order extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Config\Scope $configScope
@@ -44,14 +49,15 @@ class Order extends \Magento\Core\Controller\Front\Action
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configScope = $configScope;
+        $this->_logger = $context->getLogger();
         parent::__construct($context);
     }
 
     public function preDispatch()
     {
         if ('new' === $this->getRequest()->getActionName()) {
-            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-            if (!$this->authenticateAndAuthorizeAdmin('Magento_Sales::sales_order')) {
+            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+            if (!$this->authenticateAndAuthorizeAdmin('Magento_Sales::sales_order', $this->_logger)) {
                 return;
             }
         }

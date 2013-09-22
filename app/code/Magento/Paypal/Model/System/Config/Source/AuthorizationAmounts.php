@@ -18,7 +18,7 @@
  */
 namespace Magento\Paypal\Model\System\Config\Source;
 
-class AuthorizationAmounts
+class AuthorizationAmounts implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Options getter

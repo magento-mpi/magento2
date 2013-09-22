@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Enterprise\Model\Resource\Setup */
 $installer = $this;
 
 $tablePage = $installer->getTable('cms_page');
@@ -54,8 +54,8 @@ if ($page) {
     $createdBlocks = array();
     foreach ($blocks as $key => $blockData) {
         list($title, $identifier, $content) = $blockData;
-        $block = \Mage::getModel('Magento\Cms\Model\Block')
-            ->setTitle($title)
+        $block = $this->_modelBlockFactory->create();
+        $block->setTitle($title)
             ->setIdentifier($identifier)
             ->setContent($content)
             ->setStores(array(0))

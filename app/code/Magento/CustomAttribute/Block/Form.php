@@ -98,6 +98,43 @@ class Form extends \Magento\Core\Block\Template
     protected $_fieldNameFormat = '%1$s';
 
     /**
+     * @var Magento_Core_Model_Factory
+     */
+    protected $_modelFactory;
+
+    /**
+     * @var Magento_Eav_Model_Form_Factory
+     */
+    protected $_formFactory;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @param Magento_Core_Model_Factory $modelFactory
+     * @param Magento_Eav_Model_Form_Factory $formFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Factory $modelFactory,
+        Magento_Eav_Model_Form_Factory $formFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_modelFactory = $modelFactory;
+        $this->_formFactory = $formFactory;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Add custom renderer block and template for rendering EAV entity attributes
      *
      * @param string $type
@@ -125,10 +162,10 @@ class Form extends \Magento\Core\Block\Template
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            \Mage::throwException(__('The current module XML block name is undefined.'));
+            throw new Magento_Core_Exception(__('The current module XML block name is undefined.'));
         }
         if (empty($this->_formModelPath)) {
-            \Mage::throwException(__('The current module form model pathname is undefined.'));
+            throw new Magento_Core_Exception(__('The current module form model pathname is undefined.'));
         }
 
         /* $var $template \Magento\CustomAttribute\Block\Form\Template */
@@ -196,7 +233,7 @@ class Form extends \Magento\Core\Block\Template
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($entityType);
+        $this->_entityType = $this->_eavConfig->getEntityType($entityType);
         return $this;
     }
 
@@ -209,7 +246,7 @@ class Form extends \Magento\Core\Block\Template
     {
         if (is_null($this->_entity)) {
             if ($this->_entityModelClass) {
-                $this->_entity = \Mage::getModel($this->_entityModelClass);
+                $this->_entity = $this->_modelFactory->create($this->_entityModelClass);
             }
         }
         return $this->_entity;
@@ -247,7 +284,7 @@ class Form extends \Magento\Core\Block\Template
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = \Mage::getModel($this->_formModelPath)
+            $this->_form = $this->_formFactory->create($this->_formModelPath)
                 ->setFormCode($this->_formCode)
                 ->setEntity($this->getEntity());
             if ($this->_entityType) {

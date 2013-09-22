@@ -37,12 +37,23 @@ abstract class AbstractTab
     protected $_addFileDepButtonHtml;
 
     /**
-     * TODO
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Connect_Model_Session $session
+     * @param array $data
      */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setData(\Mage::getSingleton('Magento\Connect\Model\Session')->getCustomExtensionPackageFormData());
+    public function __construct(
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Connect_Model_Session $session,
+        array $data = array()
+    ) {
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->setData($session->getCustomExtensionPackageFormData());
     }
 
     /**

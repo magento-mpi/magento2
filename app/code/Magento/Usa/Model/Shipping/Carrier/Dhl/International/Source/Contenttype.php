@@ -17,7 +17,7 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source;
 
-class Contenttype
+class Contenttype implements Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Returns array to be used in multiselect on back-end

@@ -13,15 +13,19 @@ namespace Magento\Index\Model;
 class Observer
 {
     /**
-     * Indexer model
+     * @var Magento_Index_Model_Indexer
      *
      * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
-    public function __construct()
-    {
-        $this->_indexer = \Mage::getSingleton('Magento\Index\Model\Indexer');
+    /**
+     * @param Magento_Index_Model_Indexer $indexer
+     */
+    public function __construct(
+        Magento_Index_Model_Indexer $indexer
+    ) {
+        $this->_indexer = $indexer;
     }
 
     /**
@@ -128,5 +132,4 @@ class Observer
             \Magento\Index\Model\Event::TYPE_SAVE
         );
     }
-
 }

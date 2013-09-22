@@ -25,6 +25,13 @@ class Data extends \Magento\Core\Helper\Data
     protected $_filesystem;
 
     /**
+     * Application dirs
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
@@ -39,17 +46,20 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
+     * @param Magento_Core_Model_Dir $dirs
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Http $coreHttp,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $config,
-        \Magento\Filesystem $filesystem
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Dir $dirs
     ) {
         $this->_coreData = $coreData;
+        $this->_dirs = $dirs;
         parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
         $this->_filesystem = $filesystem;
     }
@@ -62,7 +72,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getLocalPackagesPath()
     {
-        return \Mage::getBaseDir('var') . DS . 'connect' . DS;
+        return $this->_dirs->getDir('var') . DS . 'connect' . DS;
     }
 
     /**
@@ -73,7 +83,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getLocalPackagesPathV1x()
     {
-        return \Mage::getBaseDir('var') . DS . 'pear' . DS;
+        return $this->_dirs->getDir('var') . DS . 'pear' . DS;
     }
 
     /**

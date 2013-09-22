@@ -320,9 +320,9 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
     public function getSession()
     {
         if (empty($this->_session)) {
-            $this->_session =  \Mage::app()->getStore()->isAdmin()
-                ? \Mage::getSingleton('Magento\Backend\Model\Auth\Session')
-                : \Mage::getSingleton('Magento\Customer\Model\Session');
+            $this->_session = $this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->isAdmin()
+                ? \Mage::getSingleton('Magento_Backend_Model_Auth_Session')
+                : \Mage::getSingleton('Magento_Customer_Model_Session');
         }
         return $this->_session;
     }

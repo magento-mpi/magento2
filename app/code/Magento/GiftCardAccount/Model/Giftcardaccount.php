@@ -573,7 +573,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     protected function _throwException($realMessage, $fakeMessage = '')
     {
         $e = \Mage::exception('Magento_Core', $realMessage);
-        \Mage::logException($e);
+        $this->_logger->logException($e);
         if (!$fakeMessage) {
             $fakeMessage = __('Please correct the gift card code.');
         }

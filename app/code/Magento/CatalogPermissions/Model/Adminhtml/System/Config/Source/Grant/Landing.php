@@ -16,7 +16,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Grant;
 
-class Landing
+class Landing implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve Options Array

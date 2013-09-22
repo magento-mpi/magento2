@@ -33,17 +33,21 @@ class Collection
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Sales\Model\Resource\Report $resource
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Sales_Model_Resource_Report $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Report $resource
     ) {
-        $resource->init(\Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_DAILY);
-        parent::__construct($eventManager, $fetchStrategy, $resource);
-        $this->setModel('Magento\Adminhtml\Model\Report\Item');
+        $resource->init(Magento_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        $this->setModel('Magento_Adminhtml_Model_Report_Item');
     }
 
     /**

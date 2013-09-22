@@ -127,6 +127,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -135,6 +140,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product $resource
      * @param \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
@@ -146,12 +152,14 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Product $resource,
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
+        Magento_Data_CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_catalogImage = $catalogImage;
         $this->_catalogData = $catalogData;
         $this->_catalogProduct = $catalogProduct;
+        $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -989,7 +997,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function getMediaGalleryImages()
     {
         if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
-            $images = new \Magento\Data\Collection();
+            $images = $this->_collectionFactory->create();
             foreach ($this->getMediaGallery('images') as $image) {
                 if (isset($image['disabled']) && $image['disabled']) {
                     continue;

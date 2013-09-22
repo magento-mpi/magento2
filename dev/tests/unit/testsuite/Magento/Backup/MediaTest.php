@@ -12,14 +12,16 @@
 class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param array $methods
-     * @return \Magento\Backup\Snapshot
+     * @param string $action
+     * @dataProvider actionProvider
      */
-    protected function _getSnapshotMock(array $methods = array())
+    public function testAction($action)
     {
+        $dir = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $snapshot = $this->getMock(
-            'Magento\Backup\Snapshot',
-            $methods + array('create', 'rollback', 'getDbBackupFilename')
+            'Magento_Backup_Snapshot',
+            array('create', 'rollback', 'getDbBackupFilename'),
+            array($dir)
         );
         $snapshot->expects($this->any())
             ->method('create')
@@ -31,20 +33,9 @@ class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
             ->method('getDbBackupFilename')
             ->will($this->returnValue('var/backup/2.gz'));
 
-        return $snapshot;
-    }
-
-    /**
-     * @param string $action
-     * @dataProvider actionProvider
-     */
-    public function testAction($action)
-    {
-        $snapshot = $this->_getSnapshotMock();
-
-        $model = new \Magento\Backup\Media($snapshot);
-
         $rootDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
+
+        $model = new Magento_Backup_Media($snapshot);
         $model->setRootDir($rootDir);
 
         $this->assertTrue($model->$action());
@@ -59,13 +50,8 @@ class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @return array
      */
-    public function testConstruct()
-    {
-        new \Magento\Backup\Media(new StdClass);
-    }
-
     public static function actionProvider()
     {
         return array(
@@ -81,7 +67,8 @@ class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
      */
     public function testProxyMethod($method, $parameter)
     {
-        $snapshot = $this->getMock('Magento\Backup\Snapshot', array($method));
+        $dir = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $snapshot = $this->getMock('Magento_Backup_Snapshot', array($method), array($dir));
         $snapshot->expects($this->once())
             ->method($method)
             ->with($parameter)
@@ -91,11 +78,15 @@ class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($model, $model->$method($parameter));
     }
 
-    public static function methodsProvider()
+    /**
+     * @return array
+     */
+    public function methodsProvider()
     {
+        $snapshot = $this->getMock('Magento_Backup_Snapshot', array(), array(), '', false);
         return array(
             array('setBackupExtension', 'test'),
-            array('setResourceModel', new \Magento\Backup\Media()),
+            array('setResourceModel', new Magento_Backup_Media($snapshot)),
             array('setTime', 1),
             array('setBackupsDir', 'test/test'),
             array('addIgnorePaths', 'test/test'),

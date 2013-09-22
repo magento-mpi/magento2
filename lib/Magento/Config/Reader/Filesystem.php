@@ -82,7 +82,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
         \Magento\Config\SchemaLocatorInterface $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName,
-        $idAttributes,
+        $idAttributes = array(),
         $domDocumentClass = 'Magento\Config\Dom'
     ) {
         $this->_fileResolver = $fileResolver;

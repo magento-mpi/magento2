@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Model\Source;
 
-class Format extends \Magento\Core\Model\AbstractModel
+class Format extends \Magento\Core\Model\AbstractModel implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return list of gift card account code formats

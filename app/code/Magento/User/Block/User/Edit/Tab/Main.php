@@ -23,6 +23,30 @@ namespace Magento\User\Block\User\Edit\Tab;
 class Main extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Model_Auth_Session $authSession,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_authSession = $authSession;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+    /**
      * Prepare form fields
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -102,15 +126,15 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic
             'class'  => 'select',
         ));
 
-        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId() != $model->getUserId()) {
+        if ($this->_authSession->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(
-                'name'  	=> 'is_active',
-                'label' 	=> __('This account is'),
-                'id'    	=> 'is_active',
-                'title' 	=> __('Account Status'),
-                'class' 	=> 'input-select',
-                'style'		=> 'width: 80px',
-                'options'	=> array(
+                'name'      => 'is_active',
+                'label'     => __('This account is'),
+                'id'        => 'is_active',
+                'title'     => __('Account Status'),
+                'class'     => 'input-select',
+                'style'     => 'width: 80px',
+                'options'   => array(
                     '1' => __('Active'),
                     '0' => __('Inactive')
                 ),

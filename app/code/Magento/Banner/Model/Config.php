@@ -13,7 +13,7 @@
  */
 namespace Magento\Banner\Model;
 
-class Config
+class Config implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var \Magento\Core\Model\Config

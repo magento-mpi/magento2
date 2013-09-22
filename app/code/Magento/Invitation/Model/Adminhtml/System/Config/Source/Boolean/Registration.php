@@ -13,7 +13,7 @@
  */
 namespace Magento\Invitation\Model\Adminhtml\System\Config\Source\Boolean;
 
-class Registration
+class Registration implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

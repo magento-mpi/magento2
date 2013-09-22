@@ -16,7 +16,7 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
 
-class Type
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

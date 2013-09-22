@@ -17,26 +17,8 @@
  */
 namespace Magento\ImportExport\Model\Source\Import;
 
-abstract class BehaviorAbstract
+abstract class BehaviorAbstract implements \Magento\Core\Model\Option\ArrayInterface
 {
-    /**
-     * Array of data helpers
-     *
-     * @var array
-     */
-    protected $_helpers;
-
-    /**
-     * Constructor
-     *
-     * @param array $data
-     */
-    public function __construct(array $data = array())
-    {
-        if (isset($data['helpers'])) {
-            $this->_helpers = $data['helpers'];
-        }
-    }
     /**
      * Get array of possible values
      *

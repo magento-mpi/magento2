@@ -24,22 +24,30 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
+        $this->_locale = $locale;
     }
 
     protected function _construct()
@@ -219,7 +227,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getCurrencySymbol($code)
     {
-        $currency = \Mage::app()->getLocale()->currency($code);
+        $currency = $this->_locale->currency($code);
         return $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
     }
 

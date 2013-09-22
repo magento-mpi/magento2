@@ -22,9 +22,4 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         }
         return $this->_options;
     }
-
-    public function toOptionArray()
-    {
-        return $this->getAllOptions();
-    }
 }

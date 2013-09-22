@@ -27,13 +27,29 @@ class Widget extends \Magento\Adminhtml\Controller\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Widget_Model_Widget_Config
+     */
+    protected $_widgetConfig;
+
+    /**
+     * @var Magento_Widget_Model_Widget
+     */
+    protected $_widget;
+
+    /**
+     * @param Magento_Widget_Model_Widget_Config $widgetConfig
+     * @param Magento_Widget_Model_Widget $widget
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        Magento_Widget_Model_Widget_Config $widgetConfig,
+        Magento_Widget_Model_Widget $widget,
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
+        $this->_widgetConfig = $widgetConfig;
+        $this->_widget = $widget;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -45,7 +61,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
     {
         // save extra params for widgets insertion form
         $skipped = $this->getRequest()->getParam('skip_widgets');
-        $skipped = \Mage::getSingleton('Magento\Widget\Model\Widget\Config')->decodeWidgetsFromQuery($skipped);
+        $skipped = $this->_widgetConfig->decodeWidgetsFromQuery($skipped);
 
         $this->_coreRegistry->register('skip_widgets', $skipped);
 
@@ -86,7 +102,7 @@ class Widget extends \Magento\Adminhtml\Controller\Action
         $type = $this->getRequest()->getPost('widget_type');
         $params = $this->getRequest()->getPost('parameters', array());
         $asIs = $this->getRequest()->getPost('as_is');
-        $html = \Mage::getSingleton('Magento\Widget\Model\Widget')->getWidgetDeclaration($type, $params, $asIs);
+        $html = $this->_widget->getWidgetDeclaration($type, $params, $asIs);
         $this->getResponse()->setBody($html);
     }
 }

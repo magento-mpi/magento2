@@ -17,7 +17,7 @@
  */
 namespace Magento\Bundle\Model\Source\Option\Selection\Price;
 
-class Type
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

@@ -40,22 +40,27 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_captcha;
 
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
-        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
-        $this->_helper = $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false);
-        $this->_urlManager = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_customerData = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
-        $this->_observer = new \Magento\Captcha\Model\Observer(
-            $this->_coreData,
-            $this->_customerData,
-            $this->_customerSession,
-            $this->_helper,
-            $this->_urlManager,
-            $this->_filesystem
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_customerSession = $this->getMock('Magento_Customer_Model_Session', array(), array(), '', false);
+        $this->_helper = $this->getMock('Magento_Captcha_Helper_Data', array(), array(), '', false);
+        $this->_urlManager = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
+
+        $this->_observer = $this->_objectManager->getObject(
+            'Magento_Captcha_Model_Observer',
+            array(
+                'customerSession' => $this->_customerSession,
+                'helper' => $this->_helper,
+                'urlManager' => $this->_urlManager,
+            )
         );
+
         $this->_captcha = $this->getMock('Magento\Captcha\Model\DefaultModel', array(), array(), '', false);
     }
 

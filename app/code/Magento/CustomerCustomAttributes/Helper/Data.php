@@ -34,18 +34,22 @@ class Data extends \Magento\CustomAttribute\Helper\Data
     protected $_customerAddress = null;
 
     /**
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
      * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
         \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
         \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer,
+        Magento_Eav_Model_Config $eavConfig,
         \Magento\Core\Helper\Context $context
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
-        parent::__construct($context);
+        parent::__construct($eavConfig, $locale, $context);
     }
 
     /**

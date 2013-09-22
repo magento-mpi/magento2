@@ -53,19 +53,29 @@ class Extension extends \Magento\Object
     protected $_coreData = null;
 
     /**
+     * Session
+     *
+     * @var Magento_Connect_Model_Session
+     */
+    protected $_session;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Connect\Helper\Data $connectData
      * @param \Magento\Filesystem $filesystem
+     * @param Magento_Connect_Model_Session $session
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Connect\Helper\Data $connectData,
         \Magento\Filesystem $filesystem,
+        Magento_Connect_Model_Session $session,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_connectData = $connectData;
+        $this->_session = $session;
         parent::__construct($data);
         $this->_filesystem = $filesystem;
     }
@@ -90,7 +100,7 @@ class Extension extends \Magento\Object
      */
     public function generatePackageXml()
     {
-        \Mage::getSingleton('Magento\Connect\Model\Session')
+        $this->_session
             ->setLocalExtensionPackageFormData($this->getData());
 
         $this->_setPackage()
@@ -100,7 +110,7 @@ class Extension extends \Magento\Object
             ->_setContents();
         if (!$this->getPackage()->validate()) {
             $message = $this->getPackage()->getErrors();
-            throw \Mage::exception('Magento_Core', __($message[0]));
+            throw new Magento_Core_Exception(__($message[0]));
         }
         $this->setPackageXml($this->getPackage()->getPackageXml());
         return $this;
@@ -331,21 +341,6 @@ class Extension extends \Magento\Object
         }
         $this->getPackage()->saveV1x($path);
         return true;
-    }
-
-    /**
-     * Retrieve stability value and name for options
-     *
-     * @return array
-     */
-    public function getStabilityOptions()
-    {
-        return array(
-            'devel'     => 'Development',
-            'alpha'     => 'Alpha',
-            'beta'      => 'Beta',
-            'stable'    => 'Stable',
-        );
     }
 
     /**

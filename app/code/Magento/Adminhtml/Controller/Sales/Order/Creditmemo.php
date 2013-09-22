@@ -324,7 +324,7 @@ class Creditmemo
             $this->_getSession()->addError($e->getMessage());
             $this->_getSession()->setFormData($data);
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_getSession()->addError(__('Cannot save the credit memo.'));
         }
         $this->_redirect('*/*/new', array('_current' => true));

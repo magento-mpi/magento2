@@ -80,12 +80,12 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-
         $storage = $this->getMockBuilder('Magento\Core\Helper\File\Storage\Database')->disableOriginalConstructor()
             ->getMock();
         $locale = $this->getMock('Magento\Core\Model\Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_model = $this->getMock(
             'Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
@@ -98,6 +98,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
                 $this->_storeManagerMock,
                 $locale,
                 $coreRegistry,
+                $logger,
                 $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false)
             )
         );
@@ -116,7 +117,11 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments('Magento\Catalog\Model\Product',
-            array('resource' => $this->_productResource, 'resourceCollection' => $productCollection)
+            array(
+                'resource' => $this->_productResource,
+                'resourceCollection' => $productCollection,
+                'collectionFactory' => $this->getMock('Magento_Data_CollectionFactory', array(), array(), '', false)
+            )
         );
         $this->_product = $this->getMock(
             'Magento\Catalog\Model\Product',

@@ -13,7 +13,7 @@
  */
 namespace Magento\Pbridge\Model\Source;
 
-class PaymentAction
+class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return list of available payment actions for gateway

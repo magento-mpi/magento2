@@ -20,6 +20,27 @@ namespace Magento\Checkout\Block\Multishipping;
 class Shipping extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
+     * @var Magento_Filter_Object_GridFactory
+     */
+    protected $_filterGridFactory;
+
+    /**
+     * @param Magento_Filter_Object_GridFactory $filterGridFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Filter_Object_GridFactory $filterGridFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_filterGridFactory = $filterGridFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get multishipping checkout model
      *
      * @return \Magento\Checkout\Model\Type\Multishipping
@@ -62,8 +83,8 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
             $item->setQuoteItem($this->getCheckout()->getQuote()->getItemById($item->getQuoteItemId()));
             $items[] = $item;
         }
-        $itemsFilter = new \Magento\Filter\Object\Grid();
-        $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
+        $itemsFilter = $this->_filterGridFactory->create();
+        $itemsFilter->addFilter(new Magento_Filter_Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
 

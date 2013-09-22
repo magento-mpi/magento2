@@ -67,16 +67,6 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     }
 
     /**
-     * Convert to options array
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return $this->getAllOptions();
-    }
-
-    /**
      * Retrieve flat column definition
      *
      * @return array

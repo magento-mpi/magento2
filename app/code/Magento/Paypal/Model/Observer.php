@@ -40,18 +40,26 @@ class Observer
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Paypal\Helper\Hss $paypalHss,
-        \Magento\Core\Model\Registry $coreRegistry
+        Magento_Core_Helper_Data $coreData,
+        Magento_Paypal_Helper_Hss $paypalHss,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;
         $this->_coreRegistry = $coreRegistry;
+        $this->_logger = $logger;
     }
 
     /**
@@ -66,13 +74,13 @@ class Observer
             $credentials = $reports->getSftpCredentials(true);
             foreach ($credentials as $config) {
                 try {
-                    $reports->fetchAndSave(\Magento\Paypal\Model\Report\Settlement::createConnection($config));
+                    $reports->fetchAndSave(Magento_Paypal_Model_Report_Settlement::createConnection($config));
                 } catch (\Exception $e) {
-                    \Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
     }
 

@@ -108,13 +108,6 @@ class Usps
     protected $_customizableContainerTypes = array('VARIABLE', 'RECTANGULAR', 'NONRECTANGULAR');
 
     /**
-     * Factory for \Magento\Usa\Model\Simplexml\Element
-     *
-     * @var \Magento\Usa\Model\Simplexml\ElementFactory
-     */
-    protected $_xmlElFactory;
-
-    /**
      * Usa data
      *
      * @var \Magento\Usa\Helper\Data
@@ -122,24 +115,55 @@ class Usps
     protected $_usaData = null;
 
     /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
      * Usps constructor
      *
      * @param \Magento\Usa\Helper\Data $usaData
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
+     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
+     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
+     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Usa\Helper\Data $usaData,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
+        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
+        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
+        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
+        $this->_productCollFactory = $productCollFactory;
         $this->_xmlElFactory = $xmlElFactory;
-        parent::__construct($directoryData, $coreStoreConfig, $data);
+        parent::__construct(
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+        );
     }
 
     /**
@@ -530,16 +554,16 @@ class Usps
             }
         }
 
-        $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
+        $result = $this->_rateFactory->create();
         if (empty($priceArr)) {
-            $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
+            $error = $this->_rateErrorFactory->create();
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
+                $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -906,19 +930,19 @@ class Usps
         }
 
         if (!$this->_result) {
-            $this->_result = \Mage::getModel('Magento\Shipping\Model\Tracking\Result');
+            $this->_result = $this->_trackFactory->create();
         }
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-             $tracking = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Status');
+             $tracking = $this->_trackStatusFactory->create();
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
          } else {
-            $error = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Error');
+            $error = $this->_trackErrorFactory->create();
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
@@ -1540,7 +1564,8 @@ class Usps
 
                 $productIds[]= $item->getProductId();
         }
-        $productCollection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection')
+        $productCollection = $this->_productCollFactory
+            ->create()
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');

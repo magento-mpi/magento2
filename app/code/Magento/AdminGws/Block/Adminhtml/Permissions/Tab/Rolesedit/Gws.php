@@ -92,7 +92,7 @@ class Gws extends \Magento\Backend\Block\Template
     public function getDisallowedStoreGroupsJson()
     {
         $result = array();
-        foreach (\Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $groupId = $group->getId();
                 if (!\Mage::getSingleton('Magento\AdminGws\Model\Role')->hasStoreGroupAccess($groupId)) {

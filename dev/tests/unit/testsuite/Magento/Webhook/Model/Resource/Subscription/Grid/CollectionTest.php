@@ -34,9 +34,11 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         $resourceMock->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($connectionMock));
-
-        new \Magento\Webhook\Model\Resource\Subscription\Grid\Collection(
-            $configMock, $endpointResMock, $eventManager, $fetchStrategyMock, $resourceMock);
+        /** @var Magento_Core_Model_EntityFactory $entityFactory */
+        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        new Magento_Webhook_Model_Resource_Subscription_Grid_Collection(
+            $configMock, $endpointResMock, $eventManager, $logger, $fetchStrategyMock, $entityFactory, $resourceMock);
     }
 
     /**

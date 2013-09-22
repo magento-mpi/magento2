@@ -10,7 +10,7 @@
 
 namespace Magento\Tax\Model\System\Config\Source;
 
-class PriceType
+class PriceType implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 

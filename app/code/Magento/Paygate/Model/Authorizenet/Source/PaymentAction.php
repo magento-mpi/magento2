@@ -16,7 +16,7 @@
  */
 namespace Magento\Paygate\Model\Authorizenet\Source;
 
-class PaymentAction
+class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

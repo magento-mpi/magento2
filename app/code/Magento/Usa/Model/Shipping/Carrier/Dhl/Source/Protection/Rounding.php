@@ -11,11 +11,11 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Protection;
 
-class Rounding
+class Rounding extends \Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Generic
 {
     public function toOptionArray()
     {
-        $carrier = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Dhl');
+        $carrier = $this->_shippingDhl;
         $arr = array();
         foreach ($carrier->getAdditionalProtectionRoundingTypes() as $k=>$v) {
             $arr[] = array('value'=>$k, 'label'=>$v);

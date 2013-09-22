@@ -16,7 +16,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Customer;
 
-class Group
+class Group implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 

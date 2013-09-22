@@ -19,7 +19,7 @@
 namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 abstract class AbstractSource
-    implements \Magento\Eav\Model\Entity\Attribute\Source\SourceInterface
+    implements \Magento\Eav\Model\Entity\Attribute\Source\SourceInterface, \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Reference to the attribute instance
@@ -139,5 +139,15 @@ abstract class AbstractSource
     public function getIndexOptionText($value)
     {
         return $this->getOptionText($value);
+    }
+
+    /**
+     * Get options as array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->getAllOptions();
     }
 }

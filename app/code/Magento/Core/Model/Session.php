@@ -30,6 +30,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_coreData = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\Http $coreHttp
@@ -39,6 +40,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param string $sessionName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\Http $coreHttp,
@@ -48,7 +50,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $sessionName = null
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('core', $sessionName);
     }
 

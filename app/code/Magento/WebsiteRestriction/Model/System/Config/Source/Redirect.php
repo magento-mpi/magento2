@@ -14,8 +14,7 @@
  */
 namespace Magento\WebsiteRestriction\Model\System\Config\Source;
 
-class Redirect
-extends \Magento\Object
+class Redirect extends \Magento\Object implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Get options for select

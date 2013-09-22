@@ -13,6 +13,23 @@ namespace Magento\Banner\Block\Adminhtml\Banner;
 class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Set defaults
      */
     protected function _construct()
@@ -71,7 +88,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         /**
          * Check is single store mode
          */
-        if (!\Mage::app()->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'                => __('Visibility'),
                 'type'                  => 'store',

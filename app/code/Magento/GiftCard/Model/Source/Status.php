@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCard\Model\Source;
 
-class Status extends \Magento\Core\Model\AbstractModel
+class Status extends \Magento\Core\Model\AbstractModel implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

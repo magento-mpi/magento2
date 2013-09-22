@@ -64,6 +64,22 @@ abstract class AbstractBackend
     protected $_defaultValue = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        array $data = array()
+    ) {
+        $this->_logger = $logger;
+    }
+
+    /**
      * Set attribute instance
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute

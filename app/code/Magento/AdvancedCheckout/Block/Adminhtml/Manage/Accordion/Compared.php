@@ -26,21 +26,17 @@ class Compared
     protected $_listType = 'compared';
 
     /**
-     * Adminhtml sales
+     * @var Magento_Adminhtml_Helper_Sales
      *
      * @var \Magento\Adminhtml\Helper\Sales
      */
-    protected $_adminhtmlSales = null;
+    protected $_adminhtmlSales;
 
     /**
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param array $data
+     * @var Magento_Catalog_Model_Product_Compare_ListFactory|null
      */
+    protected $_compareListFactory;
+
     public function __construct(
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Core\Helper\Data $coreData,
@@ -48,10 +44,12 @@ class Compared
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
         array $data = array()
     ) {
-        $this->_adminhtmlSales = $adminhtmlSales;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_adminhtmlSales = $adminhtmlSales;
+        $this->_compareListFactory = $compareListFactory;
     }
 
     protected function _construct()
@@ -65,7 +63,6 @@ class Compared
         }
     }
 
-
     /**
      * Return items collection
      *
@@ -74,8 +71,8 @@ class Compared
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-            $collection = \Mage::getModel('Magento\Catalog\Model\Product\Compare\ListCompare')
+            $attributes = \Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $collection = $this->_compareListFactory->create()
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())

@@ -20,21 +20,50 @@ namespace Magento\AdminNotification\Model;
 
 class Survey
 {
-    protected static $_flagCode  = 'admin_notification_survey';
-    protected static $_flagModel = null;
-
     const SURVEY_URL = 'www.magentocommerce.com/instsurvey.html';
+
+    /**
+     * @var string
+     */
+    protected $_flagCode  = 'admin_notification_survey';
+
+    /**
+     * @var Magento_Core_Model_Flag
+     */
+    protected $_flagModel = null;
+
+    /**
+     * @var Magento_Core_Model_FlagFactory
+     */
+    protected $_flagFactory;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * @param Magento_Core_Model_FlagFactory $flagFactory
+     * @param Magento_Core_Controller_Request_Http $request
+     */
+    public function __construct(
+        Magento_Core_Model_FlagFactory $flagFactory,
+        Magento_Core_Controller_Request_Http $request
+    ) {
+        $this->_request = $request;
+        $this->_flagFactory = $flagFactory;
+    }
 
     /**
      * Check if survey url valid (exists) or not
      *
-     * @return boolen
+     * @return bool
      */
-    public static function isSurveyUrlValid()
+    public function isSurveyUrlValid()
     {
         $curl = new \Magento\HTTP\Adapter\Curl();
         $curl->setConfig(array('timeout'   => 5))
-            ->write(\Zend_Http_Client::GET, self::getSurveyUrl(), '1.0');
+            ->write(\Zend_Http_Client::GET, $this->getSurveyUrl(), '1.0');
         $response = $curl->read();
         $curl->close();
 
@@ -49,9 +78,9 @@ class Survey
      *
      * @return string
      */
-    public static function getSurveyUrl()
+    public function getSurveyUrl()
     {
-        $host = \Mage::app()->getRequest()->isSecure() ? 'https://' : 'http://';
+        $host = $this->_request->isSecure() ? 'https://' : 'http://';
         return $host . self::SURVEY_URL;
     }
 
@@ -60,14 +89,14 @@ class Survey
      *
      * @return \Magento\Core\Model\Flag
      */
-    protected static function _getFlagModel()
+    protected function _getFlagModel()
     {
-        if (self::$_flagModel === null) {
-            self::$_flagModel = \Mage::getModel('Magento\Core\Model\Flag',
-                array('data' => array('flag_code' => self::$_flagCode)))
+        if ($this->_flagModel === null) {
+            $this->_flagModel = $this->_flagFactory->create(
+                array('data' => array('flag_code' => $this->_flagCode)))
                 ->loadSelf();
         }
-        return self::$_flagModel;
+        return $this->_flagModel;
     }
 
     /**
@@ -76,9 +105,9 @@ class Survey
      *
      * @return boolean
      */
-    public static function isSurveyViewed()
+    public function isSurveyViewed()
     {
-        $flagData = self::_getFlagModel()->getFlagData();
+        $flagData = $this->_getFlagModel()->getFlagData();
         if (isset($flagData['survey_viewed']) && $flagData['survey_viewed'] == 1) {
             return true;
         }
@@ -90,13 +119,13 @@ class Survey
      *
      * @param boolean $viewed
      */
-    public static function saveSurveyViewed($viewed)
+    public function saveSurveyViewed($viewed)
     {
-        $flagData = self::_getFlagModel()->getFlagData();
+        $flagData = $this->_getFlagModel()->getFlagData();
         if (is_null($flagData)) {
             $flagData = array();
         }
         $flagData = array_merge($flagData, array('survey_viewed' => (bool)$viewed));
-        self::_getFlagModel()->setFlagData($flagData)->save();
+        $this->_getFlagModel()->setFlagData($flagData)->save();
     }
 }

@@ -10,7 +10,7 @@
 
 namespace Magento\CatalogInventory\Model\Source;
 
-class Backorders
+class Backorders implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

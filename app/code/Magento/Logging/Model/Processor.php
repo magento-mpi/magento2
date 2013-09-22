@@ -18,7 +18,6 @@ class Processor
      */
     protected $_config;
 
-
     /**
      * current event config
      *
@@ -104,7 +103,9 @@ class Processor
     /** @var  \Magento\Core\Helper\Http */
     protected $_httpHelper;
 
-    /** @var  \Magento\Core\Model\Logger */
+    /**
+     * @var Magento_Core_Model_Logger
+     */
     protected $_logger;
 
     /**
@@ -140,7 +141,6 @@ class Processor
         $this->_coreApp = $coreApp;
         $this->_httpHelper = $httpHelper;
         $this->_logger = $logger;
-
     }
 
     /**
@@ -515,6 +515,41 @@ class Processor
     public function getCollectedAdditionalData()
     {
         return $this->_additionalData;
+    }
+
+    /**
+     * Get callback function for logAction and modelActionAfter functions
+     *
+     * @param string $srtCallback
+     * @param object $defaultHandler
+     * @param string $defaultFunction
+     * @return array Contains two values 'handler' and 'callback' that indicate what callback function should be applied
+     */
+    protected function _getCallbackFunction($srtCallback, $defaultHandler, $defaultFunction)
+    {
+        $return = array('handler' => $defaultHandler, 'callback' => $defaultFunction);
+        if (empty($srtCallback)) {
+            return $return;
+        }
+
+        try {
+            $classPath = explode('::', $srtCallback);
+            if (count($classPath) == 2) {
+                $return['handler'] = Mage::getSingleton(str_replace('__', '/', $classPath[0]));
+                $return['callback'] = $classPath[1];
+            } else {
+                $return['callback'] = $classPath[0];
+            }
+            if (!$return['handler'] || !$return['callback'] || !method_exists($return['handler'],
+                $return['callback'])) {
+                Mage::throwException("Unknown callback function: {$srtCallback}");
+            }
+        } catch (Exception $e) {
+            $return['handler'] = false;
+            $this->_logger->logException($e);
+        }
+
+        return $return;
     }
 
     /**

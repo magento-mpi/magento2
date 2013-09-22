@@ -52,13 +52,16 @@ class Collection
     /**
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Eav\Model\AttributeFactory $attributeFactory
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
-        \Magento\ScheduledImportExport\Helper\Data $importExportData,
-        \Magento\Eav\Model\AttributeFactory $attributeFactory
+        Magento_ScheduledImportExport_Helper_Data $importExportData,
+        Magento_Eav_Model_AttributeFactory $attributeFactory,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_importExportData = $importExportData;
         $this->_attributeFactory = $attributeFactory;
+        parent::__construct($entityFactory);
 
         if ($this->_importExportData->isCustomerBalanceEnabled()) {
             $storeCreditData = array(

@@ -10,11 +10,11 @@
 
 namespace Magento\Backend\Model\Config\Source\Locale\Currency;
 
-class All
+class All implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 
-    public function toOptionArray($isMultiselect)
+    public function toOptionArray($isMultiselect = false)
     {
         if (!$this->_options) {
             $this->_options = \Mage::app()->getLocale()->getOptionAllCurrencies();

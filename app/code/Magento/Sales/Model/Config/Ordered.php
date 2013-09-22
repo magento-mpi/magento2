@@ -60,13 +60,23 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
     protected $_configCacheType;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Simplexml\Element $sourceData
      */
-    public function __construct(\Magento\Core\Model\Cache\Type\Config $configCacheType, $sourceData = null)
-    {
+    public function __construct(
+            Magento_Core_Model_Logger $logger,
+            Magento_Core_Model_Cache_Type_Config $configCacheType,
+            $sourceData = null
+    ) {
         parent::__construct($sourceData);
         $this->_configCacheType = $configCacheType;
+        $this->_logger = $logger;
     }
 
     /**
@@ -194,7 +204,7 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
             try {
                 self::validateCollectorDeclarations($this->_modelsConfig);
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_logger->logException($e);
             }
             $sortedCodes = $this->_getSortedCollectorCodes($this->_modelsConfig);
             $this->_configCacheType->save(serialize($sortedCodes), $this->_collectorsCacheKey);

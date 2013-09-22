@@ -11,7 +11,8 @@ class Magento_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework
     {
         $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface');
-        $context = new \Magento\Core\Model\Context($eventDispatcher, $cacheManager);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $context = new Magento_Core_Model_Context($logger, $eventDispatcher, $cacheManager);
 
         $resource = $this->getMock('Magento\Core\Model\Resource\Config\Data', array(), array(), '', false);
         $resource->expects($this->any())

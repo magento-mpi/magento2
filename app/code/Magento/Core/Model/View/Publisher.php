@@ -61,6 +61,11 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
     protected $_viewFileSystem;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Indicates how to materialize view files: with or without "duplication"
      *
      * @var bool
@@ -70,13 +75,15 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
     /**
      * View files publisher model
      *
-     * @param \Magento\Filesystem $filesystem
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Filesystem $filesystem
      * @param \Magento\Core\Helper\Css $cssHelper
      * @param \Magento\Core\Model\View\Service $viewService
      * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param bool $allowFilesDuplication
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Helper\Css $cssHelper,
         \Magento\Core\Model\View\Service $viewService,
@@ -87,6 +94,7 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
         $this->_cssHelper = $cssHelper;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_logger = $logger;
         $this->_allowFilesDuplication = $allowFilesDuplication;
     }
 
@@ -316,8 +324,8 @@ class Publisher implements \Magento\Core\Model\View\PublicFilesManagerInterface
         };
         try {
             $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
-        } catch (\Magento\Exception $e) {
-            \Mage::logException($e);
+        } catch (Magento_Exception $e) {
+            $this->_logger->logException($e);
         }
         return $content;
     }

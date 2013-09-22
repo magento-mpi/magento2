@@ -59,20 +59,21 @@ class Collection extends \Magento\Data\Collection\Db
     protected $_eventManager = null;
 
     /**
-     * Set sales order entity and establish read connection
-     *
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Sales\Model\Resource\Order $resource
-     * @todo: incorrect constructor
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Sales_Model_Resource_Order $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         \Magento\Sales\Model\Resource\Order $resource
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($fetchStrategy, $resource->getReadConnection());
+        parent::__construct($logger, $fetchStrategy, $entityFactory, $resource->getReadConnection());
     }
 
     /**

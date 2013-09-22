@@ -28,11 +28,19 @@ class Observer extends \Magento\Object
     protected $_giftMessageMessage = null;
 
     /**
+     * @var Magento_GiftMessage_Model_MessageFactory
+     */
+    protected $_messageFactory;
+
+    /**
+     * @param Magento_GiftMessage_Model_MessageFactory $messageFactory
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
+        Magento_GiftMessage_Model_MessageFactory $messageFactory,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage
     ) {
+        $this->_messageFactory = $messageFactory;
         $this->_giftMessageMessage = $giftMessageMessage;
     }
 
@@ -78,7 +86,7 @@ class Observer extends \Magento\Object
         if (is_array($giftMessages)) {
             foreach ($giftMessages as $entityId=>$message) {
 
-                $giftMessage = \Mage::getModel('Magento\GiftMessage\Model\Message');
+                $giftMessage = $this->_messageFactory->create();
 
                 switch ($message['type']) {
                     case 'quote':
@@ -149,7 +157,7 @@ class Observer extends \Magento\Object
         }
         $giftMessageId = $order->getGiftMessageId();
         if ($giftMessageId) {
-            $giftMessage = \Mage::getModel('Magento\GiftMessage\Model\Message')->load($giftMessageId)
+            $giftMessage = $this->_messageFactory->create()->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $observer->getEvent()->getQuote()->setGiftMessageId($giftMessage->getId());
@@ -186,7 +194,7 @@ class Observer extends \Magento\Object
         /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = $observer->getEvent()->getQuoteItem();
         if ($giftMessageId = $orderItem->getGiftMessageId()) {
-            $giftMessage = \Mage::getModel('Magento\GiftMessage\Model\Message')->load($giftMessageId)
+            $giftMessage = $this->_messageFactory->create()->load($giftMessageId)
                 ->setId(null)
                 ->save();
             $quoteItem->setGiftMessageId($giftMessage->getId());

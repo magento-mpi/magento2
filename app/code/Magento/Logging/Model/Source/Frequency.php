@@ -13,7 +13,7 @@
   */
 namespace Magento\Logging\Model\Source;
 
-class Frequency
+class Frequency implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

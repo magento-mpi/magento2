@@ -14,18 +14,22 @@ class Grid
     extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
+     * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry;
+
+    /**
+     * @var Magento_Banner_Model_BannerFactory
+     */
+    protected $_bannerFactory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Banner_Model_BannerFactory $bannerFactory
      * @param array $data
      */
     public function __construct(
@@ -33,11 +37,13 @@ class Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
-        \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Core_Model_Registry $registry,
+        Magento_Banner_Model_BannerFactory $bannerFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->_registry = $registry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_bannerFactory = $bannerFactory;
     }
 
     /**
@@ -148,8 +154,7 @@ class Grid
      */
     public function getRelatedBannersByRule()
     {
-        return \Mage::getModel('Magento\Banner\Model\Banner')
-            ->getRelatedBannersBySalesRuleId($this->_getRule()->getRuleId());
+        return $this->_bannerFactory->create()->getRelatedBannersBySalesRuleId($this->_getRule()->getRuleId());
     }
 
     /**
@@ -159,6 +164,6 @@ class Grid
      */
     protected function _getRule()
     {
-        return $this->_coreRegistry->registry('current_promo_quote_rule');
+        return $this->_registry->registry('current_promo_quote_rule');
     }
 }

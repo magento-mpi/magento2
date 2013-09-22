@@ -19,19 +19,33 @@ namespace Magento\AdvancedCheckout\Model;
 class Observer
 {
     /**
-     * Checkout data
-     *
-     * @var \Magento\AdvancedCheckout\Helper\Data
+     * @var Magento_AdvancedCheckout_Helper_Data
      */
     protected $_checkoutData = null;
 
     /**
+     * @var Magento_Sales_Model_Quote_AddressFactory
+     */
+    protected $_addressFactory = null;
+
+    /**
+     * @var Magento_Sales_Model_QuoteFactory
+     */
+    protected $_quoteFactory = null;
+
+    /**
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param Magento_Sales_Model_Quote_AddressFactory $addressFactory
      */
     public function __construct(
-        \Magento\AdvancedCheckout\Helper\Data $checkoutData
+        Magento_AdvancedCheckout_Helper_Data $checkoutData,
+        Magento_Sales_Model_QuoteFactory $quoteFactory,
+        Magento_Sales_Model_Quote_AddressFactory $addressFactory
     ) {
         $this->_checkoutData = $checkoutData;
+        $this->_quoteFactory = $quoteFactory;
+        $this->_addressFactory = $addressFactory;
     }
 
     /**
@@ -143,7 +157,7 @@ class Observer
      */
     protected function _copyAddress($quote, $realAddress)
     {
-        $address = \Mage::getModel('Magento\Sales\Model\Quote\Address');
+        $address = $this->_addressFactory->create();
         $address->setData($realAddress->getData());
         $address
             ->setId(null)
@@ -174,9 +188,9 @@ class Observer
             return;
         }
 
-        /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = \Mage::getModel('Magento\Sales\Model\Quote');
-        $collection = new \Magento\Data\Collection();
+        /** @var $quote Magento_Sales_Model_Quote */
+        $quote = $this->_quoteFactory->create();
+        $collection = new Magento_Data_Collection();
 
         foreach ($this->_checkoutData->getFailedItems(false) as $item) {
             /** @var $item \Magento\Sales\Model\Quote\Item */

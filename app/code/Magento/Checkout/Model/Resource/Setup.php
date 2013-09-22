@@ -26,6 +26,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_customerAddress;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
@@ -37,6 +38,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
@@ -48,7 +50,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         $resourceName
     ) {
         parent::__construct(
-            $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader,
+            $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource, $modulesReader,
             $cache, $resourceName
         );
         $this->_customerAddress = $customerAddress;

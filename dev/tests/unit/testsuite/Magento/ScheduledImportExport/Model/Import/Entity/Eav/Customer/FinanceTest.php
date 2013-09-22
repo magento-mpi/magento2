@@ -229,8 +229,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $objectFactory->expects($this->any())->method('getModelInstance')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
 
-        /** @var $attributeCollection \Magento\Data\Collection */
-        $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
+        /** @var $attributeCollection Magento_Data_Collection */
+        $attributeCollection = $this->getMock(
+            'Magento_Data_Collection',
+            array('getEntityTypeCode'),
+            array($this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false))
+        );
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $arguments = $objectManagerHelper->getConstructArguments(

@@ -32,19 +32,25 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig);
+        parent::__construct(
+            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
     }
 
     /**

@@ -71,7 +71,7 @@ class Product
                     $this->_forward('noRoute');
                 }
             } else {
-                \Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_forward('noRoute');
             }
         }

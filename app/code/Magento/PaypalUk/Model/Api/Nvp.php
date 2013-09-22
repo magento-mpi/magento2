@@ -516,7 +516,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         if ($response['RESULT'] != self::RESPONSE_CODE_APPROVED) {
             $message = $response['RESPMSG'];
             $e = new \Exception(sprintf('PayPal gateway errors: %s.', $message));
-            \Mage::logException($e);
+            $this->_logger->logException($e);
             \Mage::throwException(
                 __('PayPal gateway rejected the request. %1', $message)
             );

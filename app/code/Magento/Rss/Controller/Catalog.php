@@ -25,6 +25,11 @@ class Catalog extends \Magento\Core\Controller\Front\Action
     protected $_configScope;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Config\Scope $configScope
      */
@@ -33,6 +38,7 @@ class Catalog extends \Magento\Core\Controller\Front\Action
         \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_configScope = $configScope;
+        $this->_logger = $context->getLogger();
         parent::__construct($context);
     }
 
@@ -50,8 +56,8 @@ class Catalog extends \Magento\Core\Controller\Front\Action
             'review' => 'Magento_Review::reviews_all',
         );
         if (isset($acl[$action])) {
-            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-            if ($this->authenticateAndAuthorizeAdmin($acl[$action])) {
+            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+            if ($this->authenticateAndAuthorizeAdmin($acl[$action], $this->_logger)) {
                 return;
             }
         }

@@ -40,16 +40,22 @@ class View extends \Magento\Rma\Block\Form
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Factory $modelFactory
+     * @param Magento_Eav_Model_Form_Factory $formFactory
+     * @param Magento_Customer_Helper_Data $customerData
+     * @param Magento_Rma_Helper_Data $rmaData
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Factory $modelFactory,
+        Magento_Eav_Model_Form_Factory $formFactory,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Rma\Helper\Data $rmaData,
+        Magento_Eav_Model_Config $eavConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -58,7 +64,7 @@ class View extends \Magento\Rma\Block\Form
         $this->_customerData = $customerData;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
     }
 
     public function _construct()

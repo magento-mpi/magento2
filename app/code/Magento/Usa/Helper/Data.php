@@ -18,6 +18,23 @@ namespace Magento\Usa\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_locale = $locale;
+        parent::__construct($context);
+    }
+
+    /**
      * Convert weight in different measure types
      *
      * @param  mixed $value
@@ -28,7 +45,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function convertMeasureWeight($value, $sourceWeightMeasure, $toWeightMeasure)
     {
         if ($value) {
-            $locale = \Mage::app()->getLocale()->getLocale();
+            $locale = $this->_locale->getLocale();
             $unitWeight = new \Zend_Measure_Weight($value, $sourceWeightMeasure, $locale);
             $unitWeight->setType($toWeightMeasure);
             return $unitWeight->getValue();
@@ -47,7 +64,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function convertMeasureDimension($value, $sourceDimensionMeasure, $toDimensionMeasure)
     {
         if ($value) {
-            $locale = \Mage::app()->getLocale()->getLocale();
+            $locale = $this->_locale->getLocale();
             $unitDimension = new \Zend_Measure_Length($value, $sourceDimensionMeasure, $locale);
             $unitDimension->setType($toDimensionMeasure);
             return $unitDimension->getValue();

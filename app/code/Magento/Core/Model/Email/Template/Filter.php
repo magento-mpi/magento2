@@ -51,6 +51,11 @@ class Filter extends \Magento\Filter\Template
     protected $_viewUrl;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
@@ -65,17 +70,20 @@ class Filter extends \Magento\Filter\Template
     protected $_coreStoreConfig;
     
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreData = $coreData;
         $this->_viewUrl = $viewUrl;
+        $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
     }
@@ -505,7 +513,7 @@ class Filter extends \Magento\Filter\Template
             $value = parent::filter($value);
         } catch (\Exception $e) {
             $value = '';
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $value;
     }

@@ -17,7 +17,7 @@
  */
 namespace Magento\PageCache\Model\System\Config\Source;
 
-class Controls
+class Controls implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Page cache data

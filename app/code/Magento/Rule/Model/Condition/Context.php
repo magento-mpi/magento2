@@ -20,11 +20,20 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_viewUrl;
 
     /**
+     * Logger instance
+     *
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\View\Url $viewUrl
      */
-    public function __construct(\Magento\Core\Model\View\Url $viewUrl)
+    public function __construct(Magento_Core_Model_Logger $logger, Magento_Core_Model_View_Url $viewUrl)
     {
         $this->_viewUrl = $viewUrl;
+        $this->_logger = $logger;
     }
 
     /**
@@ -33,5 +42,15 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getViewUrl()
     {
         return $this->_viewUrl;
+    }
+
+    /**
+     * Get logger instance
+     *
+     * @return Magento_Core_Model_Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
     }
 }

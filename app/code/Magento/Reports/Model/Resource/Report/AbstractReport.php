@@ -28,6 +28,23 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_flag     = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(Magento_Core_Model_Logger $logger, Magento_Core_Model_Resource $resource)
+    {
+        $this->_logger = $logger;
+        parent::__construct($resource);
+    }
+
+    /**
      * Retrieve flag object
      *
      * @return \Magento\Reports\Model\Flag
@@ -408,7 +425,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $nextPeriod = $tr['time'];
             }
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         return $tzTransitions;

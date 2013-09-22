@@ -27,20 +27,12 @@ class Media extends \Magento\Backup\AbstractBackup
     protected $_snapshotManager;
 
     /**
-     * Initialize backup manager instance
-     *
-     * @param \Magento\Backup\Snapshot|null $snapshotManager
+     * @param Magento_Backup_Snapshot $snapshotManager
      */
-    public function __construct($snapshotManager = null)
-    {
-        if ($snapshotManager !== null) {
-            if (!$snapshotManager instanceof \Magento\Backup\Snapshot) {
-                throw new \Magento\Exception('Snapshot manager must be instance of \Magento\Backup\Snapshot');
-            }
-            $this->_snapshotManager = $snapshotManager;
-        } else {
-            $this->_snapshotManager = new \Magento\Backup\Snapshot();
-        }
+    public function __construct(
+        Magento_Backup_Snapshot $snapshotManager
+    ) {
+        $this->_snapshotManager = $snapshotManager;
     }
 
     /**

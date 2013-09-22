@@ -27,13 +27,38 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_userDefinedAttributeCodes = array();
 
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+    
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_locale = $locale;
+        parent::__construct($context);
+    }
+
+    /**
      * Default attribute entity type code
      *
      * @throws \Magento\Core\Exception
      */
     protected function _getEntityTypeCode()
     {
-        \Mage::throwException(__('Use helper with defined EAV entity.'));
+        throw new Magento_Core_Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -419,8 +444,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     {
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
             $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
-            /* @var $config \Magento\Eav\Model\Config */
-            $config = \Mage::getSingleton('Magento\Eav\Model\Config');
+            /* @var $config Magento_Eav_Model_Config */
+            $config = $this->_eavConfig;
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
                 $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
                 if ($attribute && $attribute->getIsUserDefined()) {
@@ -448,7 +473,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getDateFormat()
     {
-        return \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->_locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
@@ -472,7 +497,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if (isset($data['attribute_code'])) {
                 $validatorAttrCode = new \Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
                 if (!$validatorAttrCode->isValid($data['attribute_code'])) {
-                    \Mage::throwException(__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
+                    throw new Magento_Core_Exception(__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
                 }
             }
         }

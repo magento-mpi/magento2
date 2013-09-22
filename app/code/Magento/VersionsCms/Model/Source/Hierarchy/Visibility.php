@@ -15,9 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-namespace Magento\VersionsCms\Model\Source\Hierarchy;
+class Magento_VersionsCms_Model_Source_Hierarchy_Visibility implements Magento_Core_Model_Option_ArrayInterface
 
-class Visibility
+class Visibility implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve options array

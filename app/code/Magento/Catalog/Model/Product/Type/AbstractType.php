@@ -118,7 +118,7 @@ abstract class AbstractType
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Core event manager proxy
      *
@@ -127,11 +127,17 @@ abstract class AbstractType
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -140,6 +146,7 @@ abstract class AbstractType
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -147,6 +154,7 @@ abstract class AbstractType
         $this->_coreData = $coreData;
         $this->_fileStorageDb = $fileStorageDb;
         $this->_filesystem = $filesystem;
+        $this->_logger = $logger;
     }
 
     /**
@@ -972,7 +980,7 @@ abstract class AbstractType
         } catch (\Magento\Core\Exception $e) {
             $errors[] = $e->getMessages();
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
             $errors[] = __('Something went wrong while processing the request.');
         }
 

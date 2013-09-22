@@ -133,4 +133,5 @@ return array(
     array('XML_STORE_ROUTERS_PATH', 'Mage_Core_Controller_Varien_Front'),
     array('XML_PATH_THEME'),
     array('XML_PATH_ALLOW_DUPLICATION'),
+    array('REGEX_RUN_MODEL')
 );

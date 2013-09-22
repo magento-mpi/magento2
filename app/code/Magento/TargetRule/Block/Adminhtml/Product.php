@@ -40,6 +40,12 @@ class Product extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_TargetRule_Model_Source_Position
+     */
+    protected $_position;
+
+    /**
+     * @param Magento_TargetRule_Model_Source_Position $position
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Helper\Data $coreData
@@ -48,6 +54,7 @@ class Product extends \Magento\Backend\Block\Widget
      * @param array $data
      */
     public function __construct(
+        Magento_TargetRule_Model_Source_Position $position,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Data $coreData,
@@ -55,6 +62,7 @@ class Product extends \Magento\Backend\Block\Widget
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_position = $position;
         $this->_coreRegistry = $registry;
         $this->_targetRuleData = $targetRuleData;
         $this->_storeManager = $storeManager;
@@ -97,7 +105,7 @@ class Product extends \Magento\Backend\Block\Widget
      */
     public function getPositionBehaviorOptions()
     {
-        return \Mage::getModel('Magento\TargetRule\Model\Source\Position')->toOptionArray();
+        return $this->_position->toOptionArray();
     }
 
     /**

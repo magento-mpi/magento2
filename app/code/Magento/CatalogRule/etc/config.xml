@@ -24,16 +24,4 @@
             </related_cache_types>
         </catalogrule>
     </global>
-    <crontab>
-        <jobs>
-            <catalogrule_apply_all>
-                <schedule>
-                    <cron_expr>0 1 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento\CatalogRule\Model\Observer::dailyCatalogUpdate</model>
-                </run>
-            </catalogrule_apply_all>
-        </jobs>
-    </crontab>
 </config>

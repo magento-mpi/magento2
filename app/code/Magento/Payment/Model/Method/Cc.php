@@ -23,6 +23,12 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_moduleList;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
@@ -30,6 +36,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\ModuleListInterface $moduleList,
@@ -37,6 +44,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         array $data = array()
     ) {
         $this->_moduleList = $moduleList;
+        $this->_logger = $logger;
         parent::__construct($eventManager, $paymentData, $coreStoreConfig, $data);
     }
 

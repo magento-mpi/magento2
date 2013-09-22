@@ -28,19 +28,30 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_resourceConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Databases configuration
-     *
+     * 
      * @var array
      */
     protected $_dbConfig;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Config\Resource $resourceConfig
      * @param array $dbConfig
      */
-    public function __construct(\Magento\Core\Model\Config\Resource $resourceConfig, array $dbConfig)
+    public function __construct(
+        Magento_Core_Model_Logger $logger, 
+        Magento_Core_Model_Config_Resource $resourceConfig,
+        array $dbConfig
+    )
     {
         $this->_resourceConfig = $resourceConfig;
+        $this->_logger = $logger;
         $this->_dbConfig = $dbConfig;
     }
 
@@ -100,11 +111,11 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
             }
 
             // TODO: check user roles
-        } catch (\Magento\Core\Exception $e) {
-            \Mage::logException($e);
+        } catch (Magento_Core_Exception $e) {
+            $this->_logger->logException($e);
             \Mage::throwException(__($e->getMessage()));
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
             \Mage::throwException(__('Something went wrong while connecting to the database.'));
         }
 

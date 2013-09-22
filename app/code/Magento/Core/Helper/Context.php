@@ -27,7 +27,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Controller\Request\HttpProxy
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var Magento_Core_Controller_Request_HttpProxy
      */
     protected $_httpRequest;
 
@@ -45,9 +50,10 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @var \Magento\Core\Model\Fieldset\Config
      */
     protected $_fieldsetConfig;
-
+    
     /**
-     * @param \Magento\Core\Model\Translate $translator
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Translate $translator
      * @param \Magento\Core\Model\ModuleManager $moduleManager
      * @param \Magento\Core\Controller\Request\HttpProxy $httpRequest
      * @param \Magento\Core\Model\Cache\Config $cacheConfig
@@ -56,6 +62,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\ModuleManager $moduleManager,
         \Magento\Core\Controller\Request\HttpProxy $httpRequest,
@@ -71,6 +78,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_encryptorFactory = $encyptorFactory;
         $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
+        $this->_logger = $logger;
     }
 
     /**
@@ -127,5 +135,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getFieldsetConfig()
     {
         return $this->_fieldsetConfig;
+    }
+    
+    /**
+     * @return Magento_Core_Model_Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
     }
 }

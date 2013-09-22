@@ -20,13 +20,34 @@ namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create;
 class Form extends \Magento\Adminhtml\Block\Template
 {
     /**
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Indicates that block can display gift message form
      *
      * @return bool
      */
     public function canDisplayGiftmessageForm()
     {
-        $quote = \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
-        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('items', $quote, $quote->getStore());
+        $quote = $this->_sessionQuote->getQuote();
+        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('items', $quote, $quote->getStore());
     }
 }

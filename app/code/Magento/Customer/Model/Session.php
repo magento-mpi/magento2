@@ -48,18 +48,9 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_coreUrl = null;
 
     /**
-     * Retrieve customer sharing configuration model
-     *
-     * @return \Magento\Customer\Model\Config\Share
-     */
-    public function getCustomerConfigShare()
-    {
-        return \Mage::getSingleton('Magento\Customer\Model\Config\Share');
-    }
-
-    /**
-     * Class constructor. Initialize session namespace
-     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Config_Share $configShare
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Event\Manager $eventManager
@@ -67,9 +58,12 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param array $data
-     * @param string $sessionName
+     * @param null $sessionName
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Config_Share $configShare,
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Event\Manager $eventManager,
@@ -81,10 +75,10 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
-        parent::__construct($eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $namespace = 'customer';
-        if ($this->getCustomerConfigShare()->isWebsiteScope()) {
-            $namespace .= '_' . (\Mage::app()->getStore()->getWebsite()->getCode());
+        if ($configShare->isWebsiteScope()) {
+            $namespace .= '_' . ($storeManager->getWebsite()->getCode());
         }
 
         $this->init($namespace, $sessionName);

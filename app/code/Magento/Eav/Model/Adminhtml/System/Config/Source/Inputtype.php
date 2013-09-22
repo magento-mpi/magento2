@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Adminhtml\System\Config\Source;
 
-class Inputtype
+class Inputtype implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

@@ -21,6 +21,32 @@ class Errors
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_AdvancedCheckout_Model_CartFactory $cartFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_AdvancedCheckout_Model_CartFactory $cartFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $cartFactory, $data);
+        $this->_storeManager = $storeManager;
+    }
+
+
+    /**
      * Returns url to configure item
      *
      * @return string
@@ -52,7 +78,7 @@ class Errors
     public function getStore()
     {
         $storeId = $this->getCart()->getSession()->getStoreId();
-        return \Mage::app()->getStore($storeId);
+        return $this->_storeManager->getStore($storeId);
     }
 
     /**

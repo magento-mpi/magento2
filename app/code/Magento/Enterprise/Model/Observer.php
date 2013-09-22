@@ -17,6 +17,20 @@ namespace Magento\Enterprise\Model;
 class Observer
 {
     /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     */
+    public function __construct(
+        Magento_Backend_Model_Auth_Session $authSession
+    ) {
+        $this->_authSession = $authSession;
+    }
+
+    /**
      * Set hide survey question to session
      *
      * @param \Magento\Event\Observer $observer
@@ -24,7 +38,7 @@ class Observer
      */
     public function setHideSurveyQuestion($observer)
     {
-        \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setHideSurveyQuestion(true);
+        $this->_authSession->setHideSurveyQuestion(true);
         return $this;
     }
 }

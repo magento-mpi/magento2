@@ -37,6 +37,35 @@ class Wishlist
     protected $_configureRoute = '*/checkout/configureWishlistItem';
 
     /**
+     * Wishlist item factory
+     *
+     * @var Magento_Wishlist_Model_ItemFactory
+     */
+    protected $_itemFactory = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Wishlist_Model_ItemFactory $itemFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Wishlist_Model_ItemFactory $itemFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_itemFactory = $itemFactory;
+    }
+
+    /**
      * Initialize Grid
      *
      */
@@ -70,7 +99,7 @@ class Wishlist
      */
     protected function _createItemsCollection()
     {
-        return \Mage::getModel('Magento\Wishlist\Model\Item')->getCollection();
+        return $this->_itemFactory->create()->getCollection();
     }
 
     /**

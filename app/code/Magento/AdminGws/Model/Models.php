@@ -22,19 +22,33 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @var \Magento\AdminGws\Helper\Data
      */
     protected $_adminGwsData = null;
+    /**
+     * Catalog category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory = null;
 
     /**
-     * Initialize helper
-     * 
-     * @param \Magento\AdminGws\Helper\Data $adminGwsData
-     * @param \Magento\AdminGws\Model\Role $role
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager = null;
+
+    /**
+     * @param Magento_AdminGws_Model_Role $role
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
     public function __construct(
-        \Magento\AdminGws\Helper\Data $adminGwsData,
-        \Magento\AdminGws\Model\Role $role
+        Magento_AdminGws_Helper_Data $adminGwsData,
+        Magento_AdminGws_Model_Role $role,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
-        $this->_adminGwsData = $adminGwsData;
         parent::__construct($role);
+        $this->_adminGwsData = $adminGwsData;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -211,7 +225,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // force to assign to SV
         $storeIds = $model->getStores();
         if (!$storeIds || !$this->_role->hasStoreAccess($storeIds)) {
-            \Mage::throwException(__('Please assign this entity to a store view.'));
+            throw new Magento_Core_Exception(__('Please assign this entity to a store view.'));
         }
 
         // make sure disallowed store ids won't be modified
@@ -598,7 +612,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function salesOrderBeforeSave($model)
     {
         if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
-            \Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('You can create an order in an active store only.')
             );
         }
@@ -686,7 +700,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function catalogEventSaveBefore($model)
     {
-        $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($model->getCategoryId());
+        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwSave();
         }
@@ -723,7 +737,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function catalogEventDeleteBefore($model)
     {
         // delete only in exclusive mode
-        $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($model->getCategoryId());
+        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwDelete();
         }
@@ -739,7 +753,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function catalogEventLoadAfter($model)
     {
-        $category = \Mage::getModel('Magento\Catalog\Model\Category')->load($model->getCategoryId());
+        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
         if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
             $model->setIsReadonly(true);
             $model->setIsDeleteable(false);
@@ -747,43 +761,6 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
             if ($this->_role->hasStoreAccess($model->getStoreId())) {
                 $model->setImageReadonly(false);
             }
-        }
-    }
-
-    /**
-     * Check whether category can be moved
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function catalogCategoryMoveBefore($observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return;
-        }
-
-        $parentCategory = $observer->getEvent()->getParent();
-        $currentCategory = $observer->getEvent()->getCategory();
-
-        foreach (array($parentCategory, $currentCategory) as $category) {
-            if (!$this->_role->hasExclusiveCategoryAccess($category->getData('path'))) {
-                $this->_throwSave();
-            }
-        }
-    }
-
-    /**
-     * Check whether catalog permissions can be edited per category
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function catalogCategoryIsCatalogPermissionsAllowed($observer)
-    {
-        if ($this->_role->getIsAll()) {
-            return;
-        }
-        if (!$this->_role->hasExclusiveCategoryAccess(
-            $observer->getEvent()->getOptions()->getCategory()->getPath())) {
-            $observer->getEvent()->getOptions()->setIsAllowed(false);
         }
     }
 
@@ -914,7 +891,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function salesOrderSaveBefore($model)
     {
-        $this->_salesEntitySaveBefore(\Mage::app()->getStore($model->getStoreId())->getWebsiteId());
+        $this->_salesEntitySaveBefore($this->_storeManager->getStore($model->getStoreId())->getWebsiteId());
     }
 
     /**
@@ -927,7 +904,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function salesOrderEntitySaveBefore($model)
     {
         $this->_salesEntitySaveBefore(
-            \Mage::app()->getStore($model->getOrder()->getStoreId())->getWebsiteId()
+            $this->_storeManager->getStore($model->getOrder()->getStoreId())->getWebsiteId()
         );
     }
 
@@ -1093,7 +1070,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         if (count(array_intersect($websiteIds, $this->_role->getWebsiteIds())) === 0 &&
             count($this->_role->getWebsiteIds())) {
-            \Mage::throwException(__('Please assign this item to a store view.'));
+            throw new Magento_Core_Exception(__('Please assign this item to a store view.'));
         }
         return $websiteIds;
     }
@@ -1109,7 +1086,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         if (count(array_intersect($storeIds, $this->_role->getStoreIds())) === 0 &&
             count($this->_role->getStoreIds())) {
-            \Mage::throwException(__('Please assign this item to a store view.'));
+            throw new Magento_Core_Exception(__('Please assign this item to a store view.'));
         }
         return $storeIds;
     }
@@ -1119,7 +1096,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _throwSave()
     {
-        \Mage::throwException(
+        throw new Magento_Core_Exception(
             __('You need more permissions to save this item.')
         );
     }
@@ -1129,7 +1106,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _throwDelete()
     {
-        \Mage::throwException(
+        throw new Magento_Core_Exception(
             __('You need more permissions to delete this item.')
         );
     }
@@ -1139,10 +1116,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     private function _throwLoad()
     {
-        throw \Mage::exception(
-            'Magento\AdminGws\Controller',
-            __('You need more permissions to view this item.')
-        );
+        throw new Magento_AdminGws_Controller_Exception(__('You need more permissions to view this item.'));
     }
 
     /**

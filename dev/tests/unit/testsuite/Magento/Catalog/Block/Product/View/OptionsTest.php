@@ -65,7 +65,20 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
             )
         );
         
-        $this->_optionsBlock->setProduct($this->_objectHelper->getObject('Magento\Catalog\Model\Product'));
+        $this->_optionsBlock->setProduct(
+            $this->_objectHelper->getObject(
+                'Magento_Catalog_Model_Product',
+                array(
+                    'collectionFactory' => $this->getMock(
+                        'Magento_Data_CollectionFactory',
+                        array(),
+                        array(),
+                        '',
+                        false
+                    )
+                )
+            )
+        );
 
         $option = $this->_objectHelper->getObject('Magento\Catalog\Model\Product\Option',
             array('resource' => $this->_optionResource)

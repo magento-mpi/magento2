@@ -437,7 +437,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             $this->_getCheckoutSession()->addError($e->getMessage());
             $this->_redirect('*/*/billing');
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_getCheckoutSession()->addException($e, __('We cannot open the overview page.'));
             $this->_redirect('*/*/billing');
         }
@@ -502,8 +502,8 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             $this->_getCheckoutSession()->addError($e->getMessage());
             $this->_redirect('*/*/billing');
         } catch (\Exception $e) {
-            \Mage::logException($e);
-            $this->_objectManager->get('Magento\Checkout\Helper\Data')
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Checkout_Helper_Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
             $this->_getCheckoutSession()->addError(__('Order place error'));
             $this->_redirect('*/*/billing');

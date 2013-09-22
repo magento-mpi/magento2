@@ -16,7 +16,7 @@
  */
 namespace Magento\AdvancedCheckout\Model\Cart\Sku\Source;
 
-class Settings
+class Settings implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Enable Order by SKU in 'My Account' options values

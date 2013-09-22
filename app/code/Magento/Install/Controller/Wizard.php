@@ -424,7 +424,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
         $this->_getInstaller()->finish();
 
-        \Magento\AdminNotification\Model\Survey::saveSurveyViewed(true);
+        $this->_objectManager->get('Magento_AdminNotification_Model_Survey')->saveSurveyViewed(true);
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Magento\Install\Model\Session');

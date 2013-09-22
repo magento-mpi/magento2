@@ -18,27 +18,27 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_SalesRule_Model_Resource_Rule_Collection $ruleCollection
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $urlModel,
-        \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection,
-        \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_SalesRule_Model_Resource_Rule_Collection $ruleCollection,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->_registry = $registry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->setCollection($ruleCollection);
     }
@@ -187,6 +187,6 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _getBanner()
     {
-        return $this->_coreRegistry->registry('current_banner');
+        return $this->_registry->registry('current_banner');
     }
 }

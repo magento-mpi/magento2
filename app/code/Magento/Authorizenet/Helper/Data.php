@@ -20,6 +20,47 @@ namespace Magento\Authorizenet\Helper;
 class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_application;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
+     * @param Magento_Backend_Model_Url $urlBuilder
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Sales_Model_OrderFactory $orderFactory,
+        Magento_Backend_Model_Url $urlBuilder
+    ) {
+        parent::__construct($context);
+        $this->_application = $application;
+        $this->_storeManager = $storeManager;
+        $this->_orderFactory = $orderFactory;
+        $this->_urlBuilder = $urlBuilder;
+    }
+
+    /**
      * Return URL for admin area
      *
      * @param string $route
@@ -28,7 +69,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getAdminUrl($route, $params)
     {
-        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl($route, $params);
+        return $this->_urlBuilder->getUrl($route, $params);
     }
 
     /**
@@ -43,7 +84,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $params['_type'] = \Magento\Core\Model\Store::URL_TYPE_LINK;
         if (isset($params['is_secure'])) {
             $params['_secure'] = (bool)$params['is_secure'];
-        } elseif (\Mage::app()->getStore()->isCurrentlySecure()) {
+        } elseif ($this->_storeManager->getStore()->isCurrentlySecure()) {
             $params['_secure'] = true;
         }
         return parent::_getUrl($route, $params);
@@ -142,7 +183,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/sales_order/view';
-                $order = \Mage::getModel('Magento\Sales\Model\Order')->loadByIncrementId($params['x_invoice_num']);
+                $order = $this->_orderFactory->create()->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
                 return $this->getAdminUrl($route, $param);
 
@@ -161,7 +202,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getControllerName()
     {
-        return \Mage::app()->getFrontController()->getRequest()->getControllerName();
+        return $this->_application->getFrontController()->getRequest()->getControllerName();
     }
 
     /**

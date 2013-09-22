@@ -13,7 +13,7 @@
  */
 namespace Magento\Ogone\Model\Source;
 
-class Template
+class Template implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Prepare ogone template mode list as option array

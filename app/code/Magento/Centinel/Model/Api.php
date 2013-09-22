@@ -64,6 +64,23 @@ class Api extends \Magento\Object
     protected $_clientInstance = null;
 
     /**
+     * Log adapter factory
+     *
+     * @var Magento_Core_Model_Log_AdapterFactory
+     */
+    protected $_logFactory;
+
+    /**
+     * @param Magento_Core_Model_Log_AdapterFactory $logFactory
+     * @param array $data
+     */
+    public function __construct(Magento_Core_Model_Log_AdapterFactory $logFactory, array $data = array())
+    {
+        $this->_logFactory = $logFactory;
+        parent::__construct($data);
+    }
+
+    /**
      * Return Centinel thin client object
      *
      * @return \CentinelClient
@@ -244,7 +261,7 @@ class Api extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            \Mage::getModel('Magento\Core\Model\Log\Adapter', array('fileName' => 'card_validation_3d_secure.log'))
+            $this->_logFactory->create(array('fileName' => 'card_validation_3d_secure.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

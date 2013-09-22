@@ -26,32 +26,46 @@ class Rviewed
     protected $_listType = 'rviewed';
 
     /**
-     * Adminhtml sales
-     *
-     * @var \Magento\Adminhtml\Helper\Sales
+     * @var Magento_Adminhtml_Helper_Sales
      */
-    protected $_adminhtmlSales = null;
+    protected $_adminhtmlSales;
 
     /**
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @var Magento_Reports_Model_EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Reports_Model_EventFactory $eventFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $urlModel,
-        \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Reports_Model_EventFactory $eventFactory,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_productFactory = $productFactory;
+        $this->_eventFactory = $eventFactory;
     }
 
     /**
@@ -76,7 +90,7 @@ class Rviewed
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = \Mage::getModel('Magento\Reports\Model\Event')
+            $collection = $this->_eventFactory->create()
                 ->getCollection()
                 ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
                 ->addRecentlyFiler(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
@@ -87,8 +101,8 @@ class Rviewed
 
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
-                $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-                $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+                $attributes = \Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+                $productCollection = $this->_productFactory->create()->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)

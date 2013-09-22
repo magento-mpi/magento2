@@ -79,6 +79,31 @@ class Currencysymbol
     protected $_cacheTypeList;
 
     /**
+     * @var Magento_Backend_Model_Config_Factory
+     */
+    protected $_configFactory;
+
+    /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -86,26 +111,33 @@ class Currencysymbol
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Backend_Model_Config_Factory $configFactory
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
-        \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Backend_Model_Config_Factory $configFactory,
         \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_Event_Manager $eventManager
     ) {
-        $this->_eventManager = $eventManager;
-        $this->_cacheTypeList = $cacheTypeList;
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
+        $this->_configFactory = $configFactory;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_systemStore  = $systemStore;
+        $this->_eventManager = $eventManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -154,8 +186,8 @@ class Currencysymbol
             $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
         );
 
-        /* @var $storeModel \Magento\Core\Model\System\Store */
-        $storeModel = \Mage::getSingleton('Magento\Core\Model\System\Store');
+        /* @var $storeModel Magento_Core_Model_System_Store */
+        $storeModel = $this->_systemStore;
         foreach ($storeModel->getWebsiteCollection() as $website) {
             $websiteShow = false;
             foreach ($storeModel->getGroupCollection() as $group) {
@@ -186,13 +218,11 @@ class Currencysymbol
 
         $currentSymbols = $this->_unserializeStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL);
 
-        /** @var $locale \Magento\Core\Model\LocaleInterface */
-        $locale = \Mage::app()->getLocale();
         foreach ($allowedCurrencies as $code) {
-            if (!$symbol = $locale->getTranslation($code, 'currencysymbol')) {
+            if (!$symbol = $this->_locale->getTranslation($code, 'currencysymbol')) {
                 $symbol = $code;
             }
-            $name = $locale->getTranslation($code, 'nametocurrency');
+            $name = $this->_locale->getTranslation($code, 'nametocurrency');
             if (!$name) {
                 $name = $code;
             }
@@ -236,7 +266,7 @@ class Currencysymbol
             $value['options']['fields']['customsymbol']['inherit'] = 1;
         }
 
-        \Mage::getModel('Magento\Backend\Model\Config')
+        $this->_configFactory->create()
             ->setSection(self::CONFIG_SECTION)
             ->setWebsite(null)
             ->setStore(null)
@@ -249,7 +279,7 @@ class Currencysymbol
 
         // reinit configuration
         $this->_coreConfig->reinit();
-        \Mage::app()->reinitStores();
+        $this->_storeManager->reinitStores();
 
         $this->clearCache();
 

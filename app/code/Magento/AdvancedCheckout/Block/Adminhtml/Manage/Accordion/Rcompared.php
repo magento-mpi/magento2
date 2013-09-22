@@ -26,21 +26,20 @@ class Rcompared
     protected $_listType = 'rcompared';
 
     /**
-     * Adminhtml sales
-     *
-     * @var \Magento\Adminhtml\Helper\Sales
+     * @var Magento_Adminhtml_Helper_Sales
      */
-    protected $_adminhtmlSales = null;
+    protected $_adminhtmlSales;
 
     /**
-     * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param array $data
+     * @var Magento_Catalog_Model_Product_Compare_ListFactory
      */
+    protected $_compareListFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
     public function __construct(
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Core\Helper\Data $coreData,
@@ -48,10 +47,14 @@ class Rcompared
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_productFactory = $productFactory;
+        $this->_compareListFactory = $compareListFactory;
     }
 
     /**
@@ -78,7 +81,7 @@ class Rcompared
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = \Mage::getModel('Magento\Catalog\Model\Product\Compare\ListCompare')
+            $collection = $this->_compareListFactory->create()
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
@@ -94,7 +97,7 @@ class Rcompared
                 // Status attribute is required even if it is not used in product listings
                 array_push($attributes, 'status');
             }
-            $productCollection = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+            $productCollection = $this->_productFactory->create()->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);

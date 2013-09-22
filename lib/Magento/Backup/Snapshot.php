@@ -27,9 +27,25 @@ class Snapshot extends \Magento\Backup\Filesystem
     protected $_dbBackupManager;
 
     /**
+     * Dirs instance
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
+     * @param Magento_Core_Model_Dir $dirs
+     */
+    public function __construct(
+        Magento_Core_Model_Dir $dirs
+    ) {
+        $this->_dirs = $dirs;
+    }
+
+    /**
      * Implementation Rollback functionality for Snapshot
      *
-     * @throws \Magento\Exception
+     * @throws \Exception
      * @return bool
      */
     public function rollback()
@@ -54,7 +70,7 @@ class Snapshot extends \Magento\Backup\Filesystem
     /**
      * Implementation Create Backup functionality for Snapshot
      *
-     * @throws \Magento\Exception
+     * @throws \Exception
      * @return bool
      */
     public function create()
@@ -96,7 +112,7 @@ class Snapshot extends \Magento\Backup\Filesystem
         return \Magento\Backup::getBackupInstance(\Magento\Backup\Helper\Data::TYPE_DB)
             ->setBackupExtension('gz')
             ->setTime($this->getTime())
-            ->setBackupsDir(\Mage::getBaseDir("var"))
+            ->setBackupsDir($this->_dirs->getDir('var'))
             ->setResourceModel($this->getResourceModel());
     }
 

@@ -15,7 +15,7 @@
             <enterprise_setup>
                 <setup>
                     <module>Magento_Enterprise</module>
-                    <class>Magento\Core\Model\Resource\Setup</class>
+                    <class>Magento\Enterprise\Model\Resource\Setup</class>
                 </setup>
             </enterprise_setup>
         </resources>

@@ -228,7 +228,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
             $this->save();
             $this->_getSession()->setVisitorData($this->getData());
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $this;
     }

@@ -15,8 +15,15 @@
  */
 namespace Magento\Directory\Model\Currency\Import;
 
-abstract class AbstractImport
+abstract class AbstractImport implements \Magento\Directory\Model\Currency\Import\Interface
 {
+    /**
+     * Messages
+     *
+     * @var array
+     */
+    protected $_messages = array();
+
     /**
      * Retrieve currency codes
      *

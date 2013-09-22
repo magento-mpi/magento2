@@ -56,6 +56,31 @@ class Event extends \Magento\Core\Model\AbstractModel
     protected $_process = null;
 
     /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param Magento_Index_Model_Indexer $indexer
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Index_Model_Indexer $indexer,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_indexer = $indexer;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      */
     protected function _construct()
@@ -202,8 +227,8 @@ class Event extends \Magento\Core\Model\AbstractModel
 
         $newData = $this->getNewData(false);
         foreach ($processIds as $processId => $processStatus) {
-            if ($processStatus == \Magento\Index\Model\Process::EVENT_STATUS_DONE) {
-                $process = \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessById($processId);
+            if ($processStatus == Magento_Index_Model_Process::EVENT_STATUS_DONE) {
+                $process = $this->_indexer->getProcessById($processId);
                 if ($process) {
                     $namespace = get_class($process->getIndexer());
                     if (array_key_exists($namespace, $newData)) {

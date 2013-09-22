@@ -80,13 +80,6 @@ class Dhl
     protected $_defaultGatewayUrl = 'https://eCommerce.airborne.com/ApiLandingTest.asp';
 
     /**
-     * Factory for \Magento\Usa\Model\Simplexml\Element
-     *
-     * @var \Magento\Usa\Model\Simplexml\ElementFactory
-     */
-    protected $_xmlElFactory;
-
-    /**
      * Container types that could be customized
      *
      * @var array
@@ -127,22 +120,44 @@ class Dhl
      * @param \Magento\Core\Helper\String $coreString
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
+     * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
+     * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
+     * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Helper\String $coreString,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
+        Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
+        Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
+        Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
+        Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreString = $coreString;
         $this->_usaData = $usaData;
-        $this->_xmlElFactory = $xmlElFactory;
-        parent::__construct($directoryData, $coreStoreConfig, $data);
+        parent::__construct(
+            $xmlElFactory, $rateFactory, $rateMethodFactory, $rateErrorFactory,
+            $trackFactory, $trackErrorFactory, $trackStatusFactory, $regionFactory,
+            $countryFactory, $currencyFactory, $directoryData, $coreStoreConfig, $data
+        );
     }
 
     /**
@@ -383,7 +398,7 @@ class Dhl
 
 
         if (is_numeric($request->getOrigState())) {
-            $r->setOrigState(\Mage::getModel('Magento\Directory\Model\Region')->load($request->getOrigState())->getCode());
+            $r->setOrigState($this->_regionFactory->create()->load($request->getOrigState())->getCode());
         } else {
             $r->setOrigState($request->getOrigState());
         }
@@ -629,8 +644,6 @@ class Dhl
     {
         $r = $this->_rawRequest;
 
-        $store = \Mage::app()->getStore($r->getStoreId());
-
         $_haz = $this->getConfigFlag('hazardous_materials');
 
         $_subtotal = $r->getValue();
@@ -875,12 +888,12 @@ class Dhl
             }
             return $result;
         } else {
-            $result = \Mage::getModel('Magento\Shipping\Model\Rate\Result');
+            $result = $this->_rateFactory->create();
             if ($this->_dhlRates) {
                 foreach ($this->_dhlRates as $rate) {
                     $method = $rate['service'];
                     $data = $rate['data'];
-                    $rate = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Method');
+                    $rate = $this->_rateMethodFactory->create();
                     $rate->setCarrier('dhl');
                     $rate->setCarrierTitle($this->getConfigData('title'));
                     $rate->setMethod($method);
@@ -890,7 +903,7 @@ class Dhl
                     $result->append($rate);
                 }
             } else if (!empty($this->_errors)) {
-                $error = \Mage::getModel('Magento\Shipping\Model\Rate\Result\Error');
+                $error = $this->_rateErrorFactory->create();
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -1248,10 +1261,10 @@ class Dhl
             }
         }
 
-        $result = \Mage::getModel('Magento\Shipping\Model\Tracking\Result');
+        $result = $this->_trackFactory->create();
         if ($errorArr || $resultArr) {
             foreach ($errorArr as $t => $r) {
-                $error = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Error');
+                $error = $this->_trackErrorFactory->create();
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);
@@ -1260,7 +1273,7 @@ class Dhl
             }
 
             foreach ($resultArr as $t => $data) {
-                $tracking = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Status');
+                $tracking = $this->_trackStatusFactory->create();
                 $tracking->setCarrier('dhl');
                 $tracking->setCarrierTitle($this->getConfigData('title'));
                 $tracking->setTracking($t);
@@ -1270,7 +1283,7 @@ class Dhl
             }
         } else {
             foreach ($trackings as $t) {
-                $error = \Mage::getModel('Magento\Shipping\Model\Tracking\Result\Error');
+                $error = $this->_trackErrorFactory->create();
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);

@@ -16,14 +16,21 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
 
-class OriginShipment
+class OriginShipment extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
 {
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'originShipment';
+
     public function toOptionArray()
     {
-        $orShipArr = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Ups')->getCode('originShipment');
+        $orShipArr = $this->_shippingUps->getCode($this->_code);
         $returnArr = array();
         foreach ($orShipArr as $key => $val){
-            $returnArr[] = array('value'=>$key,'label'=>$key);
+            $returnArr[] = array('value' => $key,'label' => $key);
         }
         return $returnArr;
     }

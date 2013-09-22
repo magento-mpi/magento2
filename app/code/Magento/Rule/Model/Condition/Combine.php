@@ -21,6 +21,11 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
     static protected $_conditionModels = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
@@ -42,6 +47,8 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
                 break;
             }
         }
+
+        $this->_logger = $context->getLogger();
     }
 
     /**
@@ -237,7 +244,7 @@ class Combine extends \Magento\Rule\Model\Condition\AbstractCondition
                         $cond->loadArray($condArr, $key);
                     }
                 } catch (\Exception $e) {
-                    \Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }

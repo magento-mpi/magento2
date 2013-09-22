@@ -154,10 +154,8 @@ class Template extends \Magento\Adminhtml\Controller\Action
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()
-                    ->addError(__('An error occurred while deleting email template data. '
-                        . 'Please review log and try again.'));
-                \Mage::logException($e);
+                $this->_getSession()->addError(__('An error occurred while deleting email template data. Please review log and try again.'));
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 // save data in session
                 \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->setFormData($this->getRequest()->getParams());
@@ -198,7 +196,7 @@ class Template extends \Magento\Adminhtml\Controller\Action
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($template->getData())
             );
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
     }
 

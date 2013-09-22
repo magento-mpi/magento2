@@ -69,19 +69,7 @@ class Form
     public function getShippingRates()
     {
         if (empty($this->_rates)) {
-            $groups = $this->getAddress()->getGroupedAllShippingRates();
-            /*
-            if (!empty($groups)) {
-
-                $ratesFilter = new \Magento\Filter\Object\Grid();
-                $ratesFilter->addFilter($this->getStore()->getPriceFilter(), 'price');
-
-                foreach ($groups as $code => $groupItems) {
-                    $groups[$code] = $ratesFilter->filter($groupItems);
-                }
-            }
-            */
-            return $this->_rates = $groups;
+            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();
         }
         return $this->_rates;
     }

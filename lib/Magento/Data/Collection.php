@@ -15,9 +15,14 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+
+/**
+ * TODO: Refactor use of Magento_Core_Model_Option_ArrayInterface in library. Probably will be refactored while
+ * moving Magento_Core to library
+ */
 namespace Magento\Data;
 
-class Collection implements \IteratorAggregate, \Countable
+class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\Option\ArrayInterface
 {
     const SORT_ORDER_ASC    = 'ASC';
     const SORT_ORDER_DESC   = 'DESC';
@@ -94,9 +99,17 @@ class Collection implements \IteratorAggregate, \Countable
      */
     protected $_flags = array();
 
-    public function __construct()
-    {
+    /**
+     * @var Magento_Core_Model_EntityFactory
+     */
+    protected $_entityFactory;
 
+    /**
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     */
+    public function __construct(Magento_Core_Model_EntityFactory $entityFactory)
+    {
+        $this->_entityFactory = $entityFactory;
     }
 
     /**
@@ -105,6 +118,7 @@ class Collection implements \IteratorAggregate, \Countable
      * @param string $field
      * @param string $value
      * @param string $type and|or|string
+     * @return Magento_Data_Collection
      */
     public function addFilter($field, $value, $type = 'and')
     {
@@ -252,7 +266,7 @@ class Collection implements \IteratorAggregate, \Countable
             return current($this->_items);
         }
 
-        return \Mage::getModel($this->_itemObjectClass);
+        return $this->_entityFactory->create($this->_itemObjectClass);
     }
 
     /**
@@ -268,7 +282,7 @@ class Collection implements \IteratorAggregate, \Countable
             return end($this->_items);
         }
 
-        return \Mage::getModel($this->_itemObjectClass);
+        return $this->_entityFactory->create($this->_itemObjectClass);
     }
 
     /**
@@ -547,7 +561,7 @@ class Collection implements \IteratorAggregate, \Countable
      */
     public function getNewEmptyItem()
     {
-        return \Mage::getModel($this->_itemObjectClass);
+        return $this->_entityFactory->create($this->_itemObjectClass);
     }
 
     /**

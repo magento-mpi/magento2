@@ -154,6 +154,14 @@ class Checkout
     protected $_customerData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Set config, session and quote instances
+     *
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Tax\Helper\Data $taxData
@@ -164,6 +172,7 @@ class Checkout
      * @throws \Exception
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Tax\Helper\Data $taxData,
@@ -178,6 +187,7 @@ class Checkout
         $this->_checkoutData = $checkoutData;
         $this->_customerSession = $customerSession;
         $this->_configCacheType = $configCacheType;
+        $this->_logger = $logger;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -215,7 +225,7 @@ class Checkout
                     $this->_configCacheType->save($pal, $cacheId);
                 } catch (\Exception $e) {
                     $this->_configCacheType->save(self::PAL_CACHE_ID, $cacheId);
-                    \Mage::logException($e);
+                   $this->_logger->logException($e);
                 }
             }
         }
@@ -596,7 +606,7 @@ class Checkout
             try {
                 $this->_involveNewCustomer();
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 

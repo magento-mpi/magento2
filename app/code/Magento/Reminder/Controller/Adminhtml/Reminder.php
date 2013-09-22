@@ -204,8 +204,8 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We could not save the reminder rule.'));
-                \Mage::logException($e);
+                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We could not save the reminder rule.'));
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -226,8 +226,8 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We could not delete the reminder rule.'));
-            \Mage::logException($e);
+            \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We could not delete the reminder rule.'));
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -240,12 +240,12 @@ class Reminder extends \Magento\Adminhtml\Controller\Action
         try {
             $model = $this->_initRule();
             $model->sendReminderEmails();
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You matched the reminder rule.'));
-        } catch (\Magento\Core\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You matched the reminder rule.'));
+        } catch (Magento_Core_Exception $e) {
+            \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addException($e, __('Reminder rule matching error.'));
-            \Mage::logException($e);
+            \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addException($e, __('Reminder rule matching error.'));
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
     }

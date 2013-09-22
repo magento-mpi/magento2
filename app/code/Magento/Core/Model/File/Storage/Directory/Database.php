@@ -201,7 +201,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
                     \Mage::throwException(__('Parent directory does not exist: %1', $dir['path']));
                 }
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 

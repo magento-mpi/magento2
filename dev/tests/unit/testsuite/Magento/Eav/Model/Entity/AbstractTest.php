@@ -101,10 +101,12 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
             );
             $mock->setAttributeId($code);
 
+            $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
             /** @var $backendModel \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend */
             $backendModel = $this->getMock(
-                'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
-                array('getBackend', 'getBackendTable')
+                'Magento_Eav_Model_Entity_Attribute_Backend_Abstract',
+                array('getBackend', 'getBackendTable'),
+                array($logger)
             );
 
             $backendModel->setAttribute($mock);
@@ -226,6 +228,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
         $attribute = $this->_getAttributeMock($attributeCode, $attributeSetId);
 
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         /** @var $backendModel \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend */
         $backendModel = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
@@ -236,7 +239,8 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
                 'isStatic',
                 'getEntityValueId',
                 'getEntityIdField'
-            )
+            ),
+            array($logger)
         );
 
         $backendModel->expects($this->once())

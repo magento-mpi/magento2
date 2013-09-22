@@ -42,16 +42,10 @@ class Ordered
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Config $coreConfig
-     * @param array $data
+     * @var Magento_Catalog_Model_ProductFactory
      */
+    protected $_productFactory;
+
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -59,6 +53,7 @@ class Ordered
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Config $coreConfig,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
         parent::__construct(
@@ -70,6 +65,7 @@ class Ordered
             $data
         );
         $this->_coreConfig = $coreConfig;
+        $this->_productFactory = $productFactory;
     }
 
     /**
@@ -133,8 +129,8 @@ class Ordered
                 }
                 if ($productIds) {
                     // Load products collection
-                    $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
-                    $products = \Mage::getModel('Magento\Catalog\Model\Product')->getCollection()
+                    $attributes = \Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+                    $products = $this->_productFactory->create()->getCollection()
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')

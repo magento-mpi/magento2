@@ -11,23 +11,17 @@
 
 class Magento_Backup_SnapshotTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @param array $methods
-     * @return \Magento\Backup\Snapshot
-     */
     public function testGetDbBackupFilename()
     {
-        $manager = $this->getMock(
-            'Magento\Backup\Snapshot',
-            array('getBackupFilename')
-        );
+        $dir = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $manager = $this->getMock('Magento_Backup_Snapshot', array('getBackupFilename'), array($dir));
 
         $file = 'var/backup/2.gz';
         $manager->expects($this->once())
             ->method('getBackupFilename')
             ->will($this->returnValue($file));
 
-        $model = new \Magento\Backup\Snapshot();
+        $model = new Magento_Backup_Snapshot($dir);
         $model->setDbBackupManager($manager);
         $this->assertEquals($file, $model->getDbBackupFilename());
     }

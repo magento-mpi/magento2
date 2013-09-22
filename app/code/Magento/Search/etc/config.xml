@@ -49,16 +49,4 @@
             </search>
         </catalog>
     </default>
-    <crontab>
-        <jobs>
-            <magento_search_index_reindex_all>
-                <schedule>
-                    <cron_expr>0 3 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento\Search\Model\Indexer\Indexer::reindexAll</model>
-                </run>
-            </magento_search_index_reindex_all>
-        </jobs>
-    </crontab>
 </config>

@@ -13,13 +13,11 @@
  *
  * @var $this \Magento\Oauth\Block\Authorize
  */
-
-$rejectJs = "document.location.href='{$this->getRejectUrl()}';";
 ?>
 <div class="account-login">
     <?php echo $this->getLayout()->renderElement('messages') ?>
     <?php if (!$this->getHasException()): ?>
-        <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
+        <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form" data-mage-init="{validation: {}}">
             <div class="col1-set">
                 <div class="col-1 registered-users">
                     <div class="content" style="margin: 0 auto; padding-bottom: 13px;">
@@ -42,7 +40,7 @@ $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
                         <div class="buttons-set" style="margin-top: 20px; padding: 0;">
                             <button type="submit" class="button" title="<?php echo __('Login') ?>" name="send" id="send2">
                                 <span><span><?php echo __('Login') ?></span></span></button>
-                            <button type="submit" class="button" onclick="<?php echo $rejectJs; ?>"
+                            <button type="submit" class="button" data-mage-init="{redirectUrl: {url: '<?php echo $this->getRejectUrl() ?>'}}"
                                     title="<?php echo __('Reject') ?>" name="send">
                                 <span><span><?php echo __('Reject') ?></span></span></button>
                         </div>
@@ -51,10 +49,5 @@ $rejectJs = "document.location.href='{$this->getRejectUrl()}';";
             </div>
             <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
         </form>
-        <script type="text/javascript">
-        //<![CDATA[
-            var dataForm = new VarienForm('login-form', true);
-        //]]>
-        </script>
     <?php endif; ?>
 </div>

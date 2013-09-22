@@ -89,8 +89,12 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
 
         $translator = $this->getMock('stdClass');
 
-        /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
+        /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
+        $attributeCollection = $this->getMock(
+            'Magento_Data_Collection',
+            array('getEntityTypeCode'),
+            array($this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false))
+        );
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
                 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute'

@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Model\Source\Export;
 
-class Format
+class Format implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var \Magento\ImportExport\Model\Config

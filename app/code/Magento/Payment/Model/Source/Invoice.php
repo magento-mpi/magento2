@@ -15,7 +15,7 @@
  */
 namespace Magento\Payment\Model\Source;
 
-class Invoice
+class Invoice implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

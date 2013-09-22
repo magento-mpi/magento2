@@ -14,7 +14,7 @@
  */
 namespace Magento\Pci\Model\System\Config\Source;
 
-class Password extends \Magento\Object
+class Password extends \Magento\Object implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Get options for select

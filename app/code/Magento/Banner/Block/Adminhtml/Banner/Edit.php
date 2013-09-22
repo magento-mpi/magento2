@@ -17,7 +17,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry = null;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -31,7 +31,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
+        $this->_registry = $registry;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -67,7 +67,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getBannerId()
     {
-        return $this->_coreRegistry->registry('current_banner')->getId();
+        return $this->_registry->registry('current_banner')->getId();
     }
 
     /**
@@ -76,8 +76,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if ($this->_coreRegistry->registry('current_banner')->getId()) {
-            return $this->escapeHtml($this->_coreRegistry->registry('current_banner')->getName());
+        if ($this->_registry->registry('current_banner')->getId()) {
+            return $this->escapeHtml($this->_registry->registry('current_banner')->getName());
         } else {
             return __('New Banner');
         }

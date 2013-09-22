@@ -28,6 +28,12 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
     protected $_usaData = null;
 
     /**
+     * @var Magento_Usa_Model_Shipping_Carrier_Dhl_International
+     */
+    protected $_shippingDhl;
+
+    /**
+     * @param Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhl
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -35,12 +41,14 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
      * @param array $data
      */
     public function __construct(
+        Magento_Usa_Model_Shipping_Carrier_Dhl_International $shippingDhl,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\App $application,
         array $data = array()
     ) {
+        $this->_shippingDhl = $shippingDhl;
         $this->_usaData = $usaData;
         parent::__construct($coreData, $context, $application, $data);
     }
@@ -54,7 +62,7 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
     {
         parent::_construct();
 
-        $carrierModel = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Dhl\International');
+        $carrierModel = $this->_shippingDhl;
 
         $this->setInch($this->jsQuoteEscape($carrierModel->getCode('unit_of_dimension_cut', 'I')));
         $this->setCm($this->jsQuoteEscape($carrierModel->getCode('unit_of_dimension_cut', 'C')));

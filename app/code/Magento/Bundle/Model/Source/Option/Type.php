@@ -17,7 +17,7 @@
  */
 namespace Magento\Bundle\Model\Source\Option;
 
-class Type
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     const BUNDLE_OPTIONS_TYPES_PATH = 'global/catalog/product/options/bundle/types';
 

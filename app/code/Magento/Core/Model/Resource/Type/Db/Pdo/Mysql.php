@@ -13,6 +13,22 @@ namespace Magento\Core\Model\Resource\Type\Db\Pdo;
 
 class Mysql extends \Magento\Core\Model\Resource\Type\Db
 {
+    /**
+     * Dirs instance
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
+     * @param Magento_Core_Model_Dir $dirs
+     */
+    public function __construct(
+        Magento_Core_Model_Dir $dirs
+    ) {
+        $this->_dirs = $dirs;
+        parent::__construct();
+    }
 
     /**
      * Get connection
@@ -43,7 +59,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     protected function _getDbAdapterInstance($configArr)
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className($configArr);
+        $adapter = new $className($this->_dirs, $configArr);
         return $adapter;
     }
 
@@ -56,5 +72,4 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     {
         return 'Magento\DB\Adapter\Pdo\Mysql';
     }
-
 }

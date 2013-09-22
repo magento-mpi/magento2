@@ -50,24 +50,9 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 
     public function getShippingRates()
     {
-
         if (empty($this->_rates)) {
             $this->getAddress()->collectShippingRates()->save();
-
-            $groups = $this->getAddress()->getGroupedAllShippingRates();
-            /*
-            if (!empty($groups)) {
-                $ratesFilter = new \Magento\Filter\Object\Grid();
-                $ratesFilter->addFilter(\Mage::app()->getStore()->getPriceFilter(), 'price');
-
-                foreach ($groups as $code => $groupItems) {
-                    $groups[$code] = $ratesFilter->filter($groupItems);
-                }
-            }
-            */
-
-            return $this->_rates = $groups;
-        }
+            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();        }
 
         return $this->_rates;
     }

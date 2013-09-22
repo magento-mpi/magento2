@@ -26,11 +26,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public function testSetForm()
     {
         $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
+        $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
+        $session = $this->getMock('Magento_Core_Model_Session', array(), array(), '', false);
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array('create'),
             array(), '', false);
 
-        $form = new \Magento\Data\Form($factory, $collectionFactory);
+        $form = new Magento_Data_Form($session, $factory, $collectionFactory);
 
         $helper = $this->getMock('Magento\Catalog\Helper\Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false

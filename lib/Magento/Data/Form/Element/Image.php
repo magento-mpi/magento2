@@ -20,17 +20,24 @@ namespace Magento\Data\Form\Element;
 class Image extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param array $attributes
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        Magento_Core_Model_UrlInterface $urlBuilder,
         $attributes = array()
     ) {
+        $this->_urlBuilder = $urlBuilder;
         parent::__construct($coreData, $factoryElement, $factoryCollection, $attributes);
         $this->setType('file');
     }
@@ -48,7 +55,7 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
             $url = $this->_getUrl();
 
             if( !preg_match("/^http\:\/\/|https\:\/\//", $url) ) {
-                $url = \Mage::getBaseUrl('media') . $url;
+                $url = $this->_urlBuilder->getBaseUrl('media') . $url;
             }
 
             $html = '<a href="' . $url . '"'

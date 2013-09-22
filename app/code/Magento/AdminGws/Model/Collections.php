@@ -16,6 +16,23 @@ namespace Magento\AdminGws\Model;
 class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager = null;
+
+    /**
+     * @param Magento_AdminGws_Model_Role $role
+     * @param Magento_Core_Model_StoreManager $storeManager
+     */
+    public function __construct(
+        Magento_AdminGws_Model_Role $role,
+        Magento_Core_Model_StoreManager $storeManager
+    ) {
+        parent::__construct($role);
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Limit store views collection. Adding limitation depending
      * on allowed group ids for user.
      *
@@ -86,7 +103,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
             $websiteIds = (array)$filters['website_ids'];
         }
         if (isset($filters['store_id'])) {
-            $websiteIds[] = \Mage::app()->getStore($filters['store_id'])->getWebsiteId();
+            $websiteIds[] = $this->_storeManager->getStore($filters['store_id'])->getWebsiteId();
         }
 
         if (count($websiteIds)) {

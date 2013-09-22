@@ -34,6 +34,7 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Core\Model\View\Config $viewConfig
      * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\AuthorizationInterface $authorization
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -54,11 +55,12 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Core\Model\View\Config $viewConfig,
         \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\AuthorizationInterface $authorization,
+        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
         parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
-            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $data
+            $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $data
         );
     }
 

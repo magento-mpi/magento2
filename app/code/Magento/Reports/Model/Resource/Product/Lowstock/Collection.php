@@ -53,7 +53,9 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Resource\Product $product
      */
@@ -62,18 +64,16 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Resource\Product $product
     ) {
         $this->_inventoryData = $catalogInventoryData;
         parent::__construct(
-            $catalogProductFlat,
-            $catalogData,
-            $eventManager,
-            $fetchStrategy,
-            $coreStoreConfig,
-            $product
+            $catalogProductFlat, $catalogData, $eventManager, $logger,
+            $fetchStrategy, $coreStoreConfig, $entityFactory, $product
         );
     }
 

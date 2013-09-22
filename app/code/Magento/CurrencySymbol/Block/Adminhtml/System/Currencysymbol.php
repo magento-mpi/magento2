@@ -20,6 +20,27 @@ namespace Magento\CurrencySymbol\Block\Adminhtml\System;
 class Currencysymbol extends \Magento\Backend\Block\Widget\Form
 {
     /**
+     * @var Magento_CurrencySymbol_Model_System_Currencysymbol_Factory
+     */
+    protected $_symbolSystemFactory;
+
+    /**
+     * @param Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolSystemFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_CurrencySymbol_Model_System_Currencysymbol_Factory $symbolSystemFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_symbolSystemFactory = $symbolSystemFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Constructor. Initialization required variables for class instance.
      */
     protected function _construct()
@@ -116,8 +137,7 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
     public function getCurrencySymbolsData()
     {
         if(!$this->_symbolsData) {
-            $this->_symbolsData =  \Mage::getModel('Magento\CurrencySymbol\Model\System\Currencysymbol')
-                ->getCurrencySymbolsData();
+            $this->_symbolsData =  $this->_symbolSystemFactory->create()->getCurrencySymbolsData();
         }
         return $this->_symbolsData;
     }

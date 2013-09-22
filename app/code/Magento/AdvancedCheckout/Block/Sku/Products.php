@@ -20,18 +20,19 @@ namespace Magento\AdvancedCheckout\Block\Sku;
 class Products extends \Magento\Checkout\Block\Cart
 {
     /**
-     * Checkout data
-     *
-     * @var \Magento\AdvancedCheckout\Helper\Data
+     * @var Magento_AdvancedCheckout_Helper_Data
      */
-    protected $_checkoutData = null;
+    protected $_checkoutData;
 
     /**
-     * Core url
-     *
-     * @var \Magento\Core\Helper\Url
+     * @var Magento_Core_Helper_Url
      */
-    protected $_coreUrl = null;
+    protected $_coreUrl;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
 
     /**
      * @param \Magento\Core\Helper\Url $coreUrl
@@ -39,6 +40,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
@@ -47,11 +49,13 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         parent::__construct($catalogData, $coreData, $context, $data);
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -111,7 +115,7 @@ class Products extends \Magento\Checkout\Block\Cart
                 $product = $option->getProduct();
             }
 
-            if ($item->getStoreId() != \Mage::app()->getStore()->getId()
+            if ($item->getStoreId() != $this->_storeManager->getStore()->getId()
                 && !$item->getRedirectUrl()
                 && !$product->isVisibleInSiteVisibility())
             {

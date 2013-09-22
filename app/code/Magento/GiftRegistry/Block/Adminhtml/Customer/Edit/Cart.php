@@ -10,6 +10,7 @@
 
 /**
  * Adminhtml customer cart items grid block
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
@@ -24,6 +25,12 @@ class Cart
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_dataCollectionFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $dataCollectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -32,6 +39,7 @@ class Cart
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $dataCollectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -39,6 +47,7 @@ class Cart
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -58,7 +67,7 @@ class Cart
         $quote->setWebsite(\Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
         $quote->loadByCustomer(\Mage::getModel('Magento\Customer\Model\Customer')->load($this->getEntity()->getCustomerId()));
 
-        $collection = ($quote) ? $quote->getItemsCollection(false) : new \Magento\Data\Collection();
+        $collection = ($quote) ? $quote->getItemsCollection(false) : $this->_dataCollectionFactory->create();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
         $this->setCollection($collection);
 

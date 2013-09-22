@@ -29,7 +29,8 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     protected $_coreApp;
 
     /**
-     * @param \Magento\Widget\Model\Widget $widget
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Widget_Model_Widget $widget
      * @param \Magento\Widget\Model\Resource\Widget $widgetResource
      * @param \Magento\Core\Model\App $coreApp
      * @param \Magento\Core\Helper\Data $coreData
@@ -37,6 +38,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Widget\Model\Widget $widget,
         \Magento\Widget\Model\Resource\Widget $widgetResource,
         \Magento\Core\Model\App $coreApp,
@@ -47,7 +49,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         $this->_widget = $widget;
         $this->_widgetResource = $widgetResource;
         $this->_coreApp = $coreApp;
-        parent::__construct($coreData, $viewUrl, $coreStoreConfig);
+        parent::__construct($logger, $coreData, $viewUrl, $coreStoreConfig);
     }
     /**
      * Generate widget

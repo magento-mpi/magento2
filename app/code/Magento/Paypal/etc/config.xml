@@ -192,13 +192,4 @@
             </hosted_pro>
         </payment>
     </default>
-    <crontab>
-        <jobs>
-            <paypal_fetch_settlement_reports>
-                <run>
-                    <model>Magento\Paypal\Model\Observer::fetchReports</model>
-                </run>
-            </paypal_fetch_settlement_reports>
-        </jobs>
-    </crontab>
 </config>

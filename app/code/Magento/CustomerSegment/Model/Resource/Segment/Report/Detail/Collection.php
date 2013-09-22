@@ -18,18 +18,22 @@ class Collection
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param \Magento\Core\Model\Registry $registryManager
      * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         \Magento\Core\Model\Registry $registryManager,
         \Magento\Core\Model\Fieldset\Config $fieldsetConfig
     ) {
         $this->_registryManager = $registryManager;
-        parent::__construct($eventManager, $fetchStrategy, $fieldsetConfig);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $fieldsetConfig);
     }
 
     /**

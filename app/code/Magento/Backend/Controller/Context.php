@@ -37,7 +37,8 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
     protected $_translator;
 
     /**
-     * @param \Magento\Core\Controller\Request\Http $request
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Controller_Request_Http $request
      * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Controller\Varien\Front $frontController
@@ -51,6 +52,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Controller\Request\Http $request,
         \Magento\Core\Controller\Response\Http $response,
         \Magento\ObjectManager $objectManager,
@@ -62,7 +64,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Translate $translator
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layout, $eventManager);
+        parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager);
         $this->_session = $session;
         $this->_helper = $helper;
         $this->_authorization = $authorization;

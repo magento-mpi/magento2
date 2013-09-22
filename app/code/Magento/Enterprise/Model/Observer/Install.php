@@ -17,12 +17,26 @@ namespace Magento\Enterprise\Model\Observer;
 class Install
 {
     /**
+     * @var Magento_Install_Model_Installer
+     */
+    protected $_installer;
+
+    /**
+     * @param Magento_Install_Model_Installer $installer
+     */
+    public function __construct(
+        Magento_Install_Model_Installer $installer
+    ) {
+        $this->_installer = $installer;
+    }
+
+    /**
      * Set Enterprise design theme and flag to hide iframe
      *
      * @param \Magento\Event\Observer $observer
      */
     public function setDesignTheme($observer)
     {
-        \Mage::getSingleton('Magento\Install\Model\Installer')->setHideIframe(true);
+        $this->_installer->setHideIframe(true);
     }
 }

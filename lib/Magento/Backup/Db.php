@@ -20,6 +20,28 @@ namespace Magento\Backup;
 class Db extends \Magento\Backup\AbstractBackup
 {
     /**
+     * @var Magento_Backup_Model_BackupFactory
+     */
+    protected $_backupFactory;
+
+    /**
+     * @var Magento_Backup_Model_DbFactory
+     */
+    protected $_backupDbFactory;
+
+    /**
+     * @param Magento_Backup_Model_BackupFactory $backupFactory
+     * @param Magento_Backup_Model_DbFactory $backupDbFactory
+     */
+    public function __construct(
+        Magento_Backup_Model_BackupFactory $backupFactory,
+        Magento_Backup_Model_DbFactory $backupDbFactory
+    ) {
+        $this->_backupFactory = $backupFactory;
+        $this->_backupDbFactory = $backupDbFactory;
+    }
+
+    /**
      * Implements Rollback functionality for Db
      *
      * @return bool
@@ -79,13 +101,14 @@ class Db extends \Magento\Backup\AbstractBackup
 
         $this->_lastOperationSucceed = false;
 
-        $backup = \Mage::getModel('Magento\Backup\Model\Backup')
+        $backup = $this->_backupFactory
+            ->create()
             ->setTime($this->getTime())
             ->setType($this->getType())
             ->setPath($this->getBackupsDir())
             ->setName($this->getName());
 
-        $backupDb = \Mage::getModel('Magento\Backup\Model\Db');
+        $backupDb = $this->_backupDbFactory->create();
         $backupDb->createBackup($backup);
 
         $this->_lastOperationSucceed = true;

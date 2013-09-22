@@ -11,15 +11,12 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Usps\Source;
 
-class Size
+class Size extends \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Generic
 {
-    public function toOptionArray()
-    {
-        $usps = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Usps');
-        $arr = array();
-        foreach ($usps->getCode('size') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>$v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'size';
 }

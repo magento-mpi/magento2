@@ -112,24 +112,4 @@
             </backend>
         </captcha>
     </default>
-    <crontab>
-        <jobs>
-            <captcha_delete_old_attempts>
-                <schedule>
-                    <cron_expr>*/30 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento\Captcha\Model\Observer::deleteOldAttempts</model>
-                </run>
-            </captcha_delete_old_attempts>
-            <captcha_delete_expired_images>
-                <schedule>
-                    <cron_expr>*/10 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento\Captcha\Model\Observer::deleteExpiredImages</model>
-                </run>
-            </captcha_delete_expired_images>
-        </jobs>
-    </crontab>
 </config>

@@ -11,15 +11,12 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
 
-class Dutypaymenttype
+class Dutypaymenttype extends \Magento\Usa\Shipping\Carrier\Dhl\Source\Generic
 {
-    public function toOptionArray()
-    {
-        $dhl = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Dhl');
-        $arr = array();
-        foreach ($dhl->getCode('dutypayment_type') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>$v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'dutypayment_type';
 }

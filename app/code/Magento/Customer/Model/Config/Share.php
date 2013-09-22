@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Model\Config;
 
-class Share extends \Magento\Core\Model\Config\Value
+class Share extends \Magento\Core\Model\Config\Value implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Xml config path to customers sharing scope value

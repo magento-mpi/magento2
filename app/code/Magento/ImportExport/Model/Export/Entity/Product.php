@@ -141,17 +141,25 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Constructor
      *
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Catalog\Model\Resource\Product\Collection $collection,
         \Magento\Core\Model\Config $coreConfig
     ) {
         $this->_entityCollection = $collection;
         $this->_coreConfig = $coreConfig;
+        $this->_logger = $logger;
         parent::__construct();
 
         $this->_initTypeModels()
@@ -998,7 +1006,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                 }
             }
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $exportData;
     }

@@ -60,14 +60,4 @@ class Type
         }
         return $this->_options;
     }
-
-    /**
-     * Get options as array
-     *
-     * @return array
-     */
-    public function toOptionArray()
-    {
-        return $this->getAllOptions();
-    }
 }

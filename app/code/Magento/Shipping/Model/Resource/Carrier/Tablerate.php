@@ -89,19 +89,25 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+    
+    /**
      * Class constructor
      *
-     * @param \Magento\Core\Model\Resource $resource
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Resource $resource
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Resource $resource,
         \Magento\Core\Model\Config $coreConfig
     ) {
-        parent::__construct(
-            $resource
-        );
+        parent::__construct($resource);
         $this->_coreConfig = $coreConfig;
+        $this->_logger = $logger;
     }
 
     /**
@@ -267,7 +273,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         } catch (\Exception $e) {
             $adapter->rollback();
             $io->streamClose();
-            \Mage::logException($e);
+            $this->_logger->logException($e);
             \Mage::throwException(__('Something went wrong while importing table rates.'));
         }
 

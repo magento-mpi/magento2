@@ -86,6 +86,12 @@ class Area
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Config $config
@@ -95,6 +101,7 @@ class Area
      * @param string $areaCode
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Translate $translator,
         \Magento\Core\Model\Config $config,
@@ -110,6 +117,7 @@ class Area
         $this->_diConfigLoader = $diConfigLoader;
         $this->_eventManager = $eventManager;
         $this->_translator = $translator;
+        $this->_logger = $logger;
     }
 
     /**
@@ -172,7 +180,7 @@ class Area
                 }
             }
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return false;
     }

@@ -532,7 +532,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                 $this->_getSession()->addError(
                     __("We couldn't save this gift registry.")
                 );
-                \Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $isError = true;
             }
 

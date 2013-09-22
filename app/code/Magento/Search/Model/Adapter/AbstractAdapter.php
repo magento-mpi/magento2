@@ -133,6 +133,20 @@ abstract class AbstractAdapter
         'visibility'
     );
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
 
     /**
      * Retrieve attribute field name
@@ -596,7 +610,7 @@ abstract class AbstractAdapter
             $this->_client->addDocuments($_docs);
         } catch (\Exception $e) {
             $this->rollback();
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         $this->commit();
@@ -638,7 +652,7 @@ abstract class AbstractAdapter
                 $this->_client->$deleteMethod($params);
             } catch (\Exception $e) {
                 $this->rollback();
-                \Mage::logException($e);
+                $this->_logger->logException($e);
             }
 
             $this->commit();

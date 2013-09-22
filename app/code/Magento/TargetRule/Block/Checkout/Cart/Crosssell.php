@@ -14,6 +14,7 @@
  *
  * @category   Magento
  * @package    Magento_TargetRule
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\TargetRule\Block\Checkout\Cart;
 
@@ -53,6 +54,99 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_index;
 
     /**
+     * @var Magento_TargetRule_Model_IndexFactory
+     */
+    protected $_indexFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Product_LinkFactory
+     */
+    protected $_productLinkFactory;
+
+    /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_visibility;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_Status
+     */
+    protected $_status;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
+     * @param Magento_CatalogInventory_Model_Stock_Status $status
+     * @param Magento_Checkout_Model_Session $session
+     * @param Magento_Catalog_Model_Product_LinkFactory $productLinkFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
+     * @param Magento_TargetRule_Model_Resource_Index $index
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Visibility $visibility,
+        Magento_CatalogInventory_Model_Stock_Status $status,
+        Magento_Checkout_Model_Session $session,
+        Magento_Catalog_Model_Product_LinkFactory $productLinkFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_TargetRule_Model_Resource_Index $index,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_visibility = $visibility;
+        $this->_status = $status;
+        $this->_checkoutSession = $session;
+        $this->_productLinkFactory = $productLinkFactory;
+        $this->_productFactory = $productFactory;
+        $this->_indexFactory = $indexFactory;
+        parent::__construct(
+            $index, $coreRegistry, $targetRuleData, $taxData,
+            $catalogData, $coreData, $context, $data
+        );
+    }
+
+
+    /**
      * Retrieve Catalog Product List Type identifier
      *
      * @return int
@@ -69,7 +163,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     public function getLastAddedProductId()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastAddedProductId(true);
+        return $this->_checkoutSession->getLastAddedProductId(true);
     }
 
     /**
@@ -82,8 +176,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         if (is_null($this->_lastAddedProduct)) {
             $productId = $this->getLastAddedProductId();
             if ($productId) {
-                $this->_lastAddedProduct = \Mage::getModel('Magento\Catalog\Model\Product')
-                    ->load($productId);
+                $this->_lastAddedProduct = $this->_productFactory->create()->load($productId);
             } else {
                 $this->_lastAddedProduct = false;
             }
@@ -98,7 +191,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     public function getQuote()
     {
-        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**
@@ -161,7 +254,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = \Mage::getModel('Magento\TargetRule\Model\Index');
+            $this->_index = $this->_indexFactory->create();
         }
         return $this->_index;
     }
@@ -194,18 +287,15 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     protected function _getTargetLinkCollection()
     {
-        /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
-        $collection = \Mage::getModel('Magento\Catalog\Model\Product\Link')
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
+        $collection = $this->_productLinkFactory->create()
             ->useCrossSellLinks()
             ->getProductCollection()
-            ->setStoreId(\Mage::app()->getStore()->getId())
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
-
-        $collection->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds());
-
-        \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
-            ->addIsInStockFilterToCollection($collection);
+        $collection->setVisibility($this->_visibility->getVisibleInSiteIds());
+        $this->_status->addIsInStockFilterToCollection($collection);
 
         return $collection;
     }
@@ -254,17 +344,13 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     protected function _getProductCollectionByIds($productIds)
     {
-        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = \Mage::getResourceModel('Magento\Catalog\Model\Resource\Product\Collection');
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        $collection = $this->_productCollectionFactory->create();
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
 
-        $collection->setVisibility(
-            \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds()
-        );
-
-        \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
-            ->addIsInStockFilterToCollection($collection);
+        $collection->setVisibility($this->_visibility->getVisibleInCatalogIds());
+        $this->_status->addIsInStockFilterToCollection($collection);
 
         return $collection;
     }

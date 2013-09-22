@@ -35,13 +35,12 @@ class Payment extends \Magento\Core\Controller\Front\Action
             }
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
-        } catch (\Magento\Core\Exception $e) {
-            \Mage::logException($e);
+        } catch (Magento_Core_Exception $e) {
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['error_message'] = $e->getMessage();
         } catch (\Exception $e) {
-            \Mage::logException($e);
-            $result['error_message'] = __('There was an error canceling transactions. '
-                . 'Please contact us or try again later.');
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $result['error_message'] = __('There was an error canceling transactions. Please contact us or try again later.');
         }
 
         \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()->save();
@@ -56,13 +55,10 @@ class Payment extends \Magento\Core\Controller\Front\Action
     protected function _getPaymentMethodsHtml()
     {
         $layout = $this->getLayout();
-
         $update = $layout->getUpdate();
         $update->load('checkout_onepage_paymentmethod');
-
         $layout->generateXml();
         $layout->generateElements();
-
         $output = $layout->getOutput();
         return $output;
     }

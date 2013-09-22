@@ -72,7 +72,7 @@ class Storage extends \Magento\Adminhtml\Controller\Action
         try {
             $this->_getSyncSingleton()->synchronize($storage);
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $flag->passError($e);
         }
 
@@ -123,7 +123,8 @@ class Storage extends \Magento\Adminhtml\Controller\Action
                         if (is_array($flagData)
                             && !(isset($flagData['timeout_reached']) && $flagData['timeout_reached'])
                         ) {
-                            \Mage::logException(new \Magento\Exception(
+                            $this->_objectManager->get('Magento_Core_Model_Logger')
+                                ->logException(new Magento_Exception(
                                 __('The timeout limit for response from synchronize process was reached.')
                             ));
 

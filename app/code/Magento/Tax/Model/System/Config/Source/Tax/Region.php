@@ -11,7 +11,7 @@
 
 namespace Magento\Tax\Model\System\Config\Source\Tax;
 
-class Region
+class Region implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_options;
 

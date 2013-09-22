@@ -33,16 +33,26 @@ class Feed extends \Magento\Core\Model\AbstractModel
     protected $_feedUrl;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_AdminNotification_Model_InboxFactory
+     */
+    protected $_inboxFactory;
+
+    /**
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
 
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param Magento_AdminNotification_Model_InboxFactory $inboxFactory
+     * @param Magento_Core_Model_CacheInterface $cache
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -51,12 +61,16 @@ class Feed extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        Magento_AdminNotification_Model_InboxFactory $inboxFactory,
+        Magento_Core_Model_CacheInterface $cache,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_inboxFactory = $inboxFactory;
+        $this->_cache = $cache;
     }
 
     /**
@@ -107,7 +121,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
             }
 
             if ($feedData) {
-                \Mage::getModel('Magento\AdminNotification\Model\Inbox')->parse(array_reverse($feedData));
+                $this->_inboxFactory->create()->parse(array_reverse($feedData));
             }
 
         }
@@ -144,7 +158,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
      */
     public function getLastUpdate()
     {
-        return \Mage::app()->loadCache('admin_notifications_lastcheck');
+        return $this->_cache->load('admin_notifications_lastcheck');
     }
 
     /**
@@ -154,7 +168,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
      */
     public function setLastUpdate()
     {
-        \Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
+        $this->_cache->save(time(), 'admin_notifications_lastcheck');
         return $this;
     }
 

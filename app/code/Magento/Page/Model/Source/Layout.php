@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Model\Source;
 
-class Layout
+class Layout implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     /**

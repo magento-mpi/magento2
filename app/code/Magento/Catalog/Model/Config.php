@@ -142,7 +142,7 @@ class Config extends \Magento\Eav\Model\Config
         return isset($this->_attributeSetsById[$entityTypeId][$id]) ? $this->_attributeSetsById[$entityTypeId][$id] : false;
     }
 
-    public function getAttributeSetId($entityTypeId, $name)
+    public function getAttributeSetId($entityTypeId, $name = null)
     {
         if (is_numeric($name)) {
             return $name;

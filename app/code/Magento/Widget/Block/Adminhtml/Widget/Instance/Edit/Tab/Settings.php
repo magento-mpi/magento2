@@ -18,7 +18,7 @@
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
 class Settings
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
@@ -29,19 +29,29 @@ class Settings
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var Magento_Core_Model_Theme_LabelFactory
+     */
+    protected $_themeLabelFactory;
+
+    /**
+     * @param Magento_Core_Model_Theme_LabelFactory $themeLabelFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        Magento_Core_Model_Theme_LabelFactory $themeLabelFactory,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_themeLabelFactory = $themeLabelFactory;
         $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     protected function _construct()
@@ -130,8 +140,8 @@ class Settings
             'values'   => $this->getTypesOptionsArray()
         ));
 
-        /** @var $label \Magento\Core\Model\Theme\Label */
-        $label = \Mage::getModel('Magento\Core\Model\Theme\Label');
+        /** @var $label Magento_Core_Model_Theme_Label */
+        $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'     => 'theme_id',

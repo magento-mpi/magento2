@@ -13,7 +13,7 @@
  */
 namespace Magento\Ogone\Model\Source;
 
-class Pmlist
+class Pmlist implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Prepare ogone payment block layout as option array

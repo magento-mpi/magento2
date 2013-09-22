@@ -40,6 +40,7 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
         $config = $this->getMock('Magento\ImportExport\Model\Config', array('date'), array(), '', false);
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export(
+            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
             $config,
             array('date_model' => $dateModelMock)
         );

@@ -14,6 +14,7 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
 
@@ -27,6 +28,12 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_dataCollectionFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $dataCollectionFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -35,6 +42,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $dataCollectionFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -42,6 +50,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -77,7 +86,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
         } else {
-            $collection = new \Magento\Data\Collection();
+            $collection = $this->_dataCollectionFactory->create();
         }
 
         $collection->addFieldToFilter('parent_item_id', array('null' => true));

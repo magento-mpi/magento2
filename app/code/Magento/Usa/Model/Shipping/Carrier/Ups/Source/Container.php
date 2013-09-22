@@ -11,15 +11,12 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
 
-class Container
+class Container extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
 {
-    public function toOptionArray()
-    {
-        $ups = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Ups');
-        $arr = array();
-        foreach ($ups->getCode('container_description') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>__($v));
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'container_description';
 }

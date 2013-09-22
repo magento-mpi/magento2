@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Model\Source\Urlrewrite;
 
-class Types
+class Types implements \Magento\Core\Model\Option\ArrayInterface
 {
     const SYSTEM = 1;
     const CUSTOM = 0;
@@ -41,5 +41,15 @@ class Types
             );
         }
         return $this->_options;
+    }
+
+    /**
+     * Return option array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->getAllOptions();
     }
 }

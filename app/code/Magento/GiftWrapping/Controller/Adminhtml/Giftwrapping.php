@@ -148,8 +148,8 @@ class Giftwrapping extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__("We couldn't save the gift wrapping."));
-                \Mage::logException($e);
+                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -176,8 +176,8 @@ class Giftwrapping extends \Magento\Adminhtml\Controller\Action
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__("We couldn't save the gift wrapping."));
-                \Mage::logException($e);
+                \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We couldn't save the gift wrapping."));
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
 

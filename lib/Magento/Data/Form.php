@@ -31,6 +31,11 @@ class Form extends \Magento\Data\Form\AbstractForm
     protected $_allElements;
 
     /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_session;
+
+    /**
      * form elements index
      *
      * @var array
@@ -42,17 +47,20 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetElementRenderer;
 
     /**
+     * @param Magento_Core_Model_Session $session
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param array $attributes
      */
     public function __construct(
+        Magento_Core_Model_Session $session,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         $attributes = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $attributes);
         $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
+        $this->_session = $session;
     }
 
     public static function setElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
@@ -233,7 +241,9 @@ class Form extends \Magento\Data\Form\AbstractForm
             $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
-                $html .= '<input name="form_key" type="hidden" value="'.\Mage::getSingleton('Magento\Core\Model\Session')->getFormKey().'" />';
+                $html .= '<input name="form_key" type="hidden" value="'
+                    . $this->_session->getFormKey()
+                    . '" />';
             }
             $html .= '</div>';
         }

@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Model\System\Config\Source;
 
-class UrlMethod
+class UrlMethod implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Options getter

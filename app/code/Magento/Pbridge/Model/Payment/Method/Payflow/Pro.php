@@ -56,9 +56,11 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
@@ -68,7 +70,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $data);
+        parent::__construct($eventManager, $coreData, $moduleList, $coreStoreConfig, $paymentData, $logger, $data);
     }
 
     /**

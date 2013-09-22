@@ -21,6 +21,33 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 class Container extends \Magento\Core\Block\Html\Select
 {
     /**
+     * @var Magento_Core_Model_Layout_MergeFactory
+     */
+    protected $_layoutMergeFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     */
+    protected $_themeCollFactory;
+
+    /**
+     * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory
+     * @param Magento_Core_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $themeCollFactory,
+        Magento_Core_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_layoutMergeFactory = $layoutMergeFactory;
+        $this->_themeCollFactory = $themeCollFactory;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Assign attributes for the HTML select element
      */
     protected function _construct()
@@ -42,8 +69,8 @@ class Container extends \Magento\Core\Block\Html\Select
             $layoutMergeParams = array(
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );
-            /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
-            $layoutMerge = \Mage::getModel('Magento\Core\Model\Layout\Merge', $layoutMergeParams);
+            /** @var $layoutMerge Magento_Core_Model_Layout_Merge */
+            $layoutMerge = $this->_layoutMergeFactory->create($layoutMergeParams);
             $layoutMerge->addPageHandles(array($this->getLayoutHandle()));
             $layoutMerge->load();
 
@@ -73,8 +100,8 @@ class Container extends \Magento\Core\Block\Html\Select
      */
     protected function _getThemeInstance($themeId)
     {
-        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
-        $themeCollection = \Mage::getResourceModel('Magento\Core\Model\Resource\Theme\Collection');
+        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
+        $themeCollection = $this->_themeCollFactory->create();
         return $themeCollection->getItemById($themeId);
     }
 }

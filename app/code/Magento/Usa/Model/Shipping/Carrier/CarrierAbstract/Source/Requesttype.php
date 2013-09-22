@@ -17,7 +17,7 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier\CarrierAbstract\Source;
 
-class Requesttype
+class Requesttype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Returns array to be used in packages request type on back-end

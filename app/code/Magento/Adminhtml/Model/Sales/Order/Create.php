@@ -119,6 +119,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Core event manager proxy
      *
      * @var \Magento\Core\Model\Event\Manager
@@ -138,6 +143,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param Magento_Core_Model_Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -146,12 +152,14 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
         $this->_coreConfig = $coreConfig;
+        $this->_logger = $logger;
         parent::__construct($data);
         $this->_session = $sessionQuote;
     }
@@ -890,7 +898,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 $this->recollectCart();
                 throw $e;
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_logger->logException($e);
             }
             $this->recollectCart();
         }

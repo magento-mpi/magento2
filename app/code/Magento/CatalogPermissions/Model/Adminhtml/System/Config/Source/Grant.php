@@ -16,7 +16,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source;
 
-class Grant
+class Grant implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve Options Array

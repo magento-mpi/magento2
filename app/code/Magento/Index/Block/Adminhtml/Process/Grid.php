@@ -17,7 +17,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @var \Magento\Index\Model\Process
      */
-    protected $_processModel;
+    protected $_indexProcess;
 
     /**
      * Mass-action block
@@ -34,6 +34,13 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_eventRepository;
 
     /**
+     * @var Magento_Index_Model_Resource_Process_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory
+     * @param Magento_Index_Model_Process $indexProcess
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -42,6 +49,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param array $data
      */
     public function __construct(
+        Magento_Index_Model_Resource_Process_CollectionFactory $collectionFactory,
+        Magento_Index_Model_Process $indexProcess,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -51,6 +60,8 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
         $this->_eventRepository = $eventRepository;
+        $this->_indexProcess = $indexProcess;
+        $this->_collectionFactory = $collectionFactory;
     }
 
     /**
@@ -59,7 +70,6 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected function _construct()
     {
         parent::_construct();
-        $this->_processModel = \Mage::getSingleton('Magento\Index\Model\Process');
         $this->setId('indexer_processes_grid');
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
@@ -72,8 +82,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = \Mage::getResourceModel('Magento\Index\Model\Resource\Process\Collection');
-        $this->setCollection($collection);
+        $this->setCollection($this->_collectionFactory->create());
         parent::_prepareCollection();
 
         return $this;
@@ -130,7 +139,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'align'     => 'left',
             'index'     => 'mode',
             'type'      => 'options',
-            'options'   => $this->_processModel->getModesOptions()
+            'options'   => $this->_indexProcess->getModesOptions()
         ));
 
         $this->addColumn('status', array(
@@ -139,7 +148,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'align'     => 'left',
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => $this->_processModel->getStatusesOptions(),
+            'options'   => $this->_indexProcess->getStatusesOptions(),
             'frame_callback' => array($this, 'decorateStatus')
         ));
 
@@ -150,7 +159,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
             'align'     => 'left',
             'index'     => 'update_required',
             'type'      => 'options',
-            'options'   => $this->_processModel->getUpdateRequiredOptions(),
+            'options'   => $this->_indexProcess->getUpdateRequiredOptions(),
             'frame_callback' => array($this, 'decorateUpdateRequired')
         ));
 
@@ -277,7 +286,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->setMassactionIdField('process_id');
         $this->getMassactionBlock()->setFormFieldName('process');
 
-        $modeOptions = \Mage::getModel('Magento\Index\Model\Process')->getModesOptions();
+        $modeOptions = $this->_indexProcess->getModesOptions();
 
         $this->getMassactionBlock()->addItem('change_mode', array(
             'label'         => __('Change Index Mode'),

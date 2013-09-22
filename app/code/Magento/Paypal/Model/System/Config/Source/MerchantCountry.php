@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Model\System\Config\Source;
 
-class MerchantCountry
+class MerchantCountry implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray($isMultiselect = false)
     {

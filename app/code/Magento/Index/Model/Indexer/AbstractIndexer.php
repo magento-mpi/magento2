@@ -14,7 +14,7 @@
  */
 namespace Magento\Index\Model\Indexer;
 
-abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
+abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel implements \Magento\Index\Model\IndexerInterface
 {
     protected $_matchedEntities = array();
 
@@ -60,6 +60,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
      * Register data required by process in event object
      *
      * @param \Magento\Index\Model\Event $event
+     * @return Magento_Index_Model_IndexerInterface
      */
     public function register(\Magento\Index\Model\Event $event)
     {

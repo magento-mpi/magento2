@@ -116,6 +116,11 @@ abstract class AbstractModel extends \Magento\Object
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -134,6 +139,7 @@ abstract class AbstractModel extends \Magento\Object
         $this->_cacheManager = $context->getCacheManager();
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
+        $this->_logger = $context->getLogger();
 
         if ($this->_resource) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();

@@ -31,19 +31,25 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Adminhtml\Helper\Sales $adminhtmlSales
      * @param \Magento\Core\Model\Event\Manager $eventManager
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Wishlist\Model\Resource\Item $resource
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Wishlist_Model_Resource_Item $resource
      */
     public function __construct(
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Adminhtml\Helper\Sales $adminhtmlSales,
         \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         \Magento\Wishlist\Model\Resource\Item $resource
     ) {
         $this->_wishlistData = $wishlistData;
-        parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $fetchStrategy, $resource);
+        parent::__construct(
+            $catalogInventoryData, $adminhtmlSales, $eventManager, $logger, $fetchStrategy, $entityFactory, $resource
+        );
     }
 
     /**

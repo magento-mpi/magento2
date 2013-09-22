@@ -88,9 +88,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     );
 
     /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
+     * @var Magento_Catalog_Helper_Data
      */
     protected $_catalogData = null;
 
@@ -116,24 +114,60 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Checkout\Helper\Cart $checkoutCart
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * Sales quote item factory
+     *
+     * @var Magento_Sales_Model_Quote_ItemFactory
      */
+    protected $_quoteItemFactory = null;
+
+    /**
+     * Catalog product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory = null;
+
+    /**
+     * Catalog inventory stock item factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     */
+    protected $_stockItemFactory = null;
+
+    /**
+     * Advanced checkout import factory
+     *
+     * @var Magento_AdvancedCheckout_Model_ImportFactory
+     */
+    protected $_importFactory = null;
+
+    /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager = null;
+
     public function __construct(
-        \Magento\Checkout\Helper\Cart $checkoutCart,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        Magento_Checkout_Helper_Cart $checkoutCart,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_AdvancedCheckout_Model_ImportFactory $importFactory,
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory,
+        Magento_Core_Model_StoreManager $storeManager
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
+        $this->_importFactory = $importFactory;
+        $this->_stockItemFactory = $stockItemFactory;
+        $this->_productFactory = $productFactory;
+        $this->_quoteItemFactory = $quoteItemFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -144,8 +178,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getSession()
     {
         if (!$this->_session) {
-            $sessionClassPath = \Mage::app()->getStore()->isAdmin() ?
-                    'Magento\Adminhtml\Model\Session' : 'Magento\Customer\Model\Session';
+            $sessionClassPath = $this->_storeManager->getStore()->isAdmin() ?
+                    'Magento_Adminhtml_Model_Session' : 'Magento_Customer_Model_Session';
             $this->_session =  \Mage::getSingleton($sessionClassPath);
         }
 
@@ -306,8 +340,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
-                    $collectionItem = \Mage::getModel('Magento\Sales\Model\Quote\Item')
-                        ->setProduct(\Mage::getModel('Magento\Catalog\Model\Product'))
+                    $collectionItem = $this->_quoteItemFactory->create()
+                        ->setProduct($this->_productFactory->create())
                         ->addData($item['item']);
                     $quoteItemsCollection[] = $collectionItem;
                 }
@@ -316,8 +350,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             if ($ids) {
                 $collection->addIdFilter($ids);
 
-                $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
-                $emptyQuoteItem = \Mage::getModel('Magento\Sales\Model\Quote\Item');
+                $quote = \Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+                $emptyQuoteItem = $this->_quoteItemFactory->create();
 
                 /** @var $itemProduct \Magento\Catalog\Model\Product */
                 foreach ($collection->getItems() as $product) {
@@ -340,7 +374,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                \Mage::app()->getStore()->formatPrice(\Mage::app()->getStore()->convertPrice(
+                                $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(
                                     $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
@@ -349,8 +383,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
                             $quoteItem->setCanApplyMsrp(false);
                         }
 
-                        /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
-                        $stockItem = \Mage::getModel('Magento\CatalogInventory\Model\Stock\Item');
+                        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+                        $stockItem = $this->_stockItemFactory->create();
                         $stockItem->assignProduct($itemProduct);
                         $quoteItem->setStockItem($stockItem);
 
@@ -386,13 +420,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function processSkuFileUploading($session)
     {
-        /** @var $importModel \Magento\AdvancedCheckout\Model\Import */
-        $importModel = \Mage::getModel('Magento\AdvancedCheckout\Model\Import');
+        /** @var $importModel Magento_AdvancedCheckout_Model_Import */
+        $importModel = $this->_importFactory->create();
         try {
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
-                \Mage::throwException(__('The file is empty.'));
+                throw new Magento_Core_Exception(__('The file is empty.'));
             }
             return $rows;
         } catch (\Magento\Core\Exception $e) {

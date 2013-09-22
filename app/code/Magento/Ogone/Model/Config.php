@@ -25,11 +25,19 @@ class Config extends \Magento\Payment\Model\Config
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
+        Magento_Core_Model_UrlInterface $urlBuilder,
         \Magento\Core\Helper\Data $coreData
     ) {
+        $this->_urlBuilder = $urlBuilder;
         $this->_coreData = $coreData;
     }
 
@@ -98,7 +106,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getPayPageTemplate()
     {
-        return \Mage::getUrl('ogone/api/paypage', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/paypage', array('_nosid' => true));
     }
 
     /**
@@ -108,7 +116,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getAcceptUrl()
     {
-        return \Mage::getUrl('ogone/api/accept', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/accept', array('_nosid' => true));
     }
 
     /**
@@ -118,7 +126,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getDeclineUrl()
     {
-        return \Mage::getUrl('ogone/api/decline', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/decline', array('_nosid' => true));
     }
 
     /**
@@ -128,7 +136,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getExceptionUrl()
     {
-        return \Mage::getUrl('ogone/api/exception', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/exception', array('_nosid' => true));
     }
 
     /**
@@ -138,7 +146,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getCancelUrl()
     {
-        return \Mage::getUrl('ogone/api/cancel', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/cancel', array('_nosid' => true));
     }
 
     /**
@@ -148,6 +156,6 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getHomeUrl()
     {
-        return \Mage::getUrl('checkout/cart', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('checkout/cart', array('_nosid' => true));
     }
 }

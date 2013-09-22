@@ -11,7 +11,7 @@
  */
 namespace Magento\Webhook\Model\Source;
 
-class Authentication
+class Authentication implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     /** @var array $_authenticationTypes */

@@ -14,13 +14,29 @@ namespace Magento\TargetRule\Model\Actions\Condition;
 class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
-     * Set condition type
-     *
-     * @param \Magento\Rule\Model\Condition\Context $context
+     * @var Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory
+     */
+    protected $_attributeFactory;
+
+    /**
+     * @var Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory
+     */
+    protected $_specialFactory;
+
+    /**
+     * @param Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory
+     * @param Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
-    {
+    public function __construct(
+        Magento_TargetRule_Model_Actions_Condition_Product_AttributesFactory $attributeFactory,
+        Magento_TargetRule_Model_Actions_Condition_Product_SpecialFactory $specialFactory,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_attributeFactory = $attributeFactory;
+        $this->_specialFactory = $specialFactory;
         parent::__construct($context, $data);
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Combine');
     }
@@ -33,12 +49,9 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function getNewChildSelectOptions()
     {
         $conditions = array(
-            array('value'=>$this->getType(),
-                'label'=>__('Conditions Combination')),
-            \Mage::getModel('Magento\TargetRule\Model\Actions\Condition\Product\Attributes')
-                ->getNewChildSelectOptions(),
-            \Mage::getModel('Magento\TargetRule\Model\Actions\Condition\Product\Special')
-                ->getNewChildSelectOptions(),
+            array('value'=>$this->getType(), 'label'=>__('Conditions Combination')),
+            $this->_attributeFactory->create()->getNewChildSelectOptions(),
+            $this->_specialFactory->create()->getNewChildSelectOptions(),
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $conditions;

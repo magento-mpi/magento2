@@ -108,7 +108,12 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Type
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Type
      */
     protected $_productType;
 
@@ -118,6 +123,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_coreConfig;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
@@ -126,6 +132,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
@@ -136,6 +143,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_logger = $logger;
         $this->_productType = $productType;
         $this->_coreConfig = $coreConfig;
         parent::__construct($resource);
@@ -296,7 +304,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
                     $attribute->getBackend();
                     $this->_attributes[$attributeCode] = $attribute;
                 } catch (\Exception $e) {
-                    \Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }

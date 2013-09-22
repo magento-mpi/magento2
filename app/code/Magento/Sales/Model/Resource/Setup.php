@@ -26,7 +26,8 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_coreData;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_Data $coreData
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Model\Config\Resource $resourcesConfig
      * @param \Magento\Core\Model\Config $modulesConfig
@@ -37,6 +38,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param $resourceName
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Core\Model\Config\Resource $resourcesConfig,
@@ -48,7 +50,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         $resourceName
     ) {
         parent::__construct(
-            $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $logger, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
             $resource, $modulesReader, $cache, $resourceName
         );
         $this->_coreData = $coreData;

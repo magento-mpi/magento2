@@ -216,7 +216,7 @@ class Search extends \Magento\Core\Controller\Front\Action
                         $messages[] = __('%1 for "%2"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                     }
                 } catch (\Exception $e) {
-                    \Mage::logException($e);
+                    $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                     $messages[] = __('We could not add the item to shopping cart.');
                 }
             }

@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleShopping\Model\Source;
 
-class Authtype
+class Authtype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve option array with authentification types

@@ -11,7 +11,7 @@
  */
 namespace Magento\Webhook\Model\Source;
 
-class Hook
+class Hook implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Path to environments section in the config

@@ -205,8 +205,8 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/new', $controllerParams);
             return;
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We failed to save this RMA.'));
-            \Mage::logException($e);
+            \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We failed to save this RMA.'));
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -303,8 +303,8 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $this->_redirect('*/*/edit', $controllerParams);
             return;
         } catch (\Exception $e) {
-            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We failed to save this RMA.'));
-            \Mage::logException($e);
+            \Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We failed to save this RMA.'));
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
         }
@@ -1044,7 +1044,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
                 $responseAjax->setError(true);
                 $responseAjax->setMessage($e->getMessage());
         } catch (\Exception $e) {
-                \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $responseAjax->setError(true);
                 $responseAjax->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1070,7 +1070,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $response->setError(true);
             $response->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1193,7 +1193,7 @@ class Rma extends \Magento\Adminhtml\Controller\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_getSession()
                 ->addError(__('Something went wrong creating a shipping label.'));
        }

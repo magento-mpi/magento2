@@ -34,18 +34,26 @@ class Inline extends \Magento\Core\Block\Template
     protected $_giftMessageMessage = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @param Magento_Customer_Model_Session $session
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $session,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_giftMessageMessage = $giftMessageMessage;
+        $this->_session = $session;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -123,8 +131,8 @@ class Inline extends \Magento\Core\Block\Template
      */
     public function getDefaultFrom()
     {
-        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
-            return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getName();
+        if ($this->_session->isLoggedIn()) {
+            return $this->_session->getCustomer()->getName();
         } else {
             return $this->getEntity()->getBillingAddress()->getName();
         }

@@ -27,18 +27,22 @@ class Collection
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param \Magento\AdminNotification\Model\System\MessageList $messageList
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
         \Magento\AdminNotification\Model\System\MessageList $messageList,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_messageList = $messageList;
-        parent::__construct($eventManager, $fetchStrategy, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
     /**

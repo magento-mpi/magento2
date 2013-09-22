@@ -21,6 +21,20 @@ namespace Magento\Sendfriend\Model;
 class Observer
 {
     /**
+     * @var Magento_Sendfriend_Model_SendfriendFactory
+     */
+    protected $_sendfriendFactory;
+
+    /**
+     * @param Magento_Sendfriend_Model_SendfriendFactory $sendfriendFactory
+     */
+    public function __construct(
+        Magento_Sendfriend_Model_SendfriendFactory $sendfriendFactory
+    ) {
+        $this->_sendfriendFactory = $sendfriendFactory;
+    }
+
+    /**
      * Register Sendfriend Model in global registry
      *
      * @param \Magento\Event\Observer $observer
@@ -28,7 +42,7 @@ class Observer
      */
     public function register(\Magento\Event\Observer $observer)
     {
-        \Mage::getModel('Magento\Sendfriend\Model\Sendfriend')->register();
+        $this->_sendfriendFactory->create()->register();
         return $this;
     }
 }

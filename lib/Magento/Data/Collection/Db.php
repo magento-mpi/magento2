@@ -76,21 +76,33 @@ class Db extends \Magento\Data\Collection
     protected $_isOrdersRendered = false;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategyInterface
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var Magento_Data_Collection_Db_FetchStrategyInterface
      */
     private $_fetchStrategy;
 
     /**
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Zend_Db_Adapter_Abstract|\Magento\DB\Adapter\AdapterInterface $conn
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param null $conn
      */
-    public function __construct(\Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy, $conn = null)
-    {
-        parent::__construct();
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        $conn = null
+    ) {
+        parent::__construct($entityFactory);
         $this->_fetchStrategy = $fetchStrategy;
         if (!is_null($conn)) {
             $this->setConnection($conn);
         }
+        $this->_logger = $logger;
     }
 
     /**
@@ -675,7 +687,7 @@ class Db extends \Magento\Data\Collection
      */
     protected function _logQuery($sql)
     {
-        \Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
+        $this->_logger->log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
     }
 
     /**

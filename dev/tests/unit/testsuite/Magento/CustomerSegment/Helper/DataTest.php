@@ -143,8 +143,9 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $form = new \Magento\Data\Form($factory, $collectionFactory, array('html_id_prefix' => 'pfx_'));
-        $data = new \Magento\Object();
+        $session = $this->getMock('Magento_Core_Model_Session', array(), array(), '', false);
+        $form = new Magento_Data_Form($session, $factory, $collectionFactory, array('html_id_prefix' => 'pfx_'));
+        $data = new Magento_Object();
         $dependencies = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
             array('addFieldMap', 'addFieldDependence'),

@@ -76,6 +76,11 @@ class Product extends \Magento\Core\Helper\Url
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\View\Url $viewUrl
@@ -97,6 +102,7 @@ class Product extends \Magento\Core\Helper\Url
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
+        $this->_logger = $context->getLogger();
         parent::__construct($context);
     }
 
@@ -394,8 +400,8 @@ class Product extends \Magento\Core\Helper\Url
                 'product' => $product,
                 'controller_action' => $controller
             ));
-        } catch (\Magento\Core\Exception $e) {
-            \Mage::logException($e);
+        } catch (Magento_Core_Exception $e) {
+            $this->_logger->logException($e);
             return false;
         }
 

@@ -71,6 +71,12 @@ app/code/Magento/Core/Model/Theme
 app/code/Magento/Core/Model/ThemeInterface.php
 app/code/Magento/Core/Helper/AbstractHelper.php
 app/code/Magento/Core/sql/core_setup/upgrade-1.6.0.3-1.6.0.4.php
+app/code/Magento/Cron/Model/Config/Converter
+app/code/Magento/Cron/Model/Config/Reader
+app/code/Magento/Cron/Model/Config/Data.php
+app/code/Magento/Cron/Model/Config/SchemaLocator.php
+app/code/Magento/Cron/Model/Config.php
+app/code/Magento/Cron/Model/ConfigInterface.php
 app/code/Magento/Directory/Helper
 app/code/Magento/Customer/Block/Account/{Authorization,Register}Link.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php

@@ -25,8 +25,8 @@ class Local extends \Magento\Adminhtml\Controller\Action
      */
     public function indexAction()
     {
-        $url = \Mage::getBaseUrl('web')
-            . 'downloader/?return=' . urlencode($this->_objectManager->get('Magento\Backend\Helper\Data')->getHomePageUrl());
+        $url = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getBaseUrl('web')
+            . 'downloader/?return=' . urlencode($this->_objectManager->get('Magento_Backend_Helper_Data')->getHomePageUrl());
         $this->getResponse()->setRedirect($url);
     }
 }

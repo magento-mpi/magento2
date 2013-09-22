@@ -16,7 +16,8 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
      */
     public function testIndexAction()
     {
-        $session = Mage::getModel('Magento\Customer\Model\Session');
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $session = Mage::getModel('Magento_Customer_Model_Session', array($logger));
         $session->login('customer@example.com', 'password');
         $this->dispatch('customer/account/index');
         $this->assertContains('<div class="my-account">', $this->getResponse()->getBody());

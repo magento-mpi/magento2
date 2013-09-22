@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Model\System\Config\Source;
 
-class RequireBillingAddress
+class RequireBillingAddress implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Options getter

@@ -42,7 +42,7 @@ class Datetime
                     );
                 }
                 catch (\Exception $e) {
-                    \Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
             $format = self::$_format;

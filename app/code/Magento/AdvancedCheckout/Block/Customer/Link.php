@@ -16,14 +16,12 @@
  */
 namespace Magento\AdvancedCheckout\Block\Customer;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\Page\Block\Link\Current
 {
     /** @var \Magento\AdvancedCheckout\Helper\Data  */
     protected $_customerHelper;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\AdvancedCheckout\Helper\Data $customerHelper
@@ -40,7 +38,7 @@ class Link extends \Magento\Core\Block\Template
     }
 
     /**
-     * @inheritdoc
+     * @return string
      */
     protected function _toHtml()
     {

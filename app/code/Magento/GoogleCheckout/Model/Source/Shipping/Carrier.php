@@ -11,7 +11,7 @@
 
 namespace Magento\GoogleCheckout\Model\Source\Shipping;
 
-class Carrier
+class Carrier implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

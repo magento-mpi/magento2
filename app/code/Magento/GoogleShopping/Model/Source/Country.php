@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleShopping\Model\Source;
 
-class Country
+class Country implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve option array with allowed countries

@@ -11,13 +11,20 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
 
-class Pickup
+class Pickup extends \Magento\Usa\Model\Shipping\Carrier\Ups\Source\Generic
 {
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'pickup';
+
     public function toOptionArray()
     {
-        $ups = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Ups');
+        $ups = $this->_shippingUps->getCode($this->_code);
         $arr = array();
-        foreach ($ups->getCode('pickup') as $k=>$v) {
+        foreach ($ups as $k => $v) {
             $arr[] = array('value'=>$k, 'label'=>__($v['label']));
         }
         return $arr;

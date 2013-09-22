@@ -16,7 +16,7 @@
  */
 namespace Magento\Pbridge\Model\Authorizenet\Source;
 
-class PaymentAction
+class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @return array

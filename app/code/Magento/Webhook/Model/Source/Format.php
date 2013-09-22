@@ -11,7 +11,7 @@
  */
 namespace Magento\Webhook\Model\Source;
 
-class Format
+class Format implements \Magento\Core\Model\Option\ArrayInterface
 {
     /** @var string[] $_formats */
     private $_formats;

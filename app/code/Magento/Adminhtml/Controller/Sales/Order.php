@@ -133,7 +133,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We couldn\'t send the email order.'));
-                \Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
         $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
@@ -156,7 +156,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
                 $this->_getSession()->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_getSession()->addError(__('You have not canceled the item.'));
-                \Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
             $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
@@ -242,7 +242,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We couldn\'t update the payment.'));
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
     }
@@ -653,7 +653,7 @@ class Order extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We couldn\'t void the payment.'));
-            \Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/view', array('order_id' => $order->getId()));
     }

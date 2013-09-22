@@ -49,6 +49,11 @@ class AbstractApi extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
@@ -60,6 +65,7 @@ class AbstractApi extends \Magento\Object
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -67,6 +73,7 @@ class AbstractApi extends \Magento\Object
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
+        $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
     }
@@ -115,7 +122,7 @@ class AbstractApi extends \Magento\Object
             $this->_debug($debugData);
 
             if ($curlErrorNumber) {
-                \Mage::logException(new \Exception(
+                $this->_logger->logException(new Exception(
                     sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
                 ));
 

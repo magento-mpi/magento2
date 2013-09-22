@@ -42,9 +42,23 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
     protected $_errors = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Class construct
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_File_Storage_File $resource
+     * @param Magento_Data_Collection_Db|null $resourceCollection
+     * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -54,6 +68,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
     ) {
         parent::__construct($coreFileStorageDb, $context, $registry, $resource, $resourceCollection, $data);
         $this->_setResourceModel('Magento\Core\Model\Resource\File\Storage\File');
+        $this->_logger = $logger;
     }
 
     /**
@@ -168,7 +183,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
             try {
                 $fileInfo = $this->collectFileInfo($fileName);
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_logger->logException($e);
                 continue;
             }
 
@@ -196,7 +211,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
                 $this->$callback($part);
             } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
-                \Mage::logException($e);
+                $this->_logger->logException($e);
             }
         }
 
@@ -256,7 +271,7 @@ class File extends \Magento\Core\Model\File\Storage\AbstractStorage
                 return $this->_getResource()
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_logger->logException($e);
                 \Mage::throwException(__('Unable to save file "%1" at "%2"', $file['filename'], $file['directory']));
             }
         } else {

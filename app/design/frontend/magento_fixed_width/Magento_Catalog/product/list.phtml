@@ -57,7 +57,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                     </div>
                     <?php if ($_product->isSaleable()): ?>
                     <button type="button" title="<?php echo __('Add to Cart') ?>" class="button btn-cart"
-                            data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_product) ?>'}">
+                            data-mage-init="{redirectUrl: {url: '<?php echo $this->getAddToCartUrl($_product) ?>'}}">
                         <span><span><?php echo __('Add to Cart') ?></span></span></button>
 
                     <?php else: ?>
@@ -84,7 +84,6 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
     </ol>
     <script type="text/javascript">
         jQuery('#products-list').decorate('list');
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php else: ?>
 
@@ -113,7 +112,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
             <div class="actions">
                 <?php if ($_product->isSaleable()): ?>
                 <button type="button" title="<?php echo __('Add to Cart') ?>" class="button btn-cart"
-                        data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_product) ?>'}">
+                        data-mage-init="{redirectUrl: {url: '<?php echo $this->getAddToCartUrl($_product) ?>'}}">
                     <span><span><?php echo __('Add to Cart') ?></span></span></button>
                 <?php else: ?>
                 <?php if ($_product->getIsSalable()): ?>
@@ -140,7 +139,6 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
         <?php endforeach ?>
     <script type="text/javascript">
         jQuery('ul.products-grid > li').decorate('generic', ['odd', 'even', 'first', 'last']);
-        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/mage-attributes-processing.js') ?>");
     </script>
     <?php endif; ?>
 </div>

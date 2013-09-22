@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Model\System\Config\Source\PaymentActions;
 
-class Express
+class Express implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Options getter

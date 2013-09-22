@@ -50,6 +50,12 @@ class Observer
     protected $_coreConfig;
 
     /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_coreSession;
+
+    /**
+     * @param Magento_Core_Model_Session $coreSession
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestrictionData
@@ -57,12 +63,14 @@ class Observer
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
+        Magento_Core_Model_Session $coreSession,
         \Magento\Core\Model\Event\Manager $eventManager,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\WebsiteRestriction\Helper\Data $websiteRestrictionData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig
     ) {
+        $this->_coreSession = $coreSession;
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_websiteRestrictionData = $websiteRestrictionData;
@@ -169,11 +177,10 @@ class Observer
                         } else {
                             $afterLoginUrl = \Mage::getUrl();
                         }
-                        \Mage::getSingleton('Magento\Core\Model\Session')
-                            ->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
-                    } elseif (\Mage::getSingleton('Magento\Core\Model\Session')->hasWebsiteRestrictionAfterLoginUrl()) {
+                        $this->_coreSession->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
+                    } elseif ($this->_coreSession->hasWebsiteRestrictionAfterLoginUrl()) {
                         $response->setRedirect(
-                            \Mage::getSingleton('Magento\Core\Model\Session')->getWebsiteRestrictionAfterLoginUrl(true)
+                            $this->_coreSession->getWebsiteRestrictionAfterLoginUrl(true)
                         );
                         $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
                     }

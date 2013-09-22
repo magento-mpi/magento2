@@ -111,7 +111,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
             try {
                 $paymentModel->process($data);
             } catch (\Exception $e) {
-                \Mage::logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             }
         }
     }

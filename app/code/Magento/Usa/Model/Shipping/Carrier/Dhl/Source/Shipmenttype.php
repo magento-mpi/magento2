@@ -11,15 +11,12 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
 
-class Shipmenttype
+class Shipmenttype extends \Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Generic
 {
-    public function toOptionArray()
-    {
-        $fedex = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Dhl');
-        $arr = array();
-        foreach ($fedex->getCode('shipment_type') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>$v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'shipment_type';
 }

@@ -272,7 +272,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
                 ->save();
         } catch (\Exception $e) {
             \Mage::throwException(__('We were unable to save the cron expression.'));
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $this;
     }
@@ -294,7 +294,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
                 ->delete();
         } catch (\Exception $e) {
             \Mage::throwException(__('Unable to delete the cron task.'));
-            \Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $this;
     }

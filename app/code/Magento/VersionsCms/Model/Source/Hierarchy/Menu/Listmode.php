@@ -17,7 +17,7 @@
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
-class Listmode
+class Listmode implements Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve options array

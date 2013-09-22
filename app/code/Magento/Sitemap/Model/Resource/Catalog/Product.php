@@ -53,13 +53,63 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_sitemapData = null;
 
     /**
+     * @var Magento_Catalog_Model_Product_Status
+     */
+    protected $_productStatus;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Media_Config
+     */
+    protected $_mediaConfig;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     */
+    protected $_mediaResource;
+
+    /**
+     * Catalog product resource
+     *
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_productResource;
+
+    /**
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
+     * @param Magento_Catalog_Model_Product_Status $productStatus
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media $mediaResource
+     * @param Magento_Catalog_Model_Resource_Product $productResource
      * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_Catalog_Model_Product_Status $productStatus,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Product_Media_Config $mediaConfig,
+        Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media $mediaResource,
+        Magento_Catalog_Model_Resource_Product $productResource,
         \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\Core\Model\Resource $resource
     ) {
+        $this->_productVisibility = $productVisibility;
+        $this->_productStatus = $productStatus;
+        $this->_eavConfig = $eavConfig;
+        $this->_mediaConfig = $mediaConfig;
+        $this->_mediaResource = $mediaResource;
+        $this->_productResource = $productResource;
         $this->_sitemapData = $sitemapData;
         parent::__construct($resource);
     }
@@ -153,7 +203,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getAttribute($attributeCode)
     {
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = \Mage::getSingleton('Magento\Catalog\Model\Product')->getResource()->getAttribute($attributeCode);
+            $attribute = $this->_productResource->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
@@ -202,10 +252,8 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
                 array('url' => 'request_path'))
             ->where('w.website_id = ?', $store->getWebsiteId());
 
-        $this->_addFilter($store->getId(), 'visibility',
-            \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds(), 'in');
-        $this->_addFilter($store->getId(), 'status',
-            \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getVisibleStatusIds(), 'in');
+        $this->_addFilter($store->getId(), 'visibility', $this->_productVisibility->getVisibleInSiteIds(), 'in');
+        $this->_addFilter($store->getId(), 'status', $this->_productStatus->getVisibleStatusIds(), 'in');
 
         // Join product images required attributes
         $imageIncludePolicy = $this->_sitemapData->getProductImageIncludePolicy($store->getId());
@@ -276,8 +324,8 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
             $imagesCollection = $this->_getAllProductImages($product, $storeId);
         } elseif (\Magento\Sitemap\Model\Source\Product\Image\IncludeImage::INCLUDE_BASE == $imageIncludePolicy
             && $product->getImage() && $product->getImage() != self::NOT_SELECTED_IMAGE) {
-            $imagesCollection = array(new \Magento\Object(array(
-                'url' => $this->_getMediaConfig()->getBaseMediaUrlAddition() . $product->getImage()
+            $imagesCollection = array(new Magento_Object(array(
+                'url' => $this->_mediaConfig->getBaseMediaUrlAddition() . $product->getImage()
             )));
         }
 
@@ -285,7 +333,7 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
             // Determine thumbnail path
             $thumbnail = $product->getThumbnail();
             if ($thumbnail && $product->getThumbnail() != self::NOT_SELECTED_IMAGE) {
-                $thumbnail = $this->_getMediaConfig()->getBaseMediaUrlAddition() . $thumbnail;
+                $thumbnail = $this->_mediaConfig->getBaseMediaUrlAddition() . $thumbnail;
             } else {
                 $thumbnail = $imagesCollection[0]->getUrl();
             }
@@ -308,13 +356,11 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getAllProductImages($product, $storeId)
     {
         $product->setStoreId($storeId);
-        /** @var $mediaGallery \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media */
-        $mediaGallery = \Mage::getResourceSingleton('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media');
-        $gallery = $mediaGallery->loadGallery($product, $this->_getMediaGalleryModel());
+        $gallery = $this->_mediaResource->loadGallery($product, $this->_getMediaGalleryModel());
 
         $imagesCollection = array();
         if ($gallery) {
-            $productMediaPath = $this->_getMediaConfig()->getBaseMediaUrlAddition();
+            $productMediaPath = $this->_mediaConfig->getBaseMediaUrlAddition();
             foreach ($gallery as $image) {
                 $imagesCollection[] = new \Magento\Object(array(
                     'url' => $productMediaPath . $image['file'],
@@ -334,22 +380,9 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getMediaGalleryModel()
     {
         if (is_null($this->_mediaGalleryModel)) {
-            /** @var $eavConfig \Magento\Eav\Model\Config */
-            $eavConfig = \Mage::getModel('Magento\Eav\Model\Config');
-            /** @var $eavConfig \Magento\Eav\Model\Attribute */
-            $mediaGallery = $eavConfig->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'media_gallery');
+            $mediaGallery = $this->_eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'media_gallery');
             $this->_mediaGalleryModel = $mediaGallery->getBackend();
         }
         return $this->_mediaGalleryModel;
-    }
-
-    /**
-     * Get media config
-     *
-     * @return \Magento\Catalog\Model\Product\Media\Config
-     */
-    protected function _getMediaConfig()
-    {
-        return \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
     }
 }

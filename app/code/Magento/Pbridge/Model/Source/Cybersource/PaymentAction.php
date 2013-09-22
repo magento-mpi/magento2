@@ -13,7 +13,7 @@
  */
 namespace Magento\Pbridge\Model\Source\Cybersource;
 
-class PaymentAction
+class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

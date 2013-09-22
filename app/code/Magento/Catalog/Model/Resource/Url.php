@@ -56,12 +56,29 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_rootChildrenIds             = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Load core Url rewrite model
      *
      */
     protected function _construct()
     {
         $this->_init('core_url_rewrite', 'url_rewrite_id');
+    }
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(Magento_Core_Model_Logger $logger, Magento_Core_Model_Resource $resource)
+    {
+        $this->_logger = $logger;
+        parent::__construct($resource);
     }
 
     /**
@@ -285,7 +302,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
         try {
             $adapter->insertOnDuplicate($this->getMainTable(), $rewriteData);
         } catch (\Exception $e) {
-            \Mage::logException($e);
+            $this->_logger->logException($e);
             \Mage::throwException(__('Something went wrong saving the URL rewite.'));
         }
 

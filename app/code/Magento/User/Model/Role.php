@@ -34,6 +34,53 @@ namespace Magento\User\Model;
 
 class Role extends \Magento\Core\Model\AbstractModel
 {
+
+    /**
+     * @var Magento_User_Model_Resource_Role_User_CollectionFactory
+     */
+    protected $_userRolesFactory;
+
+    /**
+     * @param Magento_User_Model_Resource_Role_User_CollectionFactory $userRolesFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_User_Model_Resource_Role $resource
+     * @param Magento_User_Model_Resource_Role_Collection $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_User_Model_Resource_Role_User_CollectionFactory $userRolesFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_User_Model_Resource_Role $resource,
+        Magento_User_Model_Resource_Role_Collection $resourceCollection,
+        array $data = array()
+    ) {
+        $this->_userRolesFactory = $userRolesFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function __sleep()
+    {
+        $properties = parent::__sleep();
+        return array_diff($properties, array('_userRolesFactory', '_resource', '_resourceCollection'));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function __wakeup()
+    {
+        parent::__wakeup();
+        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
+        $this->_userRolesFactory = $objectManager->get('Magento_User_Model_Resource_Role_User_CollectionFactory');
+        $this->_resource = $objectManager->get('Magento_User_Model_Resource_Role');
+        $this->_resourceCollection = $objectManager->get('Magento_User_Model_Resource_Role_Collection');
+    }
+
     /**
      * @var string
      */
@@ -62,7 +109,7 @@ class Role extends \Magento\Core\Model\AbstractModel
      */
     public function getUsersCollection()
     {
-        return \Mage::getResourceModel('Magento\User\Model\Resource\Role\User\Collection');
+        return $this->_userRolesFactory->create();
     }
 
     /**

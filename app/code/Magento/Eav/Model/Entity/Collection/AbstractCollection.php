@@ -96,14 +96,18 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
 
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($fetchStrategy);
+        parent::__construct($logger, $fetchStrategy, $entityFactory);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
         $this->_prepareStaticFields();
