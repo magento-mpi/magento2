@@ -41,7 +41,7 @@ class VarienTest extends \PHPUnit_Framework_TestCase
 
         \Mage::getConfig()->setNode(\Magento\Core\Model\Session\AbstractSession::XML_NODE_SESSION_SAVE, $saveMethod);
         /**
-         * @var Magento_Core_Model_Session_Abstract_Varien
+         * @var \Magento\Core\Model\Session\AbstractSession
          */
         $model = \Mage::getModel('Magento\Core\Model\Session\AbstractSession');
         //There is no any possibility to determine whether session already started or not in php before 5.4
