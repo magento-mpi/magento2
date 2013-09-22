@@ -282,7 +282,7 @@ class Translate
      */
     public function processAjaxPost($translate)
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
+        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
         $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\Core\Model\Cache\TypeListInterface');
         $cacheTypeList->invalidate(\Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER);
         /** @var $parser \Magento\Core\Model\Translate\InlineParser */

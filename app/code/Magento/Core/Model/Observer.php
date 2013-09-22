@@ -38,7 +38,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_PublicFileFactory
+     * @var \Magento\Core\Model\Page\Asset\PublicFileFactory
      */
     protected $_assetFileFactory;
 
@@ -52,7 +52,7 @@ class Observer
      * @param \Magento\Core\Model\View\DesignInterface $design
      * @param \Magento\Core\Model\Page $page
      * @param \Magento\Core\Model\ConfigInterface $config
-     * @param Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory
+     * @param \Magento\Core\Model\Page\Asset\PublicFileFactory $assetFileFactory
      * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
