@@ -60,6 +60,8 @@
   * Altered format of `install.xml`
     * Renamed to `install_wizard.xml`
     * Added `install_wizard.xsd` to allow for validation of XML files.
+  * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
+  * Altered format of `persistent.xml` slightly and added `persistent.xsd` to allow for validation of XML files.
 * Removed "translate" node from configuration XML files
 * Added I18n tools for translation dictionary generation and language package generation
 * Layout improvements:
