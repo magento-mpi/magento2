@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
 /**
  * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Media.
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -1,4 +1,6 @@
 <?php
+namespace Magento\Webapi\Model\Acl;
+
 /**
  * Test for \Magento\Webapi\Model\Acl\User model.
  *
@@ -8,8 +10,6 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Webapi/_files/role.php
  */
-namespace Magento\Webapi\Model\Acl;
-
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     /**

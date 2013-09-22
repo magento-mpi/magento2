@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Checkout\Controller;
+
 /**
  * @magentoDataFixture Magento/Sales/_files/quote.php
  */
-namespace Magento\Checkout\Controller;
-
 class OnepageTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected function setUp()

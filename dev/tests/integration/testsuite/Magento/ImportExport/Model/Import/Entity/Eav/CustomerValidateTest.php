@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
 /**
  * Test for class \Magento\ImportExport\Model\Import\Entity\Eav\Customer which covers validation logic
  *
  * @magentoDataFixture Magento/ImportExport/_files/customers.php
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav;
-
 class CustomerValidateTest extends \PHPUnit_Framework_TestCase
 {
     /**

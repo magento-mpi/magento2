@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Theme\Enterprise\DefaultEnterprise;
+
 /**
  * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
  */
-namespace Magento\Test\Theme\Enterprise\DefaultEnterprise;
-
 class Test extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**

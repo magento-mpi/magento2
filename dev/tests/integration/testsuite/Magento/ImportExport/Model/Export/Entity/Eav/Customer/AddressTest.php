@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
+
 /**
  * Test for customer address export model
  *
  * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
  */
-namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
-
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**

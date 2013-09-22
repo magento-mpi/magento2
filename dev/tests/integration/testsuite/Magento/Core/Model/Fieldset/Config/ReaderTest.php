@@ -1,4 +1,6 @@
 <?php
+namespace Magento\Core\Model\Fieldset\Config;
+
 /**
  * \Magento\Core\Model\Fieldset\Config\Reader
  *
@@ -8,8 +10,6 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
-namespace Magento\Core\Model\Fieldset\Config;
-
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,7 +30,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var Magento\Core\Model\Module\Declaration\FileResolver $modulesDeclarations */
+        /** @var \Magento\Core\Model\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = \Mage::getObjectManager()->create(
             'Magento\Core\Model\Module\Declaration\FileResolver', array(
                 'applicationDirs' => $dirs,
@@ -38,7 +38,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        /** @var Magento\Core\Model\Module\Declaration\Reader\Filesystem $filesystemReader */
+        /** @var \Magento\Core\Model\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = \Mage::getObjectManager()->create(
             'Magento\Core\Model\Module\Declaration\Reader\Filesystem', array(
                 'fileResolver' => $modulesDeclarations,

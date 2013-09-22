@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter;
+
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\Decimal.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/_files/attribute_weight_filterable.php
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-namespace Magento\Catalog\Model\Layer\Filter;
-
 class DecimalTest extends \PHPUnit_Framework_TestCase
 {
     /**
