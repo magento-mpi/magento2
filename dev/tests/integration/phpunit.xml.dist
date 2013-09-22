@@ -21,7 +21,6 @@
             <directory suffix="Test.php">testsuite</directory>
             <exclude>testsuite/Magento/Test/Integrity</exclude>
             <exclude>testsuite/MemoryUsageTest.php</exclude>
-            <exclude>testsuite/Magento/Webhook</exclude>
         </testsuite>
     </testsuites>
     <!-- Code coverage filters -->
