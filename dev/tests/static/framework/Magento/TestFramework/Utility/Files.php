@@ -168,6 +168,7 @@ class Magento_TestFramework_Utility_Files
     {
         return array_merge(
             self::getConfigFiles(),
+            self::getLayoutConfigFiles(),
             self::getLayoutFiles()
         );
     }
@@ -178,19 +179,16 @@ class Magento_TestFramework_Utility_Files
      * @param string $fileNamePattern
      * @param array $excludedFileNames
      * @param bool $asDataSet
-     * @param bool $includeDesign
      * @return array
      */
     public function getConfigFiles(
         $fileNamePattern = '*.xml',
         $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-        $asDataSet = true,
-        $includeDesign = false
+        $asDataSet = true
     ) {
-        $searchDir = $includeDesign ? "{code,design}" : "code";
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$cacheKey])) {
-            $files = glob($this->_path . "/app/" . $searchDir . "/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+            $files = $this->_getConfigFilesList($fileNamePattern, 'code');
             $files = array_filter(
                 $files,
                 function ($file) use ($excludedFileNames) {
@@ -198,6 +196,27 @@ class Magento_TestFramework_Utility_Files
                 }
             );
             self::$_cache[$cacheKey] = $files;
+        }
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$cacheKey]);
+        }
+        return self::$_cache[$cacheKey];
+    }
+
+    /**
+     * Returns a list of configuration files found under the app/design directory.
+     *
+     * @param string $fileNamePattern
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getLayoutConfigFiles(
+        $fileNamePattern = '*.xml',
+        $asDataSet = true
+    ) {
+        $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
+        if (!isset(self::$_cache[$cacheKey])) {
+            self::$_cache[$cacheKey] = $this->_getConfigFilesList($fileNamePattern, 'design');;
         }
         if ($asDataSet) {
             return self::composeDataSets(self::$_cache[$cacheKey]);
@@ -518,4 +537,18 @@ class Magento_TestFramework_Utility_Files
             . $module . DIRECTORY_SEPARATOR
             . $file;
     }
+
+    /**
+     * Helper function for finding config files in various app directories such as 'code' or 'design'.
+     *
+     * @param string $fileNamePattern can be a glob pattern that represents files to be found.
+     * @param string $appDir directory under app folder in which to search (Ex: 'code' or 'design')
+     * @return array of strings that represent paths to config files
+     */
+    protected function _getConfigFilesList($fileNamePattern, $appDir)
+    {
+        return glob($this->_path . '/app/' . $appDir . "/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+
+    }
+
 }
