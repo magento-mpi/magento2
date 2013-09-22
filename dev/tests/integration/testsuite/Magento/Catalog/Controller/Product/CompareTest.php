@@ -8,12 +8,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Controller\Product;
 
 /**
  * @magentoDataFixture Magento/Catalog/controllers/_files/products.php
  */
-namespace Magento\Catalog\Controller\Product;
-
 class CompareTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function testAddAction()

@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Dummy layout argument data source object
  */
-namespace Magento\Core\Model;
-
 class DataSource extends \Magento\Data\Collection
 {
     /**

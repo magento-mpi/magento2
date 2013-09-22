@@ -8,11 +8,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block;
+
 /**
  * @magentoAppIsolation enabled
  */
-namespace Magento\CustomerCustomAttributes\Block;
-
 class FormTest extends \PHPUnit_Framework_TestCase
 {
 

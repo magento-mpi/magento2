@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerCustomAttributes\Model;
+
 /**
  * @magentoDataFixture Magento/CustomerCustomAttributes/_files/order_address_with_attribute.php
  */
-namespace Magento\CustomerCustomAttributes\Model;
-
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
