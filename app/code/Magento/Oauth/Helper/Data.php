@@ -266,7 +266,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * Get authorize endpoint url
      *
      * @param string $userType
-     * @throws Exception
+     * @throws \Exception
      * @return string
      */
     public function getAuthorizeUrl($userType)

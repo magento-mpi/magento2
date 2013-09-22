@@ -24,7 +24,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
      * Reindex temporary (price result data) for all products
      *
      * @return $this|\Magento\Catalog\Model\Resource\Product\Indexer\Price\Default
-     * @throws Exception
+     * @throws \Exception
      */
     public function reindexAll()
     {
