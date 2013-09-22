@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\Webhook\Controller\Adminhtml\Webhook;
+
 /**
  * Registration controller
  *
@@ -10,8 +13,6 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-namespace Magento\Webhook\Controller\Adminhtml\Webhook;
-
 class Registration extends \Magento\Backend\Controller\ActionAbstract
 {
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
