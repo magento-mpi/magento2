@@ -10,7 +10,10 @@
 
 /**
  * Store group model
- *
+ */
+namespace Magento\Core\Model\Store;
+
+/**
  * @method \Magento\Core\Model\Resource\Store\Group _getResource()
  * @method \Magento\Core\Model\Resource\Store\Group getResource()
  * @method \Magento\Core\Model\Store\Group setWebsiteId(int $value)
@@ -20,9 +23,6 @@
  * @method \Magento\Core\Model\Store\Group setRootCategoryId(int $value)
  * @method \Magento\Core\Model\Store\Group setDefaultStoreId(int $value)
  */
-
-namespace Magento\Core\Model\Store;
-
 class Group extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY         = 'store_group';
