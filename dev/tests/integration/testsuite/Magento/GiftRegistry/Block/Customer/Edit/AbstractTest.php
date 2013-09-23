@@ -33,7 +33,8 @@ class Magento_GiftRegistry_Block_Customer_Edit_AbstractTest
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat($formatType);
+        $dateFormat = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_LocaleInterface')->getDateFormat($formatType);
         $value = $block->formatDate($value, $formatType);
 
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);

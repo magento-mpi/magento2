@@ -24,7 +24,8 @@ class Magento_GiftRegistry_Block_Form_ElementTest extends PHPUnit_Framework_Test
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat($formatType);
+        $dateFormat = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_LocaleInterface')->getDateFormat($formatType);
 
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);
         $this->assertContains('value=""', $html);

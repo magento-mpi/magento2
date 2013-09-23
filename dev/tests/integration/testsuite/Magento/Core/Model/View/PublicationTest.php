@@ -75,7 +75,8 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     {
         $this->_initTestTheme($allowDuplication);
 
-        Mage::app()->getLocale()->setLocale($locale);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_LocaleInterface')
+            ->setLocale($locale);
         $url = $this->_viewUrl->getViewFileUrl($file);
         $this->assertStringEndsWith($expectedUrl, $url);
         $viewFile = $this->_fileSystem->getViewFile($file);
