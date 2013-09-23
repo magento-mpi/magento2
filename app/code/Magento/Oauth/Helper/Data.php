@@ -169,22 +169,22 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected $_coreData = null;
 
-    /** @var Magento_Core_Model_Store */
-    protected $_store;
+    /** @var Magento_Core_Model_Store_Config */
+    protected $_storeConfig;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Store_Config $storeConfig
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Core_Model_Store_Config $storeConfig
     ) {
         parent::__construct($context);
         $this->_coreData = $coreData;
-        $this->_store = $storeManager->getStore();
+        $this->_storeConfig = $storeConfig;
     }
 
     /**
@@ -269,7 +269,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     public function isCleanupProbability()
     {
         // Safe get cleanup probability value from system configuration
-        $configValue = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
+        $configValue = (int) $this->_storeConfig->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
         return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
     }
 
@@ -280,7 +280,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCleanupExpirationPeriod()
     {
-        $minutes = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
+        $minutes = (int) $this->_storeConfig->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
     }
 
@@ -291,7 +291,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getConsumerExpirationPeriod()
     {
-        $seconds = (int)$this->_store->getConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
+        $seconds = (int)$this->_storeConfig->getConfig(self::XML_PATH_CONSUMER_EXPIRATION_PERIOD);
         return $seconds > 0 ? $seconds : self::CONSUMER_EXPIRATION_PERIOD_DEFAULT;
     }
 

@@ -15,8 +15,8 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Core_Helper_Context */
     protected $_coreContextMock;
 
-    /** @var Magento_Core_Model_StoreManagerInterface */
-    protected $_storeManagerMock;
+    /** @var Magento_Core_Model_Store_Config */
+    protected $_storeConfigMock;
 
     /** @var Magento_Oauth_Helper_Data */
     protected $_oauthHelper;
@@ -26,18 +26,22 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_coreContextMock = $this->getMockBuilder('Magento_Core_Helper_Context')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_storeConfigMock = $this->getMockBuilder('Magento_Core_Model_Store_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_coreHelper = new Magento_Core_Helper_Data(
             $this->getMockBuilder('Magento_Core_Model_Event_Manager')->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder('Magento_Core_Helper_Http')->disableOriginalConstructor()->getMock(),
             $this->_coreContextMock,
-            $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock(),
+            $this->_storeConfigMock
         );
-        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
 
         $this->_oauthHelper = new Magento_Oauth_Helper_Data(
             $this->_coreHelper,
             $this->_coreContextMock,
-            $this->_storeManagerMock
+            $this->_storeConfigMock
         );
     }
 
@@ -45,7 +49,7 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         unset($this->_coreHelper);
         unset($this->_coreContextMock);
-        unset($this->_storeManagerMock);
+        unset($this->_storeConfigMock);
         unset($this->_oauthHelper);
     }
 
