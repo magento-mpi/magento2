@@ -18,6 +18,16 @@
   * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
   * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
   * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
+  * Removed "translate" node from configuration XML files
+  * Improved Install, Category, Product, Customer, Wishlist configuration segments:
+     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+     * New configuration files are validated with XSD
+     * Format of the configuration changed to make possible its validation
+  * Improved configuration in `widget.xml`, `fieldset.xml` and `install.xml` files:
+     * `install.xml` was renamed to `install_wizard.xml`
+     * The configuration is validated with XSD
+     * Format of the configuration changed to make possible its validation
+  * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
 * Prototype.js uses converted to jQuery:
   * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
   * Removed depreacted prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
@@ -27,19 +37,13 @@
     * app/code/Magento/Catalog/view/frontend/product/list.phtml
   * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
     * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
-    * Updated to meet Magento 2 coding stanadrd: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
+  * Updated to meet Magento 2 coding stanadrd: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
 * Added jQuery widgets:
   * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
   * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
   * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
   * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
   * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
-* Сrontab segment improvements:
-  * crontab configurations were moved from config.xml to new crontab.xml with new format
-  * XSD validation schema for crontab.xml was added
-* Install segment was moved from config.xml to di.xml for next configuration nodes:
-  * config/install/databases
-  * config/install/eula_file
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -73,13 +77,6 @@
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
-* XML Validation
-  * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
-  * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
-  * Altered format of `install.xml`
-    * Renamed to `install_wizard.xml`
-    * Added `install_wizard.xsd` to allow for validation of XML files.
-* Removed "translate" node from configuration XML files
 * Added I18n tools for translation dictionary generation and language package generation
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
@@ -112,6 +109,7 @@
   * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
   * Eliminated Mage::throwException from Magento_Media module
   * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend
@@ -247,9 +245,6 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
-  * Removed "translate" node from configuration XML files
-  * Added I18n tools for translation dictionary generation and language package generation
-  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers

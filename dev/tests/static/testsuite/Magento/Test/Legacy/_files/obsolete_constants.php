@@ -137,6 +137,9 @@ return array(
     array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento_Core_Helper_Data',
         'Magento_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
     ),
+    array('XML_PATH_TEMPLATE_FILTER', 'Magento_Newsletter_Helper_Data',
+        'Use directly model Magento_Newsletter_Model_Template_Filter'
+    ),
     array('XML_PATH_THEME', 'Magento_Core_Model_Design_PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_THEME'
     ),

@@ -12,7 +12,11 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     const ORDER_FIELD = 'order';
     const LEVEL_FIELD = 'level';
 
-
+    /**
+     * @var Magento_Core_Model_Event_Manager
+     */
+    private $_eventManager;
+    
     /**
      * @var Magento_Catalog_Model_Attribute_Config
      */
@@ -57,13 +61,6 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * @var integer
      */
     protected $_storeId                          = null;
-
-    /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
 
     /**
      * @param Magento_Core_Model_Resource $resource

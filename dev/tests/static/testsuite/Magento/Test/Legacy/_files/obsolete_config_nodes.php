@@ -78,6 +78,7 @@ return array(
     '/config/default/web/*/base_skin_url' => '/config/default/web/*/base_static_url',
     '/config/global/cache/types/*/tags' => 'use /config/global/cache/types/*/class node instead',
     '/config/global/disable_local_modules' => '',
+    '/config/global/newsletter/tempate_filter' => 'Use DI configs to setup model for template processing',
     '/config/*/layout' => 'Use convention for layout files placement instead of configuration',
     '/config/frontend/product/collection/attributes'
         => 'Use /config/group[@name="catalog_product"] of catalog_attributes.xml',
@@ -89,6 +90,7 @@ return array(
         => 'Use /config/group[@name="wishlist_item"] of catalog_attributes.xml',
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
+    '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
     '/config/install' => 'Configurations moved to DI file settings',
     '/config/install/design' => 'Configurations moved to DI file settings',
     '/config/adminhtml/design' => 'Configurations moved to DI file settings',

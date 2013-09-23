@@ -95,6 +95,8 @@ app/code/Magento/Cron/Model/Config.php
 app/code/Magento/Cron/Model/ConfigInterface.php
 app/code/Magento/Directory/Helper
 app/code/Magento/Customer/Block/Account/{Authorization,Register}Link.php
+app/code/Magento/Customer/Model/Address/Config
+app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/Directory/Model/Resource/Region
 app/code/Magento/DesignEditor
