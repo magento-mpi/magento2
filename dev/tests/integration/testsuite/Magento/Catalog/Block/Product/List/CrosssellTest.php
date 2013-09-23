@@ -18,7 +18,8 @@ class Magento_Catalog_Block_Product_List_CrosssellTest extends PHPUnit_Framework
 {
     public function testAll()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Catalog_Model_Product');
         $product->load(2);

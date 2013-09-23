@@ -312,7 +312,8 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     public function testPublishCssFileFromModule(
         $cssViewFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
     ) {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_viewUrl->getViewFileUrl($cssViewFile, $designParams);
 
         $expectedCssFile = $this->_viewService->getPublicDir() . '/' . $expectedCssFile;

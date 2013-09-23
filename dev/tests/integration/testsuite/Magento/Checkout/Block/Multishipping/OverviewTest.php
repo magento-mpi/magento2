@@ -18,7 +18,8 @@ class Magento_Checkout_Block_Multishipping_OverviewTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Checkout_Block_Multishipping_Overview');
     }

@@ -110,7 +110,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
      */
     public function testDeleteData()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customerCollection Magento_Customer_Model_Resource_Customer_Collection */

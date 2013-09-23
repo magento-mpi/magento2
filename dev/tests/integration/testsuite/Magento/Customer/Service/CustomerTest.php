@@ -300,7 +300,8 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate($customerData)
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $expected = $this->_customerFactory->create()
             ->load(1);
 
@@ -355,7 +356,8 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateExceptions($customerData, $exceptionName, $exceptionMessage = '')
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->setExpectedException($exceptionName, $exceptionMessage);
         $this->_model->update(1, $customerData);
     }

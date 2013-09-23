@@ -27,7 +27,8 @@ class Magento_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_Tes
      */
     public function testThumbnail()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Catalog_Model_Product');
         $product->load(1);
