@@ -211,7 +211,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         /** @var $addressModel Magento_Customer_Model_Address */
         $addressModel = Mage::getModel('Magento_Customer_Model_Address');
         $tableName    = $addressModel->getResource()->getEntityTable();
-        $addressId    = Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($tableName);
+        $addressId    = $objectManager->get('Magento_ImportExport_Model_Resource_Helper_Mysql4')
+            ->getNextAutoincrement($tableName);
 
         $entityData = array(
             'entity_id'      => $addressId,
