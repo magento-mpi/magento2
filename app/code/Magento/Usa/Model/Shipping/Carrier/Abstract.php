@@ -50,10 +50,6 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
      */
     protected $_rateMethodFactory;
 
-    /**
-     * @var Magento_Shipping_Model_Rate_Result_ErrorFactory
-     */
-    protected $_rateErrorFactory;
 
     /**
      * @var Magento_Shipping_Model_Tracking_ResultFactory
@@ -86,15 +82,12 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
     protected $_currencyFactory;
 
     /**
-     * Constructor
-     *
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
      * @param Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory
      * @param Magento_Shipping_Model_Rate_ResultFactory $rateFactory
      * @param Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory
-     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
      * @param Magento_Shipping_Model_Tracking_ResultFactory $trackFactory
      * @param Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory
      * @param Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory
@@ -103,6 +96,8 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
      * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -110,7 +105,6 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
         Magento_Usa_Model_Simplexml_ElementFactory $xmlElFactory,
         Magento_Shipping_Model_Rate_ResultFactory $rateFactory,
         Magento_Shipping_Model_Rate_Result_MethodFactory $rateMethodFactory,
-        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
         Magento_Shipping_Model_Tracking_ResultFactory $trackFactory,
         Magento_Shipping_Model_Tracking_Result_ErrorFactory $trackErrorFactory,
         Magento_Shipping_Model_Tracking_Result_StatusFactory $trackStatusFactory,
@@ -119,12 +113,13 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
         Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Shipping_Model_Rate_Result_ErrorFactory $rateErrorFactory,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_xmlElFactory = $xmlElFactory;
         $this->_rateFactory = $rateFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        $this->_rateErrorFactory = $rateErrorFactory;
         $this->_trackFactory = $trackFactory;
         $this->_trackErrorFactory = $trackErrorFactory;
         $this->_trackStatusFactory = $trackStatusFactory;
@@ -132,7 +127,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
         $this->_countryFactory = $countryFactory;
         $this->_currencyFactory = $currencyFactory;
         $this->_directoryData = $directoryData;
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($coreStoreConfig, $rateErrorFactory, $logAdapterFactory, $data);
     }
 
     /**

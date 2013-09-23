@@ -35,17 +35,25 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -74,11 +82,10 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-        $helper = $this->_coreData;
         $urlPart = "{$key}:{$model->$method()}:{$model->getProtectCode()}";
-        $param = array('hash' => $helper->urlEncode($urlPart));
+        $param = array('hash' => $this->_coreData->urlEncode($urlPart));
 
-        $storeModel = Mage::app()->getStore($model->getStoreId());
+        $storeModel = $this->_storeManager->getStore($model->getStoreId());
         return $storeModel->getUrl('shipping/tracking/popup', $param);
     }
 
@@ -110,6 +117,11 @@ class Magento_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
         return $this->_getUrl('shipping/tracking/ajax');
     }
 
+    /**
+     * @param string $method
+     * @param mixed $storeId
+     * @return bool
+     */
     public function isFreeMethod($method, $storeId = null)
     {
         $arr = explode('_', $method, 2);

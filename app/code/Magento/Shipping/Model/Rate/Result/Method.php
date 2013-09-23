@@ -21,6 +21,23 @@
 class Magento_Shipping_Model_Rate_Result_Method extends Magento_Shipping_Model_Rate_Result_Abstract
 {
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($data);
+    }
+
+    /**
      * Round shipping carrier's method price
      *
      * @param string|float|int $price
@@ -28,7 +45,7 @@ class Magento_Shipping_Model_Rate_Result_Method extends Magento_Shipping_Model_R
      */
     public function setPrice($price)
     {
-        $this->setData('price', Mage::app()->getStore()->roundPrice($price));
+        $this->setData('price', $this->_storeManager->getStore()->roundPrice($price));
         return $this;
     }
 }
