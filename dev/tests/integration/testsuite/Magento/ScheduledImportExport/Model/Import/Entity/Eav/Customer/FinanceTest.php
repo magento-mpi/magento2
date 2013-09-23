@@ -27,7 +27,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
             ->registry('Magento_ScheduledImportExport_Model_Website');
         if ($testWebsite) {
             // Clear test website info from application cache.
-            Mage::app()->clearWebsiteCache($testWebsite->getId());
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->clearWebsiteCache($testWebsite->getId());
         }
     }
 

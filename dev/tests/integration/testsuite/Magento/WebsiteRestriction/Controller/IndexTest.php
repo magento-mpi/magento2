@@ -30,7 +30,8 @@ class Magento_WebsiteRestriction_Controller_IndexTest extends Magento_TestFramew
          * besides more expensive, cleaning by tags currently triggers system setup = DDL = breaks transaction
          * therefore cleanup is performed by cache ID
          */
-        Mage::app()->removeCache("RESTRICTION_LANGING_PAGE_{$websiteId}");
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->removeCache("RESTRICTION_LANGING_PAGE_{$websiteId}");
         $this->markTestIncomplete('MAGETWO-4342');
 
         $this->dispatch('restriction/index/stub');
