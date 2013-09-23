@@ -40,7 +40,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
         $action = $this->getRequest()->getActionName();
         $loginUrl = $this->_objectManager->get('Magento_Customer_Helper_Data')->getLoginUrl();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
+        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this, $loginUrl)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -83,6 +83,10 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
             return;
         }
 
+        /** @var Magento_Core_Model_Date $coreDate */
+        $coreDate = $this->_objectManager->get('Magento_Core_Model_Date');
+        /** @var Magento_Core_Model_Session $coreSession */
+        $coreSession = $this->_objectManager->get('Magento_Core_Model_Session');
         if ($this->_canViewOrder($order)) {
             $post = $this->getRequest()->getPost();
             if (($post) && !empty($post['items'])) {
@@ -90,7 +94,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                     $rmaModel = Mage::getModel('Magento_Rma_Model_Rma');
                     $rmaData = array(
                         'status'                => Magento_Rma_Model_Rma_Source_Status::STATE_PENDING,
-                        'date_requested'        => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(),
+                        'date_requested'        => $coreDate->gmtDate(),
                         'order_id'              => $order->getId(),
                         'order_increment_id'    => $order->getIncrementId(),
                         'store_id'              => $order->getStoreId(),
@@ -111,16 +115,16 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                             ->setComment($post['rma_comment'])
                             ->setIsVisibleOnFront(true)
                             ->setStatus($rmaModel->getStatus())
-                            ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                            ->setCreatedAt($coreDate->gmtDate())
                             ->save();
                     }
-                    Mage::getSingleton('Magento_Core_Model_Session')->addSuccess(
+                    $coreSession->addSuccess(
                         __('You submitted Return #%1.', $rmaModel->getIncrementId())
                     );
                     $this->_redirectSuccess(Mage::getUrl('*/*/history'));
                     return;
                 } catch (Exception $e) {
-                    Mage::getSingleton('Magento_Core_Model_Session')->addError(
+                    $coreSession->addError(
                         __('We cannot create a new return transaction. Please try again later.')
                     );
                     $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
@@ -146,7 +150,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
      */
     protected function _canViewOrder($item)
     {
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $customerId = $this->_objectManager->get('Magento_Customer_Model_Session')->getCustomerId();
         if ($item->getId() && $item->getCustomerId() && ($item->getCustomerId() == $customerId)) {
             return true;
         }
@@ -194,7 +198,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
 
         $incrementId    = $this->_coreRegistry->registry('current_order')->getIncrementId();
         $message        = __('We cannot create a return transaction for order #%1.', $incrementId);
-        Mage::getSingleton('Magento_Core_Model_Session')->addError($message);
+        $this->_objectManager->get('Magento_Core_Model_Session')->addError($message);
         $this->_redirect('sales/order/history');
         return false;
     }
@@ -229,7 +233,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
     public function returnsAction()
     {
         $orderId    = (int) $this->getRequest()->getParam('order_id');
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $customerId = $this->_objectManager->get('Magento_Customer_Model_Session')->getCustomerId();
 
         if (!$orderId || !$this->_isEnabledOnFront()) {
             $this->_forward('noRoute');
@@ -238,7 +242,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
 
         $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
 
-        $availableStates = Mage::getSingleton('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates();
+        $availableStates = $this->_objectManager->get('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates();
         if ($order->getId() && $order->getCustomerId() && ($order->getCustomerId() == $customerId)
             && in_array($order->getState(), $availableStates, $strict = true)
             ) {
@@ -274,7 +278,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                         ->setComment($comment)
                         ->setIsVisibleOnFront(true)
                         ->setStatus($this->_coreRegistry->registry('current_rma')->getStatus())
-                        ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                        ->setCreatedAt($this->_objectManager->get('Magento_Core_Model_Date')->gmtDate())
                         ->save();
                     $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
@@ -293,7 +297,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                 );
             }
             if (is_array($response)) {
-               Mage::getSingleton('Magento_Core_Model_Session')->addError($response['message']);
+               $this->_objectManager->get('Magento_Core_Model_Session')->addError($response['message']);
             }
             $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
             return;
@@ -317,7 +321,8 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
                 $number    = $this->getRequest()->getPost('number');
                 $number    = trim(strip_tags($number));
                 $carrier   = $this->getRequest()->getPost('carrier');
-                $carriers  = $this->_objectManager->get('Magento_Rma_Helper_Data')->getShippingCarriers($rma->getStoreId());
+                $carriers  = $this->_objectManager->get('Magento_Rma_Helper_Data')
+                    ->getShippingCarriers($rma->getStoreId());
 
                 if (!isset($carriers[$carrier])) {
                     Mage::throwException(__('Please select a valid carrier.'));
@@ -352,7 +357,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
             );
         }
         if (is_array($response)) {
-            Mage::getSingleton('Magento_Core_Model_Session')->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
         $this->addPageLayoutHandles();
@@ -405,7 +410,7 @@ class Magento_Rma_Controller_Return extends Magento_Core_Controller_Front_Action
             );
         }
         if (is_array($response)) {
-            Mage::getSingleton('Magento_Core_Model_Session')->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento_Core_Model_Session')->setErrorMessage($response['message']);
         }
 
         $this->addPageLayoutHandles();

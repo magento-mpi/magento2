@@ -68,6 +68,32 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     private $_deleteCache   = array();
 
     /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @var Magento_Rating_Model_Resource_Rating_Option
+     */
+    protected $_ratingOption;
+
+    /**
+     * @param Magento_Rating_Model_Resource_Rating_Option $ratingOption
+     * @param Magento_Core_Model_Date $coreDate
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Rating_Model_Resource_Rating_Option $ratingOption,
+        Magento_Core_Model_Date $coreDate,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_ratingOption = $ratingOption;
+        $this->_coreDate = $coreDate;
+        parent::__construct($resource);
+    }
+
+
+    /**
      * Define main table. Define other tables name
      *
      */
@@ -103,13 +129,13 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
     /**
      * Perform actions before object save
      *
-     * @param Magento_Object $object
-     * @return Magento_Review_Model_Resource_Review
+     * @param Magento_Core_Model_Abstract $object
+     * @return $this|Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getId()) {
-            $object->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $object->setCreatedAt($this->_coreDate->gmtDate());
         }
         if ($object->hasData('stores') && is_array($object->getStores())) {
             $stores = $object->getStores();
@@ -369,11 +395,9 @@ class Magento_Review_Model_Resource_Review extends Magento_Core_Model_Resource_D
         if ($ratingIds && !is_array($ratingIds)) {
             $ratingIds = array((int)$ratingIds);
         }
-        if ($ratingIds && $entityPkValue
-            && ($resource = Mage::getResourceSingleton('Magento_Rating_Model_Resource_Rating_Option'))
-            ) {
+        if ($ratingIds && $entityPkValue) {
             foreach ($ratingIds as $ratingId) {
-                $resource->aggregateEntityByRatingId(
+                $this->_ratingOption->aggregateEntityByRatingId(
                     $ratingId, $entityPkValue
                 );
             }

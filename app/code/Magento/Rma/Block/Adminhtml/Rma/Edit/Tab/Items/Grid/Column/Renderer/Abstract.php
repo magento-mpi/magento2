@@ -16,8 +16,27 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstract
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    /**
+     * @var Magento_Rma_Model_Item_Status
+     */
+    protected $_rmaItemStatus;
+
+    /**
+     * @param Magento_Rma_Model_Item_Status $rmaItemStatus
+     * @param Magento_Backend_Block_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Model_Item_Status $rmaItemStatus,
+        Magento_Backend_Block_Context $context,
+        array $data = array()
+    ) {
+        $this->_rmaItemStatus = $rmaItemStatus;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Renders column
      *
@@ -28,7 +47,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstra
      */
     public function render(Magento_Object $row)
     {
-        $statusManager = Mage::getSingleton('Magento_Rma_Model_Item_Status');
+        $statusManager = $this->_rmaItemStatus;
         $statusManager->setStatus($row->getStatus());
         $this->setStatusManager($statusManager);
 

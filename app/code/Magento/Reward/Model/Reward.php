@@ -683,7 +683,7 @@ class Magento_Reward_Model_Reward extends Magento_Core_Model_Abstract
         $helper = $this->_rewardData;
         $amount = $helper
             ->getRateFromRatesArray($item->getPointsBalanceTotal(), $websiteId, $item->getCustomerGroupId());
-        $action = Mage::getSingleton('Magento_Reward_Model_Reward')->getActionInstance($item->getAction());
+        $action = $this->getActionInstance($item->getAction());
         $templateVars = array(
             'store' => $store,
             'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),

@@ -25,28 +25,44 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
     protected $_reviewData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Core_Model_Session_Generic
+     */
+    protected $_reviewSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Session_Generic $reviewSession
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Session_Generic $reviewSession,
         Magento_Review_Helper_Data $reviewData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
+        $this->_reviewSession = $reviewSession;
         $this->_reviewData = $reviewData;
         parent::__construct($coreData, $context, $data);
     }
 
     protected function _construct()
     {
-        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+        $customerSession = $this->_customerSession;
 
         parent::_construct();
 
-        $data = Mage::getSingleton('Magento_Review_Model_Session')->getFormData(true);
+        $data = $this->_reviewSession->getFormData(true);
         $data = new Magento_Object((array)$data);
 
         // add logged in customer name as nickname
@@ -74,7 +90,7 @@ class Magento_Review_Block_Form extends Magento_Core_Block_Template
 
         $this->setTemplate('form.phtml')
             ->assign('data', $data)
-            ->assign('messages', Mage::getSingleton('Magento_Review_Model_Session')->getMessages(true));
+            ->assign('messages', $this->_reviewSession->getMessages(true));
     }
 
     public function getProductInfo()
