@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <entity name="customer_finance" label="Customer Finances" model="Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance" />
+</config>

@@ -19,28 +19,6 @@
                 </setup>
             </giftcard_setup>
         </resources>
-        <catalog>
-            <product>
-                <type>
-                    <giftcard translate="label">
-                        <label>Gift Card</label>
-                        <model>Magento_GiftCard_Model_Catalog_Product_Type_Giftcard</model>
-                        <price_model>Magento_GiftCard_Model_Catalog_Product_Price_Giftcard</price_model>
-                        <index_priority>45</index_priority>
-                        <composite>0</composite>
-                        <is_qty>1</is_qty>
-                        <price_indexer>Magento_GiftCard_Model_Resource_Indexer_Price</price_indexer>
-                    </giftcard>
-                </type>
-                <attributes>
-                    <unassignable>
-                        <allow_open_amount />
-                        <giftcard_amounts />
-                        <giftcard_type />
-                    </unassignable>
-                </attributes>
-            </product>
-        </catalog>
         <template>
             <email>
                 <giftcard_email_template translate="label" module="Magento_GiftCard">
@@ -50,46 +28,7 @@
                 </giftcard_email_template>
             </email>
         </template>
-        <sales>
-            <quote>
-                <item>
-                    <product_attributes>
-                        <giftcard_type />
-                        <giftcard_amounts />
-                        <allow_open_amount />
-                        <open_amount_min />
-                        <open_amount_max />
-                        <use_config_lifetime />
-                        <lifetime />
-                        <use_config_is_redeemable />
-                        <is_redeemable />
-                        <use_config_email_template />
-                        <email_template />
-                    </product_attributes>
-                </item>
-            </quote>
-        </sales>
     </global>
-    <frontend>
-        <product>
-            <collection>
-                <attributes>
-                    <giftcard_type />
-                    <giftcard_amounts />
-                    <allow_open_amount />
-                    <open_amount_min />
-                    <open_amount_max />
-                    <use_config_lifetime />
-                    <lifetime />
-                    <use_config_is_redeemable />
-                    <is_redeemable />
-                </attributes>
-            </collection>
-        </product>
-        <secure_url>
-            <giftcard_customer>/giftcard/customer/</giftcard_customer>
-        </secure_url>
-    </frontend>
     <adminhtml>
         <sales>
             <order>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="bundle" label="Bundle Product" modelInstance="Magento_Bundle_Model_Product_Type" composite='true' indexPriority="40">
+        <priceModel instance="Magento_Bundle_Model_Product_Price" />
+        <indexerModel instance="Magento_Bundle_Model_Resource_Indexer_Price" />
+        <stockIndexerModel instance="Magento_Bundle_Model_Resource_Indexer_Stock" />
+        <allowedSelectionTypes>
+            <type name="simple" />
+            <type name="virtual" />
+        </allowedSelectionTypes>
+    </type>
+</config>

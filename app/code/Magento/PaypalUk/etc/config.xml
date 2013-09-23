@@ -19,11 +19,6 @@
             </paypaluk_setup>
         </resources>
     </global>
-    <frontend>
-        <secure_url>
-            <paypaluk_express>/paypaluk/express</paypaluk_express>
-        </secure_url>
-    </frontend>
     <default>
         <payment>
             <paypaluk_express>

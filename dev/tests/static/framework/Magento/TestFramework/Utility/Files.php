@@ -167,10 +167,40 @@ class Magento_TestFramework_Utility_Files
     public function getXmlFiles()
     {
         return array_merge(
-            self::getConfigFiles(),
-            self::getLayoutConfigFiles(),
-            self::getLayoutFiles()
+            $this->getMainConfigFiles(),
+            $this->getLayoutFiles(),
+            $this->getConfigFiles(),
+            $this->getLayoutConfigFiles()
         );
+    }
+
+    /**
+     * Retrieve all config files, that participate (or have a chance to participate) in composing main config
+     *
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getMainConfigFiles($asDataSet = true)
+    {
+        $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
+        if (!isset(self::$_cache[$cacheKey])) {
+            $globPaths = array(
+                'app/etc/config.xml',
+                'app/etc/*/config.xml',
+                'app/etc/local.xml',
+                'app/code/*/*/etc/config.xml',
+                'app/code/*/*/etc/config.*.xml', // Module DB-specific configs, e.g. config.mysql4.xml
+            );
+            $files = array();
+            foreach ($globPaths as $globPath) {
+                $files = array_merge($files, glob($this->_path . '/' . $globPath));
+            }
+            self::$_cache[$cacheKey] = $files;
+        }
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$cacheKey]);
+        }
+        return self::$_cache[$cacheKey];
     }
 
     /**

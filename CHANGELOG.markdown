@@ -1,20 +1,49 @@
-=============
-  * Prototype.js uses converted to jQuery:
-    * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
-    * Removed depreacted prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
-    * Updated to use jQuery redirectUrl widget vs prototype based solution:
-      * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
-      * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
-      * app/code/Magento/Catalog/view/frontend/product/list.phtml
-    * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
-      * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
-    * Updated to meet Magento 2 coding stanadrd: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
-  * Added jQuery widgets:
-    * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
-    * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
-    * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
-    * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
-    * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
+* Configuration improvements:
+  * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
+  * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
+  * Product type configuration was moved from config.xml to product_types.xml files with new format;
+  * Product option configuration was moved from config.xml to product_options.xml files with new format;
+  * EAV attributes configuration was moved from config.xml to eav_attributes.xml files with new format;
+  * Indexer configuration was moved from config.xml to indexers.xml files with new format;
+  * Catalog rules configuration was moved from config.xml to di.xml;
+  * Sales rules configuration was moved from config.xml to di.xml;
+  * Session configuration was moved from config.xml to di.xml;
+  * <ignore_user_agents> node was removed from config.xml and related data was moved to di.xml;
+  * <request> node was removed from config.xml and related data was moved to di.xml;
+  * <secure_url> node was removed from config.xml and related data was moved to di.xml;
+  * <dev> node was removed from config.xml and related data was moved to di.xml;
+  * <webapi> node was removed from config.xml and related data was moved to di.xml;
+  * CMS configuration was moved from config.xml to di.xml;
+  * Widget configuration was moved from config.xml to di.xml;
+  * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
+  * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
+  * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
+  * Removed "translate" node from configuration XML files
+  * Improved Install, Category, Product, Customer, Wishlist configuration segments:
+     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+     * New configuration files are validated with XSD
+     * Format of the configuration changed to make possible its validation
+  * Improved configuration in `widget.xml`, `fieldset.xml` and `install.xml` files:
+     * `install.xml` was renamed to `install_wizard.xml`
+     * The configuration is validated with XSD
+     * Format of the configuration changed to make possible its validation
+  * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
+* Prototype.js uses converted to jQuery:
+  * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
+  * Removed depreacted prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
+  * Updated to use jQuery redirectUrl widget vs prototype based solution:
+    * app/code/Magento/Oauth/view/adminhtml/authorize/form/login.phtml
+    * app/code/Magento/Oauth/view/frontend/authorize/form/login.phtml
+    * app/code/Magento/Catalog/view/frontend/product/list.phtml
+  * Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
+    * app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
+  * Updated to meet Magento 2 coding stanadrd: app/code/Magento/Checkout/view/frontend/cart/item/default.phtml
+* Added jQuery widgets:
+  * mage.deletableItem - Widget to tag DOM element as deletable, by default on click
+  * mage.fieldsetControls & mage.fieldsetResetControl - Widget to easily reset a subset of form fields with a reset ui control
+  * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
+  * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
+  * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
 * Сrontab segment improvements:
   * crontab configurations were moved from config.xml to new crontab.xml with new format
   * XSD validation schema for crontab.xml was added
@@ -85,6 +114,7 @@
   * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
   * Eliminated Mage:: static methods in Magento_Sendfriend
   * Eliminated Mage:: static methods in Magento_Usa
+  * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
   * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
   * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
   * Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_User module

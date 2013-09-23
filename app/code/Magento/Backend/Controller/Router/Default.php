@@ -52,14 +52,15 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Route_Config $routeConfig
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
      * @param Magento_Core_Model_Config $config
-     * @param string $areaCode
-     * @param string $baseController
-     * @param string $routerId
-     * @param string $defaultRouteId
-     * @throws InvalidArgumentException
+     * @param $areaCode
+     * @param $baseController
+     * @param $routerId
+     * @param $defaultRouteId
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @throws InvalidArgumentException
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,
@@ -69,6 +70,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
         Magento_Core_Model_Config $config,
         $areaCode,
         $baseController,
@@ -82,6 +84,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
             $configScope,
             $coreStoreConfig,
             $routeConfig,
+            $securityInfo,
             $config,
             $areaCode,
             $baseController,
