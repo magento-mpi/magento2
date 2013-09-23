@@ -92,7 +92,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
     protected function _translate($string)
     {
         // emulate admin store and design
-        Mage::app()->setCurrentStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme(1);
         /** @var Magento_Core_Model_Translate $translate */

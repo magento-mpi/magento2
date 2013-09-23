@@ -40,15 +40,17 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $previousStoreId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_StoreManagerInterface')->getStore();
-        Mage::app()->setCurrentStore(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-                ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
-        );
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')
+                    ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+            );
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
             $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
         }
-        Mage::app()->setCurrentStore($previousStoreId);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')->setCurrentStore($previousStoreId);
 
         $this->_model = null;
     }

@@ -58,10 +58,12 @@ class Magento_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        Mage::app()->setCurrentStore(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
-                ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
-        );
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')
+                    ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+            );
         $this->_model->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE)
             ->setAttributeSetId(4)
             ->setName('Bundle Product')->setSku(uniqid())->setPrice(10)

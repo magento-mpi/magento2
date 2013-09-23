@@ -41,9 +41,11 @@ class Magento_Captcha_Block_Captcha_DefaultTest extends PHPUnit_Framework_TestCa
                 Magento_TestFramework_Helper_Bootstrap::getObjectManager()
                     ->create('Magento_Backend_Model_Url')
             );
-        Mage::app()->setCurrentStore(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')->getStore('admin')
-        );
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore('admin')
+            );
 
         $this->assertContains('backend/admin/refresh/refresh', $this->_block->getRefreshUrl());
     }

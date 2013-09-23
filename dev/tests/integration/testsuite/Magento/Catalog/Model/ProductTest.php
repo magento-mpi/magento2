@@ -54,9 +54,12 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        Mage::app()->setCurrentStore(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_StoreManagerInterface')
-            ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')
+                    ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+            );
         $this->_model->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')

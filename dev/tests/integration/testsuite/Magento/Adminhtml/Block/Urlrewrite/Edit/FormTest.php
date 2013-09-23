@@ -109,7 +109,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
 
     /**
      * Test store selection is available and correctly configured
-    Mage::app()->getRequest()  *
+     *
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Core/_files/store.php
      */
