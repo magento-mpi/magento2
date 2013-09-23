@@ -48,7 +48,7 @@ class Rviewed
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param Magento_Reports_Model_EventFactory $eventFactory
+     * @param \Magento\Reports\Model\EventFactory $eventFactory
      * @param array $data
      */
     public function __construct(
@@ -59,7 +59,7 @@ class Rviewed
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        Magento_Reports_Model_EventFactory $eventFactory,
+        \Magento\Reports\Model\EventFactory $eventFactory,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
