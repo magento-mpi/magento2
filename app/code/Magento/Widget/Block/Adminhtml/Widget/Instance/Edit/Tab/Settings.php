@@ -37,16 +37,16 @@ class Settings
      * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\Form\Factory $formFactory,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;

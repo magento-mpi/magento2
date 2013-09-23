@@ -152,8 +152,8 @@ class Ups
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory,
         array $data = array()
     ) {
         $this->_logger = $logger;
