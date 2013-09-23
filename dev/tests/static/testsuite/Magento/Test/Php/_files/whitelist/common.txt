@@ -27,6 +27,9 @@ app/code/Magento/Catalog/Block/Product/TemplateSelector.php
 app/code/Magento/Catalog/Block/Product/View/BaseImage.php
 app/code/Magento/Catalog/Block/Product/View/Gallery.php
 app/code/Magento/Catalog/Block/Product/View/Tabs.php
+app/code/Magento/Catalog/Model/Attribute/Config
+app/code/Magento/Catalog/Model/Attribute/Config.php
+app/code/Magento/Catalog/Model/Resource/Category/Collection
 app/code/Magento/Catalog/Model/Resource/Product/Collection
 app/code/Magento/Catalog/Model/Product/Type.php
 app/code/Magento/Catalog/Model/Plugin
@@ -86,6 +89,8 @@ app/code/Magento/Cron/Model/Config.php
 app/code/Magento/Cron/Model/ConfigInterface.php
 app/code/Magento/Directory/Helper
 app/code/Magento/Customer/Block/Account/{Authorization,Register}Link.php
+app/code/Magento/Customer/Model/Address/Config
+app/code/Magento/Customer/Model/Address/Config.php
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/Directory/Model/Resource/Region
 app/code/Magento/DesignEditor
