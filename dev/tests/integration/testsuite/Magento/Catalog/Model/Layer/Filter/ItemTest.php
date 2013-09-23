@@ -64,7 +64,8 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
                     ->get('Magento_TestFramework_Response'),
             )
         );
-        Mage::app()->getFrontController()->setAction($action); // done in action's constructor
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->getFrontController()
+            ->setAction($action); // done in action's constructor
         $this->assertStringEndsWith('/?cat%5B0%5D=valuePart1&cat%5B1%5D=valuePart2', $this->_model->getUrl());
     }
 

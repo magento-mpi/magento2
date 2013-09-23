@@ -34,7 +34,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
     {
         $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_View_DesignInterface');
-        $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
         $designChange = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Design');
         $designChange->loadChange($storeId)->changeDesign($design);
@@ -100,7 +101,7 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
     public function testLoadChangeCache()
     {
         $date = Magento_Date::now(true);
-        $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
 
         $cacheId = 'design_change_' . md5($storeId . $date);
 
