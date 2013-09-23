@@ -15,7 +15,7 @@
  * Abstract class is needed because it is not possible to run both tests of inherited class and its inheritors
  * @see https://github.com/sebastianbergmann/phpunit/issues/385
  */
-abstract class Magento_Test_Legacy_\Magento\Catalog\Model\Product_AbstractTypeTest extends PHPUnit_Framework_TestCase
+abstract class Magento_Test_Legacy_Magento_Catalog_Model_Product_AbstractTypeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var array
