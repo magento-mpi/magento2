@@ -40,8 +40,8 @@ class Magento_Sales_Model_Resource_Quote_Payment extends Magento_Sales_Model_Res
         Magento_Core_Model_Resource $resource,
         Magento_Sales_Model_Payment_Method_Converter $paymentConverter
     ) {
-        parent::__construct($resource);
         $this->_paymentConverter = $paymentConverter;
+        parent::__construct($resource);
     }
 
     /**
