@@ -22,7 +22,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_AttributeTest extends 
     public function testSaveActionRedirectsSuccessfully()
     {
         /** @var $session Magento_Adminhtml_Model_Session */
-        $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Adminhtml_Model_Session');
         $session->setProductIds(array(1));
 
         $this->dispatch('backend/admin/catalog_product_action_attribute/save/store/0');

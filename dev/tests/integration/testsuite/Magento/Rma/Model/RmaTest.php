@@ -37,7 +37,8 @@ class Magento_Rma_Model_RmaTest extends PHPUnit_Framework_TestCase
         );
         $rmaData = array(
             'status'                => Magento_Rma_Model_Rma_Source_Status::STATE_PENDING,
-            'date_requested'        => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(),
+            'date_requested'        => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Date')->gmtDate(),
             'order_id'              => $order->getId(),
             'order_increment_id'    => $order->getIncrementId(),
             'store_id'              => $order->getStoreId(),

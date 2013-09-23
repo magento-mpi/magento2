@@ -30,7 +30,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(
-            Mage::getSingleton('Magento_Core_Block_Context'),
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Block_Context'),
             array('module_name' => 'Magento_Core')
         ));
     }
@@ -231,7 +231,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         // With layout
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $child = $layout->createBlock('Magento_Core_Block_Text', $childName);
         $layout->addBlock($this->_block, $parentName);
 
@@ -521,7 +521,7 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetSetMessagesBlock()
     {
         // Get one from layout
-        $this->_block->setLayout(Mage::getSingleton('Magento_Core_Model_Layout'));
+        $this->_block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout'));
         $this->assertInstanceOf('Magento_Core_Block_Messages', $this->_block->getMessagesBlock());
 
         // Set explicitly
@@ -695,14 +695,14 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
         $mockClass = $type . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {
             self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, array(
-                    Mage::getSingleton('Magento_Core_Block_Context'),
+                    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Block_Context'),
                     array('module_name' => 'Magento_Core')
                 ),
                 $type . 'Mock'
             );
         }
         if (is_null($this->_layout)) {
-            $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
+            $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         }
         $block = $this->_layout->addBlock($mockClass, $name, '', $alias);
         return $block;

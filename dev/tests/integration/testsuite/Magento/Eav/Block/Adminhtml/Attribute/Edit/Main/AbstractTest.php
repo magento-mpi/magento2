@@ -26,7 +26,8 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
         $objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
+        $entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+            ->getEntityType('customer');
         $model = $objectManager->create('Magento_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
         $objectManager->get('Magento_Core_Model_Registry')->register('entity_attribute', $model);

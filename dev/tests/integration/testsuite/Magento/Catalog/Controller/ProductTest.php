@@ -46,7 +46,8 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
         $this->assertInstanceOf('Magento_Catalog_Model_Product', $currentProduct);
         $this->assertEquals(1, $currentProduct->getId());
 
-        $lastViewedProductId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId();
+        $lastViewedProductId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Session')->getLastViewedProductId();
         $this->assertEquals(1, $lastViewedProductId);
 
         /* Layout updates */

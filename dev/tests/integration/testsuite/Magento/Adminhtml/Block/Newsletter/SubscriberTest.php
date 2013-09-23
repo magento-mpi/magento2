@@ -17,7 +17,7 @@ class Magento_Adminhtml_Block_Newsletter_SubscriberTest extends PHPUnit_Framewor
     public function testGetShowQueueAdd()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Newsletter_Subscriber */
         $block = $layout->createBlock('Magento_Adminhtml_Block_Newsletter_Subscriber', 'block');
         /** @var $childBlock Magento_Core_Block_Template */

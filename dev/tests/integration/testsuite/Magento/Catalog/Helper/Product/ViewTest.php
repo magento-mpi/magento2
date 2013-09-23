@@ -54,7 +54,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::getSingleton('Magento_Catalog_Model_Session')->unsLastViewedProductId();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session')
+            ->unsLastViewedProductId();
         $this->_controller = null;
         $this->_helper = null;
     }
@@ -89,7 +90,11 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper->prepareAndRender(10, $this->_controller);
         $this->assertNotEmpty($this->_controller->getResponse()->getBody());
-        $this->assertEquals(10, Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId());
+        $this->assertEquals(
+            10,
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session')
+                ->getLastViewedProductId()
+        );
     }
 
     /**
@@ -136,7 +141,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         // add messages
         foreach ($expectedMessages as $sessionModel => $messageText) {
             /** @var $session Magento_Core_Model_Session_Abstract */
-            $session = Mage::getSingleton($sessionModel);
+            $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get($sessionModel);
             $session->addNotice($messageText);
         }
 

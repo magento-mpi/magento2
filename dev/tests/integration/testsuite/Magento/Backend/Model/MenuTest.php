@@ -33,7 +33,8 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     public function testMenuItemManipulation()
     {
         /* @var $menu Magento_Backend_Model_Menu */
-        $menu = Mage::getSingleton('Magento_Backend_Model_Menu_Config')->getMenu();
+        $menu = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Menu_Config')
+            ->getMenu();
         /* @var $itemFactory Magento_Backend_Model_Menu_Item_Factory */
         $itemFactory = Mage::getModel('Magento_Backend_Model_Menu_Item_Factory');
 

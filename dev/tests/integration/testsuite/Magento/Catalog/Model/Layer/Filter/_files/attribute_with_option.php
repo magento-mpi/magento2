@@ -60,9 +60,10 @@ foreach ($options as $option) {
         )
         ->save();
 
-    Mage::getSingleton('Magento_Catalog_Model_Product_Action')->updateAttributes(
-        array($product->getId()),
-        array($attribute->getAttributeCode() => $option->getId()),
-        $product->getStoreId()
-    );
+    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Product_Action')
+        ->updateAttributes(
+            array($product->getId()),
+            array($attribute->getAttributeCode() => $option->getId()),
+            $product->getStoreId()
+        );
 }

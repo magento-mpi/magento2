@@ -25,7 +25,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
     {
         $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Backend_Tierprice');
         $this->_model->setAttribute(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', 'tier_price')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+                ->getAttribute('catalog_product', 'tier_price')
         );
     }
 

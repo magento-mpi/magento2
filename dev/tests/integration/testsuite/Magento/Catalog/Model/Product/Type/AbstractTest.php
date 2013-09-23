@@ -107,7 +107,8 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
         $this->assertNull($this->_model->getAttributeById(-1, $product));
         $this->assertNull($this->_model->getAttributeById(null, $product));
 
-        $sku = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', 'sku');
+        $sku = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+            ->getAttribute('catalog_product', 'sku');
         $this->assertSame($sku, $this->_model->getAttributeById($sku->getId(), $product));
     }
 

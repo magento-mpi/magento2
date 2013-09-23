@@ -32,15 +32,17 @@ class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase
         $collection = Mage::getModel('Magento_Logging_Model_Event')->getCollection();
         $eventCountBefore = count($collection);
 
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+            ->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        $this->_auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth');
         $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME,
             Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(
-            array_merge($post, array('form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey()))
+            array_merge($post, array('form_key' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Session')->getFormKey()))
         );
         $this->dispatch($url);
         $collection = Mage::getModel('Magento_Logging_Model_Event')->getCollection();

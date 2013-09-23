@@ -30,7 +30,7 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->_model = $this->getMockBuilder('Magento_Core_Model_Email_Template')
             ->setMethods(array('_getMail'))
             ->setConstructorArgs(array(
-                Mage::getSingleton('Magento_Core_Model_Context'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Context'),
                 $objectManager->get('Magento_Core_Model_Registry'),
                 $objectManager->create('Magento_Filesystem'),
                 $objectManager->create('Magento_Core_Model_View_Url'),

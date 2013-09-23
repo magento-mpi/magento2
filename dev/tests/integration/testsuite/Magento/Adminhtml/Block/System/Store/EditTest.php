@@ -46,7 +46,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
         $this->_initStoreTypesInRegistry($registryData);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_System_Store_Edit */
         $block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
@@ -85,7 +85,7 @@ class Magento_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_Te
         $this->_initStoreTypesInRegistry($registryData);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_System_Store_Edit */
         $block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit', 'block');
         $block->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);

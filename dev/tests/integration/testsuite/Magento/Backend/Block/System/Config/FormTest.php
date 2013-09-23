@@ -161,7 +161,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             )
         ));
         /** @var Magento_Backend_Model_Config_Structure $structure  */
-        $structure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
+        $structure = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Backend_Model_Config_Structure');
 
         /** @var Magento_Backend_Model_Config_Structure_Element_Section $section  */
         $section = $structure->getElement('test_section');

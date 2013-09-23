@@ -32,7 +32,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         /** @var Magento_Catalog_Model_Product_Media_Config $config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        $config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config');
 
         $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Filesystem');
         $filesystem->delete($config->getBaseMediaPath());
@@ -95,7 +96,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     protected function _copyFileToBaseTmpMediaPath($sourceFile)
     {
         /** @var Magento_Catalog_Model_Product_Media_Config $config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        $config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config');
         $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
         $targetFile = $baseTmpMediaPath . DS . basename($sourceFile);

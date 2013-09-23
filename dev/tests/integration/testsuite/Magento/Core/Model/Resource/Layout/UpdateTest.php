@@ -41,9 +41,10 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
     public function testSaveAfterClearCache()
     {
         /** @var $appCache Magento_Core_Model_Cache */
-        $appCache = Mage::getSingleton('Magento_Core_Model_Cache');
+        $appCache = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Cache');
         /** @var Magento_Core_Model_Cache_Type_Layout $layoutCache */
-        $layoutCache = Mage::getSingleton('Magento_Core_Model_Cache_Type_Layout');
+        $layoutCache = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_Cache_Type_Layout');
 
         $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'));
         $this->assertNotEmpty($layoutCache->load('LAYOUT_CACHE_FIXTURE'));

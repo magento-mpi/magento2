@@ -36,7 +36,8 @@ class Magento_Adminhtml_Controller_NewsletterTemplateTest extends Magento_Backen
         /**
          * Unset messages
          */
-        Mage::getSingleton('Magento_Backend_Model_Session')->getMessages(true);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Session')
+            ->getMessages(true);
         unset($this->_model);
     }
 

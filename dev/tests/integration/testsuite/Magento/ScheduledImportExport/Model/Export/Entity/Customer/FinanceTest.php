@@ -17,7 +17,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
 {
     protected function tearDown()
     {
-        Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->reinitStores();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->reinitStores();
     }
 
     /**

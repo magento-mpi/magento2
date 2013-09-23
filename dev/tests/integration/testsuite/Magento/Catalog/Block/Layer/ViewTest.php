@@ -22,11 +22,11 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
         $currentCategory->load(3);
 
         /** @var $layer Magento_Catalog_Model_Layer */
-        $layer = Mage::getSingleton('Magento_Catalog_Model_Layer');
+        $layer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Layer');
         $layer->setCurrentCategory($currentCategory);
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Catalog_Block_Layer_View */
         $block = $layout->createBlock('Magento_Catalog_Block_Layer_View', 'block');
 

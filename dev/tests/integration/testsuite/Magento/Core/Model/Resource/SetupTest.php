@@ -39,7 +39,7 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         $this->_model->getConnection()->dropTable($this->_model->getTable('admin_system_messages'));
         /** @var $updater Magento_Core_Model_Db_Updater */
-        $updater = Mage::getSingleton('Magento_Core_Model_Db_Updater');
+        $updater = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Db_Updater');
         try {
             $updater->updateScheme();
             $updater->updateData();

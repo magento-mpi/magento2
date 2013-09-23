@@ -19,7 +19,8 @@ class Magento_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_TestCas
         $customer = Mage::getModel('Magento_Customer_Model_Customer');
         $customer->load(1);
 
-        Mage::getSingleton('Magento_Customer_Model_Session')->setCustomer($customer);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Model_Session')
+            ->setCustomer($customer);
 
         $utility = new Magento_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_reward_customer_info.xml',

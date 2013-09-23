@@ -31,7 +31,7 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
         $objectManager->addSharedInstance($this->_moduleListMock, 'Magento_Core_Model_ModuleList');
         $objectManager->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
     }
 
     /**

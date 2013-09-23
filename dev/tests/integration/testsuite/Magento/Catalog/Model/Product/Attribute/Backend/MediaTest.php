@@ -32,9 +32,11 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
 
     public static function setUpBeforeClass()
     {
-        self::$_mediaTmpDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath();
+        self::$_mediaTmpDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath();
         $fixtureDir = realpath(__DIR__.'/../../../../_files');
-        self::$_mediaDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        self::$_mediaDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
 
         $ioFile = new Magento_Io_File();
         if (!is_dir(self::$_mediaTmpDir)) {
@@ -59,7 +61,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
     {
         $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Backend_Media');
         $this->_model->setAttribute(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', 'media_gallery')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+                ->getAttribute('catalog_product', 'media_gallery')
         );
     }
 

@@ -39,10 +39,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
         $objectManager->get('Magento_Core_Model_Registry')
             ->register('current_product', Mage::getModel('Magento_Catalog_Model_Product')->load(1));
         Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', 'head');
-        $usedAttribute = Mage::getSingleton('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
-            'test_configurable'
-        );
+        $usedAttribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
+                    ->getEntityType('catalog_product')->getId(),
+                'test_configurable'
+            );
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
         $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config');
         $selectedAttributes = $block->getSelectedAttributes();

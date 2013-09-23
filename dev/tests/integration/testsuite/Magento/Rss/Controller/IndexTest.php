@@ -46,7 +46,8 @@ class Magento_Rss_Controller_IndexTest extends Magento_TestFramework_TestCase_Co
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId())
             ->setParam('data', base64_encode('1'))
         ;
-        Mage::getSingleton('Magento_Customer_Model_Session')->login('customer@example.com', 'password');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Model_Session')
+            ->login('customer@example.com', 'password');
         $this->dispatch('rss/index/wishlist');
         $this->assertContains('<![CDATA[Simple Product]]>', $this->getResponse()->getBody());
     }

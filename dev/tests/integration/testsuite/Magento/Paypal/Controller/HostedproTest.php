@@ -24,7 +24,7 @@ class Magento_Paypal_Controller_HostedproTest extends Magento_TestFramework_Test
         $order->setQuoteId($quote->getId());
         $order->save();
 
-        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastQuoteId($order->getQuoteId());
 

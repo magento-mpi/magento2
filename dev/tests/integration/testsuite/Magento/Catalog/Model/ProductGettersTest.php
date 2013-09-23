@@ -259,7 +259,8 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     public static function tearDownAfterClass()
     {
-        $mediaDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        $mediaDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
         Magento_Io_File::rmdirRecursive($mediaDir);
     }
 }

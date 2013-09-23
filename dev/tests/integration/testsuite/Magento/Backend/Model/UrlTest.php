@@ -87,7 +87,8 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->setRouteName('default_router');
 
         $this->_model->setRequest($request);
-        Mage::getSingleton('Magento_Core_Model_Session')->setData('_form_key', 'salt');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Session')
+            ->setData('_form_key', 'salt');
         $this->assertEquals($expectedHash, $this->_model->getSecretKey($routeName, $controller, $action));
     }
 
@@ -130,7 +131,8 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
-        Mage::getSingleton('Magento_Core_Model_Session')->setData('_form_key', 'salt');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Session')
+            ->setData('_form_key', 'salt');
         $this->assertEquals(
             $helper->getHash('controller' . 'action' . 'salt'),
             $this->_model->getSecretKey()

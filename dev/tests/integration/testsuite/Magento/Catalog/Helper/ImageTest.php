@@ -34,7 +34,8 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         // image fixtures
-        self::$_fixtureMediaDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        self::$_fixtureMediaDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
         mkdir(self::$_fixtureMediaDir . '/m/a', 0777, true);
         $fixtureDir = dirname(__DIR__) . '/_files';
         copy("{$fixtureDir}/magento_image.jpg", self::$_fixtureMediaDir . '/m/a/magento_image.jpg');
@@ -66,7 +67,8 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
     {
         Magento_Io_File::rmdirRecursive(self::$_fixtureMediaDir);
         Magento_Io_File::rmdirRecursive(
-            Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
         );
     }
 

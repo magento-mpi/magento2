@@ -80,7 +80,7 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
     public function testCalculate()
     {
          /** @var $session Magento_Catalog_Model_Session */
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session');
         try {
             $session->unsCatalogCompareItemsCount();
             $this->assertFalse($this->_helper->hasItems());

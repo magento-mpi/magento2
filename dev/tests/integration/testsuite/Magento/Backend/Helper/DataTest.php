@@ -45,8 +45,9 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected  function _login()
     {
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+            ->turnOffSecretKey();
+        $this->_auth = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth');
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
@@ -57,7 +58,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function _logout()
     {
         $this->_auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')->turnOnSecretKey();
     }
 
     /**
@@ -91,7 +92,8 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         /**
          * perform login
          */
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')
+            ->turnOffSecretKey();
 
         $auth = Mage::getModel('Magento_Backend_Model_Auth');
         $auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
@@ -101,7 +103,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
          * perform logout
          */
         $auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url')->turnOnSecretKey();
 
         $this->assertFalse($this->_helper->getCurrentUserId());
     }

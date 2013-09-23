@@ -23,7 +23,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PH
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form');
     }
 

@@ -29,7 +29,8 @@ class Magento_Checkout_Controller_MultishippingTest extends Magento_TestFramewor
         /** @var $quote Magento_Sales_Model_Quote */
         $quote = Mage::getModel('Magento_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
-        Mage::getSingleton('Magento_Checkout_Model_Session')->setQuoteId($quote->getId());
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Checkout_Model_Session')
+            ->setQuoteId($quote->getId());
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         /** @var $session Magento_Customer_Model_Session */
         $session = Mage::getModel('Magento_Customer_Model_Session', array($logger));

@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_F
 
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
 
         $this->_block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit_Form_Group');
 

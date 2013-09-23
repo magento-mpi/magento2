@@ -174,7 +174,8 @@ class Magento_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testInitProduct()
     {
-        Mage::getSingleton('Magento_Catalog_Model_Session')->setLastVisitedCategoryId(2);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Session')
+            ->setLastVisitedCategoryId(2);
         $this->_helper->initProduct(1, 'view');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();

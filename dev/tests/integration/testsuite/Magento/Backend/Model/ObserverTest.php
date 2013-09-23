@@ -56,7 +56,8 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400);
 
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Backend_Model_Auth_Session');
         $this->assertTrue($session->isLoggedIn());
     }
 
@@ -75,7 +76,8 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $code = $response->getHttpResponseCode();
         $this->assertFalse($code >= 300 && $code < 400);
 
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Backend_Model_Auth_Session');
         $this->assertTrue($session->isLoggedIn());
     }
 

@@ -65,7 +65,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
         $connection = $this->_model->getConnection('core_read');
 
         /** @var Magento_Core_Model_Resource $resource */
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
         $testTableName = $resource->getTableName('core_resource');
         $selectQuery = sprintf($selectQuery, $testTableName);
 
@@ -123,7 +123,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
         }
 
         /** @var Magento_Core_Model_Resource $resource */
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
         $testTableName = $resource->getTableName('core_resource');
         $connection->query('SELECT * FROM ' . $testTableName);
 

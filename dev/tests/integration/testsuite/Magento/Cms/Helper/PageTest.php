@@ -24,7 +24,7 @@ class Magento_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
             'response' => $objectManager->get('Magento_TestFramework_Response')
         );
         $context = Mage::getModel('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $page = Mage::getSingleton('Magento_Cms_Model_Page');
+        $page = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Cms_Model_Page');
         $page->load('page_design_blank', 'identifier'); // fixture
         /** @var $pageHelper Magento_Cms_Helper_Page */
         $pageHelper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Cms_Helper_Page');

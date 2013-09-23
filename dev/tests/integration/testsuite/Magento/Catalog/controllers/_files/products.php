@@ -11,7 +11,7 @@
 
 // Copy images to tmp media path
 /** @var Magento_Catalog_Model_Product_Media_Config $config */
-$config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+$config = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Catalog_Model_Product_Media_Config');
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
 /** @var Magento_Filesystem $filesystem */
