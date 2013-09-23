@@ -118,15 +118,34 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Core_Model_Message
+     */
+    protected $_coreMessage;
+
+    /**
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param Magento_Checkout_Model_Cart $cart
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Core_Model_Message $coreMessage
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
      * @param Magento_Customer_Helper_Data $customerData
      */
     public function __construct(
+        Magento_Checkout_Model_Cart $cart,
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Core_Model_Message $coreMessage,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_AdvancedCheckout_Helper_Data $checkoutData,
         Magento_Customer_Helper_Data $customerData
     ) {
+        $this->_cart = $cart;
+        $this->_sessionQuote = $sessionQuote;
+        $this->_coreMessage = $coreMessage;
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
         $this->_customerData = $customerData;
@@ -221,7 +240,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     public function getActualQuote()
     {
         if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
+            return $this->_quote->getQuote();
         } else {
             if (!$this->getCustomer()) {
                 $customer = $this->_customerData->getCustomer();
@@ -1233,8 +1252,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      */
     public function saveAffectedProducts(Magento_Checkout_Model_Cart_Interface $cart = null, $saveQuote = true)
     {
-        $cart = $cart ? $cart : $this->_getCart();
-        $affectedItems = $this->getAffectedItems();
+        $cart = $cart ? $cart : $this->_cart     $affectedItems = $this->getAffectedItems();
         foreach ($affectedItems as &$item) {
             if ($item['code'] == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
                 $this->_safeAddProduct($item, $cart);
@@ -1434,13 +1452,13 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
             $message = ($addedItemsCount == 1)
                     ? __('You added %1 product to your shopping cart.', $addedItemsCount)
                     : __('You added %1 products to your shopping cart.', $addedItemsCount);
-            $messages[] = Mage::getSingleton('Magento_Core_Model_Message')->success($message);
+            $messages[] = $this->_coreMessage->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? __('%1 product requires your attention.', $failedItemsCount)
                     : __('%1 products require your attention.', $failedItemsCount);
-            $messages[] = Mage::getSingleton('Magento_Core_Model_Message')->error($warning);
+            $messages[] = $this->_coreMessage->error($warning);
         }
         return $messages;
     }
@@ -1561,7 +1579,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Cart');
+        return $this->_cart;
     }
 
     /**
@@ -1622,4 +1640,6 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         }
         return $this;
     }
+}
+ }
 }

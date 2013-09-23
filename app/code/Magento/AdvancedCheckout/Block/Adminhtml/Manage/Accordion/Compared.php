@@ -28,9 +28,21 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
      *
      * @var Magento_Adminhtml_Helper_Sales
      */
-    protected $_adminhtmlSales = null;
+    protected $_adminhtmlSales;
 
     /**
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * @var Magento_CatalogInventory_Model_Stock_Status
+     */
+    protected $_catalogStockStatus;
+
+    /**
+     * @param Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
@@ -40,6 +52,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
      * @param array $data
      */
     public function __construct(
+        Magento_CatalogInventory_Model_Stock_Status $catalogStockStatus,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
@@ -48,6 +62,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->_catalogConfig = $catalogConfig;
         $this->_adminhtmlSales = $adminhtmlSales;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
     }
@@ -72,7 +88,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $attributes = $this->_catalogConfig->getProductAttributes();
             $collection = Mage::getModel('Magento_Catalog_Model_Product_Compare_List')
                 ->getItemCollection()
                 ->useProductItem(true)
@@ -81,7 +97,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
-            Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
+            $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $collection = $this->_adminhtmlSales->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);

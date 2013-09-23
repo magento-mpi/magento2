@@ -19,6 +19,27 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     extends Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract
 {
     /**
+     * @var Magento_Adminhtml_Model_Session_Quote
+     */
+    protected $_sessionQuote;
+
+    /**
+     * @param Magento_Adminhtml_Model_Session_Quote $sessionQuote
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Adminhtml_Model_Session_Quote $sessionQuote,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_sessionQuote = $sessionQuote;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Returns url to configure item
      *
      * @return string
@@ -36,8 +57,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     public function getCart()
     {
         if (!$this->_cart) {
-            $session = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
-            $this->_cart = parent::getCart()->setSession($session);
+            $this->_cart = parent::getCart()->setSession($this->_sessionQuote);
         }
         return $this->_cart;
     }

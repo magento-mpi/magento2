@@ -51,8 +51,8 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      */
     public function getCartModel()
     {
-        return Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')
-            ->setSession(Mage::getSingleton('Magento_Adminhtml_Model_Session'))
+        return $this->_objectManager->get('Magento_AdvancedCheckout_Model_Cart')
+            ->setSession($this->_objectManager->get('Magento_Adminhtml_Model_Session'))
             ->setContext(Magento_AdvancedCheckout_Model_Cart::CONTEXT_ADMIN_CHECKOUT)
             ->setCurrentStore($this->getRequest()->getPost('store'));
     }
@@ -100,9 +100,16 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                    $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
-                        'url' => $this->getUrl('*/*/index', array('store' => $storeId, 'customer' => $customerId))
-                    )));
+                    $this->getResponse()->setBody(
+                        $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(
+                            array(
+                                'url' => $this->getUrl(
+                                    '*/*/index',
+                                    array('store' => $storeId, 'customer' => $customerId)
+                                )
+                            )
+                        )
+                    );
                 } else {
                     $this->_redirect('*/*/index', array('store' => $storeId, 'customer' => $customerId));
                 }
@@ -228,7 +235,8 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $customer = $this->_coreRegistry->registry('checkout_current_customer');
             $store = $this->_coreRegistry->registry('checkout_current_store');
 
-            $source = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = $this->_objectManager->get('Magento_Core_Helper_Data')
+                ->jsonDecode($this->getRequest()->getPost('source'));
 
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
@@ -374,7 +382,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $activeQuote = $this->getCartModel()->getQuote();
             $quote = $this->getCartModel()->copyQuote($activeQuote);
             if ($quote->getId()) {
-                $session = Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create')->getSession();
+                $session = $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create')->getSession();
                 $session->setQuoteId($quote->getId())
                    ->setStoreId($quote->getStoreId())
                    ->setCustomerId($quote->getCustomerId());
@@ -637,7 +645,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+            $sessionQuote = $this->_objectManager->get('Magento_Adminhtml_Model_Session_Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
         } catch (Exception $e) {
             $configureResult->setError(true);
@@ -710,7 +718,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
         $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
         $result = $this->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setUpdateResult($result);
+            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->setUpdateResult($result);
             $this->_redirect('*/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -813,7 +821,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
                         /* @var $error Magento_Core_Model_Message_Error */
-                        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($error->getCode());
+                        $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($error->getCode());
                     }
                 }
             }
@@ -890,7 +898,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
                         } catch (Magento_Core_Exception $e){
-                            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                            $this->_objectManager->get('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                         } catch (Exception $e){
                             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                         }
@@ -958,7 +966,7 @@ class Magento_AdvancedCheckout_Controller_Adminhtml_Checkout extends Magento_Adm
      */
     public function showUpdateResultAction()
     {
-        $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        $session = $this->_objectManager->get('Magento_Adminhtml_Model_Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();
