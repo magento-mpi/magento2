@@ -14,7 +14,6 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMethods()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
         $endpoint = \Mage::getModel('Magento\Webhook\Model\Endpoint');
 
@@ -44,7 +43,6 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     public function testBeforeSave()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
         $endpoint = \Mage::getModel('Magento\Webhook\Model\Endpoint');
         $endpoint->setUpdatedAt('-1')

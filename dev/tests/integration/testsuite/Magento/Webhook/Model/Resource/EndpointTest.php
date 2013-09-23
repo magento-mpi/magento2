@@ -32,7 +32,6 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     public function testGetApiUserEndpoints()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         // Set up the users to be associated with endpoints
         $apiUserId = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')
             ->setDataChanged(true)
@@ -72,7 +71,6 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEndpointsWithoutApiUser()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         // Set up the user to be associated with endpoints
         $apiUserId = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')
             ->setDataChanged(true)

@@ -24,9 +24,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testInit()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $this->assertEquals('Magento\Webhook\Model\Resource\Event', $collection->getResourceModelName());
@@ -40,9 +42,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($where, $collection->getSelect()->getPart(\Zend_Db_Select::WHERE));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetData()
     {
-        $this->markTestSkipped("MAGETWO-11929 extra items");
         $event = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
 
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
@@ -60,9 +64,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $event->delete();
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testNewEventInNewCollection()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $event1 = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
 
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
@@ -85,9 +91,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $event2->delete();
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testRevokeIdlingInProgress()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $this->assertNull($collection->revokeIdlingInProgress());
@@ -96,12 +104,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Emulates concurrent transactions. Executes 50 seconds because of lock timeout
      *
+     * @magentoDbIsolation enabled
      * @expectedException \Zend_Db_Statement_Exception
      * @expectedMessage SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
      */
     public function testParallelTransactions()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $event = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
         $event2 = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
         /** @var \Magento\Webhook\Model\Event $event3 */
