@@ -68,6 +68,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testNewEventInNewCollection()
     {
+        $this->markTestSkipped("MAGETWO-11929 extra item");
         $job1 = $this->_objectManager->create('Magento\Webhook\Model\Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())

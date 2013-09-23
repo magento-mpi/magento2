@@ -41,6 +41,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetData()
     {
+        $this->markTestSkipped("MAGETWO-11929 extra items");
         $event = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
 
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
