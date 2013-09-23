@@ -29,7 +29,6 @@
         </block>
     </reference>
     <reference name="left">
-        <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder"
-               template="reorder/sidebar.phtml"/>
+        <block class="Magento_Sales_Block_Reorder_Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
     </reference>
 </layout>
