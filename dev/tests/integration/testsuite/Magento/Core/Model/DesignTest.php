@@ -108,7 +108,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             ->create('Magento_Core_Model_Design');
         $design->loadChange($storeId, $date);
 
-        $cachedDesign = Mage::app()->loadCache($cacheId);
+        $cachedDesign = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadCache($cacheId);
         $cachedDesign = unserialize($cachedDesign);
 
         $this->assertInternalType('array', $cachedDesign);
@@ -121,7 +122,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             ->create('Magento_Core_Model_Design');
         $design->loadChange($storeId, $date);
 
-        $cachedDesign = Mage::app()->loadCache($cacheId);
+        $cachedDesign = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadCache($cacheId);
         $cachedDesign = unserialize($cachedDesign);
 
         $this->assertTrue(is_array($cachedDesign));

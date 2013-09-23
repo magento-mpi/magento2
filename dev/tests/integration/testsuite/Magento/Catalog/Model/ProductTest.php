@@ -72,10 +72,14 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testCleanCache()
     {
-        Mage::app()->saveCache('test', 'catalog_product_999', array('catalog_product_999'));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->saveCache('test', 'catalog_product_999', array('catalog_product_999'));
         // potential bug: it cleans by cache tags, generated from its ID, which doesn't make much sense
         $this->_model->setId(999)->cleanCache();
-        $this->assertEmpty(Mage::app()->loadCache('catalog_product_999'));
+        $this->assertEmpty(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+                ->loadCache('catalog_product_999')
+        );
     }
 
     public function testAddImageToMediaGallery()
