@@ -11,13 +11,79 @@
 /**
  * Multiple wishlist frontend search controller
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 
 class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Controller_Index
 {
+    /**
+     * Url model
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Wishlist session
+     *
+     * @var Magento_Wishlist_Model_Session
+     */
+    protected $_wishlistSession;
+
+    /**
+     * Item factory
+     *
+     * @var Magento_Wishlist_Model_ItemFactory
+     */
+    protected $_itemFactory;
+
+    /**
+     * Wishlist collection factory
+     *
+     * @var Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory
+     */
+    protected $_wishlistCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Wishlist_Model_Config $wishlistConfig
+     * @param Magento_Wishlist_Model_ItemFactory $itemFactory
+     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
+     * @param Magento_Wishlist_Model_Session $wishlistSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Wishlist_Model_Config $wishlistConfig,
+        Magento_Wishlist_Model_ItemFactory $itemFactory,
+        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
+        Magento_Wishlist_Model_Session $wishlistSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
+    ) {
+        $this->_itemFactory = $itemFactory;
+        $this->_wishlistFactory = $wishlistFactory;
+        $this->_wishlistSession = $wishlistSession;
+        $this->_customerSession = $customerSession;
+        $this->_url = $url;
+        $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
+        parent::__construct($context, $coreRegistry, $wishlistConfig);
+    }
+
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
      *
@@ -47,7 +113,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_customerSession;
     }
 
     /**
@@ -110,32 +176,33 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
      * @param bool $visibility
      * @param int $wishlistId
      * @return Magento_Wishlist_Model_Wishlist
+     * @throws Magento_Core_Exception
      */
     protected function _editWishlist($customerId, $wishlistName, $visibility = false, $wishlistId = null)
     {
-        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+        /** @var Magento_Wishlist_Model_Wishlist $wishlist */
+        $wishlist = $this->_wishlistFactory->create();
 
         if (!$customerId) {
-            Mage::throwException(__('Log in to edit wish lists.'));
+            throw new Magento_Core_Exception(__('Log in to edit wish lists.'));
         }
         if (!strlen($wishlistName)) {
-            Mage::throwException(__('Provide wish list name'));
+            throw new Magento_Core_Exception(__('Provide wish list name'));
         }
         if ($wishlistId){
             $wishlist->load($wishlistId);
             if ($wishlist->getCustomerId() !== $this->_getSession()->getCustomerId()) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('The wish list is not assigned to your account and cannot be edited.')
                 );
             }
         } else {
-            $wishlistCollection = Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
-                ->filterByCustomerId($customerId);
+            /** @var Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
+            $wishlistCollection = $this->_wishlistCollectionFactory->create();
+            $wishlistCollection->filterByCustomerId($customerId);
             $limit = $this->_objectManager->get('Magento_MultipleWishlist_Helper_Data')->getWishlistLimit();
             if ($this->_objectManager->get('Magento_MultipleWishlist_Helper_Data')->isWishlistLimitReached($wishlistCollection)) {
-                Mage::throwException(
-                    __('Only %1 wish lists can be created.', $limit)
-                );
+                throw new Magento_Core_Exception(__('Only %1 wish lists can be created.', $limit));
             }
             $wishlist->setCustomerId($customerId);
         }
@@ -181,7 +248,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
             $this->getResponse()->setHeader('Content-Type', 'application/json');
             $params = array();
             if (!$wishlist->getId()) {
-                $params = array('redirect' => Mage::getUrl('*/*'));
+                $params = array('redirect' => $this->_url->getUrl('*/*'));
             } else {
                 $params = array('wishlist_id' => $wishlist->getId());
             }
@@ -199,6 +266,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
      * Delete wishlist by id
      *
      * @return void
+     * @throws Magento_Core_Exception
      */
     public function deletewishlistAction()
     {
@@ -208,13 +276,11 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
                 return $this->norouteAction();
             }
             if ($this->_objectManager->get('Magento_MultipleWishlist_Helper_Data')->isWishlistDefault($wishlist)) {
-                Mage::throwException(
-                    __('The default wish list cannot be deleted.')
-                );
+                throw new Magento_Core_Exception(__('The default wish list cannot be deleted.'));
             }
             $wishlist->delete();
             $this->_objectManager->get('Magento_Wishlist_Helper_Data')->calculate();
-            Mage::getSingleton('Magento_Wishlist_Model_Session')->addSuccess(
+            $this->_wishlistSession->addSuccess(
                 __('Wish list "%1" has been deleted.', $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName()))
             );
         } catch (Magento_Core_Exception $e) {
@@ -295,7 +361,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
             $productName = '';
             try {
                 /* @var Magento_Wishlist_Model_Item $item */
-                $item = Mage::getModel('Magento_Wishlist_Model_Item');
+                $item = $this->_itemFactory->create();
                 $item->loadWithOptions($itemId);
 
                 $wishlistName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
@@ -357,7 +423,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
             foreach ($itemIds as $id => $value) {
                 try {
                     /* @var Magento_Wishlist_Model_Item $item */
-                    $item = Mage::getModel('Magento_Wishlist_Model_Item');
+                    $item = $this->_itemFactory->create();
                     $item->loadWithOptions($id);
 
                     $this->_copyItem($item, $wishlist, isset($qtys[$id]) ? $qtys[$id] : null);
@@ -460,11 +526,12 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
 
         if ($itemId) {
             try {
-                $wishlists = Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
-                    ->filterByCustomerId($this->_getSession()->getCustomerId());
+                /** @var Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlists */
+                $wishlists = $this->_wishlistCollectionFactory->create();
+                $wishlists->filterByCustomerId($this->_getSession()->getCustomerId());
 
                 /* @var Magento_Wishlist_Model_Item $item */
-                $item = Mage::getModel('Magento_Wishlist_Model_Item');
+                $item = $this->_itemFactory->create();
                 $item->loadWithOptions($itemId);
 
                 $productName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
@@ -517,14 +584,15 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
         $notAllowed = array();
         $alreadyPresent = array();
         if (count($itemIds)) {
-            $wishlists = Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection();
+            /** @var Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlists */
+            $wishlists = $this->_wishlistCollectionFactory->create();
             $wishlists->filterByCustomerId($this->_getSession()->getCustomerId());
             $qtys = $this->getRequest()->getParam('qty', array());
 
             foreach ($itemIds as $id => $value) {
                 try {
                     /* @var Magento_Wishlist_Model_Item $item */
-                    $item = Mage::getModel('Magento_Wishlist_Model_Item');
+                    $item = $this->_itemFactory->create();
                     $item->loadWithOptions($id);
 
                     $this->_moveItem($item, $wishlist, $wishlists, isset($qtys[$id]) ? $qtys[$id] : null);

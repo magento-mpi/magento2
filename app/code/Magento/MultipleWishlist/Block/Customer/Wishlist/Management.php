@@ -10,10 +10,6 @@
 
 /**
  * Wishlist sidebar block
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magento_Core_Block_Template
 {
@@ -44,18 +40,30 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     protected $_wishlistData = null;
 
     /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Construct
+     *
      * @param Magento_MultipleWishlist_Helper_Data $wishlistData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
      * @param array $data
      */
     public function __construct(
         Magento_MultipleWishlist_Helper_Data $wishlistData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
+        $this->_customerSession = $customerSession;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -80,7 +88,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     protected function _getCustomerId()
     {
         if (is_null($this->_customerId)) {
-            $this->_customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+            $this->_customerId = $this->_customerSession->getCustomerId();
         }
         return $this->_customerId;
     }

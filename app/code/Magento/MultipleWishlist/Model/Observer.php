@@ -11,9 +11,7 @@
 /**
  * Multiple wishlist observer.
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_MultipleWishlist_Model_Observer
 {
@@ -25,12 +23,44 @@ class Magento_MultipleWishlist_Model_Observer
     protected $_wishlistData = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Item collection factory
+     *
+     * @var Magento_Wishlist_Model_Resource_Item_CollectionFactory
+     */
+    protected $_itemCollectionFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_MultipleWishlist_Helper_Data $wishlistData
+     * @param Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_MultipleWishlist_Helper_Data $wishlistData
+        Magento_MultipleWishlist_Helper_Data $wishlistData,
+        Magento_Wishlist_Model_Resource_Item_CollectionFactory $itemCollectionFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_wishlistData = $wishlistData;
+        $this->_itemCollectionFactory = $itemCollectionFactory;
+        $this->_customerSession = $customerSession;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -40,10 +70,11 @@ class Magento_MultipleWishlist_Model_Observer
     public function initHelperItemCollection()
     {
         if ($this->_wishlistData->isMultipleEnabled()) {
-            $collection = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
-                ->addCustomerIdFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+            /** @var Magento_Wishlist_Model_Resource_Item_Collection $collection */
+            $collection = $this->_itemCollectionFactory->create();
+            $collection->addCustomerIdFilter($this->_customerSession->getCustomerId())
                 ->setVisibilityFilter()
-                ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
+                ->addStoreFilter($this->_storeManager->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
             $this->_wishlistData->setWishlistItemCollection($collection);
         }
