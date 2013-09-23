@@ -45,7 +45,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
-     * @param Magento_MultipleWishlist_Model_Resource_Item $resource
+     * @param Magento_MultipleWishlist_Model_Resource_Item $itemResource
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Fieldset_Config $fieldsetConfig
@@ -56,7 +56,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
-        Magento_MultipleWishlist_Model_Resource_Item $resource,
+        Magento_MultipleWishlist_Model_Resource_Item $itemResource,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Fieldset_Config $fieldsetConfig,
@@ -66,7 +66,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
         $this->_catalogData = $catalogData;
         $this->_fieldsetConfig = $fieldsetConfig;
         $this->_resourceCustomer = $resourceCustomer;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $itemResource);
     }
 
     /**
