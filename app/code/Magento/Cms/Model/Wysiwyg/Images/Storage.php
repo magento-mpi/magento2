@@ -137,6 +137,8 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      * @param array $extensions
      * @param array $dirs
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
@@ -155,7 +157,6 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         array $dirs = array(),
         array $data = array()
     ) {
-        parent::__construct($data);
         $this->_cmsWysiwygImages = $cmsWysiwygImages;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_filesystem = $filesystem;
@@ -163,15 +164,16 @@ class Magento_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         $this->_filesystem->setWorkingDirectory($cmsWysiwygImages->getStorageRoot());
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
-        $this->_resizeParameters = $resizeParameters;
-        $this->_extensions = $extensions;
-        $this->_dirs = $dirs;
         $this->_dir = $dir;
         $this->_storageCollectionFactory = $storageCollectionFactory;
         $this->_storageFileFactory = $storageFileFactory;
         $this->_storageDatabaseFactory = $storageDatabaseFactory;
         $this->_directoryDatabaseFactory = $directoryDatabaseFactory;
-        $this->_uploaderFactory = $uploaderFactory;        
+        $this->_uploaderFactory = $uploaderFactory;
+        $this->_resizeParameters = $resizeParameters;
+        $this->_extensions = $extensions;
+        $this->_dirs = $dirs;
+        parent::__construct($data);
     }
 
     /**

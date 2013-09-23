@@ -42,21 +42,21 @@ class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
      * 
      * @param Magento_Core_Block_Context $context
      * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
-     * @param Magento_Cms_Model_BlockFactory $blockFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Cms_Model_BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Context $context,
         Magento_Cms_Model_Template_FilterProvider $filterProvider,
-        Magento_Cms_Model_BlockFactory $blockFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Cms_Model_BlockFactory $blockFactory,
         array $data = array()
-    ) {        
+    ) {
         parent::__construct($context, $data);
         $this->_filterProvider = $filterProvider;
-        $this->_blockFactory = $blockFactory;
         $this->_storeManager = $storeManager;
+        $this->_blockFactory = $blockFactory;
     }
 
     /**

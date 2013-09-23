@@ -57,15 +57,16 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Cms_Model_Template_FilterProvider $filterProvider,
         Magento_Cms_Model_BlockFactory $blockFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Cms_Model_Template_FilterProvider $filterProvider,
         array $data = array()
-    ) {        
+    ) {
         parent::__construct($coreData, $context, $data);
+        $this->_filterProvider = $filterProvider;
         $this->_blockFactory = $blockFactory;
         $this->_storeManager = $storeManager;
-    }   
+    }
 
     /**
      * Prepare block text and determine whether block output enabled or not
