@@ -25,12 +25,15 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Msrp extends Magento_Catal
     protected $_catalogData = null;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Catalog_Helper_Data $catalogData
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Catalog_Helper_Data $catalogData
     ) {
         $this->_catalogData = $catalogData;
+        parent::__construct($logger);
     }
 
     /**

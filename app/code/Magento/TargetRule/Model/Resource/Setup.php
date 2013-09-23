@@ -60,7 +60,7 @@ class Magento_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Reso
      * @param array $data
      * @return Magento_Enterprise_Model_Resource_Setup_Migration
      */
-    public function createMigration(array $data = array())
+    public function createMigrationSetup(array $data = array())
     {
         return $this->_migrationFactory->create($data);
     }

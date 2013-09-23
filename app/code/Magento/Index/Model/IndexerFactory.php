@@ -38,7 +38,7 @@ class Magento_Index_Model_IndexerFactory
     /**
      * Create new indexer object
      *
-     * @param $indexerCode
+     * @param string $indexerCode
      * @param array $data
      * @throws InvalidArgumentException
      * @return Magento_Index_Model_IndexerInterface

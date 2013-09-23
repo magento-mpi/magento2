@@ -19,7 +19,12 @@
 class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services extends Magento_Backend_Block_Template
 {
     /**
-     * @var Magento_Backend_Model_Config_Source_Currency_Service
+     * @inherit
+     */
+    protected $_template = 'system/currency/rate/services.phtml';
+
+    /**
+     * @var Magento_Backend_Model_Config_Source_Currency_ServiceFactory
      */
     protected $_srcCurrencyFactory;
 
@@ -30,14 +35,14 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
 
     /**
      * @param Magento_Backend_Model_Session $adminSession
-     * @param Magento_Backend_Model_Config_Source_Currency_Service $srcCurrencyFactory
+     * @param Magento_Backend_Model_Config_Source_Currency_ServiceFactory $srcCurrencyFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Model_Session $adminSession,
-        Magento_Backend_Model_Config_Source_Currency_Service $srcCurrencyFactory,
+        Magento_Backend_Model_Config_Source_Currency_ServiceFactory $srcCurrencyFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
@@ -46,8 +51,6 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
         $this->_srcCurrencyFactory = $srcCurrencyFactory;
         parent::__construct($coreData, $context, $data);
     }
-
-    protected $_template = 'system/currency/rate/services.phtml';
 
     /**
      * Create import services form select element
@@ -68,5 +71,4 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services exten
 
         return parent::_prepareLayout();
     }
-
 }

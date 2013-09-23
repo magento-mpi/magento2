@@ -499,7 +499,7 @@ class Magento_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     /**
      * Cancel action, used for decline and cancel processes
      *
-     * @param $status
+     * @param string $status
      * @param string $comment
      * @return Magento_Ogone_Controller_Api
      */

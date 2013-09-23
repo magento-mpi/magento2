@@ -40,26 +40,34 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
     protected $_coreConfig;
 
     /**
-     * Constructor
-     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
         parent::__construct(
+            $collectionFactory,
             $coreData,
             $context,
             $storeManager,
@@ -68,6 +76,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
             $data
         );
         $this->_coreConfig = $coreConfig;
+        $this->_productFactory = $productFactory;
     }
 
     /**
@@ -132,7 +141,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
                 if ($productIds) {
                     // Load products collection
                     $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-                    $products = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+                    $products = $this->_productFactory->create()->getCollection()
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')

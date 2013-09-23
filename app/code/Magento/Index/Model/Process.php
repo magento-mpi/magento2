@@ -56,7 +56,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      *
      * @var Magento_Index_Model_Indexer_Abstract
      */
-    protected $_indexer = null;
+    protected $_currentIndexer;
 
     /**
      * Lock file entity storage
@@ -94,7 +94,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     /**
      * @var Magento_Index_Model_Indexer
      */
-    protected $_indexIndexer;
+    protected $_indexer;
 
     /**
      * @var Magento_Index_Model_Resource_Event
@@ -109,7 +109,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Index_Model_Resource_Event $resourceEvent
      * @param Magento_Index_Model_IndexerFactory $indexerFactory
-     * @param Magento_Index_Model_Indexer $indexIndexer
+     * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -125,7 +125,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Index_Model_Resource_Event $resourceEvent,
         Magento_Index_Model_IndexerFactory $indexerFactory,
-        Magento_Index_Model_Indexer $indexIndexer,
+        Magento_Index_Model_Indexer $indexer,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -141,7 +141,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         $this->_lockStorage = $lockStorage;
         $this->_eventRepository = $eventRepository;
         $this->_indexerFactory = $indexerFactory;
-        $this->_indexIndexer = $indexIndexer;
+        $this->_indexer = $indexer;
         $this->_resourceEvent = $resourceEvent;
         $this->_coreConfig = $coreConfig;
     }
@@ -298,7 +298,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
 
         if ($this->getDepends()) {
             foreach ($this->getDepends() as $code) {
-                $process = $this->_indexIndexer->getProcessByCode($code);
+                $process = $this->_indexer->getProcessByCode($code);
                 if ($process) {
                     $process->reindexEverything();
                 }
@@ -353,14 +353,14 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      */
     public function getIndexer()
     {
-        if ($this->_indexer === null) {
+        if ($this->_currentIndexer === null) {
             $code = $this->_getData('indexer_code');
             if (!$code) {
                 throw new Magento_Core_Exception(__('Indexer code is not defined.'));
             }
-            $this->_indexer = $this->_indexerFactory->create($code);
+            $this->_currentIndexer = $this->_indexerFactory->create($code);
         }
-        return $this->_indexer;
+        return $this->_currentIndexer;
     }
 
     /**

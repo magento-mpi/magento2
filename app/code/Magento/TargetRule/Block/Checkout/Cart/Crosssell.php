@@ -69,7 +69,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * @var Magento_Checkout_Model_Session
      */
-    protected $_session;
+    protected $_checkoutSession;
 
     /**
      * @var Magento_Catalog_Model_Product_Visibility
@@ -133,7 +133,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         $this->_storeManager = $storeManager;
         $this->_visibility = $visibility;
         $this->_status = $status;
-        $this->_session = $session;
+        $this->_checkoutSession = $session;
         $this->_productLinkFactory = $productLinkFactory;
         $this->_productFactory = $productFactory;
         $this->_indexFactory = $indexFactory;
@@ -161,7 +161,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getLastAddedProductId()
     {
-        return $this->_session->getLastAddedProductId(true);
+        return $this->_checkoutSession->getLastAddedProductId(true);
     }
 
     /**
@@ -189,7 +189,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getQuote()
     {
-        return $this->_session->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**

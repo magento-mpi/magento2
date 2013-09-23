@@ -15,6 +15,7 @@
             <catalogrule_setup>
                 <setup>
                     <module>Magento_CatalogRule</module>
+                    <class>Magento_Core_Model_Resource_Setup_Generic</class>
                 </setup>
             </catalogrule_setup>
         </resources>
@@ -24,16 +25,4 @@
             </related_cache_types>
         </catalogrule>
     </global>
-    <crontab>
-        <jobs>
-            <catalogrule_apply_all>
-                <schedule>
-                    <cron_expr>0 1 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_CatalogRule_Model_Observer::dailyCatalogUpdate</model>
-                </run>
-            </catalogrule_apply_all>
-        </jobs>
-    </crontab>
 </config>

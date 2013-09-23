@@ -25,6 +25,7 @@ class Magento_Rating_Model_Resource_Rating_Grid_Collection extends Magento_Ratin
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $optionCollectionFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -32,8 +33,10 @@ class Magento_Rating_Model_Resource_Rating_Grid_Collection extends Magento_Ratin
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Resource_Db_Abstract $resource
      * @param array $data
+     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
+        Magento_Rating_Model_Resource_Rating_Option_CollectionFactory $optionCollectionFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
@@ -43,7 +46,9 @@ class Magento_Rating_Model_Resource_Rating_Grid_Collection extends Magento_Ratin
         $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource, $data);
+        parent::__construct(
+            $optionCollectionFactory, $eventManager, $logger, $fetchStrategy, $entityFactory, $resource, $data
+        );
     }
 
     /**

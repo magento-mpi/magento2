@@ -58,12 +58,18 @@ class Magento_User_Model_Role extends Magento_Core_Model_Abstract
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function __sleep()
     {
         $properties = parent::__sleep();
         return array_diff($properties, array('_userRolesFactory', '_resource', '_resourceCollection'));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function __wakeup()
     {
         parent::__wakeup();

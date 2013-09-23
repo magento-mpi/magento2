@@ -36,12 +36,13 @@ class Magento_Connect_Model_Extension_Collection extends Magento_Data_Collection
     /**
      * Set base dir
      *
+     * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Core_Model_EntityFactory $entityFactory
      */
-    public function __construct(Magento_Core_Model_EntityFactory $entityFactory)
+    public function __construct(Magento_Core_Model_Dir $dirs, Magento_Core_Model_EntityFactory $entityFactory)
     {
         parent::__construct($entityFactory);
-        $this->_baseDir = Mage::getBaseDir('var') . DS . 'connect';
+        $this->_baseDir = $dirs->getDir('var') . DS . 'connect';
         $io = new Magento_Io_File();
         $io->setAllowCreateFolders(true)->createDestinationDir($this->_baseDir);
         $this->addTargetDir($this->_baseDir);

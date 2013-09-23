@@ -27,13 +27,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
 
     /**
      * @param Magento_Catalog_Helper_Data $catalogData
-     * @param array $data
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
-        $data = array()
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_helper = $catalogData;
+        parent::__construct($logger);
     }
 
     /**

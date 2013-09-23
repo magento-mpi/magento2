@@ -15,12 +15,24 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine
     extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
 {
     /**
+     * @var Magento_CustomerSegment_Model_ConditionFactory
+     */
+    protected $_conditionFactory;
+
+    /**
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
+     * @param Magento_CustomerSegment_Model_ConditionFactory $conditionFactory
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_CustomerSegment_Model_ConditionFactory $conditionFactory,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_conditionFactory = $conditionFactory;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Product_Combine');
     }
 
@@ -40,29 +52,26 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine
                 )
             )
         );
-
         if ($this->getDateConditions()) {
             $children = array_merge_recursive(
                 $children,
                 array(
                     array(
                         'value' => array(
-                            Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Uptodate')->getNewChildSelectOptions(),
-                            Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Daterange')->getNewChildSelectOptions(),
+                            $this->_conditionFactory->create('_Uptodate')->getNewChildSelectOptions(),
+                            $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions(),
                         ),
                         'label' => __('Date Ranges')
                     )
                 )
             );
         }
-
         $children = array_merge_recursive(
             $children,
             array(
-                Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Product_Attributes')->getNewChildSelectOptions()
+                $this->_conditionFactory->create('Product_Attributes')->getNewChildSelectOptions(),
             )
         );
-
         return $children;
     }
 

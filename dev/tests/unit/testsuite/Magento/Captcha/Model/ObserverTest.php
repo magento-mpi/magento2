@@ -23,7 +23,7 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_customerSession;
+    protected $_session;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -40,22 +40,52 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected $_captcha;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_typeOnepage;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_resLogFactory;
+
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
-        $this->_customerSession = $this->getMock('Magento_Customer_Model_Session', array(), array(), '', false);
+        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_resLogFactory = $this->getMock('Magento_Captcha_Model_Resource_LogFactory',
+            array('create'), array(), '', false);
+        $this->_resLogFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_getResourceModelStub()));
+
+        $this->_session = $this->getMock('Magento_Core_Model_Session_Abstract', array(), array(), '', false);
+        $this->_typeOnepage = $this->getMock('Magento_Checkout_Model_Type_Onepage', array(), array(), '', false);
+        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_customerData = $this->getMock('Magento_Customer_Helper_Data', array(), array(), '', false);
         $this->_helper = $this->getMock('Magento_Captcha_Helper_Data', array(), array(), '', false);
         $this->_urlManager = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $this->_customerData = $this->getMock('Magento_Customer_Helper_Data', array(), array(), '', false);
-        $this->_observer = new Magento_Captcha_Model_Observer(
-            $this->_coreData,
-            $this->_customerData,
-            $this->_customerSession,
-            $this->_helper,
-            $this->_urlManager,
-            $this->_filesystem
+        
+        $this->_observer = $this->_objectManager->getObject(
+            'Magento_Captcha_Model_Observer',
+            array(
+                'resLogFactory' => $this->_resLogFactory,
+                'session' => $this->_session,
+                'typeOnepage' => $this->_typeOnepage,
+                'coreData' => $this->_coreData,
+                'customerData' => $this->_customerData,
+                'helper' => $this->_helper,
+                'urlManager' => $this->_urlManager,
+                'filesystem' => $this->_filesystem,
+            )
         );
+
         $this->_captcha = $this->getMock('Magento_Captcha_Model_Default', array(), array(), '', false);
     }
 
@@ -84,7 +114,7 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('getCaptcha')
             ->with($formId)
             ->will($this->returnValue($this->_captcha));
-        $this->_customerSession->expects($this->never())->method('addError');
+        $this->_session->expects($this->never())->method('addError');
 
         $this->_observer->checkContactUsForm(new Magento_Event_Observer(array('controller_action' => $controller)));
     }
@@ -123,7 +153,7 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_helper->expects($this->any())->method('getCaptcha')
             ->with($formId)
             ->will($this->returnValue($this->_captcha));
-        $this->_customerSession->expects($this->once())->method('addError')->with($warningMessage);
+        $this->_session->expects($this->once())->method('addError')->with($warningMessage);
         $controller->expects($this->once())->method('setFlag')
             ->with('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
 
@@ -139,5 +169,17 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_captcha->expects($this->never())->method('isCorrect');
 
         $this->_observer->checkContactUsForm(new Magento_Event_Observer());
+    }
+
+    /**
+     * Get stub for resource model
+     * @return Magento_Captcha_Model_Resource_Log
+     */
+    protected function _getResourceModelStub()
+    {
+        $resourceModel = $this->getMock('Magento_Captcha_Model_Resource_Log',
+            array('deleteUserAttempts', 'deleteOldAttempts'), array(), '', false);
+
+        return $resourceModel;
     }
 }

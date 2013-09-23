@@ -16,15 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends Magento_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
+    extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /**
-     * Core registry
-     *
-     * @var Magento_Core_Model_Registry
-     */
-    protected $_coreRegistry = null;
-
     /**
      * Eav data
      *
@@ -33,30 +27,23 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
     protected $_eavData = null;
 
     /**
-     * @var Magento_Data_Form_Factory
-     */
-    protected $_formFactory;
-
-    /**
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Eav_Helper_Data $eavData
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
         Magento_Eav_Helper_Data $eavData,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        $this->_formFactory = $formFactory;
         $this->_eavData = $eavData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**
