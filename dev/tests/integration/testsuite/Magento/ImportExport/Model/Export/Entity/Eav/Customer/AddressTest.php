@@ -50,7 +50,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
 
         $expectedAttributes = array();
         /** @var $collection Magento_Customer_Model_Resource_Address_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Attribute_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Address_Attribute_Collection');
         /** @var $attribute Magento_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();

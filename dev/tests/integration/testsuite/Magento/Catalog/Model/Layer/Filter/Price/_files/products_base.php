@@ -16,7 +16,8 @@
 $testCases = include(__DIR__ . '/_algorithm_base_data.php');
 
 /** @var $installer Magento_Catalog_Model_Resource_Setup */
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */

@@ -51,7 +51,8 @@ class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
     public function testIsValueChanged()
     {
         // load the model
-        $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Config_Data_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Config_Data_Collection');
         $collection->addFieldToFilter('path', self::SAMPLE_CONFIG_PATH)->addFieldToFilter('scope_id', 0)
             ->addFieldToFilter('scope', 'default')
         ;

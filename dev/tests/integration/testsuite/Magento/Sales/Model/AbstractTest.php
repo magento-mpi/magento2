@@ -15,7 +15,8 @@ class Magento_Sales_Model_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testAfterCommitCallbackOrderGrid()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Resource_Order_Grid_Collection');
         $this->assertEquals(1, $collection->count());
         foreach ($collection as $order) {
             $this->assertInstanceOf('Magento_Sales_Model_Order', $order);
@@ -35,7 +36,8 @@ class Magento_Sales_Model_AbstractTest extends PHPUnit_Framework_TestCase
         try {
             /** @var $order Magento_Sales_Model_Order */
             require __DIR__ . '/../_files/order.php';
-            $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection');
+            $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Sales_Model_Resource_Order_Grid_Collection');
             $this->assertEquals(0, $collection->count());
             $resource->rollBack();
         } catch (Exception $e) {

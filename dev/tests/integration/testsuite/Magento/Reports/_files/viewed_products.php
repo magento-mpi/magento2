@@ -25,7 +25,8 @@ foreach (array(1, 2, 1, 21, 1, 21) as $productId) {
 
 // refresh report statistics
 /** @var Magento_Reports_Model_Resource_Report_Product_Viewed $reportResource */
-$reportResource = Mage::getResourceModel('Magento_Reports_Model_Resource_Report_Product_Viewed');
+$reportResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Reports_Model_Resource_Report_Product_Viewed');
 $reportResource->beginTransaction(); // prevent table truncation by incrementing the transaction nesting level counter
 try {
     $reportResource->aggregate();

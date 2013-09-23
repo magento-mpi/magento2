@@ -15,7 +15,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
 
     protected function setUp()
     {
-        $this->_resourceModel = Mage::getResourceModel(
+        $this->_resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink'
         );
     }
@@ -75,7 +75,8 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
         }
 
         /** @var Magento_Banner_Model_Resource_Salesrule_Collection $collection */
-        $collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Salesrule_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Banner_Model_Resource_Salesrule_Collection');
         $select = $collection->getSelect();
         $initialSql = (string)$select;
 

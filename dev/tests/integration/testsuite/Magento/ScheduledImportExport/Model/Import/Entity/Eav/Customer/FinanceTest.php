@@ -89,10 +89,12 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $customerBalanceKey =
             Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
 
-        $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $customerCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Customer_Collection');
         /** @var $customer Magento_Customer_Model_Customer */
         foreach ($customerCollection as $customer) {
-            $rewardCollection = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
+            $rewardCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Reward_Model_Resource_Reward_Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
             /** @var $rewardPoints Magento_Reward_Model_Reward */
             foreach ($rewardCollection as $rewardPoints) {
@@ -108,7 +110,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 );
             }
 
-            $customerBalance = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
+            $customerBalance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_CustomerBalance_Model_Resource_Balance_Collection');
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
             /** @var $balance Magento_CustomerBalance_Model_Balance */
             foreach ($customerBalance as $balance) {
@@ -138,7 +141,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
     public function testImportDataDelete()
     {
         /* clean up the database from prior tests before importing */
-        $rewards  = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
+        $rewards  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reward_Model_Resource_Reward_Collection');
         foreach ($rewards as $reward) {
             $reward->delete();
         }
@@ -152,8 +156,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $model->validateData();
         $model->importData();
 
-        $rewards  = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
-        $balances = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
+        $rewards  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reward_Model_Resource_Reward_Collection');
+        $balances = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_CustomerBalance_Model_Resource_Balance_Collection');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 

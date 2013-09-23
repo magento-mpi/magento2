@@ -34,7 +34,8 @@ class Magento_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Catalogrule_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Banner_Model_Resource_Catalogrule_Collection');
         $this->_banner = Mage::getModel('Magento_Banner_Model_Banner');
         $this->_banner->load('Test Banner', 'name');
     }

@@ -23,7 +23,8 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductTest ex
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct');
         $collectionProduct = $collection->getFirstItem();
         $this->assertEquals($product->getName(), $collectionProduct->getName());
         $this->assertEquals($product->getSku(), $collectionProduct->getSku());
@@ -44,7 +45,8 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductTest ex
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct');
         $this->assertEmpty($collection->count());
     }
 }

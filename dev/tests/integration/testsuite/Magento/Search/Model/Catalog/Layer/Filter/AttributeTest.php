@@ -37,7 +37,8 @@ class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Fr
             ->method('getSource')
             ->will($this->returnValue($source));
 
-        $productCollection = Mage::getResourceModel('Magento_Search_Model_Resource_Collection');
+        $productCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Search_Model_Resource_Collection');
         $layer = $this->getMock('Magento_Search_Model_Catalog_Layer');
         $layer->expects($this->any())
             ->method('getProductCollection')

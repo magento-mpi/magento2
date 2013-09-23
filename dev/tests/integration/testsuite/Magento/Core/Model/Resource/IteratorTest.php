@@ -25,12 +25,14 @@ class Magento_Core_Model_Resource_IteratorTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento_Core_Model_Resource_Iterator');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Iterator');
     }
 
     public function testWalk()
     {
-        $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Store_Collection');
         $this->_model->walk($collection->getSelect(), array(array($this, 'walkCallback')));
         $this->assertGreaterThan(0, $this->_callbackCounter);
     }

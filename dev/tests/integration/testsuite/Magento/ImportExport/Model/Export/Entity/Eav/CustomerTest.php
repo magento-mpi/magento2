@@ -33,7 +33,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     {
         $expectedAttributes = array();
         /** @var $collection Magento_Customer_Model_Resource_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
         /** @var $attribute Magento_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
@@ -154,7 +155,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         /**
          * Change type of created_at attribute. In this case we have possibility to test date rage filter
          */
-        $attributeCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Attribute_Collection');
         $attributeCollection->addFieldToFilter('attribute_code', 'created_at');
         /** @var $createdAtAttribute Magento_Customer_Model_Attribute */
         $createdAtAttribute = $attributeCollection->getFirstItem();
@@ -173,7 +175,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         $this->_model->setParameters($parameters);
         /** @var $customers Magento_Customer_Model_Resource_Customer_Collection */
         $collection = $this->_model->filterEntityCollection(
-            Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->create('Magento_Customer_Model_Resource_Customer_Collection')
         );
         $collection->load();
 

@@ -11,9 +11,11 @@
 
 /* Create attribute */
 /** @var $installer Magento_Catalog_Model_Resource_Setup */
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
 /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-$attribute = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
 $attribute->setData(
     array(
         'attribute_code'    => 'attribute_with_option',
@@ -36,7 +38,8 @@ $installer->addAttributeToGroup('catalog_product', 'Default', 'General', $attrib
 
 /* Create simple products per each option */
 /** @var $options Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection */
-$options = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection');
+$options = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection');
 $options->setAttributeFilter($attribute->getId());
 
 foreach ($options as $option) {

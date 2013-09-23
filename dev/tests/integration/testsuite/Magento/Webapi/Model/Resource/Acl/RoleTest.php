@@ -24,7 +24,8 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
     {
         $expectedRoleNames = array('test_role', 'Test role');
         /** @var $roleResource Magento_Webapi_Model_Resource_Acl_Role */
-        $roleResource = Mage::getResourceModel('Magento_Webapi_Model_Resource_Acl_Role');
+        $roleResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Resource_Acl_Role');
         $rolesIds = $roleResource->getRolesIds();
         $this->assertCount(2, $rolesIds);
         foreach ($rolesIds as $roleId) {
@@ -44,7 +45,8 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
     public function testGetRolesList()
     {
         /** @var $roleResource Magento_Webapi_Model_Resource_Acl_Role */
-        $roleResource = Mage::getResourceModel('Magento_Webapi_Model_Resource_Acl_Role');
+        $roleResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Resource_Acl_Role');
         $rolesList = $roleResource->getRolesList();
         $this->assertCount(2, $rolesList);
         foreach ($rolesList as $roleId => $roleName) {
@@ -64,7 +66,8 @@ class Magento_Webapi_Model_Resource_Acl_RoleTest extends PHPUnit_Framework_TestC
     public function testInitUniqueFields()
     {
         /** @var $roleResource Magento_Webapi_Model_Resource_Acl_Role */
-        $roleResource = Mage::getResourceModel('Magento_Webapi_Model_Resource_Acl_Role');
+        $roleResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Resource_Acl_Role');
         $uniqueFields = $roleResource->getUniqueFields();
         $expectedUnique = array(
             array(

@@ -377,7 +377,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         }
 
         // get addresses
-        $addressCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Collection');
+        $addressCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Address_Collection');
         $addressCollection->addAttributeToSelect($requiredAttributes);
         $addresses = array();
         /** @var $address Magento_Customer_Model_Address */
@@ -454,7 +455,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // get addresses
         /** @var $addressCollection Magento_Customer_Model_Resource_Address_Collection */
-        $addressCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Collection');
+        $addressCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Address_Collection');
         $addressCollection->addAttributeToSelect($keyAttribute);
         $addresses = array();
         /** @var $address Magento_Customer_Model_Address */

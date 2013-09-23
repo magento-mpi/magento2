@@ -180,7 +180,8 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
     protected function _assertCompareListEquals(array $expectedProductIds)
     {
         /** @var $compareItems Magento_Catalog_Model_Resource_Product_Compare_Item_Collection */
-        $compareItems = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection');
+        $compareItems = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection');
         $compareItems->useProductItem(true); // important
         $compareItems->setVisitorId(
             Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Log_Model_Visitor')->getId()

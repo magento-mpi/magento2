@@ -21,7 +21,8 @@ class Magento_User_Model_Resource_Role_CollectionTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_User_Model_Resource_Role_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_Resource_Role_Collection');
     }
 
     public function testSetUserFilter()

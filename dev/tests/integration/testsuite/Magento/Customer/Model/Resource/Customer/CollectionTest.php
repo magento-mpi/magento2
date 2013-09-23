@@ -17,7 +17,8 @@ class Magento_Customer_Model_Resource_Customer_CollectionTest extends PHPUnit_Fr
 
     public function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+        $this->_collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Resource_Customer_Collection');
     }
 
     public function testAddNameToSelect()

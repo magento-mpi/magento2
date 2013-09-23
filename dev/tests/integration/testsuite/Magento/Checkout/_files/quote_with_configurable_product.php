@@ -17,7 +17,8 @@ $product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 /* Create simple products per each option */
 /** @var $options Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection */
-$options = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection');
+$options = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection');
 $option = $options->setAttributeFilter($attribute->getId())->getFirstItem();
 
 $requestInfo = new Magento_Object(array(

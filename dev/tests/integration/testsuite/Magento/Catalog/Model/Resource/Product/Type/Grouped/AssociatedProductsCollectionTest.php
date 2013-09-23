@@ -23,7 +23,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
 
         /** @var Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection $collection */
-        $collection = Mage::getResourceModel(
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
             'Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollection'
         );
 

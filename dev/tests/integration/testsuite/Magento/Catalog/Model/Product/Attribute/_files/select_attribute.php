@@ -26,7 +26,8 @@ $optionData = array(
 );
 
 /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-$attribute = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+$attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->create('Magento_Catalog_Model_Resource_Eav_Attribute');
 $attribute->setAttributeCode('select_attribute')
     ->setEntityTypeId($entityType->getEntityTypeId())
     ->setAttributeGroupId($defaultGroupId)

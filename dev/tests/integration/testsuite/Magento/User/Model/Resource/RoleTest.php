@@ -19,7 +19,8 @@ class Magento_User_Model_Resource_RoleTest extends PHPUnit_Framework_TestCase
     public function testGetRoleUsers()
     {
         $role = Mage::getModel('Magento_User_Model_Role');
-        $roleResource = Mage::getResourceModel('Magento_User_Model_Resource_Role');
+        $roleResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_Resource_Role');
 
         $this->assertEmpty($roleResource->getRoleUsers($role));
 

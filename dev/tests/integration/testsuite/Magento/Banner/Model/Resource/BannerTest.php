@@ -25,7 +25,8 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_resourceModel = Mage::getResourceModel('Magento_Banner_Model_Resource_Banner');
+        $this->_resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Banner_Model_Resource_Banner');
     }
 
     protected function tearDown()
