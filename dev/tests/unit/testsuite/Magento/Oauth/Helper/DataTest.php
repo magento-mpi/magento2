@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
+class Magento_Oauth_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /** @var Magento_Core_Helper_Data */
     protected $_coreHelper;
