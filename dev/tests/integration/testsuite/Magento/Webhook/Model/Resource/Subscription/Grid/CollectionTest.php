@@ -81,6 +81,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 array('subscriptionConfig' => $this->_config));
 
         $subscriptions   = $gridCollection->getItems();
+        var_dump("testGetSubscriptions:");
+        foreach ($subscriptions as $subscription) {
+            var_dump("name=" . $subscription->getName());
+        }
         $this->assertEquals(5, count($subscriptions));
     }
 
