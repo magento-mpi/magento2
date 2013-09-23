@@ -105,8 +105,7 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
      */
     private function _getPayment()
     {
-        $model = Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
-        return $model->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create')->getQuote()->getPayment();
     }
 
     /**

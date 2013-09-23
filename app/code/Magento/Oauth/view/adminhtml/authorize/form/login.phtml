@@ -21,7 +21,7 @@
         <div class="login-form">
             <?php echo $this->getLayout()->renderElement('messages') ?>
             <?php if (!$this->getHasException()): ?>
-                <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="login-form">
+                <form method="post" action="<?php echo $this->getPostActionUrl() ?>" id="login-form" data-mage-init="{validation: {}}">
                     <fieldset>
                         <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
                         <h2><?php echo __('Log in to Admin Panel'); ?></h2>
@@ -33,14 +33,11 @@
                         <div class="clear"></div>
                         <div class="form-buttons">
                             <button type="submit" class="form-button" title="<?php echo __('Login') ?>" ><?php echo __('Login') ?></button>
-                            <button onclick="document.location.href='<?php echo $this->getRejectUrl() ?>'; return false;" title="<?php echo __('Reject') ?>"><?php echo __('Reject') ?></button>
+                            <button data-mage-init="{redirectUrl: {url: '<?php echo $this->getRejectUrl() ?>'}}" title="<?php echo __('Reject') ?>"><?php echo __('Reject') ?></button>
                         </div>
                         <input type="hidden" name="oauth_token" value="<?php echo $this->escapeHtml($this->getToken()) ?>"/>
                     </fieldset>
                 </form>
-                <script type="text/javascript">
-                     jQuery('#login-form').mage('form').mage('validation');
-                </script>
             <?php endif; ?>
         </div>
         <p class="legal"><?php echo __('Magento&reg is a trademark of X.commerce, Inc. Copyright &copy; %1 X.commerce, Inc.', date('Y')) ?></p>
