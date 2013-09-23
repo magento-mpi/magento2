@@ -26,6 +26,7 @@ return array(
     '/config/*/events/catalog_controller_product_delete' => '',
     '/config//observers/*/args' => 'This was an undocumented and unused feature in event subscribers',
     '/config/default/design/theme' => 'Relocated to /config/<area>/design/theme',
+    '/config/global/theme' => 'Configuration moved to DI file settings',
     '/config/default/web/*/base_js_url' => '/config/default/web/*/base_lib_url',
     '/config/default/web/*/base_skin_url' => '/config/default/web/*/base_static_url',
     '/config/global/cache/types/*/tags' => 'use /config/global/cache/types/*/class node instead',
