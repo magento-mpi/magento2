@@ -31,7 +31,7 @@ class Magento_GiftRegistry_Model_Config_SchemaLocatorTest extends PHPUnit_Framew
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'giftregistry.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir' . '/giftregistry.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()

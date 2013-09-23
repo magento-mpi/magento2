@@ -43,39 +43,14 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
     /**
      * Test Xml structure without translations
      */
-    public function testConvertWithoutTranslate()
+    public function testConvert()
     {
-        $this->_source->loadXML(file_get_contents($this->_filePath . 'giftregistry_config_without_translation.xml'));
+        $this->_source->loadXML(file_get_contents($this->_filePath . 'config_valid.xml'));
         $convertedFile = include ($this->_filePath . 'giftregistry_config.php');
         $converted = $this->_model->convert($this->_source);
 
         $this->assertEquals($converted, $convertedFile);
 
-    }
-
-    /**
-     * Test if there are translated nodes inside xml
-     */
-    public function testConvertWithTranslate()
-    {
-        $this->_source->loadXML(file_get_contents($this->_filePath . 'giftregistry_config_with_translation.xml'));
-        $converted = $this->_model->convert($this->_source);
-
-        $this->assertInstanceOf('Magento_Phrase', $converted['attribute_types']['text']['label']);
-        $this->assertInstanceOf('Magento_Phrase', $converted['attribute_groups']['event_information']['label']);
-        $this->assertInstanceOf(
-            'Magento_Phrase',
-            $converted['registry']['static_attributes']['event_country']['label']
-        );
-        $this->assertInstanceOf('Magento_Phrase', $converted['registrant']['static_attributes']['role']['label']);
-        $this->assertInstanceOf(
-            'Magento_Phrase',
-            $converted['registry']['custom_attributes']['my_event_special']['label']
-        );
-        $this->assertInstanceOf(
-            'Magento_Phrase',
-            $converted['registrant']['custom_attributes']['my_special_attribute']['label']
-        );
     }
 
     /**
@@ -97,10 +72,10 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
     public function invalidConfigFilesDataProvider()
     {
         return array(
-            array('giftregistry_config_invalid1.xml'),
-            array('giftregistry_config_invalid2.xml'),
-            array('giftregistry_config_invalid3.xml'),
-            array('giftregistry_config_invalid4.xml')
+            array('config_absent_attribute_name_attrname.xml'),
+            array('config_absent_attribute_group_attrname.xml'),
+            array('config_absent_static_attribute_attrname.xml'),
+            array('config_absent_custom_attribute_attrname.xml')
         );
     }
 }
