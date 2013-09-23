@@ -20,6 +20,7 @@ return array(
     '/config/global/blocks/*/class'            => '',
     '/config/global/models/*/resourceModel'    => '',
     '/config/global/page/layouts'              => 'Moved to page_layouts.xml',
+    '/config/global/cms/layouts'               => 'This was never used and is no longer supported',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
     '/config/adminhtml/acl'                    => 'Move them to adminhtml.xml.',
     '/config/*/events/core_block_abstract_to_html_after' =>
