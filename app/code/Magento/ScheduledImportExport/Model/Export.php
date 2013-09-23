@@ -34,7 +34,6 @@ class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Mo
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Date $coreDate
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_ImportExport_Model_Config $config
      * @param array $data
@@ -42,11 +41,11 @@ class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Mo
     public function __construct(
         Magento_Core_Model_Date $coreDate,
         Magento_Core_Model_Logger $logger,
-        Magento_ImportExport_Model_Config $config,
+        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
         array $data = array()
     ) {
         $this->_dateModel = $coreDate;
-        parent::__construct($logger, $config, $data);
+        parent::__construct($logger, $exportConfig, $data);
     }
 
     /**

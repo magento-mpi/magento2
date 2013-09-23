@@ -19,10 +19,5 @@
                 </setup>
             </catalogrule_setup>
         </resources>
-        <catalogrule>
-            <related_cache_types>
-                <block_html />
-            </related_cache_types>
-        </catalogrule>
     </global>
 </config>

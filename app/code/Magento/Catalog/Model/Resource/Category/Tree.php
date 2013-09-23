@@ -16,7 +16,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * @var Magento_Core_Model_Event_Manager
      */
     private $_eventManager;
-
+    
     /**
      * @var Magento_Catalog_Model_Attribute_Config
      */

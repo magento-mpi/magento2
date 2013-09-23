@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Backend_Model_Config_Structure_Data extends Magento_Config_Data
+class Magento_Backend_Model_Config_Structure_Data extends Magento_Config_Data_Scoped
 {
     /**
      * @param Magento_Backend_Model_Config_Structure_Reader $reader

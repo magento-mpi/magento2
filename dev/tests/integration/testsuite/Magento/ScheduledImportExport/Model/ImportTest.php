@@ -20,21 +20,15 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
         $this->assertFalse($product);
 
         $importExportData = $objectManager->get('Magento_ImportExport_Helper_Data');
-        $indexer = $objectManager->get('Magento_Index_Model_Indexer');
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        
+        $importConfig = $objectManager->get('Magento_ImportExport_Model_Import_ConfigInterface');
+        $logger = $objectManager->get('Magento_Core_Model_Logger');
+
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
-        /** @var Magento_ImportExport_Model_Import $model */
-        $model = $this->getMock(
-            'Magento_ScheduledImportExport_Model_Import',
-            array('reindexAll'),
-            array(
-                'indexer' => $indexer,
-                'logger' => $logger,
-                'importExportData' => $importExportData,
-                'coreConfig' => $objectManager->create('Magento_Core_Model_Config'),
-                'config' => $objectManager->create('Magento_ImportExport_Model_Config'),
-                'data' => array('entity' => 'catalog_product', 'behavior' => 'append')
+        $model = $this->getMock('Magento_ScheduledImportExport_Model_Import', array('reindexAll'), array(
+            $logger, $importExportData, $importConfig, array(
+                'entity'   => 'catalog_product',
+                'behavior' => 'append',
+            )
         ));
         $model->expects($this->once())
             ->method('reindexAll')
