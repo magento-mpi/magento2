@@ -81,8 +81,9 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
         );
 
         // test data to verify routers match logic
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(),
-            'Magento\Backend\Helper\DataProxy', false);
+        $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
+            ->disableOriginalConstructor()
+            ->getMock();
         $matchedRequest = $this->getMock('Magento\Core\Controller\Request\Http',
             $silencedMethods,
             array($helperMock, $vdeUrl)
