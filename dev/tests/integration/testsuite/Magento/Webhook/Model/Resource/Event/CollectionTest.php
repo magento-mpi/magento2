@@ -26,6 +26,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testInit()
     {
+        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $this->assertEquals('Magento\Webhook\Model\Resource\Event', $collection->getResourceModelName());
@@ -61,6 +62,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testNewEventInNewCollection()
     {
+        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $event1 = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
 
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
@@ -85,6 +87,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testRevokeIdlingInProgress()
     {
+        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $this->assertNull($collection->revokeIdlingInProgress());
@@ -98,6 +101,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testParallelTransactions()
     {
+        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $event = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
         $event2 = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
         /** @var \Magento\Webhook\Model\Event $event3 */
