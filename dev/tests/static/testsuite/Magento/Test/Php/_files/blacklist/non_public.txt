@@ -5,3 +5,6 @@
 dev/build/core_dev/performance/config*.php
 dev/tests/functional
 dev/tools/Magento/Tools/Translate
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input/coupling.php
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input/descendant_count.php
+dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input/inheritance_depth.php
