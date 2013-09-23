@@ -75,9 +75,9 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $orderFactory = $this->_getMockOrderFactory($code);
-        $shipmentConstructArgs = array('orderFactory' => $orderFactory);
+        $shipmentArgs = array('orderFactory' => $orderFactory);
 
-        $shipment = $objectManager->create('Magento_Sales_Model_Order_Shipment', $shipmentConstructArgs);
+        $shipment = $objectManager->create('Magento_Sales_Model_Order_Shipment', $shipmentArgs);
         $shipmentFactory = $this->getMock(
             'Magento_Sales_Model_Order_ShipmentFactory', array('create'), array(), '', false
         );
