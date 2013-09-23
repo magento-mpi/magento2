@@ -102,7 +102,8 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
 
         $this->dispatch('backend/admin/index/index');
 
-        $response = Mage::app()->getResponse();
+        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getResponse();
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400, 'Incorrect response code');
 

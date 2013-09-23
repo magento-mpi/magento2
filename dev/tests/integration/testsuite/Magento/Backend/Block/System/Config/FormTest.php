@@ -149,7 +149,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        Mage::app()
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
             ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 
         $configMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false);
@@ -199,7 +199,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
                 array(
                     'request' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
                         ->get('Magento_Core_Controller_Request_Http'),
-                    'response' => Mage::app()->getResponse()
+                    'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->get('Magento_Core_Model_App')->getResponse()
                 )
             );
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')

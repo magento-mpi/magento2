@@ -54,7 +54,8 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observer = $this->_buildObserver();
         $this->_model->actionPreDispatchAdmin($observer);
 
-        $response = Mage::app()->getResponse();
+        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getResponse();
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400);
 
@@ -74,7 +75,8 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observer = $this->_buildObserver();
         $this->_model->actionPreDispatchAdmin($observer);
 
-        $response = Mage::app()->getResponse();
+        $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getResponse();
         $code = $response->getHttpResponseCode();
         $this->assertFalse($code >= 300 && $code < 400);
 
