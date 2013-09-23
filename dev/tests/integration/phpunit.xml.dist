@@ -21,9 +21,10 @@
             <directory suffix="Test.php">testsuite</directory>
             <exclude>testsuite/Magento/Test/Integrity</exclude>
             <exclude>testsuite/MemoryUsageTest.php</exclude>
-            <exclude>testsuite/Magento/Weee</exclude>
-            <exclude>testsuite/Magento/Widget</exclude>
-            <exclude>testsuite/Magento/Wishlist</exclude>
+            <exclude>testsuite/Magento/Webhook/Model/Resource/EndpointTest.php</exclude>
+            <exclude>testsuite/Magento/Webhook/Model/Resource/EventTest.php</exclude>
+            <exclude>testsuite/Magento/Webhook/Model/Resource/JobTest.php</exclude>
+            <exclude>testsuite/Magento/Webhook/Model/Resource/SubscriptionTest.php</exclude>
         </testsuite>
     </testsuites>
     <!-- Code coverage filters -->
