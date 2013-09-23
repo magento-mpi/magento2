@@ -31,9 +31,6 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
     /**
      * Constructor
      *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Search_Helper_Data $searchData

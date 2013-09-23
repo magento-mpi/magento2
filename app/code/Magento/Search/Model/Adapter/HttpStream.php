@@ -55,26 +55,28 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
     /**
      * Initialize connect to Solr Client
      *
-     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Search_Helper_ClientInterface $clientHelper
+     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CatalogInventory_Helper_Data $ctlgInventData
      * @param array $options
      */
     public function __construct(
-        Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Search_Helper_ClientInterface $clientHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogInventory_Helper_Data $ctlgInventData,
         $options = array()
     ) {
-        parent::__construct($clientFactory, $logger, $clientHelper, $registry, $coreStoreConfig, $storeManager,
+        parent::__construct($logger, $storeManager, $cache, $clientFactory, $clientHelper, $registry, $coreStoreConfig,
             $options);
         $this->_ctlgInventData = $ctlgInventData;
     }
@@ -248,7 +250,7 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
 
             return $result;
         } catch (Exception $e) {
-            $this->_log->logException($e);
+            $this->_logger->logException($e);
         }
     }
 

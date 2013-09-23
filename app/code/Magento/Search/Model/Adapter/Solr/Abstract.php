@@ -56,13 +56,6 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_clientFactory;
 
     /**
-     * Logger
-     *
-     * @var Magento_Core_Model_Logger
-     */
-    protected $_log;
-
-    /**
      * Search client helper
      *
      * @var Magento_Search_Helper_ClientInterface
@@ -86,34 +79,36 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     /**
      * Construct
      *
-     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Search_Helper_ClientInterface $clientHelper
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     *
      * @param array $options
      * @throws Magento_Core_Exception
      */
     public function __construct(
-        Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Search_Model_Client_FactoryInterface $clientFactory,
         Magento_Search_Helper_ClientInterface $clientHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         $options = array()
     ) {
-        $this->_coreRegistry = $registry;
-        $this->_clientHelper = $clientHelper;
-        $this->_log = $logger;
+        parent::__construct($logger, $storeManager, $cache);
         $this->_clientFactory = $clientFactory;
+        $this->_clientHelper = $clientHelper;
+        $this->_coreRegistry = $registry;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_storeManager = $storeManager;
         try {
             $this->_connect($options);
         } catch (Exception $e) {
-            $this->_log->logException($e);
+            $this->_logger->logException($e);
             throw new Magento_Core_Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.')
             );
@@ -132,7 +127,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         try {
             $this->_client = $this->_clientFactory->createClient($this->_clientHelper->prepareClientOptions($options));
         } catch (Exception $e) {
-            $this->_log->logException($e);
+            $this->_logger->logException($e);
         }
 
         if (!is_object($this->_client)) {
