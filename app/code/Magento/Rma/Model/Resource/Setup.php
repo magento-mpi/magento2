@@ -268,4 +268,13 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     {
         return $this->_catalogSetupFactory;
     }
+
+    /**
+     * @param array $data
+     * @return Magento_Enterprise_Model_Resource_Setup_Migration
+     */
+    public function getMigrationSetup(array $data = array())
+    {
+        return $this->_migrationFactory->create($data);
+    }
 }
