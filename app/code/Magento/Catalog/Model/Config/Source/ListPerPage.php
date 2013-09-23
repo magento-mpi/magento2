@@ -18,32 +18,25 @@
  */
 class Magento_Catalog_Model_Config_Source_ListPerPage implements Magento_Core_Model_Option_ArrayInterface
 {
+    /**
+     * @var array
+     */
+    protected $_pagerOptions;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @param string $options
      */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
-     * @param Magento_Core_Model_Config $coreConfig
-     */
-    public function __construct(
-        Magento_Core_Model_Config $coreConfig
-    ) {
-        $this->_coreConfig = $coreConfig;
+    public function __construct($options)
+    {
+        $this->_pagerOptions = explode(',', $options);
     }
 
     public function toOptionArray()
     {
-        $result = array();
-        $perPageValues = $this->_coreConfig->getNode('frontend/catalog/per_page_values/list');
-        $perPageValues = explode(',', $perPageValues);
-        foreach ($perPageValues as $option) {
-            $result[] = array('value' => $option, 'label' => $option);
+        $output = array();
+        foreach ($this->_pagerOptions as $option) {
+            $output[] = array('value' => $option, 'label' => $option);
         }
-        return $result;
+        return $output;
     }
-
 }

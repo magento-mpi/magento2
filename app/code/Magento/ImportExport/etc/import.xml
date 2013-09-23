@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <entity name="catalog_product" label="Products" model="Magento_ImportExport_Model_Import_Entity_Product" behaviorModel="Magento_ImportExport_Model_Source_Import_Behavior_Basic" />
+    <entity name="customer_composite" label="Customers Main File" model="Magento_ImportExport_Model_Import_Entity_CustomerComposite" behaviorModel="Magento_ImportExport_Model_Source_Import_Behavior_Basic" />
+    <entity name="customer" label="Customers" model="Magento_ImportExport_Model_Import_Entity_Eav_Customer" behaviorModel="Magento_ImportExport_Model_Source_Import_Behavior_Custom" />
+    <entity name="customer_address" label="Customer Addresses" model="Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address" behaviorModel="Magento_ImportExport_Model_Source_Import_Behavior_Custom" />
+    <productType name="simple" model="Magento_ImportExport_Model_Import_Entity_Product_Type_Simple" />
+    <productType name="configurable" model="Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable" />
+    <productType name="virtual" model="Magento_ImportExport_Model_Import_Entity_Product_Type_Simple" />
+    <productType name="grouped" model="Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped" />
+</config>

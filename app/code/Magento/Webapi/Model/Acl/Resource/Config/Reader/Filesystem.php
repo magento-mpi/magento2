@@ -26,19 +26,8 @@ class Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem extends Magento
         $domDocumentClass = 'Magento_Acl_Resource_Config_Dom'
     ) {
         parent::__construct(
-            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass
+            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass,
+            'webapi'
         );
-    }
-
-    /**
-     * Read webapi resource list
-     *
-     * @param string $scope
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function read($scope)
-    {
-        return parent::read('webapi');
     }
 }
