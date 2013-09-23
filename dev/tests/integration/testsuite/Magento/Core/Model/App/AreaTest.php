@@ -18,7 +18,8 @@ class Magento_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        Mage::app()->cleanCache(array(Magento_Core_Model_Design::CACHE_TAG));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->
+            cleanCache(array(Magento_Core_Model_Design::CACHE_TAG));
     }
 
     protected function setUp()

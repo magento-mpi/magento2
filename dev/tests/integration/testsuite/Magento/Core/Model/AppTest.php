@@ -33,9 +33,8 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model       = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_App');
-        $this->_mageModel   = Mage::app();
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_App');
+        $this->_mageModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App');
     }
 
     public function testGetCookie()

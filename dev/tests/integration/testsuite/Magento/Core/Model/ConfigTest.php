@@ -124,7 +124,8 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
     {
-        Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->getConfig()
+            ->getAreaConfig('non_existent_area_code');
     }
 
     /**
