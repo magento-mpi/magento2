@@ -38,7 +38,7 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
     public function requestAction()
     {
         try {
-            $request = $this->_helper->_prepareServiceRequest($this->getRequest());
+            $request = $this->_helper->prepareServiceRequest($this->getRequest());
 
             //Request request token
             $response = $this->_oauthService->getRequestToken($request);
@@ -58,7 +58,7 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
     public function accessAction()
     {
         try {
-            $request = $this->_helper->_prepareServiceRequest($this->getRequest());
+            $request = $this->_helper->prepareServiceRequest($this->getRequest());
 
             //Request access token in exchange of a pre-authorized token
             $response = $this->_oauthService->getAccessToken($request);

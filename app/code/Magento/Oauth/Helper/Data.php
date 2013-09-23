@@ -301,7 +301,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Zend_Controller_Request_Http $httpRequest
      * @return array
      */
-    public function _prepareServiceRequest($httpRequest)
+    public function prepareServiceRequest($httpRequest)
     {
         //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
         $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
