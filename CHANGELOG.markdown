@@ -34,6 +34,9 @@
 * XML Validation
   * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
   * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
+* PSR-1 Formal Namespace Compliance
+  * Modified entire Magento code base to support formal namespaces.
+  * Included tests to enforce formal namespaces.
 
 2.0.0.0-dev45
 =============
