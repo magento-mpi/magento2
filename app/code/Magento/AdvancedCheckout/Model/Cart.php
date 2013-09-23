@@ -1317,7 +1317,8 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      */
     public function saveAffectedProducts(Magento_Checkout_Model_Cart_Interface $cart = null, $saveQuote = true)
     {
-        $cart = $cart ? $cart : $this->_cart     $affectedItems = $this->getAffectedItems();
+        $cart = $cart ? $cart : $this->_cart;
+        $affectedItems = $this->getAffectedItems();
         foreach ($affectedItems as &$item) {
             if ($item['code'] == Magento_AdvancedCheckout_Helper_Data::ADD_ITEM_STATUS_SUCCESS) {
                 $this->_safeAddProduct($item, $cart);
@@ -1705,6 +1706,4 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         }
         return $this;
     }
-}
- }
 }
