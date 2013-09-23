@@ -19,6 +19,41 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_systemStore;
+
+    /**
+     * Store list manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_System_Store $systemStore
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_System_Store $systemStore,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_systemStore = $systemStore;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare general properties form
      *
      * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
@@ -54,8 +89,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
             'style' => 'height: 100px;'
         ));
 
-        if (Mage::app()->isSingleStoreMode()) {
-            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+        if ($this->_storeManager->isSingleStoreMode()) {
+            $websiteId = $this->_storeManager->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',
                 'value'    => $websiteId
@@ -67,7 +102,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
                 'label'    => __('Assigned to Website'),
                 'title'    => __('Assigned to Website'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => $this->_systemStore->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }

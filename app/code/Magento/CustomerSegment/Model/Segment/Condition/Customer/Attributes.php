@@ -15,12 +15,40 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     extends Magento_CustomerSegment_Model_Condition_Abstract
 {
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_resourceCustomer;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Customer_Model_Resource_Customer $resourceCustomer
+     * @param Magento_CustomerSegment_Model_Resource_Segment $resourceSegment
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
-    {
-        parent::__construct($context, $data);
+    public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Customer_Model_Resource_Customer $resourceCustomer,
+        Magento_CustomerSegment_Model_Resource_Segment $resourceSegment,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Rule_Model_Condition_Context $context,
+        array $data = array()
+    ) {
+        $this->_locale = $locale;
+        $this->_resourceCustomer = $resourceCustomer;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resourceSegment, $context, $data);
         $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes');
         $this->setValue(null);
     }
@@ -58,7 +86,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->getAttribute());
+        return $this->_eavConfig->getAttribute('customer', $this->getAttribute());
     }
 
     /**
@@ -68,7 +96,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')
+        $productAttributes = $this->_resourceCustomer
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -278,7 +306,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     public function getDateValue()
     {
         if ($this->getOperator() == '==') {
-            $dateObj = Mage::app()->getLocale()
+            $dateObj = $this->_locale
                 ->date($this->getValue(), Magento_Date::DATE_INTERNAL_FORMAT, null, false)
                 ->setHour(0)->setMinute(0)->setSecond(0);
             $value = array(
