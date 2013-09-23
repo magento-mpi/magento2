@@ -18,12 +18,6 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Core_Model_StoreManagerInterface */
     protected $_storeManagerMock;
 
-    /** @var Magento_Oauth_Model_Consumer_Factory */
-    protected $_consumerFactoryMock;
-
-    /** @var Magento_ObjectManager */
-    protected $_objectManagerMock;
-
     /** @var Magento_Oauth_Helper_Data */
     protected $_oauthHelper;
 
@@ -39,19 +33,11 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock()
         );
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
-        $this->_consumerFactoryMock = $this->getMockBuilder('Magento_Oauth_Model_Consumer_Factory')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $this->_oauthHelper = new Magento_Oauth_Helper_Data(
             $this->_coreHelper,
             $this->_coreContextMock,
-            $this->_storeManagerMock,
-            $this->_consumerFactoryMock,
-            $this->_objectManagerMock
+            $this->_storeManagerMock
         );
     }
 
@@ -60,8 +46,6 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         unset($this->_coreHelper);
         unset($this->_coreContextMock);
         unset($this->_storeManagerMock);
-        unset($this->_consumerFactoryMock);
-        unset($this->_objectManagerMock);
         unset($this->_oauthHelper);
     }
 

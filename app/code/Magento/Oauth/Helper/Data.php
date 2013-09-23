@@ -169,34 +169,22 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected $_coreData = null;
 
-    /** @var Magento_Oauth_Model_Consumer_Factory */
-    protected $_consumerFactory;
-
     /** @var Magento_Core_Model_Store */
     protected $_store;
-
-    /** @var Magento_ObjectManager */
-    protected $_objectManager;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
-     * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Oauth_Model_Consumer_Factory $consumerFactory,
-        Magento_ObjectManager $objectManager
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
         $this->_coreData = $coreData;
         $this->_store = $storeManager->getStore();
-        $this->_consumerFactory = $consumerFactory;
-        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -204,13 +192,12 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param int $length String length
      * @return string
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _generateRandomString($length)
     {
         if (function_exists('openssl_random_pseudo_bytes')) {
             // use openssl lib if it is install. It provides a better randomness.
-            $bytes = openssl_random_pseudo_bytes(ceil($length / 2), $strong);
+            $bytes = openssl_random_pseudo_bytes(ceil($length / 2));
             $hex = bin2hex($bytes); // hex() doubles the length of the string
             $randomString = substr($hex, 0, $length); // truncate at most 1 char if length parameter is an odd number
         } else {

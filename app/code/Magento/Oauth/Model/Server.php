@@ -79,7 +79,7 @@ class Magento_Oauth_Model_Server
     /**
      * Consumer object
      *
-     * @var Magento_Oauth_Model_ConsumerInterface
+     * @var Magento_Oauth_Model_Consumer
      */
     protected $_consumer;
 
