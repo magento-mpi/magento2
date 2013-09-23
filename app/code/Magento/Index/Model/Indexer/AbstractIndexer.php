@@ -14,7 +14,8 @@
  */
 namespace Magento\Index\Model\Indexer;
 
-abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel implements \Magento\Index\Model\IndexerInterface
+abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
+    implements \Magento\Index\Model\IndexerInterface
 {
     protected $_matchedEntities = array();
 
