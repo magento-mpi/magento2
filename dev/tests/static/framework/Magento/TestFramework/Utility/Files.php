@@ -167,10 +167,10 @@ class Magento_TestFramework_Utility_Files
     public function getXmlFiles()
     {
         return array_merge(
-            self::getMainConfigFiles(),
-            self::getLayoutFiles(),
-            self::getConfigFiles(),
-            self::getLayoutConfigFiles()
+            $this->getMainConfigFiles(),
+            $this->getLayoutFiles(),
+            $this->getConfigFiles(),
+            $this->getLayoutConfigFiles()
         );
     }
 
