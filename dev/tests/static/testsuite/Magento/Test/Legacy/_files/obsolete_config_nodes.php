@@ -19,7 +19,7 @@ return array(
     '/config/global/helpers/*/class'           => '',
     '/config/global/blocks/*/class'            => '',
     '/config/global/models/*/resourceModel'    => '',
-    '/config/global/page/layouts'              => '',
+    '/config/global/page/layouts'              => 'Moved to page_layouts.xml',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
     '/config/adminhtml/acl'                    => 'Move them to adminhtml.xml.',
     '/config/*/events/core_block_abstract_to_html_after' =>
