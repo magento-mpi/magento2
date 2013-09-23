@@ -106,9 +106,9 @@
         <catalog>
             <product>
                 <flat>
-                    <attribute_nodes>
-                        <sales_quote_item_product_collection>global/sales/quote/item/product_attributes</sales_quote_item_product_collection>
-                    </attribute_nodes>
+                    <attribute_groups>
+                        <sales_quote_item>sales_quote_item</sales_quote_item>
+                    </attribute_groups>
                 </flat>
             </product>
         </catalog>
@@ -155,32 +155,6 @@
                         <sort_order>1250</sort_order>
                     </nominal_shipping>
                 </nominal_totals>
-                <item>
-                    <product_attributes>
-                        <sku />
-                        <type_id />
-                        <name />
-                        <status />
-                        <visibility />
-                        <price />
-                        <weight />
-                        <url_path />
-                        <url_key />
-                        <thumbnail />
-                        <small_image />
-                        <tax_class_id />
-                        <special_from_date />
-                        <special_to_date />
-                        <special_price />
-                        <cost />
-                        <is_recurring />
-                        <recurring_profile />
-                        <gift_message_available />
-                        <msrp_enabled />
-                        <msrp />
-                        <msrp_display_actual_price_type />
-                    </product_attributes>
-                </item>
             </quote>
             <order>
                 <!-- /**

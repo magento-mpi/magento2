@@ -96,6 +96,14 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Catalog_Model_Attribute_Config_Data">
+        <param name="cacheId">
+            <value>catalog_attributes</value>
+        </param>
+        <param name="scope">
+            <value type="const">Magento_Core_Model_App_Area::AREA_GLOBAL</value>
+        </param>
+    </type>
     <type name="Magento_Catalog_Block_Layer_View">
         <param name="layer">
             <instance type="Magento_Catalog_Model_Layer_Proxy" />
