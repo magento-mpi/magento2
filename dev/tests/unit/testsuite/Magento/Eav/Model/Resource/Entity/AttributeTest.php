@@ -217,7 +217,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
         );
         $resourceModel = $this->getMock(
             'Magento_Eav_Model_Resource_Entity_Attribute',
-            array('getAdditionalAttributeTable'), // Mage::getResourceSingleton dependency
+            array('getAdditionalAttributeTable'),
             $arguments
         );
 
