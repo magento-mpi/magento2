@@ -44,7 +44,7 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
             $response = $this->_oauthService->getRequestToken($request);
 
         } catch (Exception $exception) {
-            $response = $this->_helper->_prepareErrorResponse(
+            $response = $this->_helper->prepareErrorResponse(
                 $exception,
                 $this->getResponse()
             );
@@ -64,7 +64,7 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
             $response = $this->_oauthService->getAccessToken($request);
 
         } catch (Exception $exception) {
-            $response = $this->_helper->_prepareErrorResponse(
+            $response = $this->_helper->prepareErrorResponse(
                 $exception,
                 $this->getResponse()
             );

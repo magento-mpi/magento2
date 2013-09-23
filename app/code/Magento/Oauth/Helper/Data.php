@@ -399,7 +399,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
      * @return string
      */
-    public function _prepareErrorResponse(
+    public function prepareErrorResponse(
         Exception $exception,
         Zend_Controller_Response_Http $response = null
     ) {
