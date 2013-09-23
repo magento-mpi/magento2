@@ -46,6 +46,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             array('__construct'), array(), '', false);
         $cacheTypeList = $this->getMock('Magento_Core_Model_Cache_TypeListInterface', array(), array(), '', false);
         $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $locale = $this->getMock('Magento_Core_Model_Locale', array(), array(), '', false);
         /** @var $catalogRule Magento_CatalogRule_Model_Rule */
         $catalogRule = $this->getMock(
             'Magento_CatalogRule_Model_Rule',
@@ -57,6 +58,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
                 $registryMock,
                 $cacheTypeList,
                 $config,
+                $locale,
                 $resourceMock
         ));
 
