@@ -10,7 +10,7 @@
 <config>
     <type name="Magento_AdvancedCheckout_Helper_Data">
         <param name="session">
-            <instance type="Magento_Backend_Model_Session"/>
+            <instance type="Magento_Backend_Model_Session_Proxy"/>
         </param>
     </type>
 </config>

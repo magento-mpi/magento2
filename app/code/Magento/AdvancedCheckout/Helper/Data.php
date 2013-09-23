@@ -107,7 +107,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -170,10 +170,29 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_importFactory = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager = null;
 
+    /**
+     * @param Magento_AdvancedCheckout_Model_Cart $cart
+     * @param Magento_AdvancedCheckout_Model_Resource_Product_Collection $products
+     * @param Magento_Core_Model_Url $url
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Core_Model_Session_Abstract $session
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Checkout_Helper_Cart $checkoutCart
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param Magento_AdvancedCheckout_Model_ImportFactory $importFactory
+     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
     public function __construct(
         Magento_AdvancedCheckout_Model_Cart $cart,
         Magento_AdvancedCheckout_Model_Resource_Product_Collection $products,
@@ -186,12 +205,12 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_AdvancedCheckout_Model_ImportFactory $importFactory,
         Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Sales_Model_Quote_ItemFactory $quoteItemFactory,
-        Magento_Core_Model_StoreManager $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_cart = $cart;
         $this->_products = $products;
@@ -409,8 +428,9 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(
-                                    $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                $this->_storeManager->getStore()->formatPrice(
+                                    $this->_storeManager->getStore()->convertPrice(
+                                        $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
                             $itemProduct->setAddToCartUrl($this->_checkoutCart->getAddUrl($itemProduct));

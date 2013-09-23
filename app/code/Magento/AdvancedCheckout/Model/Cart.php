@@ -159,7 +159,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     protected $_optionFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -180,7 +180,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
      * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Sales_Model_QuoteFactory $quoteFactory
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
@@ -196,7 +196,7 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
         Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Sales_Model_QuoteFactory $quoteFactory,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {

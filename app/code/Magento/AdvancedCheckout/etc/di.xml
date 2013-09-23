@@ -14,8 +14,26 @@
         </param>
     </type>
     <type name="Magento_AdvancedCheckout_Helper_Data">
+        <param name="cart">
+            <instance type="Magento_AdvancedCheckout_Model_Cart_Proxy" />
+        </param>
+        <param name="url">
+            <instance type="Magento_Core_Model_Url_Proxy" />
+        </param>
+        <param name="catalogConfig">
+            <instance type="Magento_Catalog_Model_Config_Proxy" />
+        </param>
         <param name="session">
-            <instance type="Magento_Customer_Model_Session" />
+            <instance type="Magento_Customer_Model_Session_Proxy" />
+        </param>
+        <param name="customerSession">
+            <instance type="Magento_Customer_Model_Session_Proxy" />
+        </param>
+        <param name="checkoutSession">
+            <instance type="Magento_Checkout_Model_Session_Proxy" />
+        </param>
+        <param name="coreStoreConfig">
+            <instance type="Magento_Core_Model_Store_Config_Proxy" />
         </param>
     </type>
 </config>
