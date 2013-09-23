@@ -146,8 +146,9 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_Operation ext
             try {
                 /** @var Magento_ScheduledImportExport_Model_Scheduled_Operation $operation */
                 $operation = $this->_objectManager->create(
-                    'Magento_ScheduledImportExport_Model_Scheduled_Operation', array('data' => $data)
+                    'Magento_ScheduledImportExport_Model_Scheduled_Operation'
                 );
+                $operation->setData($data);
                 $operation->save();
                 $backendSession->addSuccess(
                     $this->_objectManager->get('Magento_ScheduledImportExport_Helper_Data')
