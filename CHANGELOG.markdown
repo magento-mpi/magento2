@@ -44,6 +44,12 @@
   * mage.itemTable  - Widget to easily add a data template block dynamically on an event, by default click.
   * mage.redirectUrl - Simple widget to allow for consistent javascript based redirects that meet the Magento 2 coding standard
   * Added new validation rules for validation widget: 'required-if-not-specified', 'required-if-specified', and 'validate-item-quantity'
+* Сrontab segment improvements:
+  * crontab configurations were moved from config.xml to new crontab.xml with new format
+  * XSD validation schema for crontab.xml was added
+* Install segment was moved from config.xml to di.xml for next configuration nodes:
+  * config/install/databases
+  * config/install/eula_file
 * Various improvements:
   * Removed some events (plugins must be used instead):
     * adminhtml_widget_container_html_before
@@ -77,6 +83,13 @@
 * Redesign and reimplementation of web services framework
   * Removed the Api module and all existing SOAP V1, SOAP V2, and XML-RPC web services code
   * Implemented new web services framework to support both REST and SOAP based off of a common service interface
+* XML Validation
+  * Altered format of `widget.xml` and added `widget.xsd` to allow for validation of XML files.
+  * Altered format of `fieldset.xml` and added `fieldset.xsd` to allow for validation of XML files.
+  * Altered format of `install.xml`
+    * Renamed to `install_wizard.xml`
+    * Added `install_wizard.xsd` to allow for validation of XML files.
+* Removed "translate" node from configuration XML files
 * Added I18n tools for translation dictionary generation and language package generation
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
@@ -109,7 +122,6 @@
   * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
   * Eliminated Mage::throwException from Magento_Media module
   * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
-  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend
@@ -245,6 +257,9 @@
      * Improved UI for working with webhooks in Magento backend
      * Improved test coverage
   * Removed support of callbacks from the framework
+  * Removed "translate" node from configuration XML files
+  * Added I18n tools for translation dictionary generation and language package generation
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
 * GitHub requests:
   * [#71](https://github.com/magento/magento2/pull/71) -- Add event prefix for Cms blocks
   * [#108](https://github.com/magento/magento2/pull/108) -- Fix issue with `PHP_VERSION` on Ubuntu servers
