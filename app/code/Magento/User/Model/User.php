@@ -179,11 +179,11 @@ class Magento_User_Model_User
         $this->_userData = $userData;
         $this->_coreData = $coreData;
         $this->_sender = $sender;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_validatorComposite = $validatorCompositeFactory;
         $this->_roleFactory = $roleFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_mailer = $mailerFactory->create();
-        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -203,7 +203,10 @@ class Magento_User_Model_User
             '_coreData',
             '_userData',
             '_coreStoreConfig',
-            '_coreRegistry'
+            '_validatorComposite',
+            '_roleFactory',
+            '_emailInfoFactory',
+            '_mailer',
         ));
         return $properties;
     }
@@ -218,6 +221,10 @@ class Magento_User_Model_User
         $this->_userData        = $objectManager->get('Magento_User_Helper_Data');
         $this->_coreStoreConfig = $objectManager->get('Magento_Core_Model_Store_Config');
         $this->_coreRegistry    = $objectManager->get('Magento_Core_Model_Registry');
+        $this->_validatorComposite = $objectManager->get('Magento_Validator_Composite_VarienObjectFactory');
+        $this->_roleFactory = $objectManager->get('Magento_User_Model_RoleFactory');
+        $this->_emailInfoFactory = $objectManager->get('Magento_Core_Model_Email_InfoFactory');
+        $this->_mailer = $objectManager->get('Magento_Core_Model_Email_Template_MailerFactory');
     }
 
     /**
