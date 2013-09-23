@@ -75,7 +75,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
         $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
-        $varDir = Mage::getBaseDir('var');
+        $varDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+            ->getDir('var');
         $exportDir = $varDir . DS . $fileInfo['file_path'];
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);

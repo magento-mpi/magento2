@@ -228,7 +228,10 @@ class Magento_Test_Integrity_Theme_ViewFilesTest extends Magento_TestFramework_T
     public function testStaticLibs($file)
     {
         $this->markTestIncomplete('Should be fixed when static when we have static folder jslib implemented');
-        $this->assertFileExists(Mage::getBaseDir('jslib') . DIRECTORY_SEPARATOR . $file);
+        $this->assertFileExists(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('jslib')
+                . DIRECTORY_SEPARATOR . $file
+        );
     }
 
     /**

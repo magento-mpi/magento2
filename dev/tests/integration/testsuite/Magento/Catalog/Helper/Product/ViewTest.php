@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-require Mage::getBaseDir() . '/app/code/Magento/Catalog/Controller/Product.php';
+require Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir()
+    . '/app/code/Magento/Catalog/Controller/Product.php';
 
 class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 {

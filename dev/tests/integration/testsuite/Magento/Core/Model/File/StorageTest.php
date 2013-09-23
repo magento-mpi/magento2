@@ -24,7 +24,10 @@ class Magento_Core_Model_File_StorageTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('media_directory', $config);
         $this->assertArrayHasKey('allowed_resources', $config);
         $this->assertArrayHasKey('update_time', $config);
-        $this->assertEquals(Mage::getBaseDir('media'), $config['media_directory']);
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('media'),
+            $config['media_directory']
+        );
         $this->assertInternalType('array', $config['allowed_resources']);
         $this->assertContains('css', $config['allowed_resources']);
         $this->assertContains('css_secure', $config['allowed_resources']);

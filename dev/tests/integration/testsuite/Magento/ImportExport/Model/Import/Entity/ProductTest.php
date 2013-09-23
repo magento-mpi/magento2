@@ -453,7 +453,8 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      */
     public static function mediaImportImageFixture()
     {
-        $dir = Mage::getBaseDir('media') . '/import';
+        $dir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+            ->getDir('media') . '/import';
         mkdir($dir);
         copy(__DIR__ . '/../../../../../Magento/Catalog/_files/magento_image.jpg', "{$dir}/magento_image.jpg");
     }
@@ -463,7 +464,8 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      */
     public static function mediaImportImageFixtureRollback()
     {
-        $media = Mage::getBaseDir('media');
+        $media = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+            ->getDir('media');
         Magento_Io_File::rmdirRecursive("{$media}/import");
         Magento_Io_File::rmdirRecursive("{$media}/catalog");
     }

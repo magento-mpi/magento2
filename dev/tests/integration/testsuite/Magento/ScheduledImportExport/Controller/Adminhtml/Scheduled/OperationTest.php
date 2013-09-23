@@ -118,7 +118,8 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
         $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
-        $varDir = Mage::getBaseDir('var');
+        $varDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+            ->getDir('var');
         $exportDir = $varDir . DS . 'export';
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);
