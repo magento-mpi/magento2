@@ -83,12 +83,10 @@ class Magento_Core_Model_Url_RewriteTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->hasOption('RP'));
     }
 
-    /**
-     * Warning: this test is not isolated from other tests (Mage::app()->getRequest() and getResponse())
-     */
     public function testRewrite()
     {
-        $request = Mage::app()->getRequest()->setPathInfo('fancy/url.html');
+        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Controller_Request_Http')->setPathInfo('fancy/url.html');
         $response = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_TestFramework_Response');
         $_SERVER['QUERY_STRING'] = 'foo=bar&___fooo=bar';

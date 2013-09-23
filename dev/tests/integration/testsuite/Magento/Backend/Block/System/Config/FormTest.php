@@ -195,10 +195,15 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     {
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create(
-            'Magento_Core_Controller_Front_Action',
-            array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
-        );
-        Mage::app()->getRequest()->setParam('section', 'general');
+                'Magento_Core_Controller_Front_Action',
+                array(
+                    'request' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->get('Magento_Core_Controller_Request_Http'),
+                    'response' => Mage::app()->getResponse()
+                )
+            );
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')
+            ->setParam('section', 'general');
         /** @var $block Magento_Backend_Block_System_Config_Form */
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Backend_Block_System_Config_Form');

@@ -78,11 +78,12 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
         /** @var $request Magento_TestFramework_Request */
         $request = $objectManager->get('Magento_TestFramework_Request');
 
-        Mage::app()->getRequest()->setRoutingInfo(array(
-            'requested_route'      => 'x',
-            'requested_controller' => 'y',
-            'requested_action'     => 'z',
-        ));
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')
+            ->setRoutingInfo(array(
+                'requested_route'      => 'x',
+                'requested_controller' => 'y',
+                'requested_action'     => 'z',
+            ));
 
         $request->setParam('cat', 4);
         $this->_model->getFilter()->apply(

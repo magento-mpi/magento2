@@ -68,7 +68,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testPageHelpUrl()
     {
-        Mage::app()->getRequest()
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Controller_Request_Http')
             ->setControllerModule('dummy')
             ->setControllerName('index')
             ->setActionName('test');

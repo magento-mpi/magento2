@@ -30,7 +30,8 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped('Skipped because of authentication process moved into base controller.');
 
-        $request = Mage::app()->getRequest();
+        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Controller_Request_Http');
         $this->assertEmpty($request->getRouteName());
         $this->assertEmpty($request->getControllerName());
         $this->assertEmpty($request->getActionName());
@@ -89,7 +90,8 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _buildObserver()
     {
-        $request = Mage::app()->getRequest();
+        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Controller_Request_Http');
         $request->setPost(
             'login',
             array(

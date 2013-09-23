@@ -63,7 +63,8 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithRequestLocale()
     {
-        $request = Mage::app()->getRequest();
+        $request = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Controller_Request_Http');
         $request->setPost(array('locale' => 'de_DE'));
         $this->_checkSetLocale('de_DE');
     }
