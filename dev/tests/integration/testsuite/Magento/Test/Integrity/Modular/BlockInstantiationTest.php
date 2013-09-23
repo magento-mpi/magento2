@@ -99,7 +99,7 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
         ) {
             $area = 'adminhtml';
         }
-        Mage::app()->loadAreaPart(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadAreaPart(
             Magento_Core_Model_App_Area::AREA_ADMINHTML,
             Magento_Core_Model_App_Area::PART_CONFIG
         );

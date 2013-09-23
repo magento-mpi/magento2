@@ -588,7 +588,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
                 Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
-        Mage::app()->loadAreaPart(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadAreaPart(
             Magento_Core_Model_App_Area::AREA_ADMINHTML,
             Magento_Core_Model_App_Area::PART_CONFIG
         );

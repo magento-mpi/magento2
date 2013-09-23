@@ -8,7 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+    ->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 $designDir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/media_for_change';
 $themeDir = $designDir . DIRECTORY_SEPARATOR . 'frontend/test_default';
 $sourcePath = dirname(__DIR__) . '/Model/_files/design/frontend/test_publication/';
