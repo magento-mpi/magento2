@@ -24,8 +24,8 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     protected $_catalogSetupFactory;
 
     /**
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -40,8 +40,8 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,

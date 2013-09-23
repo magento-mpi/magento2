@@ -53,7 +53,9 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
@@ -61,12 +63,14 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_coreResource = $coreResource;
         parent::__construct(
-            $catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $entityFactory
+            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
         );
     }
 
