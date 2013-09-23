@@ -11,7 +11,7 @@ namespace Magento\Usa\Model\Shipping\Carrier\Usps\Source;
 class Generic implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Usps
+     * @var \Magento\Usa\Model\Shipping\Carrier\Usps
      */
     protected $_shippingUsps;
 
@@ -23,9 +23,9 @@ class Generic implements \Magento\Core\Model\Option\ArrayInterface
     protected $_code = '';
 
     /**
-     * @param Magento_Usa_Model_Shipping_Carrier_Usps $shippingUsps
+     * @param \Magento\Usa\Model\Shipping\Carrier\Usps $shippingUsps
      */
-    public function __construct(Magento_Usa_Model_Shipping_Carrier_Usps $shippingUsps)
+    public function __construct(\Magento\Usa\Model\Shipping\Carrier\Usps $shippingUsps)
     {
         $this->_shippingUsps = $shippingUsps;
     }

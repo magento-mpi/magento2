@@ -10,7 +10,7 @@ namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
 class Generic implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Ups
+     * @var \Magento\Usa\Model\Shipping\Carrier\Ups
      */
     protected $_shippingUps;
 
@@ -22,9 +22,9 @@ class Generic implements \Magento\Core\Model\Option\ArrayInterface
     protected $_code = '';
 
     /**
-     * @param Magento_Usa_Model_Shipping_Carrier_Ups $shippingUps
+     * @param \Magento\Usa\Model\Shipping\Carrier\Ups $shippingUps
      */
-    public function __construct(Magento_Usa_Model_Shipping_Carrier_Ups $shippingUps)
+    public function __construct(\Magento\Usa\Model\Shipping\Carrier\Ups $shippingUps)
     {
         $this->_shippingUps = $shippingUps;
     }

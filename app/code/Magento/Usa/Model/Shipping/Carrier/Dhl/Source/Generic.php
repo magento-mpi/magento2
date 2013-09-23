@@ -11,7 +11,7 @@ namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
 class Generic implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Dhl
+     * @var \Magento\Usa\Model\Shipping\Carrier\Dhl
      */
     protected $_shippingDhl;
 
@@ -23,9 +23,9 @@ class Generic implements \Magento\Core\Model\Option\ArrayInterface
     protected $_code = '';
 
     /**
-     * @param Magento_Usa_Model_Shipping_Carrier_Dhl $shippingDhl
+     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl $shippingDhl
      */
-    public function __construct(Magento_Usa_Model_Shipping_Carrier_Dhl $shippingDhl)
+    public function __construct(\Magento\Usa\Model\Shipping\Carrier\Dhl $shippingDhl)
     {
         $this->_shippingDhl = $shippingDhl;
     }
