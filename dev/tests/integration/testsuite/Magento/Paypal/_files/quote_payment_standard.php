@@ -6,7 +6,8 @@
  * @license     {license_link}
  */
 Mage::app()->loadArea('adminhtml');
-Mage::app()->getStore()->setConfig('carriers/flatrate/active', 1);
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')->getStore()
+    ->setConfig('carriers/flatrate/active', 1);
 /** @var $product Magento_Catalog_Model_Product */
 $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Catalog_Model_Product');
@@ -75,7 +76,10 @@ $shippingAddress->setCollectShippingRates(true);
 $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Sales_Model_Quote');
 $quote->setCustomerIsGuest(true)
-    ->setStoreId(Mage::app()->getStore()->getId())
+    ->setStoreId(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getId()
+    )
     ->setReservedOrderId('test01')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)

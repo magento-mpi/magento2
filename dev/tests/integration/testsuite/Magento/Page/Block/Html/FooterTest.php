@@ -27,7 +27,8 @@ class Magento_Page_Block_Html_FooterTest extends PHPUnit_Framework_TestCase
     {
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Page_Block_Html_Footer');
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(
             array('PAGE_FOOTER', $storeId, 0, $this->_theme->getId(), null),
             $block->getCacheKeyInfo()

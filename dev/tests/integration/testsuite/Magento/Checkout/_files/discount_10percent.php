@@ -15,7 +15,10 @@ $salesRule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
 $data = array(
     'name' => 'Test Coupon',
     'is_active' => true,
-    'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
+    'website_ids' => array(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getWebsiteId()
+    ),
     'customer_group_ids' => array(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID),
     'coupon_type' => Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC,
     'coupon_code' => uniqid(),

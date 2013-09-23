@@ -25,7 +25,8 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function setDesignConfigExceptionDataProvider()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
         return array(
             array(array()),
             array(array('area' => 'frontend')),

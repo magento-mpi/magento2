@@ -39,7 +39,11 @@ class Magento_Catalog_Block_Product_NewTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('CATALOG_PRODUCT_NEW', $info[0]);
 
         $this->assertSame(1, array_shift($keys));
-        $this->assertEquals(Mage::app()->getStore()->getId(), $info[1]);
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId(),
+            $info[1]
+        );
 
         $this->assertSame(2, array_shift($keys));
 

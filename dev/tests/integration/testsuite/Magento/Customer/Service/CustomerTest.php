@@ -38,8 +38,12 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $previousStoreId = Mage::app()->getStore();
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        $previousStoreId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore();
+        Mage::app()->setCurrentStore(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+        );
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
             $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();

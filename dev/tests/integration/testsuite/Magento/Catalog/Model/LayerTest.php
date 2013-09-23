@@ -155,7 +155,11 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
     public function testGetCurrentStore()
     {
-        $this->assertSame(Mage::app()->getStore(), $this->_model->getCurrentStore());
+        $this->assertSame(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore(),
+            $this->_model->getCurrentStore()
+        );
     }
 
     public function testGetFilterableAttributes()

@@ -104,7 +104,10 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
 
     public function testAfterSave()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Mage::app()->setCurrentStore(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+        );
         /** @var $product Magento_Catalog_Model_Product */
         $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Catalog_Model_Product');
@@ -133,7 +136,10 @@ class Magento_Catalog_Model_Product_Attribute_Backend_TierpriceTest extends PHPU
      */
     public function testAfterSaveEmpty()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Mage::app()->setCurrentStore(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+        );
         /** @var $product Magento_Catalog_Model_Product */
         $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Catalog_Model_Product');

@@ -42,10 +42,12 @@ class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testIsOutputEnabled()
     {
         $this->_block->setData('module_name', 'dummy');
-        Mage::app()->getStore()->setConfig('advanced/modules_disable_output/dummy', 'true');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setConfig('advanced/modules_disable_output/dummy', 'true');
         $this->assertFalse($this->_block->isOutputEnabled());
 
-        Mage::app()->getStore()->setConfig('advanced/modules_disable_output/dummy', 'false');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setConfig('advanced/modules_disable_output/dummy', 'false');
         $this->assertTrue($this->_block->isOutputEnabled('dummy'));
     }
 }

@@ -17,8 +17,10 @@ $template = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
 $template->load('fixture_tpl', 'template_code');
 $templateId = $template->getId();
 
-$currentStore = Mage::app()->getStore()->getId();
-$otherStore = Mage::app()->getStore('fixturestore')->getId();
+$currentStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+$otherStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId();
 
 $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Newsletter_Model_Queue');

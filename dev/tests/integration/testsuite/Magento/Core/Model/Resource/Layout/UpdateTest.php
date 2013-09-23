@@ -31,7 +31,12 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
         $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Theme');
         $theme->load('Test Theme', 'theme_title');
-        $result = $this->_resourceModel->fetchUpdatesByHandle('test_handle', $theme, Mage::app()->getStore());
+        $result = $this->_resourceModel->fetchUpdatesByHandle(
+            'test_handle',
+            $theme,
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()
+        );
         $this->assertEquals('not_temporary', $result);
     }
 

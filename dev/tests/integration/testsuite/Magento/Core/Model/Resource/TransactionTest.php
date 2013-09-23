@@ -53,7 +53,8 @@ class Magento_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_Test
         $this->assertNotEmpty($first->getId());
         $this->assertNotEmpty($second->getId());
 
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         $this->_model->delete();
 
         $test  = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

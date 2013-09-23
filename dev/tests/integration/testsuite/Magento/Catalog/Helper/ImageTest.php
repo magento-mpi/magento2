@@ -43,9 +43,16 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         copy("{$fixtureDir}/magento_thumbnail.jpg", self::$_fixtureMediaDir . '/m/a/magento_thumbnail.jpg');
 
         // watermark fixture
-        mkdir(self::$_fixtureMediaDir . '/watermark/stores/' . Mage::app()->getStore()->getId(), 0777, true);
-        copy("{$fixtureDir}/watermark.jpg",
-            self::$_fixtureMediaDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . '/watermark.jpg'
+        mkdir(
+            self::$_fixtureMediaDir . '/watermark/stores/' . Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId(),
+            0777,
+            true
+        );
+        copy(
+            "{$fixtureDir}/watermark.jpg",
+            self::$_fixtureMediaDir . '/watermark/stores/' . Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId() . '/watermark.jpg'
         );
 
         // sample product with images

@@ -30,8 +30,10 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
         $this->_inlineParser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Translate_InlineParser');
         /* Called getConfig as workaround for setConfig bug */
-        Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
     /**

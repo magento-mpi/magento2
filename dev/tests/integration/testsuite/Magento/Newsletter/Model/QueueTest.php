@@ -29,7 +29,8 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
-        Mage::app()->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
 
         $subscriberOne = $this->getMock('Zend_Mail', array('send', 'setBodyHTML'), array('utf-8'));
         $subscriberOne->expects($this->any())->method('send');

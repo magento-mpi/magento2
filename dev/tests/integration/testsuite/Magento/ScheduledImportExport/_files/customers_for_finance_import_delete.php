@@ -8,7 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$defaultWebsiteId = Mage::app()->getStore()->getWebsiteId();
+$defaultWebsiteId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsiteId();
 
 /** @var $website Magento_Core_Model_Website */
 $website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

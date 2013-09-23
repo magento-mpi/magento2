@@ -79,7 +79,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_
             $product->getResource()->getAttributeRawValue(
                 $product->getId(),
                 $this->_model->getAttribute()->getId(),
-                Mage::app()->getStore()->getId()
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId()
             )
         );
     }

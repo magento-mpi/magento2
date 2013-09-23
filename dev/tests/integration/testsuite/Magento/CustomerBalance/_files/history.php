@@ -14,13 +14,19 @@ require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 $balance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_CustomerBalance_Model_Balance');
 $balance->setCustomerId($customer->getId())
-    ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+    ->setWebsiteId(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getWebsiteId()
+    );
 $balance->save();
 
 /** @var $history Magento_CustomerBalance_Model_Balance_History */
 $history = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_CustomerBalance_Model_Balance_History');
 $history->setCustomerId($customer->getId())
-    ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+    ->setWebsiteId(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getWebsiteId()
+    )
     ->setBalanceModel($balance);
 $history->save();

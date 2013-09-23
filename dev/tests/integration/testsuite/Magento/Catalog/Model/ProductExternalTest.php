@@ -32,7 +32,11 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
 
     public function testGetStoreId()
     {
-        $this->assertEquals(Mage::app()->getStore()->getId(), $this->_model->getStoreId());
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId(),
+            $this->_model->getStoreId()
+        );
         $this->_model->setData('store_id', 999);
         $this->assertEquals(999, $this->_model->getStoreId());
     }

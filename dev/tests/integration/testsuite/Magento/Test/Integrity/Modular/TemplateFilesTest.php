@@ -46,7 +46,8 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
         $blockClass = '';
         try {
             /** @var $website Magento_Core_Model_Website */
-            Mage::app()->getStore()->setWebsiteId(0);
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->setWebsiteId(0);
 
             $templates = array();
             foreach (Magento_TestFramework_Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {

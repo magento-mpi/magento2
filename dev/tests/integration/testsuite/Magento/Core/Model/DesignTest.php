@@ -151,7 +151,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             $expectedDesign = "{$storeCode}_yesterday_design";
         }
 
-        $store = Mage::app()->getStore($storeCode);
+        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore($storeCode);
         $store->setConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
         $storeId = $store->getId();
 

@@ -46,7 +46,10 @@ $shippingAddress->setShippingMethod('flatrate_flatrate');
 $quote = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Sales_Model_Quote');
 $quote->setCustomerIsGuest(true)
-    ->setStoreId(Mage::app()->getStore()->getId())
+    ->setStoreId(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getId()
+    )
     ->setReservedOrderId('test01')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)

@@ -46,6 +46,9 @@ $order->addItem($orderItem)
     ->setCustomerIsGuest(true)
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
-    ->setStoreId(Mage::app()->getStore()->getId())
+    ->setStoreId(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getId()
+    )
     ->setPayment($payment);
 $order->save();

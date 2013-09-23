@@ -20,6 +20,9 @@ $block->setTitle('CMS Block Title')
 <p>Custom variable: "{{customvar code="variable_code"}}".</p>
 ')
     ->setIsActive(1)
-    ->setStores(array(Mage::app()->getStore()->getId()))
+    ->setStores(array(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getId()
+    ))
     ->save()
 ;

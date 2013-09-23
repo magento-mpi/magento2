@@ -139,7 +139,8 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigurationDesignThemeStore()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme());
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme(null, array('store' => $storeId)));
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme('frontend', array('store' => $storeId)));

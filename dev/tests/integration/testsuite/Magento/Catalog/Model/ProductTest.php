@@ -54,7 +54,9 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Mage::app()->setCurrentStore(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
         $this->_model->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
@@ -145,7 +147,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     protected function _undo($duplicate)
     {
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         $duplicate->delete();
     }
 
@@ -329,16 +332,20 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->setOrigData('key', 'value');
         $this->assertEmpty($this->_model->getOrigData());
 
-        $storeId = Mage::app()->getStore()->getId();
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         try {
             $this->_model->setOrigData('key', 'value');
             $this->assertEquals('value', $this->_model->getOrigData('key'));
         } catch (Exception $e) {
-            Mage::app()->getStore()->setId($storeId);
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->setId($storeId);
             throw $e;
         }
-        Mage::app()->getStore()->setId($storeId);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId($storeId);
     }
 
     public function testReset()

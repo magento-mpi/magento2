@@ -43,7 +43,8 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
         $blockClass = '';
         try {
             /** @var $website Magento_Core_Model_Website */
-            Mage::app()->getStore()->setWebsiteId(0);
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->setWebsiteId(0);
 
             $enabledModules = $this->_getEnabledModules();
             $skipBlocks = $this->_getBlocksToSkip();

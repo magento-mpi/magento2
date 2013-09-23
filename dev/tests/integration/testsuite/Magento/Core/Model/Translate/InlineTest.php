@@ -32,15 +32,22 @@ class Magento_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Translate_Inline');
         /* Called getConfig as workaround for setConfig bug */
-        Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
     public function testIsAllowed()
     {
         $this->assertTrue($this->_model->isAllowed());
         $this->assertTrue($this->_model->isAllowed($this->_storeId));
-        $this->assertTrue($this->_model->isAllowed(Mage::app()->getStore($this->_storeId)));
+        $this->assertTrue(
+            $this->_model->isAllowed(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore($this->_storeId)
+            )
+        );
     }
 
     /**

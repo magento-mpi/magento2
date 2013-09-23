@@ -137,13 +137,18 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetStore()
     {
         $store = $this->_model->getStore();
-        $this->assertSame($store, Mage::app()->getStore());
+        $this->assertSame(
+            $store,
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()
+        );
     }
 
     public function testGetWebsiteStoreIds()
     {
         $ids = $this->_model->getWebsiteStoreIds();
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(array($storeId => $storeId), $ids);
     }
 

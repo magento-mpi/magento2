@@ -99,7 +99,8 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
         $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
-        Mage::app()->getStore()->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $themeId);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $themeId);
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 

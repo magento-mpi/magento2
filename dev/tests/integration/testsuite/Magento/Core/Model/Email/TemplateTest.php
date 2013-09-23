@@ -58,7 +58,11 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $filter = $this->_model->getTemplateFilter();
         $this->assertSame($filter, $this->_model->getTemplateFilter());
-        $this->assertEquals(Mage::app()->getStore()->getId(), $filter->getStoreId());
+        $this->assertEquals(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId(),
+            $filter->getStoreId()
+        );
 
         $filter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Email_Template_Filter');
@@ -100,7 +104,9 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
-            'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
+            'area' => 'frontend',
+            'store' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId()
         ));
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplate());
     }
@@ -114,8 +120,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Model_Theme');
         $theme->load('magento_blank', 'theme_path');
-        Mage::app()->getStore('fixturestore')
-            ->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $theme->getId());
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore('fixturestore')->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $theme->getId());
     }
 
     /**
@@ -144,7 +150,9 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->_model->setTemplateSubject('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(
-            'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
+            'area' => 'frontend',
+            'store' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_StoreManagerInterface')->getStore('fixturestore')->getId()
         ));
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
     }

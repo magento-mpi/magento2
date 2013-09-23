@@ -156,7 +156,10 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     {
         return array(
             array('Test', 'Controller', 'Action', array('test_controller_action'),
-                array('STORE_' . Mage::app()->getStore()->getCode())
+                array(
+                    'STORE_' . Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getCode()
+                )
             ),
             array('catalog', 'product', 'gallery', array('catalog_product_gallery'),
                 array('default', 'catalog_product_view')
@@ -315,7 +318,8 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $design = $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
 
         $this->assertEquals($expectedArea, $design->getArea());
-        $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
+        $this->assertEquals($expectedStore, Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getCode());
         if ($expectedDesign) {
             $this->assertEquals($expectedDesign, $design->getDesignTheme()->getThemePath());
         }

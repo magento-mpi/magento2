@@ -176,7 +176,8 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }

@@ -68,7 +68,8 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      */
     protected function _changeConfig($path, $value)
     {
-        $store = Mage::app()->getStore();
+        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore();
         $oldValue = $store->getConfig($path);
         $store->setConfig($path, $value);
 
@@ -88,8 +89,8 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      */
     protected function _restoreConfig()
     {
-        Mage::app()->getStore()
-            ->setConfig($this->_rememberedConfig['path'], $this->_rememberedConfig['old_value']);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setConfig($this->_rememberedConfig['path'], $this->_rememberedConfig['old_value']);
         $this->_rememberedConfig = null;
         return $this;
     }

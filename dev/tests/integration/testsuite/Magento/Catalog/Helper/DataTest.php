@@ -167,7 +167,10 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testIsUsingStaticUrlsAllowed()
     {
         $this->assertTrue($this->_helper->isUsingStaticUrlsAllowed());
-        $this->_helper->setStoreId(Mage::app()->getStore()->getId());
+        $this->_helper->setStoreId(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId()
+        );
         $this->assertTrue($this->_helper->isUsingStaticUrlsAllowed());
     }
 
@@ -184,7 +187,10 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testIsUrlDirectivesParsingAllowed()
     {
         $this->assertFalse($this->_helper->isUrlDirectivesParsingAllowed());
-        $this->_helper->setStoreId(Mage::app()->getStore()->getId());
+        $this->_helper->setStoreId(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getId()
+        );
         $this->assertFalse($this->_helper->isUrlDirectivesParsingAllowed());
     }
 

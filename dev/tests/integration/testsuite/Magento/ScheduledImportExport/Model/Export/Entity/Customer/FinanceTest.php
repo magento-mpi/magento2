@@ -66,7 +66,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_EMAIL
                     => $objectManager->get('Magento_Core_Model_Registry')->registry('customer_finance_email'),
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_WEBSITE
-                    => Mage::app()->getStore()->getWebsite()->getCode(),
+                    => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsite()->getCode(),
                 Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
                 Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::

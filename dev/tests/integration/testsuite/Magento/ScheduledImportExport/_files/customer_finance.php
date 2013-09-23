@@ -33,7 +33,10 @@ $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->get('Magento_Core_Model_Registry')->unregister($registerKey);
 $objectManager->get('Magento_Core_Model_Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
-$customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+$customer->setWebsiteId(
+    Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+        ->getStore()->getWebsiteId()
+);
 $customer->save();
 
 // create store credit and reward points

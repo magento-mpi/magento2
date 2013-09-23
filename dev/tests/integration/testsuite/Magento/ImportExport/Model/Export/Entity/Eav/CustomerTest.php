@@ -171,7 +171,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
             Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP => array(
                 'email'      => 'example.com',
                 'created_at' => array($createdAtDate, ''),
-                'store_id'   => Mage::app()->getStore()->getId()
+                'store_id'   => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getId()
             )
         );
         $this->_model->setParameters($parameters);

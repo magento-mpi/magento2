@@ -102,13 +102,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
         $this->assertInstanceOf('Magento_Data_Form_Element_Hidden', $storeElement);
 
         // Check that store value set correctly
-        $defaultStore = Mage::app()->getStore(true)->getId();
+        $defaultStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getStore(true)->getId();
         $this->assertEquals($defaultStore, $storeElement->getValue());
     }
 
     /**
      * Test store selection is available and correctly configured
-     *
+    Mage::app()->getRequest()  *
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Core/_files/store.php
      */

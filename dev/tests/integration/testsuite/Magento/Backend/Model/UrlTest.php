@@ -33,10 +33,12 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testIsSecure()
     {
-        Mage::app()->getStore()->setConfig('web/secure/use_in_adminhtml', true);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setConfig('web/secure/use_in_adminhtml', true);
         $this->assertTrue($this->_model->isSecure());
 
-        Mage::app()->getStore()->setConfig('web/secure/use_in_adminhtml', false);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->setConfig('web/secure/use_in_adminhtml', false);
         $this->assertFalse($this->_model->isSecure());
 
         $this->_model->setData('secure_is_forced', true);

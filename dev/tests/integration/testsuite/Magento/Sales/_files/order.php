@@ -41,7 +41,10 @@ $order->setIncrementId('100000001')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
     ->setCustomerEmail('customer@null.com')
-    ->setStoreId(Mage::app()->getStore()->getId())
+    ->setStoreId(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore()->getId()
+    )
     ->addItem($orderItem)
     ->setPayment($payment);
 $order->save();

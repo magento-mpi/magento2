@@ -124,7 +124,11 @@ class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_
      */
     public function testCategoryAction()
     {
-        $this->getRequest()->setParam('cid', Mage::app()->getStore()->getRootCategoryId());
+        $this->getRequest()->setParam(
+            'cid',
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+                ->getStore()->getRootCategoryId()
+        );
         $this->dispatch('rss/catalog/category');
         $this->assertStringMatchesFormat(
             '%A<link>http://localhost/index.php/catalog/category/view/%A/id/2/</link>%A',
