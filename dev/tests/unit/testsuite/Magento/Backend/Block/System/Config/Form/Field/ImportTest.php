@@ -35,11 +35,10 @@ class Magento_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_
             array(), '', false, false
         );
         $testData = array ('name' => 'test_name', 'html_id' => 'test_html_id');
-        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $factory = $this->getMock('Magento_Data_Form_Element_Factory', array(), array(), '', false);
-        $factoryColl = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
-        $this->_object = new Magento_Backend_Block_System_Config_Form_Field_Import($coreHelper, $factory,
-            $factoryColl, $testData);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_object = $testHelper->getObject('Magento_Backend_Block_System_Config_Form_Field_Import', array(
+            'attributes' => $testData
+        ));
         $this->_object->setForm($this->_formMock);
     }
 

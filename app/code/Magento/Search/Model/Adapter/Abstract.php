@@ -131,6 +131,20 @@ abstract class Magento_Search_Model_Adapter_Abstract
         'visibility'
     );
 
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(Magento_Core_Model_Logger $logger)
+    {
+        $this->_logger = $logger;
+    }
 
     /**
      * Retrieve attribute field name
@@ -594,7 +608,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
             $this->_client->addDocuments($_docs);
         } catch (Exception $e) {
             $this->rollback();
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
 
         $this->commit();
@@ -636,7 +650,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
                 $this->_client->$deleteMethod($params);
             } catch (Exception $e) {
                 $this->rollback();
-                Mage::logException($e);
+                $this->_logger->logException($e);
             }
 
             $this->commit();

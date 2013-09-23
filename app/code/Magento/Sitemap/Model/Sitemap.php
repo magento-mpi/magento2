@@ -112,6 +112,32 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
     protected $_coreData = null;
 
     /**
+     * Core Date
+     *
+     * @var Magento_Core_Model_Date
+     */
+    protected $_coreDate;
+
+    /**
+     * @var Magento_Sitemap_Model_Resource_Catalog_Category
+     */
+    protected $_sitemapCategory;
+
+    /**
+     * @var Magento_Sitemap_Model_Resource_Catalog_Product
+     */
+    protected $_sitemapProduct;
+
+    /**
+     * @var Magento_Sitemap_Model_Resource_Cms_Page
+     */
+    protected $_sitemapCmsPage;
+
+    /**
+     * @param Magento_Sitemap_Model_Resource_Catalog_Category $sitemapCategory
+     * @param Magento_Sitemap_Model_Resource_Catalog_Product $sitemapProduct
+     * @param Magento_Sitemap_Model_Resource_Cms_Page $sitemapCmsPage
+     * @param Magento_Core_Model_Date $coreDate
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Sitemap_Helper_Data $sitemapData
      * @param Magento_Core_Model_Context $context
@@ -122,6 +148,10 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Sitemap_Model_Resource_Catalog_Category $sitemapCategory,
+        Magento_Sitemap_Model_Resource_Catalog_Product $sitemapProduct,
+        Magento_Sitemap_Model_Resource_Cms_Page $sitemapCmsPage,
+        Magento_Core_Model_Date $coreDate,
         Magento_Core_Helper_Data $coreData,
         Magento_Sitemap_Helper_Data $sitemapData,
         Magento_Core_Model_Context $context,
@@ -131,6 +161,10 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_sitemapCategory = $sitemapCategory;
+        $this->_sitemapProduct = $sitemapProduct;
+        $this->_sitemapCmsPage = $sitemapCmsPage;
+        $this->_coreDate = $coreDate;
         $this->_coreData = $coreData;
         $this->_sitemapData = $sitemapData;
         $this->_filesystem = $filesystem;
@@ -172,19 +206,19 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getCategoryChangefreq($storeId),
             'priority' => $helper->getCategoryPriority($storeId),
-            'collection' => $this->_getCategoryItemsCollection($storeId)
+            'collection' => $this->_sitemapCategory->getCollection($storeId)
         ));
 
         $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getProductChangefreq($storeId),
             'priority' => $helper->getProductPriority($storeId),
-            'collection' => $this->_getProductItemsCollection($storeId)
+            'collection' => $this->_sitemapProduct->getCollection($storeId)
         ));
 
         $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getPageChangefreq($storeId),
             'priority' => $helper->getPagePriority($storeId),
-            'collection' => $this->_getPageItemsCollection($storeId)
+            'collection' => $this->_sitemapCmsPage->getCollection($storeId)
         ));
 
         $this->_tags = array(
@@ -201,39 +235,6 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
                 self::CLOSE_TAG_KEY => '</urlset>'
             )
         );
-    }
-
-    /**
-     * Get category items collection
-     *
-     * @param int $storeId
-     * @return array
-     */
-    protected function _getCategoryItemsCollection($storeId)
-    {
-        return Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Category')->getCollection($storeId);
-    }
-
-    /**
-     * Get product items collection
-     *
-     * @param int $storeId
-     * @return array
-     */
-    protected function _getProductItemsCollection($storeId)
-    {
-        return Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Product')->getCollection($storeId);
-    }
-
-    /**
-     * Get cms page items collection
-     *
-     * @param int $storeId
-     * @return array
-     */
-    protected function _getPageItemsCollection($storeId)
-    {
-        return Mage::getResourceModel('Magento_Sitemap_Model_Resource_Cms_Page')->getCollection($storeId);
     }
 
     /**
@@ -333,7 +334,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
             $this->_addSitemapToRobotsTxt($this->getSitemapFilename());
         }
 
-        $this->setSitemapTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate('Y-m-d H:i:s'));
+        $this->setSitemapTime($this->_coreDate->gmtDate('Y-m-d H:i:s'));
         $this->save();
 
         return $this;

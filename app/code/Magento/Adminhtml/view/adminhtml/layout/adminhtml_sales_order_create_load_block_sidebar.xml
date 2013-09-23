@@ -8,17 +8,15 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_sidebar">
-        <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar" template="sales/order/create/sidebar.phtml" name="sidebar">
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart" template="sales/order/create/sidebar/items.phtml" name="cart"/>
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder" template="sales/order/create/sidebar/items.phtml" name="reorder"/>
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed" template="sales/order/create/sidebar/items.phtml" name="viewed"/>
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared" template="sales/order/create/sidebar/items.phtml" name="compared"/>
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared" template="sales/order/create/sidebar/items.phtml" name="pcompared"/>
-                <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed" template="sales/order/create/sidebar/items.phtml" name="pviewed"/>
-            </block>
-        </reference>
-    </handle>
+    <reference name="content">
+        <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar" template="sales/order/create/sidebar.phtml" name="sidebar">
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart" template="sales/order/create/sidebar/items.phtml" name="cart"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder" template="sales/order/create/sidebar/items.phtml" name="reorder"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed" template="sales/order/create/sidebar/items.phtml" name="viewed"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Compared" template="sales/order/create/sidebar/items.phtml" name="compared"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared" template="sales/order/create/sidebar/items.phtml" name="pcompared"/>
+            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed" template="sales/order/create/sidebar/items.phtml" name="pviewed"/>
+        </block>
+    </reference>
 </layout>

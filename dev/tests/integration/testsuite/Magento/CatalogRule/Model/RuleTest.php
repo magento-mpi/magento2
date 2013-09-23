@@ -36,6 +36,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
         $resourceMock->expects($this->any())
             ->method('getIdFieldName')
             ->will($this->returnValue('id'));
+        $cacheTypesListMock = $this->getMock('Magento_Core_Model_Cache_TypeListInterface');
         $contextMock = $this->getMock('Magento_Core_Model_Context',
             array(), array(), '', false);
         $registryMock = $this->getMock('Magento_Core_Model_Registry',
@@ -45,14 +46,11 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
         $ctlgRuleHlprMock = $this->getMock('Magento_CatalogRule_Helper_Data',
             array('__construct'), array(), '', false);
         /** @var $catalogRule Magento_CatalogRule_Model_Rule */
-        $catalogRule = $this->getMock('Magento_CatalogRule_Model_Rule',
-            array('_getRulesFromProduct'), array(
-                $ctlgRuleHlprMock,
-                $formFactoryMock,
-                $contextMock,
-                $registryMock,
-                $resourceMock
-            ), '');
+        $catalogRule = $this->getMock(
+            'Magento_CatalogRule_Model_Rule',
+            array('_getRulesFromProduct'),
+            array($ctlgRuleHlprMock, $cacheTypesListMock, $formFactoryMock, $contextMock, $registryMock, $resourceMock)
+        );
 
         $catalogRule->expects(self::any())
             ->method('_getRulesFromProduct')

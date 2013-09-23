@@ -72,19 +72,28 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     protected $_storeManager;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_CatalogPermissions_Helper_Data $catalogPermData,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -597,10 +606,10 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
         $readAdapter = $this->_getReadAdapter();
 
         foreach ($this->_getStoreIds() as $storeId) {
-            $config = Mage::getStoreConfig(self::XML_PATH_GRANT_BASE . $grant);
+            $config = $this->_coreStoreConfig->getConfig(self::XML_PATH_GRANT_BASE . $grant);
 
             if ($config == 2) {
-                $groups = explode(',', trim(Mage::getStoreConfig(
+                $groups = explode(',', trim($this->_coreStoreConfig->getConfig(
                     self::XML_PATH_GRANT_BASE . $grant . '_groups'
                 )));
 

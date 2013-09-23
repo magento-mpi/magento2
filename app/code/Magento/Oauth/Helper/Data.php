@@ -269,7 +269,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     public function isCleanupProbability()
     {
         // Safe get cleanup probability value from system configuration
-        $configValue = (int)$this->_store->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
+        $configValue = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_PROBABILITY);
         return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
     }
 
@@ -280,7 +280,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCleanupExpirationPeriod()
     {
-        $minutes = (int)$this->_store->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
+        $minutes = (int) $this->_store->getConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
     }
 

@@ -11,9 +11,7 @@
 /**
  * System config file field backend model
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Config_Value
 {
@@ -35,24 +33,46 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Config $config,
         Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData,
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_uploaderFactory = $uploaderFactory;
+        parent::__construct(
+            $context,
+            $registry,
+            $storeManager,
+            $config,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->_requestData = $requestData;
         $this->_filesystem = $filesystem;
     }
@@ -78,7 +98,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
         if (!empty($file)) {
             $uploadDir = $this->_getUploadDir();
             try {
-                $uploader = new Magento_Core_Model_File_Uploader($file);
+                $uploader = $this->_uploaderFactory->create(array('fileId' => $file));
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);
                 $uploader->addValidateCallback('size', $this, 'validateMaxSize');

@@ -34,8 +34,6 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
     const PARAM_NAME_BASE64_URL         = 'r64';
     const PARAM_NAME_URL_ENCODED        = 'uenc';
 
-    const XML_PAGE_TYPE_RENDER_INHERITED = 'global/dev/page_type/render_inherited';
-
     /**
      * @var Magento_ObjectManager
      */
@@ -112,6 +110,13 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
     protected $_eventManager;
 
     /**
+     * Should inherited page be rendered
+     *
+     * @var bool
+     */
+    protected $_isRenderInherited;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Context $context
      */
     public function __construct(Magento_Core_Controller_Varien_Action_Context $context)
@@ -122,6 +127,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
         $this->_frontController = $context->getFrontController();
         $this->_layout          = $context->getLayout();
         $this->_eventManager    = $context->getEventManager();
+        $this->_isRenderInherited = $context->isRenderInherited();
         $this->_frontController->setAction($this);
 
         $this->_construct();
@@ -248,9 +254,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
      */
     public function addActionLayoutHandles()
     {
-        $renderInherited = (string)$this->_objectManager->get('Magento_Core_Model_Config')
-            ->getNode(self::XML_PAGE_TYPE_RENDER_INHERITED);
-        if (!$renderInherited || !$this->addPageLayoutHandles()) {
+        if (!$this->_isRenderInherited || !$this->addPageLayoutHandles()) {
             $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         }
         return $this;
@@ -547,7 +551,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
         $this->_initDesign();
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
-            && Mage::getStoreConfig('web/browser_capabilities/cookies')
+            && $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('web/browser_capabilities/cookies')
         ) {
             $this->_forward('noCookies', 'index', 'core');
             return;
@@ -903,7 +907,7 @@ class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Vari
         $controller = $this->getRequest()->getControllerName();
         $action = $this->getRequest()->getActionName();
 
-        $rewrite = Mage::getConfig()->getNode('global/routers/' . $route . '/rewrite/' . $controller);
+        $rewrite = $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/routers/' . $route . '/rewrite/' . $controller);
         if (!$rewrite) {
             return false;
         }

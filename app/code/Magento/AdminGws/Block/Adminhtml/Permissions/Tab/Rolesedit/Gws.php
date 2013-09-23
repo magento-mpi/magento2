@@ -90,7 +90,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
     public function getDisallowedStoreGroupsJson()
     {
         $result = array();
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $groupId = $group->getId();
                 if (!Mage::getSingleton('Magento_AdminGws_Model_Role')->hasStoreGroupAccess($groupId)) {

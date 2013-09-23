@@ -16,14 +16,12 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Method
+    extends Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Generic
 {
-    public function toOptionArray()
-    {
-        $fedex = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Fedex');
-        $arr = array();
-        foreach ($fedex->getCode('method') as $k => $v) {
-            $arr[] = array('value' => $k, 'label' => $v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'method';
 }

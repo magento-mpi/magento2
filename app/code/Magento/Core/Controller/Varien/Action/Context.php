@@ -40,27 +40,55 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     protected $_eventManager;
 
     /**
+     * Should inherited page be rendered
+     *
+     * @var bool
+     */
+    protected $_isRenderInherited;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Controller_Varien_Front $frontController
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param boolean $isRenderInherited
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
         Magento_Core_Controller_Varien_Front $frontController,
         Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        $isRenderInherited
     ) {
-        $this->_request         = $request;
-        $this->_response        = $response;
-        $this->_objectManager   = $objectManager;
-        $this->_frontController = $frontController;
-        $this->_layout          = $layout;
-        $this->_eventManager    = $eventManager;
+        $this->_request           = $request;
+        $this->_response          = $response;
+        $this->_objectManager     = $objectManager;
+        $this->_frontController   = $frontController;
+        $this->_layout            = $layout;
+        $this->_eventManager      = $eventManager;
+        $this->_isRenderInherited = $isRenderInherited;
+        $this->_logger            = $logger;
+    }
+
+    /**
+     * Should inherited page be rendered
+     *
+     * @return bool
+     */
+    public function isRenderInherited()
+    {
+        return $this->_isRenderInherited;
     }
 
     /**
@@ -109,5 +137,13 @@ class Magento_Core_Controller_Varien_Action_Context implements Magento_ObjectMan
     public function getEventManager()
     {
         return $this->_eventManager;
+    }
+
+    /**
+     * @return Magento_Core_Model_Logger
+     */
+    public function getLogger()
+    {
+        return $this->_logger;
     }
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="sales_clean_quotes" instance="Magento_Sales_Model_Observer" method="cleanExpiredQuotes">
+        <schedule>0 0 * * *</schedule>
+    </job>
+    <job name="aggregate_sales_report_order_data" instance="Magento_Sales_Model_Observer" method="aggregateSalesReportOrderData">
+        <schedule>0 0 * * *</schedule>
+    </job>
+    <job name="aggregate_sales_report_shipment_data" instance="Magento_Sales_Model_Observer" method="aggregateSalesReportShipmentData">
+        <schedule>0 0 * * *</schedule>
+    </job>
+    <job name="aggregate_sales_report_invoiced_data" instance="Magento_Sales_Model_Observer" method="aggregateSalesReportInvoicedData">
+        <schedule>0 0 * * *</schedule>
+    </job>
+    <job name="aggregate_sales_report_refunded_data" instance="Magento_Sales_Model_Observer" method="aggregateSalesReportRefundedData">
+        <schedule>0 0 * * *</schedule>
+    </job>
+    <job name="aggregate_sales_report_bestsellers_data" instance="Magento_Sales_Model_Observer" method="aggregateSalesReportBestsellersData">
+        <schedule>0 0 * * *</schedule>
+    </job>
+</config>

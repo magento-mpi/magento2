@@ -15,7 +15,7 @@
  * @package     Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Source_Cctype
+class Magento_Payment_Model_Source_Cctype implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Allowed CC types

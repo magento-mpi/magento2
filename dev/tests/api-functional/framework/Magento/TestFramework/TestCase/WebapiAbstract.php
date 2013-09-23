@@ -409,15 +409,17 @@ abstract class Magento_TestFramework_TestCase_WebapiAbstract extends PHPUnit_Fra
     {
         if (null === $this->_appCache) {
             //set application path
-            $options = Mage::getConfig()->getOptions();
+            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            /** @var Magento_Core_Model_Config $config */
+            $config = $objectManager->get('Magento_Core_Model_Config');
+            $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
+            /** @var Magento_Core_Model_Dir $dir */
+            $dir = $objectManager->get('Magento_Core_Model_Dir');
+            $options->setCacheDir($dir->getDir(Magento_Core_Model_Dir::ROOT) . '/var/cache');
+            $options->setEtcDir($dir->getDir(Magento_Core_Model_Dir::ROOT) . '/app/etc');
 
-            $options->setCacheDir(Magento_TestFramework_Bootstrap::getInstance()->getMagentoDir() . '/var/cache');
-            $options->setEtcDir(Magento_TestFramework_Bootstrap::getInstance()->getMagentoDir() . '/app/etc');
-
-            /** @var $objectManager Magento_TestFramework_ObjectManager */
-            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             $this->_appCache = $objectManager->get('Magento_Core_Model_Cache');
 
             //revert paths options
@@ -464,6 +466,7 @@ abstract class Magento_TestFramework_TestCase_WebapiAbstract extends PHPUnit_Fra
             ));
         }
 
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $config Magento_Backend_Model_Config */
         $config = Mage::getModel('Magento_Backend_Model_Config');
         $data[$group]['fields'][$node]['value'] = $value;
@@ -472,13 +475,14 @@ abstract class Magento_TestFramework_TestCase_WebapiAbstract extends PHPUnit_Fra
             ->save();
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
-            $this->_origConfigValues[$path] = (string)Mage::getConfig()->getNode($path, 'default');
+            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento_Core_Model_Config')
+                ->getNode($path, 'default');
         }
 
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
-                Mage::getConfig()->reinit();
+                $objectManager->get('Magento_Core_Model_Config')->reinit();
                 Mage::app()->reinitStores();
             }
 

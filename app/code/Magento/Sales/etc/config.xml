@@ -103,15 +103,6 @@
                 </setup>
             </sales_setup>
         </resources>
-        <catalog>
-            <product>
-                <flat>
-                    <attribute_nodes>
-                        <sales_quote_item_product_collection>global/sales/quote/item/product_attributes</sales_quote_item_product_collection>
-                    </attribute_nodes>
-                </flat>
-            </product>
-        </catalog>
         <sales>
             <quote>
                 <totals>
@@ -155,36 +146,10 @@
                         <sort_order>1250</sort_order>
                     </nominal_shipping>
                 </nominal_totals>
-                <item>
-                    <product_attributes>
-                        <sku />
-                        <type_id />
-                        <name />
-                        <status />
-                        <visibility />
-                        <price />
-                        <weight />
-                        <url_path />
-                        <url_key />
-                        <thumbnail />
-                        <small_image />
-                        <tax_class_id />
-                        <special_from_date />
-                        <special_to_date />
-                        <special_price />
-                        <cost />
-                        <is_recurring />
-                        <recurring_profile />
-                        <gift_message_available />
-                        <msrp_enabled />
-                        <msrp />
-                        <msrp_display_actual_price_type />
-                    </product_attributes>
-                </item>
             </quote>
             <order>
                 <!-- /**
-                      * @depraceted after 1.4.2, statuses are saved into sales_order_status table
+                      * @deprecated after 1.4.2, statuses are saved into sales_order_status table
                       */
                 -->
                 <statuses>
@@ -394,11 +359,6 @@
             </totals>
         </pdf>
     </global>
-    <frontend>
-        <secure_url>
-            <sales>/sales/</sales>
-        </secure_url>
-    </frontend>
     <default>
         <sales>
             <totals_sort>
@@ -485,56 +445,4 @@
             <use_aggregated_data>0</use_aggregated_data>
         </dashboard>
     </default>
-    <crontab>
-        <jobs>
-            <sales_clean_quotes>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::cleanExpiredQuotes</model>
-                </run>
-            </sales_clean_quotes>
-            <aggregate_sales_report_order_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportOrderData</model>
-                </run>
-            </aggregate_sales_report_order_data>
-            <aggregate_sales_report_shipment_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportShipmentData</model>
-                </run>
-            </aggregate_sales_report_shipment_data>
-            <aggregate_sales_report_invoiced_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportInvoicedData</model>
-                </run>
-            </aggregate_sales_report_invoiced_data>
-            <aggregate_sales_report_refunded_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportRefundedData</model>
-                </run>
-            </aggregate_sales_report_refunded_data>
-            <aggregate_sales_report_bestsellers_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportBestsellersData</model>
-                </run>
-            </aggregate_sales_report_bestsellers_data>
-        </jobs>
-    </crontab>
 </config>

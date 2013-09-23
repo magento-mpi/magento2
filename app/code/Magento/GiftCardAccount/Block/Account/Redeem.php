@@ -36,7 +36,7 @@ class Magento_GiftCardAccount_Block_Account_Redeem extends Magento_Core_Block_Te
     /**
      * Stub for future ability to implement redeem limitations based on customer/settings
      *
-     * @return boold
+     * @return bool
      */
     public function canRedeem()
     {

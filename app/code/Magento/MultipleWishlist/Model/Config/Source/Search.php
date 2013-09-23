@@ -15,7 +15,7 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Config_Source_Search
+class Magento_MultipleWishlist_Model_Config_Source_Search implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Quick search form types

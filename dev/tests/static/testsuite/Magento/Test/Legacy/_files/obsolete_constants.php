@@ -94,6 +94,14 @@ return array(
     array('TYPE_TINYINT', null, 'Magento_DB_Ddl_Table::TYPE_SMALLINT'),
     array('TYPE_VARCHAR', null, 'Magento_DB_Ddl_Table::TYPE_TEXT'),
     array('URL_TYPE_SKIN'),
+    array('XML_NODE_PAGE_TEMPLATE_FILTER', 'Magento_Cms_Helper_Data'),
+    array('XML_NODE_BLOCK_TEMPLATE_FILTER', 'Magento_Cms_Helper_Data'),
+    array('XML_NODE_RELATED_CACHE', 'Magento_Widget_Model_Widget_Instance'),
+    array('XML_CHARSET_NODE', 'Magento_SalesRule_Helper_Coupon'),
+    array('XML_CHARSET_SEPARATOR', 'Magento_SalesRule_Helper_Coupon'),
+    array('XML_NODE_RELATED_CACHE', 'Magento_CatalogRule_Model_Rule'),
+    array('XML_NODE_ATTRIBUTE_NODES', 'Magento_Catalog_Model_Resource_Product_Flat_Indexer',
+        'XML_NODE_ATTRIBUTE_GROUPS'),
     array('XML_PATH_ALLOW_CODES', 'Magento_Core_Model_Locale', 'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CODES'),
     array('XML_PATH_ALLOW_CURRENCIES', 'Magento_Core_Model_Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
@@ -107,6 +115,7 @@ return array(
     array('XML_PATH_BACKEND_FRONTNAME', 'Mage_Backend_Helper_Data'),
     array('XML_PATH_CACHE_BETA_TYPES'),
     array('XML_PATH_CHECK_EXTENSIONS', 'Magento_Install_Model_Config'),
+    array('XML_PATH_CONTEXT_MENU_LAYOUTS', 'Magento_VersionsCms_Model_Hierarchy_Config'),
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento_Paypal_Model_System_Config_Backend_MerchantCountry'),
     array('XML_PATH_DEFAULT_COUNTRY', 'Magento_Core_Model_Locale'),
     array('XML_PATH_DEFAULT_LOCALE', 'Magento_Core_Model_Locale',
@@ -115,14 +124,21 @@ return array(
     array('XML_PATH_DEFAULT_TIMEZONE', 'Magento_Core_Model_Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE'
     ),
+    array('XML_PATH_INDEXER_DATA', 'Magento_Index_Model_Process'),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
+    array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento_Wishlist_Model_Config'),
+    array('XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES', 'Magento_Catalog_Model_Config'),
+    array('XML_PATH_QUOTE_PRODUCT_ATTRIBUTES', 'Magento_Sales_Model_Quote_Config'),
     array('XML_PATH_SENDING_SET_RETURN_PATH', 'Mage_Newsletter_Model_Subscriber'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Mage_Core_Model_App',
         'Mage_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
     ),
     array('XML_PATH_STATIC_FILE_SIGNATURE', 'Magento_Core_Helper_Data',
         'Magento_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
+    ),
+    array('XML_PATH_TEMPLATE_FILTER', 'Magento_Newsletter_Helper_Data',
+        'Use directly model Magento_Newsletter_Model_Template_Filter'
     ),
     array('XML_PATH_THEME', 'Magento_Core_Model_Design_PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_THEME'
@@ -131,6 +147,62 @@ return array(
         'Magento_Core_Model_Design_Package::XML_PATH_THEME_ID'
     ),
     array('XML_STORE_ROUTERS_PATH', 'Mage_Core_Controller_Varien_Front'),
+    array('XML_PATH_SESSION_MESSAGE_MODELS', 'Magento_Catalog_Helper_Product_View'),
+
+    array('VALIDATOR_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_KEY'
+    ),
+    array('VALIDATOR_HTTP_USER_AGENT_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_HTTP_USER_AGENT_KEY'
+    ),
+    array('VALIDATOR_HTTP_X_FORVARDED_FOR_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_HTTP_X_FORWARDED_FOR_KEY'
+    ),
+    array('VALIDATOR_HTTP_VIA_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_HTTP_VIA_KEY'
+    ),
+    array('VALIDATOR_REMOTE_ADDR_KEY', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::VALIDATOR_REMOTE_ADDR_KEY'
+    ),
+    array('XML_PATH_USE_REMOTE_ADDR', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::XML_PATH_USE_REMOTE_ADDR'
+    ),
+    array('XML_PATH_USE_HTTP_VIA', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::XML_PATH_USE_HTTP_VIA'
+    ),
+    array('XML_PATH_USE_X_FORWARDED', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::XML_PATH_USE_X_FORWARDED'
+    ),
+    array('XML_PATH_USE_USER_AGENT', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Validator::XML_PATH_USE_USER_AGENT'
+    ),
+
+    array('XML_NODE_DIRECT_FRONT_NAMES', 'Magento_Core_Controller_Request_Http'),
+
+    array('XML_NODE_USET_AGENT_SKIP', 'Magento_Core_Model_Session_Abstract'),
+    array('XML_PAGE_TYPE_RENDER_INHERITED', 'Magento_Core_Controller_Varien_Action'),
+    array('XML_PATH_ALLOW_MAP_UPDATE', 'Magento_Core_Model_Design_FileResolution_StrategyPool'),
+
+    array('XML_PATH_WEBAPI_REQUEST_INTERPRETERS', 'Magento_Webapi_Controller_Request_Rest_Interpreter_Factory'),
+    array('XML_PATH_WEBAPI_RESPONSE_RENDERS', 'Magento_Webapi_Controller_Response_Rest_Renderer_Factor'),
     array('XML_PATH_THEME'),
     array('XML_PATH_ALLOW_DUPLICATION'),
+    array('XML_NODE_BUNDLE_PRODUCT_TYPE', 'Magento_Bundle_Helper_Data'),
+    array('XML_PATH_CONFIGURABLE_ALLOWED_TYPES', 'Magento_Catalog_Helper_Product_Configuration'),
+    array('XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES', 'Magento_Catalog_Model_Config'),
+    array('PRODUCT_OPTIONS_GROUPS_PATH', 'Magento_Catalog_Model_Config_Source_Product_Options_Type'),
+    array('XML_NODE_ADD_FILTERABLE_ATTRIBUTES', 'Magento_Catalog_Helper_Product_Flat'),
+    array('XML_NODE_ADD_CHILD_DATA', 'Magento_Catalog_Helper_Product_Flat'),
+    array('XML_PATH_CONTENT_TEMPLATE_FILTER', 'Magento_Catalog_Helper_Data'),
+    array('XML_NODE_MAX_INDEX_COUNT', 'Magento_Catalog_Model_Resource_Product_Flat_Indexer'),
+    array('XML_NODE_ATTRIBUTE_GROUPS', 'Magento_Catalog_Model_Resource_Product_Flat_Indexer'),
+    array('XML_PATH_UNASSIGNABLE_ATTRIBUTES', 'Magento_Catalog_Helper_Product'),
+    array('XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION', 'Magento_Catalog_Helper_Product'),
+    array('XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL', 'Magento_Catalog_Helper_Product'),
+    array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Export'),
+    array('CONFIG_KEY_FORMATS', 'Magento_ImportExport_Model_Export'),
+    array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Import'),
+    array('REGEX_RUN_MODEL'),
+    array('XML_PATH_FRONT_NAME'),
+    array('XML_PATH_DISABLED_CACHE_TYPES'),
 );

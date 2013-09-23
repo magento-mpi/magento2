@@ -11,8 +11,21 @@
 /**
  * Banner configuration/source model
  */
-class Magento_Banner_Model_Config
+class Magento_Banner_Model_Config implements Magento_Core_Model_Option_ArrayInterface
 {
+    /**
+     * @var array
+     */
+    protected $_bannerTypes = array();
+
+    /**
+     * @param array $bannerTypes
+     */
+    public function __construct(array $bannerTypes = array())
+    {
+        $this->_bannerTypes = $bannerTypes;
+    }
+
     /**
      * Banner types getter
      * Invokes translations to labels.
@@ -24,7 +37,7 @@ class Magento_Banner_Model_Config
     public function getTypes($sorted = true, $withEmpty = false)
     {
         $result = array();
-        foreach (Mage::getConfig()->getNode('global/magento/banner/types')->asCanonicalArray() as $type => $label) {
+        foreach ($this->_bannerTypes as $type => $label) {
             $result[$type] = __($label);
         }
         if ($sorted) {

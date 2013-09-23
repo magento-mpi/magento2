@@ -48,16 +48,6 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        <magento>
-            <giftcardaccount>
-                <separator>-</separator>
-                <charset>
-                    <alphanum>ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</alphanum>
-                    <alpha>ABCDEFGHIJKLMNOPQRSTUVWXYZ</alpha>
-                    <num>0123456789</num>
-                </charset>
-            </giftcardaccount>
-        </magento>
         <template>
             <email>
                 <giftcard_giftcardaccount_email_template translate="label" module="Magento_GiftCardAccount">
@@ -100,24 +90,4 @@
             </totals_sort>
         </sales>
     </default>
-    <crontab>
-        <jobs>
-            <magento_giftcardaccount_update_states>
-                <schedule>
-                    <cron_expr>0 1 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_GiftCardAccount_Model_Cron::updateStates</model>
-                </run>
-            </magento_giftcardaccount_update_states>
-            <magento_giftcardaccount_generage_codes_pool>
-                <schedule>
-                    <cron_expr>30 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_GiftCardAccount_Model_Pool::applyCodesGeneration</model>
-                </run>
-            </magento_giftcardaccount_generage_codes_pool>
-        </jobs>
-    </crontab>
 </config>

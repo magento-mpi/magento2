@@ -23,22 +23,44 @@ class Magento_Directory_Model_Observer
     const XML_PATH_ERROR_IDENTITY = 'currency/import/error_email_identity';
     const XML_PATH_ERROR_RECIPIENT = 'currency/import/error_email';
 
+    /**
+     * @var Magento_Directory_Model_Currency_Import_Factory
+     */
+    protected $_importFactory;
+    
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Directory_Model_Currency_Import_Factory $importFactory
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Directory_Model_Currency_Import_Factory $importFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_importFactory = $importFactory;
+        $this->_coreStoreConfig = $coreStoreConfig;
+    }
+
     public function scheduledUpdateCurrencyRates($schedule)
     {
         $importWarnings = array();
-        if(!Mage::getStoreConfig(self::IMPORT_ENABLE) || !Mage::getStoreConfig(self::CRON_STRING_PATH)) {
+        if(!$this->_coreStoreConfig->getConfig(self::IMPORT_ENABLE) || !$this->_coreStoreConfig->getConfig(self::CRON_STRING_PATH)) {
             return;
         }
 
-        $service = Mage::getStoreConfig(self::IMPORT_SERVICE);
+        $service = $this->_coreStoreConfig->getConfig(self::IMPORT_SERVICE);
         if( !$service ) {
             $importWarnings[] = __('FATAL ERROR:') . ' ' . __('Please specify the correct Import Service.');
         }
 
         try {
-            $importModel = Mage::getModel(
-                Mage::getConfig()->getNode('global/currency/import/services/' . $service . '/model')->asArray()
-            );
+            $importModel = $this->_importFactory->create($service);
         } catch (Exception $e) {
             $importWarnings[] = __('FATAL ERROR:') . ' ' . Mage::throwException(__("We can't initialize the import model."));
         }
@@ -67,9 +89,9 @@ class Magento_Directory_Model_Observer
                 'store' => Mage::app()->getStore()->getId()
             ))
                 ->sendTransactional(
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_IDENTITY),
-                    Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY),
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT),
                     null,
                     array('warnings'    => join("\n", $importWarnings),
                 )

@@ -55,27 +55,57 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     protected $_mail;
 
     /**
-     * Newsletter data
+     * Store manager to emulate design
      *
-     * @var Magento_Newsletter_Helper_Data
+     * @var Magento_Core_Model_StoreManager
      */
-    protected $_newsletterData = null;
+    protected $_storeManager;
+
+    /**
+     * Http-request, used to determine current store in multi-store mode
+     *
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Filter for newsletter text
+     *
+     * @var Magento_Newsletter_Model_Template_Filter
+     */
+    protected $_templateFilter;
+
+    /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
 
     /**
      * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Newsletter_Helper_Data $newsletterData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Newsletter_Model_Template_Filter $filter
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
-        Magento_Newsletter_Helper_Data $newsletterData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Newsletter_Model_Template_Filter $filter,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_newsletterData = $newsletterData;
+        $this->_storeManager = $storeManager;
+        $this->_request = $request;
+        $this->_filter = $filter;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($design, $context, $registry, $data);
     }
 
@@ -190,28 +220,25 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
-        /* @var $processor Magento_Newsletter_Model_Template_Filter */
-        $processor = $this->_newsletterData->getTemplateProcessor();
-
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
         }
 
-        if (Mage::app()->hasSingleStore()) {
-            $processor->setStoreId(Mage::app()->getStore());
+        if ($this->_storeManager->hasSingleStore()) {
+            $this->_filter->setStoreId($this->_storeManager->getStore()->getId());
         } else {
-            $processor->setStoreId(Mage::app()->getRequest()->getParam('store_id'));
+            $this->_filter->setStoreId($this->_request->getParam('store_id'));
         }
 
-        $processor
+        $this->_filter
             ->setIncludeProcessor(array($this, 'getInclude'))
             ->setVariables($variables);
 
         if ($usePreprocess && $this->isPreprocessed()) {
-            return $processor->filter($this->getPreparedTemplateText(true));
+            return $this->_filter->filter($this->getPreparedTemplateText(true));
         }
 
-        return $processor->filter($this->getPreparedTemplateText());
+        return $this->_filter->filter($this->getPreparedTemplateText());
     }
 
     /**
@@ -288,7 +315,7 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function isValidForSend()
     {
-        return !Mage::getStoreConfigFlag(Magento_Core_Helper_Data::XML_PATH_SYSTEM_SMTP_DISABLE)
+        return !$this->_coreStoreConfig->getConfigFlag(Magento_Core_Helper_Data::XML_PATH_SYSTEM_SMTP_DISABLE)
             && $this->getTemplateSenderName()
             && $this->getTemplateSenderEmail()
             && $this->getTemplateSubject();

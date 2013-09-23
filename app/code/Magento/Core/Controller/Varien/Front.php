@@ -15,6 +15,11 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
     protected $_rewriteFactory;
 
     /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var array
      */
     protected $_defaults = array();
@@ -23,6 +28,11 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      * @var Magento_Core_Model_RouterList
      */
     protected $_routerList;
+
+    /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
 
     /**
      * @var Magento_Backend_Helper_Data
@@ -34,6 +44,8 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
      * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_RouterList $routerList
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -41,6 +53,8 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_RouterList $routerList,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -49,6 +63,8 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
         $this->_rewriteFactory = $rewriteFactory;
         $this->_eventManager = $eventManager;
         $this->_routerList = $routerList;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreConfig = $coreConfig;
     }
 
     public function setDefault($key, $value=null)
@@ -207,7 +223,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             $request = $this->getRequest();
         }
 
-        $config = Mage::getConfig()->getNode('global/rewrite');
+        $config = $this->_coreConfig->getNode('global/rewrite');
         if (!$config) {
             return;
         }
@@ -263,7 +279,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             return;
         }
 
-        $redirectCode = (int)Mage::getStoreConfig('web/url/redirect_to_base');
+        $redirectCode = (int)$this->_coreStoreConfig->getConfig('web/url/redirect_to_base');
         if (!$redirectCode) {
             return;
         } elseif ($redirectCode != 301) {
@@ -282,7 +298,7 @@ class Magento_Core_Controller_Varien_Front extends Magento_Object implements Mag
             return;
         }
 
-        $uri = @parse_url($baseUrl);
+        $uri = parse_url($baseUrl);
         $requestUri = $request->getRequestUri() ? $request->getRequestUri() : '/';
         if (isset($uri['scheme']) && $uri['scheme'] != $request->getScheme()
             || isset($uri['host']) && $uri['host'] != $request->getHttpHost()

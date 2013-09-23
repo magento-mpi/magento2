@@ -15,6 +15,7 @@
  * @package    Magento_CatalogPermissions
  */
 class Magento_CatalogPermissions_Model_Adminhtml_System_Config_Source_Customer_Group
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     protected $_options;
 

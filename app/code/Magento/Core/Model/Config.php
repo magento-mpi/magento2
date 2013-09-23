@@ -2,10 +2,6 @@
 /**
  * Application configuration object. Used to access configuration when application is initialized and installed.
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -14,7 +10,6 @@
 
 
 /**
- * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -330,32 +325,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
             }
         }
         return $storeValues;
-    }
-
-    /**
-     * Check whether given path should be secure according to configuration security requirements for URL
-     * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
-     *
-     * @param string $url
-     * @return bool
-     */
-    public function shouldUrlBeSecure($url)
-    {
-        if (!Mage::getStoreConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
-            return false;
-        }
-
-        if (!isset($this->_secureUrlCache[$url])) {
-            $this->_secureUrlCache[$url] = false;
-            $secureUrls = $this->getNode('frontend/secure_url');
-            foreach ($secureUrls->children() as $match) {
-                if (strpos($url, (string)$match) === 0) {
-                    $this->_secureUrlCache[$url] = true;
-                    break;
-                }
-            }
-        }
-        return $this->_secureUrlCache[$url];
     }
 
     /**

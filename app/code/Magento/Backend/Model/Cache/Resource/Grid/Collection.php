@@ -16,10 +16,14 @@ class Magento_Backend_Model_Cache_Resource_Grid_Collection extends Magento_Data_
 
     /**
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
-    public function __construct(Magento_Core_Model_Cache_TypeListInterface $cacheTypeList)
-    {
+    public function __construct(
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Core_Model_EntityFactory $entityFactory
+    ) {
         $this->_cacheTypeList = $cacheTypeList;
+        parent::__construct($entityFactory);
     }
 
     /**

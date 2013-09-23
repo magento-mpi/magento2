@@ -519,7 +519,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        Mage::setObjectManager($this->_mockObjectManager);
+        Magento_Core_Model_ObjectManager::setInstance($this->_mockObjectManager);
     }
 
     /**

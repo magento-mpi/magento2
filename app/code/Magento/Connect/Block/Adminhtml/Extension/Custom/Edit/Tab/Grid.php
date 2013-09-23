@@ -18,6 +18,33 @@
 class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Extension collection factory
+     *
+     * @var Magento_Connect_Model_Extension_CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
+     * @param Magento_Connect_Model_Extension_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Connect_Model_Extension_CollectionFactory $collectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_collectionFactory = $collectionFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize Grid block
      *
      */
@@ -37,7 +64,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mag
     public function getCollection()
     {
         if (!$this->_collection) {
-            $this->_collection = Mage::getModel('Magento_Connect_Model_Extension_Collection');
+            $this->_collection = $this->_collectionFactory->create();
         }
         return $this->_collection;
     }

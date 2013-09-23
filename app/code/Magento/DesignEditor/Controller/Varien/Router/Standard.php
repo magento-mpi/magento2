@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-
 class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
@@ -29,9 +28,13 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
-     * @param string $areaCode
-     * @param string $baseController
-     * @param string $routerId
+     * @param Magento_Core_Model_Url_SecurityInfoInterface $securityInfo
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $config
+     * @param $areaCode
+     * @param $baseController
+     * @param $routerId
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
@@ -40,12 +43,26 @@ class Magento_DesignEditor_Controller_Varien_Router_Standard extends Magento_Cor
         Magento_Core_Model_App $app,
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Url_SecurityInfoInterface $securityInfo,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Config $config,
         $areaCode,
         $baseController,
         $routerId
     ) {
-        parent::__construct($controllerFactory, $filesystem, $app, $configScope, $routeConfig, $areaCode,
-            $baseController, $routerId);
+        parent::__construct(
+            $controllerFactory,
+            $filesystem,
+            $app,
+            $configScope,
+            $coreStoreConfig,
+            $routeConfig,
+            $securityInfo,
+            $config,
+            $areaCode,
+            $baseController,
+            $routerId
+        );
         $this->_objectManager = $objectManager;
     }
 

@@ -42,9 +42,17 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     protected $_customerData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Tax_Model_Resource_Calculation $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -53,11 +61,13 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Tax_Model_Resource_Calculation $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -252,9 +262,9 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     public function getRateOriginRequest($store = null)
     {
         $request = new Magento_Object();
-        $request->setCountryId(Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $store))
-            ->setRegionId(Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $store))
-            ->setPostcode(Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $store))
+        $request->setCountryId($this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $store))
+            ->setRegionId($this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $store))
+            ->setPostcode($this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $store))
             ->setCustomerClassId($this->getDefaultCustomerTaxClass($store))
             ->setStore($store);
         return $request;
@@ -286,7 +296,7 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
         }
         $address    = new Magento_Object();
         $customer   = $this->getCustomer();
-        $basedOn    = Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
+        $basedOn    = $this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
 
         if (($shippingAddress === false && $basedOn == 'shipping')
             || ($billingAddress === false && $basedOn == 'billing')) {
@@ -326,11 +336,11 @@ class Magento_Tax_Model_Calculation extends Magento_Core_Model_Abstract
                 break;
             case 'default':
                 $address
-                    ->setCountryId(Mage::getStoreConfig(
+                    ->setCountryId($this->_coreStoreConfig->getConfig(
                         Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
                         $store))
-                    ->setRegionId(Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION, $store))
-                    ->setPostcode(Mage::getStoreConfig(
+                    ->setRegionId($this->_coreStoreConfig->getConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION, $store))
+                    ->setPostcode($this->_coreStoreConfig->getConfig(
                         Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
                         $store));
                 break;

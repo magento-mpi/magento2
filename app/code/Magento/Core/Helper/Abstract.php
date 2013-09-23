@@ -42,25 +42,28 @@ abstract class Magento_Core_Helper_Abstract
     private $_moduleManager;
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(Magento_Core_Helper_Context $context)
     {
         $this->_translator = $context->getTranslator();
         $this->_moduleManager = $context->getModuleManager();
+        $this->_logger = $context->getLogger();
+        $this->_request = $context->getRequest();
     }
 
     /**
      * Retrieve request object
      *
      * @return Zend_Controller_Request_Http
-     * @return Zend_Controller_Request_Http
      */
     protected function _getRequest()
     {
-        if (!$this->_request) {
-            $this->_request = Mage::getObjectManager()->get('Magento_Core_Controller_Request_Http');
-        }
         return $this->_request;
     }
 
@@ -198,7 +201,10 @@ abstract class Magento_Core_Helper_Abstract
      */
     public function removeTags($html)
     {
-        $html = preg_replace("# <(?![/a-z]) | (?<=\s)>(?![a-z]) #exi", "htmlentities('$0')", $html);
+        $callback = function ($matches) {
+            return htmlentities($matches[0]);
+        };
+        $html = preg_replace_callback("# <(?![/a-z]) | (?<=\s)>(?![a-z]) #xi", $callback, $html);
         $html =  strip_tags($html);
         return htmlspecialchars_decode($html);
     }

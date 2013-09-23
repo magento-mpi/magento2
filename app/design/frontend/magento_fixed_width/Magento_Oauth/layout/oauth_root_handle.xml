@@ -8,11 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="oauth_root_handle">
-        <remove name="js-magento-catalogevent-js"/>
-        <remove name="account.links"/>
-        <remove name="checkout.links"/>
-        <remove name="welcome"/>
-        <remove name="cart_sidebar"/>
-    </handle>
+    <remove name="js-magento-catalogevent-js"/>
+    <remove name="account.links"/>
+    <remove name="checkout.links"/>
+    <remove name="welcome"/>
+    <remove name="cart_sidebar"/>
 </layout>

@@ -49,25 +49,32 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_selectCountSqlType               = 0;
 
     /**
-     * Init main class options
-     *
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Catalog_Model_Resource_Product $product
      */
     public function __construct(
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Catalog_Model_Resource_Product $product
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
         $this->setProductEntityTypeId($product->getTypeId());
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy);
+        parent::__construct(
+            $catalogData, $catalogProductFlat, $eventManager,
+            $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
     }
     /**
      * Set Type for COUNT SQL Select

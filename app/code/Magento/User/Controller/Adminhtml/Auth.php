@@ -28,7 +28,7 @@ class Magento_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_
         if (!empty($email) && !empty($params)) {
             // Validate received data to be an email address
             if (Zend_Validate::is($email, 'EmailAddress')) {
-                $collection = Mage::getResourceModel('Magento_User_Model_Resource_User_Collection');
+                $collection = $this->_objectManager->get('Magento_User_Model_Resource_User_Collection');
                 /** @var $collection Magento_User_Model_Resource_User_Collection */
                 $collection->addFieldToFilter('email', $email);
                 $collection->load(false);

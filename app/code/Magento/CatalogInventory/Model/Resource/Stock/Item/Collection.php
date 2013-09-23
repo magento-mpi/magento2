@@ -2,22 +2,44 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
  * Stock item collection resource model
- *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
+    /**
+     * Store model manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+
+        $this->_storeManager = $storeManager;
+    }
+
     /**
      * Initialize resource model
      *
@@ -75,7 +97,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
      */
     public function joinStockStatus($storeId = null)
     {
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         $this->getSelect()->joinLeft(
             array('status_table' => $this->getTable('cataloginventory_stock_status')),
                 'main_table.product_id=status_table.product_id'
@@ -107,11 +129,12 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
     /**
      * Add filter by quantity to collection
      *
-     * @param string $comparsionMethod
+     * @param string $comparisonMethod
      * @param float $qty
      * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @throws Magento_Core_Exception
      */
-    public function addQtyFilter($comparsionMethod, $qty)
+    public function addQtyFilter($comparisonMethod, $qty)
     {
         $methods = array(
             '<'  => 'lt',
@@ -121,13 +144,11 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
             '>=' => 'gteq',
             '<>' => 'neq'
         );
-        if (!isset($methods[$comparsionMethod])) {
-            Mage::throwException(
-                __('%1 is not a correct comparison method.', $comparsionMethod)
-            );
+        if (!isset($methods[$comparisonMethod])) {
+            throw new Magento_Core_Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
         }
 
-        return $this->addFieldToFilter('main_table.qty', array($methods[$comparsionMethod] => $qty));
+        return $this->addFieldToFilter('main_table.qty', array($methods[$comparisonMethod] => $qty));
     }
 
     /**

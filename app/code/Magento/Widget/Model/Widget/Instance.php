@@ -39,9 +39,6 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     const NOTANCHOR_CATEGORY_LAYOUT_HANDLE = 'catalog_category_view_type_default';
     const SINGLE_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_view_{{ID}}';
 
-    const XML_NODE_RELATED_CACHE = 'global/widget/related_cache_types';
-
-    /** @var array  */
     protected $_layoutHandles = array();
 
     /** @var array */
@@ -71,23 +68,14 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_coreConfig;
 
     /**
-     * @var Magento_Widget_Model_Config_Reader
+     * @var Magento_Core_Model_Cache_TypeListInterface
      */
-    protected $_reader;
+    protected $_cacheTypeList;
 
     /**
-     * Core data
-     *
-     * @var Magento_Core_Helper_Data
+     * @var array
      */
-    protected $_coreData = null;
-
-    /**
-     * Widget data
-     *
-     * @var Magento_Widget_Helper_Data
-     */
-    protected $_widgetData = null;
+    protected $_relatedCacheTypes;
 
     /**
      * @param Magento_Widget_Helper_Data $widgetData
@@ -95,11 +83,14 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Widget_Model_Config_Reader $reader,
-     * @param Magento_Widget_Model_Widget $widgetModel,
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_Widget_Model_Config_Reader $reader
+     * @param Magento_Widget_Model_Widget $widgetModel
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
@@ -108,20 +99,26 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Widget_Model_Config_Reader $reader,
         Magento_Widget_Model_Widget $widgetModel,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
+        array $relatedCacheTypes = array(),
         array $data = array()
     ) {
         $this->_widgetData = $widgetData;
         $this->_coreData = $coreData;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_relatedCacheTypes = $relatedCacheTypes;
+        $this->_productType = $productType;
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->_coreConfig = $coreConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -142,7 +139,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
             'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
         );
-        foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+        foreach (array_keys($this->_productType->getTypes()) as $typeId) {
             $layoutHandle = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE);
             $this->_layoutHandles[$typeId . '_products'] = $layoutHandle;
             $this->_specificEntitiesLayoutHandles[$typeId . '_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;
@@ -373,8 +370,8 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             if (isset($configTemplates['values'])) {
                 foreach ($configTemplates['values'] as $name => $template) {
                     $templates[(string)$name] = array(
-                        'value' => (string)$template['value'],
-                        'label' => __((string)$template['label'])->render()
+                        'value' => $template['value'],
+                        'label' => __((string)$template['label'])
                     );
                 }
             }
@@ -489,12 +486,8 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      */
     protected function _invalidateCache()
     {
-        $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
-        if ($types) {
-            $types = $types->asArray();
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-            $cacheTypeList->invalidate($types);
+        if (count($this->_relatedCacheTypes)) {
+            $this->_cacheTypeList->invalidate($this->_relatedCacheTypes);
         }
         return $this;
     }

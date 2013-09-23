@@ -23,8 +23,6 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      */
     protected $_bannedAttributes = array('media_gallery');
 
-    const CONFIG_KEY_PRODUCT_TYPES = 'global/importexport/export_product_types';
-
     /**
      * Value that means all entities (e.g. websites, groups etc.)
      */
@@ -134,21 +132,35 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     protected $_headerColumns = array();
 
     /**
-     * Constructor
-     *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
+     * @var Magento_ImportExport_Model_Export_ConfigInterface
      */
-    public function __construct(Magento_Catalog_Model_Resource_Product_Collection $collection)
-    {
+    protected $_exportConfig;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Collection $collection,
+        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig,
+        Magento_Core_Model_Logger $logger
+    ) {
         parent::__construct();
 
+        $this->_entityCollection = $collection;
+        $this->_exportConfig = $exportConfig;
         $this->_initTypeModels()
             ->_initAttributes()
             ->_initStores()
             ->_initAttributeSets()
             ->_initWebsites()
             ->_initCategories();
-        $this->_entityCollection = $collection;
     }
 
     /**
@@ -201,10 +213,10 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
      */
     protected function _initTypeModels()
     {
-        $config = Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
-        foreach ($config as $type => $typeModel) {
-            if (!($model = Mage::getModel($typeModel))) {
-                Mage::throwException("Entity type model '{$typeModel}' is not found");
+        $productTypes = $this->_exportConfig->getProductTypes();
+        foreach ($productTypes as $productTypeName => $productTypeConfig) {
+            if (!($model = Mage::getModel($productTypeConfig['model']))) {
+                Mage::throwException("Entity type model '{$productTypeConfig['model']}' is not found");
             }
             if (! $model instanceof Magento_ImportExport_Model_Export_Entity_Product_Type_Abstract) {
                 Mage::throwException(
@@ -212,7 +224,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 );
             }
             if ($model->isSuitable()) {
-                $this->_productTypeModels[$type] = $model;
+                $this->_productTypeModels[$productTypeName] = $model;
                 $this->_disabledAttrs            = array_merge($this->_disabledAttrs, $model->getDisabledAttrs());
                 $this->_indexValueAttributes     = array_merge(
                     $this->_indexValueAttributes, $model->getIndexValueAttributes()
@@ -987,7 +999,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 }
             }
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_logger->logException($e);
         }
         return $exportData;
     }
