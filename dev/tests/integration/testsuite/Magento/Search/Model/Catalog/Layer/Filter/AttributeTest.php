@@ -51,7 +51,8 @@ class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Fr
 
         $selectModel->applyFilterToCollection($selectModel, $givenValue);
         $filterParams = $selectModel->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $fieldName = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
+        $fieldName = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Search_Model_Resource_Engine')
             ->getSearchEngineFieldName($selectModel->getAttributeModel(), 'nav');
         $resultFilter = $filterParams[$fieldName];
 
