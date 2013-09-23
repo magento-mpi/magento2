@@ -37,7 +37,13 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
 
         // get data from CSV file
         list($csvHeader, $csvData) = $this->_getCsvData($csvExportString);
-        $this->assertCount(count(Mage::app()->getWebsites()), $csvData);
+        $this->assertCount(
+            count(
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                    ->get('Magento_Core_Model_StoreManagerInterface')->getWebsites()
+            ),
+            $csvData
+        );
 
         // prepare correct header
         $correctHeader = $customerFinance->getPermanentAttributes();
@@ -54,8 +60,9 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
+        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($websites as $website) {
             $websiteCode = $website->getCode();
             // CSV data
             $csvCustomerData = $this->_getRecordByFinanceWebsite($csvData, $websiteCode);

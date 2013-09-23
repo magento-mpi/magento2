@@ -34,8 +34,10 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends 
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_ImportExport_Model_Export_Entity_Eav_Customer_Address');
 
+        $websites = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getWebsites(true);
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites(true) as $website) {
+        foreach ($websites as $website) {
             $this->_websites[$website->getId()] = $website->getCode();
         }
     }

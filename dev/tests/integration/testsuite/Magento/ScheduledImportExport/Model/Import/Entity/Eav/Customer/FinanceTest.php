@@ -59,8 +59,9 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();
+        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($websites as $website) {
             $websiteCodes[$website->getId()] = $website->getCode();
         }
 

@@ -46,8 +46,10 @@ $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magen
 
 // increment to modify balance values
 $increment = 0;
+$websites = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+    ->getWebsites();
 /** @var $website Magento_Core_Model_Website */
-foreach (Mage::app()->getWebsites() as $website) {
+foreach ($websites as $website) {
     $increment += 10;
 
     /** @var $customerBalance Magento_CustomerBalance_Model_Balance */

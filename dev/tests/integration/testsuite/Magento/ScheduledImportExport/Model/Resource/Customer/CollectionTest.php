@@ -45,7 +45,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
+        foreach ($websites as $website) {
             $key = $website->getCode() . '_'
                 . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
                     COLUMN_REWARD_POINTS;
@@ -74,8 +75,9 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
         $customer = reset($items);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $websites = $objectManager->get('Magento_Core_Model_StoreManagerInterface')->getWebsites();
         /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach ($websites as $website) {
             $key = $website->getCode() . '_'
                 . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
                     COLUMN_CUSTOMER_BALANCE;
