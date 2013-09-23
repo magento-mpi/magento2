@@ -25,7 +25,7 @@ class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends 
     protected $_purchasedFactory;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection
+     * @var Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory
      */
     protected $_itemsFactory;
 
@@ -35,7 +35,7 @@ class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends 
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
      * @param Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory
-     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection $itemsFactory
+     * @param Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory
      * @param array $data
      */
     public function __construct(
@@ -44,7 +44,7 @@ class Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable extends 
         Magento_Core_Block_Template_Context $context,
         Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
         Magento_Downloadable_Model_Link_PurchasedFactory $purchasedFactory,
-        Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection $itemsFactory,
+        Magento_Downloadable_Model_Resource_Link_Purchased_Item_CollectionFactory $itemsFactory,
         array $data = array()
     ) {
         $this->_purchasedFactory = $purchasedFactory;

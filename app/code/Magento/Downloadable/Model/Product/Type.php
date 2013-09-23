@@ -27,9 +27,9 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
     protected $_downloadableFile = null;
 
     /**
-     * @var Magento_Downloadable_Model_Resource_Sample
+     * @var Magento_Downloadable_Model_Resource_SampleFactory
      */
-    protected $_sampleResource;
+    protected $_sampleResFactory;
 
     /**
      * @var Magento_Downloadable_Model_Resource_Link
@@ -64,7 +64,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Downloadable_Model_Resource_Sample $sampleResource
+     * @param Magento_Downloadable_Model_Resource_SampleFactory $sampleResFactory
      * @param Magento_Downloadable_Model_Resource_Link $linkResource
      * @param Magento_Downloadable_Model_Resource_Link_Collection_Factory $linksFactory
      * @param Magento_Downloadable_Model_Resource_Sample_CollectionFactory $samplesFactory
@@ -80,7 +80,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
         Magento_Filesystem $filesystem,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Logger $logger,
-        Magento_Downloadable_Model_Resource_Sample $sampleResource,
+        Magento_Downloadable_Model_Resource_SampleFactory $sampleResFactory,
         Magento_Downloadable_Model_Resource_Link $linkResource,
         Magento_Downloadable_Model_Resource_Link_Collection_Factory $linksFactory,
         Magento_Downloadable_Model_Resource_Sample_CollectionFactory $samplesFactory,
@@ -89,7 +89,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
         array $data = array()
     ) {
         $this->_downloadableFile = $downloadableFile;
-        $this->_sampleResource = $sampleResource;
+        $this->_sampleResFactory = $sampleResFactory;
         $this->_linkResource = $linkResource;
         $this->_linksFactory = $linksFactory;
         $this->_samplesFactory = $samplesFactory;
@@ -241,8 +241,8 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
 
                         if ($sampleModel->getSampleType() == Magento_Downloadable_Helper_Download::LINK_TYPE_FILE) {
                             $sampleFileName = $this->_downloadableFile->moveFileFromTmp(
-                                $this->_createSample()->getBaseTmpPath(),
-                                $this->_createSample()->getBasePath(),
+                                $sampleModel->getBaseTmpPath(),
+                                $sampleModel->getBasePath(),
                                 $files
                             );
                             $sampleModel->setSampleFile($sampleFileName);
@@ -251,7 +251,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                     }
                 }
                 if ($_deleteItems) {
-                    $this->_sampleResource->deleteItems($_deleteItems);
+                    $this->_sampleResFactory->create()->deleteItems($_deleteItems);
                 }
             }
             if (isset($data['link'])) {
@@ -506,7 +506,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
                 }
             }
             if ($sampleItems) {
-                $this->_sampleResource->deleteItems($sampleItems);
+                $this->_sampleResFactory->create()->deleteItems($sampleItems);
             }
             $linkItems = array();
             if (isset($downloadableData['link'])) {
