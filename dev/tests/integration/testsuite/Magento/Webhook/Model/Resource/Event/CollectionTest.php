@@ -1,5 +1,8 @@
 <?php
 /**
+ * \Magento\Webhook\Model\Resource\Event\Collection
+ *
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -9,9 +12,6 @@
  */
 namespace Magento\Webhook\Model\Resource\Event;
 
-/**
- * \Magento\Webhook\Model\Resource\Event\Collection
- */
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
