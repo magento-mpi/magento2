@@ -14,9 +14,11 @@ namespace Magento\Webhook\Model\Event;
  */
 class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testPoll()
     {
-        $this->markTestSkipped("MAGETWO-11929 suite interaction issue");
         /** @var \Magento\Webhook\Model\Event $event */
         $event = \Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
