@@ -94,7 +94,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
 
     public function testGetRequestToken()
     {
-        /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient */
+        /** @var $oAuthClient Magento_TestFramework_Authentication_Rest_OauthClient */
         $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
         $requestToken = $oAuthClient->requestRequestToken();
 
@@ -116,7 +116,7 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
     public function testGetRequestTokenExpiredConsumer()
     {
         $this::consumerFixture('2012-01-01 00:00:00');
-        /** @var $oAuthClient Magento_Webapi_Authentication_Rest_OauthClient */
+        /** @var $oAuthClient Magento_TestFramework_Authentication_Rest_OauthClient */
         $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
         $oAuthClient->requestRequestToken();
     }
