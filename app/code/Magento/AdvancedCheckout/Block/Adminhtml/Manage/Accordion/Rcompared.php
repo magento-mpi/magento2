@@ -48,7 +48,7 @@ class Rcompared
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;

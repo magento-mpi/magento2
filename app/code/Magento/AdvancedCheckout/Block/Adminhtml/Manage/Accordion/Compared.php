@@ -44,7 +44,7 @@ class Compared
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Catalog\Model\Product\Compare\ListFactory $compareListFactory,
+        \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
