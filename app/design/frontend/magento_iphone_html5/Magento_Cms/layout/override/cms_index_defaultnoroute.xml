@@ -8,13 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="CMS No-Route Default Page" type="page" parent="cms_page_view">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Catalog_Block_Navigation" name="hp_nav" template="navigation/top.phtml"/>
         <block class="Magento_Core_Block_Template" name="default_no_route" template="Magento_Cms::default/no-route.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Sales_Transactions_Detail" name="sales_transactions.detail" template="sales/transactions/detail.phtml">
             <block class="Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid" name="sales_transactions.detail.grid" as="detail_grid"/>
             <block class="Magento_Adminhtml_Block_Sales_Transactions_Child_Grid" name="sales_transactions.child.grid" as="child_grid"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

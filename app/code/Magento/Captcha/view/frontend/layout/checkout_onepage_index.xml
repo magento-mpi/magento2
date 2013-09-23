@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.onepage.login">
+    <referenceBlock name="checkout.onepage.login">
         <container name="login.form.additional.info" label="Form Additional Info">
             <block class="Magento_Captcha_Block_Captcha" name="captcha">
                 <action method="setFormId">
@@ -22,17 +22,17 @@
                 </action>
             </block>
         </container>
-    </reference>
-    <reference name="checkout.onepage.billing">
+    </referenceBlock>
+    <referenceBlock name="checkout.onepage.billing">
         <container name="form.additional.info" label="Form Additional Info">
             <block class="Magento_Captcha_Block_Captcha" name="captcha.guest.checkout">
-                <reference name="head">
+                <referenceBlock name="head">
                     <block class="Magento_Page_Block_Html_Head_Script" name="magento-captcha-onepage-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
                         </arguments>
                     </block>
-                </reference>
+                </referenceBlock>
                 <action method="setFormId">
                     <argument name="formId" xsi:type="string">guest_checkout</argument>
                 </action>
@@ -44,13 +44,13 @@
                 </action>
             </block>
             <block class="Magento_Captcha_Block_Captcha" name="captcha.register.during.checkout">
-                <reference name="head">
+                <referenceBlock name="head">
                     <block class="Magento_Page_Block_Html_Head_Script" name="magento-captcha-onepage-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Captcha::onepage.js</argument>
                         </arguments>
                     </block>
-                </reference>
+                </referenceBlock>
                 <action method="setFormId">
                     <argument name="formId" xsi:type="string">register_during_checkout</argument>
                 </action>
@@ -62,5 +62,5 @@
                 </action>
             </block>
         </container>
-    </reference>
+    </referenceBlock>
 </layout>

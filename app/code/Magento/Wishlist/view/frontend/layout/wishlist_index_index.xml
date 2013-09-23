@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account My Wish List" type="page" parent="customer_account_index">
     <update handle="customer_account"/>
-    <reference name="my.account.wrapper">
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento_Wishlist_Block_Customer_Wishlist" name="customer.wishlist" template="view.phtml">
             <action method="setTitle">
                 <argument translate="true" name="title" xsi:type="string">My Wish List</argument>
@@ -35,10 +35,10 @@
                 <block class="Magento_Wishlist_Block_Customer_Wishlist_Button" name="customer.wishlist.button.update" template="button/update.phtml"/>
             </container>
         </block>
-    </reference>
-    <reference name="right">
+    </referenceContainer>
+    <referenceContainer name="right">
         <action method="unsetChild">
             <argument name="name" xsi:type="string">wishlist_customer_sidebar</argument>
         </action>
-    </reference>
+    </referenceContainer>
 </layout>

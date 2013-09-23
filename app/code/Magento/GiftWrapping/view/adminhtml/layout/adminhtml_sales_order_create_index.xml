@@ -9,18 +9,18 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <block class="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals" name="giftwrapping_total_renderer" template="order/create/totals.phtml"/>
-    <reference name="gift_options">
+    <referenceBlock name="gift_options">
         <block class="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info" name="wrapping_order_create_info" template="order/create/info.phtml">
             <block class="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info_Content" name="wrapping.order.create.info.content" template="order/create/info/content.phtml"/>
         </block>
-    </reference>
-    <reference name="popup_window">
+    </referenceBlock>
+    <referenceBlock name="popup_window">
         <block class="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Items" name="wrapping_order_create_items" template="order/create/items.phtml"/>
-    </reference>
-    <reference name="order_item_extra_info">
+    </referenceBlock>
+    <referenceBlock name="order_item_extra_info">
         <block class="Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Items" name="giftwrapping_extra_info" template="sales/order/create/renderer.phtml" before="-"/>
-    </reference>
-    <reference name="gift_options_link">
+    </referenceBlock>
+    <referenceBlock name="gift_options_link">
         <block class="Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link" name="giftwrapping_item_info" template="sales/order/link.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

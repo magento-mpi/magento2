@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="catalog.product.edit.tab.super.grid.popup.container">
+    <referenceBlock name="catalog.product.edit.tab.super.grid.popup.container">
         <block class="Magento_Backend_Block_Widget_Grid" name="catalog.product.edit.tab.super.group.popup" as="catalog.product.group.grid.popup">
             <arguments>
                 <argument name="id" xsi:type="string">grouped_grid_popup</argument>
@@ -59,5 +59,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_sales_order_create_customer_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Backend_Block_Widget_Grid_Container" name="customer.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Reject OAuth token authorization" type="page">
     <update handle="oauth_root_handle"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.reject" template="authorize/reject.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -8,9 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="right">
+    <referenceContainer name="right">
         <action method="unsetChild">
             <argument name="name" xsi:type="string">catalog.compare.sidebar</argument>
         </action>
-    </reference>
+    </referenceContainer>
 </layout>

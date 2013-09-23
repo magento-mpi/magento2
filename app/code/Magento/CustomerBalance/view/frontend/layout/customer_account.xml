@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer-account-navigation">
+    <referenceBlock name="customer-account-navigation">
         <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-customer-balance-link">
             <arguments>
                 <argument name="path" xsi:type="string">magento_customerbalance/info/</argument>
                 <argument translate="true" name="label" xsi:type="string">Store Credit</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

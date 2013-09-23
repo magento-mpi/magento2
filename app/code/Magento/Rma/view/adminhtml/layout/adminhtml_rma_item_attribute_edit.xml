@@ -9,10 +9,10 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="scope_switcher"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit" name="magento_rma_item_attribute_edit"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tabs" name="magento_rma_item_attribute_edit_tabs">
             <block class="Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main" name="magento_rma_item_attribute_edit_tab_general"/>
             <action method="addTab">
@@ -25,8 +25,8 @@
                 <argument name="block" xsi:type="string">magento_rma_item_attribute_edit_tab_options</argument>
             </action>
         </block>
-    </reference>
-    <reference name="js">
+    </referenceContainer>
+    <referenceContainer name="js">
         <block class="Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Js" template="attribute/js.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-catalog-product-composite-configure-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Adminhtml::catalog/product/composite/configure.js</argument>
@@ -24,8 +24,8 @@
                 <argument name="file" xsi:type="string">Magento_AdvancedCheckout::shopping_cart.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <update handle="adminhtml_sku_errors_block"/>
         <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
         <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage" name="ID" template="manage.phtml">
@@ -45,5 +45,5 @@
             <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon" template="form/coupon.phtml" name="checkout.form_coupon"/>
         </block>
         <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Configure" name="configure.popup"/>
-    </reference>
+    </referenceContainer>
 </layout>

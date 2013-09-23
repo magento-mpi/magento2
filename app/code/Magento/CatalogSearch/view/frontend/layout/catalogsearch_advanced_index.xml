@@ -8,19 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Advanced Search Form" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-right.phtml</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <action method="setTitle">
             <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
         </action>
-    </reference>
+    </referenceBlock>
     <update handle="page_calendar"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_CatalogSearch_Block_Advanced_Form" name="catalogsearch_advanced_form" template="advanced/form.phtml"/>
         <block class="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Magento_Page::js/calendar.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

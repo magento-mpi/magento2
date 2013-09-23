@@ -9,14 +9,14 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Invitations Form" type="page" parent="magento_invitation_index_index">
     <update handle="customer_account"/>
-    <reference name="customer_account_navigation">
+    <referenceBlock name="customer_account_navigation">
         <action method="setActive">
             <argument name="path" xsi:type="string">magento_invitation/index/index</argument>
         </action>
     </reference>
-    <reference name="my.account.wrapper">
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento_Invitation_Block_Form" name="invitationForm" template="Magento_Invitation::form.phtml">
             <container name="invitations.form.form.before" as="form_before" label="Invitation Form Before" htmlTag="div" htmlClass="rewards"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>
