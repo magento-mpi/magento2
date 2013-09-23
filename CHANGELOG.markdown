@@ -1,13 +1,13 @@
 * Configuration improvements:
   * Removed "translate" node from configuration XML files
   * Improved Install, Category, Product, Customer, Wishlist configuration segments:
-     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
-     * New configuration files are validated with XSD
-     * Format of the configuration changed to make possible its validation
+    * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+    * New configuration files are validated with XSD
+    * Format of the configuration changed to make possible its validation
   * Improved configuration in `widget.xml`, `fieldset.xml`, `persistent.xml` and `install.xml` files:
-     * `install.xml` was renamed to `install_wizard.xml`
-     * The configuration is validated with XSD
-     * Format of the configuration changed to make possible its validation
+    * `install.xml` was renamed to `install_wizard.xml`
+    * The configuration is validated with XSD
+    * Format of the configuration changed to make possible its validation
   * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
   * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
 * Prototype.js uses converted to jQuery:
