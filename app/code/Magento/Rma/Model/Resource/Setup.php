@@ -24,11 +24,6 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     protected $_catalogSetupFactory;
 
     /**
-     * @var Magento_Enterprise_Model_Resource_Setup_MigrationFactory
-     */
-    protected $_migrationFactory;
-
-    /**
      * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
      * @param Magento_Core_Model_Logger $logger
@@ -58,11 +53,10 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         Magento_Core_Model_CacheInterface $cache,
         $resourceName
     ) {
-        $this->_migrationFactory = $migrationFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
         parent::__construct(
-            $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList, $resource,
-            $modulesReader, $cache, $resourceName
+            $migrationFactory, $logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
+            $resource, $modulesReader, $cache, $resourceName
         );
     }
 
@@ -273,14 +267,5 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     public function getCatalogSetupFactory()
     {
         return $this->_catalogSetupFactory;
-    }
-
-    /**
-     * @param array $data
-     * @return Magento_Enterprise_Model_Resource_Setup_Migration
-     */
-    public function getMigrationSetup(array $data = array())
-    {
-        return $this->_migrationFactory->create($data);
     }
 }
