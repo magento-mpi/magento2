@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <group name="catalog_category">
+        <attribute name="name"/>
+        <attribute name="url_key"/>
+        <attribute name="is_active"/>
+    </group>
+    <group name="catalog_product">
+        <attribute name="name"/>
+        <attribute name="url_key"/>
+        <attribute name="price"/>
+        <attribute name="special_price"/>
+        <attribute name="special_from_date"/>
+        <attribute name="special_to_date"/>
+        <attribute name="short_description"/>
+        <attribute name="thumbnail"/>
+        <attribute name="small_image"/>
+        <attribute name="image_label"/>
+        <attribute name="thumbnail_label"/>
+        <attribute name="small_image_label"/>
+        <attribute name="tax_class_id"/>
+        <attribute name="status"/>
+        <attribute name="news_from_date"/>
+        <attribute name="news_to_date"/>
+        <attribute name="created_at"/>
+        <attribute name="updated_at"/>
+    </group>
+</config>

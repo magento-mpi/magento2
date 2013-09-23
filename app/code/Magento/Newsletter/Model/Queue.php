@@ -84,76 +84,21 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
     protected $_newsletterData = null;
 
     /**
-     * Date
-     *
-     * @var Magento_Core_Model_Date
-     */
-    protected $_date;
-
-    /**
-     * Locale
-     *
-     * @var Magento_Core_Model_LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * Email template factory
-     *
-     * @var Magento_Core_Model_Email_TemplateFactory
-     */
-    protected $_emailTemplateFactory;
-
-    /**
-     * Problem factory
-     *
-     * @var Magento_Newsletter_Model_ProblemFactory
-     */
-    protected $_problemFactory;
-
-    /**
-     * Template factory
-     *
-     * @var Magento_Newsletter_Model_TemplateFactory
-     */
-    protected $_templateFactory;
-
-    /**
-     * Construct
-     *
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Newsletter_Helper_Data $newsletterData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Newsletter_Helper_Data $newsletterData
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Date $date
-     * @param Magento_Newsletter_Model_TemplateFactory $templateFactory
-     * @param Magento_Newsletter_Model_ProblemFactory $problemFactory
-     * @param Magento_Core_Model_Email_TemplateFactory $emailTemplateFactory
-     * @param Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory $subscriberCollectionFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Newsletter_Helper_Data $newsletterData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Newsletter_Helper_Data $newsletterData,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Date $date,
-        Magento_Newsletter_Model_TemplateFactory $templateFactory,
-        Magento_Newsletter_Model_ProblemFactory $problemFactory,
-        Magento_Core_Model_Email_TemplateFactory $emailTemplateFactory,
-        Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory $subscriberCollectionFactory,
         array $data = array()
     ) {
-        parent::__construct($design, $context, $registry, $data);
         $this->_newsletterData = $newsletterData;
-        $this->_date = $date;
-        $this->_locale = $locale;
-        $this->_templateFactory = $templateFactory;
-        $this->_problemFactory = $problemFactory;
-        $this->_emailTemplateFactory = $emailTemplateFactory;
-        $this->_subscribersCollection = $subscriberCollectionFactory->create();
+        parent::__construct($design, $context, $registry, $data);
     }
 
     /**

@@ -62,6 +62,13 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     protected $_newsletterData;
 
     /**
+     * Filter for newsletter text
+     *
+     * @var Magento_Newsletter_Model_Template_Filter
+     */
+    protected $_templateFilter;
+    
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -93,30 +100,31 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      * Construct
      *
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Newsletter_Helper_Data $newsletterData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Newsletter_Helper_Data $newsletterData
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Newsletter_Model_TemplateFactory $templateFactory
      * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Newsletter_Model_Template_Filter $filter
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Newsletter_Helper_Data $newsletterData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Newsletter_Helper_Data $newsletterData,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Newsletter_Model_TemplateFactory $templateFactory,
+        Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Controller_Request_Http $request,
+        Magento_Newsletter_Model_Template_Filter $filter,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Newsletter_Model_TemplateFactory $templateFactory,
         array $data = array()
     ) {
         parent::__construct($design, $context, $registry, $data);
         $this->_newsletterData = $newsletterData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
+        $this->_filter = $filter;
         $this->_templateFactory = $templateFactory;
         $this->_request = $request;
     }
@@ -232,28 +240,25 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
-        /* @var $processor Magento_Newsletter_Model_Template_Filter */
-        $processor = $this->_newsletterData->getTemplateProcessor();
-
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;
         }
 
         if ($this->_storeManager->hasSingleStore()) {
-            $processor->setStoreId($this->_storeManager->getStore());
+            $this->_filter->setStoreId($this->_storeManager->getStore()->getId());
         } else {
-            $processor->setStoreId($this->_request->getParam('store_id'));
+            $this->_filter->setStoreId($this->_request->getParam('store_id'));
         }
 
-        $processor
+        $this->_filter
             ->setIncludeProcessor(array($this, 'getInclude'))
             ->setVariables($variables);
 
         if ($usePreprocess && $this->isPreprocessed()) {
-            return $processor->filter($this->getPreparedTemplateText(true));
+            return $this->_filter->filter($this->getPreparedTemplateText(true));
         }
 
-        return $processor->filter($this->getPreparedTemplateText());
+        return $this->_filter->filter($this->getPreparedTemplateText());
     }
 
     /**

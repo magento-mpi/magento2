@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <group name="wishlist_item">
+        <attribute name="visibility"/>
+        <attribute name="url_path"/>
+        <attribute name="url_key"/>
+    </group>
+</config>
