@@ -33,6 +33,6 @@ class Magento_Test_Legacy_ObsoleteAclTest extends PHPUnit_Framework_TestCase
      */
     public function aclFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles();
+        return Magento_TestFramework_Utility_Files::init()->getMainConfigFiles();
     }
 }
