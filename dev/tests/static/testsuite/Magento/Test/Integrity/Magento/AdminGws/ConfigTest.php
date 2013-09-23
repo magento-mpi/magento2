@@ -44,6 +44,6 @@ class Magento_Test_Integrity_Magento_AdminGws_ConfigTest extends PHPUnit_Framewo
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('config.xml');
+        return Magento_TestFramework_Utility_Files::init()->getMainConfigFiles();
     }
 }
