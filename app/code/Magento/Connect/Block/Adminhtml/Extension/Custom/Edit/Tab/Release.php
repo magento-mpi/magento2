@@ -35,7 +35,6 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
             'legend'    => __('Release')
         ));
 
-        $stabilityOptions = Mage::getModel('Magento_Connect_Model_Extension')->getStabilityOptions();
         $fieldset->addField('version', 'text', array(
             'name'      => 'version',
             'label'     => __('Release Version'),
@@ -45,7 +44,12 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
         $fieldset->addField('stability', 'select', array(
             'name'      => 'stability',
             'label'     => __('Release Stability'),
-            'options'   => $stabilityOptions,
+            'options'   => array(
+                'devel'     => 'Development',
+                'alpha'     => 'Alpha',
+                'beta'      => 'Beta',
+                'stable'    => 'Stable',
+            ),
         ));
 
         $fieldset->addField('notes', 'textarea', array(

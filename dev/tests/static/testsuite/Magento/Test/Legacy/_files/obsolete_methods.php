@@ -295,6 +295,7 @@ return array(
     array('getAllEntityTypeCommentIds', 'Magento_Rss_Model_Resource_Order'),
     array('getAllOrderEntityIds', 'Magento_Rss_Model_Resource_Order'),
     array('getAllOrderEntityTypeIds', 'Magento_Rss_Model_Resource_Order'),
+    array('getAllowedEntityTypes', 'Magento_GiftMessage_Model_Message'),
     array('getAnonSuffix'),
     array('getAttributesJson', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config', 'getAttributes'),
     array('getBaseTaxAmount', 'Magento_Sales_Model_Quote_Item_Abstract'),
@@ -807,6 +808,9 @@ return array(
     array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
     array('getObjectManager', 'Mage'),
     array('getCatalogHelper', 'Magento_Adminhtml_Block_Catalog_Category_Tabs'),
+    array('getStabilityOptions', 'Magento_Connect_Model_Extension'),
+    array('_getSession', 'Magento_Centinel_Model_Service'),
+    array('_getValidationStateModel', 'Magento_Centinel_Model_Service'),
     array('_getIndexer', 'Magento_Index_Model_Shell'),
     array('_getApi', 'Magento_Ogone_Block_Placeform'),
 );
