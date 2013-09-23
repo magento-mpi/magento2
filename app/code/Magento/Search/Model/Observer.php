@@ -35,18 +35,40 @@ class Magento_Search_Model_Observer
     protected $_catalogSearchData = null;
 
     /**
+     * Source weight
+     *
+     * @var Magento_Search_Model_Source_Weight
+     */
+    protected $_sourceWeight;
+
+    /**
+     * Request
+     *
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Construct
+     *
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Search_Helper_Data $searchData
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Search_Model_Source_Weight $sourceWeight
+     * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Search_Helper_Data $searchData,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Search_Model_Source_Weight $sourceWeight,
+        Magento_Core_Controller_Request_Http $request
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogSearchData = $catalogSearchData;
         $this->_searchData = $searchData;
+        $this->_sourceWeight = $sourceWeight;
+        $this->_request = $request;
     }
 
     /**
@@ -68,7 +90,7 @@ class Magento_Search_Model_Observer
         $fieldset->addField('search_weight', 'select', array(
             'name'        => 'search_weight',
             'label'       => __('Search Weight'),
-            'values'      => Mage::getModel('Magento_Search_Model_Source_Weight')->getOptions(),
+            'values'      => $this->_sourceWeight->getOptions(),
         ), 'is_searchable');
         /**
          * Disable default search fields
@@ -237,7 +259,7 @@ class Magento_Search_Model_Observer
             return;
         }
 
-        if ('process' == strtolower(Mage::app()->getRequest()->getControllerName())) {
+        if ('process' == strtolower($this->_request->getControllerName())) {
             $indexer->reindexAll();
         } else {
             $indexer->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);

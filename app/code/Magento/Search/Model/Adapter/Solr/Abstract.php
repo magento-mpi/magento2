@@ -74,7 +74,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * Core store config
@@ -84,12 +84,16 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     protected $_coreStoreConfig;
 
     /**
+     * Construct
+     *
      * @param Magento_Search_Model_Client_FactoryInterface $clientFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Search_Helper_ClientInterface $clientHelper
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $options
+     * @throws Magento_Core_Exception
      */
     public function __construct(
         Magento_Search_Model_Client_FactoryInterface $clientFactory,
@@ -97,6 +101,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         Magento_Search_Helper_ClientInterface $clientHelper,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         $options = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -104,11 +109,12 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         $this->_log = $logger;
         $this->_clientFactory = $clientFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         try {
             $this->_connect($options);
         } catch (Exception $e) {
             $this->_log->logException($e);
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.')
             );
         }
@@ -342,7 +348,8 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
     {
         $result = array();
 
-        $localeCode = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $localeCode = $this->_storeManager->getStore()
+            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         /**
@@ -356,7 +363,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
             } elseif ($sortBy == 'position') {
                 $sortBy = 'position_category_' . $this->_coreRegistry->registry('current_category')->getId();
             } elseif ($sortBy == 'price') {
-                $websiteId       = Mage::app()->getStore()->getWebsiteId();
+                $websiteId       = $this->_storeManager->getStore()->getWebsiteId();
                 $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
 
                 $sortBy = 'price_'. $customerGroupId .'_'. $websiteId;
@@ -412,7 +419,8 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
-        $localeCode     = Mage::app()->getStore($storeId)->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+        $localeCode     = $this->_storeManager->getStore($storeId)
+            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
 
         if ($suffix) {
@@ -476,7 +484,7 @@ abstract class Magento_Search_Model_Adapter_Solr_Abstract extends Magento_Search
         }
 
         if ($fieldType == 'text') {
-            $localeCode     = Mage::app()->getStore($attribute->getStoreId())
+            $localeCode     = $this->_storeManager->getStore($attribute->getStoreId())
                 ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
