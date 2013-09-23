@@ -40,6 +40,6 @@ class Magento_Test_Legacy_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('config.xml');
+        return Magento_TestFramework_Utility_Files::init()->getMainConfigFiles();
     }
 }
