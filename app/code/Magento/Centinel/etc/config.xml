@@ -10,11 +10,7 @@
  */
 -->
 <config>
-    <frontend>
-        <secure_url>
-            <centinel>/centinel/</centinel>
-        </secure_url>
-    </frontend>
+
     <global>
         <payment>
             <cc>
