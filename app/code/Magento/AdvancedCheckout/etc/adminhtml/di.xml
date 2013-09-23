@@ -8,14 +8,9 @@
  */
 -->
 <config>
-    <type name="Magento_AdvancedCheckout_Model_Cart">
-        <param name="eventManager">
-            <instance type="Magento_Core_Model_Event_Manager_Proxy" />
-        </param>
-    </type>
     <type name="Magento_AdvancedCheckout_Helper_Data">
         <param name="session">
-            <instance type="Magento_Customer_Model_Session" />
+            <instance type="Magento_Backend_Model_Session"/>
         </param>
     </type>
 </config>
