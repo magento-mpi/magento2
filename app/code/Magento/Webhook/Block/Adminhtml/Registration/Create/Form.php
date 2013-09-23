@@ -29,7 +29,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
      */
     protected function _prepareForm()
     {
-        $subscription = $this->_registry->registry(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
+        $subscription = $this->_coreRegistry->registry(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
         $apiKey = $this->_generateRandomString(self::API_KEY_LENGTH);
         $apiSecret = $this->_generateRandomString(self::API_SECRET_LENGTH);
         $inputLength = max(self::API_KEY_LENGTH, self::API_SECRET_LENGTH, self::MIN_TEXT_INPUT_LENGTH);
