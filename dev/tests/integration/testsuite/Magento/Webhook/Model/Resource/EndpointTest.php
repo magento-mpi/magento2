@@ -30,6 +30,9 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
         $this->_endpointResource = $this->_objectManager->get('Magento\Webhook\Model\Resource\Endpoint');
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetApiUserEndpoints()
     {
         // Set up the users to be associated with endpoints
@@ -69,6 +72,9 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($endpointIds, $this->_endpointResource->getApiUserEndpoints($apiUserId));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetEndpointsWithoutApiUser()
     {
         // Set up the user to be associated with endpoints
