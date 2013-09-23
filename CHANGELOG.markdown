@@ -75,6 +75,7 @@
   * Eliminated Mage::getSingleton from Magento_WebsiteRestriction module
   * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
   * Eliminated Mage::throwException from Magento_Media module
+  * Eliminated Mage:: static methods in Magento_Ogone
   * Eliminated Mage:: static methods in Magento_Cms, Magento_Log, Magento_Rating, Magento_Rss, Magento_Rule, Magento_CatalogRule, Magento_SalesRule, Magento_Weee, Magento_Captcha, Magento_CatalogInventory
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
