@@ -34,9 +34,10 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('entity_attribute', $model);
 
-        $block = Mage::app()->getLayout()->createBlock(
-            'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General'
-        );
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock(
+                'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General'
+            );
         $prepareFormMethod = new ReflectionMethod(
             'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General',
             '_prepareForm');

@@ -40,7 +40,9 @@ class Magento_Test_Integrity_Theme_RenderersTest extends Magento_TestFramework_T
 
         foreach ($blocks as $block) {
             $this->assertNotEmpty(
-                Mage::app()->getLayout()->createBlock($block), "Failed to instantiate block '{$block}'"
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+                    ->createBlock($block),
+                "Failed to instantiate block '{$block}'"
             );
         }
     }

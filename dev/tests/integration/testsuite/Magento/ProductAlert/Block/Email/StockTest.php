@@ -18,7 +18,8 @@ class Magento_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_ProductAlert_Block_Email_Stock');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_ProductAlert_Block_Email_Stock');
     }
 
     /**

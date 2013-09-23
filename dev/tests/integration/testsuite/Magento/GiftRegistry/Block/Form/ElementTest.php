@@ -16,7 +16,8 @@ class Magento_GiftRegistry_Block_Form_ElementTest extends PHPUnit_Framework_Test
 {
     public function testGetCalendarDateHtml()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_GiftRegistry_Block_Form_Element');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_GiftRegistry_Block_Form_Element');
 
         $value = null;
         $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL;

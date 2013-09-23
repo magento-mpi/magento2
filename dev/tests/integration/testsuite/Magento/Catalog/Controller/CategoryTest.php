@@ -81,7 +81,8 @@ class Magento_Catalog_Controller_CategoryTest extends Magento_TestFramework_Test
         $this->assertEquals($categoryId, $lastCategoryId, 'Last visited category.');
 
         /* Layout updates */
-        $handles = Mage::app()->getLayout()->getUpdate()->getHandles();
+        $handles = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->getUpdate()->getHandles();
         foreach ($expectedHandles as $expectedHandleName) {
             $this->assertContains($expectedHandleName, $handles);
         }

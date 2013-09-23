@@ -18,7 +18,8 @@ class Magento_Page_Block_Html_BreadcrumbsTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Page_Block_Html_Breadcrumbs');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Page_Block_Html_Breadcrumbs');
     }
 
     public function testAddCrumb()

@@ -111,7 +111,10 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
         $layout = $objectManager->create('Magento_Core_Model_Layout', array('area' => $area));
         $objectManager->addSharedInstance($layout, 'Magento_Core_Model_Layout');
         $this->assertEquals($area, $layout->getArea());
-        $this->assertEquals($area, Mage::app()->getLayout()->getArea());
+        $this->assertEquals(
+            $area,
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')->getArea()
+        );
         $objectManager->get('Magento_Core_Model_View_DesignInterface')->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(array(

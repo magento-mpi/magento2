@@ -87,7 +87,7 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
 
         $this->dispatch('backend/admin/dashboard');
 
-        $layout = Mage::app()->getLayout();
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $actualBlocks = $layout->getAllBlocks();
 
         $this->assertNotEmpty($actualBlocks);

@@ -52,7 +52,8 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
         $this->assertEquals(1, $lastViewedProductId);
 
         /* Layout updates */
-        $handles = Mage::app()->getLayout()->getUpdate()->getHandles();
+        $handles = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
 
         $responseBody = $this->getResponse()->getBody();

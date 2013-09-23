@@ -47,7 +47,11 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
             ->create('Magento_Catalog_Model_Layer_Filter_Price');
         $filter->setLayer($layer)->setAttributeModel(new Magento_Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
-            $filter->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
+            $filter->apply(
+                $request,
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+                    ->createBlock('Magento_Core_Block_Text')
+            );
             $interval = $filter->getInterval();
             if ($interval) {
                 $this->_model->setLimits($interval[0], $interval[1]);

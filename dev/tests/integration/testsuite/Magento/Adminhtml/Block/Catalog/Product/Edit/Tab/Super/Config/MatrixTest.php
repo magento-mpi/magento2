@@ -25,7 +25,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
         $objectManager->get('Magento_Core_Model_Registry')
             ->register('current_product', Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Catalog_Model_Product')->load(1));
-        Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', 'head');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Core_Block_Text', 'head');
         /** @var $usedAttribute Magento_Catalog_Model_Entity_Attribute */
         $usedAttribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
@@ -35,7 +36,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
             );
         $attributeOptions = $usedAttribute->getSource()->getAllOptions(false);
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix */
-        $block = Mage::app()->getLayout()->createBlock(preg_replace('/Test$/', '', __CLASS__));
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock(preg_replace('/Test$/', '', __CLASS__));
 
         $variations = $block->getVariations();
         foreach ($variations as &$variation) {

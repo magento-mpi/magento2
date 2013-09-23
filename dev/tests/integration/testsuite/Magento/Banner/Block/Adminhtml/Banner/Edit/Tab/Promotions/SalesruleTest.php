@@ -20,9 +20,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_SalesruleTest ex
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock(
-            'Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule'
-        );
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule');
     }
 
     protected function tearDown()

@@ -69,7 +69,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block Magento_Backend_Block_System_Config_FormStub */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_System_Config_FormStub');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Backend_Block_System_Config_FormStub');
         $block->setScope(Magento_Backend_Block_System_Config_Form::SCOPE_WEBSITES);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -122,7 +123,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
         /** @var $block Magento_Backend_Block_System_Config_FormStub */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_System_Config_FormStub');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Backend_Block_System_Config_FormStub');
         $block->setScope(Magento_Backend_Block_System_Config_Form::SCOPE_DEFAULT);
         $block->setStubConfigData($configData);
         $block->initFields($fieldset, $group, $section);
@@ -198,7 +200,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         );
         Mage::app()->getRequest()->setParam('section', 'general');
         /** @var $block Magento_Backend_Block_System_Config_Form */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_System_Config_Form');
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Backend_Block_System_Config_Form');
         $block->initForm();
         $expectedIds = array(
             'general_country' => array(

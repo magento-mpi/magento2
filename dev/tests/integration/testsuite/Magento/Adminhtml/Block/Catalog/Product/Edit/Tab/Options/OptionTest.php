@@ -16,7 +16,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extend
 {
     public function testGetOptionValuesCaching()
     {
-        $block = Mage::app()->getLayout()
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
             ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option');
         /** @var $productWithOptions Magento_Catalog_Model_Product */
         $productWithOptions = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

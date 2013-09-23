@@ -18,7 +18,8 @@ class Magento_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_GiftMessage_Block_Message_Inline');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_GiftMessage_Block_Message_Inline');
     }
 
     /**

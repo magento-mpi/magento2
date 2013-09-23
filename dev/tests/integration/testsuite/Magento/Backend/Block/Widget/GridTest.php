@@ -46,7 +46,8 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_columnSetMock));
         $this->_layoutMock->expects($this->any())->method('createBlock')
             ->with('Magento_Backend_Block_Widget_Button')
-            ->will($this->returnValue(Mage::app()->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')));
+            ->will($this->returnValue(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Layout')->createBlock('Magento_Backend_Block_Widget_Button')));
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Magento_Core_Helper_Data')
             ->will($this->returnValue(
@@ -54,7 +55,8 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             ));
 
 
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_Widget_Grid');
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_Backend_Block_Widget_Grid');
         $this->_block->setLayout($this->_layoutMock);
         $this->_block->setNameInLayout('grid');
     }

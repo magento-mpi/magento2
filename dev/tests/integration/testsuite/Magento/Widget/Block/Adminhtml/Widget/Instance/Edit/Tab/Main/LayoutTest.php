@@ -24,13 +24,18 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_LayoutTest ex
     {
         parent::setUp();
 
-        $this->_block = Mage::app()->getLayout()->createBlock(
-            'Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout',
-            '',
-            array('data' => array('widget_instance' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Widget_Model_Widget_Instance')))
+        $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock(
+                'Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout',
+                '',
+                array('data' => array(
+                    'widget_instance' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                        ->create('Magento_Widget_Model_Widget_Instance')
+                ))
+            );
+        $this->_block->setLayout(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
         );
-        $this->_block->setLayout(Mage::app()->getLayout());
     }
 
     /**

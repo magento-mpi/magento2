@@ -15,7 +15,8 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_FormTest extends PHPUnit_Framework
     {
         $this->assertInstanceOf(
             'Magento_Adminhtml_Block_Rating_Edit_Tab_Form',
-            Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Rating_Edit_Tab_Form')
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+                ->createBlock('Magento_Adminhtml_Block_Rating_Edit_Tab_Form')
         );
     }
 }

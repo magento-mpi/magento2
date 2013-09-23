@@ -13,7 +13,8 @@ class Magento_AdvancedCheckout_Block_Sku_ProductsTest extends PHPUnit_Framework_
 {
     public function testToHtml()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_AdvancedCheckout_Block_Sku_Products')
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock('Magento_AdvancedCheckout_Block_Sku_Products')
             ->setTemplate('cart/sku/failed.phtml');
         $this->assertEmpty($block->toHtml());
 

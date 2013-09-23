@@ -25,7 +25,8 @@ class Magento_GiftRegistry_Block_Customer_Edit_AbstractTest
         $this->getMockForAbstractClass(
             'Magento_GiftRegistry_Block_Customer_Edit_Abstract', array(), self::STUB_CLASS, false
         );
-        $block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
+        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+            ->createBlock(self::STUB_CLASS);
 
         $value = null;
         $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
