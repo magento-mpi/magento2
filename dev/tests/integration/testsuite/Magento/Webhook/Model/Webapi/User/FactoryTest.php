@@ -39,7 +39,8 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
     protected function tearDown()
     {
         /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Magento_Webapi_Model_Acl_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Acl_User');
         $user->load($this->_apiUserId);
         $user->delete();
     }
@@ -47,11 +48,13 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
     public function testCreate()
     {
         /** @var Magento_Webhook_Model_Webapi_User_Factory $userFactory */
-        $userFactory = Mage::getModel('Magento_Webhook_Model_Webapi_User_Factory');
+        $userFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webhook_Model_Webapi_User_Factory');
         $this->_apiUserId = $userFactory->createUser($this->_userContext, array('webhook/create'));
 
         /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Magento_Webapi_Model_Acl_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Acl_User');
         $user->load($this->_apiUserId);
 
         $this->assertEquals(self::VALUE_COMPANY_NAME, $user->getCompanyName());
@@ -61,7 +64,8 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
         $this->assertNotEquals(0, $user->getRoleId());
 
         /** @var Magento_Webapi_Model_Resource_Acl_Rule $ruleResources */
-        $ruleResources = Mage::getModel('Magento_Webapi_Model_Resource_Acl_Rule');
+        $ruleResources = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Webapi_Model_Resource_Acl_Rule');
         $rules = $ruleResources->getResourceIdsByRole($user->getRoleId());
         $this->assertNotEmpty($rules);
     }

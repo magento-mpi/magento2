@@ -19,7 +19,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extend
         $block = Mage::app()->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option');
         /** @var $productWithOptions Magento_Catalog_Model_Product */
-        $productWithOptions = Mage::getModel('Magento_Catalog_Model_Product');
+        $productWithOptions = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $productWithOptions->setTypeId('simple')
             ->setId(1)
             ->setAttributeSetId(4)
@@ -37,7 +38,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extend
 
         $product = clone $productWithOptions;
         /** @var $option Magento_Catalog_Model_Product_Option */
-        $option = Mage::getModel(
+        $option = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_Catalog_Model_Product_Option',
             array('data' => array('id' => 1, 'title' => 'some_title'))
         );

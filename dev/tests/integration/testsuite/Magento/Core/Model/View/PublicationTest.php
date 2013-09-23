@@ -33,9 +33,12 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_viewService = Mage::getModel('Magento_Core_Model_View_Service');
-        $this->_fileSystem = Mage::getModel('Magento_Core_Model_View_FileSystem');
-        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
+        $this->_viewService = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Service');
+        $this->_fileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
+        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Url');
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_View_DesignInterface');
     }
@@ -421,9 +424,12 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
             ->get('Magento_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = Mage::getModel('Magento_Core_Model_View_Service');
-        $this->_fileSystem = Mage::getModel('Magento_Core_Model_View_FileSystem');
-        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
+        $this->_viewService = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Service');
+        $this->_fileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
+        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -504,9 +510,12 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
             ->get('Magento_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = Mage::getModel('Magento_Core_Model_View_Service');
-        $this->_fileSystem = Mage::getModel('Magento_Core_Model_View_FileSystem');
-        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
+        $this->_viewService = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Service');
+        $this->_fileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
+        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -558,9 +567,12 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
             ->get('Magento_Core_Model_View_DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = Mage::getModel('Magento_Core_Model_View_Service');
-        $this->_fileSystem = Mage::getModel('Magento_Core_Model_View_FileSystem');
-        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
+        $this->_viewService = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Service');
+        $this->_fileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
+        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Url');
     }
 
     /**
@@ -602,7 +614,8 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         $this->_viewUrl->getViewFileUrl('css/base64.css', $params);
         $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
 
-        $this->_model->setDesignTheme(Mage::getModel('Magento_Core_Model_Theme'));
+        $this->_model->setDesignTheme(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme'));
     }
 
     /**

@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 //Create customer
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+$customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Customer');
 $customer->setWebsiteId(1)
     ->setEntityId(1)
     ->setEntityTypeId(1)
@@ -25,7 +26,8 @@ $customer->setWebsiteId(1)
 $customer->isObjectNew(true);
 
 // Create address
-$address = Mage::getModel('Magento_Customer_Model_Address');
+$address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Address');
 //  default_billing and default_shipping information would not be saved, it is needed only for simple check
 $address->addData(array(
     'firstname'         => 'Charles',

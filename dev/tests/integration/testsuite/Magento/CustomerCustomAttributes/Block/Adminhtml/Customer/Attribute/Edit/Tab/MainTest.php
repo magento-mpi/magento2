@@ -27,7 +27,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
             ->setDefaultDesignTheme();
         $entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Eav_Model_Config')
             ->getEntityType('customer');
-        $model = Mage::getModel('Magento_Customer_Model_Attribute');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();

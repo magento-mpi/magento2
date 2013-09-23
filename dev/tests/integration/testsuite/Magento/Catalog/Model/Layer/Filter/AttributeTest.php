@@ -29,7 +29,8 @@ class Magento_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework
     protected function setUp()
     {
         /** @var $attribute Magento_Catalog_Model_Entity_Attribute */
-        $attribute = Mage::getModel('Magento_Catalog_Model_Entity_Attribute');
+        $attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Entity_Attribute');
         $attribute->loadByCode('catalog_product', 'attribute_with_option');
         foreach ($attribute->getSource()->getAllOptions() as $optionInfo) {
             if ($optionInfo['label'] == 'Option Label') {
@@ -38,9 +39,11 @@ class Magento_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework
             }
         }
 
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Attribute');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Attribute');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('Magento_Catalog_Model_Layer'),
+            'layer' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer'),
             'attribute_model' => $attribute,
         ));
     }

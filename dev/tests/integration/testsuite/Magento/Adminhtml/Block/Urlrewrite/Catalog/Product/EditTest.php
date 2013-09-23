@@ -26,7 +26,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUni
     public function testPrepareLayout($blockAttributes, $expected)
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel(
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_Core_Model_Layout',
             array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
         );
@@ -259,17 +260,21 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUni
     public function prepareLayoutDataProvider()
     {
         /** @var $urlRewrite Magento_Core_Model_Url_Rewrite */
-        $urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
+        $urlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Url_Rewrite');
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product',
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product',
             array('data' => array('entity_id' => 1, 'name' => 'Test product'))
         );
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category',
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
         /** @var $existingUrlRewrite Magento_Core_Model_Url_Rewrite */
-        $existingUrlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite',
+        $existingUrlRewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Url_Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
         return array(

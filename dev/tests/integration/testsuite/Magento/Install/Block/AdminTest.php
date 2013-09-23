@@ -25,7 +25,8 @@ class Magento_Install_Block_AdminTest extends PHPUnit_Framework_TestCase
         $session->setAdminData(array_merge($preserve, $omit));
 
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout', array('area' => 'install'));
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout', array('area' => 'install'));
         /** @var $block Magento_Install_Block_Admin */
         $block = $layout->createBlock('Magento_Install_Block_Admin');
         $output = $block->toHtml();

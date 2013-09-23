@@ -33,11 +33,13 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_SalesruleTest ex
     public function testGetCollection()
     {
         /** @var Magento_SalesRule_Model_Rule $ruleOne */
-        $ruleOne = Mage::getModel('Magento_SalesRule_Model_Rule');
+        $ruleOne = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_SalesRule_Model_Rule');
         $ruleOne->load('40% Off on Large Orders', 'name');
 
         /** @var Magento_SalesRule_Model_Rule $ruleTwo */
-        $ruleTwo = Mage::getModel('Magento_SalesRule_Model_Rule');
+        $ruleTwo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_SalesRule_Model_Rule');
         $ruleTwo->load('50% Off on Large Orders', 'name');
 
         $this->assertEquals(array($ruleOne->getId(), $ruleTwo->getId()), $this->_block->getCollection()->getAllIds());

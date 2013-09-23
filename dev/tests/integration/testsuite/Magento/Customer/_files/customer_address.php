@@ -9,7 +9,8 @@
  */
 
 /** @var Magento_Customer_Model_Address $customerAddress */
-$customerAddress = Mage::getModel('Magento_Customer_Model_Address');
+$customerAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Address');
 $customerAddress->isObjectNew(true);
 $customerAddress->setCustomerId(1)
     ->setData(array(

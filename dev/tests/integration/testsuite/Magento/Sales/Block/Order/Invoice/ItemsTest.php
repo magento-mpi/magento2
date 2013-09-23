@@ -30,7 +30,8 @@ class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_Test
     {
         $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Magento_Sales_Block_Order_Invoice_Items', 'block');
-        $this->_invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice');
+        $this->_invoice = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Invoice');
     }
 
     /**

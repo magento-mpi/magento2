@@ -9,7 +9,8 @@
  * @license     {license_link}
  */
 
-$variable = Mage::getModel('Magento_Core_Model_Variable');
+$variable = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Variable');
 $variable->setCode('variable_code')
     ->setName('Variable Name')
     ->setPlainValue('Plain Value')

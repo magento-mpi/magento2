@@ -26,7 +26,8 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends PHP
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')
-            ->register('current_reminder_rule', Mage::getModel('Magento_Reminder_Model_Rule'));
+            ->register('current_reminder_rule', Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reminder_Model_Rule'));
 
         $block = Mage::app()->getLayout()->createBlock(
             'Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General'

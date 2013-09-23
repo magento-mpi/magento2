@@ -17,7 +17,8 @@ class Magento_Sales_Model_Order_OrderTest extends PHPUnit_Framework_TestCase
     public function testSendNewOrderEmail()
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 

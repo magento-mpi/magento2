@@ -33,7 +33,8 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model       = Mage::getModel('Magento_Core_Model_App');
+        $this->_model       = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_App');
         $this->_mageModel   = Mage::app();
     }
 
@@ -71,7 +72,8 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
      */
     public function testSetCurrentStore()
     {
-        $store = Mage::getModel('Magento_Core_Model_Store');
+        $store = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Store');
         $this->_model->setCurrentStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }

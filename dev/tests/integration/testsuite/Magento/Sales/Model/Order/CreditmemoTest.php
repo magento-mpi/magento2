@@ -17,11 +17,13 @@ class Magento_Sales_Model_Order_CreditmemoTest extends PHPUnit_Framework_TestCas
     public function testSendEmail()
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo');
+        $creditmemo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Creditmemo');
         $creditmemo->setOrder($order);
 
         $payment = $order->getPayment();

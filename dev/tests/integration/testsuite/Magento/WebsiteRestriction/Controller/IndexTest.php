@@ -20,7 +20,8 @@ class Magento_WebsiteRestriction_Controller_IndexTest extends Magento_TestFramew
      */
     public function testStubAction()
     {
-        $page = Mage::getModel('Magento_Cms_Model_Page');
+        $page = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Cms_Model_Page');
         $page->load('page100', 'identifier'); // fixture
 
         $websiteId = Mage::app()->getWebsite('base')->getId(); // fixture, pre-installed

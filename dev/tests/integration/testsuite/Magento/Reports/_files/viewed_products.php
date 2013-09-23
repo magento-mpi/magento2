@@ -14,7 +14,8 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_virtual.php';
 
 // imitate product views
 /** @var Magento_Reports_Model_Event_Observer $reportObserver */
-$reportObserver = Mage::getModel('Magento_Reports_Model_Event_Observer');
+$reportObserver = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Reports_Model_Event_Observer');
 foreach (array(1, 2, 1, 21, 1, 21) as $productId) {
     $reportObserver->catalogProductView(new Magento_Event_Observer(array(
         'event' => new Magento_Object(array(

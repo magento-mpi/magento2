@@ -26,7 +26,8 @@ class Magento_Adminhtml_Block_System_Variable_EditTest extends PHPUnit_Framework
             'html_value' => '<b>Test Variable 1 HTML Value</b>',
             'plain_value' => 'Test Variable 1 plain Value',
         );
-        $variable = Mage::getModel('Magento_Core_Model_Variable')
+        $variable = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Variable')
             ->setData($data)
             ->save();
 

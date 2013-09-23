@@ -9,11 +9,13 @@
  */
 
 /** @var Magento_Eav_Model_Entity_Type $entityType */
-$entityType = Mage::getModel('Magento_Eav_Model_Entity_Type');
+$entityType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Eav_Model_Entity_Type');
 $entityType->loadByCode('catalog_product');
 $defaultSetId = $entityType->getDefaultAttributeSetId();
 /** @var Magento_Eav_Model_Entity_Attribute_Set $defaultSet */
-$defaultSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
+$defaultSet = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Eav_Model_Entity_Attribute_Set');
 $defaultSet->load($defaultSetId);
 $defaultGroupId = $defaultSet->getDefaultGroupId();
 $optionData = array(

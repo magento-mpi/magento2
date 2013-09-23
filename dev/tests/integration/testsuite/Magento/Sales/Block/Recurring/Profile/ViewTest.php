@@ -28,7 +28,8 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile');
+        $this->_profile = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Recurring_Profile');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_recurring_profile', $this->_profile);

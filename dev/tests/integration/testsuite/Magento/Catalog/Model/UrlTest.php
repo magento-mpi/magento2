@@ -23,7 +23,8 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Url');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Url');
     }
 
     /**
@@ -35,7 +36,8 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     protected function _loadRewrite($idPath)
     {
         /** @var $rewrite Magento_Core_Model_Url_Rewrite */
-        $rewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
+        $rewrite = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Url_Rewrite');
         $rewrite->loadByIdPath($idPath);
         return $rewrite;
     }

@@ -242,7 +242,8 @@ class Magento_Adminhtml_Controller_CustomerTest extends Magento_Backend_Utility_
         $this->assertCount(2, $customer->getAddressesCollection());
 
         /** @var $savedCustomer Magento_Customer_Model_Customer */
-        $savedCustomer = Mage::getModel('Magento_Customer_Model_Customer');
+        $savedCustomer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Customer');
         $savedCustomer->load($customer->getId());
         /**
          * addressOne - updated

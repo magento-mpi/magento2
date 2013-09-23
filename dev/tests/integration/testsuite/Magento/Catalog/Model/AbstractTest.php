@@ -35,7 +35,8 @@ class Magento_Catalog_Model_AbstractTest extends PHPUnit_Framework_TestCase
             self::$_isStubClass = true;
         }
 
-        $this->_model = Mage::getModel(self::STUB_CLASS);
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(self::STUB_CLASS);
 
         $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resourceName');
         $resourceProperty->setAccessible(true);

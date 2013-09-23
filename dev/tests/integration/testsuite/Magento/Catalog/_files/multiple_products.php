@@ -10,7 +10,8 @@
  */
 
 /** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
 
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(10)
@@ -46,7 +47,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
 
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(11)
     ->setAttributeSetId(4)
@@ -84,7 +86,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
 
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(12)
     ->setAttributeSetId(4)

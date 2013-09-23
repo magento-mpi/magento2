@@ -57,7 +57,8 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_ImportExport_Model_Import');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Import');
     }
 
     /**

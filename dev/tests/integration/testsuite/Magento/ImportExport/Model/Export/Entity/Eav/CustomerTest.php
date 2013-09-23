@@ -21,7 +21,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Export_Entity_Eav_Customer');
     }
 
     /**
@@ -41,7 +42,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         }
         $expectedAttributes = array_diff($expectedAttributes, $this->_model->getDisabledAttributes());
 
-        $this->_model->setWriter(Mage::getModel('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
         $data = $this->_model->export();
         $this->assertNotEmpty($data);
 

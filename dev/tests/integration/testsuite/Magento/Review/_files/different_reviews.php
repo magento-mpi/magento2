@@ -11,7 +11,8 @@
 
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
-$review = Mage::getModel('Magento_Review_Model_Review', array(
+$review = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Review_Model_Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => 'Review Summary',
@@ -26,7 +27,8 @@ $review
     ->setStores(array(Mage::app()->getStore()->getId()))
     ->save();
 
-$review = Mage::getModel('Magento_Review_Model_Review', array(
+$review = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Review_Model_Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => '2 filter first review',
@@ -41,7 +43,8 @@ $review
     ->setStores(array(Mage::app()->getStore()->getId()))
     ->save();
 
-$review = Mage::getModel('Magento_Review_Model_Review', array(
+$review = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Review_Model_Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => '1 filter second review',

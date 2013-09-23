@@ -60,7 +60,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->assertSame($filter, $this->_model->getTemplateFilter());
         $this->assertEquals(Mage::app()->getStore()->getId(), $filter->getStoreId());
 
-        $filter = Mage::getModel('Magento_Core_Model_Email_Template_Filter');
+        $filter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Email_Template_Filter');
         $this->_model->setTemplateFilter($filter);
         $this->assertSame($filter, $this->_model->getTemplateFilter());
     }
@@ -110,7 +111,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
      */
     protected function _setBlankThemeForFixtureStore()
     {
-        $theme = Mage::getModel('Magento_Core_Model_Theme');
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme');
         $theme->load('magento_blank', 'theme_path');
         Mage::app()->getStore('fixturestore')
             ->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $theme->getId());

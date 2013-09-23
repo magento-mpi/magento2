@@ -55,7 +55,8 @@ class Magento_Captcha_Model_ObserverTest extends Magento_TestFramework_TestCase_
             ->getCaptcha('backend_login');
 
         try {
-            $authModel = Mage::getModel('Magento_Backend_Model_Auth');
+            $authModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Auth');
             $authModel->login(
                 Magento_TestFramework_Bootstrap::ADMIN_NAME,
                 'wrong_password'

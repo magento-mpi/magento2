@@ -77,11 +77,13 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
      */
     protected function _initAcl()
     {
-        $user = Mage::getModel('Magento_User_Model_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User');
         $user->setId(1)->setRole(true);
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Auth_Session')
             ->setUpdatedAt(time())->setUser($user);
-        Mage::getModel(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_AuthorizationInterface', array(
                 'data' => array('policy' => new Magento_Authorization_Policy_Default())
         ));

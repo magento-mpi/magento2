@@ -26,7 +26,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_F
 
         $registryData = array(
             'store_type' => 'group',
-            'store_data' => Mage::getModel('Magento_Core_Model_Store_Group'),
+            'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Store_Group'),
             'store_action' => 'add'
         );
         /** @var $objectManager Magento_TestFramework_ObjectManager */

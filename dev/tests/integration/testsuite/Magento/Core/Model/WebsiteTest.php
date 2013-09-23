@@ -18,7 +18,8 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Website');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Website');
         $this->_model->load(1);
     }
 
@@ -44,7 +45,8 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     public function testSetGroupsAndStores()
     {
         /* Groups */
-        $expectedGroup = Mage::getModel('Magento_Core_Model_Store_Group');
+        $expectedGroup = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Store_Group');
         $expectedGroup->setId(123);
         $this->_model->setDefaultGroupId($expectedGroup->getId());
         $this->_model->setGroups(array($expectedGroup));
@@ -53,7 +55,8 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
         $this->assertSame($expectedGroup, reset($groups));
 
         /* Stores */
-        $expectedStore = Mage::getModel('Magento_Core_Model_Store');
+        $expectedStore = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Store');
         $expectedStore->setId(456);
         $expectedGroup->setDefaultStoreId($expectedStore->getId());
         $this->_model->setStores(array($expectedStore));

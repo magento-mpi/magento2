@@ -27,7 +27,8 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_inlineParser = Mage::getModel('Magento_Core_Model_Translate_InlineParser');
+        $this->_inlineParser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Translate_InlineParser');
         /* Called getConfig as workaround for setConfig bug */
         Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
         Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
@@ -43,10 +44,12 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
             $inputArray[0]['perstore'] = $isPerStore;
         }
         /** @var $inline Magento_Core_Model_Translate_Inline */
-        $inline = Mage::getModel('Magento_Core_Model_Translate_Inline');
+        $inline = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Translate_Inline');
         $this->_inlineParser->processAjaxPost($inputArray, $inline);
 
-        $model = Mage::getModel('Magento_Core_Model_Translate_String');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Translate_String');
         $model->load($originalText);
         try {
             $this->assertEquals($translatedText, $model->getTranslate());

@@ -28,11 +28,14 @@ class Magento_Catalog_Model_Layer_Filter_CategoryTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_category = Mage::getModel('Magento_Catalog_Model_Category');
+        $this->_category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $this->_category->load(5);
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Category');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Category');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('Magento_Catalog_Model_Layer', array(
+            'layer' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer', array(
                 'data' => array('current_category' => $this->_category)
             )),
         ));

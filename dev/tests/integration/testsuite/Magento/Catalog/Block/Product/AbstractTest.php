@@ -49,7 +49,8 @@ class Magento_Catalog_Block_Product_AbstractTest extends PHPUnit_Framework_TestC
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->_product->load(1);
         $this->_product->addData(array(
             'image'       => '/m/a/magento_image.jpg',

@@ -11,7 +11,8 @@
 
 require __DIR__ . '/../../../Magento/Catalog/_files/multiple_products.php';
 
-$review = Mage::getModel('Magento_Review_Model_Review',
+$review = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Review_Model_Review',
     array('data' => array('nickname' => 'Nickname', 'title' => 'Review Summary', 'detail' => 'Review text'))
 );
 $review->setEntityId($review->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE))

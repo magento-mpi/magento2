@@ -26,7 +26,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
     }
 
     public static function tearDownAfterClass()
@@ -259,7 +260,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->getIsVirtual());
 
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel(
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_Catalog_Model_Product',
             array('data' => array('type_id' => Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL))
         );
@@ -292,7 +294,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isComposite());
 
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel(
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_Catalog_Model_Product',
             array('data' => array('type_id' => Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE))
         );
@@ -356,7 +359,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->reset();
         $this->_assertEmpty($model);
 
-        $this->_model->addOption(Mage::getModel('Magento_Catalog_Model_Product_Option'));
+        $this->_model->addOption(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product_Option'));
         $this->_model->reset();
         $this->_assertEmpty($model);
 

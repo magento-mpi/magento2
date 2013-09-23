@@ -16,7 +16,8 @@ class Magento_Reminder_Model_Resource_Rule_CollectionTest extends PHPUnit_Framew
      */
     public function testAddDateFilter()
     {
-        $dateModel = Mage::getModel('Magento_Core_Model_Date');
+        $dateModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Date');
         $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Reminder_Model_Resource_Rule_Collection');
         $collection->addDateFilter($dateModel->date());

@@ -56,10 +56,14 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_View_DesignInterface');
-        $this->_viewFileSystem = Mage::getModel('Magento_Core_Model_View_FileSystem');
-        $this->_viewConfig = Mage::getModel('Magento_Core_Model_View_Config');
-        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_DesignInterface');
+        $this->_viewFileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
+        $this->_viewConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Config');
+        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Url');
     }
 
     /**
@@ -78,9 +82,12 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
             ->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme($themePath);
 
-        $this->_viewFileSystem = Mage::getModel('Magento_Core_Model_View_FileSystem');
-        $this->_viewConfig = Mage::getModel('Magento_Core_Model_View_Config');
-        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
+        $this->_viewFileSystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_FileSystem');
+        $this->_viewConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Config');
+        $this->_viewUrl = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_Url');
     }
 
     public function testSetGetArea()

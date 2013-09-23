@@ -22,7 +22,8 @@ class Magento_Adminhtml_Controller_NewsletterQueueTest extends Magento_Backend_U
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento_Newsletter_Model_Template');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Newsletter_Model_Template');
     }
     protected function tearDown()
     {

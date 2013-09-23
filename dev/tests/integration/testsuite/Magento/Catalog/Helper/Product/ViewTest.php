@@ -41,7 +41,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         );
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
-        $this->_controller = Mage::getModel(
+        $this->_controller = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_Catalog_Controller_Product',
             array(
                 'context'  => $context,
@@ -67,7 +68,8 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         $uniqid = uniqid();
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->setTypeId(Magento_Catalog_Model_Product_Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();

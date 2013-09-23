@@ -30,7 +30,8 @@ class Magento_Sales_Model_AbstractTest extends PHPUnit_Framework_TestCase
             ->getConnection('write');
         $this->assertEquals(0, $adapter->getTransactionLevel(), 'This test must be outside a transaction.');
 
-        $localOrderModel = Mage::getModel('Magento_Sales_Model_Order');
+        $localOrderModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         $resource = $localOrderModel->getResource();
         $resource->beginTransaction();
         try {

@@ -20,7 +20,8 @@ $filesystem->setIsAllowCreateDirectories(true);
 $filesystem->copy(__DIR__ . '/product_image.png', $baseTmpMediaPath . '/product_image.png');
 
 /** @var $productOne Magento_Catalog_Model_Product */
-$productOne = Mage::getModel('Magento_Catalog_Model_Product');
+$productOne = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
 $productOne->setId(1)
     ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
@@ -51,7 +52,8 @@ $productOne->setId(1)
     ->save();
 
 /** @var $productTwo Magento_Catalog_Model_Product */
-$productTwo = Mage::getModel('Magento_Catalog_Model_Product');
+$productTwo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
 $productTwo->setId(2)
     ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)

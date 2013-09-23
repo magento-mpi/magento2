@@ -14,7 +14,8 @@ class Magento_Cron_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Cron_Model_Observer');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Cron_Model_Observer');
         $this->_model->dispatch('this argument is not used');
     }
 

@@ -41,7 +41,8 @@ class Magento_Rss_Controller_IndexTest extends Magento_TestFramework_TestCase_Co
      */
     public function testWishlistAction()
     {
-        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+        $wishlist = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Wishlist_Model_Wishlist');
         $wishlist->load('fixture_unique_code', 'sharing_code');
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId())
             ->setParam('data', base64_encode('1'))

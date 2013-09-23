@@ -14,7 +14,7 @@ if (!isset($scope)) {
 }
 
 /** @var $role Magento_User_Model_Role */
-$role = Mage::getModel('Magento_User_Model_Role');
+$role = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_Role');
 $role->setName('admingws_role')
     ->setGwsIsAll(0)
     ->setRoleType('G')
@@ -27,12 +27,14 @@ if ('websites' == $scope) {
 $role->save();
 
 /** @var $rule Magento_User_Model_Rules */
-$rule = Mage::getModel('Magento_User_Model_Rules');
+$rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_Rules');
 $rule->setRoleId($role->getId())
     ->setResources(array('Magento_Adminhtml::all'))
     ->saveRel();
 
-$user = Mage::getModel('Magento_User_Model_User');
+$user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User');
 $user->setData(array(
     'firstname' => 'firstname',
     'lastname'  => 'lastname',

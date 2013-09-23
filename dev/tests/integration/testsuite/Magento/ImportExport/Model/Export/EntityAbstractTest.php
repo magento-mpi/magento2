@@ -53,7 +53,8 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testGetWriter()
     {
-        $this->_model->setWriter(Mage::getModel('Magento_ImportExport_Model_Export_Adapter_Csv'));
+        $this->_model->setWriter(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Export_Adapter_Csv'));
         $this->assertInstanceOf('Magento_ImportExport_Model_Export_Adapter_Csv', $this->_model->getWriter());
     }
 

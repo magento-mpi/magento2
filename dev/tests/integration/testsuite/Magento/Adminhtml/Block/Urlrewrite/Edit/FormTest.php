@@ -77,7 +77,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
             'options'      => 'options',
             'description'  => 'description'
         );
-        Mage::getModel('Magento_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
         $form = $this->_getFormInstance(array('url_rewrite' => new Magento_Object()));
 

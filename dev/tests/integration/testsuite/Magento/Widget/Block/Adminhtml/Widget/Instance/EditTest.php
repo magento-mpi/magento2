@@ -27,7 +27,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
             ->getDesignTheme();
 
         /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
-        $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+        $widgetInstance = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget_Instance');
         $widgetInstance
             ->setType($type)
             ->setThemeId($theme->getId())

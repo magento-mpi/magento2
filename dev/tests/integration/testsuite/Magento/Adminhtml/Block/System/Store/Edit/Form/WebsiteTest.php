@@ -26,7 +26,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
 
         $registryData = array(
             'store_type' => 'website',
-            'store_data' => Mage::getModel('Magento_Core_Model_Website'),
+            'store_data' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Website'),
             'store_action' => 'add'
         );
         /** @var $objectManager Magento_TestFramework_ObjectManager */

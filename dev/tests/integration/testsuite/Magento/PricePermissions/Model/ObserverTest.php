@@ -71,7 +71,8 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
     {
         $event = new Magento_Event_Observer();
         $event->setBlock($block);
-        $observer = Mage::getModel('Magento_PricePermissions_Model_Observer');
+        $observer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_PricePermissions_Model_Observer');
         $observer->adminControllerPredispatch($event);
         $observer->adminhtmlBlockHtmlBefore($event);
     }
@@ -81,9 +82,11 @@ class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_Test
      */
     protected function _initSession()
     {
-        $user = Mage::getModel('Magento_User_Model_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_User_Model_User');
         $user->setId(2)->setRole(true);
-        $session = Mage::getModel('Magento_Backend_Model_Auth_Session');
+        $session = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Auth_Session');
         $session->setUpdatedAt(time())->setUser($user);
     }
 }

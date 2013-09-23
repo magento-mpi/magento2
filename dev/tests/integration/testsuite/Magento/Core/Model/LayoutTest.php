@@ -35,7 +35,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor(array $inputArguments, $expectedArea)
     {
-        $layout = Mage::getModel('Magento_Core_Model_Layout', $inputArguments);
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout', $inputArguments);
         $this->assertEquals($expectedArea, $layout->getArea());
     }
 
@@ -53,7 +54,8 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $structure = new Magento_Data_Structure;
         $structure->createElement('test.container', array());
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout', array('structure' => $structure));
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout', array('structure' => $structure));
         $this->assertTrue($layout->hasElement('test.container'));
     }
 

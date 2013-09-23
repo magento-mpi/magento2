@@ -33,12 +33,14 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_observer = Mage::getModel('Magento_CustomerCustomAttributes_Model_Observer');
+        $this->_observer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_CustomerCustomAttributes_Model_Observer');
     }
 
     public function testSalesOrderAddressCollectionAfterLoad()
     {
-        $address = Mage::getModel('Magento_Sales_Model_Order_Address');
+        $address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new Magento_Object(array('id' => $address->getId()));
@@ -60,7 +62,8 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
 
     public function testSalesOrderAddressAfterLoad()
     {
-        $address = Mage::getModel('Magento_Sales_Model_Order_Address');
+        $address = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
         $arguments = $this->_prepareConstructorArguments();
 
@@ -86,7 +89,7 @@ class Magento_CustomerCustomAttributes_Model_ObserverTest extends PHPUnit_Framew
         $arguments = array();
         foreach ($this->_blockInjections as $injectionClass) {
             if ($injectionClass) {
-                $arguments[] = Mage::getModel($injectionClass);
+                $arguments[] = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($injectionClass);
             } else {
                 $arguments[] = null;
             }

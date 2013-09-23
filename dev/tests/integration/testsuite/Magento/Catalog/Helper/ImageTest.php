@@ -49,7 +49,8 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         );
 
         // sample product with images
-        self::$_product = Mage::getModel('Magento_Catalog_Model_Product');
+        self::$_product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         self::$_product
             ->addData(array(
                 'image'       => '/m/a/magento_image.jpg',
@@ -181,7 +182,8 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
     public function testGetPlaceholder()
     {
         /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $this->_helper->init($model, 'image');
         $placeholder = $this->_helper->getPlaceholder();
         $this->assertEquals('Magento_Catalog::images/product/placeholder/image.jpg', $placeholder);

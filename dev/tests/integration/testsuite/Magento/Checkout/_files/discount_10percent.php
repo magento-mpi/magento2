@@ -9,7 +9,8 @@
  */
 
 /** @var Magento_SalesRule_Model_Rule $salesRule */
-$salesRule = Mage::getModel('Magento_SalesRule_Model_Rule');
+$salesRule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_SalesRule_Model_Rule');
 
 $data = array(
     'name' => 'Test Coupon',

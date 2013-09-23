@@ -20,7 +20,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
      */
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
     }
 
 
@@ -86,7 +87,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
 
         $this->_model->run();
 
-        $scheduledExport = Mage::getModel('Magento_ScheduledImportExport_Model_Export');
+        $scheduledExport = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Export');
         $scheduledExport->setEntity($this->_model->getEntityType());
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());

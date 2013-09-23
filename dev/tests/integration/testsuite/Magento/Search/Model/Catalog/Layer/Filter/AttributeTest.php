@@ -47,7 +47,8 @@ class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Fr
         /**
          * @var Magento_Search_Model_Catalog_Layer_Filter_Attribute
          */
-        $selectModel = Mage::getModel('Magento_Search_Model_Catalog_Layer_Filter_Attribute');
+        $selectModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Search_Model_Catalog_Layer_Filter_Attribute');
         $selectModel->setAttributeModel($attribute)->setLayer($layer);
 
         $selectModel->applyFilterToCollection($selectModel, $givenValue);

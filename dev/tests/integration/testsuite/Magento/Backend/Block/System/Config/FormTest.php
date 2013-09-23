@@ -33,7 +33,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     public function testDependenceHtml()
     {
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $block Magento_Backend_Block_System_Config_Form */
@@ -190,7 +191,8 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
     public function testInitFormAddsFieldsets()
     {
-        Mage::getModel(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_Core_Controller_Front_Action',
             array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
         );

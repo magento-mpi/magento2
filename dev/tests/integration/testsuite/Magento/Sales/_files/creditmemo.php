@@ -9,7 +9,8 @@
 require __DIR__ . '/order.php';
 
 /** @var Magento_Sales_Model_Order $order */
-$order = Mage::getModel('Magento_Sales_Model_Order');
+$order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
 $order->loadByIncrementId('100000001');
 
 $order->setData('base_to_global_rate', 2)

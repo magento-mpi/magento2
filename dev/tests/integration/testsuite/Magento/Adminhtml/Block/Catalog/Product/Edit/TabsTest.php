@@ -27,7 +27,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Fram
         $objectManager->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
         $objectManager->get('Magento_Core_Model_Registry')->register('product', $product);
 

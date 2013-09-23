@@ -10,7 +10,8 @@
  */
 
 /** @var $website Magento_Core_Model_Website */
-$website = Mage::getModel('Magento_Core_Model_Website');
+$website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Website');
 $website->setData(array(
     'code' => 'test',
     'name' => 'Test Website',

@@ -20,7 +20,8 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel(
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_Core_Model_Layout',
             array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
         );

@@ -70,7 +70,8 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
     public function testAclInNodes($blockName, $resource, $isLimitedAccess)
     {
         /** @var $noticeInbox Magento_AdminNotification_Model_Inbox */
-        $noticeInbox = Mage::getModel('Magento_AdminNotification_Model_Inbox');
+        $noticeInbox = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_AdminNotification_Model_Inbox');
         if (!$noticeInbox->loadLatestNotice()->getId()) {
             $noticeInbox->addCritical('Test notice', 'Test description');
         }

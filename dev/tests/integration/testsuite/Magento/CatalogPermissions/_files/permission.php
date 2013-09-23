@@ -10,7 +10,8 @@
  */
 
 /** @var $permission Magento_CatalogPermissions_Model_Permission */
-$permission = Mage::getModel('Magento_CatalogPermissions_Model_Permission');
+$permission = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_CatalogPermissions_Model_Permission');
 $permission->setWebsiteId(Mage::app()->getWebsite()->getId())
     ->setCategoryId(6)
     ->setCustomerGroupId(1)

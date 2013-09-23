@@ -18,7 +18,8 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFilters()
     {
-        $currentCategory = Mage::getModel('Magento_Catalog_Model_Category');
+        $currentCategory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $currentCategory->load(3);
 
         /** @var $layer Magento_Catalog_Model_Layer */

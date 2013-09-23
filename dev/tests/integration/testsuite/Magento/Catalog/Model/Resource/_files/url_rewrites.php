@@ -10,7 +10,8 @@
  */
 
 /** @var $category Magento_Catalog_Model_Category */
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -34,7 +35,8 @@ $urlKeys = array(
 
 foreach ($urlKeys as $i => $urlKey) {
     $id = $i + 1;
-    $product = Mage::getModel('Magento_Catalog_Model_Product');
+    $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
     $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
         ->setId($id)
         ->setStoreId(1)

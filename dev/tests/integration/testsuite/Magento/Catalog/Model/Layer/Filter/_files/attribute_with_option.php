@@ -44,7 +44,8 @@ $options->setAttributeFilter($attribute->getId());
 
 foreach ($options as $option) {
     /** @var $product Magento_Catalog_Model_Product */
-    $product = Mage::getModel('Magento_Catalog_Model_Product');
+    $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
     $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
         ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
         ->setWebsiteIds(array(1))

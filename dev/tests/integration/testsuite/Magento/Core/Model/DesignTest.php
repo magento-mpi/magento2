@@ -32,9 +32,11 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
-        $design = Mage::getModel('Magento_Core_Model_View_DesignInterface');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_View_DesignInterface');
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
-        $designChange = Mage::getModel('Magento_Core_Model_Design');
+        $designChange = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
         $designChange->loadChange($storeId)->changeDesign($design);
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
@@ -54,7 +56,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_model->getId());
 
         try {
-            $model =  Mage::getModel('Magento_Core_Model_Design');
+            $model =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
             $model->loadChange(1);
             $this->assertEquals($this->_model->getId(), $model->getId());
 
@@ -73,7 +76,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             throw $e;
         }
 
-        $model =  Mage::getModel('Magento_Core_Model_Design');
+        $model =  Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
         $model->loadChange(1);
         $this->assertEmpty($model->getId());
     }
@@ -100,7 +104,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
 
         $cacheId = 'design_change_' . md5($storeId . $date);
 
-        $design = Mage::getModel('Magento_Core_Model_Design');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
         $design->loadChange($storeId, $date);
 
         $cachedDesign = Mage::app()->loadCache($cacheId);
@@ -112,7 +117,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
 
         $design->setDesign('magento_demo')->save();
 
-        $design = Mage::getModel('Magento_Core_Model_Design');
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
         $design->loadChange($storeId, $date);
 
         $cachedDesign = Mage::app()->loadCache($cacheId);
@@ -155,7 +161,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
             ->method('storeTimeStamp')
             ->with($storeId)
             ->will($this->returnValue($storeDatetime)); // store time must stay unchanged during test execution
-        $design = Mage::getModel('Magento_Core_Model_Design', array('locale' => $locale));
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design', array('locale' => $locale));
         $design->loadChange($storeId);
         $actualDesign = $design->getDesign();
 

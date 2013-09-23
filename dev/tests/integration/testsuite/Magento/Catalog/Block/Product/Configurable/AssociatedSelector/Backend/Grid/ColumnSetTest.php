@@ -21,7 +21,8 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
      */
     public function testPrepareSelect()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();

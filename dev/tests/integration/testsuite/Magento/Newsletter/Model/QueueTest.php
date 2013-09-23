@@ -26,7 +26,8 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
 
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $collection = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection');
+        $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
         Mage::app()->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
 
@@ -64,7 +65,8 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             $subscriberOne, $subscriberTwo
         ));
 
-        $queue = Mage::getModel('Magento_Newsletter_Model_Queue',
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Newsletter_Model_Queue',
             array('data' => array('email_template' => $emailTemplate))
         );
         $queue->load('Subject', 'newsletter_subject'); // fixture
@@ -103,11 +105,13 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($template, $storeConfig);
 
-        $queue = Mage::getModel('Magento_Newsletter_Model_Queue',
+        $queue = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Newsletter_Model_Queue',
             array('data' => array('email_template' => $template))
         );
         $queue->load('Subject', 'newsletter_subject'); // fixture
-        $problem = Mage::getModel('Magento_Newsletter_Model_Problem');
+        $problem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Newsletter_Model_Problem');
         $problem->load($queue->getId(), 'queue_id');
         $this->assertEmpty($problem->getId());
 

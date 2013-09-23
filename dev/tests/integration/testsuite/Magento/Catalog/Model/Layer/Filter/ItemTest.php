@@ -21,9 +21,11 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Item', array(
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Item', array(
             'data' => array(
-                'filter' => Mage::getModel('Magento_Catalog_Model_Layer_Filter_Category'),
+                'filter' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Category'),
                 'value'  => array('valuePart1', 'valuePart2'),
             )
         ));
@@ -42,7 +44,8 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
     public function testGetFilterException()
     {
         /** @var $model Magento_Catalog_Model_Layer_Filter_Item */
-        $model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Item');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Item');
         $model->getFilter();
     }
 
@@ -52,7 +55,8 @@ class Magento_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_Test
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var $request Magento_TestFramework_Request */
         $request = $objectManager->get('Magento_TestFramework_Request');
-        $action = Mage::getModel(
+        $action = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
             'Magento_Core_Controller_Front_Action',
             array(
                 'request' => $request,

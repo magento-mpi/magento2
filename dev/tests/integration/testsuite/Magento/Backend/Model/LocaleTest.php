@@ -22,7 +22,8 @@ class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento_Backend_Model_Locale');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Locale');
     }
 
     /**

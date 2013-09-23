@@ -19,7 +19,8 @@ $designChanges = array(
 );
 foreach ($designChanges as $designChangeData) {
     $storeId = Mage::app()->getStore($designChangeData['store'])->getId();
-    $change = Mage::getModel('Magento_Core_Model_Design');
+    $change = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Design');
     $change->setStoreId($storeId)
         ->setDesign($designChangeData['design'])
         ->setDateFrom($designChangeData['date'])

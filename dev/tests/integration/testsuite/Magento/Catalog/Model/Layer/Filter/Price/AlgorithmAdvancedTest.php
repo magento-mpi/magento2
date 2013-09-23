@@ -25,7 +25,8 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
 
     protected function setUp()
     {
-         $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
+         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
     }
 
     /**
@@ -36,11 +37,14 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
     protected function _prepareFilter($request = null)
     {
         /** @var $layer Magento_Catalog_Model_Layer */
-        $layer = Mage::getModel('Magento_Catalog_Model_Layer');
+        $layer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer');
         $layer->setCurrentCategory(4);
-        $layer->setState(Mage::getModel('Magento_Catalog_Model_Layer_State'));
+        $layer->setState(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_State'));
         /** @var $filter Magento_Catalog_Model_Layer_Filter_Price */
-        $filter = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price');
+        $filter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Price');
         $filter->setLayer($layer)->setAttributeModel(new Magento_Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
             $filter->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));

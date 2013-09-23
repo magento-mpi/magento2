@@ -36,7 +36,8 @@ class Magento_Captcha_Block_Captcha_DefaultTest extends PHPUnit_Framework_TestCa
      */
     public function testGetRefreshUrlWhenIsAdminStore()
     {
-        Mage::app()->getStore('admin')->setUrlModel(Mage::getModel('Magento_Backend_Model_Url'));
+        Mage::app()->getStore('admin')->setUrlModel(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Url'));
         Mage::app()->setCurrentStore(Mage::app()->getStore('admin'));
 
         $this->assertContains('backend/admin/refresh/refresh', $this->_block->getRefreshUrl());

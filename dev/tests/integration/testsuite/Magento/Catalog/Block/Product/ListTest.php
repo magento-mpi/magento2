@@ -98,7 +98,8 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
     public function testPrepareSortableFieldsByCategory()
     {
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);
         $this->assertEquals('name', $this->_block->getSortBy());

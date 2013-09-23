@@ -25,7 +25,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ImportExport_Model_Import_Entity_Eav_Customer');
     }
 
     /**

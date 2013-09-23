@@ -37,7 +37,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_product', $product);
 
-        $context = Mage::getModel('Magento_Backend_Block_Template_Context', array('urlBuilder' => $urlModel));
+        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Block_Template_Context', array('urlBuilder' => $urlModel));
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings */

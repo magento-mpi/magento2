@@ -27,7 +27,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest ext
     {
         parent::setUp();
         $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        $this->_theme = Mage::getModel('Magento_Core_Model_Theme');
+        $this->_theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme');
         $this->_theme->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL);
         $this->_block = $this->_layout
             ->createBlock('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General');

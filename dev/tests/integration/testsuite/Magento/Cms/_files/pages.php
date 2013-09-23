@@ -10,7 +10,8 @@
  */
 
 /** @var $page Magento_Cms_Model_Page */
-$page = Mage::getModel('Magento_Cms_Model_Page');
+$page = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Cms_Model_Page');
 $page//->setId(100) // doesn't work: it triggers update
     ->setTitle('Cms Page 100')
     ->setIdentifier('page100')
@@ -20,7 +21,8 @@ $page//->setId(100) // doesn't work: it triggers update
     ->setRootTemplate('one_column')
     ->save();
 
-$page = Mage::getModel('Magento_Cms_Model_Page');
+$page = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Cms_Model_Page');
 $page->setTitle('Cms Page Design Blank')
     ->setIdentifier('page_design_blank')
     ->setStores(array(0))

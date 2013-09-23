@@ -16,7 +16,8 @@ class Magento_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_TestCas
      */
     public function testToHtml()
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Customer_Model_Customer');
         $customer->load(1);
 
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Customer_Model_Session')

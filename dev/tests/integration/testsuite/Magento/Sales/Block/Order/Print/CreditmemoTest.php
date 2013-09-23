@@ -16,11 +16,13 @@ class Magento_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_T
      */
     public function testGetTotalsHtml()
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->get('Magento_Core_Model_Registry')->register('current_order', $order);
-        $payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
+        $payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Payment');
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
@@ -29,7 +31,8 @@ class Magento_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_T
         $childBlock = $layout->addBlock('Magento_Core_Block_Text', 'creditmemo_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
-        $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo');
+        $creditmemo = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Creditmemo');
         $this->assertEmpty($childBlock->getCreditmemo());
         $this->assertNotEquals($expectedHtml, $block->getTotalsHtml($creditmemo));
 

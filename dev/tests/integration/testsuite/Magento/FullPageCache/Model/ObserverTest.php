@@ -60,7 +60,8 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Magento_Event(array(
-            'controller_action' => Mage::getModel(
+            'controller_action' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
                 'Magento_Core_Controller_Front_Action',
                 array('context' => $context)
             )
@@ -107,7 +108,8 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Magento_Event(array(
-            'controller_action' => Mage::getModel(
+            'controller_action' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create(
                 'Magento_Core_Controller_Front_Action',
                 array('context' => $context)
             )

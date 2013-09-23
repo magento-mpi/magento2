@@ -12,7 +12,8 @@
 require __DIR__ . '/product_image.php';
 
 /** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Product');
 $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)

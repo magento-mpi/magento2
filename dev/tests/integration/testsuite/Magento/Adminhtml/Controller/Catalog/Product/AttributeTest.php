@@ -65,7 +65,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         // ensure string translation is cached
         $this->_translate('Fixture String');
         /** @var Magento_Core_Model_Resource_Translate_String $translateString */
-        $translateString = Mage::getModel('Magento_Core_Model_Resource_Translate_String');
+        $translateString = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Translate_String');
         $translateString->saveTranslate(
             'Fixture String', 'New Db Translation', 'en_US', Magento_Core_Model_AppInterface::ADMIN_STORE_ID
         );
@@ -95,7 +96,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
             ->setDesignTheme(1);
         /** @var Magento_Core_Model_Translate $translate */
-        $translate = Mage::getModel('Magento_Core_Model_Translate');
+        $translate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Translate');
         $translate->init(Magento_Backend_Helper_Data::BACKEND_AREA_CODE, null);
         return $translate->translate(array($string));
     }

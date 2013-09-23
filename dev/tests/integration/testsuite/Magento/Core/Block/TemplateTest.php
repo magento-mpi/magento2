@@ -44,7 +44,8 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetArea()
     {
         $this->assertEquals('frontend', $this->_block->getArea());
-        $this->_block->setLayout(Mage::getModel('Magento_Core_Model_Layout', array('area' => 'some_area')));
+        $this->_block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout', array('area' => 'some_area')));
         $this->assertEquals('some_area', $this->_block->getArea());
         $this->_block->setArea('another_area');
         $this->assertEquals('another_area', $this->_block->getArea());

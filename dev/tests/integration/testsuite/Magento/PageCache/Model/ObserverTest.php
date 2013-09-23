@@ -18,7 +18,8 @@ class Magento_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_observer = Mage::getModel('Magento_PageCache_Model_Observer');
+        $this->_observer = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_PageCache_Model_Observer');
     }
 
     /**

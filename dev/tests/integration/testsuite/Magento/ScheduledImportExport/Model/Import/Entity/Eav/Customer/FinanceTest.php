@@ -76,7 +76,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
         $source = new Magento_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
-        $model = Mage::getModel('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
             array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
         );
@@ -148,7 +149,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         }
 
         $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
-        $model = Mage::getModel('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
             array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE)
         );

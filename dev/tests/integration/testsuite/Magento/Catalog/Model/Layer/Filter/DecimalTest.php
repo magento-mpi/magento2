@@ -24,16 +24,20 @@ class Magento_Catalog_Model_Layer_Filter_DecimalTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $category->load(4);
 
         /** @var $attribute Magento_Catalog_Model_Entity_Attribute */
-        $attribute = Mage::getModel('Magento_Catalog_Model_Entity_Attribute');
+        $attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Entity_Attribute');
         $attribute->loadByCode('catalog_product', 'weight');
 
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Decimal');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Decimal');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('Magento_Catalog_Model_Layer', array(
+            'layer' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer', array(
                 'data' => array('current_category' => $category)
             )),
             'attribute_model' => $attribute,

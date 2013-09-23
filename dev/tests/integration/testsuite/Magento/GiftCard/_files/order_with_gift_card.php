@@ -10,7 +10,8 @@
  */
 
 /** @var $billingAddress Magento_Sales_Model_Order_Address */
-$billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address',
+$billingAddress = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Address',
     array(
         'data' => array(
             'firstname'  => 'guest',
@@ -32,11 +33,13 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
 /** @var $payment Magento_Sales_Model_Order_Payment */
-$payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
+$payment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Payment');
 $payment->setMethod('checkmo');
 
 /** @var $orderItem Magento_Sales_Model_Order_Item */
-$orderItem = Mage::getModel('Magento_Sales_Model_Order_Item');
+$orderItem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Item');
 $orderItem->setProductId(1)
     ->setProductType(Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
     ->setBasePrice(100)
@@ -53,7 +56,8 @@ $orderItem->setProductId(1)
     ));
 
 /** @var $order Magento_Sales_Model_Order */
-$order = Mage::getModel('Magento_Sales_Model_Order');
+$order = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setCustomerIsGuest(true)
@@ -68,5 +72,6 @@ Magento_TestFramework_Helper_Bootstrap::getObjectManager()
     ->get('Magento_Core_Model_Config')
     ->setNode('websites/base/giftcard/giftcardaccount_general/pool_size', 1);
 /** @var $pool Magento_GiftCardAccount_Model_Pool */
-$pool = Mage::getModel('Magento_GiftCardAccount_Model_Pool');
+$pool = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_GiftCardAccount_Model_Pool');
 $pool->setWebsiteId(1)->generatePool();

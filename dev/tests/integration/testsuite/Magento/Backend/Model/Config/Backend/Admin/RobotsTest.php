@@ -26,7 +26,8 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento_Backend_Model_Config_Backend_Admin_Robots');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Backend_Model_Config_Backend_Admin_Robots');
         $this->_model->setPath('design/search_engine_robots/custom_instructions');
         $this->_model->afterLoad();
     }

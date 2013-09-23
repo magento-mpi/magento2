@@ -16,7 +16,8 @@ class Magento_Sales_Block_Order_Shipment_ItemsTest extends PHPUnit_Framework_Tes
         $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
         $block = $layout->createBlock('Magento_Sales_Block_Order_Shipment_Items', 'block');
         $childBlock = $layout->addBlock('Magento_Core_Block_Text', 'shipment_comments', 'block');
-        $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment');
+        $shipment = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Sales_Model_Order_Shipment');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getEntity());

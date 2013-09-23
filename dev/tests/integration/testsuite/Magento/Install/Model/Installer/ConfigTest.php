@@ -46,7 +46,8 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
         $this->assertFileNotExists($expectedFile);
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $model = Mage::getModel('Magento_Install_Model_Installer_Config', array(
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Install_Model_Installer_Config', array(
             'request' => $request, 'dirs' => $dirs, 'filesystem' => $filesystem
         ));
         $model->install();
@@ -57,7 +58,8 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
     public function testGetFormData()
     {
         /** @var $model Magento_Install_Model_Installer_Config */
-        $model = Mage::getModel('Magento_Install_Model_Installer_Config');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Install_Model_Installer_Config');
         /** @var $result Magento_Object */
         $result = $model->getFormData();
         $this->assertInstanceOf('Magento_Object', $result);

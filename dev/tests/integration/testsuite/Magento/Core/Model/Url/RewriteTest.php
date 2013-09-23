@@ -18,7 +18,8 @@ class Magento_Core_Model_Url_RewriteTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Url_Rewrite');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Url_Rewrite');
     }
 
     public function testLoadByRequestPath()
@@ -31,7 +32,8 @@ class Magento_Core_Model_Url_RewriteTest extends PHPUnit_Framework_TestCase
             ->save();
 
         try {
-            $read = Mage::getModel('Magento_Core_Model_Url_Rewrite');
+            $read = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Url_Rewrite');
             $read->setStoreId(Mage::app()->getDefaultStoreView()->getId())
                 ->loadByRequestPath('fancy/url.html');
 
@@ -58,7 +60,8 @@ class Magento_Core_Model_Url_RewriteTest extends PHPUnit_Framework_TestCase
             ->save();
 
         try {
-            $read = Mage::getModel('Magento_Core_Model_Url_Rewrite');
+            $read = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Url_Rewrite');
             $read->setStoreId(Mage::app()->getDefaultStoreView()->getId())
                 ->loadByIdPath('product/1');
             $this->assertEquals($this->_model->getStoreId(), $read->getStoreId());

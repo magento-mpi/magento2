@@ -16,7 +16,8 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Resource');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource');
     }
 
     /**

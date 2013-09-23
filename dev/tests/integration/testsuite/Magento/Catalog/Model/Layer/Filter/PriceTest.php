@@ -23,11 +23,14 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Category');
         $category->load(4);
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price');
+        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer_Filter_Price');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('Magento_Catalog_Model_Layer', array(
+            'layer' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Model_Layer', array(
                 'data' => array('current_category' => $category)
             )),
         ));

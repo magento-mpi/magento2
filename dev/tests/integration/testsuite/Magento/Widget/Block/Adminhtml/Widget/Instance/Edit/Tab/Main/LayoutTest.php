@@ -27,7 +27,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_LayoutTest ex
         $this->_block = Mage::app()->getLayout()->createBlock(
             'Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout',
             '',
-            array('data' => array('widget_instance' => Mage::getModel('Magento_Widget_Model_Widget_Instance')))
+            array('data' => array('widget_instance' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Widget_Model_Widget_Instance')))
         );
         $this->_block->setLayout(Mage::app()->getLayout());
     }

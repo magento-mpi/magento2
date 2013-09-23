@@ -18,7 +18,8 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_resourceModel = Mage::getModel('Magento_Core_Model_Resource_Layout_Update');
+        $this->_resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Resource_Layout_Update');
     }
 
     /**
@@ -27,7 +28,8 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
     public function testFetchUpdatesByHandle()
     {
         /** @var $theme Magento_Core_Model_Theme */
-        $theme = Mage::getModel('Magento_Core_Model_Theme');
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Theme');
         $theme->load('Test Theme', 'theme_title');
         $result = $this->_resourceModel->fetchUpdatesByHandle('test_handle', $theme, Mage::app()->getStore());
         $this->assertEquals('not_temporary', $result);
@@ -50,7 +52,8 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
         $this->assertNotEmpty($layoutCache->load('LAYOUT_CACHE_FIXTURE'));
 
         /** @var $layoutUpdate Magento_Core_Model_Layout_Update */
-        $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Update');
+        $layoutUpdate = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Core_Model_Layout_Update');
         $this->_resourceModel->save($layoutUpdate);
 
         $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'), 'Non-layout cache must be kept');
