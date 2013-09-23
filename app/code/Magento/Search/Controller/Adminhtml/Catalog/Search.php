@@ -22,18 +22,30 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
      *
      * @var Magento_Core_Model_Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
+     * Query factory
+     *
+     * @var Magento_CatalogSearch_Model_QueryFactory
+     */
+    protected $_queryFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_CatalogSearch_Model_QueryFactory $queryFactory
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_queryFactory = $queryFactory;
     }
 
     /**
@@ -42,7 +54,8 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
     public function relatedGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Magento_CatalogSearch_Model_Query');
+        /** @var Magento_CatalogSearch_Model_Query $model */
+        $model = $this->_queryFactory->create();
 
         if ($id) {
             $model->load($id);
