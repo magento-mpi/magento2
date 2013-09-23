@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Types to be reused between XSD files for individual config files and merged config
+ * Format of individual files of email templates configuration
  *
  * {license_notice}
  *
