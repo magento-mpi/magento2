@@ -25,6 +25,7 @@ $salesRule->setData(array(
     'simple_action' => 'by_percent',
     'discount_amount' => 40,
     'stop_rules_processing' => 1,
-    'website_ids' => array(Mage::app()->getWebsite()->getId()),
+    'website_ids' => array(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        ->get('Magento_Core_Model_StoreManagerInterface')->getWebsite()->getId()),
 ));
 $salesRule->save();

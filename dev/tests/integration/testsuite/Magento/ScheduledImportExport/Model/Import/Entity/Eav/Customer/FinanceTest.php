@@ -54,7 +54,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         /** @var $testWebsite Magento_Core_Model_Website */
         $testWebsite = $objectManager->get('Magento_Core_Model_Registry')
             ->registry('Magento_ScheduledImportExport_Model_Website');
-        Mage::app()->getWebsite($testWebsite->getId());
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();

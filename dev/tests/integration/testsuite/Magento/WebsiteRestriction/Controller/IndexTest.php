@@ -24,7 +24,8 @@ class Magento_WebsiteRestriction_Controller_IndexTest extends Magento_TestFramew
             ->create('Magento_Cms_Model_Page');
         $page->load('page100', 'identifier'); // fixture
 
-        $websiteId = Mage::app()->getWebsite('base')->getId(); // fixture, pre-installed
+        $websiteId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getWebsite('base')->getId(); // fixture, pre-installed
         /**
          * besides more expensive, cleaning by tags currently triggers system setup = DDL = breaks transaction
          * therefore cleanup is performed by cache ID
