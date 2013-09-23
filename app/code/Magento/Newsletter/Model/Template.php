@@ -55,11 +55,18 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     protected $_mail;
 
     /**
-     * Newsletter data
+     * Store manager to emulate design
      *
-     * @var Magento_Newsletter_Helper_Data
+     * @var Magento_Core_Model_StoreManagerInterface
      */
-    protected $_newsletterData;
+    protected $_storeManager;
+
+    /**
+     * Http-request, used to determine current store in multi-store mode
+     *
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
 
     /**
      * Filter for newsletter text
@@ -67,20 +74,13 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      * @var Magento_Newsletter_Model_Template_Filter
      */
     protected $_templateFilter;
-    
+
     /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-
-    /**
-     * Store manager
-     *
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
 
     /**
      * Template factory
@@ -90,30 +90,23 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
     protected $_templateFactory;
 
     /**
-     * Request
-     *
-     * @var Magento_Core_Controller_Request_Http
-     */
-    protected $_request;
-
-    /**
      * Construct
      *
      * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Newsletter_Helper_Data $newsletterData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Newsletter_Model_Template_Filter $filter
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Newsletter_Model_TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_View_DesignInterface $design,
-        Magento_Newsletter_Helper_Data $newsletterData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Controller_Request_Http $request,
         Magento_Newsletter_Model_Template_Filter $filter,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -121,12 +114,11 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
         array $data = array()
     ) {
         parent::__construct($design, $context, $registry, $data);
-        $this->_newsletterData = $newsletterData;
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
-        $this->_filter = $filter;
-        $this->_templateFactory = $templateFactory;
         $this->_request = $request;
+        $this->_filter = $filter;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_templateFactory = $templateFactory;
     }
 
     /**
@@ -288,9 +280,11 @@ class Magento_Newsletter_Model_Template extends Magento_Core_Model_Template
      */
     public function getInclude($templateCode, array $variables)
     {
-        return $this->_templateFactory->create()
-            ->loadByCode($templateCode)
+        /** @var Magento_Newsletter_Model_Template $template */
+        $template = $this->_templateFactory->create();
+        $template->loadByCode($templateCode)
             ->getProcessedTemplate($variables);
+        return $template;
     }
 
     /**
