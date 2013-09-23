@@ -16,7 +16,8 @@ $website = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
 $website->setCode('finance_website')
     ->setName('Finance Website');
 $website->save();
-Mage::app()->reinitStores();
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+    ->reinitStores();
 
 // create test customer
 /** @var $customer Magento_Customer_Model_Customer */

@@ -22,7 +22,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     protected function tearDown()
     {
-        Mage::app()->reinitStores();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->reinitStores();
     }
 
     /**
