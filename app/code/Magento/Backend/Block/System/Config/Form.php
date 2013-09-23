@@ -17,6 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_Backend_Block_System_Config_Form extends Magento_Backend_Block_Widget_Form_Generic
 {

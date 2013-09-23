@@ -8,6 +8,8 @@
  * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
