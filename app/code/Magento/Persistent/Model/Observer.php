@@ -10,6 +10,8 @@
 
 /**
  * Persistent Observer
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Persistent_Model_Observer
 {
@@ -143,6 +145,8 @@ class Magento_Persistent_Model_Observer
      * @param Magento_Persistent_Model_Persistent_ConfigFactory $persistentConfigFactory
      * @param Magento_Core_Controller_Request_Http $requestHttp
      * @param Magento_Core_Model_Layout $layout
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -586,19 +590,16 @@ class Magento_Persistent_Model_Observer
             return;
         }
 
-        /** @var $customerSession Magento_Customer_Model_Session */
-        $customerSession = $this->_customerSession;
-
         if ($this->_persistentData->isEnabled()
             && !$this->_isPersistent()
-            && !$customerSession->isLoggedIn()
+            && !$this->_customerSession->isLoggedIn()
             && $this->_checkoutSession->getQuoteId()
             && !($observer->getControllerAction() instanceof Magento_Checkout_Controller_Onepage)
             // persistent session does not expire on onepage checkout page to not spoil customer group id
         ) {
             $this->_eventManager->dispatch('persistent_session_expired');
             $this->_expirePersistentSession();
-            $customerSession->setCustomerId(null)->setCustomerGroupId(null);
+            $this->_customerSession->setCustomerId(null)->setCustomerGroupId(null);
         }
     }
 

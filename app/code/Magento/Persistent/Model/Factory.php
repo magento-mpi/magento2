@@ -19,7 +19,7 @@ class Magento_Persistent_Model_Factory
     protected $_objectManager;
 
     /**
-     * Object manager
+     * Construct
      *
      * @param Magento_ObjectManager $objectManager
      */
@@ -31,13 +31,12 @@ class Magento_Persistent_Model_Factory
     /**
      * Creates models
      *
-     * @param $className
+     * @param string $className
      * @param array $data
      * @return mixed
      */
     public function create($className, $data = array())
     {
-        $class = $this->_objectManager->create($className, $data);
-        return $class;
+        return $this->_objectManager->create($className, $data);
     }
 }

@@ -30,7 +30,7 @@ class Magento_Persistent_Model_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $className = "SomeModel";
+        $className = 'SomeModel';
 
         $classMock = $this->getMock('SomeModel');
         $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
@@ -41,7 +41,7 @@ class Magento_Persistent_Model_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreateWithArguments()
     {
-        $className = "SomeModel";
+        $className = 'SomeModel';
         $data = array('param1', 'param2');
 
         $classMock = $this->getMock('SomeModel');

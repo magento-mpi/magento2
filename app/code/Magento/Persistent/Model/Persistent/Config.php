@@ -46,23 +46,23 @@ class Magento_Persistent_Model_Persistent_Config
      *
      * @var Magento_Persistent_Model_Factory
      */
-    protected $_factory;
+    protected $_persistentFactory;
 
     /**
      * Construct
      *
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Persistent_Model_Factory $factory
+     * @param Magento_Persistent_Model_Factory $persistentFactory
      */
     public function __construct(
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_App_State $appState,
-        Magento_Persistent_Model_Factory $factory
+        Magento_Persistent_Model_Factory $persistentFactory
     ) {
         $this->_layout = $layout;
         $this->_appState = $appState;
-        $this->_factory = $factory;
+        $this->_persistentFactory = $persistentFactory;
     }
 
     /**
@@ -147,7 +147,7 @@ class Magento_Persistent_Model_Persistent_Config
         ) {
             return $this;
         }
-        $object = $this->_factory->create($info['class']);
+        $object = $this->_persistentFactory->create($info['class']);
         $method = $info['method'];
 
         if (method_exists($object, $method)) {
