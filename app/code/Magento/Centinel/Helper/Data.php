@@ -150,7 +150,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getMethodFormBlock($method)
     {
-        $block = $this->_layout->createBlock('Magento_Centinel_Block_Logo');
+        $block = $this->_layout->createBlock('Magento\Centinel\Block\Logo');
         $block->setMethod($method);
         return $block;
     }
