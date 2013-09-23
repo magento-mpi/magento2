@@ -1,5 +1,7 @@
 <?php
 /**
+ * Page layout config reader
+ * 
  * {license_notice}
  *
  * @copyright   {copyright}

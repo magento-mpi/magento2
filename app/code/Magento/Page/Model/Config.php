@@ -1,19 +1,13 @@
 <?php
 /**
+ * Page layout config model
+ * 
  * {license_notice}
  *
  * @category    Magento
  * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Page layout config model
- *
- * @category   Magento
- * @package    Magento_Page
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Page_Model_Config
 {
