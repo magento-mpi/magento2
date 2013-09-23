@@ -42,8 +42,8 @@ class Magento_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framewor
 
         $this->_cacheMock
             ->expects($this->once())
-            ->method('get')
-            ->with($area, 'DiConfig')
+            ->method('load')
+            ->with($area . '::DiConfig')
             ->will($this->returnValue(false));
 
         $this->_readerMock

@@ -19,11 +19,6 @@
             </review_setup>
         </resources>
     </global>
-    <frontend>
-        <secure_url>
-            <review_customer>/review/customer/</review_customer>
-        </secure_url>
-    </frontend>
     <default>
         <catalog>
             <review>

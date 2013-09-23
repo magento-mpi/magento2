@@ -31,21 +31,26 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductOptions_ConfigInterface
+     */
+    protected $_productOptionConfig;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Catalog_Model_ProductOptions_ConfigInterface $productOptionConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Catalog_Model_ProductOptions_ConfigInterface $productOptionConfig,
         array $data = array()
     ) {
+        $this->_productOptionConfig = $productOptionConfig;
         $this->_coreRegistry = $registry;
-        $this->_coreConfig = $coreConfig;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -128,13 +133,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
 
     protected function _prepareLayout()
     {
-        $path = 'global/catalog/product/options/custom/groups';
-
-        foreach ($this->_coreConfig->getNode($path)->children() as $group) {
-            $this->addChild(
-                $group->getName() . '_option_type',
-                (string)$this->_coreConfig->getNode($path . '/' . $group->getName() . '/render')
-            );
+        foreach ($this->_productOptionConfig->getAll() as $option) {
+            $this->addChild($option['name'] . '_option_type', $option['renderer']);
         }
 
         return parent::_prepareLayout();

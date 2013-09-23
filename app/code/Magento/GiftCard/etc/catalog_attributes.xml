@@ -32,4 +32,9 @@
         <attribute name="use_config_email_template"/>
         <attribute name="email_template"/>
     </group>
+    <group name="unassignable">
+        <attribute name="allow_open_amount" />
+        <attribute name="giftcard_amounts" />
+        <attribute name="giftcard_type" />
+    </group>
 </config>
