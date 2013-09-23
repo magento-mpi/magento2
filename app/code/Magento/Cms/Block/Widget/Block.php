@@ -19,18 +19,16 @@
 class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
 {
     /**
+     * @var Magento_Cms_Model_Template_FilterProvider
+     */
+    protected $_filterProvider;
+
+    /**
      * Storage for used widgets
      *
      * @var array
      */
     static protected $_widgetUsageMap = array();
-
-    /**
-     * Cms data
-     *
-     * @var Magento_Cms_Helper_Data
-     */
-    protected $_cmsData;
 
     /**
      * Store manager
@@ -48,10 +46,10 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
 
     /**
      * Construct
-     *
+     * 
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Cms_Helper_Data $cmsData
+     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
      * @param Magento_Cms_Model_BlockFactory $blockFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
@@ -59,16 +57,15 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Cms_Helper_Data $cmsData,
         Magento_Cms_Model_BlockFactory $blockFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Cms_Model_Template_FilterProvider $filterProvider,
         array $data = array()
-    ) {
+    ) {        
         parent::__construct($coreData, $context, $data);
-        $this->_cmsData = $cmsData;
         $this->_blockFactory = $blockFactory;
         $this->_storeManager = $storeManager;
-    }
+    }   
 
     /**
      * Prepare block text and determine whether block output enabled or not
@@ -94,10 +91,9 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
             $block->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
-                /* @var $helper Magento_Cms_Helper_Data */
-                $helper = $this->_cmsData;
-                $processor = $helper->getBlockTemplateProcessor();
-                $this->setText($processor->setStoreId($storeId)->filter($block->getContent()));
+                $this->setText(
+                    $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent())
+                );
             }
         }
 

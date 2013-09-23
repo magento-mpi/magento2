@@ -88,14 +88,15 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->with(Magento_Backend_Model_Url::XML_PATH_STARTUP_MENU_ITEM)
             ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
         $this->_coreDataMock = $this->getMock('Magento_Core_Helper_Data', array('getHash'), array(), '', false);
         $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
+        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
+
         $this->_model = new Magento_Backend_Model_Url(
+            $securityInfoMock,
             $this->_storeConfigMock,
-            $coreConfig,
             $helperMock,
             $this->_coreSessionMock,
             $this->_menuConfigMock,
@@ -167,11 +168,12 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+
+        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
 
         $urlModel = new Magento_Backend_Model_Url(
+            $securityInfoMock,
             $this->_storeConfigMock,
-            $coreConfig,
             $helperMock,
             $this->_coreSessionMock,
             $this->_menuConfigMock,
@@ -204,11 +206,12 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
-        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+
+        $securityInfoMock = $this->getMock('Magento_Core_Model_Url_SecurityInfoInterface');
 
         $urlModel = new Magento_Backend_Model_Url(
+            $securityInfoMock,
             $this->_storeConfigMock,
-            $coreConfig,
             $helperMock,
             $this->_coreSessionMock,
             $this->_menuConfigMock,

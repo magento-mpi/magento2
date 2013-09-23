@@ -17,7 +17,7 @@
  */
 class Magento_WebsiteRestriction_Controller_Index extends Magento_Core_Controller_Front_Action
 {
-    protected $_stubPageIdentifier = Magento_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_LANDING_PAGE;
+    protected $_stubPageIdentifier = Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
      * @var Magento_Core_Model_Cache_Type_Config

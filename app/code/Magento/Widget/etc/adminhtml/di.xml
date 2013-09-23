@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Widget_Model_Widget_Instance">
+        <param name="relatedCacheTypes">
+            <value>
+                <blockCache>block_html</blockCache>
+                <layoutCache>layout</layoutCache>
+            </value>
+        </param>
+    </type>
+</config>

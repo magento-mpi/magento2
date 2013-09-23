@@ -61,10 +61,12 @@ class Magento_Catalog_Model_Attribute_Config_Data
     public function getData()
     {
         if ($this->_data === null) {
-            $this->_data = $this->_cache->get($this->_scope, $this->_cacheId);
-            if ($this->_data === false) {
+            $cachedData = $this->_cache->load($this->_scope . '::' . $this->_cacheId);
+            if ($cachedData === false) {
                 $this->_data = $this->_reader->read($this->_scope);
-                $this->_cache->put($this->_data, $this->_scope, $this->_cacheId);
+                $this->_cache->save(serialize($this->_data), $this->_scope . '::' . $this->_cacheId);
+            } else {
+                $this->_data = unserialize($cachedData);
             }
         }
         return $this->_data;
