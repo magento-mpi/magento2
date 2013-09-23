@@ -14,95 +14,117 @@
 class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockBuilder
+     * @var $_modelBuilder PHPUnit_Framework_MockObject_MockObject|Magento_Theme_Model_Uploader_Service
      */
     protected $_modelBuilder;
-
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_File_Uploader
      */
     protected $_uploader;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_uploaderFactory;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_File_Size
+     */
+    protected $_fileSizeMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Io_File
      */
     protected $_filesystemMock;
+
+    /**
+     * @var int
+     */
+    const MB_MULTIPLIER = 1048576;
 
     protected function setUp()
     {
         $this->_uploader = $this->getMock('Magento_Core_Model_File_Uploader', array(), array(), '', false);
-        $uploaderFactory = $this->getMock(
+        $this->_uploaderFactory = $this->getMock(
             'Magento_Core_Model_File_UploaderFactory', array('create'), array(), '', false
         );
-        $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
+        $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
         $this->_filesystemMock = $this->getMock('Magento_Io_File', array('read'), array(), '', false);
         /** @var $service Magento_Theme_Model_Uploader_Service */
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments(
-            'Magento_Theme_Model_Uploader_Service',
-            array('fileIo' => $this->_filesystemMock, 'uploaderFactory' => $uploaderFactory)
-        );
-        $this->_modelBuilder = $this->getMockBuilder('Magento_Theme_Model_Uploader_Service')
-            ->setConstructorArgs($arguments);
+
+        $this->_fileSizeMock = $this->getMockBuilder('Magento_File_Size')
+            ->setMethods(array('getMaxFileSize'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_fileSizeMock->expects($this->any())
+            ->method('getMaxFileSize')
+            ->will($this->returnValue(600 * self::MB_MULTIPLIER));
     }
 
     protected function tearDown()
     {
         $this->_modelBuilder = null;
         $this->_uploader = null;
+        $this->_fileSizeMock = null;
+        $this->_filesystemMock = null;
+        $this->_uploaderFactory = null;
     }
 
     public function testGetCssUploadMaxSize()
     {
-        /** @var $service Magento_Theme_Model_Uploader_Service|PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->_modelBuilder->setMethods(array('_getMaxUploadSize'))->getMock();
-        $service->expects($this->once())
-            ->method('_getMaxUploadSize')
-            ->with(Magento_Theme_Model_Uploader_Service::XML_PATH_CSS_UPLOAD_LIMIT)
-            ->will($this->returnValue('5M'));
-
-        $this->assertEquals('5M', $service->getCssUploadMaxSize());
+        $this->_modelBuilder = new Magento_Theme_Model_Uploader_Service(
+            $this->_filesystemMock,
+            $this->_fileSizeMock,
+            $this->_uploaderFactory,
+            array(
+                'css' => '5M'
+            )
+        );
+        $this->assertEquals(5 * self::MB_MULTIPLIER, $this->_modelBuilder->getCssUploadMaxSize());
     }
 
     public function testGetJsUploadMaxSize()
     {
-        /** @var $service Magento_Theme_Model_Uploader_Service|PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->_modelBuilder->setMethods(array('_getMaxUploadSize'))->getMock();
-        $service->expects($this->once())
-            ->method('_getMaxUploadSize')
-            ->with(Magento_Theme_Model_Uploader_Service::XML_PATH_JS_UPLOAD_LIMIT)
-            ->will($this->returnValue('3M'));
-
-        $this->assertEquals('3M', $service->getJsUploadMaxSize());
+        $this->_modelBuilder = new Magento_Theme_Model_Uploader_Service(
+            $this->_filesystemMock,
+            $this->_fileSizeMock,
+            $this->_uploaderFactory,
+            array(
+                'js' => '3M'
+            )
+        );
+        $this->assertEquals(3 * self::MB_MULTIPLIER, $this->_modelBuilder->getJsUploadMaxSize());
     }
 
     public function testGetFileContent()
     {
         $fileName = 'file.name';
-        /** @var $service Magento_Theme_Model_Uploader_Service|PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->_modelBuilder->setMethods(null)->getMock();
-
         $this->_filesystemMock->expects($this->once())->method('read')->with($fileName)
             ->will($this->returnValue('content from my file'));
+        $this->_modelBuilder = new Magento_Theme_Model_Uploader_Service(
+            $this->_filesystemMock,
+            $this->_fileSizeMock,
+            $this->_uploaderFactory,
+            array(
+                'js' => '3M'
+            )
+        );
 
-        $this->assertEquals('content from my file', $service->getFileContent($fileName));
+        $this->assertEquals('content from my file', $this->_modelBuilder->getFileContent($fileName));
     }
 
     public function testUploadCssFile()
     {
         $fileName = 'file.name';
-
-        /** @var $service Magento_Theme_Model_Uploader_Service|PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->_modelBuilder->setMethods(array('_getMaxUploadSize'))->getMock();
-
-        $service->expects($this->once())
-            ->method('_getMaxUploadSize')
-            ->with(Magento_Theme_Model_Uploader_Service::XML_PATH_CSS_UPLOAD_LIMIT)
-            ->will($this->returnValue('5'));
-
-        $this->_uploader->expects($this->once())
-            ->method('getFileSize')
-            ->will($this->returnValue('3'));
+        $this->_modelBuilder = new Magento_Theme_Model_Uploader_Service(
+            $this->_filesystemMock,
+            $this->_fileSizeMock,
+            $this->_uploaderFactory,
+            array(
+                'css' => '3M'
+            )
+        );
 
         $this->_filesystemMock->expects($this->once())->method('read')->with($fileName)
             ->will($this->returnValue('content'));
@@ -113,7 +135,7 @@ class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCas
 
         $this->assertEquals(
             array('content' => 'content', 'filename' => $fileName),
-            $service->uploadCssFile($fileName)
+            $this->_modelBuilder->uploadCssFile($fileName)
         );
     }
 
@@ -123,36 +145,41 @@ class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCas
     public function testUploadInvalidCssFile()
     {
         $fileName = 'file.name';
-        /** @var $service Magento_Theme_Model_Uploader_Service|PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->_modelBuilder->setMethods(array('_getMaxUploadSize', 'getCssUploadMaxSizeInMb'))->getMock();
-
-        $service->expects($this->once())
-            ->method('_getMaxUploadSize')
-            ->with(Magento_Theme_Model_Uploader_Service::XML_PATH_CSS_UPLOAD_LIMIT)
-            ->will($this->returnValue('10'));
-
-        $service->expects($this->once())
-            ->method('getCssUploadMaxSizeInMb')
-            ->will($this->returnValue('10'));
 
         $this->_uploader->expects($this->once())
             ->method('getFileSize')
-            ->will($this->returnValue('30'));
+            ->will($this->returnValue(30 * self::MB_MULTIPLIER));
 
-        $service->uploadCssFile($fileName);
+        $this->_modelBuilder = new Magento_Theme_Model_Uploader_Service(
+            $this->_filesystemMock,
+            $this->_fileSizeMock,
+            $this->_uploaderFactory,
+            array(
+                'css' => '10M'
+            )
+        );
+
+        $this->_modelBuilder->uploadCssFile($fileName);
     }
 
     public function testUploadJsFile()
     {
         $fileName = 'file.name';
 
-        /** @var $service Magento_Theme_Model_Uploader_Service|PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->_modelBuilder->setMethods(array('_getMaxUploadSize'))->getMock();
+        $this->_fileSizeMock->expects($this->once())
+            ->method('getMaxFileSize')
+            ->will($this->returnValue(600 * self::MB_MULTIPLIER));
 
-        $service->expects($this->once())
-            ->method('_getMaxUploadSize')
-            ->with(Magento_Theme_Model_Uploader_Service::XML_PATH_JS_UPLOAD_LIMIT)
-            ->will($this->returnValue('500'));
+
+
+        $this->_modelBuilder = new Magento_Theme_Model_Uploader_Service(
+            $this->_filesystemMock,
+            $this->_fileSizeMock,
+            $this->_uploaderFactory,
+            array(
+                'js' => '500M'
+            )
+        );
 
         $this->_filesystemMock->expects($this->once())->method('read')->with($fileName)
             ->will($this->returnValue('content'));
@@ -167,7 +194,7 @@ class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCas
 
         $this->assertEquals(
             array('content' => 'content', 'filename' => $fileName),
-            $service->uploadJsFile($fileName)
+            $this->_modelBuilder->uploadJsFile($fileName)
         );
     }
 
@@ -177,25 +204,19 @@ class Magento_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCas
     public function testUploadInvalidJsFile()
     {
         $fileName = 'file.name';
-
-        /** @var $service Magento_Theme_Model_Uploader_Service|PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->_modelBuilder
-            ->setMethods(array('_getMaxUploadSize', 'getFileContent', 'getJsUploadMaxSizeInMb'))
-            ->getMock();
-
-        $service->expects($this->once())
-            ->method('_getMaxUploadSize')
-            ->with(Magento_Theme_Model_Uploader_Service::XML_PATH_JS_UPLOAD_LIMIT)
-            ->will($this->returnValue('100'));
-
-        $service->expects($this->once())
-            ->method('getJsUploadMaxSizeInMb')
-            ->will($this->returnValue('499'));
+        $this->_modelBuilder = new Magento_Theme_Model_Uploader_Service(
+            $this->_filesystemMock,
+            $this->_fileSizeMock,
+            $this->_uploaderFactory,
+            array(
+                'js' => '100M'
+            )
+        );
 
         $this->_uploader->expects($this->once())
             ->method('getFileSize')
-            ->will($this->returnValue('499'));
+            ->will($this->returnValue(499 * self::MB_MULTIPLIER));
 
-        $service->uploadJsFile($fileName);
+        $this->_modelBuilder->uploadJsFile($fileName);
     }
 }

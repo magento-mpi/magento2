@@ -15,7 +15,12 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_FileTe
     {
         /** @var $fileBlock Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File */
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $fileBlock = $helper->getObject('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File');
+        $collectionFactory = $this->getMock('Magento_Data_Form_Element_CollectionFactory', array(), array(), '', false);
+
+        $fileBlock = $helper->getObject('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File',
+            array('factoryCollection' => $collectionFactory)
+        );
+
         $this->assertContains('accept', $fileBlock->getHtmlAttributes());
         $this->assertContains('multiple', $fileBlock->getHtmlAttributes());
     }
