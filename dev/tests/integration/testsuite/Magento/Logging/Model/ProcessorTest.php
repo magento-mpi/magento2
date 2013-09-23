@@ -28,7 +28,8 @@ class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $collection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Logging_Model_Event')->getCollection();
         $eventCountBefore = count($collection);

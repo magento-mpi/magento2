@@ -307,7 +307,8 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $design = $this->_objectManager->create('Magento_Core_Model_View_Design', array('themes' => $themes));
         $this->_objectManager->addSharedInstance($design, 'Magento_Core_Model_View_Design');
 
-        Mage::app()->loadArea($expectedArea);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->loadArea($expectedArea);
         /** @var $controller Magento_Core_Controller_Varien_Action */
         $context = $this->_objectManager->create($context, array(
             'response' => $this->_objectManager->get('Magento_TestFramework_Response')

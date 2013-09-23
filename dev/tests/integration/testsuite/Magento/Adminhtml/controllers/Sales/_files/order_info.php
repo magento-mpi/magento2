@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+    ->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
 
 /** @var $product Magento_Catalog_Model_Product */
-$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Catalog_Model_Product');
+$product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Catalog_Model_Product');
 $product->setTypeId('virtual')
     ->setId(1)
     ->setAttributeSetId(4)
