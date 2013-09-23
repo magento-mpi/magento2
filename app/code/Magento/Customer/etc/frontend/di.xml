@@ -13,4 +13,11 @@
             <value>frontend</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Url_SecurityInfo">
+        <param name="secureUrlList">
+            <value>
+                <customer>/customer/</customer>
+            </value>
+        </param>
+    </type>
 </config>

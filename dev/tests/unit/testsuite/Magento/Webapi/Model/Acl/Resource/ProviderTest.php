@@ -45,10 +45,8 @@ class Magento_Webapi_Model_Acl_Resource_ProviderTest extends PHPUnit_Framework_T
     public function testGetAclVirtualResources()
     {
         $aclResourceConfig['config']['mapping'] = array('ExpectedValue');
-        $scope = 'scopeName';
-        $this->_configScopeMock->expects($this->once())->method('getCurrentScope')->will($this->returnValue($scope));
         $this->_configReaderMock->expects($this->once())
-            ->method('read')->with($scope)->will($this->returnValue($aclResourceConfig));
+            ->method('read')->with(null)->will($this->returnValue($aclResourceConfig));
         $this->assertEquals($aclResourceConfig['config']['mapping'], $this->_model->getAclVirtualResources());
     }
 }

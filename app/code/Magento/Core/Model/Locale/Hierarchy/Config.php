@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Locale_Hierarchy_Config
+class Magento_Core_Model_Locale_Hierarchy_Config extends Magento_Config_Data
 {
     /**
      * Configuration data reader
@@ -31,25 +31,16 @@ class Magento_Core_Model_Locale_Hierarchy_Config
     protected $_cacheId;
 
     /**
-     * Configuration scope
-     *
-     * @var string
-     */
-    protected $_scope = 'global';
-
-    /**
-     * @param Magento_Core_Model_Locale_Hierarchy_Config_Reader $reader
+     * @param Magento_Config_ReaderInterface $reader
      * @param Magento_Config_CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Core_Model_Locale_Hierarchy_Config_Reader $reader,
+        Magento_Config_ReaderInterface $reader,
         Magento_Config_CacheInterface $cache,
         $cacheId = 'local_hierarchy_cache'
     ) {
-        $this->_cache = $cache;
-        $this->_reader = $reader;
-        $this->_cacheId = $cacheId;
+        parent::__construct($reader, $cache, $cacheId);
     }
 
     /**
@@ -59,11 +50,6 @@ class Magento_Core_Model_Locale_Hierarchy_Config
      */
     public function getHierarchy()
     {
-        $data = $this->_cache->get($this->_scope, $this->_cacheId);
-        if (!$data) {
-            $data = $this->_reader->read($this->_scope);
-            $this->_cache->put($data, $this->_scope, $this->_cacheId);
-        }
-        return $data;
+        return $this->get();
     }
 }

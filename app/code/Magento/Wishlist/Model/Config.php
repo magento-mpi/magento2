@@ -31,12 +31,6 @@ class Magento_Wishlist_Model_Config
      */
     private $_sharingEmailLimit;
 
-    /**
-     * Number of symbols in email for sharing
-     *
-     * @var int
-     */
-    private $_sharingTextLimit;
 
     /**
      * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
