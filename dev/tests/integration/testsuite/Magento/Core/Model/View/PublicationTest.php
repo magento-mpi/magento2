@@ -388,7 +388,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testPublishResourcesAndCssWhenChangedCssDevMode()
     {
-        if (!Mage::getIsDeveloperMode()) {
+        if (!Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+            ->getMode()
+        ) {
             $this->markTestSkipped('Valid in developer mode only');
         }
         $this->_testPublishResourcesAndCssWhenChangedCss(true);
@@ -402,7 +404,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testNotPublishResourcesAndCssWhenChangedCssUsualMode()
     {
-        if (Mage::getIsDeveloperMode()) {
+        if (Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+            ->getMode()
+        ) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
         $this->_testPublishResourcesAndCssWhenChangedCss(false);
@@ -472,7 +476,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testPublishChangedResourcesWhenUnchangedCssDevMode()
     {
-        if (!Mage::getIsDeveloperMode()) {
+        if (!Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+            ->getMode()
+        ) {
             $this->markTestSkipped('Valid in developer mode only');
         }
 
@@ -487,7 +493,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testNotPublishChangedResourcesWhenUnchangedCssUsualMode()
     {
-        if (Mage::getIsDeveloperMode()) {
+        if (Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+            ->getMode()
+        ) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
 
