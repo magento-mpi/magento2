@@ -130,42 +130,36 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSubscriptions()
     {
-        $this->markTestSkipped("MAGETWO-11929 extra items");
         $subscriptions   = $this->_subscriptionSet->getItems();
         $this->assertEquals(4, count($subscriptions));
     }
 
     public function testGetActiveSubscriptions()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $subscriptions   = $this->_subscriptionSet->addIsActiveFilter(true)->getItems();
         $this->assertEquals(3, count($subscriptions));
     }
 
     public function testGetInactiveSubscriptions()
     {
-        $this->markTestSkipped("MAGETWO-11929 extra items");
         $subscriptions   = $this->_subscriptionSet->addIsActiveFilter(false)->getItems();
         $this->assertEquals(1, count($subscriptions));
     }
 
     public function testGetUnknownTopicSubscriptions()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $subscriptions   = $this->_subscriptionSet->addTopicFilter(self::TOPIC_UNKNOWN)->getItems();
         $this->assertEquals(0, count($subscriptions));
     }
 
     public function testGetKnownTopicSubscriptions()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $subscriptions   = $this->_subscriptionSet->addTopicFilter(self::TOPIC_LISTENERS_ONE)->getItems();
         $this->assertEquals(1, count($subscriptions));
     }
 
     public function testGetSubscriptionsByTopic()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $subscriptions = $this->_subscriptionSet->getSubscriptionsByTopic(self::TOPIC_LISTENERS_THREE);
 
         $this->assertEquals(3, count($subscriptions));
@@ -181,7 +175,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSubscriptionsByAlias()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $subscriptions = $this->_subscriptionSet->getSubscriptionsByAlias('first');
         // There should only be one item
         foreach ($subscriptions as $subscription) {
@@ -191,7 +184,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetActivatedSubscriptionsWithoutApiUser()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $subscriptions = $this->_subscriptionSet->getActivatedSubscriptionsWithoutApiUser();
 
         $this->assertEquals(2, count($subscriptions));
@@ -199,7 +191,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetApiUserSubscriptions()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $subscriptions = $this->_subscriptionSet->getApiUserSubscriptions(self::$_apiUserId);
 
         $this->assertEquals(1, count($subscriptions));

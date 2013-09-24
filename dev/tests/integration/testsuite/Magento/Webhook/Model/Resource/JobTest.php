@@ -19,7 +19,6 @@ class JobTest extends \PHPUnit_Framework_TestCase
      */
     public function testInit()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Resource\Job $jobResource */
         $jobResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Resource\Job');

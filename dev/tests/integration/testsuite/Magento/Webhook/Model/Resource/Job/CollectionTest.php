@@ -60,7 +60,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testInit()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Resource\Job\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
         $this->assertEquals('Magento\Webhook\Model\Resource\Job', $collection->getResourceModelName());
@@ -69,7 +68,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testNewEventInNewCollection()
     {
-        $this->markTestSkipped("MAGETWO-11929 extra item");
         $job1 = $this->_objectManager->create('Magento\Webhook\Model\Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())
@@ -106,7 +104,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testParallelTransactions()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $job = $this->_objectManager->create('Magento\Webhook\Model\Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())
@@ -167,7 +164,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testRevokeIdlingInProgress()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $this->assertNull($collection->revokeIdlingInProgress());

@@ -71,7 +71,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterWebapiUserDelete()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         //setup
         $this->_subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE)
             ->save();
@@ -89,7 +88,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterWebapiUserChange()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         //setup
         $this->_subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE)
             ->setTopics(array('test/hook'))
@@ -110,7 +108,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterWebapiRoleChange()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         //setup
         $this->_subscription->setStatus(\Magento\PubSub\SubscriptionInterface::STATUS_ACTIVE)
             ->setTopics(array('test/hook'))

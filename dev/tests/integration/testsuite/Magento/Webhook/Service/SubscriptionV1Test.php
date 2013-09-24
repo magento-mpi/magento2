@@ -66,7 +66,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
         $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
         $resultData = $service->create($this->_subscriptionData);
@@ -81,7 +80,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testCreateInvalidTopicsNoUser()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $this->_subscriptionData[self::KEY_TOPICS] = array('invalid/topic', 'also/invalid/topic');
         unset($this->_subscriptionData[self::KEY_API_USER_ID]);
 
@@ -98,7 +96,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testCreateInvalidTopicsWithUser()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $this->_subscriptionData[self::KEY_TOPICS] = array('invalid/topic', 'also/invalid/topic');
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
         $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
@@ -109,7 +106,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
@@ -129,7 +125,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testGetNotFound()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Service\SubscriptionV1 $service */
         $service = \Mage::getModel('Magento\Webhook\Service\SubscriptionV1');
         $service->get(0);
@@ -137,7 +132,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 
     public function testGetAll()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $first = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $first->setData($this->_subscriptionData);
@@ -158,7 +152,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 
     public function testUpdate()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $newUrl = self::VALUE_ENDPOINT_URL . '/plus/this';
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
@@ -178,7 +171,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
@@ -200,7 +192,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 
     public function testActivate()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
@@ -220,7 +211,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 
     public function testDeactivate()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);
@@ -241,7 +231,6 @@ class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 
     public function testRevoke()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription');
         $subscription->setData($this->_subscriptionData);

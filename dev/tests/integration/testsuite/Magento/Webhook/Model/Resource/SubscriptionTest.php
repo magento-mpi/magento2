@@ -27,7 +27,6 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadTopics()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $topics = array(
             'customer/created',
             'customer/updated',
@@ -49,7 +48,6 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveAndLoad()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $topics = array(
             'customer/created',
             'customer/updated',

@@ -16,7 +16,6 @@ class StatusTest extends \PHPUnit_Framework_TestCase
 {
     public function testToOptionArray()
     {
-        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $translator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Translate');
         $object = new \Magento\Webhook\Model\Subscription\Options\Status($translator);
