@@ -25,7 +25,7 @@
             <instance type="Magento_Page_Model_Config_SchemaLocator" />
         </param>
     </type>
-    <type name="Magento_Page_Model_Config_Data">
+    <type name="Magento_Config_Data">
         <param name='reader'>
             <instance type="Magento_Page_Model_Config_Reader" />
         </param>

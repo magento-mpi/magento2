@@ -24,10 +24,10 @@ class Magento_Page_Model_Config
     /**
      * Constructor
      *
-     * @param Magento_Page_Model_Config_Data $dataStorage
+     * @param Magento_Config_Data $dataStorage
      */
     public function __construct(
-        Magento_Page_Model_Config_Data $dataStorage
+        Magento_Config_Data $dataStorage
     ) {
         $this->_dataStorage = $dataStorage;
     }
