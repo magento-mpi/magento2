@@ -19,7 +19,11 @@ abstract class StubEntityAbstract
 {
     public function __construct()
     {
-        parent::__construct();
+        /** @var Magento_TestFramework_ObjectManager  $objectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        parent::__construct($storeConfig);
         $this->_disabledAttrs = array('default_billing', 'default_shipping');
     }
 }
