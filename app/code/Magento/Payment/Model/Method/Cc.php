@@ -110,7 +110,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         if (in_array($info->getCcType(), $availableTypes)) {
             if ($this->validateCcNum($ccNumber)
                 // Other credit card type number validation
-                || ($this->OtherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))) {
+                || ($this->otherCcType($info->getCcType()) && $this->validateCcNumOther($ccNumber))) {
 
                 $ccTypeRegExpList = array(
                     //Solo, Switch or Maestro. International safe
@@ -144,7 +144,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
                     && preg_match($ccTypeRegExpList[$info->getCcType()], $ccNumber);
                 $ccType = $ccNumAndTypeMatches ? $info->getCcType() : 'OT';
 
-                if (!$ccNumAndTypeMatches && !$this->OtherCcType($info->getCcType())) {
+                if (!$ccNumAndTypeMatches && !$this->otherCcType($info->getCcType())) {
                     $errorMsg = __('Credit card number mismatch with credit card type.');
                 }
             } else {
@@ -216,7 +216,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         return true;
     }
 
-    public function OtherCcType($type)
+    public function otherCcType($type)
     {
         return $type=='OT';
     }
