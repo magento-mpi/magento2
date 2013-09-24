@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <totals>
+        <item name="subtotal">
+            <model>Magento_Tax_Model_Sales_Pdf_Subtotal</model>
+        </item>
+        <item name="shipping">
+            <model>Magento_Tax_Model_Sales_Pdf_Shipping</model>
+        </item>
+        <item name="grand_total">
+            <model>Magento_Tax_Model_Sales_Pdf_Grandtotal</model>
+        </item>
+        <item name="tax">
+            <title translate="true">Tax</title>
+            <source_field>tax_amount</source_field>
+            <model>Magento_Tax_Model_Sales_Pdf_Tax</model>
+            <font_size>7</font_size>
+            <display_zero>0</display_zero>
+            <sort_order>300</sort_order>
+        </item>
+    </totals>
+</config>

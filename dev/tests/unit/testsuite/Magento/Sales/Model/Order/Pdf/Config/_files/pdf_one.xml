@@ -14,4 +14,12 @@
             <renderer product_type="product_type_two">Wrong_Renderer_To_Be_Overridden</renderer>
         </page>
     </renderers>
+    <totals>
+        <item name="item1">
+            <title>Title1</title>
+        </item>
+        <item name="item2">
+            <title>Title2</title>
+        </item>
+    </totals>
 </config>

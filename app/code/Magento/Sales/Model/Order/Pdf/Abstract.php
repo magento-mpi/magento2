@@ -49,13 +49,6 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected $_pdf;
 
     /**
-     * Default total model
-     *
-     * @var string
-     */
-    protected $_defaultTotalModel = 'Magento_Sales_Model_Order_Pdf_Total_Default';
-
-    /**
      * Retrieve PDF
      *
      * @return Zend_Pdf
@@ -106,6 +99,11 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected $_pdfConfig;
 
     /**
+     * @var Magento_Sales_Model_Order_Pdf_Total_Factory
+     */
+    protected $_totalFactory;
+
+    /**
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
@@ -113,6 +111,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
+     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
      * @param array $data
      */
     public function __construct(
@@ -123,6 +122,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Dir $dirs,
         Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
+        Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -132,6 +132,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         $this->_translate = $translate;
         $this->_dirs = $dirs;
         $this->_pdfConfig = $pdfConfig;
+        $this->_totalFactory = $totalFactory;
         parent::__construct($data);
     }
 
@@ -597,28 +598,16 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     /**
      * Return total list
      *
-     * @param  Magento_Sales_Model_Abstract $source
-     * @return array
+     * @return Magento_Sales_Model_Order_Pdf_Total_Default[]
      */
-    protected function _getTotalsList($source)
+    protected function _getTotalsList()
     {
-        //$totals = $this->_coreConfig->getNode('global/pdf/totals')->asArray();
         $totals = $this->_pdfConfig->getTotals();
         usort($totals, array($this, '_sortTotalsList'));
         $totalModels = array();
-        foreach ($totals as $index => $totalInfo) {
-            if (!empty($totalInfo['model'])) {
-                $totalModel = Mage::getModel($totalInfo['model']);
-                if ($totalModel instanceof Magento_Sales_Model_Order_Pdf_Total_Default) {
-                    $totalInfo['model'] = $totalModel;
-                } else {
-                    Mage::throwException(
-                        __('The PDF total model should extend Magento_Sales_Model_Order_Pdf_Total_Default.')
-                    );
-                }
-            } else {
-                $totalModel = Mage::getModel($this->_defaultTotalModel);
-            }
+        foreach ($totals as $totalInfo) {
+            $class = empty($totalInfo['model']) ? null : $totalInfo['model'];
+            $totalModel = $this->_totalFactory->create($class);
             $totalModel->setData($totalInfo);
             $totalModels[] = $totalModel;
         }
@@ -636,7 +625,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected function insertTotals($page, $source)
     {
         $order = $source->getOrder();
-        $totals = $this->_getTotalsList($source);
+        $totals = $this->_getTotalsList();
         $lineBlock = array(
             'lines'  => array(),
             'height' => 15

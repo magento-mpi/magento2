@@ -33,6 +33,7 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
+     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
      * @param array $data
      */
     public function __construct(
@@ -44,11 +45,12 @@ class Magento_Sales_Model_Order_Pdf_Shipment_Packaging extends Magento_Sales_Mod
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Dir $dirs,
         Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
+        Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
         parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig,
-            $data);
+            $totalFactory, $data);
     }
 
     /**

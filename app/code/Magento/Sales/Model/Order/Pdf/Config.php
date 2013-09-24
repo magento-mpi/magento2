@@ -28,20 +28,16 @@ class Magento_Sales_Model_Order_Pdf_Config
      */
     public function getRendererData($type)
     {
-        $data = $this->_dataStorage->get();
-        if (isset($data['renderers'][$type])) {
-            return $data['renderers'][$type];
-        }
-        return array();
+        return $this->_dataStorage->get("renderers/$type", array());
     }
 
     /**
-     * Get totals
+     * Get list of total lines
      *
      * @return array
      */
     public function getTotals()
     {
-        return array();
+        return $this->_dataStorage->get('totals', array());
     }
 }

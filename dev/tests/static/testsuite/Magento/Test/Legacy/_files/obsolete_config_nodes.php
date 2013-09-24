@@ -43,7 +43,5 @@ return array(
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
     '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
-    '/config/global/invoice' => 'Use /config/renderers of pdf.xml',
-    '/config/global/shipment' => 'Use /config/renderers of pdf.xml',
-    '/config/global/creditmemo' => 'Use /config/renderers of pdf.xml',
+    '/config/global/pdf' => 'Use pdf.xml',
 );

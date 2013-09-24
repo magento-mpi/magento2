@@ -68,27 +68,6 @@
                 </nominal_totals>
             </quote>
         </sales>
-        <pdf>
-            <totals>
-                <subtotal>
-                    <model>Magento_Tax_Model_Sales_Pdf_Subtotal</model>
-                </subtotal>
-                <shipping>
-                    <model>Magento_Tax_Model_Sales_Pdf_Shipping</model>
-                </shipping>
-                <grand_total>
-                    <model>Magento_Tax_Model_Sales_Pdf_Grandtotal</model>
-                </grand_total>
-                <tax translate="title">
-                    <title>Tax</title>
-                    <source_field>tax_amount</source_field>
-                    <model>Magento_Tax_Model_Sales_Pdf_Tax</model>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>300</sort_order>
-                </tax>
-            </totals>
-        </pdf>
         <catalog>
             <product>
                 <attributes>

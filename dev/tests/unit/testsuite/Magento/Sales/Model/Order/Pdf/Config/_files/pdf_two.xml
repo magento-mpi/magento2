@@ -16,4 +16,12 @@
             <renderer product_type="product_type_three">Renderer_Type_Two_Product_Two</renderer>
         </page>
     </renderers>
+    <totals>
+        <item name="item1">
+            <title>Title1 Modified</title>
+        </item>
+        <item name="item3">
+            <title>Title3</title>
+        </item>
+    </totals>
 </config>

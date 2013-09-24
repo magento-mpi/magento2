@@ -122,6 +122,9 @@ app/code/Magento/Sales/Block/Order/Link.php
 app/code/Magento/Sales/Block/Recurring/Profile/Grid.php
 app/code/Magento/Sales/Block/Recurring/Profile/Related/Orders/Grid.php
 app/code/Magento/Sales/Block/Recurring/Profile/View
+app/code/Magento/Sales/Model/Order/Pdf/Config
+app/code/Magento/Sales/Model/Order/Pdf/Config.php
+app/code/Magento/Sales/Model/Order/Pdf/Total/Factory.php
 app/code/Magento/SalesRule/Model/Plugin
 app/code/Magento/Theme
 app/code/Magento/User

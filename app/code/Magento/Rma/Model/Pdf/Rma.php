@@ -54,6 +54,7 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
+     * @param Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
      */
     public function __construct(
         Magento_Rma_Helper_Eav $rmaEav,
@@ -64,11 +65,13 @@ class Magento_Rma_Model_Pdf_Rma extends Magento_Sales_Model_Order_Pdf_Abstract
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Dir $dirs,
-        Magento_Sales_Model_Order_Pdf_Config $pdfConfig
+        Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
+        Magento_Sales_Model_Order_Pdf_Total_Factory $totalFactory
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
-        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig);
+        parent::__construct($paymentData, $coreData, $coreString, $coreStoreConfig, $translate, $dirs, $pdfConfig,
+            $totalFactory);
     }
 
     /**

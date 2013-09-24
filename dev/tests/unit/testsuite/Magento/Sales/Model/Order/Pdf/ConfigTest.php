@@ -20,12 +20,7 @@ class Magento_Sales_Model_Order_Pdf_ConfigTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $dataStorageReturn = require __DIR__ . '/Config/_files/pdf_merged.php';
         $this->_dataStorage = $this->getMock('Magento_Sales_Model_Order_Pdf_Config_Data', array(), array(), '', false);
-        $this->_dataStorage
-            ->expects($this->once())
-            ->method('get')
-            ->will($this->returnValue($dataStorageReturn));
         $this->_model = new Magento_Sales_Model_Order_Pdf_Config($this->_dataStorage);
     }
 
@@ -36,6 +31,14 @@ class Magento_Sales_Model_Order_Pdf_ConfigTest extends PHPUnit_Framework_TestCas
      */
     public function testGetRendererData($pageType, $expectedResult)
     {
+        $dataStorage = require __DIR__ . '/Config/_files/pdf_merged.php';
+        $returnValue = isset($dataStorage['renderers'][$pageType]) ? $dataStorage['renderers'][$pageType] : array();
+        $this->_dataStorage
+            ->expects($this->once())
+            ->method('get')
+            ->with("renderers/{$pageType}", array())
+            ->will($this->returnValue($returnValue));
+
         $this->assertSame($expectedResult, $this->_model->getRendererData($pageType));
     }
 
@@ -57,5 +60,17 @@ class Magento_Sales_Model_Order_Pdf_ConfigTest extends PHPUnit_Framework_TestCas
                 array()
             ),
         );
+    }
+
+    public function testGetTotals()
+    {
+        $dataStorage = require __DIR__ . '/Config/_files/pdf_merged.php';
+        $this->_dataStorage
+            ->expects($this->once())
+            ->method('get')
+            ->with('totals')
+            ->will($this->returnValue($dataStorage['totals']));
+
+        $this->assertSame($dataStorage['totals'], $this->_model->getTotals());
     }
 }

@@ -14,6 +14,17 @@ return array(
         'type_two' => array(
             'product_type_three' => 'Renderer_Type_Two_Product_Two',
         ),
-    )
+    ),
+    'totals' => array(
+        'item1' => array(
+            'title' => 'Title1 Modified',
+        ),
+        'item2' => array(
+            'title' => 'Title2',
+        ),
+        'item3' => array(
+            'title' => 'Title3',
+        ),
+    ),
 );
 
