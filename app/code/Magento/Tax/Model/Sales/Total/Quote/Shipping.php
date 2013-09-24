@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 class Magento_Tax_Model_Sales_Total_Quote_Shipping extends Magento_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
@@ -43,11 +42,11 @@ class Magento_Tax_Model_Sales_Total_Quote_Shipping extends Magento_Sales_Model_Q
     /**
      * Class constructor
      */
-    public function __construct()
+    public function __construct(Magento_Tax_Model_Calculation $calculation, Magento_Tax_Model_Config $taxConfig)
     {
         $this->setCode('shipping');
-        $this->_calculator  = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        $this->_config      = Mage::getSingleton('Magento_Tax_Model_Config');
+        $this->_calculator = $calculation;
+        $this->_config = $taxConfig;
     }
 
     /**

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 class Magento_Tax_Model_Class_Source_Product extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
@@ -16,15 +15,31 @@ class Magento_Tax_Model_Class_Source_Product extends Magento_Eav_Model_Entity_At
      *
      * @var Magento_Core_Helper_Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
+
+    /**
+     * @var Magento_Tax_Model_Resource_Class_CollectionFactory
+     */
+    protected $_classesFactory;
+
+    /**
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory
+     */
+    protected $_optionFactory;
 
     /**
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Tax_Model_Resource_Class_CollectionFactory $classesFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $optionFactory
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        Magento_Tax_Model_Resource_Class_CollectionFactory $classesFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_OptionFactory $optionFactory
     ) {
         $this->_coreData = $coreData;
+        $this->_classesFactory = $classesFactory;
+        $this->_optionFactory = $optionFactory;
     }
 
     /**
@@ -35,10 +50,10 @@ class Magento_Tax_Model_Class_Source_Product extends Magento_Eav_Model_Entity_At
     public function getAllOptions()
     {
         if (is_null($this->_options)) {
-            $this->_options = Mage::getResourceModel('Magento_Tax_Model_Resource_Class_Collection')
-                ->addFieldToFilter('class_type', Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
-                ->load()
-                ->toOptionArray();
+            /** @var $classCollection Magento_Tax_Model_Resource_Class_Collection */
+            $classCollection = $this->_classesFactory->create();
+            $classCollection->addFieldToFilter('class_type', Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)->load();
+            $this->_options = $classCollection->toOptionArray();
         }
 
         $options = $this->_options;
@@ -98,7 +113,8 @@ class Magento_Tax_Model_Class_Source_Product extends Magento_Eav_Model_Entity_At
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
-            ->getFlatUpdateSelect($this->getAttribute(), $store, false);
+        /** @var $option Magento_Eav_Model_Resource_Entity_Attribute_Option */
+        $option = $this->_optionFactory->create();
+        return $option->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

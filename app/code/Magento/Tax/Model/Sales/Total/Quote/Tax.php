@@ -59,12 +59,14 @@ class Magento_Tax_Model_Sales_Total_Quote_Tax extends Magento_Sales_Model_Quote_
      * Class constructor
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Tax_Model_Calculation $calculation,
+        Magento_Tax_Model_Config $taxConfig
     ) {
         $this->setCode('tax');
         $this->_taxData = $taxData;
-        $this->_calculator  = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        $this->_config      = Mage::getSingleton('Magento_Tax_Model_Config');
+        $this->_calculator = $calculation;
+        $this->_config = $taxConfig;
     }
 
     /**

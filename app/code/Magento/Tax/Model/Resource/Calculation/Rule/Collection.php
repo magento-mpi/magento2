@@ -125,8 +125,8 @@ class Magento_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Cor
      *
      * @param string $type
      * @param int $id
-     * @throws Magento_Core_Exception
      * @return Magento_Tax_Model_Resource_Calculation_Rule_Collection
+     * @throws Magento_Core_Exception
      */
     public function setClassTypeFilter($type, $id)
     {
@@ -138,7 +138,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Cor
                 $field = 'cd.customer_tax_class_id';
                 break;
             default:
-                Mage::throwException('Invalid type supplied');
+                throw new Magento_Core_Exception('Invalid type supplied');
         }
 
         $this->joinCalculationData('cd');

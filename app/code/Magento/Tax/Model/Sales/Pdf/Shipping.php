@@ -11,6 +11,31 @@
 class Magento_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf_Total_Default
 {
     /**
+     * @var Magento_Tax_Model_Config
+     */
+    protected $_taxConfig;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Tax_Helper_Data $taxHelper
+     * @param Magento_Tax_Model_Calculation $taxCalculation
+     * @param Magento_Tax_Model_Config $taxConfig
+     * @param Magento_ObjectManager $objectManager
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Tax_Helper_Data $taxHelper,
+        Magento_Tax_Model_Calculation $taxCalculation,
+        Magento_Tax_Model_Config $taxConfig,
+        Magento_ObjectManager $objectManager,
+        array $data = array()
+    ) {
+        $this->_taxConfig = $taxConfig;
+        parent::__construct($context, $taxHelper, $taxCalculation, $objectManager, $data);
+    }
+
+    /**
      * Get array of arrays with totals information for display in PDF
      * array(
      *  $index => array(
@@ -24,7 +49,6 @@ class Magento_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf
     public function getTotalsForDisplay()
     {
         $store = $this->getOrder()->getStore();
-        $config= Mage::getSingleton('Magento_Tax_Model_Config');
         $amount = $this->getOrder()->formatPriceTxt($this->getAmount());
         $amountInclTax = $this->getSource()->getShippingInclTax();
         if (!$amountInclTax) {
@@ -33,7 +57,7 @@ class Magento_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf
         $amountInclTax = $this->getOrder()->formatPriceTxt($amountInclTax);
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
 
-        if ($config->displaySalesShippingBoth($store)) {
+        if ($this->_taxConfig->displaySalesShippingBoth($store)) {
             $totals = array(
                 array(
                     'amount'    => $this->getAmountPrefix().$amount,
@@ -46,7 +70,7 @@ class Magento_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf
                     'font_size' => $fontSize
                 ),
             );
-        } elseif ($config->displaySalesShippingInclTax($store)) {
+        } elseif ($this->_taxConfig->displaySalesShippingInclTax($store)) {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amountInclTax,
                 'label'     => __($this->getTitle()) . ':',
