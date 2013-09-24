@@ -26,14 +26,56 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
     protected $_catalogSearchData = null;
 
     /**
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * Catalog product visibility
+     *
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Fulltext collection factory
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory
+     */
+    protected $_fulltextCollectionFactory;
+
+    /**
+     * Advanced collection factory
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Advanced_CollectionFactory
+     */
+    protected $_advancedCollectionFactory;
+
+    /**
+     * CatalogSearch resource helper
+     *
+     * @var Magento_CatalogSearch_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_CatalogSearch_Model_Resource_Advanced_CollectionFactory $advancedCollectionFactory
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory
+     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_CatalogSearch_Model_Resource_Advanced_CollectionFactory $advancedCollectionFactory,
+        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Core_Model_Resource $resource
+        Magento_CatalogSearch_Model_Resource_Helper_Mysql4 $resourceHelper
     ) {
+        $this->_advancedCollectionFactory = $advancedCollectionFactory;
+        $this->_fulltextCollectionFactory = $fulltextCollectionFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_catalogSearchData = $catalogSearchData;
+        $this->_resourceHelper = $resourceHelper;
         parent::__construct($resource);
     }
 
@@ -86,8 +128,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
         }
 
         if ($data) {
-            Mage::getResourceHelper('Magento_CatalogSearch')
-                ->insertOnDuplicate($this->getMainTable(), $data, array('data_index'));
+            $this->_resourceHelper->insertOnDuplicate($this->getMainTable(), $data, array('data_index'));
         }
 
         return $this;
@@ -100,7 +141,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      */
     public function getAllowedVisibility()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds();
+        return $this->_catalogProductVisibility->getVisibleInSearchIds();
     }
 
     /**
@@ -169,7 +210,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      */
     public function getResultCollection()
     {
-        return Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Fulltext_Collection');
+        return $this->_fulltextCollectionFactory->create();
     }
 
     /**
@@ -179,7 +220,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      */
     public function getAdvancedResultCollection()
     {
-        return Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Advanced_Collection');
+        return $this->_advancedCollectionFactory->create();
     }
 
     /**

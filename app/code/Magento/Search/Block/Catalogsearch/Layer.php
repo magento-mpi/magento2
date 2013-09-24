@@ -25,23 +25,30 @@ class Magento_Search_Block_Catalogsearch_Layer extends Magento_CatalogSearch_Blo
     protected $_searchData = null;
 
     /**
-     * @param Magento_Search_Helper_Data $searchData
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_CatalogSearch_Model_Layer $catalogSearchLayer
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Search_Helper_Data $searchData
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Helper_Data $searchData,
-        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_CatalogSearch_Model_Layer $catalogSearchLayer,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_Registry $registry,
+        Magento_Search_Helper_Data $searchData,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($catalogSearchData, $coreData, $context, $registry, $data);
+        parent::__construct($coreData, $context, $catalogSearchLayer, $storeManager, $catalogSearchData, $registry,
+            $data);
     }
 
     /**

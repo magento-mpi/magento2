@@ -27,19 +27,28 @@ class Magento_Search_Model_Search_Layer extends Magento_CatalogSearch_Model_Laye
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
-     * @param Magento_Search_Helper_Data $searchData
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory
+     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
+     * @param Magento_Search_Helper_Data $searchData
      * @param array $data
      */
     public function __construct(
-        Magento_Search_Helper_Data $searchData,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
+        Magento_Search_Helper_Data $searchData,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($coreRegistry, $catalogSearchData, $data);
+        parent::__construct($coreRegistry, $fulltextCollectionFactory, $catalogProductVisibility, $catalogConfig,
+            $storeManager, $catalogSearchData, $data);
     }
 
     /**
