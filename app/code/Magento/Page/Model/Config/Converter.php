@@ -22,12 +22,14 @@ class Magento_Page_Model_Config_Converter implements Magento_Config_ConverterInt
             $id = $layoutAttributes->getNamedItem('id')->nodeValue;
             $isDefault = $layoutAttributes->getNamedItem('default');;
             $pageLayouts[$id]['code'] = $id;
-            $pageLayouts[$id]['is_default'] = ($isDefault && $isDefault->nodeValue == 'true') ? '1' : '0';
+            $pageLayouts[$id]['is_default'] = ($isDefault && $isDefault->nodeValue == 'true') ? 1 : 0;
 
             /** @var $layoutSubNode DOMNode */
             foreach ($layout->childNodes as $layoutSubNode) {
                 switch ($layoutSubNode->nodeName) {
                     case 'label':
+                        $pageLayouts[$id][$layoutSubNode->nodeName] = __((string)$layoutSubNode->nodeValue);
+                        break;
                     case 'template':
                     case 'layout_handle':
                         $pageLayouts[$id][$layoutSubNode->nodeName] = $layoutSubNode->nodeValue;
