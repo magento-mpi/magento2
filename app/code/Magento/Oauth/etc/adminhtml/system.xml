@@ -24,6 +24,13 @@
                     <comment>Cleanup entries older than X minutes.</comment>
                 </field>
             </group>
+            <group id="consumer" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Consumer Settings</label>
+                <field id="expiration_period" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Expiration Period</label>
+                    <comment>Disable consumer key/secret credentials if not used within X seconds.</comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>
