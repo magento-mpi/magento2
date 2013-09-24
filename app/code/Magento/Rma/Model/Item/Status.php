@@ -35,6 +35,19 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
     protected $_isSpecialStatus = false;
 
     /**
+     * @param Magento_Rma_Model_Item_Attribute_Source_Status $sourceStatus
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Rma_Model_Item_Attribute_Source_Status $sourceStatus,
+        array $data = array()
+    ) {
+        $this->sourceStatus = $sourceStatus;
+        parent::__construct($data);
+    }
+
+
+    /**
      * Get options array for display in grid, consisting only from allowed statuses
      *
      * @return array
@@ -71,7 +84,7 @@ class Magento_Rma_Model_Item_Status extends Magento_Object
             : array();
         return
             array_intersect_key(
-                Mage::getSingleton('Magento_Rma_Model_Item_Attribute_Source_Status')->getAllOptionsForGrid(),
+                $this->sourceStatus->getAllOptionsForGrid(),
                 array_flip($boundingArray)
             );
     }

@@ -25,18 +25,26 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory
+     */
+    protected $_subscCollFactory;
+
+    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object
      * attributes This behavior may change in child classes
      *
+     * @param Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory $subscCollFactory
      * @param Magento_Reward_Helper_Data $rewardData
      * @param array $data
      */
     public function __construct(
+        Magento_Newsletter_Model_Resource_Subscriber_CollectionFactory $subscCollFactory,
         Magento_Reward_Helper_Data $rewardData,
         array $data = array()
     ) {
+        $this->_subscCollFactory = $subscCollFactory;
         $this->_rewardData = $rewardData;
         parent::__construct($data);
     }
@@ -69,7 +77,8 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
         }
 
         /* @var $subscribers Magento_Newsletter_Model_Resource_Subscriber_Collection */
-        $subscribers = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Subscriber_Collection')
+        $subscribers = $this->_subscCollFactory
+            ->create()
             ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
             ->load();
         // check for existing customer subscribtions

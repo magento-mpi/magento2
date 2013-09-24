@@ -32,17 +32,25 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_customerSession = $customerSession;
         $this->_rewardData = $rewardData;
         parent::__construct($coreData, $context, $data);
     }
@@ -151,7 +159,7 @@ class Magento_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Te
         if (!$this->_collection) {
             $websiteId = Mage::app()->getWebsite()->getId();
             $this->_collection = Mage::getModel('Magento_Reward_Model_Reward_History')->getCollection()
-                ->addCustomerFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+                ->addCustomerFilter($this->_customerSession->getCustomerId())
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig($this->_rewardData->getExpiryConfig())
                 ->addExpirationDate($websiteId)
