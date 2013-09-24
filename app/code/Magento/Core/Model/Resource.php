@@ -220,11 +220,7 @@ class Magento_Core_Model_Resource
     public function createConnection($name, $connectionConfig)
     {
         if (!isset($this->_connections[$name])) {
-            $connectionAdapter = $this->_connAdapterPool[$name]
-                ? $this->_connAdapterPool[$name]
-                : $this->_connAdapterPool[self::DEFAULT_SETUP_RESOURCE];
-
-            $this->_connections[$name] = $this->_newConnection($connectionAdapter, $connectionConfig);
+            $this->_connections[$name] = $this->_newConnection($name, $connectionConfig);
         }
         return $this->_connections[$name];
     }

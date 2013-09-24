@@ -62,4 +62,5 @@
             <value>install_wizard_config</value>
         </param>
     </type>
+    <virtualType name="install" type="default_setup" />
 </config>

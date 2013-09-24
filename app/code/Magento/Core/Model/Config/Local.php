@@ -21,7 +21,7 @@ class Magento_Core_Model_Config_Local
      *
      * @var array
      */
-    protected $_configuration;
+    protected $_configuration = array();
 
     /**
      * @param Magento_Core_Model_Config_Loader_Local $loader
@@ -30,6 +30,9 @@ class Magento_Core_Model_Config_Local
     {
         $this->_data = $loader->load();
         if (isset($this->_data['resource'])) {
+            if (isset($this->_data['resource']['name'])) {
+                $this->_data['resource'] = array($this->_data['resource']);
+            }
             foreach ($this->_data['resource'] as $resourceVal) {
                 $resourceConfig = array(
                     'type' => isset($resourceVal['extend']) ? $resourceVal['extend'] : 'Magento_Db_Adapter_Pdo_Mysql',

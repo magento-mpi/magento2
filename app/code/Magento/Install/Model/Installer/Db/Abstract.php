@@ -106,7 +106,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
                 'host'      => $this->_configData['db_host'],
                 'username'  => $this->_configData['db_user'],
                 'password'  => $this->_configData['db_pass'],
-                'dbname'    => $this->_configData['db_name'],
+                'dbName'    => $this->_configData['db_name'],
                 'pdoType'   => $this->getPdoType()
             );
             $this->_connectionData = $connectionData;
