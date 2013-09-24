@@ -25,12 +25,17 @@
             <instance type="Magento_Page_Model_Config_SchemaLocator" />
         </param>
     </type>
-    <type name="Magento_Config_Data">
+    <virtualType name="Magento_Page_Model_Config_Data" type="Magento_Config_Data">
         <param name='reader'>
             <instance type="Magento_Page_Model_Config_Reader" />
         </param>
         <param name="cacheId">
             <value>page_layouts_config</value>
+        </param>
+    </virtualType>
+    <type name="Magento_Page_Model_Config">
+        <param name="dataStorage">
+            <instance type="Magento_Page_Model_Config_Data" />
         </param>
     </type>
 </config>

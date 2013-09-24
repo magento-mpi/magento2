@@ -29,7 +29,7 @@ class Magento_Page_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array($configFile)));
         $reader = $objectManager->create('Magento_Page_Model_Config_Reader',
             array('fileResolver'=>$fileResolverMock));
-        $data = $objectManager->create('Magento_Config_Data', array('reader'=> $reader));
+        $data = $objectManager->create('Magento_Page_Model_Config_Data', array('reader'=> $reader));
         $this->_model = $objectManager->create('Magento_Page_Model_Config', array('dataStorage'=>$data));
     }
 
