@@ -26,9 +26,9 @@ class Magento_Rule_Model_ConditionFactory
     /**
      * Create new action object
      *
-     * @param $type
+     * @param string $type
      * @param array $data
-     * @return Magento_Rule_Model_Action_Interface
+     * @return Magento_Rule_Model_Condition_Interface
      */
     public function create($type, array $data = array())
     {

@@ -65,7 +65,7 @@ class Magento_WebsiteRestriction_Model_Observer
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData
      * @param Magento_Core_Model_Store $store
-     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Magento_Core_Model_UrlFactory $urlFactory
      * @param Magento_Core_Model_Session $session
@@ -75,7 +75,7 @@ class Magento_WebsiteRestriction_Model_Observer
         Magento_Customer_Helper_Data $customerData,
         Magento_WebsiteRestriction_Helper_Data $websiteRestrictionData,
         Magento_Core_Model_Store $store,
-        Magento_Core_Model_Config $config,
+        Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Model_Store_Config $storeConfig,
         Magento_Core_Model_UrlFactory $urlFactory,
         Magento_Core_Model_Session $session

@@ -32,11 +32,11 @@ class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstrac
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $storeConfig
+        Magento_Core_Model_Store_ConfigInterface $storeConfig
     ) {
         $this->_storeConfig = $storeConfig;
         parent::__construct($context);

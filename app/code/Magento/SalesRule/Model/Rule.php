@@ -477,8 +477,8 @@ class Magento_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @param bool $saveNewlyCreated Whether or not to save newly created coupon
      * @param int $saveAttemptCount Number of attempts to save newly created coupon
-     * @throws Exception|Magento_Core_Exception
      * @return Magento_SalesRule_Model_Coupon|null
+     * @throws Exception|Magento_Core_Exception
      */
     public function acquireCoupon($saveNewlyCreated = true, $saveAttemptCount = 10)
     {

@@ -26,7 +26,7 @@ class Magento_Rule_Model_ActionFactory
     /**
      * Create new action object
      *
-     * @param $type
+     * @param string $type
      * @param array $data
      * @return Magento_Rule_Model_Action_Interface
      */
