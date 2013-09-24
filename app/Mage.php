@@ -416,25 +416,8 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = Magento_Core_Model_ObjectManager::getInstance()
-            ->get('Magento_Core_Model_Config_Resource')
-            ->getResourceConnectionModel('core');
-
-        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
-        $connection = strtolower($moduleName);
-        if (substr($moduleName, 0, 8) == 'Magento_') {
-            $connection = substr($connection, 8);
-        }
-        $objectManager = Magento_Core_Model_ObjectManager::getInstance();
-        /** @var Magento_Core_Model_Registry $registryObject */
-        $registryObject = $objectManager->get('Magento_Core_Model_Registry');
-        $key = 'resourceHelper/' . $connection;
-        if (!$registryObject->registry($key)) {
-            $registryObject->register(
-                $key, $objectManager->create($helperClassName, array('modulePrefix' => $connection))
-            );
-        }
-        return $registryObject->registry($key);
+        return Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Resource_HelperPool')
+            ->get($moduleName);
     }
 
     /**
