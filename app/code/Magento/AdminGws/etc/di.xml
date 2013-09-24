@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_AdminGws_Model_Observer">
+        <param name="backendAuthSession">
+            <instance type="Magento_Backend_Model_Auth_Session_Proxy" />
+        </param>
+        <param name="systemStore">
+            <instance type="Magento_Core_Model_System_Store_Proxy" />
+        </param>
+        <param name="userRoles">
+            <instance type="Magento_Acl_Builder_Proxy" />
+        </param>
+        <param name="storeGroups">
+            <instance type="Magento_Core_Model_Resource_Store_Group_Collection_Proxy" />
+        </param>
+        <param name="role">
+            <instance type="Magento_AdminGws_Model_Role_Proxy" />
+        </param>
+        <param name="coreConfig">
+            <instance type="Magento_Core_Model_Config_Proxy" />
+        </param>
+        <param name="storeManager">
+            <instance type="Magento_Core_Model_StoreManager_Proxy" />
+        </param>
+        <param name="request">
+            <instance type="Magento_Core_Controller_Request_Http_Proxy" />
+        </param>
+    </type>
+</config>
