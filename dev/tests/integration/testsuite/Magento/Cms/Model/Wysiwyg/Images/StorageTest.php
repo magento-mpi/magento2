@@ -2,13 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
-
 class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
