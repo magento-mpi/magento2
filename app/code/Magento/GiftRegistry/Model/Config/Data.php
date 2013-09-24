@@ -11,7 +11,7 @@
 /**
  * GiftRegistry configuration data container
  */
-class Magento_GiftRegistry_Model_Config_Data extends Magento_Config_Data
+class Magento_GiftRegistry_Model_Config_Data extends Magento_Config_Data_Scoped
 {
     /**
      * Scope priority loading scheme
