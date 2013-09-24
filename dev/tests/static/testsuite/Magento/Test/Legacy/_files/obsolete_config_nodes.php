@@ -43,5 +43,5 @@ return array(
     '/config/global/catalog/product/flat/attribute_nodes'
         => 'Use /config/global/catalog/product/flat/attribute_groups',
     '/config/global/customer/address/formats' => 'Use /config/format of address_formats.xml',
-    '/config/global/template' => 'Use email_templates.xml',
+    '/config/global/template' => 'Use /config/template of email_templates.xml',
 );

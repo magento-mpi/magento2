@@ -201,21 +201,15 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     {
         $options = array(array('value' => '', 'label' => '', 'group' => ''));
         foreach ($this->_emailConfig->getAvailableTemplates() as $templateId) {
-            $templateModule = $this->_emailConfig->getTemplateModule($templateId);
             $options[] = array(
                 'value' => $templateId,
                 'label' => $this->_emailConfig->getTemplateLabel($templateId),
-                'group' => $templateModule,
+                'group' => $this->_emailConfig->getTemplateModule($templateId),
             );
         }
-        uasort($options, function ($firstElement, $secondElement) {
-            $key = 'label';
-            if ($firstElement[$key] == $secondElement[$key]) {
-                return 0;
-            }
-            return ($firstElement[$key] < $secondElement[$key]) ? -1 : 1;
+        uasort($options, function (array $firstElement, array $secondElement) {
+            return strcmp($firstElement['label'], $secondElement['label']);
         });
-
         return $options;
     }
 

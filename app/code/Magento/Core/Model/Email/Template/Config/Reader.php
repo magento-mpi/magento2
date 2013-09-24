@@ -29,7 +29,7 @@ class Magento_Core_Model_Email_Template_Config_Reader extends Magento_Config_Rea
     }
 
     /**
-     * Add information on context of a module config file belongs to
+     * Add information on context of a module, config file belongs to
      *
      * {@inheritdoc}
      */

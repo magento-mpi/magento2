@@ -45,9 +45,7 @@ class Magento_Core_Model_Email_Template_ConfigTest extends PHPUnit_Framework_Tes
 
     public function testGetTemplateLabel()
     {
-        $actualResult = $this->_model->getTemplateLabel('template_one');
-        $this->assertInstanceOf('Magento_Phrase', $actualResult);
-        $this->assertEquals('Template One', $actualResult);
+        $this->assertEquals('Template One', $this->_model->getTemplateLabel('template_one'));
     }
 
     public function testGetTemplateType()
