@@ -10,7 +10,7 @@ class Magento_Reward_Block_Customer_AccountLinkTest extends PHPUnit_Framework_Te
 {
     protected function setUp()
     {
-        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testToHtml()

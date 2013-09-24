@@ -31,7 +31,7 @@ class Magento_Sales_Block_Recurring_Profile_View_AddressTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()

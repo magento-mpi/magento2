@@ -101,7 +101,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $translator = $this->getMock('stdClass');
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $attributeCollection = new \Magento\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );

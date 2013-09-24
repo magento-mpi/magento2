@@ -35,14 +35,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-            ->will($this->returnValue($mockResourceEvent));
-    }
-
-    public function tearDown()
-    {
-        // Unsets object manager
-        \Mage::reset();
-    }
 
         $collection = new \Magento\Webhook\Model\Resource\Event\Collection(
             $eventManager, $logger, $mockFetchStrategy, $entityFactory, $mockResourceEvent

@@ -16,7 +16,7 @@ class Magento_GoogleShopping_Block_SiteVerificationTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $coreHelper->expects($this->any())

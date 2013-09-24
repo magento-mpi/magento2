@@ -7,12 +7,12 @@
  */
 class Magento_Sales_Block_Items_AbstractTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_TestFramework_Helper_ObjectManager */
+    /** @var \Magento\TestFramework\Helper\ObjectManager */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     public function testGetItemRenderer()

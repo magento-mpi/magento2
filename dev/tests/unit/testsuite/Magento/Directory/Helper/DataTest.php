@@ -35,7 +35,7 @@ class Magento_Directory_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $request = $this->getMock('Magento\Core\Controller\Request\HttpProxy', array(), array(), '', false);
         $context = $objectManager->getObject('Magento\Core\Helper\Context', array('request' => $request));
 

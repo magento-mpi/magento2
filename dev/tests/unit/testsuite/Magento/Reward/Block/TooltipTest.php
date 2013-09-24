@@ -31,7 +31,7 @@ class Magento_Reward_Block_TooltipTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('getStore', 'getWebsiteId'))
             ->getMock();
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         /** @var $block \Magento\Reward\Block\Tooltip */
         $block = $objectManager->getObject(

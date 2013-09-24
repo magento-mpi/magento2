@@ -16,7 +16,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
             ->disableOriginalConstructor()
             ->getMock();

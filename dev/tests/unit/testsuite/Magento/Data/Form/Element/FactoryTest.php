@@ -111,7 +111,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
             ->with($type, array())
-            ->will($this->throwException(new ReflectionException()));
+            ->will($this->throwException(new \ReflectionException()));
         $this->_factory->create($type);
     }
 

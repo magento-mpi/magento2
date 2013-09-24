@@ -20,7 +20,7 @@ class EditablemultiselectTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $testHelper->getObject('Magento\Data\Form\Element\Editablemultiselect');
         $values = array(
             array('value' => 1, 'label' => 'Value1'),

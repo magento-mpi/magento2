@@ -15,7 +15,7 @@
 class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_OptionsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectHelper;
 
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_OptionsTest ext
 
     protected function setUp()
     {
-        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_optionResource = $this->getMock('Magento\Catalog\Model\Resource\Product\Option',
             array(), array(), '', false);
     }

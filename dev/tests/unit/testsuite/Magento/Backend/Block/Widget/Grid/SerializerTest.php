@@ -23,7 +23,7 @@ class Magento_Backend_Block_Widget_Grid_SerializerTest extends PHPUnit_Framework
 
     public function testPrepareLayout()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $grid = $this->getMock('Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser', array('getSelectedProducts'),
             array(), '', false);

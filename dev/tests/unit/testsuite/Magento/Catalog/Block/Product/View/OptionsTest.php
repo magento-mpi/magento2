@@ -15,7 +15,7 @@
 class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectHelper;
     /**
@@ -30,7 +30,7 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_optionResource = $this->getMock('Magento\Catalog\Model\Resource\Product\Option',
             array(), array(), '', false);
     }

@@ -25,7 +25,7 @@ class AllowspecificTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $testHelper->getObject('Magento\Backend\Block\System\Config\Form\Field\Select\Allowspecific');
         $this->_object->setData('html_id', 'spec_element');
         $this->_formMock = $this->getMock('Magento\Data\Form',
