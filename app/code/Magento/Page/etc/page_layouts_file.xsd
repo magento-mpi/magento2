@@ -11,15 +11,27 @@
     <xs:element name="page_layouts">
         <xs:annotation>
             <xs:documentation>
-                The containing element for a list of page layouts
+                The root node for page layouts
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="layout" type="layoutType" />
+            <xs:sequence minOccurs="0">
+                <xs:element name="layouts" type="layoutsType" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <xs:complexType name="layoutsType">
+        <xs:annotation>
+            <xs:documentation>
+                The containing element for a list of layouts
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="layout" type="layoutType" />
+        </xs:sequence>
+        <xs:attribute name="default" use="optional" type="xs:string" />
+    </xs:complexType>
 
     <xs:complexType name="layoutType">
         <xs:annotation>

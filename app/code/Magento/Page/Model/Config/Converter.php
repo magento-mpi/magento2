@@ -16,13 +16,15 @@ class Magento_Page_Model_Config_Converter implements Magento_Config_ConverterInt
     {
         $pageLayouts = array();
         $xpath = new DOMXPath($source);
+
+        $defaultLayout = $xpath->query('/page_layouts/layouts')->item(0)->getAttribute('default');
+
         /** @var $layout DOMNode */
-        foreach ($xpath->query('/page_layouts/layout') as $layout) {
+        foreach ($xpath->query('/page_layouts/layouts/layout') as $layout) {
             $layoutAttributes = $layout->attributes;
             $id = $layoutAttributes->getNamedItem('id')->nodeValue;
-            $isDefault = $layoutAttributes->getNamedItem('default');;
             $pageLayouts[$id]['code'] = $id;
-            $pageLayouts[$id]['is_default'] = ($isDefault && $isDefault->nodeValue == 'true') ? 1 : 0;
+            $pageLayouts[$id]['is_default'] = ($defaultLayout === $id) ? 1 : 0;
 
             /** @var $layoutSubNode DOMNode */
             foreach ($layout->childNodes as $layoutSubNode) {
