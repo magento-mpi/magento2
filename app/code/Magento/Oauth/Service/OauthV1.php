@@ -205,7 +205,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     /**
      * {@inheritdoc}
      */
-    public function validateAccessToken($request)
+    public function validateAccessTokenRequest($request)
     {
         $required = array(
             "oauth_consumer_key",
@@ -249,6 +249,27 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         // If no exceptions were raised return as a valid token
         return true;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validateAccessToken($oauthToken)
+    {
+        $token = $this->_getToken($oauthToken);
+
+        //Make sure a consumer is associated with the token
+        $this->_getConsumer($token->getConsumerId());
+
+        if (Magento_Oauth_Model_Token::TYPE_ACCESS != $token->getType()) {
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+        }
+        if ($token->getRevoked()) {
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REVOKED);
+        }
+
+        return true;
+    }
+
 
     /**
      * Validate (oauth_nonce) Nonce string.

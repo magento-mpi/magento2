@@ -81,7 +81,7 @@ class Magento_Webapi_Controller_Rest implements Magento_Core_Controller_FrontInt
                 throw new Magento_Webapi_Exception(__('Magento is not yet installed'));
             }
             $oauthReq = $this->_oauthHelper->prepareServiceRequest($this->_request, $this->_request->getRequestData());
-            $this->_oauthService->validateAccessToken($oauthReq);
+            $this->_oauthService->validateAccessTokenRequest($oauthReq);
             $route = $this->_router->match($this->_request);
 
             if ($route->isSecure() && !$this->_request->isSecure()) {

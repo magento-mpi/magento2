@@ -85,7 +85,7 @@ interface Magento_Oauth_Service_OauthV1Interface
     public function getAccessToken($request);
 
     /**
-     * Validate an access token
+     * Validate an access token request
      *
      * @param array $request containing parameters necessary for validating Access Token
      * <pre>
@@ -101,8 +101,17 @@ interface Magento_Oauth_Service_OauthV1Interface
      *         'http_method' => 'POST'
      * )
      * </pre>
-     * @return boolean true if requested access token is valid
+     * @return boolean true if access token request is valid
      * @throws Magento_Oauth_Exception
      */
-    public function validateAccessToken($request);
+    public function validateAccessTokenRequest($request);
+
+    /**
+     * Validate an access token string.
+     *
+     * @param string $token valid access token
+     * @return boolean true if requested access token exists, is associated with a consumer and is valid
+     * @throws Magento_Oauth_Exception
+     */
+    public function validateAccessToken($token);
 }
