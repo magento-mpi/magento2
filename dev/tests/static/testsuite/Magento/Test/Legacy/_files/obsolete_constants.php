@@ -28,9 +28,7 @@ return array(
     array('CHECKOUT_METHOD_GUEST'),
     array('CHECKOUT_METHOD_REGISTER'),
     array('CHECKSUM_KEY_NAME'),
-    array('CONFIG_TEMPLATE_INSTALL_DATE', 'Magento_Core_Model_Config',
-        'Magento_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE'
-    ),
+    array('CONFIG_TEMPLATE_INSTALL_DATE'),
     array('CONFIG_XML_PATH_DEFAULT_PRODUCT_TAX_GROUP'),
     array('CONFIG_XML_PATH_DISPLAY_FULL_SUMMARY'),
     array('CONFIG_XML_PATH_DISPLAY_TAX_COLUMN'),

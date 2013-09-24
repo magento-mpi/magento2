@@ -28,6 +28,9 @@
     <preference for="Magento_Core_Model_Event_ConfigInterface" type="Magento_Core_Model_Event_Config" />
     <preference for="Magento_Interception_PluginList" type="Magento_Interception_PluginList_PluginList" />
     <type name="Magento_Core_Model_App_State">
+        <param name="installDate">
+            <value type="argument">Magento_Core_Model_App_State::PARAM_INSTALL_DATE</value>
+        </param>
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
         </param>

@@ -22,23 +22,15 @@ class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_Load
     protected $_fileReader;
 
     /**
-     * @var Magento_Core_Model_Config_Loader_Local
-     */
-    protected $_localLoader;
-
-    /**
      * @param Magento_Core_Model_Config_Primary $primaryConfig
      * @param Magento_Core_Model_Config_Modules_Reader $fileReader
-     * @param Magento_Core_Model_Config_Loader_Local $localLoader
      */
     public function __construct(
         Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Model_Config_Modules_Reader $fileReader,
-        Magento_Core_Model_Config_Loader_Local $localLoader
+        Magento_Core_Model_Config_Modules_Reader $fileReader
     ) {
         $this->_primaryConfig = $primaryConfig;
         $this->_fileReader = $fileReader;
-        $this->_localLoader = $localLoader;
     }
 
     /**
@@ -61,9 +53,6 @@ class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_Load
 
         $this->_fileReader->loadModulesConfiguration(array('config.xml'), $config);
         Magento_Profiler::stop('load_modules_configuration');
-
-        // Prevent local configuration overriding
-        $this->_localLoader->load($config);
 
         $config->applyExtends();
 

@@ -483,7 +483,7 @@ final class Mage
      */
     public static function isInstalled()
     {
-        return (bool) Mage::getSingleton('Magento_Core_Model_Config_Primary')->getInstallDate();
+        return (bool) Mage::getSingleton('Magento_Core_Model_App_State')->isInstalled();
     }
 
     /**

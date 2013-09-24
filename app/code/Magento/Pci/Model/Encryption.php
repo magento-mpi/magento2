@@ -27,6 +27,7 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
     protected $_cipher = self::CIPHER_LATEST;
 
     protected $_keyVersion;
+
     protected $_keys = array();
 
     /**
@@ -34,17 +35,20 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
      *
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Config $coreConfig
+     * @param string $cryptKey
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        $cryptKey
     ) {
         parent::__construct(
             $objectManager,
-            $coreConfig
+            $coreConfig,
+            $cryptKey
         );
         // load all possible keys
-        $this->_keys = preg_split('/\s+/s', trim((string)$this->_coreConfig->getNode('global/crypt/key')));
+        $this->_keys = preg_split('/\s+/s', trim($cryptKey));
         $this->_keyVersion = count($this->_keys) - 1;
     }
 

@@ -71,8 +71,16 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
             $definitions
         );
 
+        $localConfig = new Magento_Core_Model_Config_Local(new Magento_Core_Model_Config_Loader_Local(
+            $primaryConfig->getDirectories()->getDir(Magento_Core_Model_Dir::CONFIG),
+            $primaryConfig->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
+            $primaryConfig->getParam(Mage::PARAM_CUSTOM_LOCAL_FILE)
+        ));
         $appMode = $primaryConfig->getParam(Mage::PARAM_MODE, Magento_Core_Model_App_State::MODE_DEFAULT);
-        $factory = new Magento_ObjectManager_Factory_Factory($config, $this, $definitions, $primaryConfig->getParams());
+        $factory = new Magento_ObjectManager_Factory_Factory($config, $this, $definitions, array_replace(
+            $localConfig->getParams(),
+            $primaryConfig->getParams()
+        ));
 
         $sharedInstances['Magento_Core_Model_Config_Primary'] = $primaryConfig;
         $sharedInstances['Magento_Core_Model_Dir'] = $primaryConfig->getDirectories();
@@ -80,7 +88,7 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
 
         parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
-
+        $this->configure($localConfig->getConfiguration());
         self::setInstance($this);
 
         Magento_Profiler::start('global_primary');

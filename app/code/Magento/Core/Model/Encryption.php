@@ -17,10 +17,13 @@
  */
 class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInterface
 {
+    const PARAM_CRYPT_KEY = 'crypt.key';
+
     /**
      * @var Magento_Crypt
      */
     protected $_crypt;
+
     /**
      * @var string
      */
@@ -37,17 +40,25 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
     protected $_coreConfig;
 
     /**
-     * Constructor
+     * Cryptographic key
      *
+     * @var string
+     */
+    protected $_cryptKey;
+
+    /**
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Config $coreConfig
+     * @param string $cryptKey
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        $cryptKey
     ) {
         $this->_objectManager = $objectManager;
         $this->_coreConfig = $coreConfig;
+        $this->_cryptKey = $cryptKey;
     }
 
     /**
@@ -133,7 +144,7 @@ class Magento_Core_Model_Encryption implements Magento_Core_Model_EncryptionInte
     {
         if (!$this->_crypt) {
             if (null === $key) {
-                $key = (string)$this->_coreConfig->getNode('global/crypt/key');
+                $key = $this->_cryptKey;
             }
             $this->_crypt = new Magento_Crypt($key);
         }

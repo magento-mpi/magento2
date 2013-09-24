@@ -17,6 +17,13 @@ class Magento_Core_Model_App_State
      */
     private $_appMode;
 
+    /**
+     * Application install date
+     *
+     * @var string
+     */
+    protected $_installDate;
+
     /**#@+
      * Application modes
      */
@@ -25,12 +32,16 @@ class Magento_Core_Model_App_State
     const MODE_DEFAULT         = 'default';
     /**#@-*/
 
+    const PARAM_INSTALL_DATE   = 'install.date';
+
     /**
+     * @param string $installDate
      * @param string $mode
      * @throws Magento_Core_Exception
      */
-    public function __construct($mode = self::MODE_DEFAULT)
+    public function __construct($installDate, $mode = self::MODE_DEFAULT)
     {
+        $this->_installDate = strtotime((string)$installDate);
         switch ($mode) {
             case self::MODE_DEVELOPER:
             case self::MODE_PRODUCTION:
@@ -49,7 +60,7 @@ class Magento_Core_Model_App_State
      */
     public function isInstalled()
     {
-        return Mage::isInstalled();
+        return (bool) $this->_installDate;
     }
 
     /**

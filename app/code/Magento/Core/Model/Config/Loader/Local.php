@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Loader_Local implements Magento_Core_Model_Config_LoaderInterface
+class Magento_Core_Model_Config_Loader_Local
 {
     /**
      * Local configuration file
@@ -17,7 +17,7 @@ class Magento_Core_Model_Config_Loader_Local implements Magento_Core_Model_Confi
     /**
      * Directory registry
      *
-     * @var Magento_Core_Model_Dir
+     * @var string
      */
     protected $_dirs;
 
@@ -48,41 +48,33 @@ class Magento_Core_Model_Config_Loader_Local implements Magento_Core_Model_Confi
     }
 
     /**
-     * Populate configuration object
+     * Load configuration
      *
-     * @param Magento_Core_Model_Config_Base $config
+     * @return array
      */
-    public function load(Magento_Core_Model_Config_Base $config)
+    public function load()
     {
-        $localConfigParts = array();
+        $localConfig = new Magento_Config_Dom('<config/>', array('/config/resource' => 'name'));
 
         $localConfigFile = $this->_dir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
         if (file_exists($localConfigFile)) {
             // 1. app/etc/local.xml
-            $localConfig = new Magento_Core_Model_Config_Base('<config/>');
-            $localConfig->loadFile($localConfigFile);
-            $localConfigParts[] = $localConfig;
+            $localConfig->merge(file_get_contents($localConfigFile));
 
             // 2. app/etc/<dir>/<file>.xml
             if (preg_match('/^[a-z\d_-]+(\/|\\\)+[a-z\d_-]+\.xml$/', $this->_customFile)) {
                 $localConfigExtraFile = $this->_dir . DIRECTORY_SEPARATOR . $this->_customFile;
-                $localConfig = new Magento_Core_Model_Config_Base('<config/>');
-                $localConfig->loadFile($localConfigExtraFile);
-                $localConfigParts[] = $localConfig;
+                $localConfig->merge(file_get_contents($localConfigExtraFile));
             }
         }
 
         // 3. extra local configuration string
         if ($this->_customConfig) {
-            $localConfig = new Magento_Core_Model_Config_Base('<config/>');
-            $localConfig->loadString($this->_customConfig);
-            $localConfigParts[] = $localConfig;
+            $localConfig->merge($this->_customConfig);
         }
+        $converter = new Magento_Config_Converter_Dom_Flat();
 
-        if ($localConfigParts) {
-            foreach ($localConfigParts as $oneConfigPart) {
-                $config->extend($oneConfigPart);
-            }
-        }
+        $result = $converter->convert($localConfig->getDom());
+        return isset($result['config']) ? $result['config'] : array();
     }
 }

@@ -18,6 +18,8 @@ class Magento_Core_Model_Resource
     const DEFAULT_WRITE_RESOURCE = 'core_write';
     const DEFAULT_SETUP_RESOURCE = 'core_setup';
 
+    const PARAM_TABLE_PREFIX = 'db.table_prefix';
+
     /**
      * Instances of actual connections
      *

@@ -35,7 +35,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
      * @param $host
      * @param $username
      * @param $password
-     * @param $databaseName
+     * @param $dbName
      * @param string $initStatements
      * @param string $type
      * @param bool $isActive
@@ -45,7 +45,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         $host,
         $username,
         $password,
-        $databaseName,
+        $dbName,
         $initStatements = 'SET NAMES utf8',
         $type = 'pdo_mysql',
         $isActive = true
@@ -55,7 +55,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
             'host' => $host,
             'username' => $username,
             'password' => $password,
-            'databaseName' => $databaseName,
+            'dbname' => $dbName,
             'type' => $type
         );
 
