@@ -11,13 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <productalert_setup>
-                <setup>
-                    <module>Magento_ProductAlert</module>
-                </setup>
-            </productalert_setup>
-        </resources>
         <template>
             <email>
                 <catalog_productalert_email_stock_template translate="label" module="Magento_ProductAlert">

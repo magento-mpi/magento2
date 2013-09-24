@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <checkout_setup>
-                <setup>
-                    <module>Magento_Checkout</module>
-                    <class>Magento_Checkout_Model_Resource_Setup</class>
-                </setup>
-            </checkout_setup>
-        </resources>
         <template>
             <email>
                 <checkout_payment_failed_template translate="label" module="Magento_Checkout">

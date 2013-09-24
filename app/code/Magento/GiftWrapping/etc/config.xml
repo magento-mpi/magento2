@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <giftwrapping_setup>
-                <setup>
-                    <module>Magento_GiftWrapping</module>
-                    <class>Magento_GiftWrapping_Model_Resource_Setup</class>
-                </setup>
-            </giftwrapping_setup>
-        </resources>
         <sales>
             <quote>
                 <totals>

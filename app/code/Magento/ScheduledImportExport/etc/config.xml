@@ -11,13 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <scheduledimportexport_setup>
-                <setup>
-                    <module>Magento_ScheduledImportExport</module>
-                </setup>
-            </scheduledimportexport_setup>
-        </resources>
         <template>
             <email>
                 <magento_scheduledimportexport_import_failed translate="label" module="Magento_ScheduledImportExport">

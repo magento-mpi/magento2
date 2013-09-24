@@ -30,14 +30,6 @@
                 </formats>
             </address>
         </customer>
-        <resources>
-            <customer_setup>
-                <setup>
-                    <module>Magento_Customer</module>
-                    <class>Magento_Customer_Model_Resource_Setup</class>
-                </setup>
-            </customer_setup>
-        </resources>
         <template>
             <email>
                 <customer_create_account_email_template translate="label" module="Magento_Customer">

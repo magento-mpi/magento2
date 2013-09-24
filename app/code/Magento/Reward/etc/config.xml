@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <reward_setup>
-                <setup>
-                    <module>Magento_Reward</module>
-                    <class>Magento_Reward_Model_Resource_Setup</class>
-                </setup>
-            </reward_setup>
-        </resources>
         <template>
             <email>
                 <magento_reward_notification_balance_update_template translate="label" module="Magento_Reward">

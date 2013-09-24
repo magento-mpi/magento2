@@ -23,12 +23,5 @@
                 <request_object>Magento_Webapi_Controller_Soap_Request</request_object>
             </webapi_soap>
         </areas>
-        <resources>
-            <webapi_setup>
-                <setup>
-                    <module>Magento_Webapi</module>
-                </setup>
-            </webapi_setup>
-        </resources>
     </global>
 </config>

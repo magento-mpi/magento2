@@ -11,13 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <newsletter_setup>
-                <setup>
-                    <module>Magento_Newsletter</module>
-                </setup>
-            </newsletter_setup>
-        </resources>
         <template>
             <email>
                 <newsletter_subscription_confirm_email_template translate="label" module="Magento_Newsletter">

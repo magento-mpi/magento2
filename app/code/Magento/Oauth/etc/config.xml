@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <oauth_setup>
-                <setup>
-                    <module>Magento_Oauth</module>
-                    <class>Magento_Oauth_Model_Resource_Setup</class>
-                </setup>
-            </oauth_setup>
-        </resources>
         <template>
             <email>
                 <oauth_email_template translate="label" module="Magento_Oauth">

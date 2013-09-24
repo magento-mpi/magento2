@@ -11,13 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <payment_setup>
-                <setup>
-                    <module>Magento_Payment</module>
-                </setup>
-            </payment_setup>
-        </resources>
         <payment>
             <cc>
                 <types>

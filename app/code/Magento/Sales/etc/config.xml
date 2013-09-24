@@ -95,14 +95,6 @@
                 </sales_email_shipment_comment_guest_template>
             </email>
         </template>
-        <resources>
-            <sales_setup>
-                <setup>
-                    <module>Magento_Sales</module>
-                    <class>Magento_Sales_Model_Resource_Setup</class>
-                </setup>
-            </sales_setup>
-        </resources>
         <sales>
             <quote>
                 <totals>

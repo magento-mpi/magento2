@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <giftregistry_setup>
-                <setup>
-                    <module>Magento_GiftRegistry</module>
-                    <class>Magento_GiftRegistry_Model_Resource_Setup</class>
-                </setup>
-            </giftregistry_setup>
-        </resources>
         <template>
             <email>
                 <magento_giftregistry_owner_email_template translate="label" module="Magento_GiftRegistry">

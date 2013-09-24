@@ -18,13 +18,6 @@
                 <admin />
             </entities>
         </ignoredModules>
-        <resources>
-            <log_setup>
-                <setup>
-                    <module>Magento_Log</module>
-                </setup>
-            </log_setup>
-        </resources>
         <template>
             <email>
                 <system_log_error_email_template translate="label" module="Magento_Log">

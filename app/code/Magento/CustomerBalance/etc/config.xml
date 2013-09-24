@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <customerbalance_setup>
-                <setup>
-                    <module>Magento_CustomerBalance</module>
-                    <class>Magento_CustomerBalance_Model_Resource_Setup</class>
-                </setup>
-            </customerbalance_setup>
-        </resources>
         <template>
             <email>
                 <customer_magento_customerbalance_email_template translate="label" module="Magento_CustomerBalance">

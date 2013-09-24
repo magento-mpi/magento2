@@ -11,13 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <wishlist_setup>
-                <setup>
-                    <module>Magento_Wishlist</module>
-                </setup>
-            </wishlist_setup>
-        </resources>
         <template>
             <email>
                 <wishlist_email_email_template translate="label" module="Magento_Wishlist">

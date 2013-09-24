@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <global>
-        <resources>
-            <adminnotification_setup>
-                <setup>
-                    <module>Magento_AdminNotification</module>
-                </setup>
-            </adminnotification_setup>
-        </resources>
-    </global>
     <default>
         <system>
             <adminnotification>

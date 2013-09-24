@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <bundle_setup>
-                <setup>
-                    <module>Magento_Bundle</module>
-                    <class>Magento_Catalog_Model_Resource_Setup</class>
-                </setup>
-            </bundle_setup>
-        </resources>
         <pdf>
             <invoice>
                 <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice</bundle>

@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <giftcardaccount_setup>
-                <setup>
-                    <module>Magento_GiftCardAccount</module>
-                    <class>Magento_GiftCardAccount_Model_Resource_Setup</class>
-                </setup>
-            </giftcardaccount_setup>
-        </resources>
         <sales>
             <quote>
                 <totals>

@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <giftcard_setup>
-                <setup>
-                    <module>Magento_GiftCard</module>
-                    <class>Magento_Catalog_Model_Resource_Setup</class>
-                </setup>
-            </giftcard_setup>
-        </resources>
         <template>
             <email>
                 <giftcard_email_template translate="label" module="Magento_GiftCard">

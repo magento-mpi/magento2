@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <rma_setup>
-                <setup>
-                    <module>Magento_Rma</module>
-                    <class>Magento_Rma_Model_Resource_Setup</class>
-                </setup>
-            </rma_setup>
-        </resources>
         <template>
             <email>
                 <sales_email_magento_rma_template translate="label" module="Magento_Rma">

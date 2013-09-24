@@ -11,14 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <sendfriend_setup>
-                <setup>
-                    <module>Magento_Sendfriend</module>
-                    <class>Magento_Sendfriend_Model_Resource_Setup</class>
-                </setup>
-            </sendfriend_setup>
-        </resources>
         <template>
             <email>
                 <sendfriend_email_template translate="label" module="Magento_Sendfriend">
