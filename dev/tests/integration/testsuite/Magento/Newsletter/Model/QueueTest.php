@@ -58,7 +58,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         );
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
-        $coreStoreConfig = new ReflectionProperty($emailTemplate, '_coreStoreConfig');
+        $coreStoreConfig = new \ReflectionProperty($emailTemplate, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($emailTemplate, $storeConfig);
 
@@ -101,7 +101,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
-        $coreStoreConfig = new ReflectionProperty($template, '_coreStoreConfig');
+        $coreStoreConfig = new \ReflectionProperty($template, '_coreStoreConfig');
         $coreStoreConfig->setAccessible(true);
         $coreStoreConfig->setValue($template, $storeConfig);
 
