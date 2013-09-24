@@ -543,6 +543,7 @@ return array(
     array('getWidgetSupportedTemplatesByBlock', 'Magento_Widget_Model_Widget_Instance'),
     array('getWinProcessMemoryUsage', 'Magento_Test_Helper_Memory', 'getRealMemoryUsage'),
     array('getXmlConfig','Magento_Widget_Model_Widget', 'getWidgets'),
+    array('getXmlConfig','Magento_Persistent_Model_Persistent_Config'),
     array('getXmlElementByType','Magento_Widget_Model_Widget', 'getWidgetByClassType'),
     array('hasItems', 'Magento_Wishlist_Helper_Data'),
     array('holdCommit', 'Magento_Search_Model_Observer'),

@@ -45,11 +45,11 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
 
-    public function testSchemaUsingInvalidXml()
+    public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
         $xmlFile = $this->_getKnownInvalidXml();
         $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
-        $this->_validateFileExpectFailure($xmlFile, $schema);
+        $this->_validateFileExpectFailure($xmlFile, $schema, $expectedErrors);
     }
 
     public function testFileSchemaUsingPartialXml()
@@ -108,13 +108,40 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      *
      * @param $xmlFile string a known good xml file.
      * @param $schemaFile string schema that should find no errors in the known good xml file.
+     * @param $expectedErrors null|array that may contain a list of expected errors.  Each element can be a substring
+     *   of an error, but all errors must be listed.
      */
-    protected function _validateFileExpectFailure($xmlFile, $schemaFile)
+    protected function _validateFileExpectFailure($xmlFile, $schemaFile, $expectedErrors = null)
     {
         $dom = new DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $errors = Magento_Config_Dom::validateDomDocument($dom, $schemaFile);
-        if (!$errors) {
+        $actualErrors = Magento_Config_Dom::validateDomDocument($dom, $schemaFile);
+
+        if (isset($expectedErrors)) {
+            $this->assertNotEmpty(
+                $actualErrors,
+                'No schema validation errors found, expected errors '. implode('; ', $expectedErrors)
+            );
+            foreach ($expectedErrors as $expectedError) {
+                $found = false;
+
+                foreach ($actualErrors as $errorKey => $actualError) {
+                    if (!(strpos($actualError, $expectedError) === false)) {
+                        // found expected string
+                        $found = true;
+                        break;
+                    }
+                }
+                $this->assertTrue(
+                    $found,
+                    'Failed asserting that '. $expectedError . ' is in: ' . implode(', ', $actualErrors)
+                );
+                // remove found error from list of actual errors
+                unset($actualErrors[$errorKey]);
+            }
+            // list of actual errors should now be empty
+            $this->assertEmpty($actualErrors, 'There were unexpected errors: ' . implode('; ', $actualErrors));
+        } elseif (!$actualErrors) {
             $this->fail('There is a problem with the schema.  A known bad XML file passed validation');
         }
     }

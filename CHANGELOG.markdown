@@ -20,13 +20,14 @@
   * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
   * Removed "translate" node from configuration XML files
   * Improved Install, Category, Product, Customer, Wishlist configuration segments:
-     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
-     * New configuration files are validated with XSD
-     * Format of the configuration changed to make possible its validation
-  * Improved configuration in `widget.xml`, `fieldset.xml` and `install.xml` files:
-     * `install.xml` was renamed to `install_wizard.xml`
-     * The configuration is validated with XSD
-     * Format of the configuration changed to make possible its validation
+    * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+    * New configuration files are validated with XSD
+    * Format of the configuration changed to make possible its validation
+  * Improved configuration in `widget.xml`, `fieldset.xml`, `persistent.xml` and `install.xml` files:
+    * `install.xml` was renamed to `install_wizard.xml`
+    * The configuration is validated with XSD
+    * Format of the configuration changed to make possible its validation
+  * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
   * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
 * Prototype.js uses converted to jQuery:
   * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
