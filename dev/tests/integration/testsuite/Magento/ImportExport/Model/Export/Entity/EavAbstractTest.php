@@ -40,7 +40,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
         /** @var Magento_TestFramework_ObjectManager  $objectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $customerAttributes = Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
+        $customerAttributes = \Mage::getResourceModel('Magento\Customer\Model\Resource\Attribute\Collection');
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Entity\EavAbstract',

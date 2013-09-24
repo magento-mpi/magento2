@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Block\Cart;
+
+class SidebarTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Checkout\Block\Cart\Sidebar
@@ -14,7 +16,7 @@ class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Checkout\Block\Cart\Sidebar');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Checkout\Block\Cart\Sidebar');
     }
 
     public function testGetCacheKeyInfo()

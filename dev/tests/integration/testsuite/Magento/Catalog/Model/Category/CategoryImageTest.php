@@ -33,8 +33,8 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $configModel \Magento\Core\Model\Config */
         $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
-        $this->_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
-        $this->_oldExceptionFile = Mage::app()->getStore()->getConfig('dev/log/exception_file');
+        $this->_oldLogActive = \Mage::app()->getStore()->getConfig('dev/log/active');
+        $this->_oldExceptionFile = \Mage::app()->getStore()->getConfig('dev/log/exception_file');
         $this->_oldWriterModel = (string)$configModel->getNode('global/log/core/writer_model');
     }
 

@@ -24,7 +24,6 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $arguments = array(
             'request' => $objectManager->get('Magento\TestFramework\Request'),
             'response' => $objectManager->get('Magento\TestFramework\Response')
-                ->get('Magento\TestFramework\Response')
         );
         $context = \Mage::getModel('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $page = \Mage::getSingleton('Magento\Cms\Model\Page');

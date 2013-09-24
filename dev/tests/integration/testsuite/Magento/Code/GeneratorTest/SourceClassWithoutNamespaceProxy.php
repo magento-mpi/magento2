@@ -9,8 +9,8 @@
  */
 namespace Magento\Code\GeneratorTest;
 
-class Magento_Code_GeneratorTest_SourceClassWithoutNamespaceProxy
-    extends Magento_Code_GeneratorTest_SourceClassWithoutNamespace
+class SourceClassWithoutNamespaceProxy
+    extends \Magento\Code\GeneratorTest\SourceClassWithoutNamespace
 {
     /**
      * Object Manager instance

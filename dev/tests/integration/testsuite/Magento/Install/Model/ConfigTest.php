@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Install\Model\Config
@@ -23,7 +25,7 @@ class Magento_Install_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $cacheTypeList \Magento\Core\Model\Cache\TypeListInterface */
-        $cacheTypeList = Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
+        $cacheTypeList = \Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
 
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */

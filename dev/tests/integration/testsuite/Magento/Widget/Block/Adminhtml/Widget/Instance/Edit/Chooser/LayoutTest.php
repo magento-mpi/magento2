@@ -29,7 +29,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $args = array(
             'layoutMergeFactory' => $this->getMock('Magento\Core\Model\Layout\MergeFactory',
                 array(), array(), '', false),
-            'themeCollFactory' => Mage::getSingleton('Magento\Core\Model\Resource\Theme\CollectionFactory'),
+            'themeCollFactory' => \Mage::getSingleton('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'context' => \Mage::getSingleton('Magento\Core\Block\Template\Context'),
             'data' => array(
                 'name'  => 'page_type',

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace \Magento\Test\Integrity\Magento\Install;
+namespace Magento\Test\Integrity\Magento\Install;
 
 class ConfigTest extends \Integrity\ConfigAbstract
 {
