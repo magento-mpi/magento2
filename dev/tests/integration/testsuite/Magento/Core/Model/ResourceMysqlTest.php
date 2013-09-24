@@ -43,7 +43,6 @@ class ResourceMysqlTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'Zend_Db_Adapter_Abstract',
-            $resource->getConnection(\Mage::getConfig()->
             $resource->getConnection($configModel->getNode('global/resources/default_setup/connection')->asArray())
         );
 

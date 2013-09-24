@@ -51,11 +51,11 @@ class ConfigFixture
         if ($storeCode === false) {
             /** @var \Magento\Core\Model\Config $configModel */
             $configModel = $objectManager->get('Magento\Core\Model\Config');
-            $result = \Mage::getConfig()->getNode($configPath);
+            $result = $configModel->getNode($configPath);
         } else {
             /** @var \Magento\Core\Model\Store\Config $storeConfig */
             $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
-            $result = \Mage::getStoreConfig($configPath, $storeCode);
+            $result = $storeConfig->getConfig($configPath, $storeCode);
         }
         if ($result instanceof \SimpleXMLElement) {
             $result = (string)$result;
@@ -79,10 +79,10 @@ class ConfigFixture
             // @todo refactor this method when all types of configuration are represented by array
             if (strpos($configPath, 'default/') === 0) {
                 $configPath = substr($configPath, 8);
-                \Mage::getConfig()->setValue($configPath, $value);
+                $configModel->setValue($configPath, $value);
                 $objectManager->get('Magento\Core\Model\Config')->setValue($configPath, $value);
             } else {
-                \Mage::getConfig()->setNode($configPath, $value);
+                $configModel->setNode($configPath, $value);
                 $objectManager->get('Magento\Core\Model\Config')->setNode($configPath, $value);
                 $objectManager->get('Magento\Core\Model\Config\Primary')->setNode($configPath, $value);
             }

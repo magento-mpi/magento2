@@ -40,7 +40,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
-        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
         $context = $this->_objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $this->_object = $this->getMockForAbstractClass(
             'Magento\Core\Controller\Varien\Action',
@@ -174,11 +173,19 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      * @param array $expected
      *
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture global/dev/page_type/render_inherited 1
      * @dataProvider addActionLayoutHandlesInheritedDataProvider
      */
     public function testAddActionLayoutHandlesInherited($route, $controller, $action, $expected)
     {
+        $arguments = array(
+            'request'  => $this->_objectManager->get('Magento\TestFramework\Request'),
+            'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
+            'isRenderInherited' => true,
+        );
+        $context = $this->_objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+        $this->_object = $this->getMockForAbstractClass('Magento\Core\Controller\Varien\Action',
+            array('context' => $context));
+
         $this->_object->getRequest()
             ->setRouteName($route)
             ->setControllerName($controller)
@@ -253,7 +260,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $arguments = array(
             'request'  => $request,
             'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
-                ->get('Magento\TestFramework\Response'),
         );
         $context = $this->_objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
 
@@ -312,7 +318,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $context = $this->_objectManager->create($context, array(
             'response' => $this->_objectManager->get('Magento\TestFramework\Response')
-                ->get('Magento\TestFramework\Response')
         ));
         $controller = $this->_objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
