@@ -264,10 +264,10 @@ $table = $installer->getConnection()
         $installer->getIdxName(
             'downloadable_link_title',
             array('link_id', 'store_id'),
-            Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
         ),
         array('link_id', 'store_id'),
-        array('type'=>Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
+        array('type'=>\Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('downloadable_link_title', 'link_id'), 'link_id')
     ->addForeignKey($installer->getFkName('downloadable_link_title', 'link_id', 'downloadable_link', 'link_id'),
         'link_id', $installer->getTable('downloadable_link'), 'link_id',

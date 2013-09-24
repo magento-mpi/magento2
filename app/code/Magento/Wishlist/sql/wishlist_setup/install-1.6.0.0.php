@@ -42,7 +42,7 @@ $table = $installer->getConnection()
     ->addIndex(
         $installer->getIdxName('wishlist', 'customer_id', \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
         'customer_id',
-        array('type'=>Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
+        array('type'=>\Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addForeignKey($installer->getFkName('wishlist', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)

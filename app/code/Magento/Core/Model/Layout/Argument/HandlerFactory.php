@@ -87,7 +87,7 @@ class HandlerFactory
 
         if (false === ($handler instanceof \Magento\Core\Model\Layout\Argument\HandlerInterface)) {
             throw new \InvalidArgumentException(
-                "{$type} type handler must implement Magento\\Core\\Model\\Layout\\Argument\\HandlerInterface"
+                "{$type} type handler must implement \\Magento\\Core\\Model\\Layout\\Argument\\HandlerInterface"
             );
         }
 
