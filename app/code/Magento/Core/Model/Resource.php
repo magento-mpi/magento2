@@ -193,7 +193,7 @@ class Resource
         if ($className) {
             $connection = new $className($this->_dirs, $config);
             if ($connection instanceof \Magento\DB\Adapter\AdapterInterface) {
-                /** @var Zend_Db_Adapter_Abstract $connection */
+                /** @var \Zend_Db_Adapter_Abstract $connection */
 
                 // Set additional params for Magento profiling tool
                 $profiler = $connection->getProfiler();

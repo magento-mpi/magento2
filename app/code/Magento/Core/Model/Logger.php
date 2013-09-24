@@ -156,11 +156,11 @@ class Logger
         if (is_array($message) || is_object($message)) {
             $message = print_r($message, true);
         }
-        /** @var $logger Zend_Log */
+        /** @var $logger \Zend_Log */
         if (!$this->hasLog($file)) {
             $this->addStreamLog($file, $file);
         }
-        /** @var $logger Zend_Log */
+        /** @var $logger \Zend_Log */
         $this->log($message, $level, $file);
     }
 
