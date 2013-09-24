@@ -185,7 +185,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
             } elseif ($this->_coreRegistry->registry('wishlist')) {
                 $this->_wishlist = $this->_coreRegistry->registry('wishlist');
             } else {
-                $this->_wishlist = $this->_wishlistFactory->create;
+                $this->_wishlist = $this->_wishlistFactory->create();
                 if ($this->getCustomer()) {
                     $this->_wishlist->loadByCustomer($this->getCustomer());
                 }
