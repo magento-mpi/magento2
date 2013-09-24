@@ -39,7 +39,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_helper->isModuleOutputEnabled());
     }
 
-    public function test__()
+    public function testMagicMethods()
     {
         $uniqueText = uniqid('prefix_');
         $this->assertEquals($uniqueText, __($uniqueText));

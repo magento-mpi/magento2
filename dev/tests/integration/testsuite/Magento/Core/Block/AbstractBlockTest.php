@@ -568,7 +568,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Magento_Core', $this->_block->getData('module_name'));
     }
 
-    public function test__()
+    public function testMagicMethods()
     {
         $str = uniqid();
         $this->assertEquals($str, __($str));
