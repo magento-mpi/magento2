@@ -32,7 +32,7 @@ class Magento_Test_Integrity_Magento_Page_Model_Config_ReferentialTest extends P
         /**
          * @var array string[] $configFiles
          */
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('page_layouts.xml', array());
+        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('page_layouts.xml', array(), false);
         /**
          * @var string $file
          */
@@ -41,10 +41,10 @@ class Magento_Test_Integrity_Magento_Page_Model_Config_ReferentialTest extends P
              * @var DOMDocument $dom
              */
             $dom = new DOMDocument();
-            $dom->loadXML(file_get_contents($file[0]));
+            $dom->loadXML(file_get_contents($file));
 
             $xpath = new DOMXPath($dom);
-            foreach ($xpath->query('/page_layouts/layout') as $layout) {
+            foreach ($xpath->query('/page_layouts/layouts/layout') as $layout) {
                 foreach ($layout->childNodes as $layoutSubNode) {
                     if ($layoutSubNode->nodeName == 'template') {
                         self::$_templates[] = $layoutSubNode->nodeValue;
