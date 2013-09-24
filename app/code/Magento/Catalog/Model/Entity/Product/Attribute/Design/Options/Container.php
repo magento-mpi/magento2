@@ -15,16 +15,9 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Entity_Product_Attribute_Design_Options_Container extends Magento_Eav_Model_Entity_Attribute_Source_Config
+class Magento_Catalog_Model_Entity_Product_Attribute_Design_Options_Container
+    extends Magento_Eav_Model_Entity_Attribute_Source_Config
 {
-    protected $_configNodePath;
-
-    public function __construct(Magento_Core_Model_Config $coreConfig)
-    {
-        parent::__construct($coreConfig);
-        $this->_configNodePath = 'global/catalog/product/design/options_container';
-    }
-
     /**
      * Get a text for option value
      *

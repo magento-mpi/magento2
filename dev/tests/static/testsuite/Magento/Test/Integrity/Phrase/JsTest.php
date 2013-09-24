@@ -1,0 +1,116 @@
+<?php
+
+use Magento\Tools\I18n\Code\Parser\Adapter;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+
+/**
+ * Scan javascript files for invocations of mage.__() function, verifies that all the translations
+ * were output to the page.
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
+ */
+class Magento_Test_Integrity_Phrase_JsTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
+{
+    /**
+     * @var \Magento\Tools\I18n\Code\Parser\Adapter\Js
+     */
+    protected $_parser;
+
+    /** @var Magento_TestFramework_Utility_Files  */
+    protected $_utilityFiles;
+
+    /** @var Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector */
+    protected $_phraseCollector;
+
+    protected function setUp()
+    {
+        $this->_parser = new Adapter\Js();
+        $this->_utilityFiles = Magento_TestFramework_Utility_Files::init();
+        $this->_phraseCollector = new PhraseCollector(new Tokenizer());
+    }
+
+    public function testGetPhrasesAdminhtml()
+    {
+        $unregisteredMessages = array();
+        $untranslated = array();
+
+        $registeredPhrases = $this->_getRegisteredPhrases();
+
+        foreach ($this->_getJavascriptPhrases('adminhtml') as $phrase) {
+            if (!in_array($phrase['phrase'], $registeredPhrases)) {
+                $unregisteredMessages[]
+                    = sprintf("'%s' \n in file %s, line# %s", $phrase['phrase'], $phrase['file'], $phrase['line']);
+                $untranslated[] = $phrase['phrase'];
+            }
+
+        }
+
+        if (count($unregisteredMessages) > 0) {
+            $this->fail('There are UI messages in javascript files for adminhtml area ' .
+                "which requires translations to be output to the page: \n\n"
+                . implode("\n", $unregisteredMessages));
+        }
+    }
+
+    public function testGetPhrasesFrontend()
+    {
+        $unregisteredMessages = array();
+        $untranslated = array();
+
+        $registeredPhrases = $this->_getRegisteredPhrases();
+
+        foreach ($this->_getJavascriptPhrases('frontend') as $phrase) {
+            if (!in_array($phrase['phrase'], $registeredPhrases)) {
+                $unregisteredMessages[]
+                    = sprintf("'%s' \n in file %s, line# %s", $phrase['phrase'], $phrase['file'], $phrase['line']);
+                $untranslated[] = $phrase['phrase'];
+            }
+
+        }
+
+        if (count($unregisteredMessages) > 0) {
+            $this->fail('There are UI messages in javascript files for frontend area ' .
+                "which requires translations to be output to the page: \n\n"
+                . implode("\n", $unregisteredMessages));
+        }
+    }
+
+    /**
+     * Returns an array of phrases that can be used by JS files.
+     *
+     * @return string[]
+     */
+    protected function _getRegisteredPhrases()
+    {
+        $jsHelperFile =  __DIR__ .
+            '../../../../../../../../../app/code/Magento/Core/Helper/Js.php';
+
+        $this->_phraseCollector->parse($jsHelperFile);
+
+        $result = array();
+        foreach ($this->_phraseCollector->getPhrases() as $phrase) {
+            $result[] = stripcslashes(trim($phrase['phrase'], "'"));
+        }
+        return $result;
+    }
+
+    /**
+     * Returns an array of phrases used by JavaScript files in a specific area of magento.
+     *
+     * @param string $area of magento to search, such as 'frontend' or 'adminthml'
+     * @return string[]
+     */
+    protected function _getJavascriptPhrases($area)
+    {
+        $jsPhrases = array();
+        foreach ($this->_utilityFiles->getJsFilesForArea($area) as $file) {
+            $this->_parser->parse($file);
+            $jsPhrases = array_merge($jsPhrases, $this->_parser->getPhrases());
+        }
+        return $jsPhrases;
+    }
+}

@@ -106,21 +106,12 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     protected $_storeCollection;
 
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
      * @param Magento_Core_Model_ObjectManager $objectManager
      * @param Magento_Core_Model_Config_StorageInterface $storage
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Config_ScopeInterface $configScope
      * @param Magento_Core_Model_Config_SectionPool $sectionPool
-     * @param Magento_Config_ScopeInterface $configScope
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_ObjectManager $objectManager,
@@ -128,11 +119,9 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Config_ScopeInterface $configScope,
-        Magento_Core_Model_Config_SectionPool $sectionPool,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Config_SectionPool $sectionPool
     ) {
         Magento_Profiler::start('config_load');
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_objectManager = $objectManager;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
@@ -336,32 +325,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
             }
         }
         return $storeValues;
-    }
-
-    /**
-     * Check whether given path should be secure according to configuration security requirements for URL
-     * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
-     *
-     * @param string $url
-     * @return bool
-     */
-    public function shouldUrlBeSecure($url)
-    {
-        if (!$this->_coreStoreConfig->getConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
-            return false;
-        }
-
-        if (!isset($this->_secureUrlCache[$url])) {
-            $this->_secureUrlCache[$url] = false;
-            $secureUrls = $this->getNode('frontend/secure_url');
-            foreach ($secureUrls->children() as $match) {
-                if (strpos($url, (string)$match) === 0) {
-                    $this->_secureUrlCache[$url] = true;
-                    break;
-                }
-            }
-        }
-        return $this->_secureUrlCache[$url];
     }
 
     /**

@@ -34,6 +34,11 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
     protected static $_isQtyTypeIds;
 
     /**
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     */
+    protected $_config;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -41,25 +46,18 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
-     * Constructor
-     *
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
     ) {
+        $this->_config = $config;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -87,9 +85,9 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (null === self::$_isQtyTypeIds) {
             self::$_isQtyTypeIds = array();
-            $productTypesXml = $this->_coreConfig->getNode('global/catalog/product/type');
-            foreach ($productTypesXml->children() as $typeId => $configXml) {
-                self::$_isQtyTypeIds[$typeId] = (bool)$configXml->is_qty;
+
+            foreach ($this->_config->getAll() as $typeId => $typeConfig) {
+                self::$_isQtyTypeIds[$typeId] = isset($typeConfig['is_qty']) ? $typeConfig['is_qty'] : false;
             }
         }
         if (null === $filter) {
