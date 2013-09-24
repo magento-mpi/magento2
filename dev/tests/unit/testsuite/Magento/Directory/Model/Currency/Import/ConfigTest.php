@@ -36,11 +36,11 @@ class Magento_Directory_Model_Currency_Import_ConfigTest extends PHPUnit_Framewo
         return array(
             'numeric name' => array(
                 array(0 => array('label' => 'Test Label', 'class' => 'Test_Class')),
-                'Unique name for a currency import service has to be specified'
+                'Name for a currency import service has to be specified'
             ),
             'empty name' => array(
                 array('' => array('label' => 'Test Label', 'class' => 'Test_Class')),
-                'Unique name for a currency import service has to be specified'
+                'Name for a currency import service has to be specified'
             ),
             'missing class' => array(
                 array('test' => array('label' => 'Test Label')),

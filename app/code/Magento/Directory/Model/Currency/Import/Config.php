@@ -22,7 +22,7 @@ class Magento_Directory_Model_Currency_Import_Config
     {
         foreach ($servicesConfig as $serviceName => $serviceInfo) {
             if (!is_string($serviceName) || empty($serviceName)) {
-                throw new InvalidArgumentException('Unique name for a currency import service has to be specified.');
+                throw new InvalidArgumentException('Name for a currency import service has to be specified.');
             }
             if (empty($serviceInfo['class'])) {
                 throw new InvalidArgumentException('Class for a currency import service has to be specified.');

@@ -48,5 +48,5 @@ return array(
     '/config/adminhtml/design' => 'Configurations moved to DI file settings',
     '/config/frontend/design' => 'Configurations moved to DI file settings',
     '/config/crontab' => 'All cron configurations moved to crontab.xml',
-    '/config/global/currency/import/services' => 'Use di.xml',
+    '/config/global/currency/import/services' => 'Configurations moved to DI file settings',
 );
