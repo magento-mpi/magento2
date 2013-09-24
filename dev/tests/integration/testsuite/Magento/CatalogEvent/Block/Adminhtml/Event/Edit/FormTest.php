@@ -23,7 +23,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         /** @var $event \Magento\CatalogEvent\Model\Event */
-        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\CatalogEvent\Model\Event');
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\CatalogEvent\Model\Event');
         $event->setCategoryId(1)->setId(1);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
