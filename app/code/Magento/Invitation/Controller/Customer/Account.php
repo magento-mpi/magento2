@@ -24,6 +24,57 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     protected $_cookieCheckActions = array('createPost');
 
     /**
+     * Invitation Config
+     *
+     * @var Magento_Invitation_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Invitation Factory
+     *
+     * @var Magento_Invitation_Model_InvitationFactory
+     */
+    protected $_invitationFactory;
+
+    /**
+     * Customer Factory
+     *
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * Store Manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Invitation_Model_Config $config
+     * @param Magento_Invitation_Model_InvitationFactory $invitationFactory
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Invitation_Model_Config $config,
+        Magento_Invitation_Model_InvitationFactory $invitationFactory,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        parent::__construct($context, $coreRegistry);
+        $this->_config = $config;
+        $this->_invitationFactory = $invitationFactory;
+        $this->_customerFactory = $customerFactory;
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Predispatch custom logic
      *
      * Bypassing direct parent predispatch
@@ -41,7 +92,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
-        if (!Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabledOnFront()) {
+        if (!$this->_config->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -63,7 +114,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
     protected function _initInvitation()
     {
         if (!$this->_coreRegistry->registry('current_invitation')) {
-            $invitation = Mage::getModel('Magento_Invitation_Model_Invitation');
+            $invitation = $this->_invitationFactory->create();
             $invitation
                 ->loadByInvitationCode($this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode(
                     $this->getRequest()->getParam('invitation', false)
@@ -99,7 +150,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
         try {
             $invitation = $this->_initInvitation();
 
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')
+            $customer = $this->_customerFactory->create()
                 ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
             $this->_coreRegistry->register('current_customer', $customer);
 
@@ -112,7 +163,7 @@ class Magento_Invitation_Controller_Customer_Account extends Magento_Customer_Co
 
             $customerId = $customer->getId();
             if ($customerId) {
-                $invitation->accept(Mage::app()->getWebsite()->getId(), $customerId);
+                $invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
             }
             return;
         } catch (Magento_Core_Exception $e) {

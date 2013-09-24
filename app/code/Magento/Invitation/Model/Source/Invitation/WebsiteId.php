@@ -18,12 +18,28 @@ class Magento_Invitation_Model_Source_Invitation_WebsiteId implements Magento_Co
 
 {
     /**
+     * Store
+     *
+     * @var Magento_Core_Model_System_Store
+     */
+    protected $_store;
+
+    /**
+     * @param Magento_Core_Model_System_Store $store
+     */
+    function __construct(
+            Magento_Core_Model_System_Store $store
+    ) {
+        $this->_store = $store;
+    }
+
+    /**
      * Return list of invitation statuses as options
      *
      * @return array
      */
     public function toOptionArray()
     {
-        return  Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash();
+        return  $this->_store->getWebsiteOptionHash();
     }
 }

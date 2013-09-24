@@ -25,6 +25,13 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     protected $_coreRegistry = null;
 
     /**
+     * Customer Session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Helper_Data $coreData
@@ -32,6 +39,7 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory
      * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory
+     * @param Magento_Customer_Model_Session $session
      * @param array $data
      */
     public function __construct(
@@ -42,6 +50,7 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Directory_Model_Resource_Region_CollectionFactory $regionCollFactory,
         Magento_Directory_Model_Resource_Country_CollectionFactory $countryCollFactory,
+        Magento_Customer_Model_Session $session,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -54,6 +63,7 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
             $countryCollFactory,
             $data
         );
+        $this->_session = $session;
     }
 
     /**
