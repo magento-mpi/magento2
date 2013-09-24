@@ -113,7 +113,8 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_CatalogRule_Model_Resource_Rule $resource
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $relatedCacheTypes
      * @param array $data
@@ -124,7 +125,8 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_CatalogRule_Model_Resource_Rule $resource,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
         array $data = array()
@@ -132,7 +134,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
         $this->_catalogRuleData = $catalogRuleData;
         $this->_cacheTypesList = $cacheTypesList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
-        parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
     }
 
     /**
