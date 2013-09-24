@@ -52,7 +52,19 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     protected $_summaryCollFactory;
 
     /**
+     * @var Magento_Review_Model_Resource_Review_Summary_CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
+     * @var Magento_Review_Model_Resource_Review_Summary_CollectionFactory
+     */
+    protected $_statusCollFactory;
+
+    /**
      * @param Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryCollFactory
+     * @param Magento_Review_Model_Resource_Review_Product_CollectionFactory $productCollFactory
+     * @param Magento_Review_Model_Resource_Review_Status_CollectionFactory $statusCollFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -61,6 +73,8 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Review_Model_Resource_Review_Summary_CollectionFactory $summaryCollFactory,
+        Magento_Review_Model_Resource_Review_Product_CollectionFactory $productCollFactory,
+        Magento_Review_Model_Resource_Review_Status_CollectionFactory $statusCollFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
@@ -68,15 +82,36 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
         array $data = array()
     ) {
         $this->_summaryCollFactory = $summaryCollFactory;
+        $this->_productCollFactory = $productCollFactory;
+        $this->_statusCollFactory = $statusCollFactory;
         parent::__construct(
             $context, $registry, $resource, $resourceCollection, $data
         );
     }
 
-
     protected function _construct()
     {
         $this->_init('Magento_Review_Model_Resource_Review');
+    }
+
+    /**
+     * Get review summary collection
+     *
+     * @return Magento_Review_Model_Resource_Review_Summary_Collection
+     */
+    public function getProductCollection()
+    {
+        return $this->_productCollFactory->create();
+    }
+
+    /**
+     * Get review summary collection
+     *
+     * @return Magento_Review_Model_Resource_Review_Summary_Collection
+     */
+    public function getStatusCollection()
+    {
+        return $this->_statusCollFactory->create();
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
