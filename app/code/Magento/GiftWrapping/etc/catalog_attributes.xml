@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <group name="sales_quote_item">
+        <attribute name="gift_wrapping_available"/>
+        <attribute name="gift_wrapping_price"/>
+    </group>
+</config>

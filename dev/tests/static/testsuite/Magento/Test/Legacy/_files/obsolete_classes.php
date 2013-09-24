@@ -955,4 +955,5 @@ return array(
     array('Mage_Sales_Model_Order_Api'),
     array('Mage_Sales_Model_Order_Creditmemo_Api_V2'),
     array('Mage_Sales_Model_Order_Creditmemo_Api'),
+    array('Magento_ImportExport_Model_Config'),
 );

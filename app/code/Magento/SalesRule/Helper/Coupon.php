@@ -39,10 +39,9 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
     const XML_PATH_SALES_RULE_COUPON_DASH_INTERVAL = 'promo/auto_generated_coupon_codes/dash';
 
     /**
-     * Config path for character set and separator
+     * @var array
      */
-    const XML_CHARSET_NODE      = 'global/salesrule/coupon/charset/%s';
-    const XML_CHARSET_SEPARATOR = 'global/salesrule/coupon/separator';
+    protected $_couponParameters;
 
     /**
      * Core store config
@@ -52,22 +51,17 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $config
+     * @param array $couponParameters
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $config
+        array $couponParameters
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_config = $config;
+        $this->_couponParameters = $couponParameters;
         parent::__construct($context);
     }
 
@@ -143,16 +137,16 @@ class Magento_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
      */
     public function getCharset($format)
     {
-        return str_split((string) $this->_config->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
+        return str_split($this->_couponParameters['charset'][$format]);
     }
 
     /**
-     * Retrieve Separator from config
+     * Retrieve Separator
      *
      * @return string
      */
     public function getCodeSeparator()
     {
-        return (string)$this->_config->getNode(Magento_SalesRule_Helper_Coupon::XML_CHARSET_SEPARATOR);
+        return $this->_couponParameters['separator'];
     }
 }

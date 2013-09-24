@@ -2,19 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * Category tree model
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
 {
@@ -22,6 +11,21 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     const PATH_FIELD  = 'path';
     const ORDER_FIELD = 'order';
     const LEVEL_FIELD = 'level';
+
+    /**
+     * @var Magento_Core_Model_Event_Manager
+     */
+    private $_eventManager;
+    
+    /**
+     * @var Magento_Catalog_Model_Attribute_Config
+     */
+    private $_attributeConfig;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Category_Collection_Factory
+     */
+    private $_collectionFactory;
 
     /**
      * Categories resource collection
@@ -59,29 +63,17 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected $_storeId                          = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
-     */
-    protected $_eventManager = null;
-
-    /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
+     * @param Magento_Catalog_Model_Resource_Category_Collection_Factory $collectionFactory
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Catalog_Model_Attribute_Config $attributeConfig,
+        Magento_Catalog_Model_Resource_Category_Collection_Factory $collectionFactory
     ) {
-        $this->_eventManager = $eventManager;
-        $this->_coreConfig = $coreConfig;
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
-
         parent::__construct(
             $resource->getConnection('catalog_write'),
             $resource->getTableName('catalog_category_entity'),
@@ -92,6 +84,9 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
                 Magento_Data_Tree_Dbp::LEVEL_FIELD    => 'level',
             )
         );
+        $this->_eventManager = $eventManager;
+        $this->_attributeConfig = $attributeConfig;
+        $this->_collectionFactory = $collectionFactory;
     }
 
     /**
@@ -371,14 +366,8 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
     protected function _getDefaultCollection($sorted = false)
     {
         $this->_joinUrlRewriteIntoCollection = true;
-        $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
-        /** @var $collection Magento_Catalog_Model_Resource_Category_Collection */
-
-        $attributes = $this->_coreConfig->getNode('frontend/category/collection/attributes');
-        if ($attributes) {
-            $attributes = $attributes->asArray();
-            $attributes = array_keys($attributes);
-        }
+        $collection = $this->_collectionFactory->create();
+        $attributes = $this->_attributeConfig->getAttributeNames('catalog_category');
         $collection->addAttributeToSelect($attributes);
 
         if ($sorted) {

@@ -30,15 +30,10 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $config = $this->getMock('Magento_Core_Model_Config', array('getNode', 'asArray'), array(), '', false);
+        $config = $this->getMock('Magento_Catalog_Model_ProductTypes_ConfigInterface');
 
-        $config->expects($this->once())
-            ->method('getNode')
-            ->with($this->equalTo('global/catalog/product/type'))
-            ->will($this->returnSelf());
-
-        $config->expects($this->once())
-            ->method('asArray')
+        $config->expects($this->any())
+            ->method('getAll')
             ->will($this->returnValue($this->_productTypes));
 
         $this->_model = new Magento_Catalog_Model_Product_Type($config);

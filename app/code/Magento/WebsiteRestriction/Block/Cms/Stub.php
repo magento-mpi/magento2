@@ -25,24 +25,23 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
      * @var Magento_Cms_Model_PageFactory
      */
     protected $_pageFactory;
-
+    
     /**
-     * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Cms_Model_PageFactory $pageFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Data $cmsData,
         Magento_Core_Block_Context $context,
+        Magento_Cms_Model_Template_FilterProvider $filterProvider,
         Magento_Core_Model_Registry $registry,
         Magento_Cms_Model_PageFactory $pageFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_pageFactory = $pageFactory;
-        parent::__construct($cmsData, $context, $data);
+        parent::__construct($context, $filterProvider, $data);
     }
 
     /**
