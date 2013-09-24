@@ -18,7 +18,7 @@ class Magento_Page_Model_Config
      */
     protected $_pageLayouts = null;
 
-    /** @var  Magento_Page_Model_Config_Data */
+    /** @var  Magento_Config_DataInterface */
     protected $_dataStorage;
 
     /**
@@ -41,7 +41,8 @@ class Magento_Page_Model_Config
     {
         if ($this->_pageLayouts === null) {
             $this->_pageLayouts = array();
-            foreach ($this->_dataStorage->get() as $layoutCode => $layoutConfig) {
+            foreach ($this->_dataStorage->get(null) as $layoutCode => $layoutConfig) {
+                $layoutConfig['label'] = __($layoutConfig['label']);
                 $this->_pageLayouts[$layoutCode] = new Magento_Object($layoutConfig);
             }
         }
@@ -51,7 +52,7 @@ class Magento_Page_Model_Config
     /**
      * Retrieve available page layouts
      *
-     * @return array
+     * @return array Magento_Object[]
      */
     public function getPageLayouts()
     {

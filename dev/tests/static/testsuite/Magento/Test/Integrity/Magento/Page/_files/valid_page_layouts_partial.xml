@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 -->
-<page_layouts>
+<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="../../../../../../../../../../app/code/Magento/Page/etc/page_layouts_file.xsd">
     <layout id="one" default="true">
         <template>empty.phtml</template>
         <layout_handle>page_empty</layout_handle>

@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 -->
-<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./page_layouts.xsd">
+<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="../../../../../../../../app/code/Magento/Page/etc/page_layouts.xsd">
     <layout id="one_column" default="true">
         <label translate="true">1 column modified</label>
         <template>1column.phtml</template>

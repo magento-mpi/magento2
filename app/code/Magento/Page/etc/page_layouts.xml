@@ -29,7 +29,7 @@
         <layout_handle>page_two_columns_right</layout_handle>
     </layout>
     <layout id="three_columns">
-        <label>3 columns</label>
+        <label translate="true">3 columns</label>
         <template>3columns.phtml</template>
         <layout_handle>page_three_columns</layout_handle>
     </layout>

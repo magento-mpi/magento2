@@ -28,8 +28,6 @@ class Magento_Page_Model_Config_Converter implements Magento_Config_ConverterInt
             foreach ($layout->childNodes as $layoutSubNode) {
                 switch ($layoutSubNode->nodeName) {
                     case 'label':
-                        $pageLayouts[$id][$layoutSubNode->nodeName] = __((string)$layoutSubNode->nodeValue);
-                        break;
                     case 'template':
                     case 'layout_handle':
                         $pageLayouts[$id][$layoutSubNode->nodeName] = $layoutSubNode->nodeValue;

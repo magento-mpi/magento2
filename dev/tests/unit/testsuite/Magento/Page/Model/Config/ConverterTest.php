@@ -34,14 +34,14 @@ class Magento_Page_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
                 'code' => 'empty',
                 'template' => 'empty.phtml',
                 'layout_handle' => 'page_empty',
-                'is_default' => '0'
+                'is_default' => 0
             ),
             'one_column' => array(
                 'label' => '1 column',
                 'code' => 'one_column',
                 'template' => '1column.phtml',
                 'layout_handle' => 'page_one_column',
-                'is_default' => '1'
+                'is_default' => 1
             ),
         );
         $this->assertEquals($expectedResult, $this->_model->convert($dom), '', 0, 20);
