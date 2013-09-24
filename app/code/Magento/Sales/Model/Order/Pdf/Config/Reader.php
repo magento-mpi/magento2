@@ -15,7 +15,7 @@ class Magento_Sales_Model_Order_Pdf_Config_Reader extends Magento_Config_Reader_
      * @var array
      */
     protected $_idAttributes = array(
-        '/page' => 'type',
-        '/page/renderer' => 'product_type'
+        '/config/renderers/page' => 'type',
+        '/config/renderers/page/renderer' => 'product_type'
     );
 }

@@ -62,17 +62,6 @@
                 </attributes>
             </product>
         </catalog>
-        <pdf>
-            <invoice>
-                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice</bundle>
-            </invoice>
-            <shipment>
-                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment</bundle>
-            </shipment>
-            <creditmemo>
-                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo</bundle>
-            </creditmemo>
-        </pdf>
     </global>
     <adminhtml>
         <sales>

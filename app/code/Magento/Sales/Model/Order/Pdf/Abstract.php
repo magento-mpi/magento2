@@ -91,6 +91,16 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Core_Model_Translate
+     */
+    protected $_translate;
+
+    /**
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
      * @var Magento_Sales_Model_Order_Pdf_Config
      */
     protected $_pdfConfig;
@@ -100,7 +110,8 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * // @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Translate $translate
+     * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
      * @param array $data
      */
@@ -109,7 +120,8 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-//        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Translate $translate,
+        Magento_Core_Model_Dir $dirs,
         Magento_Sales_Model_Order_Pdf_Config $pdfConfig,
         array $data = array()
     ) {
@@ -117,7 +129,8 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         $this->_coreData = $coreData;
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
-//        $this->_coreConfig = $coreConfig;
+        $this->_translate = $translate;
+        $this->_dirs = $dirs;
         $this->_pdfConfig = $pdfConfig;
         parent::__construct($data);
     }
@@ -440,7 +453,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
             $this->_setFontBold($page, 12);
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
             $page->drawText(__('Payment Method'), 35, $this->y, 'UTF-8');
-            $page->drawText(__('Shipping Method:'), 285, $this->y , 'UTF-8');
+            $page->drawText(__('Shipping Method:'), 285, $this->y, 'UTF-8');
 
             $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
@@ -469,9 +482,9 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         if ($order->getIsVirtual()) {
             // replacement of Shipments-Payments rectangle block
             $yPayments = min($addressesEndY, $yPayments);
-            $page->drawLine(25,  ($top - 25), 25,  $yPayments);
+            $page->drawLine(25, ($top - 25), 25, $yPayments);
             $page->drawLine(570, ($top - 25), 570, $yPayments);
-            $page->drawLine(25,  $yPayments,  570, $yPayments);
+            $page->drawLine(25, $yPayments, 570, $yPayments);
 
             $this->y = $yPayments - 15;
         } else {
@@ -512,9 +525,10 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
                 $this->_setFontRegular($page, 8);
                 foreach ($tracks as $track) {
 
-                    $CarrierCode = $track->getCarrierCode();
-                    if ($CarrierCode != 'custom') {
-                        $carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($CarrierCode);
+                    $carrierCode = $track->getCarrierCode();
+                    if ($carrierCode != 'custom') {
+                        $carrier =
+                            Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($carrierCode);
                         $carrierTitle = $carrier->getConfigData('title');
                     } else {
                         $carrierTitle = __('Custom Value');
@@ -524,9 +538,9 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
                     $maxTitleLen = 45;
                     $endOfTitle = strlen($track->getTitle()) > $maxTitleLen ? '...' : '';
                     $truncatedTitle = substr($track->getTitle(), 0, $maxTitleLen) . $endOfTitle;
-                    //$page->drawText($truncatedCarrierTitle, 285, $yShipments , 'UTF-8');
-                    $page->drawText($truncatedTitle, 292, $yShipments , 'UTF-8');
-                    $page->drawText($track->getNumber(), 410, $yShipments , 'UTF-8');
+                    //$page->drawText($truncatedCarrierTitle, 285, $yShipments, 'UTF-8');
+                    $page->drawText($truncatedTitle, 292, $yShipments, 'UTF-8');
+                    $page->drawText($track->getNumber(), 410, $yShipments, 'UTF-8');
                     $yShipments -= $topMargin - 5;
                 }
             } else {
@@ -536,9 +550,9 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
             $currentY = min($yPayments, $yShipments);
 
             // replacement of Shipments-Payments rectangle block
-            $page->drawLine(25,  $methodStartY, 25,  $currentY); //left
-            $page->drawLine(25,  $currentY,     570, $currentY); //bottom
-            $page->drawLine(570, $currentY,     570, $methodStartY); //right
+            $page->drawLine(25, $methodStartY, 25, $currentY); //left
+            $page->drawLine(25, $currentY, 570, $currentY); //bottom
+            $page->drawLine(570, $currentY, 570, $methodStartY); //right
 
             $this->y = $currentY;
             $this->y -= 15;
@@ -681,9 +695,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _beforeGetPdf()
     {
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
-        $translate->setTranslateInline(false);
+        $this->_translate->setTranslateInline(false);
     }
 
     /**
@@ -691,9 +703,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _afterGetPdf()
     {
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
-        $translate->setTranslateInline(true);
+        $this->_translate->setTranslateInline(true);
     }
 
     /**
@@ -807,7 +817,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _setFontRegular($object, $size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
+        $font = Zend_Pdf_Font::fontWithPath($this->_dirs->getDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
         $object->setFont($font, $size);
         return $font;
     }
@@ -821,7 +831,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _setFontBold($object, $size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf');
+        $font = Zend_Pdf_Font::fontWithPath($this->_dirs->getDir() . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf');
         $object->setFont($font, $size);
         return $font;
     }
@@ -835,7 +845,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _setFontItalic($object, $size = 7)
     {
-        $font = Zend_Pdf_Font::fontWithPath(Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf');
+        $font = Zend_Pdf_Font::fontWithPath($this->_dirs->getDir() . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf');
         $object->setFont($font, $size);
         return $font;
     }

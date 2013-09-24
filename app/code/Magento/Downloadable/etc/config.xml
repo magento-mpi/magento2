@@ -51,14 +51,6 @@
                 </attributes>
             </product>
         </catalog>
-        <pdf>
-            <invoice>
-                <downloadable>Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice</downloadable>
-            </invoice>
-            <creditmemo>
-                <downloadable>Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo</downloadable>
-            </creditmemo>
-        </pdf>
     </global>
     <adminhtml>
         <sales>

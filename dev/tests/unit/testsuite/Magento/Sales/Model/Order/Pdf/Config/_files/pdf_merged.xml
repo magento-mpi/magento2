@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <renderers>
+        <page type="type_one">
+            <renderer product_type="product_type_one">Renderer_Type_One_Product_One</renderer>
+            <renderer product_type="product_type_two">Renderer_Type_One_Product_Two</renderer>
+        </page>
+        <page type="type_two">
+            <renderer product_type="product_type_three">Renderer_Type_Two_Product_Two</renderer>
+        </page>
+    </renderers>
+</config>

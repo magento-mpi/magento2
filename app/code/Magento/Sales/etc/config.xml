@@ -309,17 +309,6 @@
             </order_creditmemo>
         </sales>
         <pdf>
-            <invoice>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Invoice_Default</default>
-                <grouped>Magento_Sales_Model_Order_Pdf_Items_Invoice_Grouped</grouped>
-            </invoice>
-            <shipment>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Shipment_Default</default>
-            </shipment>
-            <creditmemo>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Default</default>
-                <grouped>Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Grouped</grouped>
-            </creditmemo>
             <totals>
                 <subtotal translate="title">
                     <title>Subtotal</title>
