@@ -31,20 +31,6 @@ class Magento_Persistent_Model_Persistent_Config
     protected $_configDomXPath = null;
 
     /**
-     * Constructor
-     *
-     * @param Magento_Config_DomFactory $domFactory
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     */
-    public function __construct(
-        Magento_Config_DomFactory $domFactory,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader
-    ) {
-        $this->_domFactory = $domFactory;
-        $this->_moduleReader = $moduleReader;
-    }
-
-    /**
      * Layout model
      *
      * @var Magento_Core_Model_Layout
@@ -68,15 +54,21 @@ class Magento_Persistent_Model_Persistent_Config
     /**
      * Construct
      *
+     * @param Magento_Config_DomFactory $domFactory
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Persistent_Model_Factory $persistentFactory
      */
     public function __construct(
+        Magento_Config_DomFactory $domFactory,
+        Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Model_App_State $appState,
         Magento_Persistent_Model_Factory $persistentFactory
     ) {
+        $this->_domFactory = $domFactory;
+        $this->_moduleReader = $moduleReader;
         $this->_layout = $layout;
         $this->_appState = $appState;
         $this->_persistentFactory = $persistentFactory;
