@@ -34,7 +34,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
      */
     public function get($resourcePath, $data = array(), $headers = array())
     {
-        $url = $this->_constructResourceUrl($resourcePath);
+        $url = $this->constructResourceUrl($resourcePath);
         if (!empty($data)) {
             $url .= '?' . http_build_query($data);
         }
@@ -81,7 +81,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
      */
     public function delete($resourcePath, $headers = array())
     {
-        $url = $this->_constructResourceUrl($resourcePath);
+        $url = $this->constructResourceUrl($resourcePath);
 
         $curlOpts = array();
         $curlOpts[CURLOPT_CUSTOMREQUEST] = Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE;
@@ -104,7 +104,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
      */
     protected function _postOrPut($resourcePath, $data, $put = false, $headers = array())
     {
-        $url = $this->_constructResourceUrl($resourcePath);
+        $url = $this->constructResourceUrl($resourcePath);
 
         // json encode data
         $jsonData = $this->_jsonEncode($data);
@@ -115,7 +115,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
         $headers[] = 'Content-Length: ' . strlen($jsonData);
         $curlOpts[CURLOPT_POSTFIELDS] = $jsonData;
 
-        $resp = $this->_invokeApi($url, $curlOpts);
+        $resp = $this->_invokeApi($url, $curlOpts, $headers);
         $respArray = $this->_jsonDecode($resp["body"]);
 
         return $respArray;
@@ -126,7 +126,7 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient
      * @return string resource URL
      * @throws Exception
      */
-    protected function _constructResourceUrl($resourcePath)
+    public function constructResourceUrl($resourcePath)
     {
         return rtrim(TESTS_BASE_URL, '/') . self::REST_BASE_PATH . ltrim($resourcePath, '/');
     }

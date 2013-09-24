@@ -175,22 +175,26 @@ class Magento_TestFramework_Authentication_Rest_OauthClient extends AbstractServ
      * @param $bodyParams array
      * @return string
      */
-    protected function buildAuthorizationHeaderForAPIRequest($method, UriInterface $uri, TokenInterface $token, $bodyParams)
-    {
+    protected function buildAuthorizationHeaderForAPIRequest(
+        $method,
+        UriInterface $uri,
+        TokenInterface $token,
+        $bodyParams
+    ) {
         $this->signature->setTokenSecret($token->getAccessTokenSecret());
         $parameters = $this->getBasicAuthorizationHeaderInfo();
-        if( isset($parameters['oauth_callback'] ) ){
+        if (isset($parameters['oauth_callback'])) {
             unset($parameters['oauth_callback']);
         }
 
-        $parameters = array_merge($parameters, array('oauth_token' => $token->getAccessToken()) );
+        $parameters = array_merge($parameters, array('oauth_token' => $token->getAccessToken()));
         $parameters = array_merge($parameters, $bodyParams);
         $parameters['oauth_signature'] = $this->signature->getSignature($uri, $parameters, $method);
 
         $authorizationHeader = 'OAuth ';
         $delimiter = '';
 
-        foreach($parameters as $key => $value) {
+        foreach ($parameters as $key => $value) {
             $authorizationHeader .= $delimiter . rawurlencode($key) . '="' . rawurlencode($value) . '"';
             $delimiter = ', ';
         }
@@ -198,8 +202,21 @@ class Magento_TestFramework_Authentication_Rest_OauthClient extends AbstractServ
         return $authorizationHeader;
     }
 
+    public function buildOauthHeaderForApiRequest($uri, $token, $tokenSecret, $bodyParams, $method = 'GET')
+    {
+        $uri = new Uri($uri);
+        $tokenObj = new StdOAuth1Token();
+        $tokenObj->setAccessToken($token);
+        $tokenObj->setAccessTokenSecret($tokenSecret);
+        $tokenObj->setEndOfLife(StdOAuth1Token::EOL_NEVER_EXPIRES);
+        return array(
+            'Authorization: ' . $this->buildAuthorizationHeaderForAPIRequest($method, $uri, $tokenObj, $bodyParams)
+        );
+    }
+
     /**
      * Validates a Test REST api call access using oauth access token
+     *
      * @param TokenInterface $token The access token.
      * @param string $method HTTP method.
      * @return array

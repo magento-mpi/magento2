@@ -13,6 +13,21 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
     /** @var Magento_Webapi_Model_Config */
     protected $_config;
 
+    /** @var Magento_Oauth_Model_Consumer */
+    protected static $_consumer;
+
+    /** @var Magento_Oauth_Model_Token */
+    protected static $_token;
+
+    /** @var string */
+    protected static $_consumerKey;
+
+    /** @var string */
+    protected static $_consumerSecret;
+
+    /** @var string */
+    protected static $_verifier;
+
     /**
      * Initialize dependencies.
      */
@@ -31,20 +46,39 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
     {
         $resourcePath = $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
+        //Setup Oauth header
+        $this->createConsumer();
+        $credentials = new OAuth\Common\Consumer\Credentials(
+            self::$_consumerKey, self::$_consumerSecret, TESTS_BASE_URL);
+        /** @var $oAuthClient Magento_TestFramework_Authentication_Rest_OauthClient */
+        $oAuthClient = new Magento_TestFramework_Authentication_Rest_OauthClient($credentials);
+        $requestToken = $oAuthClient->requestRequestToken();
+        $accessToken = $oAuthClient->requestAccessToken(
+            $requestToken->getRequestToken(),
+            self::$_verifier,
+            $requestToken->getRequestTokenSecret()
+        );
+
         // delegate the request to vanilla cURL REST client
         $curlClient = new Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient();
+        $oauthHeader = $oAuthClient
+            ->buildOauthHeaderForApiRequest($curlClient->constructResourceUrl($resourcePath),
+                                            $accessToken->getAccessToken(),
+                                            $accessToken->getAccessTokenSecret(),
+                                            ($httpMethod == 'PUT' || $httpMethod == 'POST') ? $arguments : array(),
+                                            $httpMethod);
         switch ($httpMethod) {
             case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET:
-                $response = $curlClient->get($resourcePath, $arguments);
+                $response = $curlClient->get($resourcePath, array(), $oauthHeader);
                 break;
             case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_POST:
-                $response = $curlClient->post($resourcePath, $arguments);
+                $response = $curlClient->post($resourcePath, $arguments, $oauthHeader);
                 break;
             case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_PUT:
-                $response = $curlClient->put($resourcePath, $arguments);
+                $response = $curlClient->put($resourcePath, $arguments, $oauthHeader);
                 break;
             case Magento_Webapi_Model_Rest_Config::HTTP_METHOD_DELETE:
-                $response = $curlClient->delete($resourcePath);
+                $response = $curlClient->delete($resourcePath, $oauthHeader);
                 break;
             default:
                 throw new LogicException("HTTP method '{$httpMethod}' is not supported.");
@@ -55,6 +89,41 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
             throw new RuntimeException("Response type is invalid. Array expected, '{$responseType}' given.");
         }
         return $response;
+    }
+
+    /**
+     * Create a consumer
+     */
+    protected function createConsumer()
+    {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $oauthService Magento_Oauth_Service_OauthV1 */
+        $oauthService = $objectManager->get('Magento_Oauth_Service_OauthV1');
+        /** @var $oauthHelper Magento_Oauth_Helper_Data */
+        $oauthHelper = $objectManager->get('Magento_Oauth_Helper_Data');
+
+        self::$_consumerKey = $oauthHelper->generateConsumerKey();
+        self::$_consumerSecret = $oauthHelper->generateConsumerSecret();
+
+        $url = TESTS_BASE_URL;
+        $data = array(
+            'created_at' => date('Y-m-d H:i:s'),
+            'key' => self::$_consumerKey,
+            'secret' => self::$_consumerSecret,
+            'name' => 'consumerName',
+            'callback_url' => $url,
+            'rejected_callback_url' => $url,
+            'http_post_url' => $url
+        );
+
+        /** @var array $consumerData */
+        $consumerData = $oauthService->createConsumer($data);
+        /** @var  $token Magento_Oauth_Model_Token */
+        self::$_consumer = $objectManager->get('Magento_Oauth_Model_Consumer')
+            ->load($consumerData['key'], 'key');
+        self::$_token = $objectManager->create('Magento_Oauth_Model_Token');
+        self::$_verifier = self::$_token->createVerifierToken(self::$_consumer->getId())->getVerifier();
     }
 
     /**

@@ -299,9 +299,10 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * Process HTTP request object and prepare for token validation
      *
      * @param Zend_Controller_Request_Http $httpRequest
+     * @param array $bodyParams array of key value body parameters
      * @return array
      */
-    public function prepareServiceRequest($httpRequest)
+    public function prepareServiceRequest($httpRequest, $bodyParams = array())
     {
         //TODO: Fix needed for $this->getRequest()->getHttpHost(). Hosts with port are not covered
         $requestUrl = $httpRequest->getScheme() . '://' . $httpRequest->getHttpHost() .
@@ -315,8 +316,10 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
                                               $httpRequest->getHeader(Zend_Http_Client::CONTENT_TYPE),
                                               $httpRequest->getRawBody(),
                                               $requestUrl);
-
-        return array_merge($serviceRequest, $oauthParams);
+        //Use body parameters only for POST and PUT
+        $bodyParams = is_array($bodyParams) && ($httpRequest->getMethod() == 'POST' ||
+            $httpRequest->getMethod() == 'PUT') ? $bodyParams : array();
+        return array_merge($serviceRequest, $oauthParams, $bodyParams);
     }
 
     /**

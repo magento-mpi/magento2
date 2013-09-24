@@ -127,7 +127,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             $this->_throwException('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_INVALID);
         }
 
-        $this->_validateNonce($signedRequest['nonce'], $consumer->getId(), $signedRequest['oauth_timestamp']);
+        $this->_validateNonce($signedRequest['oauth_nonce'], $consumer->getId(), $signedRequest['oauth_timestamp']);
 
         $token = $this->_getTokenByConsumer($consumer->getId());
 
@@ -190,10 +190,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
 
         $this->_validateVerifierParam($request['oauth_verifier'], $token->getVerifier());
 
-        // Need to unset and remove unnecessary params from the requestTokenData array.
-        unset($request['request_url']);
-        unset($request['http_method']);
-
         $this->_validateSignature(
             $request,
             $consumer->getSecret(),
@@ -241,10 +237,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         if ($token->getRevoked()) {
             $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REVOKED);
         }
-
-        // Need to unset and remove unnecessary params from the requestTokenData array.
-        unset($request['request_url']);
-        unset($request['http_method']);
 
         $this->_validateSignature(
             $request,
@@ -341,21 +333,15 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             $this->_throwException('', Magento_Oauth_Helper_Data::ERR_SIGNATURE_METHOD_REJECTED);
         }
 
-        //Only allowable signature parameters
-        $allowedSignParams = array(
-            "oauth_callback",
-            "oauth_consumer_key",
-            "oauth_nonce",
-            "oauth_signature_method",
-            "oauth_timestamp",
-            "oauth_version",
-            "oauth_token",
-            "oauth_verifier"
-        );
+        $allowedSignParams = $params;
+        //unset unused signature parameters
+        unset($allowedSignParams['oauth_signature']);
+        unset($allowedSignParams['http_method']);
+        unset($allowedSignParams['request_url']);
 
         $util = new Zend_Oauth_Http_Utility();
         $calculatedSign = $util->sign(
-            array_intersect_key($params, array_flip($allowedSignParams)),
+            $allowedSignParams,
             $params['oauth_signature_method'],
             $consumerSecret,
             $tokenSecret,
@@ -413,13 +399,6 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
 
-        // validate parameters type
-        //TODO Need to verify if this is required
-        foreach ($protocolParams as $paramName => $paramValue) {
-            if (!is_string($paramValue)) {
-                $this->_throwException($paramName, Magento_Oauth_Helper_Data::ERR_PARAMETER_REJECTED);
-            }
-        }
         // validate signature method
         if (!in_array($protocolParams['oauth_signature_method'], self::getSupportedSignatureMethods())) {
             $this->_throwException('', Magento_Oauth_Helper_Data::ERR_SIGNATURE_METHOD_REJECTED);
