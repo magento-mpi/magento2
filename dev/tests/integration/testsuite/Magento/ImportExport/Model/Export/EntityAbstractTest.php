@@ -12,6 +12,9 @@
 /**
  * Test for abstract export model
  */
+
+namespace Magento\ImportExport\Model\Export;
+
 class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**

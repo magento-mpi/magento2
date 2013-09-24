@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento;
+
 class MemoryUsageTest extends \PHPUnit_Framework_TestCase
 {
     /**
