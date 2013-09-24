@@ -32,10 +32,11 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
 
     /**
      * @param Magento_Core_Model_Dir $dirs
-     * @param $host
-     * @param $username
-     * @param $password
-     * @param $dbName
+     * @param string $host
+     * @param string $username
+     * @param string $password
+     * @param string $dbName
+     * @param array $profiler
      * @param string $initStatements
      * @param string $type
      * @param bool $isActive
@@ -46,6 +47,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         $username,
         $password,
         $dbName,
+        array $profiler,
         $initStatements = 'SET NAMES utf8',
         $type = 'pdo_mysql',
         $isActive = true
@@ -56,9 +58,12 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
             'username' => $username,
             'password' => $password,
             'dbname' => $dbName,
-            'type' => $type
+            'type' => $type,
+            'profiler' => !empty($profiler) && $profiler !== 'false'
         );
 
+        $this->_host = $host;
+        $this->_type = $type;
         $this->_initStatements = $initStatements;
         $this->_isActive = $isActive;
         parent::__construct();
@@ -79,6 +84,13 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         if (!empty($this->_initStatements) && $connection) {
             $connection->query($this->_initStatements);
         }
+
+        $profiler = $connection->getProfiler();
+        if ($profiler instanceof Magento_DB_Profiler) {
+            $profiler->setType($this->_type);
+            $profiler->setHost($this->_host);
+        }
+
         return $connection;
     }
 

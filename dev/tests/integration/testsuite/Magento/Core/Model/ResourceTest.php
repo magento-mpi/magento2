@@ -39,20 +39,27 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testProfilerInit()
     {
-        $connReadConfig = Mage::getSingleton('Magento_Core_Model_Config_Resource')
-            ->getResourceConnectionConfig('core_read');
-        $profilerConfig = $connReadConfig->addChild('profiler');
-        $profilerConfig->addChild('class', 'Magento_Core_Model_Resource_Db_Profiler');
-        $profilerConfig->addChild('enabled', 'true');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var Zend_Db_Adapter_Abstract $connection */
-        $connection = $this->_model->getConnection('core_read');
+        $connection = $objectManager->create(
+            'Magento_TestFramework_Db_Adapter_Mysql',
+            array(
+                'profiler' => array(
+                    'class' => 'Magento_Core_Model_Resource_Db_Profiler',
+                    'enabled' => 'true'
+                ),
+                'host' => 'host',
+                'type' => 'type'
+            )
+        );
+
         /** @var Magento_Core_Model_Resource_Db_Profiler $profiler */
         $profiler = $connection->getProfiler();
 
         $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
         $this->assertTrue($profiler->getEnabled());
-        $this->assertAttributeEquals((string)$connReadConfig->host, '_host', $profiler);
-        $this->assertAttributeEquals((string)$connReadConfig->type, '_type', $profiler);
+        $this->assertEquals($profiler->getHost(), 'host');
+        $this->assertEquals($profiler->getType(), 'type');
     }
 }

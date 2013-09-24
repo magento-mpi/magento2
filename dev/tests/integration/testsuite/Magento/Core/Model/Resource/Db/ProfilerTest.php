@@ -37,18 +37,24 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @return Magento_Simplexml_Element
+     * @return Magento_TestFramework_Db_Adapter_Mysql
      */
-    protected function _getConnectionReadConfig()
+    protected function _getConnectionRead()
     {
-        $connReadConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Resource')
-            ->getResourceConnectionConfig('core_read');
-        $profilerConfig = $connReadConfig->addChild('profiler');
-        $profilerConfig->addChild('class', 'Magento_Core_Model_Resource_Db_Profiler');
-        $profilerConfig->addChild('enabled', 'true');
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $connection = $objectManager->create(
+            'Magento_TestFramework_Db_Adapter_Mysql',
+            array(
+                'profiler' => array(
+                    'class' => 'Magento_Core_Model_Resource_Db_Profiler',
+                    'enabled' => 'true'
+                ),
+                'host' => 'host',
+                'type' => 'type'
+            )
+        );
 
-        return $connReadConfig;
+        return $connection;
     }
 
     /**
@@ -60,9 +66,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
      */
     public function testProfilerInit($selectQuery, $queryType)
     {
-        $connReadConfig = $this->_getConnectionReadConfig();
-        /** @var Magento_TestFramework_Db_Adapter_Mysql $connection */
-        $connection = $this->_model->getConnection('core_read');
+        $connection = $this->_getConnectionRead();
 
         /** @var Magento_Core_Model_Resource $resource */
         $resource = Mage::getSingleton('Magento_Core_Model_Resource');
@@ -77,7 +81,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
         /** @var Magento_Core_Model_Resource_Db_Profiler $profiler */
         $profiler = $connection->getProfiler();
         $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
-        $this->assertAttributeEquals((string)$connReadConfig->type, '_type', $profiler);
+        $this->assertAttributeEquals($profiler->getType(), 'type', $profiler);
 
         $queryProfiles = $profiler->getQueryProfiles($queryType);
         $this->assertCount(1, $queryProfiles);
