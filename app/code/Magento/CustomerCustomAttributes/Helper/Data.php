@@ -57,7 +57,7 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
      */
     public function getAttributeFormOptions()
     {
-        Mage::throwException(__('Use helper with defined EAV entity.'));
+        throw new Magento_Core_Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -67,7 +67,7 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(__('Use helper with defined EAV entity.'));
+        throw new Magento_Core_Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
