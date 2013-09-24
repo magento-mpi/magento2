@@ -23,9 +23,27 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
     protected $_wishlistData = null;
 
     /**
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Wishlist_Model_WishlistFactory
+     */
+    protected $_wishlistFactory;
+
+    /**
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -34,11 +52,17 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
+        $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
+        $this->_wishlistFactory = $wishlistFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -53,7 +77,7 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
         if (!$customerId) {
             return false;
         }
-        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($customerId, true);
+        return $this->_wishlistFactory->create()->loadByCustomer($customerId, true);
     }
 
     /**
@@ -103,11 +127,11 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
     public function processAddToCart($observer)
     {
         $request = $observer->getEvent()->getRequest();
-        $sharedWishlist = Mage::getSingleton('Magento_Checkout_Model_Session')->getSharedWishlist();
-        $messages = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistPendingMessages();
-        $urls = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistPendingUrls();
-        $wishlistIds = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistIds();
-        $singleWishlistId = Mage::getSingleton('Magento_Checkout_Model_Session')->getSingleWishlistId();
+        $sharedWishlist = $this->_checkoutSession->getSharedWishlist();
+        $messages = $this->_checkoutSession->getWishlistPendingMessages();
+        $urls = $this->_checkoutSession->getWishlistPendingUrls();
+        $wishlistIds = $this->_checkoutSession->getWishlistIds();
+        $singleWishlistId = $this->_checkoutSession->getSingleWishlistId();
 
         if ($singleWishlistId) {
             $wishlistIds = array($singleWishlistId);
@@ -116,15 +140,14 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
         if (count($wishlistIds) && $request->getParam('wishlist_next')) {
             $wishlistId = array_shift($wishlistIds);
 
-            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-                $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')
-                        ->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer(), true);
+            if ($this->_customerSession->isLoggedIn()) {
+                $wishlist = $this->_wishlistFactory->create()
+                        ->loadByCustomer($this->_customerSession->getCustomer(), true);
             } else if ($sharedWishlist) {
-                $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCode($sharedWishlist);
+                $wishlist = $this->_wishlistFactory->create()->loadByCode($sharedWishlist);
             } else {
                 return;
             }
-
 
             $wishlist->getItemCollection()->load();
 
@@ -133,21 +156,21 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
                     $wishlistItem->delete();
                 }
             }
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistIds($wishlistIds);
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setSingleWishlistId(null);
+            $this->_checkoutSession->setWishlistIds($wishlistIds);
+            $this->_checkoutSession->setSingleWishlistId(null);
         }
 
         if ($request->getParam('wishlist_next') && count($urls)) {
             $url = array_shift($urls);
             $message = array_shift($messages);
 
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistPendingUrls($urls);
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistPendingMessages($messages);
+            $this->_checkoutSession->setWishlistPendingUrls($urls);
+            $this->_checkoutSession->setWishlistPendingMessages($messages);
 
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($message);
+            $this->_checkoutSession->addError($message);
 
             $observer->getEvent()->getResponse()->setRedirect($url);
-            Mage::getSingleton('Magento_Checkout_Model_Session')->setNoCartRedirect(true);
+            $this->_checkoutSession->setNoCartRedirect(true);
         }
     }
 
@@ -172,7 +195,7 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
      */
     public function customerLogout(Magento_Event_Observer $observer)
     {
-        Mage::getSingleton('Magento_Customer_Model_Session')->setWishlistItemCount(0);
+        $this->_customerSession->setWishlistItemCount(0);
 
         return $this;
     }

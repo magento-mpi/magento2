@@ -33,6 +33,9 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -43,11 +46,23 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
-            $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data
+            $coreRegistry,
+            $wishlistData,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $storeManager,
+            $customerSession,
+            $productFactory,
+            $data
         );
     }
 

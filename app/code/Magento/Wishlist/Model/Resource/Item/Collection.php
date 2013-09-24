@@ -89,12 +89,66 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     protected $_inventoryData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * @var Magento_Wishlist_Model_Config
+     */
+    protected $_wishlistConfig;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_productVisibility;
+
+    /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_coreResource;
+
+    /**
+     * @var Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory
+     */
+    protected $_optionCollFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_ConfigFactory
+     */
+    protected $_catalogConfFactory;
+
+    /**
+     * @var Magento_Catalog_Model_Entity_AttributeFactory
+     */
+    protected $_catalogAttrFactory;
+
+    /**
      * @param Magento_CatalogInventory_Helper_Data $catalogInventoryData
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Wishlist_Model_Config $wishlistConfig
+     * @param Magento_Catalog_Model_Product_Visibility $productVisibility
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $optionCollFactory
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory
+     * @param Magento_Catalog_Model_Resource_ConfigFactory $catalogConfigFactory
+     * @param Magento_Catalog_Model_Entity_AttributeFactory $catalogAttrFactory
      * @param Magento_Wishlist_Model_Resource_Item $resource
      */
     public function __construct(
@@ -104,10 +158,28 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Date $date,
+        Magento_Wishlist_Model_Config $wishlistConfig,
+        Magento_Catalog_Model_Product_Visibility $productVisibility,
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Wishlist_Model_Resource_Item_Option_CollectionFactory $optionCollFactory,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollFactory,
+        Magento_Catalog_Model_Resource_ConfigFactory $catalogConfFactory,
+        Magento_Catalog_Model_Entity_AttributeFactory $catalogAttrFactory,
         Magento_Wishlist_Model_Resource_Item $resource
     ) {
         $this->_inventoryData = $catalogInventoryData;
         $this->_adminhtmlSales = $adminhtmlSales;
+        $this->_storeManager = $storeManager;
+        $this->_date = $date;
+        $this->_wishlistConfig = $wishlistConfig;
+        $this->_productVisibility = $productVisibility;
+        $this->_coreResource = $coreResource;
+        $this->_optionCollFactory = $optionCollFactory;
+        $this->_productCollFactory = $productCollFactory;
+        $this->_catalogConfFactory = $catalogConfFactory;
+        $this->_catalogAttrFactory = $catalogAttrFactory;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
 
@@ -152,7 +224,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     {
         $itemIds = array_keys($this->_items);
         /* @var $optionCollection Magento_Wishlist_Model_Resource_Item_Option_Collection */
-        $optionCollection = Mage::getModel('Magento_Wishlist_Model_Item_Option')->getCollection();
+        $optionCollection = $this->_optionCollFactory->create();
         $optionCollection->addItemFilter($itemIds);
 
         /* @var $item Magento_Wishlist_Model_Item */
@@ -175,7 +247,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         Magento_Profiler::start('WISHLIST:'.__METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
         $productIds = array();
 
-        $isStoreAdmin = Mage::app()->getStore()->isAdmin();
+        $isStoreAdmin = $this->_storeManager->getStore()->isAdmin();
 
         $storeIds = array();
         foreach ($this as $item) {
@@ -189,14 +261,15 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         }
 
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
-        $attributes = Mage::getSingleton('Magento_Wishlist_Model_Config')->getProductAttributes();
-        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection();
+        $attributes = $this->_wishlistConfig->getProductAttributes();
+        /** @var Magento_Catalog_Model_Resource_Product_Collection $productCollection */
+        $productCollection = $this->_productCollFactory->create();
         foreach ($storeIds as $id) {
             $productCollection->addStoreFilter($id);
         }
 
         if ($this->_productVisible) {
-            $productCollection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            $productCollection->setVisibility($this->_productVisibility->getVisibleInSiteIds());
         }
 
         $productCollection->addPriceData()
@@ -293,7 +366,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      */
     public function addStoreData()
     {
-        $storeTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('core_store');
+        $storeTable = $this->_coreResource->getTableName('core_store');
         $this->getSelect()->join(array('store'=>$storeTable), 'main_table.store_id=store.store_id', array(
             'store_name'=>'name',
             'item_store_id' => 'store_id'
@@ -377,8 +450,8 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
 
         $filter = array();
 
-        $now = Mage::getSingleton('Magento_Core_Model_Date')->date();
-        $gmtOffset = (int) Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset();
+        $now = $this->_date->date();
+        $gmtOffset = (int)$this->_date->getGmtOffset();
         if (isset($constraints['from'])) {
             $lastDay = new Zend_Date($now, Magento_Date::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
@@ -409,12 +482,12 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     protected function _joinProductNameTable()
     {
         if (!$this->_isProductNameJoined) {
-            $entityTypeId = Mage::getResourceModel('Magento_Catalog_Model_Resource_Config')
-                ->getEntityTypeId();
-            $attribute = Mage::getModel('Magento_Catalog_Model_Entity_Attribute')
+            $entityTypeId = $this->_catalogConfFactory->create()->getEntityTypeId();
+            /** @var Magento_Catalog_Model_Entity_Attribute $attribute */
+            $attribute = $this->_catalogAttrFactory->create()
                 ->loadByCode($entityTypeId, 'name');
 
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
 
             $this->getSelect()
                 ->join(
@@ -485,11 +558,11 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         parent::_afterLoadData();
 
         if ($this->_addDaysInWishlist) {
-            $gmtOffset = (int) Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset();
-            $nowTimestamp = Mage::getSingleton('Magento_Core_Model_Date')->timestamp();
+            $gmtOffset = (int)$this->_date->getGmtOffset();
+            $nowTimestamp = $this->_date->timestamp();
 
             foreach ($this as $wishlistItem) {
-                $wishlistItemTimestamp = Mage::getSingleton('Magento_Core_Model_Date')
+                $wishlistItemTimestamp = $this->_date
                     ->timestamp($wishlistItem->getAddedAt());
 
                 $wishlistItem->setDaysInWishlist(
