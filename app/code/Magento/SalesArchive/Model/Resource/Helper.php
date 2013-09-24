@@ -16,7 +16,7 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
+class Magento_SalesArchive_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
 {
     /**
      * Change columns position
@@ -25,7 +25,7 @@ class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
      * @param string $column
      * @param boolean $after
      * @param boolean $first
-     * @return Magento_SalesArchive_Model_Resource_Helper_Mysql4
+     * @return Magento_SalesArchive_Model_Resource_Helper
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {

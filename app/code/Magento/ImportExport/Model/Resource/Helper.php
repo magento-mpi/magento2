@@ -16,7 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
+class Magento_ImportExport_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
 {
     /**
      * Constants to be used for DB

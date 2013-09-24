@@ -416,11 +416,7 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $connectionModel = Magento_Core_Model_ObjectManager::getInstance()
-            ->get('Magento_Core_Model_Config_Resource')
-            ->getResourceConnectionModel('core');
-
-        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
+        $helperClassName = $moduleName . '_Model_Resource_Helper';
         $connection = strtolower($moduleName);
         if (substr($moduleName, 0, 8) == 'Magento_') {
             $connection = substr($connection, 8);

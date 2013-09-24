@@ -76,11 +76,6 @@
             <instance type="Magento_Core_Model_Config_Storage" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Config_Resource">
-        <param name="config">
-            <instance type="Magento_Core_Model_Config_Primary" />
-        </param>
-    </type>
     <type name="Magento_Core_Model_Config_Storage">
         <param name="loader">
             <instance type="Magento_Core_Model_Config_Loader_Proxy" />

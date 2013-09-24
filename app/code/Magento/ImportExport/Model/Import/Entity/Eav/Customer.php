@@ -234,7 +234,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     protected function _getNextEntityId()
     {
         if (!$this->_nextEntityId) {
-            /** @var $resourceHelper Magento_ImportExport_Model_Resource_Helper_Mysql4 */
+            /** @var $resourceHelper Magento_ImportExport_Model_Resource_Helper */
             $resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
             $this->_nextEntityId = $resourceHelper->getNextAutoincrement($this->_entityTable);
         }

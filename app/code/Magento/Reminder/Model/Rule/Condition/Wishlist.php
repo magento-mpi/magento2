@@ -123,7 +123,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
         $currentTime = Mage::getModel('Magento_Core_Model_Date')->gmtDate();
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $daysDiffSql */
+        /** @var Magento_Core_Model_Resource_Helper $daysDiffSql */
         $daysDiffSql = Mage::getResourceHelper('Magento_Core');
         $daysDiffSql->getDateDiff('list.updated_at', $select->getAdapter()->formatDate($currentTime));
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);

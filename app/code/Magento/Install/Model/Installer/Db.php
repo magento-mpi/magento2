@@ -19,13 +19,6 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
     protected $_dbResource;
 
     /**
-     * Resource configuration
-     *
-     * @var Magento_Core_Model_Config_Resource
-     */
-    protected $_resourceConfig;
-
-    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
@@ -39,16 +32,10 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
 
     /**
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param array $dbConfig
      */
-    public function __construct(
-        Magento_Core_Model_Logger $logger, 
-        Magento_Core_Model_Config_Resource $resourceConfig,
-        array $dbConfig
-    )
+    public function __construct(Magento_Core_Model_Logger $logger, array $dbConfig)
     {
-        $this->_resourceConfig = $resourceConfig;
         $this->_logger = $logger;
         $this->_dbConfig = $dbConfig;
     }
@@ -142,11 +129,6 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
                     __('The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); the first character should be a letter.')
                 );
             }
-        }
-        //set default db model
-        if (!isset($data['db_model']) || empty($data['db_model'])) {
-            $data['db_model'] = $this->_resourceConfig
-                ->getResourceConnectionConfig(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE)->model;
         }
         //set db type according the db model
         if (!isset($data['db_type'])) {

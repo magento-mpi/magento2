@@ -95,7 +95,7 @@ class Magento_Install_Model_EntryPoint_Console extends Magento_Core_Model_EntryP
         }
         $isUninstallMode = isset($this->_params['uninstall']);
         if ($isUninstallMode) {
-            $result = $installer->uninstall();
+            $result = $installer->uninstall($this->_params['db_name']);
         } else {
             $result = $installer->install($this->_params);
         }

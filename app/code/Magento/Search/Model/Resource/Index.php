@@ -164,7 +164,7 @@ class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Re
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $helper */
+        /** @var Magento_Core_Model_Resource_Helper $helper */
         $helper = Mage::getResourceHelper('Magento_Core');
         $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
         $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');

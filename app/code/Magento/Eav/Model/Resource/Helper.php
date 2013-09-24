@@ -16,7 +16,7 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
+class Magento_Eav_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
 {
     /**
      * Mysql column - Table DDL type pairs

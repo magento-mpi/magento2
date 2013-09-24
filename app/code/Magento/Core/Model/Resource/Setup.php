@@ -82,7 +82,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param array $moduleConfiguration
-     * @param $resourceName
+     * @param string $resourceName
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,

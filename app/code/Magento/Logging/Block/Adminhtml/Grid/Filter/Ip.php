@@ -26,7 +26,7 @@ class Magento_Logging_Block_Adminhtml_Grid_Filter_Ip extends Magento_Adminhtml_B
         }
 
         $fieldExpression = new Zend_Db_Expr('INET_NTOA(#?)');
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $resHelper */
+        /** @var Magento_Core_Model_Resource_Helper $resHelper */
         $resHelper = Mage::getResourceHelper('Magento_Core');
         $likeExpression = $resHelper->addLikeEscape($value, array('position' => 'any'));
         return array('field_expr' => $fieldExpression, 'like' => $likeExpression);

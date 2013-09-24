@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_TestCase
+class Magento_Core_Model_Resource_HelperTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Helper_Mysql4
+     * @var Magento_Core_Model_Resource_Helper
      */
     protected $_model;
 
@@ -24,7 +24,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_Te
     protected function setUp()
     {
         $this->_model = Mage::getResourceModel(
-            'Magento_Core_Model_Resource_Helper_Mysql4',
+            'Magento_Core_Model_Resource_Helper',
             array('modulePrefix' => 'core')
         );
         $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection');

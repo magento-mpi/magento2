@@ -15,7 +15,7 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Abstract
+class Magento_Core_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper_Abstract
 {
     /**
      * Returns array of quoted orders with direction

@@ -61,7 +61,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
     /**
      * Instance of import/export resource helper
      *
-     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     * @var Magento_ImportExport_Model_Resource_Helper
      */
     protected $_resourceHelper;
 

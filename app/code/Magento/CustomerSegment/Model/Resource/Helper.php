@@ -16,7 +16,7 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
+class Magento_CustomerSegment_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
 {
     /**
      * Get comparison condition for rule condition operator which will be used in SQL query

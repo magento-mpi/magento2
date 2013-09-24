@@ -17,11 +17,6 @@ class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_Load
     protected $_primaryConfig;
 
     /**
-     * @var Magento_Core_Model_Config_Resource
-     */
-    protected $_resourceConfig;
-
-    /**
      * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_fileReader;
@@ -33,18 +28,15 @@ class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_Load
 
     /**
      * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Core_Model_Config_Modules_Reader $fileReader
      * @param Magento_Core_Model_Config_Loader_Local $localLoader
      */
     public function __construct(
         Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Model_Config_Resource $resourceConfig,
         Magento_Core_Model_Config_Modules_Reader $fileReader,
         Magento_Core_Model_Config_Loader_Local $localLoader
     ) {
         $this->_primaryConfig = $primaryConfig;
-        $this->_resourceConfig = $resourceConfig;
         $this->_fileReader = $fileReader;
         $this->_localLoader = $localLoader;
     }

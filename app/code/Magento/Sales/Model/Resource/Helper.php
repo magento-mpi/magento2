@@ -16,7 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
+class Magento_Sales_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
     implements Magento_Sales_Model_Resource_Helper_Interface
 {
     /**
@@ -26,7 +26,7 @@ class Magento_Sales_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Reso
      * @param array $aggregationAliases
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Magento_Sales_Model_Resource_Helper_Mysql4
+     * @return Magento_Sales_Model_Resource_Helper
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable
