@@ -165,13 +165,14 @@ class Magento_Theme_Model_Uploader_Service
     }
 
     /**
-    * Get max upload size
-    *
-    * @param string $configuredLimit
-    * @return int
-    */
+     * Get max upload size
+     *
+     * @param string $configuredLimit
+     *
+     * @return int
+     */
     private function _getMaxUploadSize($configuredLimit)
- 	{
+    {
         $maxIniUploadSize = $this->_fileSize->getMaxFileSize();
         if (is_null($configuredLimit)) {
             return $maxIniUploadSize;
@@ -187,7 +188,7 @@ class Magento_Theme_Model_Uploader_Service
      */
     public function getCssUploadMaxSizeInMb()
     {
-         return $this->_fileSize->getFileSizeInMb($this->getCssUploadMaxSize());
+        return $this->_fileSize->getFileSizeInMb($this->getCssUploadMaxSize());
     }
 
     /**
