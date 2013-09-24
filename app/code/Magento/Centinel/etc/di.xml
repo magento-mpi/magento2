@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+    <type name="Magento_Centinel_Model_StateFactory">
+        <param name="stateClassMap">
+            <value>
+                <VI>Magento_Centinel_Model_State_Visa</VI>
+                <MC>Magento_Centinel_Model_State_Mastercard</MC>
+                <JCB>Magento_Centinel_Model_State_Jcb</JCB>
+                <SM>Magento_Centinel_Model_State_Mastercard</SM>
+            </value>
+        </param>
+    </type>
+</config>
