@@ -837,8 +837,6 @@ return array(
     array('getProductStatusModel', 'Magento_CatalogInventory_Model_Stock_Status'),
     array('getStorage', 'Magento_Cms_Helper_Wysiwyg_Images'),
     array('_getSession', 'Magento_Review_Helper_Action_Pager'),
-    array('getStatusCollection', 'Magento_Review_Model_Review'),
-    array('getProductCollection', 'Magento_Review_Model_Review'),
     array('_getOrderCreateModel', 'Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment'),
     array('_getCustomer', 'Magento_Reward_Block_Customer_Reward_Subscription'),
 );

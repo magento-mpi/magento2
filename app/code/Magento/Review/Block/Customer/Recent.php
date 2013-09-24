@@ -21,6 +21,13 @@ class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
     protected $_template = 'customer/list.phtml';
 
     /**
+     * Product reviews collection
+     *
+     * @var Magento_Review_Model_Resource_Review_Product_Collection
+     */
+    protected $_collection;
+
+    /**
      * @var Magento_Customer_Model_Session
      */
     protected $_customerSession;
@@ -41,14 +48,6 @@ class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
         parent::__construct($coreData, $context, $data);
 
     }
-
-
-    /**
-     * Product reviews collection
-     *
-     * @var Magento_Review_Model_Resource_Review_Product_Collection
-     */
-    protected $_collection;
 
     protected function _initCollection()
     {

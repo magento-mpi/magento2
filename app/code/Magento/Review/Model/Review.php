@@ -52,12 +52,12 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     protected $_summaryCollFactory;
 
     /**
-     * @var Magento_Review_Model_Resource_Review_Summary_CollectionFactory
+     * @var Magento_Review_Model_Resource_Review_Product_CollectionFactory
      */
     protected $_productCollFactory;
 
     /**
-     * @var Magento_Review_Model_Resource_Review_Summary_CollectionFactory
+     * @var Magento_Review_Model_Resource_Review_Status_CollectionFactory
      */
     protected $_statusCollFactory;
 
@@ -105,9 +105,9 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     }
 
     /**
-     * Get review summary collection
+     * Get review status collection
      *
-     * @return Magento_Review_Model_Resource_Review_Summary_Collection
+     * @return Magento_Review_Model_Resource_Review_Status_Collection
      */
     public function getStatusCollection()
     {
