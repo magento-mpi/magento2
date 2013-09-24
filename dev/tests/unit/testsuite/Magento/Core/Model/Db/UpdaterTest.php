@@ -18,7 +18,6 @@ class Magento_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
         $configuration = new Magento_Simplexml_Config($configXml);
 
         $map = array(
-            array('global/resources', $configuration->getNode('global/resources')),
             array(
                 'global/skip_process_modules_updates_ignore_dev_mode',
                 $configuration->getNode('global/skip_process_modules_updates_ignore_dev_mode')
@@ -54,7 +53,21 @@ class Magento_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
         $appState->expects($this->any())
             ->method('getMode')
             ->will($this->returnValue($appMode));
-        $updater = new Magento_Core_Model_Db_Updater($configMock, $factory, $appState);
+
+        $moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $moduleListMock->expects($this->any())->method('getModules')->will($this->returnValue(array(
+            'Test_Module' => array(
+                'name' => 'Test_Module',
+                'version' => '1.0.0.0',
+                'active' => true,
+            ),
+        )));
+        $resourceResolverMock = $this->getMock('Magento_Core_Model_Module_ResourceResolverInterface');
+        $resourceResolverMock->expects($this->any())->method('getResourceList')->with('Test_Module')
+            ->will($this->returnValue(array('fixture_module_setup')));
+
+        $updater = new Magento_Core_Model_Db_Updater($configMock, $factory, $appState, $moduleListMock,
+            $resourceResolverMock, array());
 
         // Run and verify
         $updater->updateScheme();

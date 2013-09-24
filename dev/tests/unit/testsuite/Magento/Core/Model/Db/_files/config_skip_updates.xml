@@ -11,11 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <fixture_module_setup>
-                <setup/>
-            </fixture_module_setup>
-        </resources>
         <skip_process_modules_updates>1</skip_process_modules_updates>
     </global>
 </config>

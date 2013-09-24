@@ -56,16 +56,16 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
     protected $_moduleList;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Module_ResourceResolverInterface
      */
-    protected $_moduleReader;
+    protected $_resourceResolver;
 
     /**
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Resource_SetupFactory $factory
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Module_ResourceResolverInterface $resourceResolver
      * @param array $resourceList
      */
     public function __construct(
@@ -73,14 +73,14 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         Magento_Core_Model_Resource_SetupFactory $factory,
         Magento_Core_Model_App_State $appState,
         Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_Core_Model_Module_ResourceResolverInterface $resourceResolver,
         array $resourceList
     ) {
         $this->_config = $config;
         $this->_factory = $factory;
         $this->_appState = $appState;
         $this->_moduleList = $moduleList;
-        $this->_moduleReader = $moduleReader;
+        $this->_resourceResolver = $resourceResolver;
         $this->_resourceList = $resourceList;
     }
 
@@ -119,9 +119,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
 
         $afterApplyUpdates = array();
         foreach ($this->_moduleList->getModules() as $moduleName => $moduleConfiguration) {
-            $moduleSqlDir = $this->_moduleReader->getModuleDir('sql', $moduleName);
-            foreach (glob($moduleSqlDir . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR) as $resourceDir) {
-                $resourceName = basename($resourceDir);
+            foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
                 $className = isset($this->_resourceList[$resourceName])
                     ? $this->_resourceList[$resourceName]
                     : $this->_defaultClass;
@@ -160,9 +158,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
             return;
         }
         foreach ($this->_moduleList->getModules() as $moduleName => $moduleConfiguration) {
-            $moduleDataDir = $this->_moduleReader->getModuleDir('data', $moduleName);
-            foreach (glob($moduleDataDir . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR) as $resourceDir) {
-                $resourceName = basename($resourceDir);
+            foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
                 $className = isset($this->_resourceList[$resourceName])
                     ? $this->_resourceList[$resourceName]
                     : $this->_defaultClass;
