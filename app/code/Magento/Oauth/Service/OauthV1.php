@@ -35,6 +35,9 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     /** @var  Magento_HTTP_ZendClient */
     protected $_httpClient;
 
+    /** @var  Zend_Oauth_Http_Utility */
+    protected $_httpUtility;
+
     /**
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Model_Nonce_Factory $nonceFactory
@@ -42,6 +45,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
      * @param Magento_Oauth_Helper_Data $helperData
      * @param Magento_Core_Model_StoreManagerInterface
      * @param Magento_HTTP_ZendClient
+     * @param Zend_Oauth_Http_Utility $httpUtility
      */
     public function __construct(
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
@@ -49,7 +53,8 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         Magento_Oauth_Model_Token_Factory $tokenFactory,
         Magento_Oauth_Helper_Data $helperData,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_HTTP_ZendClient $httpClient
+        Magento_HTTP_ZendClient $httpClient,
+        Zend_Oauth_Http_Utility $httpUtility
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
@@ -57,6 +62,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $this->_storeManager = $storeManager;
         $this->_helperData = $helperData;
         $this->_httpClient = $httpClient;
+        $this->_httpUtility = $httpUtility;
     }
 
     /**
@@ -158,13 +164,15 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     public function getAccessToken($request)
     {
         $required = array(
-            "oauth_consumer_key",
-            "oauth_signature",
-            "oauth_signature_method",
-            "oauth_nonce",
-            "oauth_timestamp",
-            "oauth_token",
-            "oauth_verifier"
+            'oauth_consumer_key',
+            'oauth_signature',
+            'oauth_signature_method',
+            'oauth_nonce',
+            'oauth_timestamp',
+            'oauth_token',
+            'oauth_verifier',
+            'request_url',
+            'http_method',
         );
 
         // Make generic validation of request parameters
@@ -360,8 +368,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         unset($allowedSignParams['http_method']);
         unset($allowedSignParams['request_url']);
 
-        $util = new Zend_Oauth_Http_Utility();
-        $calculatedSign = $util->sign(
+        $calculatedSign = $this->_httpUtility->sign(
             $allowedSignParams,
             $params['oauth_signature_method'],
             $consumerSecret,
