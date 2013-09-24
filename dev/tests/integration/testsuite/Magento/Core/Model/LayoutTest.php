@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Layout integration tests
  *
@@ -16,8 +18,6 @@
  *
  * @see \Magento\Core\Model\LayoutDirectivesTest
  */
-namespace Magento\Core\Model;
-
 class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**

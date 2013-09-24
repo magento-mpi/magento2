@@ -24,6 +24,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testInit()
     {
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
@@ -39,6 +42,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($where, $collection->getSelect()->getPart(\Zend_Db_Select::WHERE));
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetData()
     {
         $event = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
@@ -58,6 +64,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $event->delete();
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testNewEventInNewCollection()
     {
         $event1 = $this->_objectManager->create('Magento\Webhook\Model\Event')->save();
@@ -82,6 +91,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $event2->delete();
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testRevokeIdlingInProgress()
     {
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
@@ -92,6 +104,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Emulates concurrent transactions. Executes 50 seconds because of lock timeout
      *
+     * @magentoDbIsolation enabled
      * @expectedException \Zend_Db_Statement_Exception
      * @expectedMessage SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction
      */

@@ -17,6 +17,7 @@ namespace Magento\Webhook\Model\Resource;
 class EventTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @magentoDbIsolation enabled
      * @magentoConfigFixture global/resources/db/table_prefix prefix_
      */
     public function testInit()

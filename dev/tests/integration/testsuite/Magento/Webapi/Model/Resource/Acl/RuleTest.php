@@ -1,4 +1,7 @@
 <?php
+
+namespace Magento\Webapi\Model\Resource\Acl;
+
 /**
  * Test for \Magento\Webapi\Model\Resource\Acl\Rule.
  *
@@ -9,8 +12,6 @@
  *
  * @magentoDataFixture Magento/Webapi/_files/role_with_rule.php
  */
-namespace Magento\Webapi\Model\Resource\Acl;
-
 class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**

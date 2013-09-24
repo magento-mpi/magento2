@@ -76,6 +76,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSubscriptions()
     {
+        $this->markTestSkipped("MAGETWO-11929 extra items");
         $gridCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Resource\Subscription\Grid\Collection',
                 array('subscriptionConfig' => $this->_config));

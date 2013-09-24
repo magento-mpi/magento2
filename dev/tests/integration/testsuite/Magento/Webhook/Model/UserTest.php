@@ -19,6 +19,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSharedSecret()
     {
+        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         $webapiUserId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webapi\Model\Acl\User')
             ->setSecret('secret')

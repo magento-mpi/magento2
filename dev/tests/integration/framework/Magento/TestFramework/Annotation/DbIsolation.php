@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\TestFramework\Annotation;
+
 /**
  * Implementation of the @magentoDbIsolation DocBlock annotation
  */
-namespace Magento\TestFramework\Annotation;
-
 class DbIsolation
 {
     /**

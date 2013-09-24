@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-use \Zend\Code\Generator\ClassGenerator;
-
 namespace Magento\Code\GeneratorTest;
+
+use \Zend\Code\Generator\ClassGenerator;
 
 class SourceClassWithoutNamespace
     extends \Magento\Code\GeneratorTest\ParentClassWithoutNamespace

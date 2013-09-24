@@ -8,12 +8,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Test\Integrity\Modular;
 
 /**
  * @magentoAppIsolation
  */
-namespace Magento\Test\Integrity\Modular;
-
 class TemplateFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**

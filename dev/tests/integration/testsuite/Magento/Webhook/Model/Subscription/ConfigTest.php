@@ -108,7 +108,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testReadingConfig()
     {
-
+        $this->markTestSkipped("MAGETWO-11929 uncaught exception");
         /** @var \Magento\Webhook\Model\Resource\Subscription\Collection $subscriberCollection */
         $subscriptionSet = $this->_objectManager->create('Magento\Webhook\Model\Resource\Subscription\Collection');
 

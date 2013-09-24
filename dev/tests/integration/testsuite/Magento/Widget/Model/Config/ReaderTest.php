@@ -1,4 +1,6 @@
 <?php
+namespace Magento\Widget\Model\Config;
+
 /**
  * \Magento\Widget\Model\Config\Reader
  *
@@ -8,8 +10,6 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
-namespace Magento\Widget\Model\Config;
-
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -8,11 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Core\Block;
+
 /**
  * @magentoAppIsolation enabled
  */
-namespace Magento\Core\Block;
-
 class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Controller;
+
 /**
  * Test class for \Magento\Catalog\Controller\Category.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-namespace Magento\Catalog\Controller;
-
 class CategoryTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function assert404NotFound()

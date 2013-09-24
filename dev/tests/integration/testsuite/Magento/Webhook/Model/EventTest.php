@@ -21,6 +21,9 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->_event = \Mage::getModel('Magento\Webhook\Model\Event');
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testSetGet()
     {
         $this->assertEmpty($this->_event->getBodyData());
@@ -34,6 +37,9 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $this->_event->getHeaders());
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testSetGetArrays()
     {
         $this->_event->setStatus(42);
@@ -43,12 +49,18 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('customer/topic', $this->_event->getTopic());
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testMarkAsProcessed()
     {
         $this->_event->complete();
         $this->assertEquals(\Magento\PubSub\EventInterface::STATUS_PROCESSED, $this->_event->getStatus());
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testSaveAndLoad()
     {
         $bodyData = array('array', 'of', 'body', 'data');

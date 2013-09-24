@@ -14,6 +14,9 @@ namespace Magento\Webhook\Model\Event;
  */
 class QueueWriterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testOfferWebhookEvent()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -36,6 +39,9 @@ class QueueWriterTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($queueReader->poll());
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testOfferMagentoEvent()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();

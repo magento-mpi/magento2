@@ -12,6 +12,9 @@ namespace Magento\Webhook\Model;
  */
 class EndpointTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetMethods()
     {
         /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
@@ -41,6 +44,9 @@ class EndpointTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testBeforeSave()
     {
         /** @var  \Magento\Webhook\Model\Endpoint $endpoint */

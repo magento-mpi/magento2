@@ -1,4 +1,6 @@
 <?php
+namespace Magento\Webapi\Model\Acl;
+
 /**
  * Test for \Magento\Webapi\Model\Acl\Rule model.
  *
@@ -8,8 +10,6 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Webapi/_files/role.php
  */
-namespace Magento\Webapi\Model\Acl;
-
 class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**

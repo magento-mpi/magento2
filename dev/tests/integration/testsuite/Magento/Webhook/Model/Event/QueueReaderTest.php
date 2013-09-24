@@ -14,6 +14,9 @@ namespace Magento\Webhook\Model\Event;
  */
 class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testPoll()
     {
         /** @var \Magento\Webhook\Model\Event $event */

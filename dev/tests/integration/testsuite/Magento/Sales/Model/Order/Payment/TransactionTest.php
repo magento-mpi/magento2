@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Order\Payment;
+
 /**
  * Tests transaction model:
  *
  * @see \Magento\Sales\Model\Order\Payment\Transaction
  * @magentoDataFixture Magento/Sales/_files/transactions.php
  */
-namespace Magento\Sales\Model\Order\Payment;
-
 class TransactionTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadByTxnId()

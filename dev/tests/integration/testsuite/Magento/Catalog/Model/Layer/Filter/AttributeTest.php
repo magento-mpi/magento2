@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Layer\Filter;
+
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\Attribute.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/_files/attribute_with_option.php
  */
-namespace Magento\Catalog\Model\Layer\Filter;
-
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**

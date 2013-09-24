@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Tax\Model\Calculation;
 
 /**
  * @magentoDataFixture Magento/Tax/_files/tax_classes.php
  */
-namespace Magento\Tax\Model\Calculation;
-
 class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
