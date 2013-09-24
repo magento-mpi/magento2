@@ -21,7 +21,7 @@ class Magento_Sales_Model_Order_Pdf_Total_FactoryTest extends PHPUnit_Framework_
     public function setUp()
     {
         $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        $this->_factory = new Magento_Sales_Model_Order_Pdf_Total_Factory($objectManager);
+        $this->_factory = new Magento_Sales_Model_Order_Pdf_Total_Factory($this->_objectManager);
     }
 
     /**

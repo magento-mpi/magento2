@@ -31,6 +31,8 @@ class Magento_Sales_Model_Order_Pdf_InvoiceTest extends PHPUnit_Framework_TestCa
             ->will($this->returnValue(BP));
         $this->_pdfConfigMock =
             $this->getMock('Magento_Sales_Model_Order_Pdf_Config', array(), array(), '', false, false);
+        $totalFactory = $this->getMock('Magento_Sales_Model_Order_Pdf_Total_Factory', array(), array(), '', false,
+            false);
 
         $this->_model = new Magento_Sales_Model_Order_Pdf_Invoice(
             $paymentDataMock,
@@ -40,6 +42,7 @@ class Magento_Sales_Model_Order_Pdf_InvoiceTest extends PHPUnit_Framework_TestCa
             $translateMock,
             $dirsMock,
             $this->_pdfConfigMock,
+            $totalFactory,
             array()
         );
     }

@@ -12,7 +12,7 @@ class Magento_Sales_Model_Order_Pdf_AbstractTest extends PHPUnit_Framework_TestC
      * Test protected method to reduce testing complexity, which would be too high in case of testing a public method
      * without completing a huge refactoring of the class.
      */
-    function testInsertTotals()
+    public function testInsertTotals()
     {
         // Setup parameters, that will be passed to the tested model method
         $page = $this->getMock('Zend_Pdf_Page', array(), array(), '', false);
