@@ -25,7 +25,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -68,7 +68,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
      * @param Magento_Core_Model_Resource_Store_Group_Collection $storeGroups
      * @param Magento_AdminGws_Model_Role $role
      * @param Magento_AdminGws_Model_ConfigInterface $config
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
@@ -80,7 +80,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
         Magento_Core_Model_Resource_Store_Group_Collection $storeGroups,
         Magento_AdminGws_Model_Role $role,
         Magento_AdminGws_Model_ConfigInterface $config,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Controller_Request_Http $request
     ) {
         $this->_backendAuthSession = $backendAuthSession;
