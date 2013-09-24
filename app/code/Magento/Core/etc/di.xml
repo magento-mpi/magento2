@@ -310,4 +310,39 @@
             <instance type="Magento_Core_Model_Locale_Hierarchy_Config_Reader" />
         </param>
     </type>
+    <virtualType name="Magento_Core_Model_Resource_DefaultSetupConnectionAdapter" type="Magento_Core_Model_Resource_Type_Db_Pdo_Mysql" />
+    <virtualType name="Magento_Core_Model_Resource_DefaultReadConnectionAdapter" type="Magento_Core_Model_Resource_DefaultSetupConnectionAdapter" />
+    <virtualType name="Magento_Core_Model_Resource_DefaultWriteConnectionAdapter" type="Magento_Core_Model_Resource_DefaultSetupConnectionAdapter" />
+    <virtualType name="Magento_Core_Model_Resource_ReadConnectionAdapter" type="Magento_Core_Model_Resource_DefaultReadConnectionAdapter" />
+    <virtualType name="Magento_Core_Model_Resource_WriteConnectionAdapter" type="Magento_Core_Model_Resource_DefaultWriteConnectionAdapter" />
+    <virtualType name="Magento_Core_Model_Resource_SetupConnectionAdapter" type="Magento_Core_Model_Resource_DefaultSetupConnectionAdapter" />
+    <type name="Magento_Core_Model_Resource">
+        <param name="connectionList">
+            <value>
+                <default_read>
+                    <instance>Magento_Core_Model_Resource_DefaultReadConnectionAdapter</instance>
+                </default_read>
+                <default_write>
+                    <instance>Magento_Core_Model_Resource_DefaultWriteConnectionAdapter</instance>
+                 </default_write>
+                <default_setup>
+                    <instance>Magento_Core_Model_Resource_DefaultSetupConnectionAdapter</instance>
+                </default_setup>
+                <core_read>
+                    <instance>Magento_Core_Model_Resource_ReadConnectionAdapter</instance>
+                </core_read>
+                <core_write>
+                    <instance>Magento_Core_Model_Resource_WriteConnectionAdapter</instance>
+                </core_write>
+                <core_setup>
+                    <instance>Magento_Core_Model_Resource_SetupConnectionAdapter</instance>
+                </core_setup>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Core_Helper_Data">
+        <param name="dbCompatibleMode">
+            <value>1</value>
+        </param>
+    </type>
 </config>

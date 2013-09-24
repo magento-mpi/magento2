@@ -20,20 +20,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_resourceName;
 
     /**
-     * Setup resource configuration object
-     *
-     * @var Magento_Simplexml_Element
-     */
-    protected $_resourceConfig;
-
-    /**
-     * Connection configuration object
-     *
-     * @var Magento_Simplexml_Element
-     */
-    protected $_connectionConfig;
-
-    /**
      * Setup module configuration object
      *
      * @var Magento_Simplexml_Element
@@ -67,13 +53,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_setupCache = array();
 
     /**
-     * Flag which shows, that setup has hooked queries from DB adapter
-     *
-     * @var bool
-     */
-    protected $_queriesHooked = false;
-
-    /**
      * Modules configuration
      *
      * @var Magento_Core_Model_Resource
@@ -88,11 +67,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     protected $_modulesReader;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_config;
-
-    /**
      * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
@@ -105,42 +79,28 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param array $moduleConfiguration
      * @param $resourceName
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        array $moduleConfiguration,
         $resourceName
     ) {
-        $this->_config = $config;
-        $resourcesConfig->setConfig($config);
         $this->_eventManager = $eventManager;
         $this->_resourceModel = $resource;
         $this->_resourceName = $resourceName;
         $this->_modulesReader = $modulesReader;
-        $this->_resourceConfig = $resourcesConfig->getResourceConfig($resourceName);
-        $connection = $resourcesConfig->getResourceConnectionConfig($resourceName);
-        if ($connection) {
-            $this->_connectionConfig = $connection;
-        } else {
-            $this->_connectionConfig = $resourcesConfig->getResourceConnectionConfig(self::DEFAULT_SETUP_CONNECTION);
-        }
 
-        $modName = (string)$this->_resourceConfig->setup->module;
-        $this->_moduleConfig = $moduleList->getModule($modName);
+        $this->_moduleConfig = $moduleConfiguration;
         $connection = $this->_resourceModel->getConnection($this->_resourceName);
         /**
-         * If module setup configuration wasn't loaded
+         * If module setup configuration was not loaded
          */
         if (!$connection) {
             $connection = $this->_resourceModel->getConnection($this->_resourceName);
@@ -358,7 +318,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      */
     protected function _getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
-        $resModel   = (string)$this->_connectionConfig->model;
         $modName    = (string)$this->_moduleConfig['name'];
 
         $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . DS . $this->_resourceName;
@@ -369,14 +328,11 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         $dbFiles    = array();
         $typeFiles  = array();
         $regExpDb   = sprintf('#^%s-(.*)\.(php|sql)$#i', $actionType);
-        $regExpType = sprintf('#^%s-%s-(.*)\.(php|sql)$#i', $resModel, $actionType);
         $handlerDir = dir($filesDir);
         while (false !== ($file = $handlerDir->read())) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
                 $dbFiles[$matches[1]] = $filesDir . DS . $file;
-            } else if (preg_match($regExpType, $file, $matches)) {
-                $typeFiles[$matches[1]] = $filesDir . DS . $file;
             }
         }
         $handlerDir->close();
@@ -409,21 +365,6 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         if (is_dir($filesDir) && is_readable($filesDir)) {
             $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
             $handlerDir = dir($filesDir);
-            while (false !== ($file = $handlerDir->read())) {
-                $matches = array();
-                if (preg_match($regExp, $file, $matches)) {
-                    $files[$matches[1]] = $filesDir . DS . $file;
-                }
-            }
-            $handlerDir->close();
-        }
-
-        // search data files in old location
-        $filesDir   = Mage::getModuleDir('sql', $modName) . DS . $this->_resourceName;
-        if (is_dir($filesDir) && is_readable($filesDir)) {
-            $regExp     = sprintf('#^%s-%s-(.*)\.php$#i', $this->_connectionConfig->model, $actionType);
-            $handlerDir = dir($filesDir);
-
             while (false !== ($file = $handlerDir->read())) {
                 $matches = array();
                 if (preg_match($regExp, $file, $matches)) {

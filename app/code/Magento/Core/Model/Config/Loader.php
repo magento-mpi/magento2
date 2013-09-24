@@ -67,8 +67,7 @@ class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_Load
 
         Magento_Profiler::start('load_modules_configuration');
 
-        $resourceConfig = sprintf('config.%s.xml', $this->_resourceConfig->getResourceConnectionModel('core'));
-        $this->_fileReader->loadModulesConfiguration(array('config.xml', $resourceConfig), $config);
+        $this->_fileReader->loadModulesConfiguration(array('config.xml'), $config);
         Magento_Profiler::stop('load_modules_configuration');
 
         // Prevent local configuration overriding

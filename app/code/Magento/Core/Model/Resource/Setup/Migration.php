@@ -129,6 +129,11 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_filesystem;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Config_Resource $resourcesConfig
@@ -155,6 +160,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         $resourceName,
         array $data = array()
     ) {
+        $this->_config = $config;
         $this->_filesystem = $filesystem;
         $this->_coreHelper = $helper;
         if (!isset($data['resource_config'])
@@ -192,14 +198,6 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
      */
     protected function _initConfigs(array $data = array())
     {
-        if (isset($data['resource_config'])) {
-            $this->_resourceConfig = $data['resource_config'];
-        }
-
-        if (isset($data['connection_config'])) {
-            $this->_connectionConfig = $data['connection_config'];
-        }
-
         if (isset($data['module_config'])) {
             $this->_moduleConfig = $data['module_config'];
         }
