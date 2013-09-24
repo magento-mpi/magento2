@@ -64,23 +64,38 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+    /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Customer_Model_Address_Config
+     */
+    protected $_addressConfig;
 
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_BlockFactory $blockFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Customer_Model_Address_Config $addressConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_BlockFactory $blockFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Customer_Model_Address_Config $addressConfig
     ) {
-        parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_blockFactory = $blockFactory;
         $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        $this->_addressConfig = $addressConfig;
+        parent::__construct($context);
     }
 
     /**
@@ -140,9 +155,9 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
      */
     public function getStreetLines($store = null)
     {
-        $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+        $websiteId = $this->_storeManager->getStore($store)->getWebsiteId();
         if (!isset($this->_streetLines[$websiteId])) {
-            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', 'street');
+            $attribute = $this->_eavConfig->getAttribute('customer_address', 'street');
             $lines = (int)$attribute->getMultilineCount();
             if ($lines <= 0) {
                 $lines = 2;
@@ -155,7 +170,7 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
 
     public function getFormat($code)
     {
-        $format = Mage::getSingleton('Magento_Customer_Model_Address_Config')->getFormatByCode($code);
+        $format = $this->_addressConfig->getFormatByCode($code);
         return $format->getRenderer() ? $format->getRenderer()->getFormat() : '';
     }
 
@@ -179,8 +194,7 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
     {
         if (is_null($this->_attributes)) {
             $this->_attributes = array();
-            /* @var $config Magento_Eav_Model_Config */
-            $config = Mage::getSingleton('Magento_Eav_Model_Config');
+            $config = $this->_eavConfig;
             foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
                 $this->_attributes[$attributeCode] = $config->getAttribute('customer_address', $attributeCode);
             }
@@ -198,7 +212,7 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
     {
         /** @var $attribute Magento_Customer_Model_Attribute */
         $attribute = isset($this->_attributes[$attributeCode]) ? $this->_attributes[$attributeCode]
-            : Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', $attributeCode);
+            : $this->_eavConfig->getAttribute('customer_address', $attributeCode);
         $class = $attribute ? $attribute->getFrontend()->getClass() : '';
 
         if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
@@ -207,7 +221,7 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
             }
 
             /** @var $customerAttribute Magento_Customer_Model_Attribute */
-            $customerAttribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $attributeCode);
+            $customerAttribute = $this->_eavConfig->getAttribute('customer', $attributeCode);
             $class .= $customerAttribute && $customerAttribute->getIsVisible()
                 ? $customerAttribute->getFrontend()->getClass() : '';
             $class = implode(' ', array_unique(array_filter(explode(' ', $class))));

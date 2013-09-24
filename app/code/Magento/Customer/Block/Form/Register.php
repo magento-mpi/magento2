@@ -21,6 +21,24 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     protected $_address;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    public function __construct(
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_addressFactory = $addressFactory;
+        parent::__construct($configCacheType, $coreData, $context, $data);
+    }
+
+    /**
      * Get config
      *
      * @param string $path
@@ -70,7 +88,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $formData = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerFormData(true);
+            $formData = $this->_customerSession->getCustomerFormData(true);
             $data = new Magento_Object();
             if ($formData) {
                 $data->addData($formData);
@@ -131,7 +149,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     public function getAddress()
     {
         if (is_null($this->_address)) {
-            $this->_address = Mage::getModel('Magento_Customer_Model_Address');
+            $this->_address = $this->_createAddress();
         }
 
         return $this->_address;
@@ -142,6 +160,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      * Entity and form code must be defined for the form
      *
      * @param Magento_Customer_Model_Form $form
+     * @param null $scope
      * @return Magento_Customer_Block_Form_Register
      */
     public function restoreSessionData(Magento_Customer_Model_Form $form, $scope = null)
@@ -153,5 +172,13 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
         }
 
         return $this;
+    }
+
+    /**
+     * @return Magento_Customer_Model_Address
+     */
+    protected function _createAddress()
+    {
+        return $this->_addressFactory->create();
     }
 }

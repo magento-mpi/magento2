@@ -19,6 +19,23 @@
 class Magento_Customer_Model_Resource_Address_Attribute_Source_Country extends Magento_Eav_Model_Entity_Attribute_Source_Table
 {
     /**
+     * @var Magento_Directory_Model_Resource_Country_CollectionFactory
+     */
+    protected $_countriesFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Directory_Model_Resource_Country_CollectionFactory $countriesFactory
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Directory_Model_Resource_Country_CollectionFactory $countriesFactory
+    ) {
+        $this->_countriesFactory = $countriesFactory;
+        parent::__construct($coreData);
+    }
+
+    /**
      * Retreive all options
      *
      * @return array
@@ -26,9 +43,17 @@ class Magento_Customer_Model_Resource_Address_Attribute_Source_Country extends M
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')
+            $this->_options = $this->_createCountriesCollection()
                 ->loadByStore($this->getAttribute()->getStoreId())->toOptionArray();
         }
         return $this->_options;
+    }
+
+    /**
+     * @return Magento_Directory_Model_Resource_Country_Collection
+     */
+    protected function _createCountriesCollection()
+    {
+        return $this->_countriesFactory->create();
     }
 }

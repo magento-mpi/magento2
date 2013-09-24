@@ -67,8 +67,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
         parent::_beforeSave($customer);
 
         if (!$customer->getEmail()) {
-            throw Mage::exception('Magento_Customer',
-                __('Customer email is required'));
+            throw new Magento_Customer_Exception(__('Customer email is required'));
         }
 
         $adapter = $this->_getWriteAdapter();
@@ -88,8 +87,7 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
 
         $result = $adapter->fetchOne($select, $bind);
         if ($result) {
-            throw Mage::exception(
-                'Magento_Customer',
+            throw new Magento_Customer_Exception(
                 __('Customer with the same email already exists.'),
                 Magento_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS
             );
@@ -224,7 +222,9 @@ class Magento_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_
 
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
-                Mage::throwException(__('Customer website ID must be specified when using the website scope'));
+                throw new Magento_Core_Exception(
+                    __('Customer website ID must be specified when using the website scope')
+                );
             }
             $bind['website_id'] = (int)$customer->getWebsiteId();
             $select->where('website_id = :website_id');

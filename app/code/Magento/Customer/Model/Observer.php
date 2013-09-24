@@ -52,21 +52,37 @@ class Magento_Customer_Model_Observer
     protected $_coreData = null;
 
     /**
+     * @var Magento_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Customer_Helper_Address $customerAddress
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Customer_Helper_Data $customerData,
         Magento_Customer_Helper_Address $customerAddress,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Customer_Model_Session $customerSession
     ) {
         $this->_coreData = $coreData;
         $this->_customerData = $customerData;
         $this->_customerAddress = $customerAddress;
         $this->_coreRegistry = $coreRegistry;
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $customerSession;
     }
 
     /**
@@ -193,14 +209,14 @@ class Magento_Customer_Model_Observer
                     $customer->save();
                 }
 
-                if (!Mage::app()->getStore()->isAdmin()) {
+                if (!$this->_storeManager->getStore()->isAdmin()) {
                     $validationMessage = $this->_customerData->getVatValidationUserMessage($customerAddress,
                         $customer->getDisableAutoGroupChange(), $result);
 
                     if (!$validationMessage->getIsError()) {
-                        Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess($validationMessage->getMessage());
+                        $this->_customerSession->addSuccess($validationMessage->getMessage());
                     } else {
-                        Mage::getSingleton('Magento_Customer_Model_Session')->addError($validationMessage->getMessage());
+                        $this->_customerSession->addError($validationMessage->getMessage());
                     }
                 }
             }

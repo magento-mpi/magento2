@@ -147,6 +147,41 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Customer_Model_Config_Share
+     */
+    protected $_configShare;
+
+    /**
+     * @var Magento_Customer_Model_AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Address_CollectionFactory
+     */
+    protected $_addressesFactory;
+
+    /**
+     * @var Magento_Core_Model_Email_Template_MailerFactory
+     */
+    protected $_mailerFactory;
+
+    /**
+     * @var Magento_Core_Model_Email_InfoFactory
+     */
+    protected $_emailInfoFactory;
+
+    /**
+     * @var Magento_Customer_Model_GroupFactory
+     */
+    protected $_groupFactory;
+
+    /**
+     * @var Magento_Customer_Model_AttributeFactory
+     */
+    protected $_attributeFactory;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
@@ -157,6 +192,13 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Customer_Model_Resource_Customer $resource
+     * @param Magento_Customer_Model_Config_Share $configShare
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param Magento_Customer_Model_Resource_Address_CollectionFactory $addressesFactory
+     * @param Magento_Core_Model_Email_Template_MailerFactory $mailerFactory
+     * @param Magento_Core_Model_Email_InfoFactory $emailInfoFactory
+     * @param Magento_Customer_Model_GroupFactory $groupFactory
+     * @param Magento_Customer_Model_AttributeFactory $attributeFactory
      * @param Magento_Data_Collection_Db|null $resourceCollection
      * @param array $data
      */
@@ -171,6 +213,13 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Eav_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Customer_Model_Resource_Customer $resource,
+        Magento_Customer_Model_Config_Share $configShare,
+        Magento_Customer_Model_AddressFactory $addressFactory,
+        Magento_Customer_Model_Resource_Address_CollectionFactory $addressesFactory,
+        Magento_Core_Model_Email_Template_MailerFactory $mailerFactory,
+        Magento_Core_Model_Email_InfoFactory $emailInfoFactory,
+        Magento_Customer_Model_GroupFactory $groupFactory,
+        Magento_Customer_Model_AttributeFactory $attributeFactory,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -181,6 +230,13 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
+        $this->_configShare = $configShare;
+        $this->_addressFactory = $addressFactory;
+        $this->_addressesFactory = $addressesFactory;
+        $this->_mailerFactory = $mailerFactory;
+        $this->_emailInfoFactory = $emailInfoFactory;
+        $this->_groupFactory = $groupFactory;
+        $this->_attributeFactory = $attributeFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -199,7 +255,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function getSharingConfig()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Config_Share');
+        return $this->_configShare;
     }
 
     /**
@@ -215,13 +271,10 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     {
         $this->loadByEmail($login);
         if ($this->getConfirmation() && $this->isConfirmationRequired()) {
-            throw Mage::exception('Magento_Core',
-                __('This account is not confirmed.'),
-                self::EXCEPTION_EMAIL_NOT_CONFIRMED
-            );
+            throw new Magento_Core_Exception(__('This account is not confirmed.'), self::EXCEPTION_EMAIL_NOT_CONFIRMED);
         }
         if (!$this->validatePassword($password)) {
-            throw Mage::exception('Magento_Core',
+            throw new Magento_Core_Exception(
                 __('Invalid login or password.'),
                 self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
             );
@@ -258,7 +311,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
 
         $storeId = $this->getStoreId();
         if ($storeId === null) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         $this->getGroupId();
@@ -320,8 +373,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function getAddressById($addressId)
     {
-        return Mage::getModel('Magento_Customer_Model_Address')
-            ->load($addressId);
+        return $this->_createAddressInstance()->load($addressId);
     }
 
     /**
@@ -342,7 +394,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function getAddressCollection()
     {
-        return Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Collection');
+        return $this->_createAddressCollection();
     }
 
     /**
@@ -622,9 +674,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
             'confirmation'   => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,   // email with confirmation link
         );
         if (!isset($types[$type])) {
-            Mage::throwException(
-                __('Wrong transactional account email type')
-            );
+            throw new Magento_Core_Exception(__('Wrong transactional account email type'));
         }
 
         if (!$storeId) {
@@ -695,8 +745,8 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
         /** @var $mailer Magento_Core_Model_Email_Template_Mailer */
-        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
-        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+        $mailer = $this->_createMailer();
+        $emailInfo = $this->_createEmailInfo();
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $mailer->addEmailInfo($emailInfo);
 
@@ -759,7 +809,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     public function getGroupId()
     {
         if (!$this->hasData('group_id')) {
-            $storeId = $this->getStoreId() ? $this->getStoreId() : Mage::app()->getStore()->getId();
+            $storeId = $this->getStoreId() ? $this->getStoreId() : $this->_storeManager->getStore()->getId();
             $groupId = $this->_coreStoreConfig->getConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $storeId);
             $this->setData('group_id', $groupId);
         }
@@ -774,7 +824,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     public function getTaxClassId()
     {
         if (!$this->getData('tax_class_id')) {
-            $this->setTaxClassId(Mage::getModel('Magento_Customer_Model_Group')->getTaxClassId($this->getGroupId()));
+            $this->setTaxClassId($this->_createCustomerGroup()->getTaxClassId($this->getGroupId()));
         }
         return $this->getData('tax_class_id');
     }
@@ -804,7 +854,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      */
     public function getStore()
     {
-        return Mage::app()->getStore($this->getStoreId());
+        return $this->_storeManager->getStore($this->getStoreId());
     }
 
     /**
@@ -818,9 +868,9 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         if ($ids === null) {
             $ids = array();
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
-                $ids = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
+                $ids = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
             } else {
-                foreach (Mage::app()->getStores() as $store) {
+                foreach ($this->_storeManager->getStores() as $store) {
                     $ids[] = $store->getId();
                 }
             }
@@ -843,7 +893,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
                 $ids[] = $this->getWebsiteId();
             } else {
-                foreach (Mage::app()->getWebsites() as $website) {
+                foreach ($this->_storeManager->getWebsites() as $website) {
                     $ids[] = $website->getId();
                 }
             }
@@ -888,15 +938,18 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         }
 
         $entityType = $this->_config->getEntityType('customer');
-        $attribute = Mage::getModel('Magento_Customer_Model_Attribute')->loadByCode($entityType, 'dob');
+        $attribute = $this->_createCustomerAttribute();
+        $attribute->loadByCode($entityType, 'dob');
         if ($attribute->getIsRequired() && '' == trim($this->getDob())) {
             $errors[] = __('The Date of Birth is required.');
         }
-        $attribute = Mage::getModel('Magento_Customer_Model_Attribute')->loadByCode($entityType, 'taxvat');
+        $attribute = $this->_createCustomerAttribute();
+        $attribute->loadByCode($entityType, 'taxvat');
         if ($attribute->getIsRequired() && '' == trim($this->getTaxvat())) {
             $errors[] = __('The TAX/VAT number is required.');
         }
-        $attribute = Mage::getModel('Magento_Customer_Model_Attribute')->loadByCode($entityType, 'gender');
+        $attribute = $this->_createCustomerAttribute();
+        $attribute->loadByCode($entityType, 'gender');
         if ($attribute->getIsRequired() && '' == trim($this->getGender())) {
             $errors[] = __('Gender is required.');
         }
@@ -1121,7 +1174,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
     public function changeResetPasswordLinkToken($passwordLinkToken)
     {
         if (!is_string($passwordLinkToken) || empty($passwordLinkToken)) {
-            throw Mage::exception('Magento_Core',
+            throw new Magento_Core_Exception(
                 __('Invalid password reset token.'),
                 self::EXCEPTION_INVALID_RESET_PASSWORD_LINK_TOKEN
             );
@@ -1159,5 +1212,53 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         }
 
         return false;
+    }
+
+    /**
+     * @return Magento_Customer_Model_Address
+     */
+    protected function _createAddressInstance()
+    {
+        return $this->_addressFactory->create();
+    }
+
+    /**
+     * @return Magento_Customer_Model_Resource_Address_Collection
+     */
+    protected function _createAddressCollection()
+    {
+        return $this->_addressesFactory->create();
+    }
+
+    /**
+     * @return Magento_Core_Model_Email_Template_Mailer
+     */
+    protected function _createMailer()
+    {
+        return $this->_mailerFactory->create();
+    }
+
+    /**
+     * @return Magento_Core_Model_Email_Info
+     */
+    protected function _createEmailInfo()
+    {
+        return $this->_emailInfoFactory->create();
+    }
+
+    /**
+     * @return Magento_Customer_Model_Group
+     */
+    protected function _createCustomerGroup()
+    {
+        return $this->_groupFactory->create();
+    }
+
+    /**
+     * @return Magento_Customer_Model_Attribute
+     */
+    protected function _createCustomerAttribute()
+    {
+        return $this->_attributeFactory->create();
     }
 }

@@ -17,52 +17,79 @@
  */
 class Magento_Customer_Block_Account_Dashboard extends Magento_Core_Block_Template
 {
-    protected $_subscription = null;
+    /**
+     * @var Magento_Newsletter_Model_Subscriber
+     */
+    protected $_subscription;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Newsletter_Model_SubscriberFactory
+     */
+    protected $_subscriberFactory;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Newsletter_Model_SubscriberFactory $subscriberFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Newsletter_Model_SubscriberFactory $subscriberFactory,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+        $this->_subscriberFactory = $subscriberFactory;
+        parent::__construct($coreData, $context, $data);
+    }
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     public function getAccountUrl()
     {
-        return Mage::getUrl('customer/account/edit', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('customer/account/edit', array('_secure'=>true));
     }
 
     public function getAddressesUrl()
     {
-        return Mage::getUrl('customer/address/index', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('customer/address/index', array('_secure'=>true));
     }
 
     public function getAddressEditUrl($address)
     {
-        return Mage::getUrl('customer/address/edit', array('_secure'=>true, 'id'=>$address->getId()));
+        return $this->_urlBuilder->getUrl('customer/address/edit', array('_secure'=>true, 'id'=>$address->getId()));
     }
 
     public function getOrdersUrl()
     {
-        return Mage::getUrl('customer/order/index', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('customer/order/index', array('_secure'=>true));
     }
 
     public function getReviewsUrl()
     {
-        return Mage::getUrl('review/customer/index', array('_secure'=>true));
+        return $this->_urlBuilder->getUrl('review/customer/index', array('_secure'=>true));
     }
 
     public function getWishlistUrl()
     {
-        return Mage::getUrl('customer/wishlist/index', array('_secure'=>true));
-    }
-
-    public function getTagsUrl()
-    {
-
+        return $this->_urlBuilder->getUrl('customer/wishlist/index', array('_secure'=>true));
     }
 
     public function getSubscriptionObject()
     {
         if(is_null($this->_subscription)) {
-            $this->_subscription = Mage::getModel('Magento_Newsletter_Model_Subscriber')->loadByCustomer($this->getCustomer());
+            $this->_subscription = $this->_createSubscriber()->loadByCustomer($this->getCustomer());
         }
 
         return $this->_subscription;
@@ -107,5 +134,13 @@ class Magento_Customer_Block_Account_Dashboard extends Magento_Core_Block_Templa
             return $this->getRefererUrl();
         }
         return $this->getUrl('customer/account/');
+    }
+
+    /**
+     * @return Magento_Newsletter_Model_Subscriber
+     */
+    protected function _createSubscriber()
+    {
+        return $this->_subscriberFactory->create();
     }
 }

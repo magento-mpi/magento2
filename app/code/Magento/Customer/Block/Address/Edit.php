@@ -23,10 +23,22 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
     protected $_config;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Customer_Model_AddressFactory
+     */
+    protected $_addressFactory;
+
+    /**
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Core_Model_Config $config
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Customer_Model_AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
@@ -34,22 +46,25 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Core_Model_Config $config,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Customer_Model_AddressFactory $addressFactory,
         array $data = array()
     ) {
-        parent::__construct($configCacheType, $coreData, $context, $data);
         $this->_config = $config;
+        $this->_customerSession = $customerSession;
+        $this->_addressFactory = $addressFactory;
+        parent::__construct($configCacheType, $coreData, $context, $data);
     }
-
 
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->_address = Mage::getModel('Magento_Customer_Model_Address');
+        $this->_address = $this->_createAddress();
 
         // Init address object
         if ($id = $this->getRequest()->getParam('id')) {
             $this->_address->load($id);
-            if ($this->_address->getCustomerId() != Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) {
+            if ($this->_address->getCustomerId() != $this->_customerSession->getCustomerId()) {
                 $this->_address->setData(array());
             }
         }
@@ -66,7 +81,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
             $headBlock->setTitle($this->getTitle());
         }
 
-        if ($postedData = Mage::getSingleton('Magento_Customer_Model_Session')->getAddressFormData(true)) {
+        if ($postedData = $this->_customerSession->getAddressFormData(true)) {
             $this->_address->addData($postedData);
         }
     }
@@ -114,7 +129,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 
     public function getSaveUrl()
     {
-        return Mage::getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
+        return $this->_urlBuilder->getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
     }
 
     public function getAddress()
@@ -137,7 +152,7 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 
     public function getCustomerAddressCount()
     {
-        return count(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getAddresses());
+        return count($this->_customerSession->getCustomer()->getAddresses());
     }
 
     public function canSetAsDefaultBilling()
@@ -158,19 +173,19 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 
     public function isDefaultBilling()
     {
-        $defaultBilling = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getDefaultBilling();
+        $defaultBilling = $this->_customerSession->getCustomer()->getDefaultBilling();
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultBilling;
     }
 
     public function isDefaultShipping()
     {
-        $defaultShipping = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getDefaultShipping();
+        $defaultShipping = $this->_customerSession->getCustomer()->getDefaultShipping();
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultShipping;
     }
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return $this->_customerSession->getCustomer();
     }
 
     public function getBackButtonUrl()
@@ -200,5 +215,13 @@ class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
     public function getConfig($path)
     {
         return $this->_storeConfig->getConfig($path);
+    }
+
+    /**
+     * @return Magento_Customer_Model_Address
+     */
+    protected function _createAddress()
+    {
+        return $this->_addressFactory->create();
     }
 }

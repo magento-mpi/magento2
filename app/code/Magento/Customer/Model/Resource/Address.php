@@ -15,14 +15,32 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
     protected $_validatorFactory;
 
     /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
      * Initialize object dependencies
      *
      * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_Validator_Factory $validatorFactory, $data = array())
-    {
+    public function __construct(
+        Magento_Core_Model_Validator_Factory $validatorFactory,
+        Magento_Core_Model_Resource $resource,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        $data = array()
+    ) {
         $this->_validatorFactory = $validatorFactory;
+        $this->_resource = $resource;
+        $this->_customerFactory = $customerFactory;
         parent::__construct($data);
     }
 
@@ -31,7 +49,7 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
      */
     protected function _construct()
     {
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = $this->_resource;
         $this->setType('customer_address')->setConnection(
             $resource->getConnection('customer_read'),
             $resource->getConnection('customer_write')
@@ -50,8 +68,7 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
             return $this;
         }
         if ($address->getId() && ($address->getIsDefaultBilling() || $address->getIsDefaultShipping())) {
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')
-                ->load($address->getCustomerId());
+            $customer = $this->_createCustomer()->load($address->getCustomerId());
 
             if ($address->getIsDefaultBilling()) {
                 $customer->setDefaultBilling($address->getId());
@@ -92,5 +109,13 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
         if (!$validator->isValid($address)) {
             throw new Magento_Validator_Exception($validator->getMessages());
         }
+    }
+
+    /**
+     * @return Magento_Customer_Model_Customer
+     */
+    protected function _createCustomer()
+    {
+        return $this->_customerFactory->create();
     }
 }

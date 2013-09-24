@@ -46,14 +46,34 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_coreUrl = null;
 
     /**
-     * Retrieve customer sharing configuration model
-     *
-     * @return Magento_Customer_Model_Config_Share
+     * @var Magento_Core_Model_StoreManagerInterface
      */
-    public function getCustomerConfigShare()
-    {
-        return Mage::getSingleton('Magento_Customer_Model_Config_Share');
-    }
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Customer_Model_Config_Share
+     */
+    protected $_configShare;
+
+    /**
+     * @var Magento_Core_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Customer_Model_Resource_Customer
+     */
+    protected $_customerResource;
+
+    /**
+     * @var Magento_Customer_Model_CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @var Magento_Core_Model_UrlFactory
+     */
+    protected $_urlFactory;
 
     /**
      * @param Magento_Core_Model_Session_Validator $validator
@@ -66,6 +86,10 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Session $session
+     * @param Magento_Customer_Model_Resource_Customer $customerResource
+     * @param Magento_Customer_Model_CustomerFactory $customerFactory
+     * @param Magento_Core_Model_UrlFactory $urlFactory
      * @param array $data
      * @param string $sessionName
      */
@@ -80,11 +104,21 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Session $session,
+        Magento_Customer_Model_Resource_Customer $customerResource,
+        Magento_Customer_Model_CustomerFactory $customerFactory,
+        Magento_Core_Model_UrlFactory $urlFactory,
         array $data = array(),
         $sessionName = null
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
+        $this->_storeManager = $storeManager;
+        $this->_configShare = $configShare;
+        $this->_session = $session;
+        $this->_customerResource = $customerResource;
+        $this->_customerFactory = $customerFactory;
+        $this->_urlFactory = $urlFactory;
         parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $namespace = 'customer';
         if ($configShare->isWebsiteScope()) {
@@ -93,6 +127,16 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
 
         $this->init($namespace, $sessionName);
         $this->_eventManager->dispatch('customer_session_init', array('customer_session'=>$this));
+    }
+
+    /**
+     * Retrieve customer sharing configuration model
+     *
+     * @return Magento_Customer_Model_Config_Share
+     */
+    public function getCustomerConfigShare()
+    {
+        return $this->_configShare;
     }
 
     /**
@@ -130,8 +174,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
             return $this->_customer;
         }
 
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        $customer = $this->_createCustomer()->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
         if ($this->getId()) {
             $customer->load($this->getId());
         }
@@ -213,8 +256,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     public function checkCustomerId($customerId)
     {
         if ($this->_isCustomerIdChecked === null) {
-            $this->_isCustomerIdChecked = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')
-                ->checkCustomerId($customerId);
+            $this->_isCustomerIdChecked = $this->_customerResource->checkCustomerId($customerId);
         }
         return $this->_isCustomerIdChecked;
     }
@@ -229,8 +271,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     public function login($username, $password)
     {
         /** @var $customer Magento_Customer_Model_Customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        $customer = $this->_createCustomer()->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
 
         if ($customer->authenticate($username, $password)) {
             $this->setCustomerAsLoggedIn($customer);
@@ -255,7 +296,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     public function loginById($customerId)
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        $customer = $this->_createCustomer()->load($customerId);
         if ($customer->getId()) {
             $this->setCustomerAsLoggedIn($customer);
             return true;
@@ -289,8 +330,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         if ($this->isLoggedIn()) {
             return true;
         }
-
-        $this->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+        $this->setBeforeAuthUrl($this->_createUrl()->getUrl('*/*/*', array('_current' => true)));
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
@@ -311,10 +351,9 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = $this->_coreUrl
-            ->removeRequestParam($url, Mage::getSingleton('Magento_Core_Model_Session')->getSessionIdQueryParam());
+        $url = $this->_coreUrl->removeRequestParam($url, $this->_session->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
-        $url = Mage::getModel('Magento_Core_Model_Url')->getRebuiltUrl($url);
+        $url = $this->_createUrl()->getRebuiltUrl($url);
         return $this->setData($key, $url);
     }
 
@@ -363,5 +402,21 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         parent::renewSession();
         $this->_cleanHosts();
         return $this;
+    }
+
+    /**
+     * @return Magento_Customer_Model_Customer
+     */
+    protected function _createCustomer()
+    {
+        return $this->_customerFactory->create();
+    }
+
+    /**
+     * @return Magento_Core_Model_Url
+     */
+    protected function _createUrl()
+    {
+        return $this->_urlFactory->create();
     }
 }

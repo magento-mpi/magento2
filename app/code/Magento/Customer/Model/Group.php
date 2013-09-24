@@ -59,11 +59,17 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     protected $_coreConfig;
 
     /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
      * Constructor
      *
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -72,18 +78,14 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Config $coreConfig,
+        Magento_Index_Model_Indexer $indexer,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
         $this->_coreConfig = $coreConfig;
+        $this->_indexer = $indexer;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     protected function _construct()
@@ -141,9 +143,7 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     protected function _afterSave()
     {
         parent::_afterSave();
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
-            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
-        );
+        $this->_indexer->processEntityAction($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
         return $this;
     }
 
@@ -170,5 +170,4 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
         );
         return $this;
     }
-
 }

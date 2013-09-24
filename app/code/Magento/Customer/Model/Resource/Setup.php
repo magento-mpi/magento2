@@ -19,6 +19,50 @@
 class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
     /**
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * @var Magento_Core_Model_Resource_Setup_MigrationFactory
+     */
+    protected $_migrationFactory;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param string $resourceName
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_ModuleListInterface $moduleList,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_CacheInterface $cache,
+        $resourceName,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
+    ) {
+        $this->_eavConfig = $eavConfig;
+        $this->_migrationFactory = $migrationFactory;
+        parent::__construct(
+            $logger, $eventManager, $resourcesConfig, $config, $moduleList, $resource, $modulesReader, $cache,
+            $resourceName
+        );
+    }
+
+    /**
      * Prepare customer attribute values to save in additional table
      *
      * @param array $attr
@@ -448,5 +492,22 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
             )
         );
         return $entities;
+    }
+
+    /**
+     * @return Magento_Eav_Model_Config
+     */
+    public function getEavConfig()
+    {
+        return $this->_eavConfig;
+    }
+
+    /**
+     * @param array $data
+     * @return Magento_Core_Model_Resource_Setup_Migration
+     */
+    public function getMigrationInstance($data)
+    {
+        return $this->_migrationFactory->create($data);
     }
 }
