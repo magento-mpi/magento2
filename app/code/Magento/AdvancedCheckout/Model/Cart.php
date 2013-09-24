@@ -1639,16 +1639,6 @@ class Magento_AdvancedCheckout_Model_Cart extends Magento_Object implements Mage
     }
 
     /**
-     * Retrieve shopping cart model object
-     *
-     * @return Magento_Checkout_Model_Cart
-     */
-    protected function _getCart()
-    {
-        return $this->_cart;
-    }
-
-    /**
      * Retrieve helper instance
      *
      * @return Magento_AdvancedCheckout_Helper_Data
