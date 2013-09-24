@@ -32,10 +32,9 @@ class Magento_ScheduledImportExport_Model_Export extends Magento_ImportExport_Mo
     protected $_dateModel;
 
     /**
-     * Constructor
-     *
+     * @param Magento_Core_Model_Date $coreDate
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_ImportExport_Model_Config $config
+     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
      * @param array $data
      */
     public function __construct(
