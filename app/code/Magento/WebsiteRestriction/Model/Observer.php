@@ -49,7 +49,7 @@ class Magento_WebsiteRestriction_Model_Observer
      * @var Magento_Core_Model_UrlFactory
      */
     protected $_urlFactory;
-    
+
     /**
      * @param Magento_WebsiteRestriction_Model_ConfigInterface $config
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -57,6 +57,7 @@ class Magento_WebsiteRestriction_Model_Observer
      * @param Magento_Customer_Helper_Data $customerHelper
      * @param Magento_Core_Model_Session $session
      * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_UrlFactory $urlFactory
      */
     public function __construct(
         Magento_WebsiteRestriction_Model_ConfigInterface $config,
