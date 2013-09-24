@@ -62,6 +62,31 @@ class Magento_Search_Model_Resource_Engine
     protected $_coreStoreConfig;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Search_Model_AdapterInterface $adapter
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Search_Model_AdapterInterface $adapter,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_adapter = $adapter;
+        $this->_storeManager = $storeManager;
+        $this->_initAdapter();
+    }
+
+    /**
      * Check if hold commit action is possible depending on current commit mode
      *
      * @return bool
@@ -104,21 +129,6 @@ class Magento_Search_Model_Resource_Engine
         }
 
         return $this;
-    }
-
-    /**
-     * Set search engine adapter
-     *
-     * @param Magento_Search_Model_AdapterInterface $adapter
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     */
-    public function __construct(
-        Magento_Search_Model_AdapterInterface $adapter,
-        Magento_Core_Model_Store_Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_adapter = $adapter;
-        $this->_initAdapter();
     }
 
     /**
@@ -219,7 +229,7 @@ class Magento_Search_Model_Resource_Engine
         }
 
         if (is_null($storeIds) || $storeIds == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
-            $storeIds = array_keys(Mage::app()->getStores());
+            $storeIds = array_keys($this->_storeManager->getStores());
         } else {
             $storeIds = (array) $storeIds;
         }

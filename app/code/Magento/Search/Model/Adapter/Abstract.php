@@ -137,13 +137,34 @@ abstract class Magento_Search_Model_Adapter_Abstract
     protected $_logger;
 
     /**
-     * Constructor
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Cache
+     *
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
+
+    /**
+     * Construct
      *
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_CacheInterface $cache
      */
-    public function __construct(Magento_Core_Model_Logger $logger)
-    {
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_CacheInterface $cache
+    ) {
         $this->_logger = $logger;
+        $this->_storeManager = $storeManager;
+        $this->_cache = $cache;
     }
 
     /**
@@ -179,7 +200,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
          * Cleaning MAXPRICE cache
          */
         $cacheTag = Mage::getSingleton('Magento_Search_Model_Catalog_Layer_Filter_Price')->getCacheTag();
-        Mage::app()->cleanCache(array($cacheTag));
+        $this->_cache->clean(array($cacheTag));
 
         $this->_indexNeedsOptimization = true;
 
@@ -258,7 +279,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
             $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
         }
         if ($websiteId === null) {
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
 
         if ($customerGroupId === null || !$websiteId) {
@@ -318,7 +339,7 @@ abstract class Magento_Search_Model_Adapter_Abstract
         if (isset($productPriceIndexData[$productId])) {
             $productPriceIndexData = $productPriceIndexData[$productId];
 
-            $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
             foreach ($productPriceIndexData as $customerGroupId => $price) {
                 $fieldName = $this->getPriceFieldName($customerGroupId, $websiteId);
                 $result[$fieldName] = sprintf('%F', $price);

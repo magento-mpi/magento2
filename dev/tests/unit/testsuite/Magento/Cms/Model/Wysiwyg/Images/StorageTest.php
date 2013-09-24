@@ -4,6 +4,8 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCase
 {
@@ -33,9 +35,39 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
     protected $_imageHelperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var array()
      */
     protected $_resizeParameters;
+
+    /**
+     * @var Magento_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_dirMock;
+
+    /**
+     * @var Magento_Cms_Model_Wysiwyg_Images_Storage_CollectionFactory|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storageCollectionFactoryMock;
+
+    /**
+     * @var Magento_Core_Model_File_Storage_FileFactory|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storageFileFactoryMock;
+
+    /**
+     * @var Magento_Core_Model_File_Storage_DatabaseFactory|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storageDatabaseFactoryMock;
+
+    /**
+     * @var Magento_Core_Model_File_Storage_Directory_DatabaseFactory|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_directoryDatabaseFactoryMock;
+
+    /**
+     * @var Magento_Core_Model_File_UploaderFactory|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_uploaderFactoryMock;
 
     protected function setUp()
     {
@@ -46,6 +78,15 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         $this->_viewUrlMock = $this->getMock('Magento_Core_Model_View_Url', array(), array(), '', false);
         $this->_imageHelperMock = $this->getMock('Magento_Cms_Helper_Wysiwyg_Images', array(), array(), '', false);
         $this->_resizeParameters = array('width' => 100, 'height' => 50);
+
+        $this->_dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $this->_storageCollectionFactoryMock = $this->getMock(
+            'Magento_Cms_Model_Wysiwyg_Images_Storage_CollectionFactory');
+        $this->_storageFileFactoryMock = $this->getMock('Magento_Core_Model_File_Storage_FileFactory');
+        $this->_storageDatabaseFactoryMock = $this->getMock('Magento_Core_Model_File_Storage_DatabaseFactory');
+        $this->_directoryDatabaseFactoryMock = $this->getMock(
+            'Magento_Core_Model_File_Storage_Directory_DatabaseFactory');
+        $this->_uploaderFactoryMock = $this->getMock('Magento_Core_Model_File_UploaderFactory');
 
         $this->_imageHelperMock->expects($this->once())
             ->method('getStorageRoot')
@@ -59,16 +100,22 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
             ->method('setIsAllowCreateDirectories')
             ->with(true);
 
-        $this->_model = new Magento_Cms_Model_Wysiwyg_Images_Storage(
-            $this->_imageHelperMock,
-            $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false),
-            $this->_filesystemMock,
-            $this->_adapterFactoryMock,
-            $this->_viewUrlMock,
-            $this->_resizeParameters,
-            array(),
-            array()
-        );
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_model = $objectManagerHelper->getObject('Magento_Cms_Model_Wysiwyg_Images_Storage', array(
+            'cmsWysiwygImages' => $this->_imageHelperMock,
+            'coreFileStorageDb' => $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '',
+                false),
+            'filesystem' => $this->_filesystemMock,
+            'imageFactory' => $this->_adapterFactoryMock,
+            'viewUrl' => $this->_viewUrlMock,
+            'dir' => $this->_dirMock,
+            'storageCollectionFactory' => $this->_storageCollectionFactoryMock,
+            'storageFileFactory' => $this->_storageFileFactoryMock,
+            'storageDatabaseFactory' => $this->_storageDatabaseFactoryMock,
+            'directoryDatabaseFactory' => $this->_directoryDatabaseFactoryMock,
+            'uploaderFactory' => $this->_uploaderFactoryMock,
+            'resizeParameters' => $this->_resizeParameters,
+        ));
     }
 
     /**

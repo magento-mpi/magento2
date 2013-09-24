@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,21 +38,53 @@ class Magento_Logging_Model_Handler_Controllers
     protected $_coreRegistry = null;
 
     /**
+     * Request
+     *
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * Response
+     *
+     * @var Zend_Controller_Response_Http
+     */
+    protected $_response;
+
+    /**
+     * Factory for event changes model
+     *
+     * @var Magento_Logging_Model_Event_ChangesFactory
+     */
+    protected $_eventChangesFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Logging_Helper_Data $loggingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Zend_Controller_Response_Http $response
+     * @param Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory
      */
     public function __construct(
         Magento_Logging_Helper_Data $loggingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Controller_Request_Http $request,
+        Zend_Controller_Response_Http $response,
+        Magento_Logging_Model_Event_ChangesFactory $eventChangesFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_loggingData = $loggingData;
         $this->_coreData = $coreData;
         $this->_adminhtmlActionAttribute = $adminhtmlActionAttribute;
+        $this->_request = $request;
+        $this->_response = $response;
+        $this->_eventChangesFactory = $eventChangesFactory;
     }
 
     /**
@@ -98,7 +128,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchConfigView($config, $eventModel)
     {
-        $sectionId = Mage::app()->getRequest()->getParam('section');
+        $sectionId = $this->_request->getParam('section');
         if (!$sectionId) {
             $sectionId = 'general';
         }
@@ -116,10 +146,10 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchConfigSave($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
-        $postData = $request->getPost();
+        $postData = $this->_request->getPost();
         $groupFieldsData = array();
-        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
+        /** @var Magento_Logging_Model_Event_Changes $change */
+        $change = $this->_eventChangesFactory->create();
 
         //Collect skip encrypted fields
         /** @var Magento_Backend_Model_Config_Structure $configStructure  */
@@ -153,7 +183,7 @@ class Magento_Logging_Model_Handler_Controllers
                 $groupFieldsData = array();
             }
         }
-        $sectionId = $request->getParam('section');
+        $sectionId = $this->_request->getParam('section');
         if (!$sectionId) {
             $sectionId = 'general';
         }
@@ -169,7 +199,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchCategoryMove($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('id'));
+        return $eventModel->setInfo($this->_request->getParam('id'));
     }
 
     /**
@@ -181,7 +211,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchGlobalSearch($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('query'));
+        return $eventModel->setInfo($this->_request->getParam('query'));
     }
 
     /**
@@ -193,11 +223,11 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchForgotPassword($config, $eventModel)
     {
-        if (Mage::app()->getRequest()->isPost()) {
+        if ($this->_request->isPost()) {
             if ($model = $this->_coreRegistry->registry('magento_logging_saved_model_adminhtml_index_forgotpassword')) {
                 $info = $model->getId();
             } else {
-                $info = Mage::app()->getRequest()->getParam('email');
+                $info = $this->_request->getParam('email');
             }
             $success = true;
             $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
@@ -218,9 +248,9 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchPollValidation($config, $eventModel)
     {
-        $out = json_decode(Mage::app()->getResponse()->getBody());
+        $out = json_decode($this->_response->getBody());
         if (!empty($out->error)) {
-            $pollId = Mage::app()->getRequest()->getParam('id');
+            $pollId = $this->_request->getParam('id');
             return $eventModel->setIsSuccess(false)->setInfo($pollId == 0 ? '' : $pollId);
         } else {
             $poll = $this->_coreRegistry->registry('current_poll_model');
@@ -240,9 +270,9 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchCustomerValidate($config, $eventModel)
     {
-        $out = json_decode(Mage::app()->getResponse()->getBody());
+        $out = json_decode($this->_response->getBody());
         if (!empty($out->error)) {
-            $customerId = Mage::app()->getRequest()->getParam('id');
+            $customerId = $this->_request->getParam('id');
             return $eventModel->setIsSuccess(false)->setInfo($customerId == 0 ? '' : $customerId);
         }
         return false;
@@ -263,11 +293,10 @@ class Magento_Logging_Model_Handler_Controllers
             return false;
         }
 
-        $request = Mage::app()->getRequest();
-        $filter = $request->getParam('filter');
+        $filter = $this->_request->getParam('filter');
 
         //Filtering request data
-        $data = array_intersect_key($request->getParams(), array(
+        $data = array_intersect_key($this->_request->getParams(), array(
             'report_from' => null,
             'report_to' => null,
             'report_period' => null,
@@ -284,7 +313,8 @@ class Magento_Logging_Model_Handler_Controllers
 
         //Add log entry details
         if ($data) {
-            $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
+            /** @var Magento_Logging_Model_Event_Changes $change */
+            $change = $this->_eventChangesFactory->create();
             $processor->addEventChanges($change->setSourceName('params')
                 ->setOriginalData(array())
                 ->setResultData($data));
@@ -302,8 +332,9 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchPromoCatalogApply($config, $eventModel)
     {
-        $request = Mage::app()->getRequest();
-        return $eventModel->setInfo($request->getParam('rule_id') ? $request->getParam('rule_id') : 'all rules');
+        return $eventModel->setInfo(
+            $this->_request->getParam('rule_id') ? $this->_request->getParam('rule_id') : 'all rules'
+        );
     }
 
     /**
@@ -316,10 +347,8 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchPromoCatalogSaveAndApply($config, $eventModel, $processorModel)
     {
-        $request = Mage::app()->getRequest();
-
         $this->postDispatchGeneric($config, $eventModel, $processorModel);
-        if ($request->getParam('auto_apply')) {
+        if ($this->_request->getParam('auto_apply')) {
             $eventModel->setInfo(__('%1 & applied', $eventModel->getInfo()));
         }
 
@@ -335,7 +364,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchNewsletterUnsubscribe($config, $eventModel)
     {
-        $subscriberId = Mage::app()->getRequest()->getParam('subscriber');
+        $subscriberId = $this->_request->getParam('subscriber');
         if (is_array($subscriberId)) {
             $subscriberId = implode(', ', $subscriberId);
         }
@@ -351,7 +380,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchTaxRatesImport($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!$this->_request->isPost()) {
             return false;
         }
         $success = true;
@@ -372,9 +401,9 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
-        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
-        $products = $request->getParam('product');
+        /** @var Magento_Logging_Model_Event_Changes $change */
+        $change = $this->_eventChangesFactory->create();
+        $products = $this->_request->getParam('product');
         if (!$products) {
             $products = $this->_adminhtmlActionAttribute->getProductIds();
         }
@@ -386,9 +415,9 @@ class Magento_Logging_Model_Handler_Controllers
 
         $processor->addEventChanges(clone $change->setSourceName('inventory')
                 ->setOriginalData(array())
-                ->setResultData($request->getParam('inventory', array())));
-        $attributes = $request->getParam('attributes', array());
-        $status = $request->getParam('status', null);
+                ->setResultData($this->_request->getParam('inventory', array())));
+        $attributes = $this->_request->getParam('attributes', array());
+        $status = $this->_request->getParam('status', null);
         if (!$attributes && $status) {
             $attributes['status'] = $status;
         }
@@ -396,14 +425,14 @@ class Magento_Logging_Model_Handler_Controllers
                 ->setOriginalData(array())
                 ->setResultData($attributes));
 
-        $websiteIds = $request->getParam('remove_website', array());
+        $websiteIds = $this->_request->getParam('remove_website', array());
         if ($websiteIds) {
             $processor->addEventChanges(clone $change->setSourceName('remove_website_ids')
                 ->setOriginalData(array())
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
         }
 
-        $websiteIds = $request->getParam('add_website', array());
+        $websiteIds = $this->_request->getParam('add_website', array());
         if ($websiteIds) {
             $processor->addEventChanges(clone $change->setSourceName('add_website_ids')
                 ->setOriginalData(array())
@@ -422,11 +451,11 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchTaxClassSave($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!$this->_request->isPost()) {
             return false;
         }
-        $classType = Mage::app()->getRequest()->getParam('class_type');
-        $classId = (int)Mage::app()->getRequest()->getParam('class_id');
+        $classType = $this->_request->getParam('class_type');
+        $classId = (int)$this->_request->getParam('class_id');
 
         return $this->_logTaxClassEvent($classType, $eventModel, $classId);
     }
@@ -440,10 +469,10 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchTaxClassDelete($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!$this->_request->isPost()) {
             return false;
         }
-        $classId = (int)Mage::app()->getRequest()->getParam('class_id');
+        $classId = (int)$this->_request->getParam('class_id');
         $classModel = $this->_coreRegistry->registry('tax_class_model');
         $classType = $classModel != null ? $classModel->getClassType() : '';
 
@@ -530,10 +559,10 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchAdminAccountsMassUnlock($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!$this->_request->isPost()) {
             return false;
         }
-        $userIds = Mage::app()->getRequest()->getPost('unlock', array());
+        $userIds = $this->_request->getPost('unlock', array());
         if (!is_array($userIds)) {
             $userIds = array();
         }
@@ -552,7 +581,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchReindexProcess($config, $eventModel)
     {
-        $processIds = Mage::app()->getRequest()->getParam('process', null);
+        $processIds = $this->_request->getParam('process', null);
         if (!$processIds) {
             return false;
         }
@@ -569,9 +598,9 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
-        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
-        $data = $request->getParam('rate');
+        /** @var Magento_Logging_Model_Event_Changes $change */
+        $change = $this->_eventChangesFactory->create();
+        $data = $this->_request->getParam('rate');
         $values = array();
         if (!is_array($data)) {
             return false;
@@ -607,12 +636,11 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchSaveCacheSettings($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
-        if (!$request->isPost()) {
+        if (!$this->_request->isPost()) {
             return false;
         }
         $info = '-';
-        $cacheTypes = $request->getPost('types');
+        $cacheTypes = $this->_request->getPost('types');
         if (is_array($cacheTypes) && !empty($cacheTypes)) {
             $cacheTypes = implode(', ', $cacheTypes);
             $info = __('Cache types: %1 ', $cacheTypes);
@@ -635,7 +663,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchTaxRatesExport($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!$this->_request->isPost()) {
             return false;
         }
         $success = true;
@@ -655,8 +683,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchSalesArchiveManagement($config, $eventModel)
     {
-        $request = Mage::app()->getRequest();
-        $ids = $request->getParam('order_id', $request->getParam('order_ids'));
+        $ids = $this->_request->getParam('order_id', $this->_request->getParam('order_ids'));
         if (is_array($ids)) {
             $ids = implode(', ', $ids);
         }
@@ -673,9 +700,8 @@ class Magento_Logging_Model_Handler_Controllers
     public function postDispatchRecurringProfilesUpdate($config, $eventModel)
     {
         $message = '';
-        $request = Mage::app()->getRequest();
-        if ($request->getParam('action')) {
-            $message .= ucfirst($request->getParam('action')) . ' action: ';
+        if ($this->_request->getParam('action')) {
+            $message .= ucfirst($this->_request->getParam('action')) . ' action: ';
         }
         $message .= Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
         return $eventModel->setInfo($message);
@@ -696,7 +722,7 @@ class Magento_Logging_Model_Handler_Controllers
         }
 
         $success = true;
-        $body = Mage::app()->getResponse()->getBody();
+        $body = $this->_response->getBody();
         $messages = $this->_coreData->jsonDecode($body);
         if (!empty($messages['success'])) {
             $success = $messages['success'];

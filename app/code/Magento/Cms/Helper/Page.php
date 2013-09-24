@@ -27,38 +27,80 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      *
      * @var Magento_Page_Helper_Layout
      */
-    protected $_pageLayout = null;
+    protected $_pageLayout;
 
     /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Design package instance
      *
      * @var Magento_Core_Model_View_DesignInterface
      */
-    protected $_design = null;
+    protected $_design;
 
     /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Page factory
+     *
+     * @var Magento_Cms_Model_PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * Url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Cms_Model_PageFactory $pageFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Page_Helper_Layout $pageLayout
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Page_Helper_Layout $pageLayout,
         Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Helper_Context $context
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Cms_Model_PageFactory $pageFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale
     ) {
+        parent::__construct($context);
         $this->_eventManager = $eventManager;
         $this->_pageLayout = $pageLayout;
         $this->_design = $design;
-        parent::__construct($context);
+        $this->_url = $url;
+        $this->_pageFactory = $pageFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
     }
 
     /**
@@ -93,7 +135,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
                 $pageId = substr($pageId, 0, $delimeterPosition);
             }
 
-            $page->setStoreId(Mage::app()->getStore()->getId());
+            $page->setStoreId($this->_storeManager->getStore()->getId());
             if (!$page->load($pageId)) {
                 return false;
             }
@@ -103,8 +145,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
             return false;
         }
 
-        $inRange = Mage::app()->getLocale()
-            ->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
+        $inRange = $this->_locale->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
 
         if ($page->getCustomTheme()) {
             if ($inRange) {
@@ -181,9 +222,10 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
      */
     public function getPageUrl($pageId = null)
     {
-        $page = Mage::getModel('Magento_Cms_Model_Page');
+        /** @var Magento_Cms_Model_Page $page */
+        $page = $this->_pageFactory->create();
         if (!is_null($pageId) && $pageId !== $page->getId()) {
-            $page->setStoreId(Mage::app()->getStore()->getId());
+            $page->setStoreId($this->_storeManager->getStore()->getId());
             if (!$page->load($pageId)) {
                 return null;
             }
@@ -193,6 +235,6 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
             return null;
         }
 
-        return Mage::getUrl(null, array('_direct' => $page->getIdentifier()));
+        return $this->_url->getUrl(null, array('_direct' => $page->getIdentifier()));
     }
 }
