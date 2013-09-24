@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <indexer name="catalog_product_attribute" instance="Magento_Catalog_Model_Product_Indexer_Eav" />
+    <indexer name="catalog_product_price" instance="Magento_Catalog_Model_Product_Indexer_Price" />
+    <indexer name="catalog_url" instance="Magento_Catalog_Model_Indexer_Url" />
+    <indexer name="catalog_product_flat" instance="Magento_Catalog_Model_Product_Indexer_Flat" />
+    <indexer name="catalog_category_flat" instance="Magento_Catalog_Model_Category_Indexer_Flat" />
+    <indexer name="catalog_category_product" instance="Magento_Catalog_Model_Category_Indexer_Product" />
+</config>

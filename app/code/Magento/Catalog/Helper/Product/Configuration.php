@@ -18,7 +18,10 @@
 class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_Abstract
     implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
-    const XML_PATH_CONFIGURABLE_ALLOWED_TYPES = 'global/catalog/product/type/configurable/allow_product_types';
+    /**
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     */
+    protected $_config;
 
     /**
      * Core string
@@ -28,22 +31,17 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
     protected $_coreString = null;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
     ) {
         $this->_coreString = $coreString;
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
         parent::__construct($context);
     }
 
@@ -280,8 +278,7 @@ class Magento_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_A
      */
     public function getConfigurableAllowedTypes()
     {
-        return $this->_coreConfig
-                ->getNode(self::XML_PATH_CONFIGURABLE_ALLOWED_TYPES)
-                ->children();
+        $configData = $this->_config->getType('configurable');
+        return isset($configData['allow_product_types']) ? $configData['allow_product_types'] : array();
     }
 }

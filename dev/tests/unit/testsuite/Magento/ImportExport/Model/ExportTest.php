@@ -22,12 +22,19 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
     protected $_exportFileExtension = 'csv';
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_exportConfigMock;
+
+    /**
      * Return mock for Magento_ImportExport_Model_Export class
      *
      * @return Magento_ImportExport_Model_Export
      */
     protected function _getMageImportExportModelExportMock()
     {
+        $this->_exportConfigMock = $this->getMock('Magento_ImportExport_Model_Export_ConfigInterface');
+
         /** @var $mockEntityAbstract Magento_ImportExport_Model_Export_EntityAbstract */
         $mockEntityAbstract = $this->getMockForAbstractClass(
             'Magento_ImportExport_Model_Export_EntityAbstract',
@@ -50,10 +57,13 @@ class Magento_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
             ->method('getFileExtension')
             ->will($this->returnValue($this->_exportFileExtension));
 
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+
         /** @var $mockModelExport Magento_ImportExport_Model_Export */
         $mockModelExport = $this->getMock(
             'Magento_ImportExport_Model_Export',
-            array('getEntityAdapter', '_getEntityAdapter', '_getWriter'), array(), '', false
+            array('getEntityAdapter', '_getEntityAdapter', '_getWriter'),
+            array($logger, $this->_exportConfigMock, array())
         );
         $mockModelExport->expects($this->any())
             ->method('getEntityAdapter')

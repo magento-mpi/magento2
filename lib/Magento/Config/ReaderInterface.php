@@ -12,8 +12,8 @@ interface Magento_Config_ReaderInterface
     /**
      * Read configuration scope
      *
-     * @param string $scope
+     * @param string|null $scope
      * @return array
      */
-    public function read($scope);
+    public function read($scope = null);
 }

@@ -19,6 +19,11 @@
 class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
 {
     /**
+     * @var Magento_Cms_Model_Template_FilterProvider
+     */
+    protected $_filterProvider;
+
+    /**
      * Storage for used widgets
      *
      * @var array
@@ -26,27 +31,20 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
     static protected $_widgetUsageMap = array();
 
     /**
-     * Cms data
-     *
-     * @var Magento_Cms_Helper_Data
-     */
-    protected $_cmsData = null;
-
-    /**
-     * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Data $cmsData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Cms_Model_Template_FilterProvider $filterProvider,
         array $data = array()
     ) {
-        $this->_cmsData = $cmsData;
+        $this->_filterProvider = $filterProvider;
         parent::__construct($coreData, $context, $data);
-    }
+    }   
 
     /**
      * Prepare block text and determine whether block output enabled or not
@@ -71,10 +69,9 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
                 ->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
-                /* @var $helper Magento_Cms_Helper_Data */
-                $helper = $this->_cmsData;
-                $processor = $helper->getBlockTemplateProcessor();
-                $this->setText($processor->setStoreId($storeId)->filter($block->getContent()));
+                $this->setText(
+                    $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent())
+                );
             }
         }
 

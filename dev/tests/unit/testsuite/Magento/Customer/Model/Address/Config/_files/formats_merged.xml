@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <format code="format_one" title="format_one_title" />
+    <format code="format_two" title="format_two_title" escapeHtml="true" />
+</config>

@@ -22,6 +22,11 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
     protected $_model;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_exportConfigMock;
+
+    /**
      * Date value for tests
      *
      * @var string
@@ -33,16 +38,18 @@ class Magento_ScheduledImportExport_Model_ExportTest extends PHPUnit_Framework_T
      */
     protected function setUp()
     {
+        $this->_exportConfigMock = $this->getMock('Magento_ImportExport_Model_Export_ConfigInterface');
+
         $dateModelMock = $this->getMock('Magento_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
             ->will($this->returnCallback(array($this, 'getDateCallback')));
-        $config = $this->getMock('Magento_ImportExport_Model_Config', array('date'), array(), '', false);
 
         $this->_model = new Magento_ScheduledImportExport_Model_Export(
             $dateModelMock,
             $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
-            $config
+            $this->_exportConfigMock,
+            array()
         );
     }
 

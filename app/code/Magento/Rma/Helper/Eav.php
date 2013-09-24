@@ -39,17 +39,19 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $optionCollFactory
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $optionCollFactory,
         Magento_Core_Model_Resource $coreResource,
         Magento_Core_Helper_Context $context,
+        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_optionCollFactory = $optionCollFactory;
         $this->_coreResource = $coreResource;
-        parent::__construct($context, $coreStoreConfig);
+        parent::__construct($context, $attributeConfig, $coreStoreConfig);
     }
 
     /**

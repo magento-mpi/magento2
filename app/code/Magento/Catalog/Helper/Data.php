@@ -24,7 +24,6 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_SEO_SAVE_HISTORY        = 'catalog/seo/save_rewrites_history';
     const CONFIG_USE_STATIC_URLS           = 'cms/wysiwyg/use_static_urls_in_catalog';
     const CONFIG_PARSE_URL_DIRECTIVES      = 'catalog/frontend/parse_url_directives';
-    const XML_PATH_CONTENT_TEMPLATE_FILTER = 'global/catalog/content/tempate_filter';
     const XML_PATH_DISPLAY_PRODUCT_COUNT   = 'catalog/layered_navigation/display_product_count';
 
     /**
@@ -86,17 +85,10 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreString = null;
 
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
+     * @var string
      */
-    protected $_coreStoreConfig;
+    protected $_templateFilterModel;
 
-    /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-    
     /**
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Catalog_Helper_Category $catalogCategory
@@ -104,7 +96,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param $templateFilterModel
      */
     public function __construct(
         Magento_Core_Helper_String $coreString,
@@ -113,15 +105,15 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        $templateFilterModel
     ) {
         $this->_coreString = $coreString;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProduct = $catalogProduct;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreRegistry = $coreRegistry;
+        $this->_templateFilterModel = $templateFilterModel;
         parent::__construct($context);
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -337,8 +329,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPageTemplateProcessor()
     {
-        $model = (string)$this->_coreConfig->getNode(self::XML_PATH_CONTENT_TEMPLATE_FILTER);
-        return Mage::getModel($model);
+        return Mage::getModel($this->_templateFilterModel);
     }
 
     /**

@@ -62,14 +62,14 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var array
      */
-    protected $_coreConfig;
+    protected $_windowSize;
     
     /**
      * @var Magento_Backend_Model_Url
@@ -84,8 +84,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Variable_Config $variableConfig
      * @param Magento_Widget_Model_Widget_Config $widgetConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param array $windowSize
      * @param array $data
      */
     public function __construct(
@@ -96,8 +96,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Variable_Config $variableConfig,
         Magento_Widget_Model_Widget_Config $widgetConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        array $windowSize = array(),
         array $data = array()
     ) {
         $this->_backendUrl = $backendUrl;
@@ -108,8 +108,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
         $this->_widgetConfig = $widgetConfig;
+        $this->_windowSize = $windowSize;
         parent::__construct($data);
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -157,8 +157,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             $config->addData(array(
                 'add_images' => true,
                 'files_browser_window_url' => $this->_backendUrl->getUrl('*/cms_wysiwyg_images/index'),
-                'files_browser_window_width' => (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_width'),
-                'files_browser_window_height'=> (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_height'),
+                'files_browser_window_width' => $this->_windowSize['width'],
+                'files_browser_window_height'=> $this->_windowSize['height'],
             ));
         }
 
