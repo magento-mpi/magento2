@@ -15,11 +15,19 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_attributeConfigMock;
+
     protected function setUp()
     {
-
+        $this->_attributeConfigMock = $this->getMock('Magento_Eav_Model_Entity_Attribute_Config',
+            array(), array(), '', false);
+        
         $this->_model = new Magento_Rma_Helper_Eav(
             $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+            $this->_attributeConfigMock,
             $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false)
         );
     }

@@ -110,7 +110,7 @@ class Magento_Test_Legacy_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles();
+        return Magento_TestFramework_Utility_Files::init()->getMainConfigFiles();
     }
 
     /**

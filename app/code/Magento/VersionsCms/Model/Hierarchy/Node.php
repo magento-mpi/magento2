@@ -84,6 +84,11 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected $_scopeId = self::NODE_SCOPE_DEFAULT_ID;
 
     /**
+     * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
+     */
+    protected $_hierarchyConfig;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -103,11 +108,6 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected $_storeManager;
 
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_Config
-     */
-    protected $_hierarchyConfig;
-
-    /**
      * @var Magento_Core_Model_System_Store
      */
     protected $_systemStore;
@@ -120,11 +120,11 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     /**
      * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Model_Context $context
+     * @param Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_VersionsCms_Model_Hierarchy_Config $hierarchyConfig
      * @param Magento_Core_Model_System_Store $systemStore
      * @param Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -135,20 +135,20 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     public function __construct(
         Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Model_Context $context,
+        Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_VersionsCms_Model_Resource_Hierarchy_Node $resource,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_VersionsCms_Model_Hierarchy_Config $hierarchyConfig,
         Magento_Core_Model_System_Store $systemStore,
         Magento_VersionsCms_Model_Hierarchy_NodeFactory $nodeFactory,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
+        $this->_hierarchyConfig = $hierarchyConfig;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
-        $this->_hierarchyConfig = $hierarchyConfig;
         $this->_systemStore = $systemStore;
         $this->_nodeFactory = $nodeFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -270,16 +270,6 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
     protected function _construct()
     {
         $this->_init('Magento_VersionsCms_Model_Resource_Hierarchy_Node');
-    }
-
-    /**
-     * Retrieve Resource instance wrapper
-     *
-     * @return Magento_VersionsCms_Model_Resource_Hierarchy_Node
-     */
-    protected function _getResource()
-    {
-        return parent::_getResource();
     }
 
     /**
@@ -764,15 +754,15 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         if (!array_key_exists('menu_layout', $rootParams)) {
             return null;
         }
-        $layoutCode = $rootParams['menu_layout'];
-        if (!$layoutCode) {
-            $layoutCode = $this->_coreStoreConfig->getConfig('cms/hierarchy/menu_layout');
+        $layoutName = $rootParams['menu_layout'];
+        if (!$layoutName) {
+            $layoutName = $this->_coreStoreConfig->getConfig('cms/hierarchy/menu_layout');
         }
-        if (!$layoutCode) {
+        if (!$layoutName) {
             return null;
         }
-        $layout = $this->_hierarchyConfig->getContextMenuLayout($layoutCode);
-        return is_object($layout) ? $layout : null;
+        $layout = $this->_hierarchyConfig->getContextMenuLayout($layoutName);
+        return $layout ? $layout : null;
     }
 
     /**

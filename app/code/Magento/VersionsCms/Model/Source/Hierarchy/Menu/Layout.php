@@ -14,16 +14,16 @@
 class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Magento_VersionsCms_Model_Hierarchy_Config
+     * @var Magento_VersionsCms_Model_Hierarchy_ConfigInterface
      */
-    protected $_cmsConfig;
+    protected $_hierarchyConfig;
 
     /**
-     * @param Magento_VersionsCms_Model_Hierarchy_Config $cmsConfig
+     * @param Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig
      */
-    public function __construct(Magento_VersionsCms_Model_Hierarchy_Config $cmsConfig)
+    public function __construct(Magento_VersionsCms_Model_Hierarchy_ConfigInterface $hierarchyConfig)
     {
-        $this->_cmsConfig = $cmsConfig;
+        $this->_hierarchyConfig = $hierarchyConfig;
     }
 
     /**
@@ -39,10 +39,10 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout implements Magento_
            $options[] = array('label' => __('Use default'), 'value' => '');
         }
 
-        foreach ($this->_cmsConfig->getContextMenuLayouts() as $code => $info) {
+        foreach ($this->_hierarchyConfig->getAllMenuLayouts() as $name => $info) {
             $options[] = array(
-                'label' => $info->getLabel(),
-                'value' => $code
+                'label' => $info['label'],
+                'value' => $name
             );
         }
 
