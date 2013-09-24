@@ -26,6 +26,11 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
     protected $_initStatements;
 
     /**
+     * @var boolean
+     */
+    protected $_isActive;
+
+    /**
      * @param Magento_Core_Model_Dir $dirs
      * @param $host
      * @param $username
@@ -33,6 +38,7 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
      * @param $databaseName
      * @param string $initStatements
      * @param string $type
+     * @param bool $isActive
      */
     public function __construct(
         Magento_Core_Model_Dir $dirs,
@@ -41,7 +47,8 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         $password,
         $databaseName,
         $initStatements = 'SET NAMES utf8',
-        $type = 'pdo_mysql'
+        $type = 'pdo_mysql',
+        $isActive = true
     ) {
         $this->_dirs = $dirs;
         $this->_connectionConfig = array(
@@ -53,16 +60,21 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
         );
 
         $this->_initStatements = $initStatements;
+        $this->_isActive = $isActive;
         parent::__construct();
     }
 
     /**
      * Get connection
      *
-     * @return Magento_DB_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface|null
      */
     public function getConnection()
     {
+        if (!$this->_isActive) {
+            return null;
+        }
+
         $connection = $this->_getDbAdapterInstance();
         if (!empty($this->_initStatements) && $connection) {
             $connection->query($this->_initStatements);

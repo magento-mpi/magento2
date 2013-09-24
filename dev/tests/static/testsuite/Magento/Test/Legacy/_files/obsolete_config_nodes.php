@@ -69,6 +69,8 @@ return array(
     '/config/global/eav_frontendclasses' =>
         'This configuration was removed. '
         . 'Please pluginize Magento_Eav_Helper_Data::getFrontendClasses to extend frontend classes list',
+    '/config/global/resources' => 'This configuration moved to Di configuration of Magento_Core_Model_Resource',
+    '/config/global/resource' => 'This configuration moved to Di configuration of Magento_Core_Model_Resource',
     '/config/*/events/core_block_abstract_to_html_after' =>
     'Event has been replaced with "core_layout_render_element"',
     '/config/*/events/catalog_controller_product_delete' => '',

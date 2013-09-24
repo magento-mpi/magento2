@@ -64,16 +64,13 @@ class Magento_Core_Model_Resource
     /**
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Core_Model_ConnectionAdapterFactory $connAdapterFactory
-     * @param array $connAdapterPool
      * @param string $tablePrefix
      */
     public function __construct(
         Magento_Core_Model_CacheInterface $cache,
         Magento_Core_Model_ConnectionAdapterFactory $connAdapterFactory,
-        array $connAdapterPool,
         $tablePrefix = ''
     ) {
-        $this->_connAdapterPool = $connAdapterPool;
         $this->_connAdapterFactory = $connAdapterFactory;
         $this->_cache = $cache;
         $this->_tablePrefix = $tablePrefix;
@@ -106,15 +103,11 @@ class Magento_Core_Model_Resource
             return $connection;
         }
 
-        if (!isset($this->_connAdapterPool[$name])) {
-            $this->_connections[$name] = $this->_getDefaultConnection($name);
-            return $this->_connections[$name];
-        }
-        if (isset($this->_connAdapterPool[$name]['disabled']) && $this->_connAdapterPool[$name]['disabled']) {
-            return false;
+        $connection = $this->_newConnection($name);
+        if (!$connection) {
+            $connection = $this->_getDefaultConnection($name);
         }
 
-        $connection = $this->_newConnection($this->_connAdapterPool[$name]);
         if ($connection) {
             $connection->setCacheAdapter($this->_cache->getFrontend());
         }

@@ -34,8 +34,8 @@ class Magento_Core_Model_ConnectionAdapterFactory
     {
         $adapterInstance = $this->_objectManager->create($adapterInstanceName, $connectionParams);
 
-        if ($adapterInstance instanceof Magento_Core_Model_Resource_ConnectionAdapterInterface) {
-            throw Exception('Trying to create wrong connection adapter');
+        if (!($adapterInstance instanceof Magento_Core_Model_Resource_ConnectionAdapterInterface)) {
+            throw new Exception('Trying to create wrong connection adapter');
         }
 
         return $adapterInstance;
