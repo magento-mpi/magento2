@@ -14,4 +14,11 @@
             <value>Magento_Core_Model_Config_Proxy</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <directory_setup>Magento_Directory_Model_Resource_Setup</directory_setup>
+            </value>
+        </param>
+    </type>
 </config>

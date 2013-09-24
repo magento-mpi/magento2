@@ -11,4 +11,11 @@
     <type name="Magento_Sales_Model_Convert_Quote">
         <plugin name="append_gift_card_data_to_order" type="Magento_GiftCard_Model_Plugin_QuoteItem"/>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <giftcard_setup>Magento_Catalog_Model_Resource_Setup</giftcard_setup>
+            </value>
+        </param>
+    </type>
 </config>

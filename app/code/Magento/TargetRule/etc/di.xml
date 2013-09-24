@@ -13,4 +13,11 @@
             <instance type="Mage_Customer_Model_SessionProxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <targetrule_setup>Magento_TargetRule_Model_Resource_Setup</targetrule_setup>
+            </value>
+        </param>
+    </type>
 </config>

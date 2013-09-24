@@ -15,4 +15,11 @@
             </value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <customerbalance_setup>Magento_Sales_Model_Resource_Setup</customerbalance_setup>
+            </value>
+        </param>
+    </type>
 </config>

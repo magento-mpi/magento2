@@ -13,4 +13,11 @@
             <instance type="Magento_GiftWrapping_Helper_Data" />
         </param>
     </virtualType>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <giftwrapping_setup>Magento_Sales_Model_Resource_Setup</giftwrapping_setup>
+            </value>
+        </param>
+    </type>
 </config>

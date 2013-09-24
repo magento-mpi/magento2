@@ -32,4 +32,11 @@
             <value>Magento_Widget_Model_Template_Filter</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <widget_setup>Magento_Widget_Model_Resource_Setup</widget_setup>
+            </value>
+        </param>
+    </type>
 </config>

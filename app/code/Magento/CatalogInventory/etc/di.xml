@@ -12,7 +12,7 @@
     <type name="Magento_Core_Model_Db_Updater">
         <param name="resourceList">
             <value>
-                <catalogevent_setup>Magento_CatalogEvent_Model_Resource_Setup</catalogevent_setup>
+                <cataloginventory_setup>Magento_Eav_Model_Entity_Setup</cataloginventory_setup>
             </value>
         </param>
     </type>

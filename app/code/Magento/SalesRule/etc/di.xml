@@ -32,4 +32,11 @@
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
     </type>
+    <type name="Magento_Core_Model_Db_Updater">
+        <param name="resourceList">
+            <value>
+                <salesrule_setup>Magento_Sales_Model_Resource_Setup</salesrule_setup>
+            </value>
+        </param>
+    </type>
 </config>
