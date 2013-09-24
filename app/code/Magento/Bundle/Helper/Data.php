@@ -17,27 +17,21 @@
  */
 class Magento_Bundle_Helper_Data extends Magento_Core_Helper_Abstract
 {
-    const XML_NODE_BUNDLE_PRODUCT_TYPE      = 'global/catalog/product/type/bundle';
-
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
-     * Constructor
-     *
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $config
     ) {
-        parent::__construct(
-            $context
-        );
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
+        parent::__construct($context);
     }
 
     /**
@@ -47,7 +41,7 @@ class Magento_Bundle_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAllowedSelectionTypes()
     {
-        $config = $this->_coreConfig->getNode(self::XML_NODE_BUNDLE_PRODUCT_TYPE);
-        return array_keys($config->allowed_selection_types->asArray());
+        $configData = $this->_config->getType('bundle');
+        return isset($configData['allowed_selection_types']) ? $configData['allowed_selection_types'] : array();
     }
 }

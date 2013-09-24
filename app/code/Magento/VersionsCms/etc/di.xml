@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento_VersionsCms_Model_Hierarchy_ConfigInterface" type="Magento_VersionsCms_Model_Hierarchy_Config" />
     <type name="Magento_VersionsCms_Model_Config">
         <param name="authorization">
             <instance type="Magento_Authorization_Proxy" />

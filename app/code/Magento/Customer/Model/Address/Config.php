@@ -50,20 +50,12 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
     protected $_storeManager;
 
     /**
-     * Scope priority loading scheme
-     *
-     * @var array
-     */
-    protected $_scopePriorityScheme = array('global');
-
-    /**
      * @var Magento_Customer_Helper_Address
      */
     protected $_addressHelper;
 
     /**
      * @param Magento_Customer_Model_Address_Config_Reader $reader
-     * @param Magento_Config_ScopeInterface $configScope
      * @param Magento_Config_CacheInterface $cache
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Customer_Helper_Address $addressHelper
@@ -71,13 +63,12 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
      */
     public function __construct(
         Magento_Customer_Model_Address_Config_Reader $reader,
-        Magento_Config_ScopeInterface $configScope,
         Magento_Config_CacheInterface $cache,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Customer_Helper_Address $addressHelper,
         $cacheId = 'address_format'
     ) {
-        parent::__construct($reader, $configScope, $cache, $cacheId);
+        parent::__construct($reader, $cache, $cacheId);
         $this->_storeManager = $storeManager;
         $this->_addressHelper = $addressHelper;
     }
@@ -184,7 +175,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Config_Data
     public function getFormatByCode($typeCode)
     {
         foreach ($this->getFormats() as $type) {
-            if ($type->getCode()==$typeCode) {
+            if ($type->getCode() == $typeCode) {
                 return $type;
             }
         }

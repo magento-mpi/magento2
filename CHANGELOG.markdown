@@ -1,13 +1,32 @@
 * Configuration improvements:
+  * Introduced scoped configuration model - Magento_Config_Data_Scoped and non-scoped one - Magento_Config_Data;
+  * Import/Export configuration was moved from config.xml to import.xml and export.xml files with new format;
+  * Product type configuration was moved from config.xml to product_types.xml files with new format;
+  * Product option configuration was moved from config.xml to product_options.xml files with new format;
+  * EAV attributes configuration was moved from config.xml to eav_attributes.xml files with new format;
+  * Indexer configuration was moved from config.xml to indexers.xml files with new format;
+  * Catalog rules configuration was moved from config.xml to di.xml;
+  * Sales rules configuration was moved from config.xml to di.xml;
+  * Session configuration was moved from config.xml to di.xml;
+  * <ignore_user_agents> node was removed from config.xml and related data was moved to di.xml;
+  * <request> node was removed from config.xml and related data was moved to di.xml;
+  * <secure_url> node was removed from config.xml and related data was moved to di.xml;
+  * <dev> node was removed from config.xml and related data was moved to di.xml;
+  * <webapi> node was removed from config.xml and related data was moved to di.xml;
+  * CMS configuration was moved from config.xml to di.xml;
+  * Widget configuration was moved from config.xml to di.xml;
+  * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
+  * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
+  * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
   * Removed "translate" node from configuration XML files
   * Improved Install, Category, Product, Customer, Wishlist configuration segments:
-     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
-     * New configuration files are validated with XSD
-     * Format of the configuration changed to make possible its validation
+    * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
+    * New configuration files are validated with XSD
+    * Format of the configuration changed to make possible its validation
   * Improved configuration in `widget.xml`, `fieldset.xml`, `persistent.xml` and `install.xml` files:
-     * `install.xml` was renamed to `install_wizard.xml`
-     * The configuration is validated with XSD
-     * Format of the configuration changed to make possible its validation
+    * `install.xml` was renamed to `install_wizard.xml`
+    * The configuration is validated with XSD
+    * Format of the configuration changed to make possible its validation
   * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
   * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
 * Prototype.js uses converted to jQuery:
