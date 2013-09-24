@@ -15,8 +15,11 @@
         <param name="systemStore">
             <instance type="Magento_Core_Model_System_Store_Proxy" />
         </param>
-        <param name="userRoles">
+        <param name="aclBuilder">
             <instance type="Magento_Acl_Builder_Proxy" />
+        </param>
+        <param name="userRoles">
+            <instance type="Magento_User_Model_Resource_Role_Collection_Proxy" />
         </param>
         <param name="storeGroups">
             <instance type="Magento_Core_Model_Resource_Store_Group_Collection_Proxy" />
