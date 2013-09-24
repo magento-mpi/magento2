@@ -73,7 +73,6 @@ class Magento_Page_Model_ConfigTest extends PHPUnit_Framework_TestCase
             'empty' => 'page_empty',
             'one_column' => 'page_one_column',
         );
-        $result = $this->_model->getPageLayoutHandles();
         $this->assertEquals($expected, $this->_model->getPageLayoutHandles());
     }
 }
