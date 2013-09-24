@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="customer-account-navigation">
+    <referenceBlock name="customer_account_navigation">
         <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-customer-balance-link">
             <arguments>
                 <argument name="name" xsi:type="string">magento_customerbalance</argument>

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="customer-account-navigation">
+    <referenceBlock name="customer_account_navigation">
         <block class="Magento_AdvancedCheckout_Block_Customer_Link" name="customer-account-navigation-checkout-sku-link">
             <arguments>
                 <argument name="path" xsi:type="string">magento_advancedcheckout/sku</argument>

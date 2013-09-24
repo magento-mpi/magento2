@@ -556,7 +556,8 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $element = $this->_scheduledStructure->getStructureElement($containerName, array());
 
         if (isset($element['attributes'])) {
-            foreach ($element['attributes'] as $key => $value) {
+            $keys = array_keys($element['attributes']);
+            foreach ($keys as $key) {
                 if (isset($node[$key])) {
                     $element['attributes'][$key] = (string)$node[$key];
                 }

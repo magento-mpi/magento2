@@ -274,7 +274,7 @@ class Magento_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      */
     public function testAddContainerInvalidHtmlTag()
     {
-        $msg = 'Html tag "span" is forbidden for usage in containers as a wrapper. ' .
+        $msg = 'Html tag "span" is forbidden for usage in containers. ' .
                'Consider to use one of the allowed: dd, div, dl, fieldset, header, hgroup, ol, p, section, table, ' .
                'tfoot, ul.';
         $this->setExpectedException('Magento_Exception', $msg);

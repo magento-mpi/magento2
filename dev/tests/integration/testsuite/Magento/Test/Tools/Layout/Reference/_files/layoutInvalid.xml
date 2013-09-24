@@ -11,11 +11,11 @@
     <handle id="test">
         <block class="Magento_Core_Block_Template" name="block"/>
         <container name="block" label="Container"/>
-        <referenceBlock name="block">
+        <reference name="block">
             <block class="Magento_Core_Block_Template" name="another.block"/>
-        </referenceBlock>
-        <referenceBlock name="broken.reference">
+        </reference>
+        <reference name="broken.reference">
             <block class="Magento_Core_Block_Template" name="another.block"/>
-        </referenceBlock>
+        </reference>
     </handle>
 </layout>

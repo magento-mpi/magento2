@@ -253,7 +253,7 @@
                 Remove Element directive.
             </xs:documentation>
         </xs:annotation>
-        <xs:attribute type="elementNameType" name="name"/>
+        <xs:attribute type="elementNameType" name="name" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="moveType">

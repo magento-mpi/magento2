@@ -140,7 +140,6 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
             $this->_error(self::XML_INVALID, $e->getMessage());
             return false;
         } catch (Exception $e) {
-            var_dump($e->getMessage());die;
             $this->_error(self::XML_INVALID);
             return false;
         }
