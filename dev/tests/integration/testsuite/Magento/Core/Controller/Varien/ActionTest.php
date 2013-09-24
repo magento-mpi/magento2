@@ -249,7 +249,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     public function testDispatch()
     {
         if (headers_sent()) {
-            $this->markTestSkipped('Can\' dispatch - headers already sent');
+            $this->markTestSkipped('Can\'t dispatch - headers already sent');
         }
         /** @var $objectManager Magento_TestFramework_ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
