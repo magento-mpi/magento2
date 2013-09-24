@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Config_XsdTest extends PHPUnit_Framework_TestCase
+class Magento_GiftRegistry_Model_Config_XsdTest extends PHPUnit_Framework_TestCase
 {
     /**
      * File path for xsd
@@ -24,6 +24,8 @@ class Magento_GiftRegistry_Config_XsdTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests different cases with invalid xml files
+     *
      * @dataProvider invalidXmlFileDataProvider
      * @param string $xmlFile
      * @param array $expectedErrors
@@ -38,7 +40,7 @@ class Magento_GiftRegistry_Config_XsdTest extends PHPUnit_Framework_TestCase
         $errors = libxml_get_errors();
         $errorMessages = array();
 
-        foreach($errors as $error) {
+        foreach ($errors as $error) {
             $errorMessages[] = $error->message;
         }
         libxml_use_internal_errors(false);
@@ -46,7 +48,10 @@ class Magento_GiftRegistry_Config_XsdTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests valid xml file
+     *
      * @param string $xmlFile
+     * @dataProvider validXmlFileDataProvider
      */
     public function testValidXmlFile($xmlFile)
     {
