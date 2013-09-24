@@ -11,26 +11,6 @@
 -->
 <config>
     <global>
-        <resources>
-            <ogone_setup>
-                <setup>
-                    <module>Magento_Ogone</module>
-                </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
-            </ogone_setup>
-            <ogone_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </ogone_write>
-            <ogone_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </ogone_read>
-        </resources>
         <sales>
             <order>
                 <statuses>

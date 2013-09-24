@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <virtualType name="ogone_setup" type="core_setup" />
+    <virtualType name="ogone_write" type="core_write" />
+    <virtualType name="ogone_read" type="core_read" />
+</config>
