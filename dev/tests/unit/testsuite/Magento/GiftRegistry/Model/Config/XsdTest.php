@@ -49,14 +49,11 @@ class Magento_GiftRegistry_Model_Config_XsdTest extends PHPUnit_Framework_TestCa
 
     /**
      * Tests valid xml file
-     *
-     * @param string $xmlFile
-     * @dataProvider validXmlFileDataProvider
      */
-    public function testValidXmlFile($xmlFile)
+    public function testValidXmlFile()
     {
         $dom = new DOMDocument();
-        $dom->load(__DIR__. '/../_files/' . $xmlFile);
+        $dom->load(__DIR__. '/../_files/config_valid.xml');
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($this->_xsdFilePath);
         libxml_use_internal_errors(false);
@@ -97,16 +94,6 @@ class Magento_GiftRegistry_Model_Config_XsdTest extends PHPUnit_Framework_TestCa
                      "in unique identity-constraint 'uniqueCustomAttributeName'.\n"
                 )
             )
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function validXmlFileDataProvider()
-    {
-        return array(
-            array('config_valid.xml')
         );
     }
 }
