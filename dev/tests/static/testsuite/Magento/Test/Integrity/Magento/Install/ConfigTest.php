@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Install_ConfigTest extends Integrity_ConfigAbstract
+namespace \Magento\Test\Integrity\Magento\Install;
+
+class ConfigTest extends \Integrity\ConfigAbstract
 {
     protected function _getXsd()
     {
