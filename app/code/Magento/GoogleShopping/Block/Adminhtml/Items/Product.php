@@ -15,8 +15,65 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * Product type
+     *
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_productType;
+
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * EAV attribute set collection factory
+     *
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory
+     */
+    protected $_eavCollectionFactory;
+
+    /**
+     * Item collection factory
+     *
+     * @var Magento_GoogleShopping_Model_Resource_Item_CollectionFactory
+     */
+    protected $_itemCollectionFactory;
+
+    /**
+     * @param Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $itemCollectionFactory
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavCollectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_GoogleShopping_Model_Resource_Item_CollectionFactory $itemCollectionFactory,
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $eavCollectionFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Catalog_Model_Product_Type $productType,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        array $data = array()
+    ) {
+        $this->_itemCollectionFactory = $itemCollectionFactory;
+        $this->_eavCollectionFactory = $eavCollectionFactory;
+        $this->_productType = $productType;
+        $this->_productFactory = $productFactory;
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -45,7 +102,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $collection = $this->_productFactory->create()->getCollection()
             ->setStore($this->_getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -85,8 +142,8 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
             'column_css_class'=> 'name'
         ));
 
-        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
+        $sets = $this->_eavCollectionFactory->create()
+            ->setEntityTypeFilter($this->_productFactory->create()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -96,7 +153,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
+                'options' => $this->_productType->getOptionArray(),
         ));
 
         $this->addColumn('set_name',
@@ -160,9 +217,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
      */
     protected function _getGoogleShoppingProductIds()
     {
-        $collection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Item_Collection')
-            ->addStoreFilter($this->_getStore()->getId())
-            ->load();
+        $collection = $this->_itemCollectionFactory->create()->addStoreFilter($this->_getStore()->getId())->load();
         $productIds = array();
         foreach ($collection as $item) {
             $productIds[] = $item->getProductId();
@@ -177,6 +232,6 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
      */
     protected function _getStore()
     {
-        return Mage::app()->getStore($this->getRequest()->getParam('store'));
+        return $this->_storeManager->getStore($this->getRequest()->getParam('store'));
     }
 }

@@ -67,6 +67,14 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
     protected $_gsPrice = null;
 
     /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_GoogleShopping_Helper_Data $gsData
      * @param Magento_GoogleShopping_Helper_Product $gsProduct
      * @param Magento_GoogleShopping_Helper_Price $gsPrice
@@ -77,6 +85,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_GoogleShopping_Helper_Data $gsData,
         Magento_GoogleShopping_Helper_Product $gsProduct,
         Magento_GoogleShopping_Helper_Price $gsPrice,
@@ -86,6 +95,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_productFactory = $productFactory;
         $this->_gsData = $gsData;
         $this->_gsProduct = $gsProduct;
         $this->_gsPrice = $gsPrice;
@@ -106,7 +116,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
      */
     public function getAllowedAttributes($setId)
     {
-        $attributes = Mage::getModel('Magento_Catalog_Model_Product')->getResource()
+        $attributes = $this->_productFactory->create()->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 

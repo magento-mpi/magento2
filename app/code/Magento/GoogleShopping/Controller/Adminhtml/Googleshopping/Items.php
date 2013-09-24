@@ -40,7 +40,11 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
         $this->_title(__('Google Content Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
-            $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
+            $this->_redirect('*/*/', array(
+                'store' => $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')
+                    ->getAnyStoreView()->getId(),
+                '_current' => true)
+            );
             return;
         }
 
@@ -60,8 +64,11 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             );
         }
 
-        if (!$this->_getConfig()->isValidDefaultCurrencyCode($this->_getStore()->getId())) {
-            $_countryInfo = $this->_getConfig()->getTargetCountryInfo($this->_getStore()->getId());
+        if (!$this->_objectManager->get('Magento_GoogleShopping_Model_Config')
+            ->isValidDefaultCurrencyCode($this->_getStore()->getId())
+        ) {
+            $_countryInfo = $this->_objectManager->get('Magento_GoogleShopping_Model_Config')
+                ->getTargetCountryInfo($this->_getStore()->getId());
             $this->_getSession()->addNotice(
                 __("The store's currency should be set to %1 for %2 in system configuration. Otherwise item prices won't be correct in Google Content.", $_countryInfo['currency_name'], $_countryInfo['name'])
             );
@@ -87,21 +94,11 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
     }
 
     /**
-     * Retrieve synchronization process mutex
-     *
-     * @return Magento_GoogleShopping_Model_Flag
-     */
-    protected function _getFlag()
-    {
-        return Mage::getSingleton('Magento_GoogleShopping_Model_Flag')->loadSelf();
-    }
-
-    /**
      * Add (export) several products to Google Content
      */
     public function massAddAction()
     {
-        $flag = $this->_getFlag();
+        $flag = $this->_objectManager->get('Magento_GoogleShopping_Model_Flag');
         if ($flag->isLocked()) {
             return;
         }
@@ -112,11 +109,11 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
 
         $storeId = $this->_getStore()->getId();
         $productIds = $this->getRequest()->getParam('product', null);
-        $notifier = Mage::getModel('Magento_AdminNotification_Model_Inbox');
+        $notifier = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox');
 
         try {
             $flag->lock();
-            Mage::getModel('Magento_GoogleShopping_Model_MassOperations')
+            $this->_objectManager->create('Magento_GoogleShopping_Model_MassOperations')
                 ->setFlag($flag)
                 ->addProducts($productIds, $storeId);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
@@ -143,7 +140,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
      */
     public function massDeleteAction()
     {
-        $flag = $this->_getFlag();
+        $flag = $this->_objectManager->get('Magento_GoogleShopping_Model_Flag');
         if ($flag->isLocked()) {
             return;
         }
@@ -156,7 +153,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
 
         try {
             $flag->lock();
-            Mage::getModel('Magento_GoogleShopping_Model_MassOperations')
+            $this->_objectManager->create('Magento_GoogleShopping_Model_MassOperations')
                 ->setFlag($flag)
                 ->deleteItems($itemIds);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
@@ -167,7 +164,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             return;
         } catch (Exception $e) {
             $flag->unlock();
-            Mage::getModel('Magento_AdminNotification_Model_Inbox')->addMajor(
+            $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')->addMajor(
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
@@ -183,7 +180,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
      */
     public function refreshAction()
     {
-        $flag = $this->_getFlag();
+        $flag = $this->_objectManager->get('Magento_GoogleShopping_Model_Flag');
         if ($flag->isLocked()) {
             return;
         }
@@ -196,7 +193,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
 
         try {
             $flag->lock();
-            Mage::getModel('Magento_GoogleShopping_Model_MassOperations')
+            $this->_objectManager->create('Magento_GoogleShopping_Model_MassOperations')
                 ->setFlag($flag)
                 ->synchronizeItems($itemIds);
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
@@ -207,7 +204,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             return;
         } catch (Exception $e) {
             $flag->unlock();
-            Mage::getModel('Magento_AdminNotification_Model_Inbox')->addMajor(
+            $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')->addMajor(
                 __('An error has occurred while deleting products from google shopping account.'),
                 __('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
@@ -226,7 +223,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
 
         $storeId = $this->_getStore()->getId();
         try {
-            Mage::getModel('Magento_GoogleShopping_Model_Service')->getClient(
+            $this->_objectManager->create('Magento_GoogleShopping_Model_Service')->getClient(
                 $storeId,
                 $this->_objectManager->get('Magento_Core_Helper_Data')
                     ->urlDecode($this->getRequest()->getParam('captcha_token')),
@@ -261,7 +258,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
         if ($this->getRequest()->isAjax()) {
             $this->getResponse()->setHeader('Content-Type', 'application/json');
             $params = array(
-                'is_running' => $this->_getFlag()->isLocked()
+                'is_running' => $this->_objectManager->get('Magento_GoogleShopping_Model_Flag')->isLocked()
             );
             return $this->getResponse()->setBody(
                 $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($params)
@@ -306,21 +303,12 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
      */
     public function _getStore()
     {
-        $store = Mage::app()->getStore((int)$this->getRequest()->getParam('store', 0));
+        $store = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')
+            ->getStore((int)$this->getRequest()->getParam('store', 0));
         if ((!$store) || 0 == $store->getId()) {
-            Mage::throwException(__('Unable to select a Store View'));
+            throw new Magento_Core_Exception(__('Unable to select a Store View'));
         }
         return $store;
-    }
-
-    /**
-     * Get Google Shopping config model
-     *
-     * @return Magento_GoogleShopping_Model_Config
-     */
-    protected function _getConfig()
-    {
-        return Mage::getSingleton('Magento_GoogleShopping_Model_Config');
     }
 
     /**
