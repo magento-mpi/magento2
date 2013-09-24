@@ -105,7 +105,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             array(
                 'request'  => $objectManager->get('Magento\TestFramework\Request'),
                 'response' => $objectManager->get('Magento\TestFramework\Response'),
-                    ->get('Magento\TestFramework\Response'),
             )
         );
         $this->_helper->prepareAndRender(10, $controller);
