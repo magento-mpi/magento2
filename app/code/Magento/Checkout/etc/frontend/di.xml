@@ -13,4 +13,12 @@
             <value>frontend</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Url_SecurityInfo">
+        <param name="secureUrlList">
+            <value>
+                <checkout_onepage>/checkout/onepage</checkout_onepage>
+                <checkout_multishipping>/checkout/multishipping</checkout_multishipping>
+            </value>
+        </param>
+    </type>
 </config>

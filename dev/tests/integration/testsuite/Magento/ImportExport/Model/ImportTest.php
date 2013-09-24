@@ -22,6 +22,11 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var Magento_ImportExport_Model_Import_Config
+     */
+    protected $_importConfig;
+
+    /**
      * Expected entity behaviors
      *
      * @var array
@@ -57,8 +62,14 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->_importConfig = Mage::getModel('Magento_ImportExport_Model_Import_Config');
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Model_Import');
+            ->create(
+                'Magento_ImportExport_Model_Import',
+                array(
+                    'importConfig' => $this->_importConfig,
+                )
+            );
     }
 
     /**
@@ -142,13 +153,16 @@ class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     /**
      * Test getEntityBehaviors with not existing behavior class
      *
-     * @magentoConfigFixture global/importexport/import_entities/customer/behavior_token Unknown_Behavior_Class
-     *
      * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Invalid behavior token for customer
      */
     public function testGetEntityBehaviorsWithUnknownBehavior()
     {
+        $this->_importConfig->merge(array(
+            'entities' => array(
+                'customer' => array('behaviorModel' => 'Unknown_Behavior_Class'),
+            )
+        ));
         $importModel = $this->_model;
         $actualBehaviors = $importModel->getEntityBehaviors();
         $this->assertArrayNotHasKey('customer', $actualBehaviors);

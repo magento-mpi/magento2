@@ -14,6 +14,13 @@
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
     /**
+     * Block group name
+     *
+     * @var string
+     */
+    protected $_blockGroup = 'Magento_Adminhtml';
+
+    /**
      * Core registry
      *
      * @var Magento_Core_Model_Registry

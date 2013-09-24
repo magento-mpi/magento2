@@ -27,20 +27,18 @@ class Magento_ScheduledImportExport_Model_Import extends Magento_ImportExport_Mo
      * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_ImportExport_Helper_Data $importExportData
-     * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_ImportExport_Model_Config $config
+     * @param Magento_ImportExport_Model_Import_ConfigInterface $importConfig
      * @param array $data
      */
     public function __construct(
         Magento_Index_Model_Indexer $indexer,
         Magento_Core_Model_Logger $logger,
         Magento_ImportExport_Helper_Data $importExportData,
-        Magento_Core_Model_Config $coreConfig,
-        Magento_ImportExport_Model_Config $config,
+        Magento_ImportExport_Model_Import_ConfigInterface $importConfig,
         array $data = array()
     ) {
         $this->_indexer = $indexer;
-        parent::__construct($logger, $importExportData, $coreConfig, $config, $data);
+        parent::__construct($logger, $importExportData, $importConfig, $data);
     }
 
     /**

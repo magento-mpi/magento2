@@ -11,6 +11,7 @@
 
 /**
  * Test class for Magento_Catalog_Model_Product_Attribute_Backend_Sku.
+ * @magentoAppArea adminhtml
  */
 class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Framework_TestCase
 {
@@ -43,6 +44,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Fr
     /**
      * @param $product Magento_Catalog_Model_Product
      * @dataProvider uniqueLongSkuDataProvider
+     * @magentoAppArea adminhtml
      * @magentoDbIsolation enabled
      */
     public function testGenerateUniqueLongSku($product)

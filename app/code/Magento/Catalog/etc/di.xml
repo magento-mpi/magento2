@@ -8,6 +8,8 @@
  */
 -->
 <config>
+    <preference for="Magento_Catalog_Model_ProductTypes_ConfigInterface" type="Magento_Catalog_Model_ProductTypes_Config" />
+    <preference for="Magento_Catalog_Model_ProductOptions_ConfigInterface" type="Magento_Catalog_Model_ProductOptions_Config" />
     <type name="Magento_Log_Model_Resource_Log">
         <plugin name="catalogLog" type="Magento_Catalog_Model_Plugin_Log" />
     </type>
@@ -20,10 +22,19 @@
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
+        <param name="messageModels">
+            <value>
+                <catalog>Magento_Catalog_Model_Session</catalog>
+                <checkout>Magento_Checkout_Model_Session</checkout>
+            </value>
+        </param>
     </type>
     <type name="Magento_Catalog_Helper_Product">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+        <param name="typeSwitcherLabel">
+            <value>Virtual</value>
         </param>
     </type>
     <type name="Magento_Catalog_Model_Category">
@@ -85,6 +96,14 @@
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
         </param>
+        <param name="maxIndexCount">
+            <value type="int">64</value>
+        </param>
+        <param name="flatAttributeGroups">
+            <value>
+                <catalog_product>catalog_product</catalog_product>
+            </value>
+        </param>
     </type>
     <type name="Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract">
         <param name="eventManager">
@@ -94,6 +113,51 @@
     <type name="Magento_Catalog_Model_Resource_Product_Indexer_Price_Default">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />
+        </param>
+    </type>
+    <type name="Magento_Catalog_Model_Entity_Product_Attribute_Design_Options_Container">
+        <param name="options">
+            <value>
+                <option1>
+                    <value>container1</value>
+                    <label>Product Info Column</label>
+                </option1>
+                <option2>
+                    <value>container2</value>
+                    <label>Block after Info Column</label>
+                </option2>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Model_Attribute_Config_Data">
+        <param name="cacheId">
+            <value>catalog_attributes</value>
+        </param>
+        <param name="scope">
+            <value type="const">Magento_Core_Model_App_Area::AREA_GLOBAL</value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Helper_Product_Flat">
+        <param name="addFilterableAttrs">
+            <value type="int">0</value>
+        </param>
+        <param name="addChildData">
+            <value type="int">0</value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Helper_Data">
+        <param name="templateFilterModel">
+            <value>Magento_Catalog_Model_Template_Filter</value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Model_Config_Source_GridPerPage">
+        <param name="perPageValues">
+            <value>9,15,30</value>
+        </param>
+    </type>
+    <type name="Magento_Catalog_Model_Config_Source_ListPerPage">
+        <param name="options">
+            <value>5,10,15,20,25</value>
         </param>
     </type>
     <type name="Magento_Catalog_Block_Layer_View">

@@ -9,6 +9,10 @@
  * @license     {license_link}
  */
 
+/**
+ * Class Magento_Catalog_Model_Product_ImageTest
+ * @magentoAppArea frontend
+ */
 class Magento_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
 {
     /**

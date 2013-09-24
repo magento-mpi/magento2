@@ -34,7 +34,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $arguments = array(
             'request'  => $request,
             'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
-        );        
+        );
         $this->_objectManager->get('Magento_Core_Model_View_DesignInterface')
             ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
@@ -174,11 +174,19 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
      * @param array $expected
      *
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture global/dev/page_type/render_inherited 1
      * @dataProvider addActionLayoutHandlesInheritedDataProvider
      */
     public function testAddActionLayoutHandlesInherited($route, $controller, $action, $expected)
     {
+        $arguments = array(
+            'request'  => $this->_objectManager->get('Magento_TestFramework_Request'),
+            'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
+            'isRenderInherited' => true,
+        );
+        $context = $this->_objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        $this->_object = $this->getMockForAbstractClass('Magento_Core_Controller_Varien_Action',
+            array('context' => $context));
+
         $this->_object->getRequest()
             ->setRouteName($route)
             ->setControllerName($controller)
@@ -315,7 +323,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         ));
         $controller = $this->_objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
-        
+
         $design = $this->_objectManager->get('Magento_Core_Model_View_DesignInterface');
 
         $this->assertEquals($expectedArea, $design->getArea());

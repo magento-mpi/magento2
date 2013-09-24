@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:redefine schemaLocation="product_types.xsd">
+        <xs:complexType name="typeDeclaration">
+            <xs:complexContent>
+                <xs:restriction base="typeDeclaration">
+                    <xs:all minOccurs="0">
+                        <xs:element name="allowProductTypes" type="allowProductTypesDeclaration" minOccurs="0" />
+                        <xs:element name="allowedSelectionTypes" type="allowedSelectionTypesDeclaration" minOccurs="0" />
+                        <xs:element name="priceModel" type="priceModelDeclaration" minOccurs="0" />
+                        <xs:element name="indexerModel" type="indexerModelDeclaration" minOccurs="0" />
+                        <xs:element name="stockIndexerModel" type="stockIndexerModelDeclaration" minOccurs="0" />
+                    </xs:all>
+                    <xs:attribute name="label" type="xs:string" use="required" />
+                    <xs:attribute name="modelInstance" type="modelName" use="required" />
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:redefine>
+</xs:schema>

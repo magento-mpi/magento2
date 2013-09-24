@@ -11,25 +11,6 @@
 -->
 <config>
     <global>
-        <customer>
-            <address>
-                <formats>
-                    <text translate="title">
-                        <title>Text</title>
-                    </text>
-                    <oneline translate="title">
-                        <title>Text One Line</title>
-                    </oneline>
-                    <html translate="title">
-                        <title>HTML</title>
-                        <escapeHtml>true</escapeHtml>
-                    </html>
-                    <pdf translate="title">
-                        <title>PDF</title>
-                    </pdf>
-                </formats>
-            </address>
-        </customer>
         <resources>
             <customer_setup>
                 <setup>
@@ -73,11 +54,6 @@
             </email>
         </template>
     </global>
-    <frontend>
-        <secure_url>
-            <customer>/customer/</customer>
-        </secure_url>
-    </frontend>
     <default>
         <customer>
             <account_share>
