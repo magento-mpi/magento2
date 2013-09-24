@@ -35,7 +35,7 @@ class Magento_GiftRegistry_Model_Config_ConverterTest extends PHPUnit_Framework_
      */
     protected function setUp()
     {
-        $this->_filePath = __DIR__ . DIRECTORY_SEPARATOR . '../_files' . DIRECTORY_SEPARATOR;
+        $this->_filePath = __DIR__ . '/../_files/';
         $this->_source = new DOMDocument();
         $this->_model = new Magento_GiftRegistry_Model_Config_Converter();
     }
