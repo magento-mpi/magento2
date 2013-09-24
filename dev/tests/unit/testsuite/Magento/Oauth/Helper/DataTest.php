@@ -83,6 +83,54 @@ class Magento_Oauth_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_string($token) && strlen($token) === Magento_Oauth_Model_Consumer::SECRET_LENGTH);
     }
 
+    public function testIsCleanupProbabilityZero()
+    {
+        $this->_storeConfigMock->expects($this->once())->method('getConfig')
+            ->will($this->returnValue(0));
+        $this->assertFalse($this->_oauthHelper->isCleanupProbability());
+    }
+
+    public function testIsCleanupProbabilityRandomOne()
+    {
+        $this->_storeConfigMock->expects($this->once())->method('getConfig')
+            ->will($this->returnValue(1));
+        $this->assertTrue($this->_oauthHelper->isCleanupProbability());
+    }
+
+    public function testGetCleanupExpirationPeriodZero()
+    {
+        $this->_storeConfigMock->expects($this->once())->method('getConfig')
+            ->will($this->returnValue(0));
+        $this->assertEquals(
+            Magento_Oauth_Helper_Data::CLEANUP_EXPIRATION_PERIOD_DEFAULT,
+            $this->_oauthHelper->getCleanupExpirationPeriod()
+        );
+    }
+
+    public function testGetCleanupExpirationPeriodNonZero()
+    {
+        $this->_storeConfigMock->expects($this->once())->method('getConfig')
+            ->will($this->returnValue(10));
+        $this->assertEquals(10, $this->_oauthHelper->getCleanupExpirationPeriod());
+    }
+
+    public function testGetConsumerExpirationPeriodZero()
+    {
+        $this->_storeConfigMock->expects($this->once())->method('getConfig')
+            ->will($this->returnValue(0));
+        $this->assertEquals(
+            Magento_Oauth_Helper_Data::CONSUMER_EXPIRATION_PERIOD_DEFAULT,
+            $this->_oauthHelper->getConsumerExpirationPeriod()
+        );
+    }
+
+    public function testGetConsumerExpirationPeriodNonZero()
+    {
+        $this->_storeConfigMock->expects($this->once())->method('getConfig')
+            ->will($this->returnValue(10));
+        $this->assertEquals(10, $this->_oauthHelper->getConsumerExpirationPeriod());
+    }
+
     /**
      * @dataProvider dataProviderForPrepareErrorResponseTest
      */
