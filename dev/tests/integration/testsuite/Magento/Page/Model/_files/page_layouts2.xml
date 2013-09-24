@@ -8,14 +8,16 @@
  */
 -->
 <page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./page_layouts.xsd">
-    <layout id="one_column" default="true">
-        <label translate="true">1 column modified</label>
-        <template>1column.phtml</template>
-        <layout_handle>page_one_column</layout_handle>
-    </layout>
-    <layout id="two_columns_left">
-        <label translate="true">2 columns with left bar</label>
-        <template>2columns-left.phtml</template>
-        <layout_handle>page_two_columns_left</layout_handle>
-    </layout>
+    <layouts default="one_column">
+        <layout id="one_column">
+            <label translate="true">1 column modified</label>
+            <template>1column.phtml</template>
+            <layout_handle>page_one_column</layout_handle>
+        </layout>
+        <layout id="two_columns_left">
+            <label translate="true">2 columns with left bar</label>
+            <template>2columns-left.phtml</template>
+            <layout_handle>page_two_columns_left</layout_handle>
+        </layout>
+    </layouts>
 </page_layouts>

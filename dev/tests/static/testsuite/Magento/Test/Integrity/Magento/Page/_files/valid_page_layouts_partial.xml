@@ -8,16 +8,18 @@
  */
 -->
 <page_layouts>
-    <layout id="one" default="true">
-        <template>empty.phtml</template>
-        <layout_handle>page_empty</layout_handle>
-    </layout>
-    <layout id="two" default="true">
-        <label translate="true">Empty</label>
-        <layout_handle>page_empty</layout_handle>
-    </layout>
-    <layout id="three" default="true">
-        <label translate="true">Empty</label>
-        <template>empty.phtml</template>
-    </layout>
+    <layouts default="one">
+        <layout id="one">
+            <template>empty.phtml</template>
+            <layout_handle>page_empty</layout_handle>
+        </layout>
+        <layout id="two">
+            <label translate="true">Empty</label>
+            <layout_handle>page_empty</layout_handle>
+        </layout>
+        <layout id="three">
+            <label translate="true">Empty</label>
+            <template>empty.phtml</template>
+        </layout>
+    </layouts>
 </page_layouts>

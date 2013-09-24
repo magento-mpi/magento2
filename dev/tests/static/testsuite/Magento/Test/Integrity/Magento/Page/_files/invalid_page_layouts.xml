@@ -8,8 +8,10 @@
  */
 -->
 <page_layouts>
-    <layout id="empty" default="true">
-        <template>empty.phtml</template>
-        <layout_handle>page_empty</layout_handle>
-    </layout>
+    <layouts>
+        <layout id="empty">
+            <template>empty.phtml</template>
+            <layout_handle>page_empty</layout_handle>
+        </layout>
+    </layouts>
 </page_layouts>

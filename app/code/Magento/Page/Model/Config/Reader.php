@@ -15,6 +15,6 @@ class Magento_Page_Model_Config_Reader extends Magento_Config_Reader_Filesystem
      * @var array
      */
     protected $_idAttributes = array(
-        '/page_layouts/layout' => 'id',
+        '/page_layouts/layouts/layout' => 'id',
     );
 }
