@@ -32,7 +32,7 @@ class Magento_GiftRegistry_Model_Config_SchemaLocator implements Magento_Config_
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_GiftRegistry') . DIRECTORY_SEPARATOR . 'giftregistry.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_GiftRegistry') . '/giftregistry.xsd';
     }
 
     /**
