@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="simple" isQty="true" />
+    <type name="virtual" isQty="true" />
+    <type name="configurable" isQty="true">
+        <stockIndexerModel instance="Magento_CatalogInventory_Model_Resource_Indexer_Stock_Configurable" />
+    </type>
+    <type name="grouped" isQty="true">
+        <stockIndexerModel instance="Magento_CatalogInventory_Model_Resource_Indexer_Stock_Grouped" />
+    </type>
+</config>
