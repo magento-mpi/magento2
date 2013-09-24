@@ -18,21 +18,6 @@
                 </setup>
             </scheduledimportexport_setup>
         </resources>
-        <importexport>
-            <export_entities>
-                <customer_finance translate="label">
-                    <model_token>Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance</model_token>
-                    <label>Customer Finances</label>
-                </customer_finance>
-            </export_entities>
-            <import_entities>
-                <customer_finance translate="label">
-                    <model_token>Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance</model_token>
-                    <label>Customer Finances</label>
-                    <behavior_token>Magento_ImportExport_Model_Source_Import_Behavior_Custom</behavior_token>
-                </customer_finance>
-            </import_entities>
-        </importexport>
     </global>
     <default>
         <system>
@@ -41,15 +26,6 @@
                 <error_email_template>system_magento_scheduled_import_export_log_error_email_template</error_email_template>
             </magento_scheduled_import_export_log>
         </system>
-        <crontab>
-            <jobs>
-                <magento_scheduled_import_export_log_clean>
-                    <run>
-                        <model>Magento_ScheduledImportExport_Model_Observer::scheduledLogClean</model>
-                    </run>
-                </magento_scheduled_import_export_log_clean>
-            </jobs>
-        </crontab>
         <export>
             <customer_page_size>
                 <finance>10000</finance>

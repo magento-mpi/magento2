@@ -43,6 +43,7 @@ class Magento_Widget_Model_Widget
     protected $_widgetsArray = array();
 
     /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Widget_Model_Config_Data $dataStorage
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem

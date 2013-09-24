@@ -29,7 +29,7 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
     {
         parent::preDispatch();
 
-        if( !Mage::getStoreConfigFlag(self::XML_PATH_ENABLED) ) {
+        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag(self::XML_PATH_ENABLED)) {
             $this->norouteAction();
         }
     }
@@ -41,7 +41,7 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
     {
         $this->loadLayout();
         $this->getLayout()->getBlock('contactForm')
-            ->setFormAction( Mage::getUrl('*/*/post') );
+            ->setFormAction($this->_objectManager->create('Magento_Core_Model_Url')->getUrl('*/*/post'));
 
         $this->_initLayoutMessages('Magento_Customer_Model_Session');
         $this->_initLayoutMessages('Magento_Catalog_Model_Session');
@@ -61,7 +61,7 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
         }
         $post = $this->getRequest()->getPost();
         if ($post) {
-            $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+            $translate = $this->_objectManager->get('Magento_Core_Model_Translate');
             /* @var $translate Magento_Core_Model_Translate */
             $translate->setTranslateInline(false);
             try {
@@ -89,17 +89,18 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
                 if ($error) {
                     throw new Exception();
                 }
-                $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+                $mailTemplate = $this->_objectManager->create('Magento_Core_Model_Email_Template');
                 /* @var $mailTemplate Magento_Core_Model_Email_Template */
                 $mailTemplate->setDesignConfig(array(
                     'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
-                    'store' => Mage::app()->getStore()->getId()
+                    'store' => $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')
+                        ->getStore()->getId()
                 ))
                     ->setReplyTo($post['email'])
                     ->sendTransactional(
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                        Mage::getStoreConfig(self::XML_PATH_EMAIL_RECIPIENT),
+                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_TEMPLATE),
+                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_SENDER),
+                        $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig(self::XML_PATH_EMAIL_RECIPIENT),
                         null,
                         array('data' => $postObject)
                     );
@@ -110,14 +111,18 @@ class Magento_Contacts_Controller_Index extends Magento_Core_Controller_Front_Ac
 
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('Magento_Customer_Model_Session')->addSuccess(__('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.'));
+                $this->_objectManager->get('Magento_Customer_Model_Session')->addSuccess(
+                    __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')
+                );
                 $this->_redirect('*/*/');
 
                 return;
             } catch (Exception $e) {
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('Something went wrong submitting your request.'));
+                $this->_objectManager->get('Magento_Customer_Model_Session')->addError(
+                    __('Something went wrong submitting your request.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }

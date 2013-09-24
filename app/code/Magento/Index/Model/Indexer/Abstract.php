@@ -12,7 +12,9 @@
  * Abstract index process class
  * Predefine list of methods required by indexer
  */
-abstract class Magento_Index_Model_Indexer_Abstract extends Magento_Core_Model_Abstract
+abstract class Magento_Index_Model_Indexer_Abstract
+    extends Magento_Core_Model_Abstract
+    implements Magento_Index_Model_IndexerInterface
 {
     protected $_matchedEntities = array();
 
@@ -58,6 +60,7 @@ abstract class Magento_Index_Model_Indexer_Abstract extends Magento_Core_Model_A
      * Register data required by process in event object
      *
      * @param Magento_Index_Model_Event $event
+     * @return Magento_Index_Model_IndexerInterface
      */
     public function register(Magento_Index_Model_Event $event)
     {

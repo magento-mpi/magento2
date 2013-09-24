@@ -19,21 +19,6 @@
             </invitation_setup>
         </resources>
     </global>
-    <frontend>
-        <magento>
-            <websiterestriction>
-                <full_action_names>
-                    <generic>
-                        <magento_invitation_customer_account_create />
-                        <magento_invitation_customer_account_createpost />
-                    </generic>
-                </full_action_names>
-            </websiterestriction>
-        </magento>
-        <secure_url>
-            <invitation>/invitation/</invitation>
-        </secure_url>
-    </frontend>
     <default>
         <magento_invitation>
             <email>

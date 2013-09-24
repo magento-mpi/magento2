@@ -40,13 +40,20 @@ class Magento_Core_Model_Log_Adapter
     protected $_debugReplacePrivateDataKeys = array();
 
     /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Set log file name
      *
+     * @param Magento_Core_Model_Logger $logger
      * @param string $fileName
      */
-    public function __construct($fileName)
+    public function __construct(Magento_Core_Model_Logger $logger, $fileName)
     {
         $this->_logFileName = $fileName;
+        $this->_logger = $logger;
     }
 
     /**
@@ -67,7 +74,7 @@ class Magento_Core_Model_Log_Adapter
         }
         $data = $this->_filterDebugData($data);
         $data['__pid'] = getmypid();
-        Mage::log($data, null, $this->_logFileName, true);
+        $this->_logger->logFile($data, Zend_Log::DEBUG, $this->_logFileName);
         return $this;
     }
 

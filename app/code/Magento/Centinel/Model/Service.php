@@ -37,11 +37,67 @@ class Magento_Centinel_Model_Service extends Magento_Object
     );
 
     /**
+     * Is API model configured
+     *
+     * @var bool
+     */
+    protected $_isConfigured = false;
+
+    /**
      * Validation api model
      *
      * @var Magento_Centinel_Model_Api
      */
     protected $_api;
+
+    /**
+     * Config
+     *
+     * @var Magento_Centinel_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Backend url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_backendUrl;
+
+    /**
+     * Frontend url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_frontendUrl;
+
+    /**
+     * Centinel session
+     *
+     * @var Magento_Core_Model_Session_Abstract
+     */
+    protected $_centinelSession;
+
+    /**
+     * Session
+     *
+     * @var Magento_Core_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * State factory
+     *
+     * @var Magento_Centinel_Model_StateFactory
+     */
+    protected $_stateFactory;
 
     /**
      * Validation state model
@@ -51,25 +107,46 @@ class Magento_Centinel_Model_Service extends Magento_Object
     protected $_validationState;
 
     /**
-     * Return validation session object
-     *
-     * @return Magento_Core_Model_Session_Generic
+     * @param Magento_Centinel_Model_Config $config
+     * @param Magento_Centinel_Model_Api $api
+     * @param Magento_Core_Model_UrlInterface $backendUrl
+     * @param Magento_Core_Model_UrlInterface $frontendUrl
+     * @param Magento_Core_Model_Session_Abstract $centinelSession
+     * @param Magento_Core_Model_Session $session
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Centinel_Model_StateFactory $stateFactory
+     * @param array $data
      */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Magento_Centinel_Model_Session');
+    public function __construct(
+        Magento_Centinel_Model_Config $config,
+        Magento_Centinel_Model_Api $api,
+        Magento_Core_Model_UrlInterface $backendUrl,
+        Magento_Core_Model_UrlInterface $frontendUrl,
+        Magento_Core_Model_Session_Abstract $centinelSession,
+        Magento_Core_Model_Session $session,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Centinel_Model_StateFactory $stateFactory,
+        array $data = array()
+    ) {
+        $this->_config = $config;
+        $this->_api = $api;
+        $this->_backendUrl = $backendUrl;
+        $this->_frontendUrl = $frontendUrl;
+        $this->_centinelSession = $centinelSession;
+        $this->_session = $session;
+        $this->_storeManager = $storeManager;
+        $this->_stateFactory = $stateFactory;
+        parent::__construct($data);
     }
 
     /**
      * Return value from section of centinel config
      *
-     * @param string $path
-     * @return string
+     * @return Magento_Centinel_Model_Config
      */
     protected function _getConfig()
     {
-        $config = Mage::getSingleton('Magento_Centinel_Model_Config');
-        return $config->setStore($this->getStore());
+        return $this->_config->setStore($this->getStore());
     }
 
     /**
@@ -100,13 +177,13 @@ class Magento_Centinel_Model_Service extends Magento_Object
         $params = array(
             '_secure'  => true,
             '_current' => $current,
-            'form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey(),
+            'form_key' => $this->_session->getFormKey(),
             'isIframe' => true
         );
-        if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/centinel_index/' . $suffix, $params);
+        if ($this->_storeManager->getStore()->isAdmin()) {
+            return $this->_backendUrl->getUrl('*/centinel_index/' . $suffix, $params);
         } else {
-            return Mage::getUrl('centinel/index/' . $suffix, $params);
+            return $this->_frontendUrl->getUrl('centinel/index/' . $suffix, $params);
         }
     }
 
@@ -117,11 +194,10 @@ class Magento_Centinel_Model_Service extends Magento_Object
      */
     protected function _getApi()
     {
-        if (!is_null($this->_api)) {
+        if ($this->_isConfigured) {
             return $this->_api;
         }
 
-        $this->_api = Mage::getSingleton('Magento_Centinel_Model_Api');
         $config = $this->_getConfig();
         $this->_api
            ->setProcessorId($config->getProcessorId())
@@ -130,21 +206,8 @@ class Magento_Centinel_Model_Service extends Magento_Object
            ->setIsTestMode($config->getIsTestMode())
            ->setDebugFlag($config->getDebugFlag())
            ->setApiEndpointUrl($this->getCustomApiEndpointUrl());
+        $this->_isConfigured = true;
         return $this->_api;
-    }
-
-    /**
-     * Create and return validation state model for card type
-     *
-     * @param string $cardType
-     * @return Magento_Centinel_Model_StateAbstract
-     */
-    protected function _getValidationStateModel($cardType)
-    {
-        if ($modelClass = $this->_getConfig()->getStateModelClass($cardType)) {
-            return Mage::getModel($modelClass);
-        }
-        return false;
     }
 
     /**
@@ -155,13 +218,13 @@ class Magento_Centinel_Model_Service extends Magento_Object
      */
     protected function _getValidationState($cardType = null)
     {
-        $type = $cardType ? $cardType : $this->_getSession()->getData('card_type');
+        $type = $cardType ? $cardType : $this->_centinelSession->getData('card_type');
         if (!$this->_validationState && $type) {
-            $model = $this->_getValidationStateModel($type);
+            $model = $this->_stateFactory->createState($type);
             if (!$model) {
                 return false;
             }
-            $model->setDataStorage($this->_getSession());
+            $model->setDataStorage($this->_centinelSession);
             $this->_validationState = $model;
         }
         return $this->_validationState;
@@ -173,7 +236,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
      */
     protected function _resetValidationState()
     {
-        $this->_getSession()->setData(array());
+        $this->_centinelSession->setData(array());
         $this->_validationState = false;
     }
 
@@ -187,8 +250,8 @@ class Magento_Centinel_Model_Service extends Magento_Object
     protected function _initValidationState($cardType, $dataChecksum)
     {
         $this->_resetValidationState();
-        $state = $this->_getValidationStateModel($cardType);
-        $state->setDataStorage($this->_getSession())
+        $state = $this->_stateFactory->createState($cardType);
+        $state->setDataStorage($this->_centinelSession)
             ->setCardType($cardType)
             ->setChecksum($dataChecksum)
             ->setIsModeStrict($this->getIsModeStrict());
@@ -269,12 +332,14 @@ class Magento_Centinel_Model_Service extends Magento_Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                Mage::throwException(__('Payment information error. Please start over.'));
+                throw new Magento_Core_Exception(__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            Mage::throwException(__('Please verify the card with the issuer bank before placing the order.'));
+            throw new Magento_Core_Exception(
+                __('Please verify the card with the issuer bank before placing the order.')
+            );
         } else {
             if ($validationState->getChecksum() != $newChecksum || !$validationState->isLookupSuccessful()) {
                 $this->lookup($data);
@@ -283,7 +348,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            Mage::throwException(__('This card has failed validation and cannot be used.'));
+            throw new Magento_Core_Exception(__('This card has failed validation and cannot be used.'));
         }
     }
 

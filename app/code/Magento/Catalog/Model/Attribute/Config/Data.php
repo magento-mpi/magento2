@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Attribute_Config_Data extends Magento_Config_Data_SingleScope
+class Magento_Catalog_Model_Attribute_Config_Data extends Magento_Config_Data
 {
     /**
      * @param Magento_Catalog_Model_Attribute_Config_Reader $reader
@@ -18,6 +18,6 @@ class Magento_Catalog_Model_Attribute_Config_Data extends Magento_Config_Data_Si
         Magento_Catalog_Model_Attribute_Config_Reader $reader,
         Magento_Config_CacheInterface $cache
     ) {
-        parent::__construct($reader, $cache, 'catalog_attributes', Magento_Core_Model_App_Area::AREA_GLOBAL);
+        parent::__construct($reader, $cache, 'catalog_attributes');
     }
 }

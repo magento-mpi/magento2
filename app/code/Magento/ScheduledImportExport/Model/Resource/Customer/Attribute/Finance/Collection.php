@@ -50,13 +50,16 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
     /**
      * @param Magento_ScheduledImportExport_Helper_Data $importExportData
      * @param Magento_Eav_Model_AttributeFactory $attributeFactory
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_ScheduledImportExport_Helper_Data $importExportData,
-        Magento_Eav_Model_AttributeFactory $attributeFactory
+        Magento_Eav_Model_AttributeFactory $attributeFactory,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_importExportData = $importExportData;
         $this->_attributeFactory = $attributeFactory;
+        parent::__construct($entityFactory);
 
         if ($this->_importExportData->isCustomerBalanceEnabled()) {
             $storeCreditData = array(

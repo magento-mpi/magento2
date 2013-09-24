@@ -236,7 +236,6 @@ final class Mage
     {
         self::$_appRoot         = null;
         self::$_app             = null;
-        self::$_config          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
         self::$_loggers         = array();
@@ -306,35 +305,6 @@ final class Mage
     }
 
     /**
-     * Retrieve config value for store by path
-     *
-     * @param string $path
-     * @param mixed $store
-     * @return mixed
-     */
-    public static function getStoreConfig($path, $store = null)
-    {
-        return self::app()->getStore($store)->getConfig($path);
-    }
-
-    /**
-     * Retrieve config flag for store by path
-     *
-     * @param string $path
-     * @param mixed $store
-     * @return bool
-     */
-    public static function getStoreConfigFlag($path, $store = null)
-    {
-        $flag = strtolower(self::getStoreConfig($path, $store));
-        if (!empty($flag) && 'false' !== $flag) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Get base URL path by type
      *
      * @param string $type
@@ -358,22 +328,6 @@ final class Mage
         return Magento_Core_Model_ObjectManager::getInstance()
             ->create('Magento_Core_Model_Url')
             ->getUrl($route, $params);
-    }
-
-    /**
-     * Retrieve a config instance
-     *
-     * This method doesn't suit Magento 2 anymore, it is left only until refactoring, when all calls
-     * to Mage::getConfig() will be removed in favor of config dependency injection.
-     *
-     * @return Magento_Core_Model_Config
-     */
-    public static function getConfig()
-    {
-        if (!self::$_config) {
-            self::$_config = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Config');
-        }
-        return self::$_config;
     }
 
     /**
@@ -534,44 +488,6 @@ final class Mage
     public static function isInstalled()
     {
         return (bool) Mage::getSingleton('Magento_Core_Model_Config_Primary')->getInstallDate();
-    }
-
-    /**
-     * log a message to system log or arbitrary file
-     *
-     * @param string $message
-     * @param integer $level
-     * @param string $file
-     * @param bool $forceLog
-     */
-    public static function log($message, $level = null, $file = 'system.log', $forceLog = false)
-    {
-        $level = is_null($level) ? Zend_Log::DEBUG : $level;
-        if (empty($file) || $file == 'system.log') {
-            $file = 'system.log';
-            $key = Magento_Core_Model_Logger::LOGGER_SYSTEM;
-        } elseif ($file == 'exception.log') {
-            $key = Magento_Core_Model_Logger::LOGGER_EXCEPTION;
-        } else {
-            $forceLog = true;
-            $key = $file;
-        }
-        /** @var $logger Magento_Core_Model_Logger */
-        $logger = Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Logger');
-        if ($forceLog && !$logger->hasLog($key)) {
-            $logger->addStreamLog($key, $file);
-        }
-        $logger->log($message, $level, $key);
-    }
-
-    /**
-     * Write exception to log
-     *
-     * @param Exception $exception
-     */
-    public static function logException(Exception $exception)
-    {
-        Magento_Core_Model_ObjectManager::getInstance()->get('Magento_Core_Model_Logger')->logException($exception);
     }
 
     /**

@@ -23,8 +23,9 @@ class Magento_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_
         $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $registry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_model = $this->getMockForAbstractClass('Magento_Catalog_Model_Product_Type_Abstract',
-            array($eventManager, $coreData, $fileStorageDb, $filesystem, $registry), ''
+            array($eventManager, $coreData, $fileStorageDb, $filesystem, $registry, $logger), ''
         );
     }
 

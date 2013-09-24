@@ -21,7 +21,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
     /**
      * @var Magento_Core_Model_Config
      */
-    protected $_config;
+    private $_coreConfig;
 
     /**
      * @param Magento_Core_Model_Context $context
@@ -30,8 +30,9 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Email_Template_Config $emailConfig
-     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -41,12 +42,15 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Email_Template_Config $emailConfig,
-        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
-        $this->_config = $config;
-        parent::__construct($context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $emailConfig, $data);
+        parent::__construct(
+            $context, $registry, $filesystem, $viewUrl, $viewFileSystem, $design, $coreStoreConfig, $emailConfig, $data
+        );
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -61,7 +65,7 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
             return array();
         }
 
-        $configData = $this->_config->getValue(null, 'default');
+        $configData = $this->_coreConfig->getValue(null, 'default');
         $paths = $this->_findEmailTemplateUsages($templateCode, $configData, '');
         return $paths;
     }

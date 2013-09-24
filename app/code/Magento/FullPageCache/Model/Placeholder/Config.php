@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Magento_FullPageCache_Model_Placeholder_Config
-    extends Magento_Config_Data
+    extends Magento_Config_Data_Scoped
     implements Magento_FullPageCache_Model_Placeholder_ConfigInterface
 {
     /**

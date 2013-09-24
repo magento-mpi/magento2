@@ -66,11 +66,6 @@
             </totals>
         </pdf>
     </global>
-    <frontend>
-        <secure_url>
-            <storecredit_info>/storecredit/info/</storecredit_info>
-        </secure_url>
-    </frontend>
     <default>
         <customer>
             <magento_customerbalance>

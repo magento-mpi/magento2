@@ -14,6 +14,7 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_Block_Widget_Grid
 {
@@ -25,6 +26,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_dataCollectionFactory;
+
+    /**
+     * @param Magento_Data_CollectionFactory $dataCollectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -33,6 +40,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $dataCollectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -40,6 +48,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -75,7 +84,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
         } else {
-            $collection = new Magento_Data_Collection();
+            $collection = $this->_dataCollectionFactory->create();
         }
 
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
@@ -119,14 +128,14 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
             'header'        => __('Price'),
             'index'         => 'price',
             'type'          => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
             'header'        => __('Total'),
             'index'         => 'row_total',
             'type'          => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) $this->_storeConfig->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('action', array(

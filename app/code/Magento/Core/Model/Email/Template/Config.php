@@ -38,7 +38,7 @@ class Magento_Core_Model_Email_Template_Config
      */
     public function getAvailableTemplates()
     {
-        return array_keys($this->_dataStorage->getData());
+        return array_keys($this->_dataStorage->get());
     }
 
     /**
@@ -97,7 +97,7 @@ class Magento_Core_Model_Email_Template_Config
      */
     protected function _getInfo($templateId, $fieldName)
     {
-        $data = $this->_dataStorage->getData();
+        $data = $this->_dataStorage->get();
         if (!isset($data[$templateId])) {
             throw new UnexpectedValueException("Email template '$templateId' is not defined.");
         }

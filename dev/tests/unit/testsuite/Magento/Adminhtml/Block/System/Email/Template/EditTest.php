@@ -77,8 +77,10 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
             'configStructure' => $this->_configStructureMock,
             'emailConfig' => $this->_emailConfigMock,
         );
-        $arguments = $objectManager->getConstructArguments('Magento_Adminhtml_Block_System_Email_Template_Edit',
-            $params);
+        $arguments = $objectManager->getConstructArguments(
+            'Magento_Adminhtml_Block_System_Email_Template_Edit',
+            $params
+        );
 
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
         $menuConfigMock->expects($this->any())->method('getMenu')->will($this->returnValue($menuMock));

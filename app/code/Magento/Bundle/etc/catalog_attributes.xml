@@ -19,4 +19,8 @@
         <attribute name="weight_type"/>
         <attribute name="sku_type"/>
     </group>
+    <group name="unassignable">
+        <attribute name="price_type" />
+        <attribute name="price_view" />
+    </group>
 </config>

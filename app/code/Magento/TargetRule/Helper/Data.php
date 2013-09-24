@@ -22,6 +22,25 @@ class Magento_TargetRule_Helper_Data extends Magento_Core_Helper_Abstract
     const MAX_PRODUCT_LIST_RESULT       = 20;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve Maximum Number of Products in Product List
      *
      * @param int $type product list type
@@ -32,16 +51,16 @@ class Magento_TargetRule_Helper_Data extends Magento_Core_Helper_Abstract
     {
         switch ($type) {
             case Magento_TargetRule_Model_Rule::RELATED_PRODUCTS:
-                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_limit');
+                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_limit');
                 break;
             case Magento_TargetRule_Model_Rule::UP_SELLS:
-                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_limit');
+                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_limit');
                 break;
             case Magento_TargetRule_Model_Rule::CROSS_SELLS:
-                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit');
+                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit');
                 break;
             default:
-                Mage::throwException(__('Invalid product list type'));
+                throw new Magento_Core_Exception(__('Invalid product list type'));
         }
 
         return $this->getMaxProductsListResult($number);
@@ -58,16 +77,16 @@ class Magento_TargetRule_Helper_Data extends Magento_Core_Helper_Abstract
     {
         switch ($type) {
             case Magento_TargetRule_Model_Rule::RELATED_PRODUCTS:
-                $show = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_behavior');
+                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_behavior');
                 break;
             case Magento_TargetRule_Model_Rule::UP_SELLS:
-                $show = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_behavior');
+                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_behavior');
                 break;
             case Magento_TargetRule_Model_Rule::CROSS_SELLS:
-                $show = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior');
+                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior');
                 break;
             default:
-                Mage::throwException(__('Invalid product list type'));
+                throw new Magento_Core_Exception(__('Invalid product list type'));
         }
 
         return $show;
@@ -101,16 +120,16 @@ class Magento_TargetRule_Helper_Data extends Magento_Core_Helper_Abstract
     {
         switch ($type) {
             case Magento_TargetRule_Model_Rule::RELATED_PRODUCTS:
-                $mode = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_rotation_mode');
+                $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_rotation_mode');
                 break;
             case Magento_TargetRule_Model_Rule::UP_SELLS:
-                $mode = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_rotation_mode');
+                $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_rotation_mode');
                 break;
             case Magento_TargetRule_Model_Rule::CROSS_SELLS:
-                $mode = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode');
+                $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode');
                 break;
             default:
-                Mage::throwException(__('Invalid rotation mode type'));
+                throw new Magento_Core_Exception(__('Invalid rotation mode type'));
         }
         return $mode;
     }

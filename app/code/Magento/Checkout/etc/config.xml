@@ -29,12 +29,6 @@
             </quote>
         </sales>
     </global>
-    <frontend>
-        <secure_url>
-            <checkout_onepage>/checkout/onepage</checkout_onepage>
-            <checkout_multishipping>/checkout/multishipping</checkout_multishipping>
-        </secure_url>
-    </frontend>
     <default>
         <checkout>
             <options>

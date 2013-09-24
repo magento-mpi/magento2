@@ -13,16 +13,19 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
      */
     public function testRunSchedule()
     {
+        /** @var Magento_TestFramework_ObjectManager $objectManager */
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $productModel = $objectManager->create('Magento_Catalog_Model_Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
         $importExportData = $objectManager->get('Magento_ImportExport_Helper_Data');
+        $importConfig = $objectManager->get('Magento_ImportExport_Model_Import_ConfigInterface');
+        $logger = $objectManager->get('Magento_Core_Model_Logger');
 
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
         $model = $this->getMock('Magento_ScheduledImportExport_Model_Import', array('reindexAll'), array(
-            $importExportData, array(
+            $logger, $importExportData, $importConfig, array(
                 'entity'   => 'catalog_product',
                 'behavior' => 'append',
             )

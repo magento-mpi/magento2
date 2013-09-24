@@ -328,32 +328,6 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
     }
 
     /**
-     * Check whether given path should be secure according to configuration security requirements for URL
-     * "Secure" should not be confused with https protocol, it is about web/secure/*_url settings usage only
-     *
-     * @param string $url
-     * @return bool
-     */
-    public function shouldUrlBeSecure($url)
-    {
-        if (!Mage::getStoreConfigFlag(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND)) {
-            return false;
-        }
-
-        if (!isset($this->_secureUrlCache[$url])) {
-            $this->_secureUrlCache[$url] = false;
-            $secureUrls = $this->getNode('frontend/secure_url');
-            foreach ($secureUrls->children() as $match) {
-                if (strpos($url, (string)$match) === 0) {
-                    $this->_secureUrlCache[$url] = true;
-                    break;
-                }
-            }
-        }
-        return $this->_secureUrlCache[$url];
-    }
-
-    /**
      * Determine whether provided name begins from any available modules, according to namespaces priority
      * If matched, returns as the matched module "factory" name or a fully qualified module name
      *

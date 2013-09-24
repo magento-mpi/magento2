@@ -27,9 +27,17 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
     protected $_giftCardData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param Magento_GiftCard_Helper_Data $giftCardData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
      * @param array $data
@@ -39,11 +47,13 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         Magento_GiftCard_Helper_Data $giftCardData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftCardData = $giftCardData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
                 throw new InvalidArgumentException(
@@ -101,7 +111,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // sales_order_save_after
 
         $order = $observer->getEvent()->getOrder();
-        $requiredStatus = Mage::getStoreConfig(
+        $requiredStatus = $this->_coreStoreConfig->getConfig(
             Magento_GiftCard_Model_Giftcard::XML_PATH_ORDER_ITEM_STATUS,
             $order->getStore()
         );
@@ -224,7 +234,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                         ));
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),
-                            Mage::getStoreConfig(
+                            $this->_coreStoreConfig->getConfig(
                                 Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 $item->getOrder()->getStoreId()
                             ),

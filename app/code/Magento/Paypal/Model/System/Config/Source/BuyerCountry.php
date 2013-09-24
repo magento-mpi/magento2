@@ -11,7 +11,7 @@
 /**
  * Source model for buyer countries supported by PayPal
  */
-class Magento_Paypal_Model_System_Config_Source_BuyerCountry
+class Magento_Paypal_Model_System_Config_Source_BuyerCountry implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray($isMultiselect = false)
     {

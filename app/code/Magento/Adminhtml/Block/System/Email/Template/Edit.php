@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
      * @var string
      */
     protected $_template = 'system/email/template/edit.phtml';
-
+    
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context

@@ -34,6 +34,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
      * @param array $data
      */
     public function __construct(
@@ -43,10 +44,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $data);
+        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
     }
 
     /**

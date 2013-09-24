@@ -31,6 +31,47 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     protected $_feedUrl;
 
     /**
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var Magento_AdminNotification_Model_InboxFactory
+     */
+    protected $_inboxFactory;
+
+    /**
+     * @var Magento_Core_Model_CacheInterface
+     */
+    protected $_cache;
+
+    /**
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_AdminNotification_Model_InboxFactory $inboxFactory
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_AdminNotification_Model_InboxFactory $inboxFactory,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_inboxFactory = $inboxFactory;
+        $this->_cache = $cache;
+    }
+
+    /**
      * Init model
      *
      */
@@ -44,9 +85,9 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
      */
     public function getFeedUrl()
     {
+        $httpPath = $this->_coreStoreConfig->getConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://';
         if (is_null($this->_feedUrl)) {
-            $this->_feedUrl = (Mage::getStoreConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://')
-                . Mage::getStoreConfig(self::XML_FEED_URL_PATH);
+            $this->_feedUrl = $httpPath . $this->_coreStoreConfig->getConfig(self::XML_FEED_URL_PATH);
         }
         return $this->_feedUrl;
     }
@@ -78,7 +119,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
             }
 
             if ($feedData) {
-                Mage::getModel('Magento_AdminNotification_Model_Inbox')->parse(array_reverse($feedData));
+                $this->_inboxFactory->create()->parse(array_reverse($feedData));
             }
 
         }
@@ -105,7 +146,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
      */
     public function getFrequency()
     {
-        return Mage::getStoreConfig(self::XML_FREQUENCY_PATH) * 3600;
+        return $this->_coreStoreConfig->getConfig(self::XML_FREQUENCY_PATH) * 3600;
     }
 
     /**
@@ -115,7 +156,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
      */
     public function getLastUpdate()
     {
-        return Mage::app()->loadCache('admin_notifications_lastcheck');
+        return $this->_cache->load('admin_notifications_lastcheck');
     }
 
     /**
@@ -125,7 +166,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
      */
     public function setLastUpdate()
     {
-        Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
+        $this->_cache->save(time(), 'admin_notifications_lastcheck');
         return $this;
     }
 

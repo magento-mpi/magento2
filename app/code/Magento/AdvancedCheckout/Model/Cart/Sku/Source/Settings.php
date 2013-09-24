@@ -14,7 +14,7 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings
+class Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Enable Order by SKU in 'My Account' options values

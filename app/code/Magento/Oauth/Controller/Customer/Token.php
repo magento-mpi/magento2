@@ -124,7 +124,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError(__('An error occurred on update revoke status.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirectBack();
     }
@@ -165,7 +165,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError(__('An error occurred on delete application.'));
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirectBack();
     }

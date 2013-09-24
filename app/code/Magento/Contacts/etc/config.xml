@@ -10,11 +10,6 @@
  */
 -->
 <config>
-    <frontend>
-        <secure_url>
-            <customer>/contacts/</customer>
-        </secure_url>
-    </frontend>
     <global>
         <resources>
             <contacts_setup>

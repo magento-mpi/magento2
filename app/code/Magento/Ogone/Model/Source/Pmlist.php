@@ -11,7 +11,7 @@
 /**
  * Ogone template Action Dropdown source
  */
-class Magento_Ogone_Model_Source_Pmlist
+class Magento_Ogone_Model_Source_Pmlist implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Prepare ogone payment block layout as option array

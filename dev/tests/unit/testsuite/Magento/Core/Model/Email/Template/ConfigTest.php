@@ -25,11 +25,11 @@ class Magento_Core_Model_Email_Template_ConfigTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $this->_dataStorage = $this->getMock(
-            'Magento_Core_Model_Email_Template_Config_Data', array('getData'), array(), '', false
+            'Magento_Core_Model_Email_Template_Config_Data', array('get'), array(), '', false
         );
         $this->_dataStorage
             ->expects($this->any())
-            ->method('getData')
+            ->method('get')
             ->will($this->returnValue(require __DIR__ . '/Config/_files/email_templates_merged.php'))
         ;
         $this->_moduleReader = $this->getMock(
@@ -100,11 +100,11 @@ class Magento_Core_Model_Email_Template_ConfigTest extends PHPUnit_Framework_Tes
     {
         $this->setExpectedException('UnexpectedValueException', $expectedException);
         $dataStorage = $this->getMock(
-            'Magento_Core_Model_Email_Template_Config_Data', array('getData'), array(), '', false
+            'Magento_Core_Model_Email_Template_Config_Data', array('get'), array(), '', false
         );
         $dataStorage
             ->expects($this->atLeastOnce())
-            ->method('getData')
+            ->method('get')
             ->will($this->returnValue(array('fixture' => $fixtureFields)))
         ;
         $model = new Magento_Core_Model_Email_Template_Config($dataStorage, $this->_moduleReader);

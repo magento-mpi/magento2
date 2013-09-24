@@ -21,11 +21,17 @@
 class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
-     * Config Node Path
-     *
-     * @var Magento_Core_Model_Config_Element
+     * @var array
      */
-    protected $_configNodePath;
+    protected $_optionsData;
+
+    /**
+     * @param array $options
+     */
+    public function __construct(array $options)
+    {
+        $this->_optionsData = $options;
+    }
 
     /**
      * Retrieve all options for the source from configuration
@@ -37,21 +43,14 @@ class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model
     {
         if ($this->_options === null) {
             $this->_options = array();
-            $rootNode = null;
-            if ($this->_configNodePath) {
-                $rootNode = Mage::getConfig()->getNode($this->_configNodePath);
+
+            if (empty($this->_optionsData)) {
+                throw Mage::exception('Magento_Eav', __('No options found'));
             }
-            if (!$rootNode) {
-                throw Mage::exception('Magento_Eav', __('Failed to load node %1 from config', $this->_configNodePath));
-            }
-            $options = $rootNode->children();
-            if (empty($options)) {
-                throw Mage::exception('Magento_Eav', __('No options found in config node %1', $this->_configNodePath));
-            }
-            foreach ($options as $option) {
+            foreach ($this->_optionsData as $option) {
                 $this->_options[] = array(
-                    'value' => (string)$option->value,
-                    'label' => __((string)$option->label)
+                    'value' => $option['value'],
+                    'label' => __($option['label'])
                 );
             }
         }

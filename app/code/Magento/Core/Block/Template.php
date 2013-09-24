@@ -74,7 +74,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
      * @var Magento_Core_Model_TemplateEngine_Factory
      */
     protected $_tmplEngineFactory;
-    
+
     /**
      * Core data
      *

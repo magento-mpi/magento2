@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Attribute_ConfigTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_dataStorage = $this->getMock(
-            'Magento_Catalog_Model_Attribute_Config_Data', array('getData'), array(), '', false
+            'Magento_Catalog_Model_Attribute_Config_Data', array('get'), array(), '', false
         );
         $this->_model = new Magento_Catalog_Model_Attribute_Config($this->_dataStorage);
     }
@@ -33,10 +33,9 @@ class Magento_Catalog_Model_Attribute_ConfigTest extends PHPUnit_Framework_TestC
         );
         $this->_dataStorage
             ->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue(array(
-                'some_group' => $expectedResult,
-            )))
+            ->method('get')
+            ->with('some_group')
+            ->will($this->returnValue($expectedResult))
         ;
         $this->assertSame($expectedResult, $this->_model->getAttributeNames('some_group'));
     }

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Banner_Model_Config">
+        <param name="bannerTypes">
+            <value>
+                <content>Content Area</content>
+                <footer>Footer</footer>
+                <header>Header</header>
+                <leftcol>Left Column</leftcol>
+                <rightcol>Right Column</rightcol>
+            </value>
+        </param>
+    </type>
+</config>

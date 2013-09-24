@@ -12,14 +12,6 @@
  */
 class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_Model_Resource_Abstract
 {
-    const XML_NODE_MAX_INDEX_COUNT  = 'global/catalog/product/flat/max_index_count';
-    const XML_NODE_ATTRIBUTE_GROUPS = 'global/catalog/product/flat/attribute_groups';
-
-    /**
-     * @var Magento_Core_Model_ConfigInterface
-     */
-    private $_config;
-
     /**
      * @var Magento_Eav_Model_Config
      */
@@ -115,36 +107,47 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Catalog_Model_Product_Type
+     * @var int
      */
-    protected $_productType;
+    protected $_maxIndexCount;
 
     /**
+     * @var array
+     */
+    protected $_flatAttributeGroups;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
-     * @param Magento_Catalog_Model_Product_Type $productType
+     * @param int $maxIndexCount
+     * @param array $flatAttributeGroups
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Resource $resource,
+        Magento_Catalog_Model_Product_Type $productType,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Helper_Data $coreData,
         Magento_Eav_Model_Config $eavConfig,
         Magento_Catalog_Model_Attribute_Config $attributeConfig,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
-        Magento_Catalog_Model_Product_Type $productType
+        $maxIndexCount,
+        array $flatAttributeGroups = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_config = $config;
         $this->_coreData = $coreData;
         $this->_eavConfig = $eavConfig;
         $this->_attributeConfig = $attributeConfig;
         $this->_catalogProductFlat = $catalogProductFlat;
+        $this->_maxIndexCount = intval($maxIndexCount);
+        $this->_flatAttributeGroups = $flatAttributeGroups;
+        $this->_logger = $logger;
         $this->_productType = $productType;
         parent::__construct($resource);
     }
@@ -209,9 +212,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             $adapter = $this->_getReadAdapter();
             $this->_attributeCodes = array();
 
-            $attributeGroupNodes = $this->_config->getNode(self::XML_NODE_ATTRIBUTE_GROUPS);
-            foreach ($attributeGroupNodes as $attributeGroupNode) {
-                $attributeGroupName = (string)$attributeGroupNode;
+            foreach ($this->_flatAttributeGroups as $attributeGroupName) {
                 $attributes = $this->_attributeConfig->getAttributeNames($attributeGroupName);
                 $this->_systemAttributes = array_unique(array_merge($attributes, $this->_systemAttributes));
             }
@@ -301,7 +302,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
                     $attribute->getBackend();
                     $this->_attributes[$attributeCode] = $attribute;
                 } catch (Exception $e) {
-                    Mage::logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }
@@ -603,9 +604,8 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         // Extract indexes we need to have in flat table
         $indexesNeed  = $this->getFlatIndexes();
 
-        $maxIndex = $this->_config->getNode(self::XML_NODE_MAX_INDEX_COUNT);
-        if (count($indexesNeed) > $maxIndex) {
-            Mage::throwException(__("Please make sure you don\'t have too many filterable and sortable attributes. You now have %1\$d. The Flat Catalog module allows only %2\$d.", count($indexesNeed), $maxIndex));
+        if (count($indexesNeed) > $this->_maxIndexCount) {
+            Mage::throwException(__("Please make sure you don\'t have too many filterable and sortable attributes. You now have %1\$d. The Flat Catalog module allows only %2\$d.", count($indexesNeed), $this->_maxIndexCount));
         }
 
         // Process indexes to create names for them in MMDB-style and reformat to common index definition

@@ -303,8 +303,12 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'Magento_Catalog_Helper_Data', array('__construct'), array(), '', false
         );
 
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        
         $this->_model = new Magento_ImportExport_Model_Import_Entity_Product_Option(
-            $this->_catalogDataMock, $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
+            $this->_catalogDataMock,
+            $coreStoreConfig,
+            $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
 
@@ -414,20 +418,18 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
         $fetchStrategy = $this->getMockForAbstractClass(
             'Magento_Data_Collection_Db_FetchStrategyInterface', array('fetchAll')
         );
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $entityFactory = $this->getMock('Magento_Core_Model_EntityFactory', array(), array(), '', false);
 
         $optionCollection = $this->getMock(
             'Magento_Data_Collection_Db',
             array('reset', 'addProductToFilter', 'getSelect', 'getNewEmptyItem'),
-            array($fetchStrategy)
+            array($logger, $fetchStrategy, $entityFactory)
         );
 
         $select = $this->getMock('Zend_Db_Select', array('join', 'where'), array(), '', false);
-        $select->expects($this->any())
-            ->method('join')
-            ->will($this->returnSelf());
-        $select->expects($this->any())
-            ->method('where')
-            ->will($this->returnSelf());
+        $select->expects($this->any())->method('join')->will($this->returnSelf());
+        $select->expects($this->any())->method('where')->will($this->returnSelf());
 
         $optionCollection->expects($this->any())
             ->method('getNewEmptyItem')

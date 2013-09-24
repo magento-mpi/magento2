@@ -19,15 +19,6 @@
                 </setup>
             </sales_setup>
         </resources>
-        <catalog>
-            <product>
-                <flat>
-                    <attribute_groups>
-                        <sales_quote_item>sales_quote_item</sales_quote_item>
-                    </attribute_groups>
-                </flat>
-            </product>
-        </catalog>
         <sales>
             <quote>
                 <totals>
@@ -74,7 +65,7 @@
             </quote>
             <order>
                 <!-- /**
-                      * @depraceted after 1.4.2, statuses are saved into sales_order_status table
+                      * @deprecated after 1.4.2, statuses are saved into sales_order_status table
                       */
                 -->
                 <statuses>
@@ -284,11 +275,6 @@
             </totals>
         </pdf>
     </global>
-    <frontend>
-        <secure_url>
-            <sales>/sales/</sales>
-        </secure_url>
-    </frontend>
     <default>
         <sales>
             <totals_sort>
@@ -375,56 +361,4 @@
             <use_aggregated_data>0</use_aggregated_data>
         </dashboard>
     </default>
-    <crontab>
-        <jobs>
-            <sales_clean_quotes>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::cleanExpiredQuotes</model>
-                </run>
-            </sales_clean_quotes>
-            <aggregate_sales_report_order_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportOrderData</model>
-                </run>
-            </aggregate_sales_report_order_data>
-            <aggregate_sales_report_shipment_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportShipmentData</model>
-                </run>
-            </aggregate_sales_report_shipment_data>
-            <aggregate_sales_report_invoiced_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportInvoicedData</model>
-                </run>
-            </aggregate_sales_report_invoiced_data>
-            <aggregate_sales_report_refunded_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportRefundedData</model>
-                </run>
-            </aggregate_sales_report_refunded_data>
-            <aggregate_sales_report_bestsellers_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportBestsellersData</model>
-                </run>
-            </aggregate_sales_report_bestsellers_data>
-        </jobs>
-    </crontab>
 </config>

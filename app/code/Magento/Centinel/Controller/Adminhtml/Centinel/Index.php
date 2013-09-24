@@ -55,7 +55,7 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
         } catch (Magento_Core_Exception $e) {
             $result['message'] = $e->getMessage();
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $result['message'] = __('Validation failed.');
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
@@ -105,8 +105,7 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
      */
     private function _getPayment()
     {
-        $model = Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
-        return $model->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento_Adminhtml_Model_Sales_Order_Create')->getQuote()->getPayment();
     }
 
     /**

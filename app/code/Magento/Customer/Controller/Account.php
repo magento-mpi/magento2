@@ -186,7 +186,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
                     $session->addError($message);
                     $session->setUsername($login['username']);
                 } catch (Exception $e) {
-                    // Mage::logException($e); // PA DSS violation: this exception log can disclose customer password
+                    // $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e); // PA DSS violation: this exception log can disclose customer password
                 }
             } else {
                 $session->addError(__('Login and password are required.'));
@@ -212,7 +212,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
             $session->setBeforeAuthUrl($this->_objectManager->get('Magento_Customer_Helper_Data')->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($session->isLoggedIn()) {
-                if (!Mage::getStoreConfigFlag(
+                if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag(
                     Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                 )) {
                     $referer = $this->getRequest()->getParam(Magento_Customer_Helper_Data::REFERER_QUERY_PARAM_NAME);
@@ -468,7 +468,7 @@ class Magento_Customer_Controller_Account extends Magento_Core_Controller_Front_
         );
 
         $successUrl = Mage::getUrl('*/*/index', array('_secure' => true));
-        if (!Mage::getStoreConfigFlag(Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
+        if (!$this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfigFlag(Magento_Customer_Helper_Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
             && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);

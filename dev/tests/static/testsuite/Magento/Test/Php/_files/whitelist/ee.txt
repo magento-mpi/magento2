@@ -2,6 +2,9 @@
 # These items and this file are not published in Magento CE
 #
 app/code/Magento/AdminGws/Model/Plugin
+app/code/Magento/AdminGws/Model/Config
+app/code/Magento/AdminGws/Model/Config.php
+app/code/Magento/AdminGws/Model/ConfigInterface.php
 app/code/Magento/Banner*
 app/code/Magento/CustomerCustomAttributes/Block/Account
 app/code/Magento/FullPageCache/Model/Cache/Type.php
@@ -21,3 +24,9 @@ app/code/Magento/SalesArchive/Model/Order
 app/code/Magento/Search/Model/Plugin
 app/code/Magento/VersionsCms/Model/Plugin
 app/code/Magento/WebsiteRestriction/Model/Plugin
+app/code/Magento/WebsiteRestriction/Model/Config
+app/code/Magento/WebsiteRestriction/Model/Config.php
+app/code/Magento/WebsiteRestriction/Model/ConfigInterface.php
+app/code/Magento/VersionsCms/Model/Hierarchy/Config
+app/code/Magento/VersionsCms/Model/Hierarchy/Config.php
+app/code/Magento/VersionsCms/Model/Hierarchy/ConfigInterface.php

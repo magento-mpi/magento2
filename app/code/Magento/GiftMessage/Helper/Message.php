@@ -33,11 +33,60 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
     protected $_nextId = 0;
 
     /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
      * Inner cache
      *
      * @var array
      */
     protected $_innerCache = array();
+
+    /**
+     * @var Magento_Core_Model_LayoutFactory
+     */
+    protected $_layoutFactory;
+
+    /**
+     * @var Magento_GiftMessage_Model_MessageFactory
+     */
+    protected $_giftMessageFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_GiftMessage_Model_MessageFactory $giftMessageFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LayoutFactory $layoutFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Http $coreHttp
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     */
+    public function __construct(
+        Magento_GiftMessage_Model_MessageFactory $giftMessageFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LayoutFactory $layoutFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Http $coreHttp,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_Config $coreStoreConfig
+    ) {
+        $this->_productFactory = $productFactory;
+        $this->_layoutFactory = $layoutFactory;
+        $this->_storeManager = $storeManager;
+        $this->_giftMessageFactory = $giftMessageFactory;
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
+    }
 
     /**
      * Retrive inline giftmessage edit form for specified entity
@@ -55,7 +104,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
             return '';
         }
 
-        return Mage::app()->getLayout()->createBlock('Magento_GiftMessage_Block_Message_Inline')
+        return $this->_layoutFactory->create()->createBlock('Magento_GiftMessage_Block_Message_Inline')
             ->setId('giftmessage_form_' . $this->_nextId++)
             ->setDontDisplayContainer($dontDisplayContainer)
             ->setEntity($entity)
@@ -75,7 +124,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
         if ($type == 'items') {
             $items = $entity->getAllItems();
             if(!is_array($items) || empty($items)) {
-                return Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+                return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
             }
             if($entity instanceof Magento_Sales_Model_Quote) {
                 $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
@@ -103,12 +152,12 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
                 $store
             );
         } elseif ($type == 'address_item') {
-            $storeId = is_numeric($store) ? $store : Mage::app()->getStore($store)->getId();
+            $storeId = is_numeric($store) ? $store : $this->_storeManager->getStore($store)->getId();
 
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
-                    Mage::getModel('Magento_Catalog_Model_Product')
+                    $this->_productFactory->create()
                         ->setStoreId($storeId)
                         ->load($entity->getProductId())
                         ->getGiftMessageAvailable()
@@ -119,7 +168,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
                 $store
             );
         } else {
-            return Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
+            return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
         }
 
         return false;
@@ -134,7 +183,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
     {
-        $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+        $result = $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
         if ($productGiftMessageAllow === '' || is_null($productGiftMessageAllow)) {
             return $result;
         } else {
@@ -269,7 +318,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      */
     public function getGiftMessage($messageId=null)
     {
-        $message = Mage::getModel('Magento_GiftMessage_Model_Message');
+        $message = $this->_giftMessageFactory->create();
         if(!is_null($messageId)) {
             $message->load($messageId);
         }

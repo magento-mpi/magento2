@@ -17,7 +17,14 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
      */
     protected $_coreRegistry = null;
 
+
     /**
+     * @var Magento_User_Model_Resource_Role_CollectionFactory
+     */
+    protected $_userRolesFactory;
+
+    /**
+     * @param Magento_User_Model_Resource_Role_CollectionFactory $userRolesFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -26,6 +33,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
      * @param array $data
      */
     public function __construct(
+        Magento_User_Model_Resource_Role_CollectionFactory $userRolesFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -33,6 +41,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_userRolesFactory = $userRolesFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -69,7 +78,7 @@ class Magento_User_Block_User_Edit_Tab_Roles extends Magento_Backend_Block_Widge
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_User_Model_Resource_Role_Collection');
+        $collection = $this->_userRolesFactory->create();
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();

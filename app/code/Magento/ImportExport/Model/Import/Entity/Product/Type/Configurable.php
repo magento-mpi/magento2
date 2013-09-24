@@ -113,6 +113,24 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     protected $_superAttrValuesCombs = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     */
+    protected $_productTypesConfig;
+
+    /**
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig
+     * @param array $params
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $productTypesConfig,
+        array $params
+    ) {
+        $this->_productTypesConfig = $productTypesConfig;
+        parent::__construct($params);
+    }
+
+
+    /**
      * Add attribute parameters to appropriate attribute set.
      *
      * @param string $attrParams Name of attribute set.
@@ -208,12 +226,9 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     {
         if ($this->_superAttributes) {
             $attrSetIdToName   = $this->_entityModel->getAttrSetIdToName();
-            $allowProductTypes = array();
 
-            foreach (Mage::getConfig()
-                    ->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
-                $allowProductTypes[] = $type->getName();
-            }
+            $configData = $this->_productTypesConfig->getType('configurable');
+            $allowProductTypes = isset($configData['allow_product_types']) ? $configData['allow_product_types'] : array();
             foreach (Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
                         ->addFieldToFilter('type_id', $allowProductTypes)
                         ->addAttributeToSelect(array_keys($this->_superAttributes)) as $product) {
@@ -241,8 +256,10 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     {
         if (!$this->_skuSuperData) {
             $connection = $this->_entityModel->getConnection();
-            $mainTable  = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute');
-            $priceTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute_pricing');
+            $mainTable  = Mage::getSingleton('Magento_Core_Model_Resource')
+                ->getTableName('catalog_product_super_attribute');
+            $priceTable = Mage::getSingleton('Magento_Core_Model_Resource')
+                ->getTableName('catalog_product_super_attribute_pricing');
             $select     = $connection->select()
                     ->from(array('m' => $mainTable), array('product_id', 'attribute_id', 'product_super_attribute_id'))
                     ->joinLeft(

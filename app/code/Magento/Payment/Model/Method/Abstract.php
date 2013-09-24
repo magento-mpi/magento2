@@ -85,6 +85,13 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     protected $_paymentData = null;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
@@ -94,15 +101,18 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Payment_Helper_Data $paymentData
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Payment_Helper_Data $paymentData,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
     }
 
@@ -590,8 +600,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
         if (null === $storeId) {
             $storeId = $this->getStore();
         }
-        $path = 'payment/'.$this->getCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        $path = 'payment/' . $this->getCode() . '/' . $field;
+        return $this->_coreStoreConfig->getConfig($path, $storeId);
     }
 
     /**
@@ -611,8 +621,8 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
         return $this;
     }
 
-   /**
-     * Parepare info instance for save
+    /**
+     * Prepare info instance for save
      *
      * @return Magento_Payment_Model_Abstract
      */
@@ -627,7 +637,6 @@ abstract class Magento_Payment_Model_Method_Abstract extends Magento_Object
      * TODO: payment method instance is not supposed to know about quote
      *
      * @param Magento_Sales_Model_Quote|null $quote
-     *
      * @return bool
      */
     public function isAvailable($quote = null)

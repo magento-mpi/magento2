@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Email_Template_Config_Data extends Magento_Config_Data_SingleScope
+class Magento_Core_Model_Email_Template_Config_Data extends Magento_Config_Data
 {
     /**
      * @param Magento_Core_Model_Email_Template_Config_Reader $reader
@@ -18,6 +18,6 @@ class Magento_Core_Model_Email_Template_Config_Data extends Magento_Config_Data_
         Magento_Core_Model_Email_Template_Config_Reader $reader,
         Magento_Config_CacheInterface $cache
     ) {
-        parent::__construct($reader, $cache, 'email_templates', Magento_Core_Model_App_Area::AREA_GLOBAL);
+        parent::__construct($reader, $cache, 'email_templates');
     }
 }

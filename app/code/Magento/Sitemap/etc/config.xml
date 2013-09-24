@@ -49,13 +49,4 @@
             </search_engines>
         </sitemap>
     </default>
-    <crontab>
-        <jobs>
-            <sitemap_generate>
-                <run>
-                    <model>Magento_Sitemap_Model_Observer::scheduledGenerateSitemaps</model>
-                </run>
-            </sitemap_generate>
-        </jobs>
-    </crontab>
 </config>

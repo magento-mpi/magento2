@@ -20,13 +20,7 @@
             </logging_setup>
         </resources>
     </global>
-    <adminhtml>
-        <enterprise>
-            <logging>
-                <skip_fields>updated_at,form_key</skip_fields>
-            </logging>
-        </enterprise>
-    </adminhtml>
+
     <default>
         <system>
             <rotation translate="frequency">
@@ -35,16 +29,4 @@
             </rotation>
         </system>
     </default>
-    <crontab>
-        <jobs>
-            <magento_logging_rotate_logs>
-                <schedule>
-                    <cron_expr>1 2 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Logging_Model_Observer::rotateLogs</model>
-                </run>
-            </magento_logging_rotate_logs>
-        </jobs>
-    </crontab>
 </config>

@@ -21,6 +21,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     /** @var  Magento_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject */
     protected $_coreConfigMock;
+
     /**
      * @var Magento_Widget_Model_Widget_Instance
      */
@@ -28,6 +29,11 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     /** @var  Magento_Widget_Model_Config_Reader */
     protected $_readerMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_cacheTypesListMock;
 
     public function setUp()
     {
@@ -43,6 +49,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $this->_coreConfigMock = $this->getMockBuilder('Magento_Core_Model_Config')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_cacheTypesListMock = $this->getMock('Magento_Core_Model_Cache_TypeListInterface');
         $this->_readerMock = $this->getMockBuilder('Magento_Widget_Model_Config_Reader')
             ->disableOriginalConstructor()
             ->getMock();
@@ -55,17 +62,18 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
         $widgetData = $this->getMockBuilder('Magento_Widget_Helper_Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $cacheTypeList = $this->getMockBuilder('Magento_Core_Model_Cache_TypeListInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
         $productType = $this->getMockBuilder('Magento_Catalog_Model_Product_Type')
             ->disableOriginalConstructor()
             ->getMock();
+        /** @var Magento_Widget_Model_Widget_Instance _model */
         $this->_model = $this->getMock(
             'Magento_Widget_Model_Widget_Instance',
             array('_construct'),
-            array($widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock, $this->_readerMock,
-                $this->_widgetModelMock, $this->_coreConfigMock, $cacheTypeList, $productType),
+            array(
+                $widgetData, $coreData, $contextMock, $registryMock, $this->_viewFileSystemMock,
+                $this->_cacheTypesListMock, $productType, $this->_readerMock, $this->_widgetModelMock,
+                $this->_coreConfigMock
+            ),
             '',
             true
         );

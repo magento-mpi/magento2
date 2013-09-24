@@ -23,8 +23,8 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             'Magento_Core_Model_Dir', array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files',
-                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files'
+                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files/code',
+                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files/code'
                 )
             )
         );
@@ -59,9 +59,9 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var Magento_Core_Model_Config_FileResolver $fileResolver */
+        /** @var Magento_Widget_Model_Config_FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
-            'Magento_Core_Model_Config_FileResolver', array(
+            'Magento_Widget_Model_Config_FileResolver', array(
                 'moduleReader' => $moduleReader,
             )
         );
@@ -81,14 +81,14 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
     public function testRead()
     {
         $result = $this->_model->read('global');
-        $expected = include '_files/expectedArray.php';
+        $expected = include '_files/expectedGlobalArray.php';
         $this->assertEquals($expected, $result);
     }
 
     public function testReadFile()
     {
-        $result = $this->_model->readFile(__DIR__ . '/_files/Magento/Test/etc/widget.xml');
-        $expected = include '_files/expectedArray.php';
+        $result = $this->_model->readFile(__DIR__ . '/_files/code/Magento/Test/etc/widget.xml');
+        $expected = include '_files/expectedGlobalArray.php';
         $this->assertEquals($expected, $result);
     }
 
@@ -118,6 +118,8 @@ class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
                 'perFileSchema' => $perFileSchema
             )
         );
-        $model->read('global');
+        $output = $model->read('global');
+        $expected = include '_files/expectedMergedArray.php';
+        $this->assertEquals($expected, $output);
     }
 }

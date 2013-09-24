@@ -23,6 +23,13 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
     protected $_filesystem;
 
     /**
+     * Application dirs
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dirs;
+
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -34,19 +41,24 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Dir $dirs
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $config,
-        Magento_Filesystem $filesystem
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Dir $dirs
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($eventManager, $coreHttp, $context, $config);
+        $this->_dirs = $dirs;
+        parent::__construct($eventManager, $coreHttp, $context, $config, $coreStoreConfig);
         $this->_filesystem = $filesystem;
     }
 
@@ -58,7 +70,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getLocalPackagesPath()
     {
-        return Mage::getBaseDir('var') . DS . 'connect' . DS;
+        return $this->_dirs->getDir('var') . DS . 'connect' . DS;
     }
 
     /**
@@ -69,7 +81,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getLocalPackagesPathV1x()
     {
-        return Mage::getBaseDir('var') . DS . 'pear' . DS;
+        return $this->_dirs->getDir('var') . DS . 'pear' . DS;
     }
 
     /**

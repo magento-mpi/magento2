@@ -33,16 +33,4 @@
             </magento_reminder>
         </promo>
     </default>
-    <crontab>
-        <jobs>
-            <send_notification>
-                <schedule>
-                    <cron_expr>*/15 * * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Reminder_Model_Observer::scheduledNotification</model>
-                </run>
-            </send_notification>
-        </jobs>
-    </crontab>
 </config>

@@ -10,14 +10,12 @@
 
 
 class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Container
+    extends Magento_Usa_Model_Shipping_Carrier_Ups_Source_Generic
 {
-    public function toOptionArray()
-    {
-        $ups = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Ups');
-        $arr = array();
-        foreach ($ups->getCode('container_description') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>__($v));
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'container_description';
 }
