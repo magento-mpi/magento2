@@ -29,6 +29,8 @@
     * Format of the configuration changed to make possible its validation
   * Removed `jstranslate.xml` files and moved all message definitions to `Magento_Core_Helper_Js`.
   * Newsletter configuration segment was eliminated. Custom Newsletter Template Filter can be configured via DI configuration
+  * /config/global/page/layouts node was removed from the config.xml and related data was moved into page_layouts.xml
+  * /config/global/theme node was removed from the config.xml and related data was moved to di.xml
 * Prototype.js uses converted to jQuery:
   * Deprecated prototype.js based method removed from app/code/Magento/Weee/view/frontend/tax-toggle.js
   * Removed depreacted prototype.js based file: app/code/Magento/Checkout/view/frontend/opcheckout.js
