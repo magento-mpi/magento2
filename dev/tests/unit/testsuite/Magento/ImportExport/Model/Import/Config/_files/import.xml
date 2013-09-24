@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <entity name="name_one" label="Label_One" model="Model_One" behaviorModel="Model_Basic" />
+    <productType name="name_two" label="Label_Two" model="Model_Two" />
+</config>

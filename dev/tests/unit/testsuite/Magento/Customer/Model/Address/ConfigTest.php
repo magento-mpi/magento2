@@ -16,11 +16,6 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_configScopeMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_cacheMock;
 
     /**
@@ -56,7 +51,6 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
             'Magento_Customer_Model_Address_Config_Reader',
             array(), array(), '', false
         );
-        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
         $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $this->_storeManagerMock
@@ -66,9 +60,27 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
 
         $this->_addressHelperMock = $this->getMock('Magento_Customer_Helper_Address', array(), array(), '', false);
 
+        $this->_cacheMock
+            ->expects($this->once())
+            ->method('load')
+            ->with($this->_cacheId)
+            ->will($this->returnValue(false));
+
+        $fixtureConfigData = require __DIR__ . '/Config/_files/formats_merged.php';
+
+        $this->_readerMock
+            ->expects($this->once())
+            ->method('read')
+            ->will($this->returnValue($fixtureConfigData));
+
+        $this->_cacheMock
+            ->expects($this->once())
+            ->method('save')
+            ->with(serialize($fixtureConfigData), $this->_cacheId);
+
+
         $this->_model = new Magento_Customer_Model_Address_Config(
             $this->_readerMock,
-            $this->_configScopeMock,
             $this->_cacheMock,
             $this->_storeManagerMock,
             $this->_addressHelperMock,
@@ -91,8 +103,6 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
 
     public function testGetFormats()
     {
-        $fixtureConfigData = require __DIR__ . '/Config/_files/formats_merged.php';
-
         $this->_storeMock->expects($this->once())
             ->method('getId');
 
@@ -100,28 +110,7 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
             ->method('getConfig')
             ->will($this->returnValue('someValue'));
 
-        $this->_configScopeMock
-            ->expects($this->any())
-            ->method('getCurrentScope')
-            ->will($this->returnValue('global'));
 
-        $this->_cacheMock
-            ->expects($this->once())
-            ->method('get')
-            ->with('global', $this->_cacheId)
-            ->will($this->returnValue(false))
-        ;
-        $this->_cacheMock
-            ->expects($this->once())
-            ->method('put')
-            ->with($fixtureConfigData, 'global', $this->_cacheId)
-        ;
-        $this->_readerMock
-            ->expects($this->once())
-            ->method('read')
-            ->with('global')
-            ->will($this->returnValue($fixtureConfigData))
-        ;
 
         $rendererMock = $this->getMock('Magento_Object');
 

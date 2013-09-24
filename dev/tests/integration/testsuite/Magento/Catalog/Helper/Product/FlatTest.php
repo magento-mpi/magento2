@@ -62,12 +62,11 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->_helper->isAddFilterableAttributes());
     }
 
-    /**
-     * @magentoConfigFixture global/catalog/product/flat/add_filterable_attributes 1
-     */
     public function testIsAddFilterableAttributes()
     {
-        $this->assertEquals(1, $this->_helper->isAddFilterableAttributes());
+        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Helper_Product_Flat', array('addFilterableAttrs' => 1));
+        $this->assertEquals(1, $helper->isAddFilterableAttributes());
     }
 
     public function testIsAddChildDataDefault()
@@ -75,11 +74,10 @@ class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->_helper->isAddChildData());
     }
 
-    /**
-     * @magentoConfigFixture global/catalog/product/flat/add_child_data 1
-     */
     public function testIsAddChildData()
     {
-        $this->assertEquals(1, $this->_helper->isAddChildData());
+        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Helper_Product_Flat', array('addChildData' => 1));
+        $this->assertEquals(1, $helper->isAddChildData());
     }
 }

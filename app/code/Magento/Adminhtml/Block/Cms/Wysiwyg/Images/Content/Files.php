@@ -25,25 +25,31 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     protected $_filesCollection;
 
     /**
-     * Cms wysiwyg images
-     *
-     * @var Magento_Cms_Helper_Wysiwyg_Images
+     * @var Magento_Cms_Model_Wysiwyg_Images_Storage
      */
-    protected $_cmsWysiwygImages = null;
+    protected $_imageStorage;
 
     /**
-     * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
+     * @var Magento_Cms_Helper_Wysiwyg_Images
+     */
+    protected $_imageHelper;
+
+    /**
+     * @param Magento_Cms_Model_Wysiwyg_Images_Storage $imageStorage
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Cms_Helper_Wysiwyg_Images $imageHelper
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
+        Magento_Cms_Model_Wysiwyg_Images_Storage $imageStorage,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Cms_Helper_Wysiwyg_Images $imageHelper,
         array $data = array()
     ) {
-        $this->_cmsWysiwygImages = $cmsWysiwygImages;
+        $this->_imageHelper = $imageHelper;
+        $this->_imageStorage = $imageStorage;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -55,9 +61,8 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     public function getFiles()
     {
         if (! $this->_filesCollection) {
-            $this->_filesCollection = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')
-                ->getFilesCollection(
-                    $this->_cmsWysiwygImages->getCurrentPath(), $this->_getMediaType()
+            $this->_filesCollection = $this->_imageStorage->getFilesCollection(
+                    $this->_imageHelper->getCurrentPath(), $this->_getMediaType()
                 );
         }
 
@@ -140,14 +145,24 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
         return $file->getShortName();
     }
 
+    /**
+     * Get image width
+     *
+     * @return int
+     */
     public function getImagesWidth()
     {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')->getConfigData('resize_width');
+        return $this->_imageStorage->getResizeWidth();
     }
 
+    /**
+     * Get image height
+     *
+     * @return int
+     */
     public function getImagesHeight()
     {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')->getConfigData('resize_height');
+        return $this->_imageStorage->getResizeHeight();
     }
 
     /**

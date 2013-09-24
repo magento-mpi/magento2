@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <entity type="catalog_product">
+        <attribute code="sku">
+            <field code="is_global" locked="true" />
+            <field code="is_unique" locked="true" />
+        </attribute>
+        <attribute code="url_key">
+            <field code="is_unique" locked="true" />
+        </attribute>
+        <attribute code="status">
+            <field code="is_configurable" locked="true" />
+            <field code="is_filterable" locked="true" />
+            <field code="is_filterable_in_search" locked="true" />
+        </attribute>
+        <attribute code="visibility">
+            <field code="is_configurable" locked="true" />
+            <field code="is_filterable" locked="true" />
+            <field code="is_filterable_in_search" locked="true" />
+        </attribute>
+    </entity>
+</config>
