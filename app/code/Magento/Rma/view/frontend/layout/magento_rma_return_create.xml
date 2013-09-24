@@ -13,7 +13,7 @@
         <action method="setActive">
             <argument name="path" xsi:type="string">rma/return/history/</argument>
         </action>
-    </reference>
+    </referenceBlock>
     <referenceContainer name="my.account.wrapper">
         <block class="Magento_Rma_Block_Return_Create" as="create" name="rma.return.create" template="return/create.phtml">
             <action method="setFormCode">

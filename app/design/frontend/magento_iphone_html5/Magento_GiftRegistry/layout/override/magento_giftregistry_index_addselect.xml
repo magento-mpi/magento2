@@ -13,7 +13,7 @@
         <action method="setActive">
             <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
         </action>
-    </reference>
+    </referenceBlock>
     <referenceContainer name="my.account.wrapper">
         <block class="Magento_GiftRegistry_Block_Customer_Edit" name="giftregistry_addselect" template="edit/addselect.phtml"/>
     </referenceContainer>

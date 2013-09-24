@@ -13,7 +13,7 @@
         <action method="setActive">
             <argument name="path" xsi:type="string">rma/return/history/</argument>
         </action>
-    </reference>
+    </referenceBlock>
     <referenceContainer name="my.account.wrapper">
         <block class="Magento_Rma_Block_Return_History" name="rma.return.history">
             <container name="rma.return.history.info" as="info" label="Returns History Info"/>

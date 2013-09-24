@@ -368,6 +368,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
 
     /**
      * Create structure of elements from the loaded XML configuration
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function generateElements()
     {
@@ -555,7 +556,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
         $element = $this->_scheduledStructure->getStructureElement($containerName, array());
 
         if (isset($element['attributes'])) {
-            foreach($element['attributes'] as $key => $value) {
+            foreach ($element['attributes'] as $key => $value) {
                 if (isset($node[$key])) {
                     $element['attributes'][$key] = (string)$node[$key];
                 }
@@ -746,6 +747,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
      * while referenced element itself is not declared yet.
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param string $key in _scheduledStructure represent element name
      */
     protected function _scheduleElement($key)
@@ -916,7 +918,7 @@ class Magento_Core_Model_Layout extends Magento_Simplexml_Config
             && !in_array($options[self::CONTAINER_OPT_HTML_TAG], $allowedTags)
         ) {
             throw new Magento_Exception(
-                __('Html tag "%1" is forbidden for usage in containers as a wrapper. Consider to use one of the allowed: %2.',
+                __('Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
                 $options[self::CONTAINER_OPT_HTML_TAG], implode(', ', $allowedTags)));
         }
         if (empty($options[self::CONTAINER_OPT_HTML_TAG])

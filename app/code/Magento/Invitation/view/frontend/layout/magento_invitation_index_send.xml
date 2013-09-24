@@ -13,7 +13,7 @@
         <action method="setActive">
             <argument name="path" xsi:type="string">magento_invitation/index/index</argument>
         </action>
-    </reference>
+    </referenceBlock>
     <referenceContainer name="my.account.wrapper">
         <block class="Magento_Invitation_Block_Form" name="invitationForm" template="Magento_Invitation::form.phtml">
             <container name="invitations.form.form.before" as="form_before" label="Invitation Form Before" htmlTag="div" htmlClass="rewards"/>
