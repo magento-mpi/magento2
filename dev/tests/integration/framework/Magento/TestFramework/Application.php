@@ -182,8 +182,6 @@ class Magento_TestFramework_Application
                 new Magento_TestFramework_ObjectManager_Config());
             $primaryLoader = new Magento_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
             $this->_primaryConfig = $primaryLoader->load();
-            $objectManager->get('Magento_Core_Model_Resource')
-                ->setResourceConfig($objectManager->get('Magento_Core_Model_Config_Resource'));
         } else {
             $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
             Magento_TestFramework_ObjectManager::setInstance($objectManager);
@@ -191,10 +189,6 @@ class Magento_TestFramework_Application
             $objectManager->addSharedInstance($config, 'Magento_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Magento_Core_Model_Dir');
             $objectManager->loadPrimaryConfig($this->_primaryConfig);
-            /** @var $configResource Magento_Core_Model_Config_Resource */
-            $configResource = $objectManager->get('Magento_Core_Model_Config_Resource');
-            $configResource->setConfig($config);
-            $objectManager->get('Magento_Core_Model_Resource')->setResourceConfig($configResource);
             $verification = $objectManager->get('Magento_Core_Model_Dir_Verification');
             $verification->createAndVerifyDirectories();
             $objectManager->configure(
@@ -212,8 +206,6 @@ class Magento_TestFramework_Application
             ));
         }
         Magento_TestFramework_Helper_Bootstrap::setObjectManager($objectManager);
-        $objectManager->get('Magento_Core_Model_Resource')
-            ->setResourceConfig($objectManager->get('Magento_Core_Model_Config_Resource'));
         $objectManager->get('Magento_Core_Model_Resource')
             ->setCache($objectManager->get('Magento_Core_Model_CacheInterface'));
 
