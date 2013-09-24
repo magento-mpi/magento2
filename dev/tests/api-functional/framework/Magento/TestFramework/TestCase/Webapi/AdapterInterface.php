@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Test_TestCase_Webapi_AdapterInterface
+interface Magento_TestFramework_TestCase_Webapi_AdapterInterface
 {
     /**
      * Perform call to the specified service method.

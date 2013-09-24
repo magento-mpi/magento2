@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase_Webapi_AdapterInterface
+class Magento_TestFramework_TestCase_Webapi_Adapter_Rest implements Magento_TestFramework_TestCase_Webapi_AdapterInterface
 {
     /** @var \Magento\Webapi\Model\Config */
     protected $_config;
@@ -29,7 +29,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Rest implements Magento_Test_TestCase
         $resourcePath = $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
         // delegate the request to vanilla cURL REST client
-        $curlClient = new Magento_Test_TestCase_Webapi_Adapter_Rest_CurlClient();
+        $curlClient = new Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient();
         switch ($httpMethod) {
             case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET:
                 $response = $curlClient->get($resourcePath, $arguments);

@@ -11,7 +11,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Annotation_ApiDataFixture
+class Magento_TestFramework_Annotation_ApiDataFixture
 {
     /**
      * @var string
@@ -29,12 +29,12 @@ class Magento_Test_Annotation_ApiDataFixture
      * Constructor
      *
      * @param string $fixtureBaseDir
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     public function __construct($fixtureBaseDir)
     {
         if (!is_dir($fixtureBaseDir)) {
-            throw new Magento_Exception("Fixture base directory '{$fixtureBaseDir}' does not exist.");
+            throw new \Magento\Exception("Fixture base directory '{$fixtureBaseDir}' does not exist.");
         }
         $this->_fixtureBaseDir = realpath($fixtureBaseDir);
     }
@@ -64,7 +64,7 @@ class Magento_Test_Annotation_ApiDataFixture
      * @param string $scope 'class' or 'method'
      * @param PHPUnit_Framework_TestCase $test
      * @return array
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _getFixtures($scope, PHPUnit_Framework_TestCase $test)
     {
@@ -74,7 +74,7 @@ class Magento_Test_Annotation_ApiDataFixture
             foreach ($annotations[$scope]['magentoApiDataFixture'] as $fixture) {
                 if (strpos($fixture, '\\') !== false) {
                     // usage of a single directory separator symbol streamlines search across the source code
-                    throw new Magento_Exception('Directory separator "\\" is prohibited in fixture declaration.');
+                    throw new \Magento\Exception('Directory separator "\\" is prohibited in fixture declaration.');
                 }
                 $fixtureMethod = array(get_class($test), $fixture);
                 if (is_callable($fixtureMethod)) {
@@ -106,7 +106,7 @@ class Magento_Test_Annotation_ApiDataFixture
      * Execute fixture scripts if any
      *
      * @param array $fixtures
-     * @throws Magento_Exception
+     * @throws \Magento\Exception
      */
     protected function _applyFixtures(array $fixtures)
     {
