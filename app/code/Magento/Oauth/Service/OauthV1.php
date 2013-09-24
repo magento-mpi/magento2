@@ -81,7 +81,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         } catch (Magento_Core_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
-            $this->_throwException(__('Unexpected error. Unable to create OAuth Consumer account.'));
+            throw new Magento_Oauth_Exception(__('Unexpected error. Unable to create OAuth Consumer account.'));
         }
     }
 
@@ -107,7 +107,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         } catch (Magento_Core_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
-            $this->_throwException(__('Unexpected error. Unable to post data to consumer.'));
+            throw new Magento_Oauth_Exception(__('Unexpected error. Unable to post data to consumer.'));
         }
     }
 
@@ -124,7 +124,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
 
         $consumerTS = strtotime($consumer->getCreatedAt());
         if (time() - $consumerTS > $this->_helperData->getConsumerExpirationPeriod()) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_INVALID);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_INVALID);
         }
 
         $this->_validateNonce($signedRequest['oauth_nonce'], $consumer->getId(), $signedRequest['oauth_timestamp']);
@@ -132,7 +132,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $token = $this->_getTokenByConsumer($consumer->getId());
 
         if ($token->getType() != Magento_Oauth_Model_Token::TYPE_VERIFIER) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
 
         //OAuth clients are not sending the verifier param for requestToken requests
@@ -178,14 +178,13 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $token = $this->_getToken($oauthToken);
 
         if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
 
         // The pre-auth token has a value of "request" in the type when it is requested and created initially.
         // In this flow (token flow) the token has to be of type "request" else its marked as reused.
-        // TODO: Need to check security implication of this message
         if (Magento_Oauth_Model_Token::TYPE_REQUEST != $token->getType()) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_USED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_USED);
         }
 
         $this->_validateVerifierParam($request['oauth_verifier'], $token->getVerifier());
@@ -228,14 +227,14 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $token = $this->_getToken($oauthToken);
 
         if (!$this->_isTokenAssociatedToConsumer($token, $consumer)) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
 
         if (Magento_Oauth_Model_Token::TYPE_ACCESS != $token->getType()) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
         if ($token->getRevoked()) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REVOKED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REVOKED);
         }
 
         $this->_validateSignature(
@@ -263,7 +262,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         try {
             $timestamp = (int)$timestamp;
             if ($timestamp <= 0 || $timestamp > (time() + self::TIME_DEVIATION)) {
-                $this->_throwException(
+                throw new Magento_Oauth_Exception(
                     __('Incorrect timestamp value in the oauth_timestamp parameter.'),
                     Magento_Oauth_Helper_Data::ERR_TIMESTAMP_REFUSED
                 );
@@ -272,7 +271,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             $nonceObj = $this->_getNonce($nonce, $consumerId);
 
             if ($nonceObj->getConsumerId()) {
-                $this->_throwException(
+                throw new Magento_Oauth_Exception(
                     __('The nonce is already being used by the consumer with id %1.', $consumerId),
                     Magento_Oauth_Helper_Data::ERR_NONCE_USED
                 );
@@ -281,7 +280,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
             $consumer = $this->_getConsumer($consumerId);
 
             if ($nonceObj->getTimestamp() == $timestamp) {
-                $this->_throwException(
+                throw new Magento_Oauth_Exception(
                     __('The nonce/timestamp combination has already been used.'),
                     Magento_Oauth_Helper_Data::ERR_NONCE_USED);
             }
@@ -293,7 +292,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         } catch (Magento_Oauth_Exception $exception) {
             throw $exception;
         } catch (Exception $exception) {
-            $this->_throwException(__('An error occurred validating the nonce.'));
+            throw new Magento_Oauth_Exception(__('An error occurred validating the nonce.'));
         }
     }
 
@@ -307,13 +306,13 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     protected function _validateVerifierParam($verifier, $verifierFromToken)
     {
         if (!is_string($verifier)) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_VERIFIER_INVALID);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_VERIFIER_INVALID);
         }
         if (strlen($verifier) != Magento_Oauth_Model_Token::LENGTH_VERIFIER) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_VERIFIER_INVALID);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_VERIFIER_INVALID);
         }
         if ($verifierFromToken != $verifier) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_VERIFIER_INVALID);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_VERIFIER_INVALID);
         }
     }
 
@@ -330,7 +329,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     protected function _validateSignature($params, $consumerSecret, $httpMethod, $requestUrl, $tokenSecret = null)
     {
         if (!in_array($params['oauth_signature_method'], self::getSupportedSignatureMethods())) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_SIGNATURE_METHOD_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_SIGNATURE_METHOD_REJECTED);
         }
 
         $allowedSignParams = $params;
@@ -350,7 +349,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         );
 
         if ($calculatedSign != $params['oauth_signature']) {
-            $this->_throwException('Invalid signature.', Magento_Oauth_Helper_Data::ERR_SIGNATURE_INVALID);
+            throw new Magento_Oauth_Exception('Invalid signature.', Magento_Oauth_Helper_Data::ERR_SIGNATURE_INVALID);
         }
     }
 
@@ -364,7 +363,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     {
         // validate version if specified
         if ('1.0' != $version) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_VERSION_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_VERSION_REJECTED);
         }
     }
 
@@ -373,12 +372,13 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
      *
      * @param $protocolParams
      * @param $requiredParams
+     * @throws Magento_Oauth_Exception
      */
     protected function _validateProtocolParams($protocolParams, $requiredParams)
     {
         // validate version if specified
         if (isset($protocolParams['oauth_version']) && '1.0' != $protocolParams['oauth_version']) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_VERSION_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_VERSION_REJECTED);
         }
         // required parameters validation. Default to minimum required params if not provided
         if (empty($requiredParams)) {
@@ -396,12 +396,12 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
                 $protocolParams['oauth_token']
             ) != Magento_Oauth_Model_Token::LENGTH_TOKEN
         ) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
 
         // validate signature method
         if (!in_array($protocolParams['oauth_signature_method'], self::getSupportedSignatureMethods())) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_SIGNATURE_METHOD_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_SIGNATURE_METHOD_REJECTED);
         }
 
         $consumer = $this->_getConsumerByKey($protocolParams['oauth_consumer_key']);
@@ -414,13 +414,14 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
      *
      * @param $consumerId
      * @return Magento_Oauth_Model_Consumer
+     * @throws Magento_Oauth_Exception
      */
     protected function _getConsumer($consumerId)
     {
         $consumer = $this->_consumerFactory->create()->load($consumerId);
 
         if (!$consumer->getId()) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_PARAMETER_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_PARAMETER_REJECTED);
         }
 
         return $consumer;
@@ -436,13 +437,13 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     protected function _getConsumerByKey($consumerKey)
     {
         if (strlen($consumerKey) != Magento_Oauth_Model_Consumer::KEY_LENGTH) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_REJECTED);
         }
 
         $consumer = $this->_consumerFactory->create()->loadByKey($consumerKey);
 
         if (!$consumer->getId()) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_CONSUMER_KEY_REJECTED);
         }
 
         return $consumer;
@@ -458,13 +459,13 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     protected function _getToken($token)
     {
         if (strlen($token) != Magento_Oauth_Model_Token::LENGTH_TOKEN) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
 
         $tokenObj = $this->_tokenFactory->create()->load($token, 'token');
 
         if (!$tokenObj->getId()) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
 
         return $tokenObj;
@@ -482,7 +483,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $token = $this->_tokenFactory->create()->load($consumerId, 'consumer_id');
 
         if (!$token->getId()) {
-            $this->_throwException('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
+            throw new Magento_Oauth_Exception('', Magento_Oauth_Helper_Data::ERR_TOKEN_REJECTED);
         }
 
         return $token;
@@ -514,29 +515,18 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     }
 
     /**
-     * Throw OAuth exception
-     *
-     * @param string $message Exception message
-     * @param int $code Exception code
-     * @throws Magento_Oauth_Exception
-     */
-    protected function _throwException($message = '', $code = 0)
-    {
-        throw new Magento_Oauth_Exception($message, $code);
-    }
-
-    /**
      * Check if mandatory OAuth parameters are present
      *
      * @param $protocolParams
      * @param $requiredParams
      * @return mixed
+     * @throws Magento_Oauth_Exception
      */
     protected function _checkRequiredParams($protocolParams, $requiredParams)
     {
         foreach ($requiredParams as $param) {
             if (!isset($protocolParams[$param])) {
-                $this->_throwException($param, Magento_Oauth_Helper_Data::ERR_PARAMETER_ABSENT);
+                throw new Magento_Oauth_Exception($param, Magento_Oauth_Helper_Data::ERR_PARAMETER_ABSENT);
             }
         }
     }
