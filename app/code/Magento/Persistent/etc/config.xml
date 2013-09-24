@@ -19,11 +19,6 @@
             </persistent_setup>
         </resources>
     </global>
-    <frontend>
-        <secure_url>
-            <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
-        </secure_url>
-    </frontend>
     <default>
         <persistent>
             <options>

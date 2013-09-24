@@ -53,7 +53,7 @@ class Magento_Core_Model_Module_Declaration_Reader_Filesystem extends Magento_Co
     /**
      * {@inheritdoc}
      */
-    public function read($scope)
+    public function read($scope = null)
     {
         $activeModules = $this->_filterActiveModules(parent::read($scope));
         foreach ($activeModules as $moduleConfig) {

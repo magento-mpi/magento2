@@ -28,7 +28,11 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
      */
     public function xmlDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('widget.xml');
+        $utilityFiles = Magento_TestFramework_Utility_Files::init();
+        return array_merge(
+            $utilityFiles->getConfigFiles('widget.xml'),
+            $utilityFiles->getLayoutConfigFiles('widget.xml')
+        );
     }
 
     public function testSchemaUsingValidXml()

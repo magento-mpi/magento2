@@ -27,6 +27,11 @@ class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_T
      */
     protected $_cacheId;
 
+    /**
+     * @var array
+     */
+    protected $_testData;
+
     protected function setUp()
     {
         $this->_configReaderMock = $this->getMock(
@@ -35,6 +40,13 @@ class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_T
         $this->_cacheMock = $this->getMock('Magento_Config_CacheInterface');
         $this->_cacheId = 'customCacheId';
 
+        $this->_testData = array('key' => 'value');
+
+        $this->_cacheMock->expects($this->once())
+            ->method('load')
+            ->with($this->_cacheId)
+            ->will($this->returnValue(serialize($this->_testData)));
+
         $this->_model = new Magento_Core_Model_Locale_Hierarchy_Config(
             $this->_configReaderMock,
             $this->_cacheMock,
@@ -42,42 +54,8 @@ class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_T
         );
     }
 
-    /**
-     * @covers Magento_Core_Model_Locale_Hierarchy_Config::getHierarchy
-     */
-    public function testGetHierarchyCached()
+    public function testGetHierarchy()
     {
-        $expectedData = array('key' => 'value');
-
-        $this->_cacheMock->expects($this->once())
-            ->method('get')
-            ->with('global', $this->_cacheId)
-            ->will($this->returnValue($expectedData));
-
-        $this->assertEquals($expectedData, $this->_model->getHierarchy());
-    }
-
-    /**
-     * @covers Magento_Core_Model_Locale_Hierarchy_Config::getHierarchy
-     */
-    public function testGetHierarchyNonCached()
-    {
-        $expectedData = array('key' => 'value');
-
-        $this->_cacheMock->expects($this->once())
-            ->method('get')
-            ->with('global', $this->_cacheId)
-            ->will($this->returnValue(false));
-
-        $this->_configReaderMock->expects($this->once())
-            ->method('read')
-            ->with('global')
-            ->will($this->returnValue($expectedData));
-
-        $this->_cacheMock->expects($this->once())
-            ->method('put')
-            ->with($expectedData, 'global', $this->_cacheId);
-
-        $this->assertEquals($expectedData, $this->_model->getHierarchy());
+        $this->assertEquals($this->_testData, $this->_model->getHierarchy());
     }
 }

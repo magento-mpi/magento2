@@ -27,21 +27,7 @@
                 </wishlist_email_email_template>
             </email>
         </template>
-        <wishlist>
-            <item>
-                <product_attributes>
-                    <visibility />
-                    <url_path />
-                    <url_key />
-                </product_attributes>
-            </item>
-        </wishlist>
     </global>
-    <frontend>
-        <secure_url>
-            <wishlist>/wishlist/</wishlist>
-        </secure_url>
-    </frontend>
     <default>
         <wishlist>
             <general>
