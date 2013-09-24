@@ -112,20 +112,6 @@ final class Mage
     static private $_app;
 
     /**
-     * Config Model
-     *
-     * @var Magento_Core_Model_Config
-     */
-    static private $_config;
-
-    /**
-     * Object cache instance
-     *
-     * @var Magento_Object_Cache
-     */
-    static private $_objects;
-
-    /**
      * Is downloader flag
      *
      * @var bool
@@ -138,20 +124,6 @@ final class Mage
      * @var bool
      */
     public static $headersSentThrowsException  = true;
-
-    /**
-     * Logger entities
-     *
-     * @var array
-     */
-    static private $_loggers = array();
-
-    /**
-     * Design object
-     *
-     * @var Magento_Core_Model_View_DesignInterface
-     */
-    protected static $_design;
 
     /**
      * Current Magento edition.
@@ -236,10 +208,7 @@ final class Mage
     {
         self::$_appRoot         = null;
         self::$_app             = null;
-        self::$_objects         = null;
         self::$_isDownloader    = false;
-        self::$_loggers         = array();
-        self::$_design          = null;
         // do not reset $headersSentThrowsException
     }
 
@@ -259,24 +228,6 @@ final class Mage
             self::$_appRoot = $appRootDir;
         }
         return self::$_appRoot;
-    }
-
-    /**
-     * Magento Objects Cache
-     *
-     * @param string $key optional, if specified will load this key
-     * @return Magento_Object_Cache
-     */
-    public static function objects($key = null)
-    {
-        if (!self::$_objects) {
-            self::$_objects = new Magento_Object_Cache;
-        }
-        if (is_null($key)) {
-            return self::$_objects;
-        } else {
-            return self::$_objects->load($key);
-        }
     }
 
     /**

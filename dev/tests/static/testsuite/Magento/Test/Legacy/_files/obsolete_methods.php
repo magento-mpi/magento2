@@ -791,7 +791,6 @@ return array(
     array('getHelper', 'Magento_Cms_Model_Wysiwyg_Images_Storage'),
     array('getHelper', 'Magento_Core_Model_AppProxy'),
     array('getHelper', 'Magento_Core_Model_App'),
-    array('helper', 'Mage'),
     array('dispatchEvent', 'Mage'),
     array('getConfig', 'Mage', 'Magento_Core_Model_Config'),
     array('getStoreConfig', 'Mage', 'Magento_Core_Model_Store_Config'),
@@ -826,4 +825,5 @@ return array(
     array('getProductCollection', 'Magento_Review_Model_Review'),
     array('_getOrderCreateModel', 'Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment'),
     array('_getCustomer', 'Magento_Reward_Block_Customer_Reward_Subscription'),
+    array('objects', 'Mage'),
 );
