@@ -12,6 +12,8 @@
 /**
  * Test for abstract export model
  */
+namespace Magento\ImportExport\Model\Export;
+
 class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -92,22 +94,5 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
                 'Disabled attribute "' . $attributeCode . '" existed in collection'
             );
         }
-    }
-}
-
-/**
- * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
- */
-abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
-    extends \Magento\ImportExport\Model\Export\EntityAbstract
-{
-    public function __construct()
-    {
-        /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
-        $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
-        parent::__construct($storeConfig);
-        $this->_disabledAttrs = array('default_billing', 'default_shipping');
     }
 }
