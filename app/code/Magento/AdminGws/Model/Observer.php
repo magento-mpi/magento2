@@ -359,7 +359,7 @@ class Magento_AdminGws_Model_Observer extends Magento_AdminGws_Model_Observer_Ab
      */
     protected function _denyAclLevelRules($level)
     {
-         foreach ($this->_config->getDeniedAclResources($level) as $rule) {
+        foreach ($this->_config->getDeniedAclResources($level) as $rule) {
             $this->_aclBuilder->getAcl()->deny($this->_backendAuthSession->getUser()->getAclRole(), $rule);
         }
         return $this;
