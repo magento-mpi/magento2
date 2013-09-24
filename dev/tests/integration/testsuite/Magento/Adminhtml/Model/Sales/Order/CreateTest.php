@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Model\Sales\Order;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_TestCase
+class CreateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Model instance
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento\Adminhtml\Model\Sales\Order\Create');
+        $this->_model = \Mage::getModel('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     /**
@@ -35,12 +37,12 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenEmpty()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->getShippingAddress());
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
@@ -55,13 +57,13 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenSame()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
@@ -76,13 +78,13 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderShippingAddressSameAsBillingWhenDifferent()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
@@ -95,7 +97,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderCcInformationDeleted()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();
@@ -104,8 +106,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
         $this->assertEquals('AE', $payment->getCcType());
         $this->assertEquals('0005', $payment->getCcLast4());
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
         $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
 
@@ -121,7 +123,7 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
     public function testInitFromOrderSavedCcInformationNotDeleted()
     {
         /** @var $order \Magento\Sales\Model\Order */
-        $order = Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
         $payment = $order->getPayment();
@@ -130,8 +132,8 @@ class Magento_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_T
         $this->assertEquals('AE', $payment->getCcType());
         $this->assertEquals('0005', $payment->getCcLast4());
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->unregister('rule_data');
         $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
 

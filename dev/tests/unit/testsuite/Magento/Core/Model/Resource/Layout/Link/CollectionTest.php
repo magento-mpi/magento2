@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Layout_Link_CollectionTest extends Magento_Core_Model_Resource_Layout_AbstractTestCase
+namespace Magento\Core\Model\Resource\Layout\Link;
+
+class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCase
 {
     /**
      * Name of test table
@@ -24,10 +26,10 @@ class Magento_Core_Model_Resource_Layout_Link_CollectionTest extends Magento_Cor
     protected $_tableAlias = 'update';
 
     /**
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @return \Magento\Core\Model\Resource\Layout\Link\Collection
      */
-    protected function _getCollection(Zend_Db_Select $select)
+    protected function _getCollection(\Zend_Db_Select $select)
     {
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
@@ -53,7 +55,7 @@ class Magento_Core_Model_Resource_Layout_Link_CollectionTest extends Magento_Cor
 
         $collection = $this->_getCollection($select);
 
-        /** @var $connection PHPUnit_Framework_MockObject_MockObject */
+        /** @var $connection \PHPUnit_Framework_MockObject_MockObject */
         $connection = $collection->getResource()->getReadConnection();
         $connection->expects($this->any())
             ->method('prepareSqlCondition')
@@ -90,7 +92,7 @@ class Magento_Core_Model_Resource_Layout_Link_CollectionTest extends Magento_Cor
 
         $collection = $this->_getCollection($select);
 
-        /** @var $resource PHPUnit_Framework_MockObject_MockObject */
+        /** @var $resource \PHPUnit_Framework_MockObject_MockObject */
         $resource = $collection->getResource();
         $resource->expects($this->once())
             ->method('getTable')

@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
  * Tests product model:
  * - pricing behaviour is tested
@@ -16,7 +18,7 @@
  * @see \Magento\Catalog\Model\ProductTest
  * @see \Magento\Catalog\Model\ProductExternalTest
  */
-class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
+class ProductPriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product
@@ -25,7 +27,7 @@ class Magento_Catalog_Model_ProductPriceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product');
     }
 
     public function testGetPrice()

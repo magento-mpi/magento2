@@ -5,7 +5,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Magento_SecondModule_Model_Model
+namespace Magento\SecondModule\Model;
+
+class Model
 {
     /**
      * @return void

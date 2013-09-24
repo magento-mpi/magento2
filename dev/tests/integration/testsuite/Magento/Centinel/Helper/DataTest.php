@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Centinel\Helper\Data
  */
-class Magento_Centinel_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Centinel\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetInfoBlock()
     {

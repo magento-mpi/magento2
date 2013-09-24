@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
-class Magento_AdminNotification_Model_System_Message_CacheOutdatedTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminNotification\Model\System\Message;
+
+class CacheOutdatedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheTypeListMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlInterfaceMock;
 
@@ -37,7 +39,7 @@ class Magento_AdminNotification_Model_System_Message_CacheOutdatedTest extends P
         $this->_urlInterfaceMock = $this->getMock('Magento\Core\Model\UrlInterface');
         $this->_cacheTypeListMock = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'authorization' => $this->_authorizationMock,
             'urlBuilder' => $this->_urlInterfaceMock,

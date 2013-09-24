@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class FullFileNameTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var int
@@ -23,7 +25,7 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
     private $_prevFrameworkNoticeEnabled;
 
     /** 
-     * @var PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\App\State
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\App\State
      */
     private $_appStateMock;
 
@@ -32,10 +34,10 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
         // prevent PHPUnit from converting real code exceptions
         $this->_prevErrorLevel = error_reporting();
         error_reporting(0);
-        $this->_prevFrameworkNoticeEnabled = PHPUnit_Framework_Error_Notice::$enabled;
-        PHPUnit_Framework_Error_Notice::$enabled = false;
-        $this->_prevFrameworkWarningEnabled = PHPUnit_Framework_Error_Warning::$enabled;
-        PHPUnit_Framework_Error_Warning::$enabled = false;
+        $this->_prevFrameworkNoticeEnabled = \PHPUnit_Framework_Error_Notice::$enabled;
+        \PHPUnit_Framework_Error_Notice::$enabled = false;
+        $this->_prevFrameworkWarningEnabled = \PHPUnit_Framework_Error_Warning::$enabled;
+        \PHPUnit_Framework_Error_Warning::$enabled = false;
         
         $this->_appStateMock = $this->getMockBuilder('Magento\Core\Model\App\State')
             ->disableOriginalConstructor()
@@ -51,8 +53,8 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
     protected function tearDown()
     {
         error_reporting($this->_prevErrorLevel);
-        PHPUnit_Framework_Error_Warning::$enabled = $this->_prevFrameworkWarningEnabled;
-        PHPUnit_Framework_Error_Notice::$enabled = $this->_prevFrameworkNoticeEnabled;
+        \PHPUnit_Framework_Error_Warning::$enabled = $this->_prevFrameworkWarningEnabled;
+        \PHPUnit_Framework_Error_Notice::$enabled = $this->_prevFrameworkNoticeEnabled;
     }
 
     public function testFileExistencePositive()
@@ -63,7 +65,7 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
     }
 
     /**
-     * @expectedException Twig_Error_Loader
+     * @expectedException \Twig_Error_Loader
      */
     public function testFileExistenceNegative()
     {
@@ -107,7 +109,7 @@ class Magento_Core_Model_TemplateEngine_Twig_FullFileNameTest extends PHPUnit_Fr
     }
 
     /**
-     * @expectedException Twig_Error_Loader
+     * @expectedException \Twig_Error_Loader
      */
     public function testIsFreshNegative()
     {

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_MinifierTest extends PHPUnit_Framework_TestCase
+namespace Magento\Code;
+
+class MinifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Code\Minifier\StrategyInterface|PHPUnit_Framework_MockObject_MockObject

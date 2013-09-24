@@ -12,7 +12,9 @@
 /**
  * Legacy tests to find obsolete acl declaration
  */
-class Magento_Test_Legacy_ObsoleteAclTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class ObsoleteAclTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $aclFile
@@ -33,6 +35,6 @@ class Magento_Test_Legacy_ObsoleteAclTest extends PHPUnit_Framework_TestCase
      */
     public function aclFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles();
     }
 }

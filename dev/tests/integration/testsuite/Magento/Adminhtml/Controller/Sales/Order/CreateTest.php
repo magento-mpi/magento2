@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Magento_Backend_Utility_Controller
+class CreateTest extends \Magento\Backend\Utility\Controller
 {
     public function testLoadBlockAction()
     {
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Magento_Backen
      */
     public function testLoadBlockActionData()
     {
-        Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create')->addProducts(array(1 => array('qty' => 1)));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create')->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'data');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/sales_order_create/loadBlock');
@@ -66,7 +68,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Magento_Backen
      */
     public function testLoadBlockActionItems()
     {
-        Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create')->addProducts(array(1 => array('qty' => 1)));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create')->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'items');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/admin/sales_order_create/loadBlock');
@@ -80,7 +82,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Magento_Backen
     public function testIndexAction()
     {
         /** @var $order \Magento\Adminhtml\Model\Sales\Order\Create */
-        $order = Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
+        $order = \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
         $order->addProducts(array(1 => array('qty' => 1)));
         $this->dispatch('backend/admin/sales_order_create/index');
         $html = $this->getResponse()->getBody();

@@ -12,8 +12,10 @@
 /**
  * PHP Code Mess v1.3.3 tool wrapper
  */
-class Magento_TestFramework_CodingStandard_Tool_CodeMessDetector
-    implements Magento_TestFramework_CodingStandard_ToolInterface
+namespace Magento\TestFramework\CodingStandard\Tool;
+
+class CodeMessDetector
+    implements \Magento\TestFramework\CodingStandard\ToolInterface
 {
     /**
      * Ruleset directory
@@ -32,7 +34,7 @@ class Magento_TestFramework_CodingStandard_Tool_CodeMessDetector
     /**
      * Constructor
      *
-     * @param string $rulesetDir Directory that locates the inspection rules
+     * @param string $rulesetDir \Directory that locates the inspection rules
      * @param string $reportFile Destination file to write inspection report to
      */
     public function __construct($rulesetFile, $reportFile)
@@ -70,9 +72,9 @@ class Magento_TestFramework_CodingStandard_Tool_CodeMessDetector
             '--reportfile' , $this->_reportFile
         );
 
-        $options = new PHP_PMD_TextUI_CommandLineOptions($commandLineArguments);
+        $options = new \PHP_PMD_TextUI_CommandLineOptions($commandLineArguments);
 
-        $command = new PHP_PMD_TextUI_Command();
+        $command = new \PHP_PMD_TextUI_Command();
 
         return $command->run($options);
     }

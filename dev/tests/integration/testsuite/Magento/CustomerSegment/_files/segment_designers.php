@@ -7,7 +7,7 @@
  */
 
 /** @var $segment \Magento\CustomerSegment\Model\Segment */
-$segment = Mage::getModel('Magento\CustomerSegment\Model\Segment');
+$segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
 $segment->loadPost(array(
     'name' => 'Designers',
     'is_active' => '1',

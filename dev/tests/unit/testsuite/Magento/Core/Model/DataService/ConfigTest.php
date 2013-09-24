@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\DataService\Config
@@ -60,7 +62,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Service call with name
      */
     public function testGetClassByAliasNotFound()
@@ -69,7 +71,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage
      */
     public function testGetClassByAliasInvalidCall()
@@ -78,7 +80,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage
      */
     public function testGetClassByAliasMethodNotFound()

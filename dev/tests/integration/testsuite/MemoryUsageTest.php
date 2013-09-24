@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class MemoryUsageTest extends PHPUnit_Framework_TestCase
+class MemoryUsageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Number of application reinitialization iterations to be conducted by tests
@@ -17,13 +17,13 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
     const APP_REINITIALIZATION_LOOPS = 20;
 
     /**
-     * @var Magento_TestFramework_Helper_Memory
+     * @var \Magento\TestFramework\Helper\Memory
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = new Magento_TestFramework_Helper_Memory(new \Magento\Shell);
+        $this->_helper = new \Magento\TestFramework\Helper\Memory(new \Magento\Shell);
     }
 
     /**
@@ -37,7 +37,7 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
         $this->_deallocateUnusedMemory();
         $actualMemoryUsage = $this->_helper->getRealMemoryUsage();
         for ($i = 0; $i < self::APP_REINITIALIZATION_LOOPS; $i++) {
-            Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize();
+            \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
             $this->_deallocateUnusedMemory();
         }
         $actualMemoryUsage = $this->_helper->getRealMemoryUsage() - $actualMemoryUsage;
@@ -64,6 +64,6 @@ class MemoryUsageTest extends PHPUnit_Framework_TestCase
     protected function _getAllowedMemoryUsage()
     {
         // Memory usage limits should not be further increased, corresponding memory leaks have to be fixed instead!
-        return Magento_TestFramework_Helper_Memory::convertToBytes('1M');
+        return \Magento\TestFramework\Helper\Memory::convertToBytes('1M');
     }
 }

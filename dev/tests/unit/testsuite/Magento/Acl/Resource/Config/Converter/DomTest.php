@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Acl_Resource_Config_Converter_DomTest extends PHPUnit_Framework_TestCase
+namespace Magento\Acl\Resource\Config\Converter;
+
+class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Acl\Resource\Config\Converter\Dom
@@ -24,7 +26,7 @@ class Magento_Acl_Resource_Config_Converter_DomTest extends PHPUnit_Framework_Te
      */
     public function testConvertWithValidDom(array $expectedResult, $xml)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xml);
         $this->assertEquals($expectedResult, $this->_converter->convert($dom));
     }
@@ -44,12 +46,12 @@ class Magento_Acl_Resource_Config_Converter_DomTest extends PHPUnit_Framework_Te
 
     /**
      * @param string $xml
-     * @expectedException Exception
+     * @expectedException \Exception
      * @dataProvider convertWithInvalidDomDataProvider
      */
     public function testConvertWithInvalidDom($xml)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xml);
         $this->_converter->convert($dom);
     }

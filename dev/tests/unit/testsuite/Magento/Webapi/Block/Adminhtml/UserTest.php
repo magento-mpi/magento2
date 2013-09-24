@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_UserTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Block\Adminhtml;
+
+class UserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Webapi\Block\Adminhtml\User
@@ -16,7 +18,7 @@ class Magento_Webapi_Block_Adminhtml_UserTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\User', array(
             // TODO: Remove injecting of 'urlBuilder' after MAGENTOTWO-5038 complete
             'urlBuilder' => $this->getMockBuilder('Magento\Backend\Model\Url')
@@ -45,7 +47,7 @@ class Magento_Webapi_Block_Adminhtml_UserTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertBlockHasButton($level, $buttonId, $label)
     {
-        $buttonsProperty = new ReflectionProperty($this->_block, '_buttons');
+        $buttonsProperty = new \ReflectionProperty($this->_block, '_buttons');
         $buttonsProperty->setAccessible(true);
         $buttons = $buttonsProperty->getValue($this->_block);
         $this->assertInternalType('array', $buttons, 'Cannot get block buttons.');

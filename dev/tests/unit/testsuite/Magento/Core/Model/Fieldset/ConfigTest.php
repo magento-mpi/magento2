@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Fieldset_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Fieldset;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Fieldset\Config\Data|PHPUnit_Framework_MockObject_MockObject
@@ -15,7 +17,7 @@ class Magento_Core_Model_Fieldset_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_storageMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Fieldset\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Fieldset\Config
      */
     protected $_model;
 

@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_SubscriptionTest extends Magento_Test_Block_Adminhtml
+namespace Magento\Webhook\Block\Adminhtml;
+
+class SubscriptionTest extends \Magento\Test\Block\Adminhtml
 {
     public function testConstruct()
     {

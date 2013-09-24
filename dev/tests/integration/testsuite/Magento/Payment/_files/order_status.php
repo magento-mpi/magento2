@@ -7,7 +7,7 @@
  */
 
 /** @var \Magento\Sales\Model\Order\Status $status */
-$status = Mage::getModel('Magento\Sales\Model\Order\Status');
+$status = \Mage::getModel('Magento\Sales\Model\Order\Status');
 //status for state new
 $status->setData('status', 'custom_new_status')
     ->setData('label', 'Test Status')

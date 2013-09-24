@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Filter_IteratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Filter;
+
+class IteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu

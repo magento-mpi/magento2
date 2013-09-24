@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Config */
     protected $_configMock;

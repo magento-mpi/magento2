@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_TestFramework_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\TestFramework\Helper;
+
+class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of block default dependencies
@@ -41,11 +43,11 @@ class Magento_TestFramework_Helper_ObjectManagerTest extends PHPUnit_Framework_T
     );
 
     /**
-     * @covers Magento_TestFramework_TestCase_ObjectManager::getBlock
+     * @covers \Magento\TestFramework\TestCase\ObjectManager::getBlock
      */
     public function testGetBlock()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var $template \Magento\Core\Block\Template */
         $template = $objectManager->getObject('Magento\Core\Block\Template');
         $this->assertInstanceOf('Magento\Core\Block\Template', $template);
@@ -67,11 +69,11 @@ class Magento_TestFramework_Helper_ObjectManagerTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @covers Magento_TestFramework_ObjectManager::getModel
+     * @covers \Magento\TestFramework\ObjectManager::getModel
      */
     public function testGetModel()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var $model \Magento\Core\Model\Config\Value */
         $model = $objectManager->getObject('Magento\Core\Model\Config\Value');
         $this->assertInstanceOf('Magento\Core\Model\Config\Value', $model);

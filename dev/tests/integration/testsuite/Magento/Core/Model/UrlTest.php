@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Url
@@ -18,7 +20,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Url');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Url');
     }
 
     public function testParseUrl()
@@ -95,7 +97,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isSecure());
         $this->_model->setSecureIsForced(1);
         $this->assertTrue(is_bool($this->_model->isSecure()));
-        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $this->assertFalse($this->_model->isSecure());
     }
 
@@ -103,7 +105,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Magento\Core\Model\Store', $this->_model->getStore());
 
-        $store = Mage::getModel('Magento\Core\Model\Store');
+        $store = \Mage::getModel('Magento\Core\Model\Store');
         $this->_model->setStore($store);
         $this->assertSame($store, $this->_model->getStore());
     }
@@ -583,7 +585,7 @@ class Magento_Core_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testSessionUrlVar()
     {
-        $sessionId = Mage::getSingleton('Magento\Core\Model\Session')->getEncryptedSessionId();
+        $sessionId = \Mage::getSingleton('Magento\Core\Model\Session')->getEncryptedSessionId();
         $sessionUrl = $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>');
         $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>',
             $sessionUrl

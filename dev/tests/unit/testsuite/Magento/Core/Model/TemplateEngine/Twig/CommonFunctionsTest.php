@@ -5,21 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class CommonFunctionsTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\TemplateEngine\Twig\CommonFunctions */
     protected $_commonFunctions;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_urlBuilderMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_urlHelperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_dataHelperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManagerMock;
 
     /** @var \Magento\Core\Model\View\Url  */
@@ -28,10 +30,10 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit
     /** @var \Magento\Core\Model\View\Config   */
     protected $_viewConfig;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_helperImageMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
 
     /** @var \Magento\Core\Model\LocaleInterface  */

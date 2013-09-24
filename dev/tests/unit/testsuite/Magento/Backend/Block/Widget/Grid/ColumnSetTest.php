@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid;
+
+class ColumnSetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Widget\Grid\ColumnSet
@@ -17,32 +19,32 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_columnMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_subtotalsMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_totalsMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_gridMock;
 
@@ -75,7 +77,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             'subtotals' => $this->_subtotalsMock
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\ColumnSet', $arguments);
         $this->_block->setNameInLayout('grid.columnSet');
 
@@ -117,7 +119,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
     public function testGetRowUrlIfUrlPathNotSet()
     {
-        $this->assertEquals('#', $this->_block->getRowUrl(new StdClass()));
+        $this->assertEquals('#', $this->_block->getRowUrl(new \StdClass()));
     }
 
     public function testGetRowUrl()
@@ -154,7 +156,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             'subtotals' => $this->_subtotalsMock
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var $model \Magento\Backend\Block\Widget\Grid\ColumnSet */
         $model = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\ColumnSet', $arguments);
 
@@ -294,7 +296,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
      * Retrieve prepared mock for Magento_Backend_Model_Widget_Grid with collection
      *
      * @param \Magento\Data\Collection $collection
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _prepareGridMock($collection)
     {
@@ -332,7 +334,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     /**
      * Prepare layout for receiving grid block
      *
-     * @param PHPUnit_Framework_MockObject_MockObject $gridMock
+     * @param \PHPUnit_Framework_MockObject_MockObject $gridMock
      */
     protected function _prepareLayoutWithGrid($gridMock)
     {

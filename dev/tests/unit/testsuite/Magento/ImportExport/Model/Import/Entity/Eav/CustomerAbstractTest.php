@@ -14,7 +14,9 @@
  *
  * @todo fix in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
+class CustomerAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Abstract customer export model
@@ -97,11 +99,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
             true,
             array('_getCustomerCollection', '_validateRowForUpdate', '_validateRowForDelete')
         );
-        $property = new ReflectionProperty($modelMock, '_websiteCodeToId');
+        $property = new \ReflectionProperty($modelMock, '_websiteCodeToId');
         $property->setAccessible(true);
         $property->setValue($modelMock, array_flip($this->_websites));
 
-        $property = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $property = new \ReflectionProperty($modelMock, '_availableBehaviors');
         $property->setAccessible(true);
         $property->setValue($modelMock, $this->_availableBehaviors);
 
@@ -188,7 +190,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
      */
     public function testCheckUniqueKey(array $rowData, array $errors, $isValid = false)
     {
-        $checkUniqueKey = new ReflectionMethod(
+        $checkUniqueKey = new \ReflectionMethod(
             'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
             '_checkUniqueKey'
         );
@@ -256,7 +258,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
     protected function _clearValidatedRows()
     {
         // clear array
-        $validatedRows = new ReflectionProperty(
+        $validatedRows = new \ReflectionProperty(
             'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
             '_validatedRows'
         );
@@ -265,7 +267,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends 
         $validatedRows->setAccessible(false);
 
         // reset counter
-        $entitiesCount = new ReflectionProperty(
+        $entitiesCount = new \ReflectionProperty(
             'Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract',
             '_processedEntitiesCount'
         );

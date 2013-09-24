@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
+
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUnit_Framework_TestCase
+class TreeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUn
     {
         parent::setUp();
 
-        $this->_treeBlock = Mage::app()->getLayout()
+        $this->_treeBlock = \Mage::app()->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
     }
 

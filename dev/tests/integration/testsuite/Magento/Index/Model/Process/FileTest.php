@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Index\Model\Process\File
  */
-class Magento_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\Process;
+
+class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test lock name
@@ -20,7 +22,7 @@ class Magento_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
     const FILE_NAME = 'index_test.lock';
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -41,7 +43,7 @@ class Magento_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager   = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager   = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model           = $this->_objectManager->create('Magento\Index\Model\Process\File');
         /** @var $dir \Magento\Core\Model\Dir */
         $dir = $this->_objectManager->get('Magento\Core\Model\Dir');

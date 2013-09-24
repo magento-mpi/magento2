@@ -52,7 +52,6 @@ if (strpos($_includePath, $_pearPhpDir) === false) {
 require_once __DIR__ . "/Pear/Frontend.php";
 require_once __DIR__ . "/Pear/Package.php";
 
-namespace Magento;
 
 require_once dirname(__FILE__) . "/Pear/Package.php";
 class Pear

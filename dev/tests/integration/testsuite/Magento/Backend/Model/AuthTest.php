@@ -9,12 +9,15 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Model;
+
 /**
  * Test class for \Magento\Backend\Model\Auth.
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
+class AuthTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Auth
@@ -25,8 +28,8 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_model = Mage::getModel('Magento\Backend\Model\Auth');
+        \Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_model = \Mage::getModel('Magento\Backend\Model\Auth');
     }
 
     /**
@@ -46,7 +49,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
         $this->_model->setAuthStorage($mockStorage);
         $this->assertInstanceOf('Magento\Backend\Model\Auth\StorageInterface', $this->_model->getAuthStorage());
 
-        $incorrectStorage = new StdClass();
+        $incorrectStorage = new \StdClass();
         try {
             $this->_model->setAuthStorage($incorrectStorage);
             $this->fail('Incorrect authentication storage setted.');
@@ -68,7 +71,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     public function testLoginSuccessful()
     {
         $this->_model->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->assertInstanceOf('Magento\Backend\Model\Auth\Credential\StorageInterface', $this->_model->getUser());
         $this->assertGreaterThan(time() - 10, $this->_model->getAuthStorage()->getUpdatedAt());
     }
@@ -76,7 +79,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     public function testLogout()
     {
         $this->_model->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->assertNotEmpty($this->_model->getAuthStorage()->getData());
         $this->_model->getAuthStorage()
             ->getCookie()
@@ -96,7 +99,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     public function testIsLoggedIn()
     {
         $this->_model->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->getAuthStorage()->setUpdatedAt(time() - 101);
@@ -110,7 +113,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     public function testIsLoggedInWithIgnoredLifetime()
     {
         $this->_model->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->getAuthStorage()->setUpdatedAt(time() - 101);
@@ -120,7 +123,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     public function testGetUser()
     {
         $this->_model->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
 
         $this->assertNotNull($this->_model->getUser());
         $this->assertGreaterThan(0, $this->_model->getUser()->getId());

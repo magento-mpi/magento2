@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class CopyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * @var \Magento\Core\Model\Theme\CopyService
@@ -17,62 +19,62 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sourceTheme;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_targetTheme;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_link;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_linkCollection;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_update;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_updateCollection;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_updateFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customizationPath;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject[]
+     * @var \PHPUnit_Framework_MockObject_MockObject[]
      */
     protected $_targetFiles = array();
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject[]
+     * @var \PHPUnit_Framework_MockObject_MockObject[]
      */
     protected $_sourceFiles = array();
 
@@ -216,7 +218,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         $targetLinkTwo->expects($this->at(2))->method('setId')->with(null);
         $targetLinkTwo->expects($this->at(3))->method('save');
 
-        $linkReturnValues = $this->onConsecutiveCalls(new ArrayIterator(array($targetLinkOne, $targetLinkTwo)));
+        $linkReturnValues = $this->onConsecutiveCalls(new \ArrayIterator(array($targetLinkOne, $targetLinkTwo)));
         $this->_linkCollection->expects($this->any())->method('getIterator')->will($linkReturnValues);
 
         $targetUpdateOne = $this->getMock('Magento\Core\Model\Layout\Update', array('setId', 'load', 'save'),
@@ -264,7 +266,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         $this->_linkCollection->expects($this->any())->method('addFieldToFilter')
             ->will($this->returnValue($this->_linkCollection));
         $this->_linkCollection->expects($this->any())->method('getIterator')
-            ->will($this->returnValue(new ArrayIterator(array())));
+            ->will($this->returnValue(new \ArrayIterator(array())));
 
         foreach ($this->_targetFiles as $targetFile) {
             $targetFile->expects($this->once())->method('delete');
@@ -319,7 +321,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         $this->_linkCollection->expects($this->any())->method('addFieldToFilter')
             ->will($this->returnValue($this->_linkCollection));
         $this->_linkCollection->expects($this->any())->method('getIterator')
-            ->will($this->returnValue(new ArrayIterator(array())));
+            ->will($this->returnValue(new \ArrayIterator(array())));
 
         $this->_customizationPath->expects($this->at(0))
             ->method('getCustomizationPath')

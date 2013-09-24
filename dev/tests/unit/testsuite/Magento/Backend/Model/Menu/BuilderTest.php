@@ -10,7 +10,9 @@
  */
 
 
-class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu;
+
+class BuilderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -19,12 +21,12 @@ class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
     protected  $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
@@ -127,7 +129,7 @@ class Magento_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException OutOfRangeException
+     * @expectedException \OutOfRangeException
      */
     public function testGetResultSkipItemsWithInvalidParent()
     {

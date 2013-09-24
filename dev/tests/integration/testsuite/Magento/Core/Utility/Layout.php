@@ -12,14 +12,16 @@
 /**
  * Core layout utility
  */
-class Magento_Core_Utility_Layout
+namespace Magento\Core\Utility;
+
+class Layout
 {
     /**
-     * @var PHPUnit_Framework_TestCase
+     * @var \PHPUnit_Framework_TestCase
      */
     protected $_testCase;
 
-    public function __construct(PHPUnit_Framework_TestCase $testCase)
+    public function __construct(\PHPUnit_Framework_TestCase $testCase)
     {
         $this->_testCase = $testCase;
     }
@@ -32,7 +34,7 @@ class Magento_Core_Utility_Layout
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Layout\File\Factory $fileFactory */
         $fileFactory = $objectManager->get('Magento\Core\Model\Layout\File\Factory');
         $files = array();
@@ -40,9 +42,9 @@ class Magento_Core_Utility_Layout
             $files[] = $fileFactory->create($filename, 'Magento_Core');
         }
         $fileSource = $this->_testCase->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
-        $fileSource->expects(PHPUnit_Framework_TestCase::any())
+        $fileSource->expects(\PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
-            ->will(PHPUnit_Framework_TestCase::returnValue($files));
+            ->will(\PHPUnit_Framework_TestCase::returnValue($files));
         $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         return $objectManager->create(
             'Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
@@ -61,9 +63,9 @@ class Magento_Core_Utility_Layout
         $layout = $this->_testCase->getMock('Magento\Core\Model\Layout', array('getUpdate'), $args);
         $layoutUpdate = $this->getLayoutUpdateFromFixture($layoutUpdatesFile);
         $layoutUpdate->asSimplexml();
-        $layout->expects(PHPUnit_Framework_TestCase::any())
+        $layout->expects(\PHPUnit_Framework_TestCase::any())
             ->method('getUpdate')
-            ->will(PHPUnit_Framework_TestCase::returnValue($layoutUpdate));
+            ->will(\PHPUnit_Framework_TestCase::returnValue($layoutUpdate));
         return $layout;
     }
 
@@ -74,7 +76,7 @@ class Magento_Core_Utility_Layout
      */
     public function getLayoutDependencies()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
             'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
             'eventManager'       => $objectManager->get('Magento\Core\Model\Event\Manager'),

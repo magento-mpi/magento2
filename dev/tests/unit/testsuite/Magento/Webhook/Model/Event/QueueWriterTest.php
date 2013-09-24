@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Event;
+
+class QueueWriterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Event\QueueWriter */
     protected $_eventQueue;

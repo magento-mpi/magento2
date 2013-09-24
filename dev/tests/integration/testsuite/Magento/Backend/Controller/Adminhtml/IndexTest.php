@@ -9,12 +9,15 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller\Adminhtml;
+
 /**
  * Test class for \Magento\Backend\Controller\Adminhtml\Index.
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @var \Magento\Backend\Model\Auth
@@ -26,10 +29,10 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
      */
     protected  function _login()
     {
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
-        $this->_auth = Mage::getSingleton('Magento\Backend\Model\Auth');
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $this->_auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
         $this->_auth->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
     }
 
     /**
@@ -38,7 +41,7 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
     protected function _logout()
     {
         $this->_auth->logout();
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**

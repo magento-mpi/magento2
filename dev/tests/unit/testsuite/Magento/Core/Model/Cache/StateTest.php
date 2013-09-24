@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Cache;
+
+class StateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Cache\StateInterface

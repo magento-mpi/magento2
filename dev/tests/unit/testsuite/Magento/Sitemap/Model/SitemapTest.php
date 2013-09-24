@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sitemap\Model;
+
+class SitemapTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Helper\Data
@@ -381,8 +383,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 ->method('mv')
                 ->will($this->returnCallback(
                     function ($from, $to) {
-                        PHPUnit_Framework_Assert::assertEquals('sitemap-1-1.xml', $from);
-                        PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
+                        \PHPUnit_Framework_Assert::assertEquals('sitemap-1-1.xml', $from);
+                        \PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
                     }
                 ));
         }

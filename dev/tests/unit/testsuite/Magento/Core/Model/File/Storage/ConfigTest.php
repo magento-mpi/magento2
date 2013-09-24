@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_File_Storage_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\File\Storage;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\File\Storage\Config
@@ -13,17 +15,17 @@ class Magento_Core_Model_File_Storage_ConfigTest extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_streamMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_streamFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileStorageMock;
 

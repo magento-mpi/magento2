@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Observer\Backend;
+
+class CatalogProductQuoteTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Observer\Backend\CatalogProductQuote
@@ -14,17 +16,17 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUn
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_quoteMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventMock;
 

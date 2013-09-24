@@ -12,30 +12,32 @@
 /**
  * Test class for \Magento\Backend\Block\Widget\Button
  */
-class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget;
+
+class ButtonTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_blockMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_buttonMock;
 
@@ -67,7 +69,7 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
             'helperFactory' => $this->_helperFactoryMock,
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_blockMock =
             $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Button', $arguments);
     }

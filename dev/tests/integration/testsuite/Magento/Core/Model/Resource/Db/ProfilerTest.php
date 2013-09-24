@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Db;
+
+class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource
@@ -33,7 +35,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Resource');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Resource');
     }
 
     /**
@@ -41,7 +43,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
      */
     protected function _getConnectionReadConfig()
     {
-        $connReadConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $connReadConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Config\Resource')
             ->getResourceConnectionConfig('core_read');
         $profilerConfig = $connReadConfig->addChild('profiler');
@@ -61,16 +63,16 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
     public function testProfilerInit($selectQuery, $queryType)
     {
         $connReadConfig = $this->_getConnectionReadConfig();
-        /** @var Magento_TestFramework_Db_Adapter_Mysql $connection */
+        /** @var \Magento\TestFramework\Db\Adapter\Mysql $connection */
         $connection = $this->_model->getConnection('core_read');
 
         /** @var \Magento\Core\Model\Resource $resource */
-        $resource = Mage::getSingleton('Magento\Core\Model\Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $testTableName = $resource->getTableName('core_resource');
         $selectQuery = sprintf($selectQuery, $testTableName);
 
         $result = $connection->query($selectQuery);
-        if ($queryType == Zend_Db_Profiler::SELECT) {
+        if ($queryType == \Zend_Db_Profiler::SELECT) {
             $result->fetchAll();
         }
 
@@ -82,7 +84,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
         $queryProfiles = $profiler->getQueryProfiles($queryType);
         $this->assertCount(1, $queryProfiles);
 
-        /** @var Zend_Db_Profiler_Query $queryProfile */
+        /** @var \Zend_Db_Profiler_Query $queryProfile */
         $queryProfile = end($queryProfiles);
         $this->assertInstanceOf('Zend_Db_Profiler_Query', $queryProfile);
 
@@ -110,12 +112,12 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
      */
     public function testProfilerDuringSqlException()
     {
-        /** @var Zend_Db_Adapter_Pdo_Abstract $connection */
+        /** @var \Zend_Db_Adapter_Pdo_Abstract $connection */
         $connection = $this->_model->getConnection('core_read');
 
         try {
             $connection->query('SELECT * FROM unknown_table');
-        } catch (Zend_Db_Statement_Exception $exception) {
+        } catch (\Zend_Db_Statement_Exception $exception) {
         }
 
         if (!isset($exception)) {
@@ -123,7 +125,7 @@ class Magento_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_Test
         }
 
         /** @var \Magento\Core\Model\Resource $resource */
-        $resource = Mage::getSingleton('Magento\Core\Model\Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $testTableName = $resource->getTableName('core_resource');
         $connection->query('SELECT * FROM ' . $testTableName);
 

@@ -11,7 +11,9 @@
 /**
  * @magentoAppIsolation enabled
  */
-class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Block;
+
+class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Block\AbstractBlock
@@ -27,10 +29,10 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock', array(
-            Mage::getSingleton('Magento\Core\Block\Context'),
+            \Mage::getSingleton('Magento\Core\Block\Context'),
             array('module_name' => 'Magento_Core')
         ));
     }
@@ -44,9 +46,9 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
     {
         $dirPath = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         /** @var $dirs \Magento\Core\Model\Dir */
-        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
+        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
 
-        $prepareFileName = new ReflectionMethod($dirs, '_setDir');
+        $prepareFileName = new \ReflectionMethod($dirs, '_setDir');
         $prepareFileName->setAccessible(true);
         $prepareFileName->invoke($dirs, \Magento\Core\Model\Dir::THEMES, $dirPath);
 
@@ -102,7 +104,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($name, $this->_block->getNameInLayout());
 
         // Setting second time, along with the layout
-        $layout = Mage::app()->getLayout();
+        $layout = \Mage::app()->getLayout();
         $layout->createBlock('Magento\Core\Block\Template', $name);
         $block = $layout->getBlock($name);
         $this->assertInstanceOf('Magento\Core\Block\AbstractBlock', $block);
@@ -231,7 +233,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
 
         // With layout
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $child = $layout->createBlock('Magento\Core\Block\Text', $childName);
         $layout->addBlock($this->_block, $parentName);
 
@@ -310,7 +312,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
     {
         // Without layout
         /** @var $blockFactory \Magento\Core\Model\BlockFactory */
-        $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\BlockFactory');
         $block1 = $blockFactory->createBlock('Magento\Core\Block\Text');
         $block1->setText('Block text');
@@ -457,7 +459,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
 
     public function testSetFrameTags()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
         $block->setText('text');
 
         $block->setFrameTags('p');
@@ -489,11 +491,11 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
             $withRoute = "{$base}catalog/product/view/id/10/";
 
             $encoded = $this->_block->$method();
-            $this->assertEquals(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $this->assertEquals(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Core\Helper\Data')
                 ->urlDecode($encoded), $base);
             $encoded = $this->_block->$method('catalog/product/view', array('id' => 10));
-            $this->assertEquals(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $this->assertEquals(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Core\Helper\Data')
                 ->urlDecode($encoded), $withRoute);
         }
@@ -522,11 +524,11 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
     public function testGetSetMessagesBlock()
     {
         // Get one from layout
-        $this->_block->setLayout(Mage::getSingleton('Magento\Core\Model\Layout'));
+        $this->_block->setLayout(\Mage::getSingleton('Magento\Core\Model\Layout'));
         $this->assertInstanceOf('Magento\Core\Block\Messages', $this->_block->getMessagesBlock());
 
         // Set explicitly
-        $messages = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Messages');
+        $messages = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Messages');
         $this->_block->setMessagesBlock($messages);
         $this->assertSame($messages, $this->_block->getMessagesBlock());
     }
@@ -541,20 +543,20 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
 
         try {
             $this->assertInstanceOf('Magento\Core\Helper\Data', $helper);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
 
     public function testFormatDate()
     {
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
         $this->assertEquals($helper->formatDate(), $this->_block->formatDate());
     }
 
     public function testFormatTime()
     {
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
         $this->assertEquals($helper->formatTime(), $this->_block->formatTime());
     }
 
@@ -615,7 +617,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
     public function testGetCacheKeyInfo()
     {
         $name = uniqid('block.');
-        $block = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
         $block->setNameInLayout($name);
         $this->assertEquals(array($name), $block->getCacheKeyInfo());
     }
@@ -623,7 +625,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
     public function testGetCacheKey()
     {
         $name = uniqid('block.');
-        $block = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
         $block->setNameInLayout($name);
         $key = $block->getCacheKey();
         $this->assertNotEmpty($key);
@@ -665,7 +667,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
         $blocks = array(); $names = array();
         $layout = false;
         if ($withLayout) {
-            $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Core\Model\Layout');
         }
         for ($i = 0; $i < $qty; $i++) {
@@ -673,7 +675,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
             if ($layout) {
                 $block = $layout->createBlock($className, $name);
             } else {
-                $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($className);
+                $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($className);
                 $block->setNameInLayout($name);
             }
             $blocks[] = $block;
@@ -697,14 +699,14 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
         $mockClass = array_pop($typePart) . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {
             self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, array(
-                    Mage::getSingleton('Magento\Core\Block\Context'),
+                    \Mage::getSingleton('Magento\Core\Block\Context'),
                     array('module_name' => 'Magento_Core')
                 ),
                 $mockClass
             );
         }
         if (is_null($this->_layout)) {
-            $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+            $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         }
         $block = $this->_layout->addBlock($mockClass, $name, '', $alias);
         return $block;

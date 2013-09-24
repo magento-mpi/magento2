@@ -12,11 +12,13 @@
 /**
  * Test class for \Magento\Wishlist\Block\Customer\Wishlist\Item\Options.
  */
-class Magento_Wishlist_Block_Customer_Wishlist_Item_OptionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Wishlist\Block\Customer\Wishlist\Item;
+
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetTemplate()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento\Wishlist\Block\Customer\Wishlist\Item\Options');
+        $block = \Mage::app()->getLayout()->createBlock('Magento\Wishlist\Block\Customer\Wishlist\Item\Options');
         $this->assertEmpty($block->getTemplate());
         $product = new \Magento\Object(array('type_id' => 'test'));
         $item = new \Magento\Object(array('product' => $product));

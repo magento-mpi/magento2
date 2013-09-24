@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backup;
+
+class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $action

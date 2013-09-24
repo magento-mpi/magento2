@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_User_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\User;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function test()
     {

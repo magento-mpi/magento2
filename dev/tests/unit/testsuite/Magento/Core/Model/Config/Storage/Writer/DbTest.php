@@ -10,7 +10,9 @@
 /**
  * Test class for \Magento\Core\Model\Config\Storage\Writer\Db
  */
-class Magento_Core_Model_Config_Storage_Writer_DbTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\Storage\Writer;
+
+class DbTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config\Storage\Writer\Db
@@ -18,7 +20,7 @@ class Magento_Core_Model_Config_Storage_Writer_DbTest extends PHPUnit_Framework_
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 

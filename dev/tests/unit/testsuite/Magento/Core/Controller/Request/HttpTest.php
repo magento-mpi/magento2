@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Request;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Controller\Request\Http */
     protected $_model;

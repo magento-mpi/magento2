@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Config_OrderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Config;
+
+class OrderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getSortedCollectorCodesDataProvider
@@ -21,7 +23,7 @@ class Magento_Sales_Model_Config_OrderTest extends PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false)
         ));
 
-        $method = new ReflectionMethod($mock, '_getSortedCollectorCodes');
+        $method = new \ReflectionMethod($mock, '_getSortedCollectorCodes');
         $method->setAccessible(true);
         $actualResult = $method->invoke($mock, $totalConfig);
         $this->assertEquals($expectedResult, $actualResult);

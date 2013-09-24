@@ -32,7 +32,7 @@
         <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
     </php>
     <listeners>
-        <listener class="Magento_TestFramework_Event_PhpUnit"/>
+        <listener class="Magento\TestFramework\Event\PhpUnit"/>
     </listeners>
     <logging>
         <!--coverage_html_placeholder

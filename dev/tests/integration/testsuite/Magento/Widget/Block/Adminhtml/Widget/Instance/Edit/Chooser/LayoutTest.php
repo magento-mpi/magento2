@@ -9,11 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest extends PHPUnit_Framework_TestCase
+class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout|PHPUnit_Framework_MockObject_MockObject
@@ -24,12 +25,12 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
     {
         parent::setUp();
 
-        $layoutUtility = new Magento_Core_Utility_Layout($this);
+        $layoutUtility = new \Magento\Core\Utility\Layout($this);
         $args = array(
             'layoutMergeFactory' => $this->getMock('Magento\Core\Model\Layout\MergeFactory',
                 array(), array(), '', false),
             'themeCollFactory' => Mage::getSingleton('Magento\Core\Model\Resource\Theme\CollectionFactory'),
-            'context' => Mage::getSingleton('Magento\Core\Block\Template\Context'),
+            'context' => \Mage::getSingleton('Magento\Core\Block\Template\Context'),
             'data' => array(
                 'name'  => 'page_type',
                 'id'    => 'page_types_select',

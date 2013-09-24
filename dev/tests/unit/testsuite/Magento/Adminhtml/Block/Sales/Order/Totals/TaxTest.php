@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Adminhtml\Block\Sales\Order\Totals\TaxTest
  */
-class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Sales\Order\Totals;
+
+class TaxTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\Sales\Order\Totals\Tax
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
      */
     protected function _getModelArgument()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         return $objectManagerHelper->getConstructArguments(
             'Magento\Adminhtml\Block\Sales\Order\Totals\Tax',
             array(

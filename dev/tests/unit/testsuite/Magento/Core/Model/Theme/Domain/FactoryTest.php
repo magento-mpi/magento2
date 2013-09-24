@@ -12,7 +12,9 @@
 /**
  * Test theme domain model
  */
-class Magento_Core_Model_Theme_Domain_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Domain;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \Magento\Core\Model\Theme\Domain\Factory::create

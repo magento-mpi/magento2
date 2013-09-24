@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_TestCase
+class FormTestAbstract extends \PHPUnit_Framework_TestCase
 {
     /**
      * Form class must be defined in children.
@@ -26,7 +28,7 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
     protected $_block;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -48,14 +50,14 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
     protected function setUp()
     {
         parent::setUp();
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_urlBuilder = $this->getMockBuilder('Magento\Backend\Model\Url')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
         $this->_block = $this->_blockFactory->createBlock($this->_formClass, array(
-            'context' => Mage::getModel(
+            'context' => \Mage::getModel(
                 'Magento\Backend\Block\Template\Context',
                 array('urlBuilder' => $this->_urlBuilder)
             )

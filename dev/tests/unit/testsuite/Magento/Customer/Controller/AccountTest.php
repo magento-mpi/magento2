@@ -12,7 +12,9 @@
 /**
  * Test customer account controller
  */
-class Magento_Customer_Controller_AccountTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Controller;
+
+class AccountTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of actions that are allowed for not authorized users
@@ -40,13 +42,13 @@ class Magento_Customer_Controller_AccountTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments('Magento\Customer\Controller\Account');
         $this->_model = $objectManagerHelper->getObject('Magento\Customer\Controller\Account', $constructArguments);
     }
@@ -58,7 +60,7 @@ class Magento_Customer_Controller_AccountTest extends PHPUnit_Framework_TestCase
     {
         $this->assertAttributeEquals($this->_openActions, '_openActions', $this->_model);
 
-        $method = new ReflectionMethod('Magento\Customer\Controller\Account', '_getAllowedActions');
+        $method = new \ReflectionMethod('Magento\Customer\Controller\Account', '_getAllowedActions');
         $method->setAccessible(true);
         $this->assertEquals($this->_openActions, $method->invoke($this->_model));
     }

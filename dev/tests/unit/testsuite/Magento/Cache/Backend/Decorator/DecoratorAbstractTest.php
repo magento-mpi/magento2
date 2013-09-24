@@ -9,10 +9,12 @@
 /**
  * \Magento\Cache\Backend\Decorator\DecoratorAbstract test case
  */
-class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cache\Backend\Decorator;
+
+class DecoratorAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Zend_Cache_Backend_File
+     * @var \Zend_Cache_Backend_File
      */
     protected $_mockBackend;
 
@@ -35,11 +37,11 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
             array($options)
         );
 
-        $backendProperty = new ReflectionProperty('Magento\Cache\Backend\Decorator\DecoratorAbstract', '_backend');
+        $backendProperty = new \ReflectionProperty('Magento\Cache\Backend\Decorator\DecoratorAbstract', '_backend');
         $backendProperty->setAccessible(true);
 
         $optionsProperty =
-            new ReflectionProperty('Magento\Cache\Backend\Decorator\DecoratorAbstract', '_decoratorOptions');
+            new \ReflectionProperty('Magento\Cache\Backend\Decorator\DecoratorAbstract', '_decoratorOptions');
         $optionsProperty->setAccessible(true);
 
         $this->assertSame($backendProperty->getValue($decorator), $this->_mockBackend);
@@ -50,7 +52,7 @@ class Magento_Cache_Backend_Decorator_DecoratorAbstractTest extends PHPUnit_Fram
 
     /**
      * @param array options
-     * @expectedException Zend_Cache_Exception
+     * @expectedException \Zend_Cache_Exception
      * @dataProvider constructorExceptionDataProvider
      */
     public function testConstructorException($options)

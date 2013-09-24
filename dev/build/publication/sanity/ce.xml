@@ -103,6 +103,13 @@
             <path>dev/tests/functional/runtests.sh</path>
         </item>
         <item>
+            <word>{copyright}</word>
+            <word>{license_link}</word>
+            <word>{license_notice}</word>
+            <word>enterprise</word>
+            <path>dev/tests/unit/testsuite/Magento/Cache/Backend/_files/MongoBinData.txt</path>
+        </item>
+        <item>
             <path>app/Mage.php</path>
         </item>
         <item>
@@ -177,6 +184,22 @@
         <item>
             <word>enterprise</word>
             <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-appCodeMagento.txt</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-downloader.txt</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsIntegration.txt</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsIntegration.txt</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/nmparser/PHP-Parser-0.9.3/nmscanner/nmrenameClass-devTestsStatic.txt</path>
         </item>
         <item>
             <word>enterprise</word>

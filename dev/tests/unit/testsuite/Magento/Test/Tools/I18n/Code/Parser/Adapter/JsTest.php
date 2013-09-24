@@ -25,7 +25,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
         // dev/tests/unit/testsuite/tools/I18n/Parser/Adapter/_files/file.js
         $this->_testFile = str_replace('\\', '/', realpath(dirname(__FILE__))) . '/_files/file.js';
 
-        $objectManagerHelper = new \Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_adapter = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Parser\Adapter\Js');
     }
 

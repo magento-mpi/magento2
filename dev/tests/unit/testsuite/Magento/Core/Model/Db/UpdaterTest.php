@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Db;
+
+class UpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Automatic updates must be enabled/disabled according to config flags

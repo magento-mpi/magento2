@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block;
+
+class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      *
@@ -36,12 +38,12 @@ class Magento_Page_Block_HtmlTest extends PHPUnit_Framework_TestCase
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));
 
-        $context = Mage::getModel('Magento\Core\Block\Template\Context', array(
+        $context = \Mage::getModel('Magento\Core\Block\Template\Context', array(
             'storeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
         ));
 
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Page\Block\Html', array('context' => $context));
 
         $this->assertEquals($returnValue, $block->getPrintLogoUrl());

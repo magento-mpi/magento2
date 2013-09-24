@@ -12,7 +12,7 @@
 require __DIR__ . '/product_image.php';
 
 /** @var $product \Magento\Catalog\Model\Product */
-$product = Mage::getModel('Magento\Catalog\Model\Product');
+$product = \Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)

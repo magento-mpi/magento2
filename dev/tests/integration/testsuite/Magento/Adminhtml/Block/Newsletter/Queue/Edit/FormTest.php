@@ -9,30 +9,32 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
+
 /**
  * Test class for \Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form');
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
 
-        $queue = Mage::getSingleton('Magento\Newsletter\Model\Queue');
+        $queue = \Mage::getSingleton('Magento\Newsletter\Model\Queue');
         $statuses = array(\Magento\Newsletter\Model\Queue::STATUS_NEVER, \Magento\Newsletter\Model\Queue::STATUS_PAUSE);
         foreach ($statuses as $status) {
             $queue->setQueueStatus($status);

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Router_NoRouteHandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Router;
+
+class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Helper\Data

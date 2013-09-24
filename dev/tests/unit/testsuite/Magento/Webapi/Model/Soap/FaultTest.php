@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Soap;
+
+class FaultTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\App */
     protected $_appMock;
@@ -21,7 +23,7 @@ class Magento_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
         $localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $localeMock->expects($this->any())->method('getLocale')->will($this->returnValue(new Zend_Locale('en_US')));
+        $localeMock->expects($this->any())->method('getLocale')->will($this->returnValue(new \Zend_Locale('en_US')));
         $this->_appMock->expects($this->any())->method('getLocale')->will($this->returnValue($localeMock));
         /** Initialize SUT. */
         $message = "Soap fault reason.";

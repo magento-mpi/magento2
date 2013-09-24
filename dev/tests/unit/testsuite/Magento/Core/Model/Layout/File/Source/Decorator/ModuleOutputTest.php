@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutputTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\File\Source\Decorator;
+
+class ModuleOutputTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\File\Source\Decorator\ModuleOutput
@@ -14,12 +16,12 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleOutputTest extends P
     private $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_fileSource;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_moduleManager;
 

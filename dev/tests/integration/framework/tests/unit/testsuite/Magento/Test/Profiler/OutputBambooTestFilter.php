@@ -14,7 +14,9 @@
  *
  * @link http://php.net/manual/en/function.stream-filter-register.php
  */
-class Magento_Test_Profiler_OutputBambooTestFilter extends php_user_filter
+namespace Magento\Test\Profiler;
+
+class OutputBambooTestFilter extends \php_user_filter
 {
     private static $_collectedData = '';
 
@@ -52,7 +54,7 @@ class Magento_Test_Profiler_OutputBambooTestFilter extends php_user_filter
      */
     public static function assertCollectedData($expectedData)
     {
-        PHPUnit_Framework_Assert::assertStringMatchesFormat(
+        \PHPUnit_Framework_Assert::assertStringMatchesFormat(
             $expectedData,
             self::$_collectedData,
             'Expected data went through the stream.'

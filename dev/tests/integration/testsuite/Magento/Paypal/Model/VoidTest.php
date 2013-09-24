@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
+namespace Magento\Paypal\Model;
+
+class VoidTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Paypal/_files/order_payflowpro.php
@@ -52,7 +54,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $payment->void(new \Magento\Object);
         $order->save();
 
-        $order = Mage::getModel('Magento\Sales\Model\Order');
+        $order = \Mage::getModel('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $this->assertFalse($order->canVoidPayment());
     }

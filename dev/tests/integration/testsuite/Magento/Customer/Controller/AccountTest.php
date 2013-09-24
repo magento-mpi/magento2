@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Customer\Controller;
+
+class AccountTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -17,7 +19,7 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
     public function testIndexAction()
     {
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
-        $session = Mage::getModel('Magento\Customer\Model\Session', array($logger));
+        $session = \Mage::getModel('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
         $this->dispatch('customer/account/index');
         $this->assertContains('<div class="my-account">', $this->getResponse()->getBody());
@@ -29,9 +31,9 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
     public function testCreatepasswordAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = Mage::getModel('Magento\Customer\Model\Customer')->load(1);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(1);
 
-        $token = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
             ->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
@@ -49,9 +51,9 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
     public function testOpenActionCreatepasswordAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = Mage::getModel('Magento\Customer\Model\Customer')->load(1);
+        $customer = \Mage::getModel('Magento\Customer\Model\Customer')->load(1);
 
-        $token = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
             ->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 

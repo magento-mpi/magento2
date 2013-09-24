@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Router_RouteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Router;
+
+class RouteTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Rest\Router\Route */
     protected $_restRoute;
@@ -46,7 +48,7 @@ class Magento_Webapi_Controller_Rest_Router_RouteTest extends PHPUnit_Framework_
         $route = new \Magento\Webapi\Controller\Rest\Router\Route("$areaName/:$testApi");
 
         $testUri = "$areaName/$testApi";
-        $request = new Zend_Controller_Request_Http();
+        $request = new \Zend_Controller_Request_Http();
         $request->setRequestUri($testUri);
 
         $match = $route->match($request);

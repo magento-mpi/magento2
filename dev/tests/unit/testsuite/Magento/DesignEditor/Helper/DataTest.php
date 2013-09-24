@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test front name prefix
@@ -32,12 +34,12 @@ class Magento_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_translatorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_context;
 
@@ -62,7 +64,7 @@ class Magento_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getConfigFrontNameMock()
     {

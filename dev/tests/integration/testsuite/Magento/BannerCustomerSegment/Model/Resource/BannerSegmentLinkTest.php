@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\BannerCustomerSegment\Model\Resource;
+
+class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink
@@ -15,7 +17,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
 
     protected function setUp()
     {
-        $this->_resourceModel = Mage::getResourceModel(
+        $this->_resourceModel = \Mage::getResourceModel(
             'Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink'
         );
     }
@@ -75,7 +77,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
         }
 
         /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
-        $collection = Mage::getResourceModel('Magento\Banner\Model\Resource\Salesrule\Collection');
+        $collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Salesrule\Collection');
         $select = $collection->getSelect();
         $initialSql = (string)$select;
 
@@ -120,7 +122,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
     protected function _getBannerId($bannerName)
     {
         /** @var \Magento\Banner\Model\Banner $banner */
-        $banner = Mage::getModel('Magento\Banner\Model\Banner');
+        $banner = \Mage::getModel('Magento\Banner\Model\Banner');
         $banner->load($bannerName, 'name');
         return $banner->getId();
     }
@@ -136,7 +138,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
         $result = array();
         foreach ($segmentNames as $segmentName) {
             /** @var $segment \Magento\CustomerSegment\Model\Segment */
-            $segment = Mage::getModel('Magento\CustomerSegment\Model\Segment');
+            $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
             $segment->load($segmentName, 'name');
             $result[] = $segment->getId();
         }

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Wishlist_Controller_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Wishlist\Controller;
+
+class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @var \Magento\Customer\Model\Session

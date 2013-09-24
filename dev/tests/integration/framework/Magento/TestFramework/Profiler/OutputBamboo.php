@@ -12,7 +12,9 @@
 /**
  * Class that used for output Magento Profiler results in format compatible with Bamboo Jmeter plugin
  */
-class Magento_TestFramework_Profiler_OutputBamboo extends \Magento\Profiler\Driver\Standard\Output\Csvfile
+namespace Magento\TestFramework\Profiler;
+
+class OutputBamboo extends \Magento\Profiler\Driver\Standard\Output\Csvfile
 {
     /**
      * @var array

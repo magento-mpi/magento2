@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Controller
+class CacheTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/application_cache.php
@@ -20,11 +22,11 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->dispatch('backend/admin/cache/flushAll');
 
         /** @var $cache \Magento\Core\Model\Cache */
-        $cache = Mage::getModel('Magento\Core\Model\Cache');
+        $cache = \Mage::getModel('Magento\Core\Model\Cache');
         /** @var $cachePool \Magento\Core\Model\Cache\Frontend\Pool */
         $this->assertFalse($cache->load('APPLICATION_FIXTURE'));
 
-        $cachePool = Mage::getModel('Magento\Core\Model\Cache\Frontend\Pool');
+        $cachePool = \Mage::getModel('Magento\Core\Model\Cache\Frontend\Pool');
         /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($cachePool as $cacheFrontend) {
             $this->assertFalse($cacheFrontend->getBackend()->load('NON_APPLICATION_FIXTURE'));
@@ -40,11 +42,11 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->dispatch('backend/admin/cache/flushSystem');
 
         /** @var $cache \Magento\Core\Model\Cache */
-        $cache = Mage::getModel('Magento\Core\Model\Cache');
+        $cache = \Mage::getModel('Magento\Core\Model\Cache');
         /** @var $cachePool \Magento\Core\Model\Cache\Frontend\Pool */
         $this->assertFalse($cache->load('APPLICATION_FIXTURE'));
 
-        $cachePool = Mage::getModel('Magento\Core\Model\Cache\Frontend\Pool');
+        $cachePool = \Mage::getModel('Magento\Core\Model\Cache\Frontend\Pool');
         /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($cachePool as $cacheFrontend) {
             $this->assertSame('non-application cache data',
@@ -63,10 +65,10 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->dispatch('backend/admin/cache/massEnable');
 
         /** @var  \Magento\Core\Model\Cache\TypeListInterface$cacheTypeList */
-        $cacheTypeList = Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
+        $cacheTypeList = \Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
-        $cacheState = Mage::getModel('Magento\Core\Model\Cache\StateInterface');
+        $cacheState = \Mage::getModel('Magento\Core\Model\Cache\StateInterface');
         foreach ($types as $type) {
             if (in_array($type, $typesToEnable)) {
                 $this->assertTrue($cacheState->isEnabled($type), "Type '$type' has not been enabled");
@@ -87,10 +89,10 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->dispatch('backend/admin/cache/massDisable');
 
         /** @var  \Magento\Core\Model\Cache\TypeListInterface$cacheTypeList */
-        $cacheTypeList = Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
+        $cacheTypeList = \Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
-        $cacheState = Mage::getModel('Magento\Core\Model\Cache\StateInterface');
+        $cacheState = \Mage::getModel('Magento\Core\Model\Cache\StateInterface');
         foreach ($types as $type) {
             if (in_array($type, $typesToDisable)) {
                 $this->assertFalse($cacheState->isEnabled($type), "Type '$type' has not been disabled");
@@ -111,7 +113,7 @@ class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Con
         $this->dispatch('backend/admin/cache/massRefresh');
 
         /** @var $cacheTypeList \Magento\Core\Model\Cache\TypeListInterface */
-        $cacheTypeList = Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
+        $cacheTypeList = \Mage::getModel('Magento\Core\Model\Cache\TypeListInterface');
         $invalidatedTypes = array_keys($cacheTypeList->getInvalidated());
         $failed = array_intersect($typesToRefresh, $invalidatedTypes);
         $this->assertEmpty($failed, 'Could not refresh following cache types: ' . join(', ', $failed));

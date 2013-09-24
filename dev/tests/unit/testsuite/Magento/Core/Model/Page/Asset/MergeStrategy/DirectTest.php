@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MergeStrategy_DirectTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset\MergeStrategy;
+
+class DirectTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Page\Asset\MergeStrategy\Direct
@@ -14,17 +16,17 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_DirectTest extends PHPUnit_Fra
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirs;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cssHelper;
 

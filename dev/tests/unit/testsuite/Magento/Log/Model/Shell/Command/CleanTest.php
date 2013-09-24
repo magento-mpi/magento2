@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Shell_Command_CleanTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model\Shell\Command;
+
+class CleanTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logMock;
 

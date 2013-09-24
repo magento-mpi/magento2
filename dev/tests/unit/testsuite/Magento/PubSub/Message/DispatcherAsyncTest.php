@@ -7,21 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestCase
+namespace Magento\PubSub\Message;
+
+class DispatcherAsyncTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\PubSub\Message\DispatcherAsync */
     private $_dispatcher;
 
-    /** PHPUnit_Framework_MockObject_MockObject */
+    /** \PHPUnit_Framework_MockObject_MockObject */
     private $_eventFactoryMock;
 
-    /** PHPUnit_Framework_MockObject_MockObject */
+    /** \PHPUnit_Framework_MockObject_MockObject */
     private $_eventMock;
 
     /** @var  string[] Data that gets passed to event factory */
     private $_actualData = array();
 
-    /** PHPUnit_Framework_MockObject_MockObject */
+    /** \PHPUnit_Framework_MockObject_MockObject */
     private $_queueWriter;
 
 
@@ -63,7 +65,7 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
      *
      * @param $topic
      * @param $data
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function logEventData($topic, $data)
     {

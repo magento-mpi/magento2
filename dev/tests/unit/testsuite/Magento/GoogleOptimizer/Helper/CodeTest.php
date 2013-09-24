@@ -5,10 +5,12 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Helper;
+
+class CodeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_codeModelMock;
 
@@ -21,7 +23,7 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
     {
         $this->_codeModelMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Helper\Code', array(
             'code' => $this->_codeModelMock,
         ));
@@ -82,7 +84,7 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The model class is not valid
      */
     public function testExceptionNotValidEntityType()
@@ -99,7 +101,7 @@ class Magento_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The model is empty
      */
     public function testExceptionEmptyEntity()

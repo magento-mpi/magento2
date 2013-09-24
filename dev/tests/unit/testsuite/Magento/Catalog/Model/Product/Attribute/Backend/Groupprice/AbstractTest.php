@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Attribute\Backend\Groupprice;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice\AbstractGroupprice

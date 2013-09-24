@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reports_Model_Plugin_LogTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reports\Model\Plugin;
+
+class LogTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Reports\Model\Plugin\Log
@@ -13,22 +15,22 @@ class Magento_Reports_Model_Plugin_LogTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_reportEventMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cmpProductIdxMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewProductIdxMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logResourceMock;
 

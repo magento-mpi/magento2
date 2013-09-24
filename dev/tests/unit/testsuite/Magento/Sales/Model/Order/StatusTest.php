@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order;
+
+class StatusTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Retrieve prepared for test \Magento\Sales\Model\Order\Status
@@ -26,7 +28,7 @@ class Magento_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
         if (!$eventDispatcher) {
             $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         }
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $model = $helper->getObject('Magento\Sales\Model\Order\Status', array(
             'resource' => $resource,
             'eventDispatcher' => $eventDispatcher

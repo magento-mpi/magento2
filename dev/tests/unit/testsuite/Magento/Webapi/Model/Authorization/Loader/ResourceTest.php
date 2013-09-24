@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Authorization\Loader;
+
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Webapi\Model\Authorization\Loader\Resource
@@ -20,12 +22,12 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
     protected $_acl;
 
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceProvider;
 
@@ -35,7 +37,7 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
     protected function setUp()
     {
         $fixturePath = __DIR__ . '/../../_files/';
-        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $resource = new \Magento\Acl\Resource('test resource');
 
@@ -68,7 +70,7 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
     {
         $aclFilePath = __DIR__ . DIRECTORY_SEPARATOR .  '..' . DIRECTORY_SEPARATOR .  '..'
             . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml';
-        $aclDom = new DOMDocument();
+        $aclDom = new \DOMDocument();
         $aclDom->loadXML(file_get_contents($aclFilePath));
         $domConverter = new \Magento\Webapi\Model\Acl\Resource\Config\Converter\Dom();
         $aclResourceConfig = $domConverter->convert($aclDom);

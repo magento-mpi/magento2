@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml;
+
+class DashboardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
@@ -34,7 +36,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
         $this->_request->setParam('ga', urlencode(base64_encode(json_encode(array(1)))));
         $this->_request->setParam('h', $fixture);
 
-        $tunnelResponse = new Zend_Http_Response(200, array('Content-Type' => 'test_header'), 'success_msg');
+        $tunnelResponse = new \Zend_Http_Response(200, array('Content-Type' => 'test_header'), 'success_msg');
         $httpClient = $this->getMock('Magento\HTTP\ZendClient', array('request'));
         $httpClient->expects($this->once())->method('request')->will($this->returnValue($tunnelResponse));
         /** @var $helper \Magento\Adminhtml\Helper\Dashboard\Data|PHPUnit_Framework_MockObject_MockObject */
@@ -82,7 +84,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
             ->method('get')
             ->with('Magento\Adminhtml\Helper\Dashboard\Data')
             ->will($this->returnValue($helper));
-        $exceptionMock = new Exception();
+        $exceptionMock = new \Exception();
         $objectManager->expects($this->at(1))
             ->method('create')
             ->with('Magento\HTTP\ZendClient')
@@ -119,7 +121,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
             $objectManager = new \Magento\ObjectManager\ObjectManager();
         }
         $rewriteFactory = $this->getMock('Magento\Core\Model\Url\RewriteFactory', array('create'), array(), '', false);
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $varienFront = $helper->getObject('Magento\Core\Controller\Varien\Front',
             array('rewriteFactory' => $rewriteFactory)
         );

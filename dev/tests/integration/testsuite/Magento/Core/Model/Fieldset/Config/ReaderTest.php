@@ -8,7 +8,9 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
-class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Fieldset\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Fieldset\Config\Reader

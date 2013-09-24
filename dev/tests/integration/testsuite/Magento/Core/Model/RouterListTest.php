@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class RouterListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager

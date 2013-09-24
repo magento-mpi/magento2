@@ -12,7 +12,9 @@
 /**
  * Test for theme image uploader
  */
-class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Image;
+
+class UploaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme\Image\Uploader|PHPUnit_Framework_MockObject_MockObject
@@ -20,22 +22,22 @@ class Magento_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_Test
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystemMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_transferAdapterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileUploader;
 

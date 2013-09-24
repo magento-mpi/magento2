@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
  * Tests product model:
  * - general behaviour is tested (external interaction and pricing is not tested there)
@@ -17,7 +19,7 @@
  * @see \Magento\Catalog\Model\ProductPriceTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product
@@ -26,15 +28,15 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product');
     }
 
     public static function tearDownAfterClass()
     {
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
-        $config = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
+        $config = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
 
-        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
         $filesystem->delete($config->getBaseMediaPath());
         $filesystem->delete($config->getBaseTmpMediaPath());
     }
@@ -52,23 +54,23 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
+        \Mage::app()->setCurrentStore(\Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
         $this->_model->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
             ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
             ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
         ;
-        $crud = new Magento_TestFramework_Entity($this->_model, array('sku' => uniqid()));
+        $crud = new \Magento\TestFramework\Entity($this->_model, array('sku' => uniqid()));
         $crud->testCrud();
     }
 
     public function testCleanCache()
     {
-        Mage::app()->saveCache('test', 'catalog_product_999', array('catalog_product_999'));
+        \Mage::app()->saveCache('test', 'catalog_product_999', array('catalog_product_999'));
         // potential bug: it cleans by cache tags, generated from its ID, which doesn't make much sense
         $this->_model->setId(999)->cleanCache();
-        $this->assertEmpty(Mage::app()->loadCache('catalog_product_999'));
+        $this->assertEmpty(\Mage::app()->loadCache('catalog_product_999'));
     }
 
     public function testAddImageToMediaGallery()
@@ -95,13 +97,13 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     protected function _copyFileToBaseTmpMediaPath($sourceFile)
     {
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
-        $config = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
+        $config = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
         $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
         $targetFile = $baseTmpMediaPath . DS . basename($sourceFile);
 
         /** @var \Magento\Filesystem $filesystem */
-        $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $filesystem->setIsAllowCreateDirectories(true);
         $filesystem->copy($sourceFile, $targetFile);
 
@@ -121,7 +123,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
             $this->assertNotEquals($duplicate->getSku(), $this->_model->getSku());
             $this->assertEquals(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED, $duplicate->getStatus());
             $this->_undo($duplicate);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_undo($duplicate);
             throw $e;
         }
@@ -142,7 +144,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     protected function _undo($duplicate)
     {
-        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $duplicate->delete();
     }
 
@@ -257,7 +259,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->getIsVirtual());
 
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = Mage::getModel(
+        $model = \Mage::getModel(
             'Magento\Catalog\Model\Product',
             array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL))
         );
@@ -290,7 +292,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isComposite());
 
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = Mage::getModel(
+        $model = \Mage::getModel(
             'Magento\Catalog\Model\Product',
             array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE))
         );
@@ -324,16 +326,16 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->setOrigData('key', 'value');
         $this->assertEmpty($this->_model->getOrigData());
 
-        $storeId = Mage::app()->getStore()->getId();
-        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        $storeId = \Mage::app()->getStore()->getId();
+        \Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         try {
             $this->_model->setOrigData('key', 'value');
             $this->assertEquals('value', $this->_model->getOrigData('key'));
-        } catch (Exception $e) {
-            Mage::app()->getStore()->setId($storeId);
+        } catch (\Exception $e) {
+            \Mage::app()->getStore()->setId($storeId);
             throw $e;
         }
-        Mage::app()->getStore()->setId($storeId);
+        \Mage::app()->getStore()->setId($storeId);
     }
 
     public function testReset()
@@ -354,7 +356,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->reset();
         $this->_assertEmpty($model);
 
-        $this->_model->addOption(Mage::getModel('Magento\Catalog\Model\Product\Option'));
+        $this->_model->addOption(\Mage::getModel('Magento\Catalog\Model\Product\Option'));
         $this->_model->reset();
         $this->_assertEmpty($model);
 

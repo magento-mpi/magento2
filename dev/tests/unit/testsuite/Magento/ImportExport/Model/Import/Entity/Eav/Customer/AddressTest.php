@@ -14,7 +14,9 @@
  *
  * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Eav\Customer;
+
+class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Customer address entity adapter mock
@@ -133,7 +135,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     protected $_coreStringMock;
 
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManagerMock;
 
@@ -142,7 +144,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     protected function setUp()
     {
-        $this->_objectManagerMock = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManagerMock = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_coreStringMock = $this->getMock(
             'Magento\Core\Helper\String', array('__construct'), array(), '', false
@@ -217,7 +219,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Create mock of attribute collection, so it can be used for tests
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Data\Collection
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Data\Collection
      */
     protected function _createAttrCollectionMock()
     {
@@ -248,7 +250,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Create mock of customer storage, so it can be used for tests
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\ImportExport\Model\Resource\Customer\Storage
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\ImportExport\Model\Resource\Customer\Storage
      */
     protected function _createCustomerStorageMock()
     {
@@ -275,7 +277,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Create simple mock of customer entity, so it can be used for tests
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createCustomerEntityMock()
     {
@@ -379,7 +381,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             true
         );
 
-        $availableBehaviors = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $availableBehaviors = new \ReflectionProperty($modelMock, '_availableBehaviors');
         $availableBehaviors->setAccessible(true);
         $availableBehaviors->setValue($modelMock, $this->_availableBehaviors);
 
@@ -398,7 +400,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             ->method('getNextBunch')
             ->will($this->returnValue(null));
 
-        $dataSourceModel = new ReflectionProperty(
+        $dataSourceModel = new \ReflectionProperty(
             'Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
             '_dataSourceModel'
         );
@@ -453,7 +455,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             $this->_getModelDependencies()
         );
 
-        $property = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $property = new \ReflectionProperty($modelMock, '_availableBehaviors');
         $property->setAccessible(true);
         $property->setValue($modelMock, $this->_availableBehaviors);
 

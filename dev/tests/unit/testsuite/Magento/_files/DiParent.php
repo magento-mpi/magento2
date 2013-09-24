@@ -5,8 +5,11 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-require_once __DIR__ . '/Interface.php';
-class Magento_Test_Di_Parent implements Magento_Test_Di_Interface
+namespace Magento\Test\Di;
+
+require_once __DIR__ . '/DiInterface.php';
+
+class DiParent implements \Magento\Test\Di\DiInterface
 {
     /**
      * @var string

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_NewsletterQueueTest extends Magento_Backend_Utility_Controller
+class NewsletterQueueTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @var \Magento\Newsletter\Model\Template
@@ -22,14 +24,14 @@ class Magento_Adminhtml_Controller_NewsletterQueueTest extends Magento_Backend_U
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento\Newsletter\Model\Template');
+        $this->_model = \Mage::getModel('Magento\Newsletter\Model\Template');
     }
     protected function tearDown()
     {
         /**
          * Unset messages
          */
-        Mage::getSingleton('Magento\Backend\Model\Session')->getMessages(true);
+        \Mage::getSingleton('Magento\Backend\Model\Session')->getMessages(true);
         unset($this->_model);
     }
 

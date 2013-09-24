@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_System_Config_Form_Field_FieldArray_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config\Form\Field\FieldArray;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetArrayRows()
     {

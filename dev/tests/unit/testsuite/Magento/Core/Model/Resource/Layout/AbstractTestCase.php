@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Layout;
+
+abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test 'where' condition for assertion
@@ -54,10 +56,10 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
     /**
      * Retrieve resource model instance
      *
-     * @param Zend_Db_Select $select
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @param \Zend_Db_Select $select
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getResource(Zend_Db_Select $select)
+    protected function _getResource(\Zend_Db_Select $select)
     {
         $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql',
             array(), array(), '', false
@@ -84,10 +86,10 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
 
     /**
      * @abstract
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
-    abstract protected function _getCollection(Zend_Db_Select $select);
+    abstract protected function _getCollection(\Zend_Db_Select $select);
 
     public function testAddUpdatedDaysBeforeFilter()
     {
@@ -98,15 +100,15 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
 
         $collection = $this->_getCollection($select);
 
-        /** @var $connection PHPUnit_Framework_MockObject_MockObject */
+        /** @var $connection \PHPUnit_Framework_MockObject_MockObject */
         $connection = $collection->getResource()->getReadConnection();
         $connection->expects($this->any())
             ->method('prepareSqlCondition')
             ->will($this->returnCallback(array($this, 'verifyPrepareSqlCondition')));
 
         // expected date without time
-        $datetime = new DateTime();
-        $storeInterval = new DateInterval('P' . self::TEST_DAYS_BEFORE . 'D');
+        $datetime = new \DateTime();
+        $storeInterval = new \DateInterval('P' . self::TEST_DAYS_BEFORE . 'D');
         $datetime->sub($storeInterval);
         $expectedDate = \Magento\Date::formatDate($datetime->getTimestamp());
         $this->_expectedConditions['data'][1][1]['lt'] = $expectedDate;

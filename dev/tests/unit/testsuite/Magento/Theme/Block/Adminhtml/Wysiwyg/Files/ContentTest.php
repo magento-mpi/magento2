@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files;
+
+class ContentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject
@@ -36,7 +38,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_ContentTest extends PHPUnit_Fr
         $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
         $this->_request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content',
             array(

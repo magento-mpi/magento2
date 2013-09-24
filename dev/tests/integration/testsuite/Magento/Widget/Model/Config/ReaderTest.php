@@ -8,7 +8,9 @@
  * @license     {license_link}
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
-class Magento_Widget_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Widget\Model\Config\Reader

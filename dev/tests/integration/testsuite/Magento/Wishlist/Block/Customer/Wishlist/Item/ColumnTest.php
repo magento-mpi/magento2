@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_Framework_TestCase
+namespace Magento\Wishlist\Block\Customer\Wishlist\Item;
+
+class ColumnTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout
@@ -23,7 +25,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->addBlock('Magento\Wishlist\Block\Customer\Wishlist\Item\Column', 'test');
         $this->_layout->addBlock('Magento\Core\Block\Text', 'child', 'test');
     }
@@ -33,7 +35,7 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_F
      */
     public function testToHtml()
     {
-        $item = new StdClass;
+        $item = new \StdClass;
         $this->_block->setItem($item);
         $this->_block->toHtml();
         $this->assertSame($item, $this->_layout->getBlock('child')->getItem());

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model\Installer\Db;
+
+class Mysql4Test extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test possible ways of declaring InnoDB engine by MySQL

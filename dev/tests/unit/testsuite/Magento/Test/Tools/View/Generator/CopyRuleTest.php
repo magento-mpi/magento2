@@ -7,9 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once __DIR__ . '/../../../../../../../../tools/Magento/Tools/View/Generator/CopyRule.php';
+namespace Magento\Test\Tools\View\Generator;
 
-class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_TestCase
+require_once __DIR__ . '/../../../../../../../../tools/Magento/Tools/View/Generator/CopyRule.php';
+class CopyRuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Generator_CopyRule
@@ -17,7 +18,7 @@ class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_T
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -27,7 +28,7 @@ class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_T
     protected $_themeCollection;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fallbackRule;
 

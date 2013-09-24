@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\View;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param \Magento\Core\Model\Theme $themeModel
@@ -106,7 +108,7 @@ class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
      */
     public static function getViewFileUrlProductionModeDataProvider()
     {
-        $usualTheme = PHPUnit_Framework_MockObject_Generator::getMock(
+        $usualTheme = \PHPUnit_Framework_MockObject_Generator::getMock(
             'Magento\Core\Model\Theme',
             array(),
             array(),
@@ -117,17 +119,17 @@ class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
         $virtualTheme = clone $usualTheme;
         $parentOfVirtualTheme = clone $usualTheme;
 
-        $usualTheme->expects(new PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
+        $usualTheme->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
             ->method('getThemePath')
-            ->will(new PHPUnit_Framework_MockObject_Stub_Return('t'));
+            ->will(new \PHPUnit_Framework_MockObject_Stub_Return('t'));
 
-        $parentOfVirtualTheme->expects(new PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
+        $parentOfVirtualTheme->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
             ->method('getThemePath')
-            ->will(new PHPUnit_Framework_MockObject_Stub_Return('t'));
+            ->will(new \PHPUnit_Framework_MockObject_Stub_Return('t'));
 
-        $virtualTheme->expects(new PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
+        $virtualTheme->expects(new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
             ->method('getParentTheme')
-            ->will(new PHPUnit_Framework_MockObject_Stub_Return($parentOfVirtualTheme));
+            ->will(new \PHPUnit_Framework_MockObject_Stub_Return($parentOfVirtualTheme));
 
         return array(
             'usual theme' => array(

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model\Processor;
+
+class RestrictionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\FullPageCache\Model\Processor\Restriction
@@ -17,7 +19,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheStateMock;
 
@@ -29,7 +31,7 @@ class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Fram
     protected $_requestId = 'test_id';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_environmentMock;
 

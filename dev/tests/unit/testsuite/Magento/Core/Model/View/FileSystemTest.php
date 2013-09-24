@@ -12,7 +12,9 @@
 /**
  * Test for view filesystem model
  */
-class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\View;
+
+class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject

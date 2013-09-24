@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReaderMock;
 

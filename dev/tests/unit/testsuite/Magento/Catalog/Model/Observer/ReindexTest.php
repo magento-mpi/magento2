@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Observer;
+
+class ReindexTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Positive test for fulltext reindex

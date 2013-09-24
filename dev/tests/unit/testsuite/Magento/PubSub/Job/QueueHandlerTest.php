@@ -7,45 +7,47 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\PubSub\Job;
+
+class QueueHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\PubSub\Job\QueueHandler */
     private $_queueHandler;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionMockA;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionMockB;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_eventMockA;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_eventMockB;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_queueReaderMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_queueWriterMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_messageMockA;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_messageMockB;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_msgFactoryMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_transportMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_endpointMockA;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_endpointMockB;
 
     protected function setUp()
@@ -207,7 +209,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {

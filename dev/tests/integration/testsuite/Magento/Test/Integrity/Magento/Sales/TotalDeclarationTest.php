@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Magento_Sales_TotalDeclarationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\Sales;
+
+class TotalDeclarationTest extends \PHPUnit_Framework_TestCase
 {
     public function testTotalDeclarations()
     {

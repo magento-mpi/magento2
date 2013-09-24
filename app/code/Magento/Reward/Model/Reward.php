@@ -222,7 +222,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Save reward points
      *
      * @return \Magento\Reward\Model\Reward
-     * @throws Exception
+     * @throws \Exception
      */
     public function updateRewardPoints()
     {

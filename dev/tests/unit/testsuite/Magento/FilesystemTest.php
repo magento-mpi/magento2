@@ -7,10 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
+ */
+namespace Magento;
+
+/**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
+class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetWorkingDirectory()
     {
@@ -20,7 +24,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @exceptedExceptionMessage Working directory "/tmp" does not exists
      */
     public function testSetWorkingDirectoryException()
@@ -335,7 +339,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Path '/etc/passwd' is out of working directory '/tmp'
      */
     public function testTouchIsolation()
@@ -375,7 +379,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Path '/tmp/../etc/test.txt' is out of working directory '/tmp'
      */
     public function testCreateStreamIsolation()
@@ -430,7 +434,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong mode parameter
      */
     public function testCreateAndOpenStreamException()
@@ -454,7 +458,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
         $filesystem = new \Magento\Filesystem($adapterMock);
         $filesystem->setWorkingDirectory('/tmp');
         $this->assertInstanceOf('Magento\Filesystem\Stream\Local',
-            $filesystem->createAndOpenStream($path, new stdClass()));
+            $filesystem->createAndOpenStream($path, new \stdClass()));
     }
 
     /**
@@ -513,7 +517,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Path '/tmp/../etc/passwd' is out of working directory '/tmp'
      * @dataProvider adapterIsolationMethods
      * @param string $method
@@ -637,7 +641,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Path '/tmp/../path/file.txt' is out of working directory '/tmp'
      * @dataProvider workingDirDataProvider
      * @param string|null $workingDirectory
@@ -670,7 +674,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage "/tmp/test/file.txt" does not exists
      * @dataProvider methodsWithFileChecksDataProvider
      * @param string $method
@@ -707,7 +711,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage "/tmp/test/file.txt" does not exists
      * @dataProvider methodsWithPathChecksDataProvider
      * @param string $method
@@ -773,7 +777,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test isDirectory isolation
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Path '/tmp/../etc/passwd' is out of working directory '/tmp'
      * @dataProvider workingDirDataProvider
      * @param string|null $workingDirectory
@@ -842,7 +846,7 @@ class Magento_FilesystemTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDefaultAdapterMock()
     {

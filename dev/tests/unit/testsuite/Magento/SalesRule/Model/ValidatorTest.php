@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_SalesRule_Model_ValidatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesRule\Model;
+
+class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\SalesRule\Model\Validator|PHPUnit_Framework_MockObject_MockObject
@@ -40,12 +42,12 @@ class Magento_SalesRule_Model_ValidatorTest extends PHPUnit_Framework_TestCase
         $itemDownloadable = $this->getMock('Magento\Sales\Model\Quote\Item', array('getAddress'), array(), '', false);
         $itemDownloadable->expects($this->any())
             ->method('getAddress')
-            ->will($this->returnValue(new stdClass()));
+            ->will($this->returnValue(new \stdClass()));
 
         $itemSimple = $this->getMock('Magento\Sales\Model\Quote\Item', array('getAddress'), array(), '', false);
         $itemSimple->expects($this->any())
             ->method('getAddress')
-            ->will($this->returnValue(new stdClass()));
+            ->will($this->returnValue(new \stdClass()));
 
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->getMock('Magento\Sales\Model\Quote', array('hasNominalItems'), array(), '', false);

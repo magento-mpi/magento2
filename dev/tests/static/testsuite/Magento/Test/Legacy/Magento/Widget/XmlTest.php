@@ -14,7 +14,9 @@
 /**
  * A test for backwards-incompatible change in widget.xml structure
  */
-class Magento_Test_Legacy_Magento_Widget_XmlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy\Magento\Widget;
+
+class XmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -24,7 +26,7 @@ class Magento_Test_Legacy_Magento_Widget_XmlTest extends PHPUnit_Framework_TestC
     {
         $xml = simplexml_load_file($file);
         $nodes = $xml->xpath('/widgets/*[@type]') ?: array();
-        /** @var SimpleXMLElement $node */
+        /** @var \SimpleXMLElement $node */
         foreach ($nodes as $node) {
             $type = (string)$node['type'];
             $this->assertNotRegExp('/\//', $type, "Factory name detected: {$type}.");
@@ -51,6 +53,6 @@ class Magento_Test_Legacy_Magento_Widget_XmlTest extends PHPUnit_Framework_TestC
      */
     public function widgetXmlFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('widget.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('widget.xml');
     }
 }

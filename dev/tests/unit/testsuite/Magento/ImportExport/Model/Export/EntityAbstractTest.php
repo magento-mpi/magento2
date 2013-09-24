@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Model\Export\EntityAbstract
  */
-class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export;
+
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test for setter and getter of file name property

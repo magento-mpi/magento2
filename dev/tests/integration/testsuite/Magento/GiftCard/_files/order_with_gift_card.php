@@ -10,7 +10,7 @@
  */
 
 /** @var $billingAddress \Magento\Sales\Model\Order\Address */
-$billingAddress = Mage::getModel('Magento\Sales\Model\Order\Address',
+$billingAddress = \Mage::getModel('Magento\Sales\Model\Order\Address',
     array(
         'data' => array(
             'firstname'  => 'guest',
@@ -32,11 +32,11 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
 /** @var $payment \Magento\Sales\Model\Order\Payment */
-$payment = Mage::getModel('Magento\Sales\Model\Order\Payment');
+$payment = \Mage::getModel('Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
 /** @var $orderItem \Magento\Sales\Model\Order\Item */
-$orderItem = Mage::getModel('Magento\Sales\Model\Order\Item');
+$orderItem = \Mage::getModel('Magento\Sales\Model\Order\Item');
 $orderItem->setProductId(1)
     ->setProductType(\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD)
     ->setBasePrice(100)
@@ -53,7 +53,7 @@ $orderItem->setProductId(1)
     ));
 
 /** @var $order \Magento\Sales\Model\Order */
-$order = Mage::getModel('Magento\Sales\Model\Order');
+$order = \Mage::getModel('Magento\Sales\Model\Order');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setCustomerIsGuest(true)
@@ -68,5 +68,5 @@ Magento_TestFramework_Helper_Bootstrap::getObjectManager()
     ->get('Magento\Core\Model\Config')
     ->setNode('websites/base/giftcard/giftcardaccount_general/pool_size', 1);
 /** @var $pool \Magento\GiftCardAccount\Model\Pool */
-$pool = Mage::getModel('Magento\GiftCardAccount\Model\Pool');
+$pool = \Mage::getModel('Magento\GiftCardAccount\Model\Pool');
 $pool->setWebsiteId(1)->generatePool();

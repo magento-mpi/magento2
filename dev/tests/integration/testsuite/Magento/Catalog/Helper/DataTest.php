@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Helper\Data
@@ -18,7 +20,8 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Catalog\Helper\Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Data');
     }
 
     /**
@@ -26,10 +29,10 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBreadcrumbPath()
     {
-        $category = Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Mage::getModel('Magento\Catalog\Model\Category');
         $category->load(5);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
 
         try {
@@ -39,7 +42,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->assertArrayHasKey('label', $path['category3']);
             $this->assertArrayHasKey('link', $path['category3']);
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
@@ -47,14 +50,14 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetCategory()
     {
-        $category = Mage::getModel('Magento\Catalog\Model\Category');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $category = \Mage::getModel('Magento\Catalog\Model\Category');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $category);
         try {
             $this->assertSame($category, $this->_helper->getCategory());
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
@@ -62,14 +65,14 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetProduct()
     {
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
         try {
             $this->assertSame($product, $this->_helper->getProduct());
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_product');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_product');
             throw $e;
         }
@@ -84,13 +87,13 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAttributeHiddenFields()
     {
         $this->assertEquals(array(), $this->_helper->getAttributeHiddenFields());
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('attribute_type_hidden_fields', 'test');
         try {
             $this->assertEquals('test', $this->_helper->getAttributeHiddenFields());
             $objectManager->get('Magento\Core\Model\Registry')->unregister('attribute_type_hidden_fields');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $objectManager->get('Magento\Core\Model\Registry')->unregister('attribute_type_hidden_fields');
             throw $e;
         }
@@ -99,13 +102,13 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAttributeDisabledTypes()
     {
         $this->assertEquals(array(), $this->_helper->getAttributeDisabledTypes());
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('attribute_type_disabled_types', 'test');
         try {
             $this->assertEquals('test', $this->_helper->getAttributeDisabledTypes());
             $objectManager->get('Magento\Core\Model\Registry')->unregister('attribute_type_disabled_types');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $objectManager->get('Magento\Core\Model\Registry')->unregister('attribute_type_disabled_types');
             throw $e;
         }
@@ -164,7 +167,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testIsUsingStaticUrlsAllowed()
     {
         $this->assertTrue($this->_helper->isUsingStaticUrlsAllowed());
-        $this->_helper->setStoreId(Mage::app()->getStore()->getId());
+        $this->_helper->setStoreId(\Mage::app()->getStore()->getId());
         $this->assertTrue($this->_helper->isUsingStaticUrlsAllowed());
     }
 
@@ -181,7 +184,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testIsUrlDirectivesParsingAllowed()
     {
         $this->assertFalse($this->_helper->isUrlDirectivesParsingAllowed());
-        $this->_helper->setStoreId(Mage::app()->getStore()->getId());
+        $this->_helper->setStoreId(\Mage::app()->getStore()->getId());
         $this->assertFalse($this->_helper->isUrlDirectivesParsingAllowed());
     }
 

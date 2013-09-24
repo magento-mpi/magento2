@@ -1,10 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form\Container
- *
- * @magentoDbIsolation enabled
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -13,11 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Registration\Create\Form;
+
+/**
+ * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form\Container
+ *
+ * @magentoDbIsolation enabled
+ * @magentoAppArea adminhtml
+ */
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMethods()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         // Data for the block object
         $subscriptionId = $objectManager->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)

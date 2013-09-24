@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_AdminNotification_Model_Resource_Inbox_Collection_CriticalTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminNotification\Model\Resource\Inbox\Collection;
+
+class CriticalTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical
@@ -14,7 +16,7 @@ class Magento_AdminNotification_Model_Resource_Inbox_Collection_CriticalTest ext
 
     protected function setUp()
     {
-        $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical');
     }
 

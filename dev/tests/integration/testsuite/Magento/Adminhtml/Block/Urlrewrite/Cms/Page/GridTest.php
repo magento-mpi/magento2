@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
+
 /**
  * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Framework_TestCase
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test prepare grid
@@ -21,7 +23,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
     public function testPrepareGrid()
     {
         /** @var \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
-        $gridBlock = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
+        $gridBlock = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
         $gridBlock->toHtml();
 
         foreach (array('title', 'identifier', 'is_active') as $key) {
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
     public function testPrepareGridForMultipleStores()
     {
         /** @var \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
-        $gridBlock = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
+        $gridBlock = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
         $gridBlock->toHtml();
         $this->assertInstanceOf('Magento\Backend\Block\Widget\Grid\Column', $gridBlock->getColumn('store_id'),
             'When there is more than one store column with key "store_id" should be present');

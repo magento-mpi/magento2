@@ -1,10 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Registration\ActivateTest
- *
- * @magentoDbIsolation enabled
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -13,13 +8,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Registration;
+
+/**
+ * \Magento\Webhook\Block\Adminhtml\Registration\ActivateTest
+ *
+ * @magentoDbIsolation enabled
+ * @magentoAppArea adminhtml
+ */
+class ActivateTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMethods()
     {
         // Data for the block object
         $topics = array('array', 'of', 'topics');
-        $subscriptionId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $subscriptionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
@@ -31,16 +34,16 @@ class Magento_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_
         );
 
         /** @var \Magento\Core\Model\Registry $registry */
-        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
         $registry->register(\Magento\Webhook\Block\Adminhtml\Registration\Activate::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
 
         /** @var \Magento\Core\Block\Template\Context $context */
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Block\Template\Context');
 
         /** @var \Magento\Webhook\Block\Adminhtml\Registration\Activate $block */
-        $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Block\Adminhtml\Registration\Activate', array($context, $registry));
 
         $urlBuilder = $context->getUrlBuilder();

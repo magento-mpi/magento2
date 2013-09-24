@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test_Block_Adminhtml
+namespace Magento\Webhook\Block\Adminhtml\Subscription;
+
+class EditTest extends \Magento\Test\Block\Adminhtml
 {
     /** @var  \Magento\Core\Model\Registry */
     private $_registry;

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Pbridge_Model_Authorizenet_Source_PaymentActionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Pbridge\Model\Authorizenet\Source;
+
+class PaymentActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Pbridge\Model\Authorizenet\Source\PaymentAction

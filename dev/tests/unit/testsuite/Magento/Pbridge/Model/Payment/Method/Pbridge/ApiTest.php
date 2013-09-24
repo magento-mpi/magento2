@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Framework_TestCase
+namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
+
+class ApiTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
@@ -21,7 +23,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Frame
 
     /**
      * @param array $data
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Pbridge\Model\Payment\Method\Pbridge\Api
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Pbridge\Model\Payment\Method\Pbridge\Api
      */
     protected function _getApiMock(array $data)
     {
@@ -36,7 +38,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Frame
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getProfilerDriverMock()
     {

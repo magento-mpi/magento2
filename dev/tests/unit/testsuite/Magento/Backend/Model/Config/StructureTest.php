@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config;
+
+class StructureTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure
@@ -17,22 +19,22 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_flyweightFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_tabIteratorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_structureDataMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_scopeDefinerMock;
 

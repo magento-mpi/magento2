@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
+
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Webapi\Model\Resource\Acl\Rule|PHPUnit_Framework_MockObject_MockObject
@@ -28,7 +30,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
 
         $rootResource = new \Magento\Core\Model\Acl\RootResource('Magento_Webapi');
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject('Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource', array(
             'ruleResource' => $this->_ruleResource,
             'rootResource' => $rootResource

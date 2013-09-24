@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Rss\Controller;
+
+class CatalogTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @param string $action
@@ -92,7 +94,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_
     public function testNotifyStockAction()
     {
         // workaround: trigger updating "low stock date", because RSS collection requires it to be not null
-        Mage::getResourceSingleton('Magento\CatalogInventory\Model\Resource\Stock')->updateLowStockDate();
+        \Mage::getResourceSingleton('Magento\CatalogInventory\Model\Resource\Stock')->updateLowStockDate();
         $this->_loginAdmin();
         $this->dispatch('rss/catalog/notifystock');
 
@@ -123,7 +125,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_
      */
     public function testCategoryAction()
     {
-        $this->getRequest()->setParam('cid', Mage::app()->getStore()->getRootCategoryId());
+        $this->getRequest()->setParam('cid', \Mage::app()->getStore()->getRootCategoryId());
         $this->dispatch('rss/catalog/category');
         $this->assertStringMatchesFormat(
             '%A<link>http://localhost/index.php/catalog/category/view/%A/id/2/</link>%A',
@@ -136,12 +138,12 @@ class Magento_Rss_Controller_CatalogTest extends Magento_TestFramework_TestCase_
      */
     protected function _loginAdmin()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setArea('adminhtml')
             ->setDefaultDesignTheme();
         $this->getRequest()->setServer(array(
-            'PHP_AUTH_USER' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
-            'PHP_AUTH_PW' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
+            'PHP_AUTH_USER' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            'PHP_AUTH_PW' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         ));
     }
 }

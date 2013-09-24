@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Ogone_Model_ApiTest extends PHPUnit_Framework_TestCase
+namespace Magento\Ogone\Model;
+
+class ApiTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -37,7 +39,7 @@ class Magento_Ogone_Model_ApiTest extends PHPUnit_Framework_TestCase
             $coreString, $coreStoreConfig, $config, $paymentDataMock
         );
 
-        $method = new ReflectionMethod('Magento\Ogone\Model\Api', '_translate');
+        $method = new \ReflectionMethod('Magento\Ogone\Model\Api', '_translate');
         $method->setAccessible(true);
 
         $result = $method->invoke($object, $sourceString);

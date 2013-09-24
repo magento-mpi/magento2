@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService\Path;
+
+class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Names to use for testing path composite

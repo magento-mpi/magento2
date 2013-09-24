@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Order\Invoice;
+
+class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout
@@ -28,9 +30,9 @@ class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\Sales\Block\Order\Invoice\Items', 'block');
-        $this->_invoice = Mage::getModel('Magento\Sales\Model\Order\Invoice');
+        $this->_invoice = \Mage::getModel('Magento\Sales\Model\Order\Invoice');
     }
 
     /**

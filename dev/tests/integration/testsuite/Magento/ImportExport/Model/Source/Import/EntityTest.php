@@ -12,7 +12,9 @@
 /**
  * Test class for entity source model \Magento\ImportExport\Model\Source\Import\Entity
  */
-class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Source\Import;
+
+class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tested source model

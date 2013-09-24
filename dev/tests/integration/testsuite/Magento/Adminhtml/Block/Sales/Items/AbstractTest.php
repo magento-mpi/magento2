@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Sales\Items;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework_TestCase
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetItemExtraInfoHtml()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Sales\Items\AbstractItems */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Sales\Items\AbstractItems', 'block');
 

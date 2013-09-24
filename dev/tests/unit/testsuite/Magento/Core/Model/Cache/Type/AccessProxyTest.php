@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_Type_AccessProxyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Cache\Type;
+
+class AccessProxyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $method
@@ -31,7 +33,7 @@ class Magento_Core_Model_Cache_Type_AccessProxyTest extends PHPUnit_Framework_Te
             ->will($this->returnValue(true));
 
         $object = new \Magento\Core\Model\Cache\Type\AccessProxy($frontendMock, $cacheEnabler, $identifier);
-        $helper = new Magento_TestFramework_Helper_ProxyTesting();
+        $helper = new \Magento\TestFramework\Helper\ProxyTesting();
 
         // For the first call the cache is disabled - so fake default result is returned
         $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $enabledResult);
@@ -52,7 +54,7 @@ class Magento_Core_Model_Cache_Type_AccessProxyTest extends PHPUnit_Framework_Te
             array('load', array('record_id'), false, '111'),
             array('save', array('record_value', 'record_id', array('tag'), 555), true, false),
             array('remove', array('record_id'), true, false),
-            array('clean', array(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array('tag')), true, false),
+            array('clean', array(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array('tag')), true, false),
         );
     }
 }

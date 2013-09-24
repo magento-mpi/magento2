@@ -12,7 +12,9 @@
 /**
  * Test for \Magento\Validator\Builder
  */
-class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator;
+
+class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test createValidator method
@@ -46,7 +48,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         // Case 1. Check constructor with arguments
         $actualConstraints = array(array(
             'alias' => 'name_alias',
-            'class' => 'Magento_Validator_Test_StringLength',
+            'class' => 'Magento\Validator\Test\StringLength',
             'options' => array(
                 'arguments' => array(1, new \Magento\Validator\Constraint\Option(20))
             ),
@@ -57,7 +59,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         $expectedValidator = new \Magento\Validator();
         $expectedValidator->addValidator(
             new \Magento\Validator\Constraint\Property(
-                new Magento_Validator_Test_StringLength(1, 20), 'name', 'name_alias'
+                new \Magento\Validator\Test\StringLength(1, 20), 'name', 'name_alias'
             )
         );
 
@@ -66,7 +68,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         // Case 2. Check method calls
         $actualConstraints = array(array(
             'alias' => 'description_alias',
-            'class' => 'Magento_Validator_Test_StringLength',
+            'class' => 'Magento\Validator\Test\StringLength',
             'options' => array(
                 'methods' => array (
                     array(
@@ -86,7 +88,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         $expectedValidator = new \Magento\Validator();
         $expectedValidator->addValidator(
             new \Magento\Validator\Constraint\Property(
-                new Magento_Validator_Test_StringLength(10, 1000), 'description', 'description_alias'
+                new \Magento\Validator\Test\StringLength(10, 1000), 'description', 'description_alias'
             )
         );
 
@@ -95,7 +97,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         // Case 3. Check callback on validator
         $actualConstraints = array(array(
             'alias' => 'sku_alias',
-            'class' => 'Magento_Validator_Test_StringLength',
+            'class' => 'Magento\Validator\Test\StringLength',
             'options' => array(
                 'callback' => array(new \Magento\Validator\Constraint\Option\Callback(
                     function ($validator) {
@@ -111,7 +113,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         $expectedValidator = new \Magento\Validator();
         $expectedValidator->addValidator(
             new \Magento\Validator\Constraint\Property(
-                new Magento_Validator_Test_StringLength(20, 100), 'sku', 'sku_alias'
+                new \Magento\Validator\Test\StringLength(20, 100), 'sku', 'sku_alias'
             )
         );
 
@@ -163,7 +165,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
     public function configurationDataProvider()
     {
         $callback = new \Magento\Validator\Constraint\Option\Callback(
-            array('Magento_Validator_Test_Callback', 'getId'));
+            array('Magento\Validator\Test\Callback', 'getId'));
         $someMethod = array('method' => 'getMessages');
         $methodWithArgs = array('method' => 'setMax', 'arguments' => array(100));
         $constructorArgs = array('arguments' => array(array('max' => '50')));
@@ -171,7 +173,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
 
         $configuredConstraint = array(
             'alias' => 'current_alias',
-            'class' => 'Magento_Validator_Test_NotEmpty',
+            'class' => 'Magento\Validator\Test\NotEmpty',
             'options' => array(
                 'arguments' => array(array('min' => 1)),
                 'callback' => array($callback),
@@ -182,14 +184,14 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         );
         $emptyConstraint = array(
             'alias' => 'current_alias',
-            'class' => 'Magento_Validator_Test_NotEmpty',
+            'class' => 'Magento\Validator\Test\NotEmpty',
             'options' => null,
             'property' => 'int',
             'type' => 'property'
         );
         $constraintWithArgs = array(
             'alias' => 'current_alias',
-            'class' => 'Magento_Validator_Test_NotEmpty',
+            'class' => 'Magento\Validator\Test\NotEmpty',
             'options' => array('arguments' => array(array('min' => 1))),
             'property' => 'int',
             'type' => 'property'
@@ -268,7 +270,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
         }
         $constraints = array(array(
             'alias' => 'alias',
-            'class' => 'Magento_Validator_Test_True',
+            'class' => 'Magento\Validator\Test\True',
             'options' => $options,
             'type' => 'entity'
         ));
@@ -290,7 +292,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
 
         $constraints = array(array(
             'alias' => 'alias',
-            'class' => 'Magento_Validator_Test_True',
+            'class' => 'Magento\Validator\Test\True',
             'options' => null,
             'type' => 'entity'
         ));
@@ -344,7 +346,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
     /**
      * Check exception is thrown if validator is not an instance of \Magento\Validator\ValidatorInterface
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Constraint class "Magento\Object" must implement \Magento\Validator\ValidatorInterface
      */
     public function testCreateValidatorInvalidInstance()
@@ -364,7 +366,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider invalidConfigurationFormatDataProvider
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Configuration has incorrect format
      *
      * @param mixed $configuration
@@ -373,7 +375,7 @@ class Magento_Validator_BuilderTest extends PHPUnit_Framework_TestCase
     {
         $constraints = array(array(
             'alias' => 'alias',
-            'class' => 'Magento_Validator_Test_True',
+            'class' => 'Magento\Validator\Test\True',
             'options' => null,
             'type' => 'entity'
         ));

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Layout;
+
+class HandlesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test dependencies between handle attributes that is out of coverage by XSD
@@ -64,7 +66,7 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
         $issues = array();
         $xml = simplexml_load_file($layoutFile);
         $containers = $xml->xpath('/layout//container') ?: array();
-        /** @var SimpleXMLElement $node */
+        /** @var \SimpleXMLElement $node */
         foreach ($containers as $node) {
             if (!isset($node['htmlTag']) && (isset($node['htmlId']) || isset($node['htmlClass']))) {
                 $issues[] = $node->asXML();
@@ -95,6 +97,6 @@ class Magento_Test_Integrity_Layout_HandlesTest extends PHPUnit_Framework_TestCa
      */
     public function layoutFilesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 }

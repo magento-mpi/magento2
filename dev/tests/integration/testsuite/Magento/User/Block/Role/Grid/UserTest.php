@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Block\Role\Grid;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Block_Role_Grid_UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\User\Block\Role\Grid\User
@@ -21,7 +23,7 @@ class Magento_User_Block_Role_Grid_UserTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $layout->createBlock('Magento\User\Block\Role\Grid\User');
     }
 

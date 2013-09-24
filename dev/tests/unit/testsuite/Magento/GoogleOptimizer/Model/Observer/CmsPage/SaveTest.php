@@ -5,30 +5,32 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleOptimizer\Model\Observer\CmsPage;
+
+class SaveTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventObserverMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_pageMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_codeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
@@ -54,7 +56,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
         $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
             'Magento\GoogleOptimizer\Model\Observer\CmsPage\Save',
             array(
@@ -93,7 +95,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
 
     /**
      * @param array $params
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong request parameters
      * @dataProvider dataProviderWrongRequestForCreating
      */
@@ -158,7 +160,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Code does not exist
      */
     public function testEditingCodeIfCodeModelIsNotFound()

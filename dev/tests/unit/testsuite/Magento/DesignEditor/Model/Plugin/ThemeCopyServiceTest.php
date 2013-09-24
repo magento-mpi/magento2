@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_DesignEditor_Model_Plugin_ThemeCopyServiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Plugin;
+
+class ThemeCopyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DesignEditor\Model\Plugin\ThemeCopyService
@@ -13,7 +15,7 @@ class Magento_DesignEditor_Model_Plugin_ThemeCopyServiceTest extends PHPUnit_Fra
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 

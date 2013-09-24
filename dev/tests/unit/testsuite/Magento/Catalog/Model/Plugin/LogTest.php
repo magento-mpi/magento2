@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Plugin_LogTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Plugin;
+
+class LogTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Plugin\Log
@@ -13,12 +15,12 @@ class Magento_Catalog_Model_Plugin_LogTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_compareItemMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logResourceMock;
 

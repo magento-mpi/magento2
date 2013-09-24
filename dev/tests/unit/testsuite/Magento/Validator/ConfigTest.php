@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Validator\Config
@@ -15,7 +17,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_config = null;
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage There must be at least one configuration file specified.
      */
     public function testConstructException()
@@ -37,7 +39,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unknown validation entity "invalid_entity"
      */
     public function testCreateValidatorInvalidEntityName()
@@ -47,7 +49,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unknown validation group "invalid_group" in entity "test_entity_a"
      */
     public function testCreateValidatorInvalidGroupName()
@@ -57,7 +59,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Constraint class "stdClass" must implement \Magento\Validator\ValidatorInterface
      */
     public function testCreateValidatorInvalidConstraintClass()
@@ -67,7 +69,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Builder class "UnknownBuilderClass" was not found
      */
     public function testGetValidatorBuilderClassNotFound()
@@ -77,7 +79,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Builder "stdClass" must extend \Magento\Validator\Builder
      */
     public function testGetValidatorBuilderInstanceInvalid()
@@ -194,7 +196,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
         $expected = array(
             array(
                 'alias' => '',
-                'class' => 'Magento_Validator_Test_NotEmpty',
+                'class' => 'Magento\Validator\Test\NotEmpty',
                 'options' => null,
                 'property' => 'int',
                 'type' => 'property'
@@ -210,13 +212,13 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
                             'option2' => 'value2'
                         )),
                         new \Magento\Validator\Constraint\Option\Callback(array(
-                            'Magento_Validator_Test_Callback',
+                            'Magento\Validator\Test\Callback',
                             'getId'
                         ), null, true)
                     ),
                     'callback' => array(
                         new \Magento\Validator\Constraint\Option\Callback(array(
-                            'Magento_Validator_Test_Callback',
+                            'Magento\Validator\Test\Callback',
                             'configureValidator'
                         ), null, true)
                     ),
@@ -226,7 +228,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
                             'arguments' => array(
                                 new \Magento\Validator\Constraint\Option(array('argOption' => 'argOptionValue')),
                                 new \Magento\Validator\Constraint\Option\Callback(array(
-                                    'Magento_Validator_Test_Callback',
+                                    'Magento\Validator\Test\Callback',
                                     'getId'
                                 ), null, true),
                                 new \Magento\Validator\Constraint\Option('10')

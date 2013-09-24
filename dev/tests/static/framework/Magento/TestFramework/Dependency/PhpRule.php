@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_TestFramework_Dependency_PhpRule implements Magento_TestFramework_Dependency_RuleInterface
+namespace Magento\TestFramework\Dependency;
+
+class PhpRule implements \Magento\TestFramework\Dependency\RuleInterface
 {
     /**
      * Gets alien dependencies information for current module by analyzing file's contents
@@ -29,7 +31,7 @@ class Magento_TestFramework_Dependency_PhpRule implements Magento_TestFramework_
         }
 
         $pattern = '~\b(?<class>(?<module>(' . implode('_|',
-                Magento_TestFramework_Utility_Files::init()->getNamespaces()) .
+                \Magento\TestFramework\Utility\Files::init()->getNamespaces()) .
                 '[_\\\\])[a-zA-Z0-9]+)[a-zA-Z0-9_\\\\]*)\b~';
 
         $dependenciesInfo = array();
@@ -42,7 +44,7 @@ class Magento_TestFramework_Dependency_PhpRule implements Magento_TestFramework_
                 }
                 $dependenciesInfo[] = array(
                     'module' => $referenceModule,
-                    'type'   => Magento_TestFramework_Dependency_RuleInterface::TYPE_HARD,
+                    'type'   => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
                     'source' => trim($matches['class'][$i]),
                 );
             }

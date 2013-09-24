@@ -12,7 +12,9 @@
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Test\TestCase;
+
+class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     protected $_bootstrap;
 
@@ -31,18 +33,18 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
             ->disableOriginalConstructor()
             ->getMock();
         $request = new Magento_TestFramework_Request($helperMock);
-        $response = new Magento_TestFramework_Response(
+        $response = new \Magento\TestFramework\Response(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );
 
         $this->_objectManager = $this->getMock(
-            'Magento_TestFramework_ObjectManager', array('get', 'create'), array(), '', false
+            'Magento\TestFramework\ObjectManager', array('get', 'create'), array(), '', false
         );
         $this->_objectManager->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap(array(
-                array('Magento_TestFramework_Request', $request),
-                array('Magento_TestFramework_Response', $response),
+                array('Magento\TestFramework\Request', $request),
+                array('Magento\TestFramework\Response', $response),
                 array('Magento\Core\Model\Session', $session),
             )));
     }
@@ -51,13 +53,13 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
      * Bootstrap instance getter.
      * Mocking real bootstrap
      *
-     * @return Magento_TestFramework_Bootstrap
+     * @return \Magento\TestFramework\Bootstrap
      */
     protected function _getBootstrap()
     {
         if (!$this->_bootstrap) {
             $this->_bootstrap = $this->getMock(
-                'Magento_TestFramework_Bootstrap', array('getAllOptions'), array(), '', false);
+                'Magento\TestFramework\Bootstrap', array('getAllOptions'), array(), '', false);
         }
         return $this->_bootstrap;
     }
@@ -65,13 +67,13 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
     public function testGetRequest()
     {
         $request = $this->getRequest();
-        $this->assertInstanceOf('Magento_TestFramework_Request', $request);
+        $this->assertInstanceOf('Magento\TestFramework\Request', $request);
     }
 
     public function testGetResponse()
     {
         $response = $this->getResponse();
-        $this->assertInstanceOf('Magento_TestFramework_Response', $response);
+        $this->assertInstanceOf('Magento\TestFramework\Response', $response);
     }
 
     /**
@@ -88,14 +90,14 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
         $this->getResponse()->setBody('');
         try {
             $this->assert404NotFound();
-        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+        } catch (\PHPUnit_Framework_AssertionFailedError $e) {
             return;
         }
         $this->fail('Failed response body validation');
     }
 
     /**
-     * @expectedException PHPUnit_Framework_AssertionFailedError
+     * @expectedException \PHPUnit_Framework_AssertionFailedError
      */
     public function testAssertRedirectFailure()
     {
@@ -112,7 +114,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
          * which requires fully initialized application environment intentionally not available
          * for unit tests
          */
-        $setRedirectMethod = new ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
+        $setRedirectMethod = new \ReflectionMethod('Zend_Controller_Response_Http', 'setRedirect');
         $setRedirectMethod->invoke($this->getResponse(), 'http://magentocommerce.com');
         $this->assertRedirect();
         $this->assertRedirect($this->equalTo('http://magentocommerce.com'));
@@ -144,7 +146,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
     }
 
     /**
-     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit_Framework_ExpectationFailedException
      * @expectedExceptionMessage Session messages do not meet expectations
      */
     public function testAssertSessionMessagesFailure()

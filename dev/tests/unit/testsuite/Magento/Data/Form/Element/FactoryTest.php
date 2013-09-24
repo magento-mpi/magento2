@@ -12,10 +12,12 @@
 /**
  * Tests for \Magento\Data\Form\Element\Factory
  */
-class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data\Form\Element;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
@@ -102,7 +104,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $type
      * @dataProvider createExceptionReflectionExceptionDataProvider
-     * @expectedException ReflectionException
+     * @expectedException \ReflectionException
      */
     public function testCreateExceptionReflectionException($type)
     {
@@ -128,7 +130,7 @@ class Magento_Data_Form_Element_FactoryTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $type
      * @dataProvider createExceptionInvalidArgumentDataProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testCreateExceptionInvalidArgument($type)
     {

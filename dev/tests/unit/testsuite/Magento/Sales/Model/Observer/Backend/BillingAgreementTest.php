@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Observer\Backend;
+
+class BillingAgreementTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Observer\Backend\BillingAgreement
@@ -14,12 +16,12 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerMock;
 
@@ -50,7 +52,7 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_
         $this->_authorizationMock->expects(
             $this->once())->method('isAllowed')->with('Magento_Sales::use')->will($this->returnValue(false)
         );
-        $result = new StdClass();
+        $result = new \StdClass();
         $event->expects($this->once())->method('getResult')->will($this->returnValue($result));
         $this->_model->dispatch($this->_observerMock);
         $this->assertFalse($result->isAvailable);

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class WeightTest extends \PHPUnit_Framework_TestCase
 {
     const VIRTUAL_FIELD_HTML_ID = 'weight_and_type_switcher';
 

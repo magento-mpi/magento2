@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl;
+
 require_once realpath(__DIR__ . '/../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../../')
@@ -18,7 +20,8 @@ require_once realpath(__DIR__ . '/../../../../../../../../')
 /**
  * Tools_Migration_Acl test case
  */
-class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
+
+class GeneratorSaveTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var $model \Magento\Tools\Migration\Acl\Generator
@@ -41,12 +44,12 @@ class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framewo
     protected $_aclFile;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_xmlFormatterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
@@ -62,7 +65,7 @@ class Magento_Test_Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framewo
         $this->_originFile = $path . 'adminhtml.xml';
         $this->_aclFile = $path . 'adminhtml' . DIRECTORY_SEPARATOR . 'acl.xml';
 
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $config = $dom->createElement('config');
         $dom->appendChild($config);
         $acl = $dom->createElement('acl');

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\CatalogEvent\Model\Resource\Event\Collection
  */
-class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogEvent\Model\Resource\Event;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Main table name

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Simplexml_ElementTest extends PHPUnit_Framework_TestCase
+namespace Magento\Simplexml;
+
+class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider xmlDataProvider
@@ -23,7 +25,7 @@ class Magento_Simplexml_ElementTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider xmlDataProvider
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Root node could not be unset.
      */
     public function testGetParent($xmlData)

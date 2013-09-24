@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Generator_ClassTest extends PHPUnit_Framework_TestCase
+namespace Magento\Code\Generator;
+
+class ClassTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test class name for generation test
      */
-    const TEST_CLASS_NAME = 'Magento_Code_Generator_TestAsset_TestGenerationClass';
+    const TEST_CLASS_NAME = 'Magento\Code\Generator\TestAsset\TestGenerationClass';
 
     /**
      * Expected arguments for test class constructor

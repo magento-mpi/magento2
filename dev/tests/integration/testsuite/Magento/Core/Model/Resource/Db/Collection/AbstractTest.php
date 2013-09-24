@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Db\Collection;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
@@ -15,7 +17,8 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
+        $resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\Resource');
         $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array($resourceModel), '', true, true, true, array('getMainTable', 'getIdFieldName')
         );
@@ -29,7 +32,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
 
         $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
 
-        $eventManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $eventManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Event\Manager');
 
         $entityFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

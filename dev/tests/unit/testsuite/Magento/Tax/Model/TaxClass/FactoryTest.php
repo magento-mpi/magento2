@@ -9,14 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_TaxClass_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Tax\Model\TaxClass;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider createDataProvider
      *
      * @param string $classType
      * @param string $className
-     * @param PHPUnit_Framework_MockObject_MockObject $classTypeMock
+     * @param \PHPUnit_Framework_MockObject_MockObject $classTypeMock
      */
     public function testCreate($classType, $className, $classTypeMock)
     {

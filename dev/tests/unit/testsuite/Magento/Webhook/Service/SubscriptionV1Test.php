@@ -9,16 +9,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Service;
+
+class SubscriptionV1Test extends \PHPUnit_Framework_TestCase
 {
     const VALUE_SUBSCRIPTION_ID = 2;
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionSet;
 
     /** @var \Magento\Webhook\Service\SubscriptionV1 */
@@ -102,7 +104,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
 
         $this->_subscriptionMock->expects($this->once())
             ->method('save')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
 
         $this->_service->create($this->_subscriptionData);
     }
@@ -147,7 +149,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
         $apiUserId = 42;
         $this->_subscriptionSet->expects($this->once())
             ->method('getApiUserSubscriptions')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
         $this->_subscriptionMock->expects($this->never())
             ->method('save');
 
@@ -195,7 +197,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
             ->will($this->returnSelf());
         $this->_subscriptionMock->expects($this->once())
             ->method('save')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
 
         $this->_service->update($this->_subscriptionData);
     }
@@ -238,7 +240,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
     {
         $this->_subscriptionFactory->expects($this->any())
             ->method('create')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
         $this->_subscriptionMock->expects($this->never())
             ->method('save');
 
@@ -288,7 +290,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
             ->will($this->returnSelf());
         $this->_subscriptionMock->expects($this->once())
             ->method('delete')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
 
         $this->_service->delete(self::VALUE_SUBSCRIPTION_ID);
     }
@@ -339,7 +341,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
 
         $this->_subscriptionMock->expects($this->once())
             ->method('activate')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
 
         $this->_service->activate(self::VALUE_SUBSCRIPTION_ID);
     }
@@ -390,7 +392,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
 
         $this->_subscriptionMock->expects($this->once())
             ->method('deactivate')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
 
         $this->_service->deactivate(self::VALUE_SUBSCRIPTION_ID);
     }
@@ -441,7 +443,7 @@ class Magento_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestC
 
         $this->_subscriptionMock->expects($this->once())
             ->method('revoke')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
 
         $this->_service->revoke(self::VALUE_SUBSCRIPTION_ID);
     }

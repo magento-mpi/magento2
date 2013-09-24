@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Model\Import\EntityAbstract
  */
-class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import;
+
+class EntityAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test for method _saveValidatedBunches()
@@ -43,7 +45,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
 
         $model->setSource($source);
 
-        $method = new ReflectionMethod($model, '_saveValidatedBunches');
+        $method = new \ReflectionMethod($model, '_saveValidatedBunches');
         $method->setAccessible(true);
         $method->invoke($model);
 

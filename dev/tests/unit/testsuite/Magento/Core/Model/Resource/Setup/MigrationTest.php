@@ -12,7 +12,9 @@
 /**
  * Tests for resource setup model needed for migration process between Magento versions
  */
-class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Setup;
+
+class MigrationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Result of update class aliases to compare with expected.
@@ -31,7 +33,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     protected $_actualWhere;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Select
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Select
      */
     protected $_selectMock;
 
@@ -113,7 +115,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
      * Callback for \Magento\DB\Select::where
      *
      * @param string $condition
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Select
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Select
      */
     public function whereCallback($condition)
     {
@@ -260,7 +262,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem
      */
     protected function _getFilesystemMock()
     {

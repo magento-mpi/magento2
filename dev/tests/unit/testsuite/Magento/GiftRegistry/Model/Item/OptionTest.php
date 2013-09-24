@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Model_Item_OptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\GiftRegistry\Model\Item;
+
+class OptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param mixed $product

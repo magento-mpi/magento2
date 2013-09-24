@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Performance_Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_config;
 
@@ -22,7 +24,7 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
     protected $_shell;
 
     /**
-     * @var Magento_TestFramework_Application|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Application|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -48,13 +50,13 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->_installerScript = realpath($this->_fixtureDir . '/app_base_dir//dev/shell/install.php');
 
-        $this->_config = new Magento_TestFramework_Performance_Config(
+        $this->_config = new \Magento\TestFramework\Performance\Config(
             $this->_fixtureConfigData, $this->_fixtureDir, $this->_fixtureDir . '/app_base_dir'
         );
         $this->_shell = $this->getMock('Magento\Shell', array('execute'));
 
         $this->_object = $this->getMock(
-            'Magento_TestFramework_Application',
+            'Magento\TestFramework\Application',
             array('_bootstrap', '_cleanupMage', '_reindex', '_updateFilesystemPermissions'),
             array($this->_config, $this->_shell)
         );
@@ -78,8 +80,9 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
     public function testConstructorException()
     {
         $invalidAppDir = __DIR__;
-        new Magento_TestFramework_Application(
-            new Magento_TestFramework_Performance_Config($this->_fixtureConfigData, $this->_fixtureDir, $invalidAppDir),
+        new \Magento\TestFramework\Application(
+            new \Magento\TestFramework\Performance\Config($this->_fixtureConfigData, $this->_fixtureDir,
+                $invalidAppDir),
             $this->_shell
         );
     }

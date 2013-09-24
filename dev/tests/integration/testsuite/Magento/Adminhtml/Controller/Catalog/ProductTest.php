@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\Catalog;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_Utility_Controller
+class ProductTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
@@ -27,14 +29,14 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
 
         $this->dispatch('backend/admin/catalog_product/save');
 
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $objectManager->get('Magento\Core\Model\Registry')->registry('current_product');
         $this->assertEquals($associatedProductIds, $product->getAssociatedProductIds());
 
-        /** @see Magento_Backend_Utility_Controller::assertPostConditions() */
+        /** @see \Magento\Backend\Utility\Controller::assertPostConditions() */
         $this->markTestIncomplete('Suppressing admin error messages validation until the bug MAGETWO-7044 is fixed.');
     }
 
@@ -45,8 +47,8 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
      */
     protected function _getConfigurableAttribute()
     {
-        return Mage::getModel('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
-            Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId(),
+        return \Mage::getModel('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
+            \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );
     }

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Catalog\Product\Options;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_Framework_TestCase
+class AjaxTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\Catalog\Product\Options\Ajax
@@ -22,7 +24,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Options\Ajax');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Product\Options\Ajax');
     }
 
     public function testToHtmlWithoutProducts()
@@ -35,8 +37,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_F
      */
     public function testToHtml()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('import_option_products', array(1));
         $result = json_decode($this->_block->toHtml(), true);
         $this->assertEquals('test_option_code_1', $result[0]['title']);

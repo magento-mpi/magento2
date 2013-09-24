@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Acl\Role;
+
+class UsersUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_helper;
 
@@ -31,7 +33,7 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_backendHelper = $this->getMockBuilder('Magento\Backend\Helper\Data')
             ->disableOriginalConstructor()

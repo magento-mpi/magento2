@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure\Converter
@@ -42,7 +44,7 @@ class Magento_Backend_Model_Config_Structure_ConverterTest extends PHPUnit_Frame
     public function testConvertCorrectlyConvertsConfigStructureToArray()
     {
         $testDom = dirname(dirname(__DIR__)) . '/_files/system_2.xml';
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->load($testDom);
         $expectedArray = include dirname(dirname(__DIR__)) . '/_files/converted_config.php';
         $this->assertEquals($expectedArray, $this->_model->convert($dom));

@@ -6,30 +6,32 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\GoogleAdwords\Model\Validator;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configurationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_validatorBuilderFactoryMock;
+    protected $_builderFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_validatorBuilderMock;
+    protected $_builderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
@@ -40,14 +42,14 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_validatorBuilderFactoryMock = $this->getMock('Magento\Validator\BuilderFactory', array('create'),
+        $this->_builderFactoryMock = $this->getMock('Magento\Validator\BuilderFactory', array('create'),
             array(), '', false);
-        $this->_validatorBuilderMock = $this->getMock('Magento\Validator\Builder', array(), array(), '', false);
+        $this->_builderMock = $this->getMock('Magento\Validator\Builder', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento\Validator\ValidatorInterface', array(), array(), '', false);
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_factory = $objectManager->getObject('Magento\GoogleAdwords\Model\Validator\Factory', array(
-            'validatorBuilderFactory' => $this->_validatorBuilderFactoryMock,
+            'validatorBuilderFactory' => $this->_builderFactoryMock,
         ));
     }
 
@@ -57,7 +59,7 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
         $message = sprintf('Conversion Color value is not valid "%s". Please set hexadecimal 6-digit value.',
             $currentColor);
 
-        $this->_validatorBuilderFactoryMock->expects($this->once())->method('create')
+        $this->_builderFactoryMock->expects($this->once())->method('create')
             ->with(array(
                 'constraints' => array(
                     array(
@@ -81,9 +83,9 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
                     ),
                 ),
             ))
-            ->will($this->returnValue($this->_validatorBuilderMock));
+            ->will($this->returnValue($this->_builderMock));
 
-        $this->_validatorBuilderMock->expects($this->once())->method('createValidator')
+        $this->_builderMock->expects($this->once())->method('createValidator')
             ->will($this->returnValue($this->_validatorMock));
 
         $this->assertEquals($this->_validatorMock, $this->_factory->createColorValidator($currentColor));
@@ -94,7 +96,7 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
         $conversionId = '123';
         $message = sprintf('Conversion Id value is not valid "%s". Conversion Id should be an integer.', $conversionId);
 
-        $this->_validatorBuilderFactoryMock->expects($this->once())->method('create')
+        $this->_builderFactoryMock->expects($this->once())->method('create')
             ->with(array(
                 'constraints' => array(
                     array(
@@ -117,9 +119,9 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
                     ),
                 ),
             ))
-            ->will($this->returnValue($this->_validatorBuilderMock));
+            ->will($this->returnValue($this->_builderMock));
 
-        $this->_validatorBuilderMock->expects($this->once())->method('createValidator')
+        $this->_builderMock->expects($this->once())->method('createValidator')
             ->will($this->returnValue($this->_validatorMock));
 
         $this->assertEquals($this->_validatorMock, $this->_factory->createConversionIdValidator($conversionId));

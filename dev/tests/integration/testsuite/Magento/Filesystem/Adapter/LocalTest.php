@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
+namespace Magento\Filesystem\Adapter;
+
+class LocalTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Filesystem\Adapter\Local
@@ -29,7 +31,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
 
     protected static function _getTmpDir()
     {
-        return Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        return \Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR .'LocalTest';
     }
 
     /**
@@ -221,7 +223,7 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $sourceName
      * @param string $targetName
-     * @throws Exception
+     * @throws \Exception
      * @dataProvider renameDataProvider
      */
     public function testRename($sourceName, $targetName)

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Helper;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Helper\Data
@@ -22,7 +24,7 @@ class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\User\Helper\Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\User\Helper\Data');
     }
 
     /**

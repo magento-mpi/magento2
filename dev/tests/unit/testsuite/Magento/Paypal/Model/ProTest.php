@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Paypal\Model\Pro
  */
-class Magento_Paypal_Model_ProTest extends PHPUnit_Framework_TestCase
+namespace Magento\Paypal\Model;
+
+class ProTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param bool $pendingReason

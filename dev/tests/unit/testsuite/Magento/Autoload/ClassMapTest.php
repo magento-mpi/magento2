@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
+namespace Magento\Autoload;
+
+class ClassMapTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Autoload\ClassMap
@@ -19,7 +21,7 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructNonExistent()
     {
@@ -27,7 +29,7 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructNotDir()
     {
@@ -51,7 +53,7 @@ class Magento_Autoload_ClassMapTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(class_exists('Unknown_Class', false));
         $this->_loader->load('TestMap');
         $this->_loader->load('Unknown_Class');
-        $this->assertTrue(class_exists('Magento_Autoload_ClassMapTest_TestMap', false));
+        $this->assertTrue(class_exists('Magento\Autoload\ClassMapTest\TestMap', false));
         $this->assertFalse(class_exists('Unknown_Class', false));
     }
 }

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesArchive\Model;
+
+class ArchiveTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -18,7 +20,7 @@ class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento\SalesArchive\Model\Archive');
+        $this->_model= \Mage::getModel('Magento\SalesArchive\Model\Archive');
     }
 
     /**
@@ -58,7 +60,7 @@ class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
      */
     public function testDetectArchiveEntity($object, $expectedResult)
     {
-        $actualResult = $this->_model->detectArchiveEntity(Mage::getModel($object));
+        $actualResult = $this->_model->detectArchiveEntity(\Mage::getModel($object));
         $this->assertEquals($expectedResult, $actualResult);
     }
 

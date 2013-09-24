@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\PromotionPermissions\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout
@@ -20,18 +22,18 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
     protected $_layout = null;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleListMock;
 
     protected function setUp()
     {
         $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Core\Model\ModuleList');
         $objectManager->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
     }
 
     /**
@@ -56,7 +58,7 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
             ->will($this->returnValue(true));
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);
-        $observer = Mage::getModel('Magento\PromotionPermissions\Model\Observer');
+        $observer = \Mage::getModel('Magento\PromotionPermissions\Model\Observer');
         $observer->adminhtmlBlockHtmlBefore($event);
 
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));

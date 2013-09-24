@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
-class Magento_Reports_Block_WidgetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reports\Block;
+
+class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     public function testViewedProductsWidget()
     {
-        $model = Mage::getModel('Magento\Widget\Model\Widget\Instance');
+        $model = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
         $config = $model->setType('Magento\Reports\Block\Product\Widget\Viewed')->getWidgetConfigAsArray();
 
         $this->assertArrayHasKey('parameters', $config);
@@ -44,7 +46,7 @@ class Magento_Reports_Block_WidgetTest extends PHPUnit_Framework_TestCase
 
     public function testComparedProductsWidget()
     {
-        $model = Mage::getModel('Magento\Widget\Model\Widget\Instance');
+        $model = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
         $config = $model->setType('Magento\Reports\Block\Product\Widget\Compared')->getWidgetConfigAsArray();
 
         $this->assertArrayHasKey('parameters', $config);

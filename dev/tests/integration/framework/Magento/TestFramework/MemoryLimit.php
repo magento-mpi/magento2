@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_MemoryLimit
+namespace Magento\TestFramework;
+
+class MemoryLimit
 {
     /**
-     * @var Magento_TestFramework_Helper_Memory
+     * @var \Magento\TestFramework\Helper\Memory
      */
     private $_helper;
 
@@ -29,10 +31,10 @@ class Magento_TestFramework_MemoryLimit
      *
      * @param string $memCap
      * @param string $leakCap
-     * @param Magento_TestFramework_Helper_Memory $helper
-     * @throws InvalidArgumentException
+     * @param \Magento\TestFramework\Helper\Memory $helper
+     * @throws \InvalidArgumentException
      */
-    public function __construct($memCap, $leakCap, Magento_TestFramework_Helper_Memory $helper)
+    public function __construct($memCap, $leakCap, \Magento\TestFramework\Helper\Memory $helper)
     {
         $this->_memCap = $memCap ? $helper->convertToBytes($memCap) : 0;
         $this->_leakCap = $leakCap ? $helper->convertToBytes($leakCap) : 0;
@@ -94,7 +96,7 @@ class Magento_TestFramework_MemoryLimit
      * Raise error if memory usage breaks configured thresholds
      *
      * @return null
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function validateUsage()
     {
@@ -103,12 +105,12 @@ class Magento_TestFramework_MemoryLimit
         }
         list($usage, $leak) = $this->_getUsage();
         if ($this->_memCap && ($usage >= $this->_memCap)) {
-            throw new LogicException(
+            throw new \LogicException(
                 "Memory limit of {$this->_toMb($this->_memCap)} ({$this->_memCap} bytes) has been reached."
             );
         }
         if ($this->_leakCap && ($leak >= $this->_leakCap)) {
-            throw new LogicException("Estimated memory leak limit of {$this->_toMb($this->_leakCap)}"
+            throw new \LogicException("Estimated memory leak limit of {$this->_toMb($this->_leakCap)}"
                 . " ({$this->_leakCap} bytes) has been reached."
             );
         }

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Data_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Data\Collection

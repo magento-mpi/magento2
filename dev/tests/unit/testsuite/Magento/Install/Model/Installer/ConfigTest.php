@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model\Installer;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string

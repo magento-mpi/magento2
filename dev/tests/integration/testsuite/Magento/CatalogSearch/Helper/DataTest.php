@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogSearch\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CatalogSearch\Helper\Data

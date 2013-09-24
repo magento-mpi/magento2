@@ -1,21 +1,24 @@
 <?php
 /**
- * \Magento\Webhook\Model\Event
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+namespace Magento\Webhook\Model;
+
+/**
+ * \Magento\Webhook\Model\Event
  * @magentoDbIsolation enabled
  */
-class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
+class EventTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Model\Event */
     private $_event;
 
     protected function setUp()
     {
-        $this->_event = Mage::getModel('Magento\Webhook\Model\Event');
+        $this->_event = \Mage::getModel('Magento\Webhook\Model\Event');
     }
 
     public function testSetGet()
@@ -53,7 +56,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->setBodyData($bodyData)
             ->save()
             ->getId();
-        $loadedEvent = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $loadedEvent = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Event')
             ->load($eventId);
         $this->assertEquals($bodyData, $loadedEvent->getBodyData());

@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Resource_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Acl\Resource\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReaderMock;
 

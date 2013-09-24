@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_WebsiteRestriction_Controller_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\WebsiteRestriction\Controller;
+
+class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoConfigFixture current_store general/restriction/is_active 1
@@ -20,15 +22,15 @@ class Magento_WebsiteRestriction_Controller_IndexTest extends Magento_TestFramew
      */
     public function testStubAction()
     {
-        $page = Mage::getModel('Magento\Cms\Model\Page');
+        $page = \Mage::getModel('Magento\Cms\Model\Page');
         $page->load('page100', 'identifier'); // fixture
 
-        $websiteId = Mage::app()->getWebsite('base')->getId(); // fixture, pre-installed
+        $websiteId = \Mage::app()->getWebsite('base')->getId(); // fixture, pre-installed
         /**
          * besides more expensive, cleaning by tags currently triggers system setup = DDL = breaks transaction
          * therefore cleanup is performed by cache ID
          */
-        Mage::app()->removeCache("RESTRICTION_LANGING_PAGE_{$websiteId}");
+        \Mage::app()->removeCache("RESTRICTION_LANGING_PAGE_{$websiteId}");
         $this->markTestIncomplete('MAGETWO-4342');
 
         $this->dispatch('restriction/index/stub');

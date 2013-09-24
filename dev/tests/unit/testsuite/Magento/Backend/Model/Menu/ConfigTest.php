@@ -10,45 +10,47 @@
  */
 
 
-class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheInstanceMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configReaderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuBuilderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logger;
 
@@ -170,12 +172,12 @@ class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_menuBuilderMock->expects($this->exactly(1))
             ->method('getResult')
-            ->will($this->throwException(new Exception()));
+            ->will($this->throwException(new \Exception()));
         try {
             $this->_model->getMenu();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return;
         }
-        $this->fail("Generic Exception was not throwed");
+        $this->fail("Generic \Exception was not throwed");
     }
 }

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Event\Observer

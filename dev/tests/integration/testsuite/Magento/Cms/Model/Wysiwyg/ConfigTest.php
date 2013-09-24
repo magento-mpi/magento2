@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cms\Model\Wysiwyg;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Cms\Model\Wysiwyg\Config
@@ -21,9 +23,9 @@ class Magento_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_model = Mage::getModel('Magento\Cms\Model\Wysiwyg\Config');
+        $this->_model = \Mage::getModel('Magento\Cms\Model\Wysiwyg\Config');
     }
 
     /**

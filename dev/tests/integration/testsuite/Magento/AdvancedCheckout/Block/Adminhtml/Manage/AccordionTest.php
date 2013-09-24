@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_Framework_TestCase
+class AccordionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\Layout */
     protected $_layout = null;
@@ -23,9 +25,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
     protected function setUp()
     {
         parent::setUp();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $this->_layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion');
     }
 
@@ -33,7 +35,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
     {
         $this->_block = null;
         $this->_layout = null;
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(null);
     }
@@ -77,10 +79,10 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
      */
     protected function _initAcl()
     {
-        $user = Mage::getModel('Magento\User\Model\User');
+        $user = \Mage::getModel('Magento\User\Model\User');
         $user->setId(1)->setRole(true);
-        Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setUpdatedAt(time())->setUser($user);
-        Mage::getModel(
+        \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setUpdatedAt(time())->setUser($user);
+        \Mage::getModel(
             'Magento\AuthorizationInterface', array(
                 'data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy())
         ));

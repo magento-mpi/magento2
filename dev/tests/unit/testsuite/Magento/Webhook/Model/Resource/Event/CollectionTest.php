@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Event;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
@@ -33,6 +35,14 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
             ->method('getReadConnection')
             ->will($this->returnValue($mockDBAdapter));
         $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+            ->will($this->returnValue($mockResourceEvent));
+    }
+
+    public function tearDown()
+    {
+        // Unsets object manager
+        \Mage::reset();
+    }
 
         $collection = new \Magento\Webhook\Model\Resource\Event\Collection(
             $eventManager, $logger, $mockFetchStrategy, $entityFactory, $mockResourceEvent

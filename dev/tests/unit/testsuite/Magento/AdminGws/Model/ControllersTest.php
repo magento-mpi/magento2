@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminGws\Model;
+
+class ControllersTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\AdminGws\Model\Controllers
@@ -17,29 +19,29 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_roleMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
      * Controller request object
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ctrlRequestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_controllerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectFactory;
 

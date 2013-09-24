@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_Standard_Output_FirebugTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver\Standard\Output;
+
+class FirebugTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Profiler\Driver\Standard\Output\Firebug
@@ -15,12 +17,12 @@ class Magento_Profiler_Driver_Standard_Output_FirebugTest extends PHPUnit_Framew
     protected $_output;
 
     /**
-     * @var Zend_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Zend_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_response;
 
     /**
-     * @var Zend_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Zend_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 

@@ -10,8 +10,8 @@
  */
 
 /** @var $objectManager \Magento\ObjectManager */
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+\Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
 /** @var $theme \Magento\Core\Model\Theme */
 $theme = $objectManager->create('Magento\Core\Model\Theme');
 $theme->setThemePath('test/test')

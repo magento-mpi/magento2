@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Subscription\Config
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -12,7 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Subscription;
+
+/**
+ * \Magento\Webhook\Model\Subscription\Config
+ *
+ * @magentoDbIsolation enabled
+ */
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * alias being used in the _files/config.xml file
@@ -36,7 +39,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $dirs = $this->_objectManager->create(
             'Magento\Core\Model\Dir',
             array(
@@ -63,7 +66,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
          * Mock is used to disable caching, as far as Integration Tests Framework loads main
          * modules configuration first and it gets cached
          *
-         * @var PHPUnit_Framework_MockObject_MockObject $cache
+         * @var \PHPUnit_Framework_MockObject_MockObject $cache
          */
         $cache = $this->getMock('Magento\Core\Model\Config\Cache', array('load', 'save', 'clean', 'getSection'),
             array(), '', false);

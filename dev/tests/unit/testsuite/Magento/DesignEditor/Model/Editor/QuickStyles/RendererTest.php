@@ -12,8 +12,10 @@
 /**
  * Theme css file model class
  */
-class Magento_DesignEditor_Model_Editor_QuickStyles_RendererTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Editor\QuickStyles;
+
+class RendererTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider sampleData
@@ -37,7 +39,7 @@ class Magento_DesignEditor_Model_Editor_QuickStyles_RendererTest
             ->method('toCss')
             ->will($this->returnValue('css_string'));
 
-        $property = new ReflectionProperty($rendererModel, '_quickStyleFactory');
+        $property = new \ReflectionProperty($rendererModel, '_quickStyleFactory');
         $property->setAccessible(true);
         $property->setValue($rendererModel, $objectManager);
 

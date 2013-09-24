@@ -13,7 +13,9 @@
  * Test class for \Magento\Backend\Model\Config\Source\Admin\Page
  */
 
-class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Source\Admin;
+
+class PageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu
@@ -26,7 +28,7 @@ class Magento_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framewo
     protected $_menuSubModel;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 

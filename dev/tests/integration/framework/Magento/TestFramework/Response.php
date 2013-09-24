@@ -12,12 +12,14 @@
 /**
  * HTTP response implementation that is used instead core one for testing
  */
-class Magento_TestFramework_Response extends \Magento\Core\Controller\Response\Http
+namespace Magento\TestFramework;
+
+class Response extends \Magento\Core\Controller\Response\Http
 {
     /**
      * Prevent generating exceptions if headers are already sent
      *
-     * Prevents throwing an exception in Zend_Controller_Response_Abstract::canSendHeaders()
+     * Prevents throwing an exception in \Zend_Controller_Response_Abstract::canSendHeaders()
      * All functionality that depend on headers validation should be covered with unit tests by mocking response.
      *
      * @param bool $throw

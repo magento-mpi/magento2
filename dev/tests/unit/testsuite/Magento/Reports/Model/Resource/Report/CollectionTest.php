@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reports_Model_Resource_Report_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reports\Model\Resource\Report;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Reports\Model\Resource\Report\Collection
@@ -13,13 +15,13 @@ class Magento_Reports_Model_Resource_Report_CollectionTest extends PHPUnit_Frame
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_factoryMock = $this->getMock('Zend_DateFactory', array('create'), array(), '', false);
         $arguments = array(
             'dateFactory' => $this->_factoryMock,

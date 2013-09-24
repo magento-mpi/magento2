@@ -12,24 +12,26 @@
 /**
  * Test class for \Magento\Rule\Model\Condition\AbstractCondition
  */
-class Magento_Rule_Model_Condition_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rule\Model\Condition;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetValueElement()
     {
         /** @var \Magento\Rule\Model\Condition\AbstractCondition $model */
         $model = $this->getMockForAbstractClass('Magento\Rule\Model\Condition\AbstractCondition', array(), '',
             false, true, true, array('getValueElementRenderer'));
-        $editableBlock = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $editableBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Rule\Block\Editable');
         $model->expects($this->any())
              ->method('getValueElementRenderer')
              ->will($this->returnValue($editableBlock));
 
-        $rule = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Rule\Model\Rule');
-        $model->setRule($rule->setForm(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rule\Model\Rule');
+        $model->setRule($rule->setForm(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Data\Form')));
 
-        $property = new ReflectionProperty('Magento\Rule\Model\Condition\AbstractCondition', '_inputType');
+        $property = new \ReflectionProperty('Magento\Rule\Model\Condition\AbstractCondition', '_inputType');
         $property->setAccessible(true);
         $property->setValue($model, 'date');
 

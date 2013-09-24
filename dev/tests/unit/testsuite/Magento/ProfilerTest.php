@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
@@ -59,7 +61,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDriverMock()
     {
@@ -69,7 +71,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Timer name must not contain a nesting separator.
      */
     public function testStartException()
@@ -132,7 +134,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Timer "unknown" has not been started.
      */
     public function testStopExceptionUnknown()
@@ -246,7 +248,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Timer name must not contain a nesting separator.
      */
     public function testClearException()
@@ -372,7 +374,7 @@ class Magento_ProfilerTest extends PHPUnit_Framework_TestCase
      */
     public function testParseConfig($data, $isAjax, $expected)
     {
-        $method = new ReflectionMethod('Magento\Profiler', '_parseConfig');
+        $method = new \ReflectionMethod('Magento\Profiler', '_parseConfig');
         $method->setAccessible(true);
         $this->assertEquals($expected, $method->invoke(null, $data, '', $isAjax));
     }

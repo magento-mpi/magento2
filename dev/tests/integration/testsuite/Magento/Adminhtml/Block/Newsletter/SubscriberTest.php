@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Newsletter;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Newsletter_SubscriberTest extends PHPUnit_Framework_TestCase
+class SubscriberTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetShowQueueAdd()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Adminhtml\Block\Newsletter\Subscriber */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Newsletter\Subscriber', 'block');
         /** @var $childBlock \Magento\Core\Block\Template */

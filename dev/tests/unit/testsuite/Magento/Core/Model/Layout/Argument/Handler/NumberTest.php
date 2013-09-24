@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Layout\Argument\Handler\Number
  */
-class Magento_Core_Model_Layout_Argument_Handler_NumberTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class NumberTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\Handler\Boolean
@@ -26,7 +28,7 @@ class Magento_Core_Model_Layout_Argument_Handler_NumberTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_model = $helperObjectManager->getObject(
             'Magento\Core\Model\Layout\Argument\Handler\Number',

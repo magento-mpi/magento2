@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Theme;
+
+class ContextTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test theme id
@@ -59,9 +61,9 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
 
     public function testReset()
     {
-        $writersProperty = new ReflectionProperty($this->_model, '_theme');
+        $writersProperty = new \ReflectionProperty($this->_model, '_theme');
         $writersProperty->setAccessible(true);
-        $writersProperty->setValue($this->_model, new stdClass());
+        $writersProperty->setValue($this->_model, new \stdClass());
         $this->assertEquals($this->_model, $this->_model->reset());
         $this->assertNull($writersProperty->getValue($this->_model));
     }
@@ -126,9 +128,9 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
 
     public function testGetEditableTheme()
     {
-        $writersProperty = new ReflectionProperty($this->_model, '_theme');
+        $writersProperty = new \ReflectionProperty($this->_model, '_theme');
         $writersProperty->setAccessible(true);
-        $themeObj = new stdClass();
+        $themeObj = new \stdClass();
         $writersProperty->setValue($this->_model, $themeObj);
         $this->assertEquals($themeObj, $this->_model->getEditableTheme());
     }
@@ -215,17 +217,17 @@ class Magento_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_Tes
 
     protected function _setEditableTheme()
     {
-        $writersProperty = new ReflectionProperty($this->_model, '_theme');
+        $writersProperty = new \ReflectionProperty($this->_model, '_theme');
         $writersProperty->setAccessible(true);
         $writersProperty->setValue($this->_model, $this->_theme);
     }
 
     /**
-     * @return stdClass
+     * @return \stdClass
      */
     protected function _setStagingTheme()
     {
-        $writersProperty = new ReflectionProperty($this->_model, '_stagingTheme');
+        $writersProperty = new \ReflectionProperty($this->_model, '_stagingTheme');
         $writersProperty->setAccessible(true);
         $themeObject = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         $writersProperty->setValue($this->_model, $themeObject);

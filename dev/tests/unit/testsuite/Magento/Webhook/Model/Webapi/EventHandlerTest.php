@@ -9,15 +9,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Webapi_EventHandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Webapi;
+
+class EventHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Webapi\EventHandler */
     protected $_eventHandler;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_collection;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceAclUser;
 
     protected function setUp()

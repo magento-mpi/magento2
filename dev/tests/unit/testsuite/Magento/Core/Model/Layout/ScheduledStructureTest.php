@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Layout\ScheduledStructure
  */
-class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class ScheduledStructureTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\ScheduledStructure

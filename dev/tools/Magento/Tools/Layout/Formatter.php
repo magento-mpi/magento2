@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Tools\Layout;
+namespace Magento\Tools\Layout;
 
 class Formatter
 {

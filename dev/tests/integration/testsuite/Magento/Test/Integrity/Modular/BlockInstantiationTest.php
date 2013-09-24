@@ -15,7 +15,9 @@
  *
  * @magentoAppIsolation
  */
-class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_TestFramework_TestCase_IntegrityAbstract
+namespace Magento\Test\Integrity\Modular;
+
+class BlockInstantiationTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**
      * @param string $module
@@ -27,10 +29,10 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
     {
         $this->assertNotEmpty($module);
         $this->assertTrue(class_exists($class), "Block class: {$class}");
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope($area);
-        $block = Mage::getModel($class);
+        $block = \Mage::getModel($class);
         $this->assertNotNull($block);
     }
 
@@ -42,26 +44,26 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
         $blockClass = '';
         try {
             /** @var $website \Magento\Core\Model\Website */
-            Mage::app()->getStore()->setWebsiteId(0);
+            \Mage::app()->getStore()->setWebsiteId(0);
 
             $enabledModules = $this->_getEnabledModules();
             $skipBlocks = $this->_getBlocksToSkip();
             $templateBlocks = array();
-            $blockMods = Magento_TestFramework_Utility_Classes::collectModuleClasses('Block');
+            $blockMods = \Magento\TestFramework\Utility\Classes::collectModuleClasses('Block');
             foreach ($blockMods as $blockClass => $module) {
                 if (!isset($enabledModules[$module]) || isset($skipBlocks[$blockClass])) {
                     continue;
                 }
-                $class = new ReflectionClass($blockClass);
+                $class = new \ReflectionClass($blockClass);
                 if ($class->isAbstract() || !$class->isSubclassOf('Magento\Core\Block\Template')) {
                     continue;
                 }
                 $templateBlocks = $this->_addBlock($module, $blockClass, $class, $templateBlocks);
             }
             return $templateBlocks;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             trigger_error("Corrupted data provider. Last known block instantiation attempt: '{$blockClass}'."
-                . " Exception: {$e}", E_USER_ERROR);
+                . " \Exception: {$e}", E_USER_ERROR);
         }
     }
 
@@ -98,7 +100,7 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
         ) {
             $area = 'adminhtml';
         }
-        Mage::app()->loadAreaPart(
+        \Mage::app()->loadAreaPart(
             \Magento\Core\Model\App\Area::AREA_ADMINHTML,
             \Magento\Core\Model\App\Area::PART_CONFIG
         );

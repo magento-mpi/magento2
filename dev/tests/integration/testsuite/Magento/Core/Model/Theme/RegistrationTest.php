@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme;
+
+class RegistrationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme\Registration
@@ -26,8 +28,8 @@ class Magento_Core_Model_Theme_RegistrationTest extends PHPUnit_Framework_TestCa
      */
     protected function setUp()
     {
-        $this->_theme = Mage::getModel('Magento\Core\Model\Theme');
-        $this->_model = Mage::getModel('Magento\Core\Model\Theme\Registration', array('theme' => $this->_theme));
+        $this->_theme = \Mage::getModel('Magento\Core\Model\Theme');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Theme\Registration', array('theme' => $this->_theme));
     }
 
     /**

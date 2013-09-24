@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Adminhtml\Block\Sales\Order\Invoice\View
  */
-class Magento_Adminhtml_Block_Sales_Order_Invoice_ViewTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Sales\Order\Invoice;
+
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param bool $canReviewPayment
@@ -50,7 +52,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_ViewTest extends PHPUnit_Frame
         $block->expects($this->once())
             ->method('getInvoice')
             ->will($this->returnValue($invoice));
-        $testMethod = new ReflectionMethod('Magento\Adminhtml\Block\Sales\Order\Invoice\View', '_isPaymentReview');
+        $testMethod = new \ReflectionMethod('Magento\Adminhtml\Block\Sales\Order\Invoice\View', '_isPaymentReview');
         $testMethod->setAccessible(true);
 
         $this->assertEquals($expectedResult, $testMethod->invoke($block));

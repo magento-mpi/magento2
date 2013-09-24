@@ -8,18 +8,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Category\CategoryImageTest;
 
-Mage::app()->getStore()->setConfig('dev/log/active', 1);
-Mage::app()->getStore()->setConfig('dev/log/exception_file', 'save_category_without_image.log');
+ \Mage::app()->getStore()->setConfig('dev/log/active', 1);
+ \Mage::app()->getStore()->setConfig('dev/log/exception_file', 'save_category_without_image.log');
 Magento_TestFramework_Helper_Bootstrap::getObjectManager()
     ->get('Magento\Core\Model\Config')
     ->setNode(
         'global/log/core/writer_model',
-        'Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest'
+        'Magento\Catalog\Model\Category\CategoryImageTest\StubZendLogWriterStreamTest'
 );
 
-
-class Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest extends Zend_Log_Writer_Stream
+class StubZendLogWriterStreamTest extends \Zend_Log_Writer_Stream
 {
     /** @var array */
     public static $exceptions = array();

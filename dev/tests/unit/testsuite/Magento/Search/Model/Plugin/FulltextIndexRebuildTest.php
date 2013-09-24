@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model\Plugin;
+
+class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Search\Model\Plugin\FulltextIndexRebuild
@@ -13,32 +15,32 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuildTest extends PHPUnit_Frame
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_searchHelperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_catalogHelperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filterPriceMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_searchEngineMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fulltextSearchMock;
 

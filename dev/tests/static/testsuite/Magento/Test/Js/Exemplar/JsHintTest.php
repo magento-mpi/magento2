@@ -16,10 +16,12 @@
  * @package     Magento
  * @subpackage  static_tests
  */
-class Magento_Test_Js_Exemplar_JsHintTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Js\Exemplar;
+
+class JsHintTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Inspection_JsHint_Command
+     * @var \Magento\TestFramework\Inspection\JsHint\Command
      */
     protected static $_cmd = null;
 
@@ -52,7 +54,7 @@ class Magento_Test_Js_Exemplar_JsHintTest extends PHPUnit_Framework_TestCase
         $result = false;
         try {
             $result = self::$_cmd->canRun();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail($e->getMessage());
         }
         $this->assertTrue($result, true);

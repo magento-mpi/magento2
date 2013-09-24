@@ -9,7 +9,9 @@
 /**
  * \Magento\Cache\Backend\Decorator\Compression test case
  */
-class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cache\Backend\Decorator;
+
+class CompressionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Cache\Backend\Decorator\Compression
@@ -43,7 +45,7 @@ class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_
 
     public function testCompressData()
     {
-        $method = new ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_compressData');
+        $method = new \ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_compressData');
         $method->setAccessible(true);
 
         $this->assertStringStartsWith('CACHE_COMPRESSION', $method->invoke($this->_decorator, $this->_testString));
@@ -51,10 +53,10 @@ class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_
 
     public function testDecompressData()
     {
-        $methodCompress = new ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_compressData');
+        $methodCompress = new \ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_compressData');
         $methodCompress->setAccessible(true);
 
-        $methodDecompress = new ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_decompressData');
+        $methodDecompress = new \ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_decompressData');
         $methodDecompress->setAccessible(true);
 
         $this->assertEquals(
@@ -65,7 +67,7 @@ class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_
 
     public function testIsCompressionNeeded()
     {
-        $method = new ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_isCompressionNeeded');
+        $method = new \ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_isCompressionNeeded');
         $method->setAccessible(true);
 
         $this->assertFalse($method->invoke($this->_decorator, $this->_testString));
@@ -77,7 +79,7 @@ class Magento_Cache_Backend_Decorator_CompressionTest extends PHPUnit_Framework_
     {
         $prefix = 'CACHE_COMPRESSION';
 
-        $method = new ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_isDecompressionNeeded');
+        $method = new \ReflectionMethod('Magento\Cache\Backend\Decorator\Compression', '_isDecompressionNeeded');
         $method->setAccessible(true);
 
         $this->assertFalse($method->invoke($this->_decorator, $this->_testString));

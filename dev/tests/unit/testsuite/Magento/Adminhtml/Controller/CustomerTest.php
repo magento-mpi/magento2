@@ -12,47 +12,49 @@
 /**
  * Class \Magento\Adminhtml\Controller\CustomerTest
  */
-class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Controller;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Request mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
      * Response mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Response\Http
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Response\Http
      */
     protected $_response;
 
     /**
      * Instance of mocked tested object
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Adminhtml\Controller\Customer
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Adminhtml\Controller\Customer
      */
     protected $_testedObject;
 
     /**
      * ObjectManager mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Session mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Session
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
      * Backend helper mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Helper\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Helper\Data
      */
     protected $_helper;
 
@@ -122,7 +124,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
 
         $args = array('context' => $contextMock);
 
-        $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_testedObject = $helperObjectManager->getObject('Magento\Adminhtml\Controller\Customer', $args);
     }
 
@@ -241,7 +243,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
      *
      * @param int $customerId
      * @param null|int $returnId
-     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Customer
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Customer
      */
     protected function _getCustomerMock($customerId, $returnId = null)
     {

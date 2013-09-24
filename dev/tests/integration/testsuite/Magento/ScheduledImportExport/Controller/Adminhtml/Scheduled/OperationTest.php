@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
-    extends Magento_Backend_Utility_Controller
+class OperationTest
+    extends \Magento\Backend\Utility\Controller
 {
     /**
      * Set value of $_SERVER['HTTP_X_REQUESTED_WITH'] parameter here
@@ -90,7 +92,7 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
     public function testEditAction($expectedContains)
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection */
-        $collection = Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
+        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
@@ -110,12 +112,12 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
     public function testCronAction()
     {
         /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection */
-        $collection = Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
+        $collection = \Mage::getModel('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
-        $varDir = Mage::getBaseDir('var');
+        $varDir = \Mage::getBaseDir('var');
         $exportDir = $varDir . DS . 'export';
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);

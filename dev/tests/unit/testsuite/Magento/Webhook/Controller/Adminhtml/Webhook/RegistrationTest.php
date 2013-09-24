@@ -7,58 +7,60 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Controller\Adminhtml\Webhook;
+
+class RegistrationTest extends \PHPUnit_Framework_TestCase
 {
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
     /** @var \Magento\Webhook\Controller\Adminhtml\Webhook\Registration */
     protected $_registrationContr;
 
-    /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
+    /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
     protected $_objectManagerHelper;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     protected $_mockApp;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfig;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEventManager;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockTranslateModel;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockLayoutFilter;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockBackendModSess;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockBackendCntCtxt;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockRequest;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubSvc;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockResponse;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockBackendHlpData;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
     protected function setUp()
     {
-        /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
-        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_setMageObjectManager();
 
         $this->_mockBackendHlpData = $this->getMockBuilder('Magento\Backend\Helper\Data')
@@ -107,7 +109,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
      */
     protected function tearDown()
     {
-        Mage::reset();
+        \Mage::reset();
     }
 
     public function testActivateActionException()
@@ -297,7 +299,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
      */
     protected function _setMageObjectManager()
     {
-        Mage::reset();
+        \Mage::reset();
         $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();

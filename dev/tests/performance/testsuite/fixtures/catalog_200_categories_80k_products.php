@@ -14,14 +14,14 @@ $maxNestingLevel = 3;
 $anchorStep = 2;
 
 $nestingLevel = 1;
-$parentCategoryId = $defaultParentCategoryId = Mage::app()->getStore()->getRootCategoryId();
+$parentCategoryId = $defaultParentCategoryId = \Mage::app()->getStore()->getRootCategoryId();
 $nestingPath = "1/$parentCategoryId";
 $categoryPath = '';
 $categoryIndex = 1;
 
 $categories = array();
 
-$category = Mage::getModel('Magento\Catalog\Model\Category');
+$category = \Mage::getModel('Magento\Catalog\Model\Category');
 while ($categoryIndex <= $categoriesNumber) {
     $category->setId(null)
         ->setName("Category $categoryIndex")
@@ -82,7 +82,7 @@ $pattern = array(
     'use_config_enable_qty_inc' => '1',
     'stock_id' => \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID,
 );
-$generator = new Magento_TestFramework_ImportExport_Fixture_Generator($pattern, $productsNumber);
+$generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, $productsNumber);
 /** @var \Magento\ImportExport\Model\Import $import */
 $import = Mage::getModel(
     'Magento\ImportExport\Model\Import',

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Store;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource\Store\Collection
@@ -18,7 +20,7 @@ class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection');
+        $this->_collection = \Mage::getResourceModel('Magento\Core\Model\Resource\Store\Collection');
     }
 
     public function testSetGetLoadDefault()
@@ -77,7 +79,7 @@ class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework
      */
     protected function _getQuoteIdentifierSymbol()
     {
-        /** @var Zend_Db_Adapter_Abstract $adapter */
+        /** @var \Zend_Db_Adapter_Abstract $adapter */
         $adapter = $this->_collection->getConnection();
         $quote = $adapter->getQuoteIdentifierSymbol();
         return $quote;

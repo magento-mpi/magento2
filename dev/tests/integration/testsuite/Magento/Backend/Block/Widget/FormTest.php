@@ -9,18 +9,21 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Block\Widget;
+
 /**
  * Test class for \Magento\Backend\Block\Widget\Form
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testSetFieldset()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
@@ -36,7 +39,7 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
             )
         );
         $attributes = array($objectManager->create('Magento\Eav\Model\Entity\Attribute', $arguments));
-        $method = new ReflectionMethod('Magento\Backend\Block\Widget\Form', '_setFieldset');
+        $method = new \ReflectionMethod('Magento\Backend\Block\Widget\Form', '_setFieldset');
         $method->setAccessible(true);
         $method->invoke($formBlock, $attributes, $fieldSet);
         $fields = $fieldSet->getElements();

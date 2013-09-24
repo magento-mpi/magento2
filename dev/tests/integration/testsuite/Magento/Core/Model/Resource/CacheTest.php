@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource;
+
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource\Cache
@@ -18,7 +20,7 @@ class Magento_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento\Core\Model\Resource\Cache');
+        $this->_model = \Mage::getResourceModel('Magento\Core\Model\Resource\Cache');
     }
 
     /**

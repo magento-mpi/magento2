@@ -6,8 +6,10 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Design_Frontend_Enterprise_Fixed_Enterprise_GiftRegistry_Magento_Catalog_ProductTest
-    extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Test\Design\Frontend\Enterprise\Fixed\Enterprise\GiftRegistry\Magento\Catalog;
+
+class ProductTest
+    extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Bundle/_files/product.php

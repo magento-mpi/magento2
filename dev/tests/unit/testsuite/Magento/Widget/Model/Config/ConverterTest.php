@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Config_ConverterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Config;
+
+class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Widget\Model\Config\Converter
@@ -22,7 +24,7 @@ class Magento_Widget_Model_Config_ConverterTest extends PHPUnit_Framework_TestCa
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $xmlFile = __DIR__ . '/../_files/widget.xml';
         $dom->loadXML(file_get_contents($xmlFile));
 

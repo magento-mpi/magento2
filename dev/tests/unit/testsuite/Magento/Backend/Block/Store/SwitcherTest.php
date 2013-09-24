@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Store;
+
+class SwitcherTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Store\Switcher
@@ -17,17 +19,17 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationModel;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_websiteFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeGroupFactory;
 
@@ -43,7 +45,7 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
             false
         );
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\Store\Switcher', array(
             'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
             'application' => $this->_applicationModel,

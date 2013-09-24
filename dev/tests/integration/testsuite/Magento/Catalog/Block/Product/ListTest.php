@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product;
+
 /**
  * Test class for \Magento\Catalog\Block\Product\ListProduct.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
+class ListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Block\Product\ListProduct
@@ -23,7 +25,7 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct');
     }
 
     public function testGetLayer()
@@ -98,7 +100,7 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
     public function testPrepareSortableFieldsByCategory()
     {
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = Mage::getModel('Magento\Catalog\Model\Category');
+        $category = \Mage::getModel('Magento\Catalog\Model\Category');
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);
         $this->assertEquals('name', $this->_block->getSortBy());
@@ -106,6 +108,6 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     protected function _getLayout()
     {
-        return Mage::app()->getLayout();
+        return \Mage::app()->getLayout();
     }
 }

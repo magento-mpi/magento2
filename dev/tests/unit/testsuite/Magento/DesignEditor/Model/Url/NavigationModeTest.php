@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Url;
+
+class NavigationModeTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test route params

@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-interface Magento_Test_Di_ChildInterface
+namespace Magento\Test\Di;
+
+interface ChildInterface
 {
 
 }

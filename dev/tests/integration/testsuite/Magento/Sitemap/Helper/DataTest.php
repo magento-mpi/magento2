@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sitemap_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sitemap\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sitemap\Helper\Data
@@ -18,7 +20,8 @@ class Magento_Sitemap_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Sitemap\Helper\Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Sitemap\Helper\Data');
     }
 
     /**

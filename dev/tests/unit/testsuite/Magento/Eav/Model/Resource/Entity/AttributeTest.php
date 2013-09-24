@@ -9,14 +9,16 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Resource\Entity;
+
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \Magento\Eav\Model\Resource\Entity\Attribute::_saveOption
      */
     public function testSaveOptionSystemAttribute()
     {
-        /** @var $adapter PHPUnit_Framework_MockObject_MockObject */
+        /** @var $adapter \PHPUnit_Framework_MockObject_MockObject */
         /** @var $resourceModel \Magento\Eav\Model\Resource\Entity\Attribute */
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
@@ -35,7 +37,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
             'is_unique' => 0,
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var $model \Magento\Core\Model\AbstractModel */
         $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
         $arguments['data'] = $attributeData;
@@ -71,7 +73,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
      */
     public function testSaveOptionNewUserDefinedAttribute()
     {
-        /** @var $adapter PHPUnit_Framework_MockObject_MockObject */
+        /** @var $adapter \PHPUnit_Framework_MockObject_MockObject */
         /** @var $resourceModel \Magento\Eav\Model\Resource\Entity\Attribute */
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
@@ -90,7 +92,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
         );
 
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var $model \Magento\Core\Model\AbstractModel */
         $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
         $arguments['data'] = $attributeData;
@@ -147,11 +149,11 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
      */
     public function testSaveOptionNoValue()
     {
-        /** @var $adapter PHPUnit_Framework_MockObject_MockObject */
+        /** @var $adapter \PHPUnit_Framework_MockObject_MockObject */
         /** @var $resourceModel \Magento\Eav\Model\Resource\Entity\Attribute */
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var $model \Magento\Core\Model\AbstractModel */
         $arguments = $objectManagerHelper->getConstructArguments('Magento\Core\Model\AbstractModel');
         $model = $this->getMock('Magento\Core\Model\AbstractModel', null, $arguments);
@@ -217,7 +219,7 @@ class Magento_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_
         );
         $resourceModel = $this->getMock(
             'Magento\Eav\Model\Resource\Entity\Attribute',
-            array('getAdditionalAttributeTable'), // Mage::getResourceSingleton dependency
+            array('getAdditionalAttributeTable'), // \Mage::getResourceSingleton dependency
             $arguments
         );
 

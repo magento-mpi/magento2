@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Magento_Backend_Utility_Controller
+class EventTest extends \Magento\Backend\Utility\Controller
 {
     public function testEditActionSingleStore()
     {

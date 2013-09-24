@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Authorization_RoleLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Authorization;
+
+class RoleLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Authorization\RoleLocator
@@ -17,7 +19,7 @@ class Magento_Backend_Model_Authorization_RoleLocatorTest extends PHPUnit_Framew
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sessionMock = array();
 

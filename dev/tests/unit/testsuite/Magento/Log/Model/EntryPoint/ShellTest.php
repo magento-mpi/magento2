@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model\EntryPoint;
+
+class ShellTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Log\Model\EntryPoint\Shell
@@ -13,7 +15,7 @@ class Magento_Log_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 

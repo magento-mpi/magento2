@@ -14,7 +14,9 @@
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
  */
-class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Layer\Filter\Price;
+
+class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Algorithm model
@@ -25,25 +27,25 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
 
     protected function setUp()
     {
-         $this->_model = Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
+         $this->_model = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
     }
 
     /**
      * Prepare price filter model
      *
-     * @param Magento_TestFramework_Request|null $request
+     * @param \Magento\TestFramework\Request|null $request
      */
     protected function _prepareFilter($request = null)
     {
         /** @var $layer \Magento\Catalog\Model\Layer */
-        $layer = Mage::getModel('Magento\Catalog\Model\Layer');
+        $layer = \Mage::getModel('Magento\Catalog\Model\Layer');
         $layer->setCurrentCategory(4);
-        $layer->setState(Mage::getModel('Magento\Catalog\Model\Layer\State'));
+        $layer->setState(\Mage::getModel('Magento\Catalog\Model\Layer\State'));
         /** @var $filter \Magento\Catalog\Model\Layer\Filter\Price */
-        $filter = Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price');
+        $filter = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Price');
         $filter->setLayer($layer)->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
-            $filter->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
+            $filter->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
             $interval = $filter->getInterval();
             if ($interval) {
                 $this->_model->setLimits($interval[0], $interval[1]);

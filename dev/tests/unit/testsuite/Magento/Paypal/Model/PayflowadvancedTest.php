@@ -13,7 +13,9 @@
  * Test class for \Magento\Paypal\Model\Payflowadvanced
  *
  */
-class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Paypal\Model;
+
+class PayflowadvancedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var
@@ -28,7 +30,7 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
     static public $request;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleList;
 
@@ -179,7 +181,7 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
         $this->_prepareRequest($model, $params);
 
         // check whether all parameters were sent
-        $request = Magento_Paypal_Model_PayflowadvancedTest::$request;
+        $request = \Magento\Paypal\Model\PayflowadvancedTest::$request;
         $this->_assertRequestBaseParameters($model);
         $this->assertEquals($cscrequired, $request->getCscrequired());
         $this->assertEquals($cscedit, $request->getCscedit());
@@ -211,9 +213,9 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
             ->method('_buildTokenRequest')
             ->will($this->returnValue($request));
 
-        $checkRequest = create_function('$request', 'Magento_Paypal_Model_PayflowadvancedTest::$request = $request;');
+        $checkRequest = create_function('$request', 'Magento\Paypal\Model\PayflowadvancedTest::$request = $request;');
         $model->expects($this->any())->method('_postRequest')->will($this->returnCallback($checkRequest));
-        Magento_Paypal_Model_PayflowlinkTest::$request = null;
+        \Magento\Paypal\Model\PayflowlinkTest::$request = null;
         $model->initialize(\Magento\Paypal\Model\Config::PAYMENT_ACTION_AUTH, new \Magento\Object());
     }
 
@@ -225,7 +227,7 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
     protected function _assertRequestBaseParameters(\Magento\Paypal\Model\Payflowadvanced $model)
     {
         $controllerPath = '/paypal/' . $model->getCallbackController() . '/';
-        $request = Magento_Paypal_Model_PayflowadvancedTest::$request;
+        $request = \Magento\Paypal\Model\PayflowadvancedTest::$request;
         $this->assertEquals($controllerPath . 'cancelPayment', $request->getData('cancelurl'));
         $this->assertEquals($controllerPath . 'returnUrl', $request->getData('errorurl'));
         $this->assertEquals($controllerPath . 'silentPost', $request->getData('silentposturl'));

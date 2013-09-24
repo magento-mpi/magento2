@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Install;
+
+class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function testIndexAction()
     {
@@ -18,6 +20,6 @@ class Magento_Install_IndexTest extends Magento_TestFramework_TestCase_Controlle
          * Make sure that preDispatch() didn't cleanup var directory (by asserting presence of anything there),
          * because in integration testing environment the application is considered "installed"
          */
-        $this->assertFileExists(Mage::getBaseDir(\Magento\Core\Model\Dir::TMP));
+        $this->assertFileExists(\Mage::getBaseDir(\Magento\Core\Model\Dir::TMP));
     }
 }

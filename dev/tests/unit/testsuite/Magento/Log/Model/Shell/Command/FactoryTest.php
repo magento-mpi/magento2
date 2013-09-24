@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Shell_Command_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model\Shell\Command;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 

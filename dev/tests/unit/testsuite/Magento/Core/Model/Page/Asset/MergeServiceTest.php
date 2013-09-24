@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class MergeServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Page\Asset\MergeService
@@ -14,27 +16,27 @@ class Magento_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_T
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfig;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirs;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_state;
 
@@ -58,7 +60,7 @@ class Magento_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Merge for content type 'unknown' is not supported.
      */
     public function testGetMergedAssetsWrongContentType()

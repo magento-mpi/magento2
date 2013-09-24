@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Magento_AdminGws_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Magento\AdminGws;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     const CLASSES_XPATH
         = '/config/adminhtml/magento/admingws/*[name()!="controller_predispatch" and name()!="acl_deny"]/*';
@@ -23,12 +25,12 @@ class Magento_Test_Integrity_Magento_AdminGws_ConfigTest extends PHPUnit_Framewo
     public function testEventSubscriberFormat($file)
     {
         $xml = simplexml_load_file($file);
-        $nodes = $xml->xpath(Magento_Test_Integrity_Magento_AdminGws_ConfigTest::CLASSES_XPATH) ?: array();
+        $nodes = $xml->xpath(\Magento\Test\Integrity\Magento\AdminGws\ConfigTest::CLASSES_XPATH) ?: array();
         $errors = array();
-        /** @var SimpleXMLElement $node */
+        /** @var \SimpleXMLElement $node */
         foreach ($nodes as $node) {
             $class = implode('\\', array_map('ucfirst', explode('_', $node->getName())));
-            if (!Magento_TestFramework_Utility_Files::init()->classFileExists($class, $path)) {
+            if (!\Magento\TestFramework\Utility\Files::init()->classFileExists($class, $path)) {
                 $errors[] = "'{$node->getName()}' => '{$path}'";
             }
         }
@@ -44,6 +46,6 @@ class Magento_Test_Integrity_Magento_AdminGws_ConfigTest extends PHPUnit_Framewo
      */
     public function configFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('config.xml');
+        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('config.xml');
     }
 }

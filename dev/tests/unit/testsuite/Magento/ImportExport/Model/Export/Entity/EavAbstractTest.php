@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export\Entity;
+
+class EavAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Abstract eav export model
@@ -47,7 +49,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
      */
     public function testAddAttributesToCollection()
     {
-        $method = new ReflectionMethod($this->_model, '_addAttributesToCollection');
+        $method = new \ReflectionMethod($this->_model, '_addAttributesToCollection');
         $method->setAccessible(true);
         $stubCollection = $this->getMock(
             'Magento\Eav\Model\Entity\Collection\AbstractCollection', array('addAttributeToSelect'), array(), '', false
@@ -89,11 +91,11 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
             ->method('getData')
             ->will($this->returnValue($testAttributeValue));
 
-        $method = new ReflectionMethod($this->_model, '_initAttributeValues');
+        $method = new \ReflectionMethod($this->_model, '_initAttributeValues');
         $method->setAccessible(true);
         $method->invoke($this->_model);
 
-        $method = new ReflectionMethod($this->_model, '_addAttributeValuesToRow');
+        $method = new \ReflectionMethod($this->_model, '_addAttributeValuesToRow');
         $method->setAccessible(true);
         $row = $method->invoke($this->_model, $item);
         /**

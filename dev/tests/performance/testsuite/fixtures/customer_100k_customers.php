@@ -52,7 +52,7 @@ $pattern = array(
     '_address_default_billing_'   => '1',
     '_address_default_shipping_'  => '1'
 );
-$generator = new Magento_TestFramework_ImportExport_Fixture_Generator($pattern, $customersNumber);
+$generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, $customersNumber);
 /** @var \Magento\ImportExport\Model\Import $import */
 $import = Mage::getModel(
     'Magento\ImportExport\Model\Import',

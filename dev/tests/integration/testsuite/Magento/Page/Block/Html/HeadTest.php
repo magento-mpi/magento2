@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block\Html;
+
+class HeadTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Page\Block\Html\Head
@@ -18,9 +20,9 @@ class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo', 'frontend');
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Page\Block\Html\Head');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Page\Block\Html\Head');
     }
 
     /**

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class MinifyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Store\Config|PHPUnit_Framework_MockObject_MockObject

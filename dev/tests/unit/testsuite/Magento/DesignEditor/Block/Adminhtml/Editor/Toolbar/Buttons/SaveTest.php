@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
+
+class SaveTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tested block
@@ -52,7 +54,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
             ->will($this->returnValue($this->_url));
 
         //5. Run functionality
-        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $data = array(
             'helperFactory' => $helperFactory,
             'service'       => $service,
@@ -98,7 +100,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
                 try {
                     $this->assertEquals($expectedOption, $action);
                     $isFound = true;
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     //do nothing
                 }
             }
@@ -186,7 +188,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest exten
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Invalid theme of a "2" type passed to save button block
      */
     public function testInitStaging()

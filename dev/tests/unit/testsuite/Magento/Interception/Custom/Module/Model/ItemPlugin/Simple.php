@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_Custom_Module_Model_ItemPlugin_Simple
+namespace Magento\Interception\Custom\Module\Model\ItemPlugin;
+
+class Simple
 {
     /**
      * @param string $invocationResult

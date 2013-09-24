@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Resource_Acl_RoleTest extends Magento_Webapi_Model_Resource_Acl_TestAbstract
+namespace Magento\Webapi\Model\Resource\Acl;
+
+class RoleTest extends \Magento\Webapi\Model\Resource\Acl\TestAbstract
 {
     /**
      * Create resource model.

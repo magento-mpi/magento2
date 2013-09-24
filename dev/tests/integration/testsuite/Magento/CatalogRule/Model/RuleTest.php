@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogRule\Model;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CatalogRule\Model\Rule
@@ -21,7 +23,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_object = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\CatalogRule\Model\Rule');
     }
 
@@ -64,7 +66,7 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
             ->method('_getRulesFromProduct')
             ->will($this->returnValue($this->_getCatalogRulesFixtures()));
 
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product');
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 100), 45);
         $product->setParentId(true);

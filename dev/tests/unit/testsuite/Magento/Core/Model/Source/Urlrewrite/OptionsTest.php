@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Source\Urlrewrite\OptionsTest.
  */
-class Magento_Core_Model_Source_Urlrewrite_OptionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Source\Urlrewrite;
+
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \Magento\Core\Model\Source\Urlrewrite\OptionsTest::getAllOptions

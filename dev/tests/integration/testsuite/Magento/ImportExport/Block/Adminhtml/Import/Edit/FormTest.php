@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
+
 /**
  * Tests for block \Magento\ImportExport\Block\Adminhtml\Import\Edit\FormTest
  * @magentoAppArea adminhtml
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * List of expected fieldsets in import edit form
@@ -46,8 +48,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
      */
     public function testPrepareForm()
     {
-        $formBlock = Mage::app()->getLayout()->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
-        $prepareForm = new ReflectionMethod(
+        $formBlock = \Mage::app()->getLayout()->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
+        $prepareForm = new \ReflectionMethod(
             'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
             '_prepareForm'
         );

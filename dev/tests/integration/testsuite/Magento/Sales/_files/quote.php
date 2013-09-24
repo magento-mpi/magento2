@@ -8,8 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-Mage::app()->loadArea('frontend');
-$product = Mage::getModel('Magento\Catalog\Model\Product');
+\Mage::app()->loadArea('frontend');
+$product = \Mage::getModel('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -34,16 +34,16 @@ $product->setTypeId('simple')
 $product->load(1);
 
 $addressData = include(__DIR__ . '/address_data.php');
-$billingAddress = Mage::getModel('Magento\Sales\Model\Quote\Address', array('data' => $addressData));
+$billingAddress = \Mage::getModel('Magento\Sales\Model\Quote\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-$quote = Mage::getModel('Magento\Sales\Model\Quote');
+$quote = \Mage::getModel('Magento\Sales\Model\Quote');
 $quote->setCustomerIsGuest(true)
-    ->setStoreId(Mage::app()->getStore()->getId())
+    ->setStoreId(\Mage::app()->getStore()->getId())
     ->setReservedOrderId('test01')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)

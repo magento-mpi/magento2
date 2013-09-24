@@ -1,24 +1,27 @@
 <?php
 /**
- * \Magento\Webhook\Model\Job\QueueReader
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_QueueReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Job;
+
+/**
+ * \Magento\Webhook\Model\Job\QueueReader
+ *
+ * @magentoDbIsolation enabled
+ */
+class QueueReaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testPoll()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $event = Mage::getModel('Magento\Webhook\Model\Event')
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $event = \Mage::getModel('Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
 
-        $subscription = Mage::getModel('Magento\Webhook\Model\Subscription')
+        $subscription = \Mage::getModel('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
 

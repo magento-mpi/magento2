@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver\Standard;
+
+class StatTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Profiler\Driver\Standard\Stat
@@ -138,7 +140,7 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
     /**
      * Test get method with invalid timer id
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Timer "unknown_timer" doesn't exist.
      */
     public function testGetWithInvalidTimer()
@@ -149,7 +151,7 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
     /**
      * Test stop method with invalid timer id
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Timer "unknown_timer" doesn't exist.
      */
     public function testStopWithInvalidTimer()
@@ -330,7 +332,7 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
         foreach ($expects as $expectedData) {
             /** @var bool|int|PHPUnit_Framework_Constraint $expectedValue */
             list($timerId, $key, $expectedValue) = array_values($expectedData);
-            if ($expectedValue instanceof PHPUnit_Framework_Constraint) {
+            if ($expectedValue instanceof \PHPUnit_Framework_Constraint) {
                 $expectedValue->evaluate($this->_stat->fetch($timerId, $key));
             } else {
                 $this->assertEquals($expectedValue, $this->_stat->fetch($timerId, $key));
@@ -403,7 +405,7 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedMessage Timer "foo" doesn't exist.
      */
     public function testFetchInvalidTimer()
@@ -412,7 +414,7 @@ class Magento_Profiler_Driver_Standard_StatTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedMessage Timer "foo" doesn't have value for "bar".
      */
     public function testFetchInvalidKey()

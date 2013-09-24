@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogEvent\Controller;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_CatalogEvent_Controller_CategoryTest extends Magento_Backend_Utility_Controller
+class CategoryTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Covers \Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons::addButtons for Add Event button

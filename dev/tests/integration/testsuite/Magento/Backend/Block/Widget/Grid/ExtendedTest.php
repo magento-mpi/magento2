@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Backend\Block\Widget\Grid;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_TestCase
+class ExtendedTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Widget\Grid\Extended
@@ -28,8 +30,8 @@ class Magento_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_T
     {
         parent::setUp();
 
-        $this->_layoutMock = Mage:: getSingleton('Magento\Core\Model\Layout');
-        $context = Mage::getModel('Magento\Backend\Block\Template\Context', array('layout' => $this->_layoutMock));
+        $this->_layoutMock = \Mage:: getSingleton('Magento\Core\Model\Layout');
+        $context = \Mage::getModel('Magento\Backend\Block\Template\Context', array('layout' => $this->_layoutMock));
         $this->_block = $this->_layoutMock->createBlock(
             'Magento\Backend\Block\Widget\Grid\Extended', 'grid', array('context' => $context)
         );

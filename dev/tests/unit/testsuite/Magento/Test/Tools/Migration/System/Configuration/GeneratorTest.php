@@ -8,6 +8,8 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
@@ -17,8 +19,7 @@ require_once realpath(__DIR__ . '/../../../../../../../../../')
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Formatter.php';
 
-
-class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framework_TestCase
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\Configuration\Generator
@@ -26,17 +27,17 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_loggerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_formatterMock;
 
@@ -59,11 +60,11 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
 
     public function testCreateConfigurationGeneratesConfiguration()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML(
             preg_replace('/\n|\s{4}/', '', file_get_contents(__DIR__ . '/_files/convertedConfiguration.xml'))
         );
-        $stripComments = new DOMXPath($dom);
+        $stripComments = new \DOMXPath($dom);
         foreach ($stripComments->query('//comment()') as $comment) {
             $comment->parentNode->removeChild($comment);
         }
@@ -78,7 +79,7 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
             ->will(
                 $this->returnCallback(
                     function($xml) {
-                        $dom = new DOMDocument();
+                        $dom = new \DOMDocument();
                         $dom->loadXML($xml);
                         $dom->preserveWhiteSpace = false;
                         $dom->formatOutput = true;

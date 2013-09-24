@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_RevisionTest extends Magento_Backend_Utility_Controller
+class RevisionTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Cms/_files/pages.php
@@ -35,7 +37,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_RevisionTest extends Mag
      */
     public function testDropAction()
     {
-        $storeId = Mage::app()->getAnyStoreView(); // fixture design_change
+        $storeId = \Mage::app()->getAnyStoreView(); // fixture design_change
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 
         /** @var $page \Magento\Cms\Model\Page */

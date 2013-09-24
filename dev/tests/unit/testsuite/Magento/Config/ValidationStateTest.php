@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Config_ValidationStateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config;
+
+class ValidationStateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $appMode

@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Helper_ProxyTestingTest extends PHPUnit_Framework_TestCase
+namespace Magento\TestFramework\Helper;
+
+class ProxyTestingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $method
@@ -40,7 +42,7 @@ class Magento_TestFramework_Helper_ProxyTestingTest extends PHPUnit_Framework_Te
         $builder->will($this->returnCallback($callProxy));
 
         // Test it
-        $helper = new Magento_TestFramework_Helper_ProxyTesting();
+        $helper = new \Magento\TestFramework\Helper\ProxyTesting();
         $result = $helper->invokeWithExpectations($object, $proxiedObject, $method, $params, $proxiedResult,
             $proxiedMethod, $proxiedParams);
         $this->assertSame($expectedResult, $result);

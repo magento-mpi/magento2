@@ -9,15 +9,17 @@
  * @license     {license_link}
  */
 
-class Magento_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminNotification\Model\System\Message\Media\Synchronization;
+
+class ErrorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_syncFlagMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileStorage;
 
@@ -34,7 +36,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
         $this->_fileStorage->expects($this->any())->method('getSyncFlag')
             ->will($this->returnValue($this->_syncFlagMock));
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'fileStorage' => $this->_fileStorage,
         );
@@ -60,7 +62,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
         $arguments = array(
             'fileStorage' => $this->_fileStorage,
         );
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         // create new instance to ensure that it hasn't been displayed yet (var $this->_isDisplayed is unset)
         /** @var $model \Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error */
         $model = $objectManagerHelper

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Config;
+
+class QuickStylesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DesignEditor\Model\Config\Control\QuickStyles
@@ -31,7 +33,7 @@ class Magento_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framewor
      */
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_design = $objectManager->get('Magento\Core\Model\View\DesignInterface');
         $this->_design->setDesignTheme('vendor_test', \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA);
         $this->_viewFileSystem = $objectManager->get('Magento\Core\Model\View\FileSystem');

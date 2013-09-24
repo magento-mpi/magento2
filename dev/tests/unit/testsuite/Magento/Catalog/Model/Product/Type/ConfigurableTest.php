@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Type;
+
+class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product\Type\Configurable

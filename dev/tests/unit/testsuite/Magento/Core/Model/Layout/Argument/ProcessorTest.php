@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Layout\Argument\Processor
  */
-class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout\Argument;
+
+class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\Processor
@@ -20,12 +22,12 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_argumentUpdaterMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_handlerFactory;
 
@@ -112,7 +114,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
 
     public function testParse()
     {
-        // Because descendants of SimpleXMLElement couldn't be mocked
+        // Because descendants of \SimpleXMLElement couldn't be mocked
         $argument = new \Magento\Core\Model\Layout\Element('<argument xsi:type="string" name="argumentName" '
             . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Value</argument>'
         );

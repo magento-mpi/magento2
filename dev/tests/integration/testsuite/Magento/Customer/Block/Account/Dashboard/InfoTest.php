@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Block_Account_Dashboard_InfoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Block\Account\Dashboard;
+
+class InfoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Block\Account\Dashboard\Info
@@ -18,7 +20,7 @@ class Magento_Customer_Block_Account_Dashboard_InfoTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Customer\Block\Account\Dashboard\Info');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Customer\Block\Account\Dashboard\Info');
     }
 
     public function testGetSubscriptionObject()

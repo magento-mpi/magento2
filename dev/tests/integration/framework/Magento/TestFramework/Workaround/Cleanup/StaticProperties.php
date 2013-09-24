@@ -12,7 +12,9 @@
 /**
  * Workaround for decreasing memory consumption by cleaning up static properties
  */
-class Magento_TestFramework_Workaround_Cleanup_StaticProperties
+namespace Magento\TestFramework\Workaround\Cleanup;
+
+class StaticProperties
 {
     /**
      * Directories to clear static variables
@@ -33,20 +35,20 @@ class Magento_TestFramework_Workaround_Cleanup_StaticProperties
     protected static $_classesToSkip = array(
         'Mage',
         'Magento\Core\Model\ObjectManager',
-        'Magento_TestFramework_Helper_Bootstrap',
-        'Magento_TestFramework_Event_Magento',
-        'Magento_TestFramework_Event_PhpUnit',
-        'Magento_TestFramework_Annotation_AppIsolation',
+        'Magento\TestFramework\Helper\Bootstrap',
+        'Magento\TestFramework\Event\Magento',
+        'Magento\TestFramework\Event\PhpUnit',
+        'Magento\TestFramework\Annotation\AppIsolation',
         'Magento\Phrase',
     );
 
     /**
      * Check whether it is allowed to clean given class static variables
      *
-     * @param ReflectionClass $reflectionClass
+     * @param \ReflectionClass $reflectionClass
      * @return bool
      */
-    protected static function _isClassCleanable(ReflectionClass $reflectionClass)
+    protected static function _isClassCleanable(\ReflectionClass $reflectionClass)
     {
         // 1. do not process php internal classes
         if ($reflectionClass->isInternal()) {
@@ -85,9 +87,9 @@ class Magento_TestFramework_Workaround_Cleanup_StaticProperties
         $classes = get_declared_classes();
 
         foreach ($classes as $class) {
-            $reflectionCLass = new ReflectionClass($class);
+            $reflectionCLass = new \ReflectionClass($class);
             if (self::_isClassCleanable($reflectionCLass)) {
-                $staticProperties = $reflectionCLass->getProperties(ReflectionProperty::IS_STATIC);
+                $staticProperties = $reflectionCLass->getProperties(\ReflectionProperty::IS_STATIC);
                 foreach ($staticProperties as $staticProperty) {
                     $staticProperty->setAccessible(true);
                     $value = $staticProperty->getValue();
@@ -103,13 +105,13 @@ class Magento_TestFramework_Workaround_Cleanup_StaticProperties
     /**
      * Handler for 'endTestSuite' event
      *
-     * @param PHPUnit_Framework_TestSuite $suite
+     * @param \PHPUnit_Framework_TestSuite $suite
      */
-    public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         $clearStatics = false;
         foreach ($suite->tests() as $test) {
-            if ($test instanceof Magento_TestFramework_TestCase_ControllerAbstract) {
+            if ($test instanceof \Magento\TestFramework\TestCase\ControllerAbstract) {
                 $clearStatics = true;
                 break;
             }

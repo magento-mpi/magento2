@@ -5,7 +5,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-class Magento_SomeModule_Helper_Test
+namespace Magento\SomeModule\Helper;
+
+class Test
 {
     /**
      * @var Magento_SomeModule_ElementFactory_Proxy
@@ -26,8 +28,8 @@ class Magento_SomeModule_Helper_Test
     /**
      * @return Magento_SomeModule_Block_Proxy
      */
-    public function test(ModelFactory $factory)
+    public function testHelper(ModelFactory $factory)
     {
-        return Mage::getModel('Magento_SomeModule_BlockFactory', array('data' => $factory));
+        return \Mage::getModel('Magento_SomeModule_BlockFactory', array('data' => $factory));
     }
 }

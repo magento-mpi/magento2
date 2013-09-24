@@ -11,10 +11,13 @@
 
 /**
  * Bootstrap of the custom DocBlock annotations
- *
+ */
+namespace Magento\TestFramework\Bootstrap;
+
+/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_TestFramework_Bootstrap_DocBlock
+class DocBlock
 {
     /**
      * @var string
@@ -32,26 +35,26 @@ class Magento_TestFramework_Bootstrap_DocBlock
     /**
      * Activate custom DocBlock annotations along with more-or-less permanent workarounds
      */
-    public function registerAnnotations(Magento_TestFramework_Application $application)
+    public function registerAnnotations(\Magento\TestFramework\Application $application)
     {
         /*
          * Note: order of registering (and applying) annotations is important.
          * To allow config fixtures to deal with fixture stores, data fixtures should be processed first.
          */
-        $eventManager = new Magento_TestFramework_EventManager(array(
-            new Magento_TestFramework_Workaround_Segfault(),
-            new Magento_TestFramework_Workaround_Cleanup_TestCaseProperties(),
-            new Magento_TestFramework_Workaround_Cleanup_StaticProperties(),
-            new Magento_TestFramework_Isolation_WorkingDirectory(),
-            new Magento_TestFramework_Annotation_AppIsolation($application),
-            new Magento_TestFramework_Event_Transaction(new Magento_TestFramework_EventManager(array(
-                new Magento_TestFramework_Annotation_DbIsolation(),
-                new Magento_TestFramework_Annotation_DataFixture($this->_fixturesBaseDir),
+        $eventManager = new \Magento\TestFramework\EventManager(array(
+            new \Magento\TestFramework\Workaround\Segfault(),
+            new \Magento\TestFramework\Workaround\Cleanup\TestCaseProperties(),
+            new \Magento\TestFramework\Workaround\Cleanup\StaticProperties(),
+            new \Magento\TestFramework\Isolation\WorkingDirectory(),
+            new \Magento\TestFramework\Annotation\AppIsolation($application),
+            new \Magento\TestFramework\Event\Transaction(new \Magento\TestFramework\EventManager(array(
+                new \Magento\TestFramework\Annotation\DbIsolation(),
+                new \Magento\TestFramework\Annotation\DataFixture($this->_fixturesBaseDir),
             ))),
-            new Magento_TestFramework_Annotation_AppArea($application),
-            new Magento_TestFramework_Annotation_ConfigFixture(),
+            new \Magento\TestFramework\Annotation\AppArea($application),
+            new \Magento\TestFramework\Annotation\ConfigFixture(),
         ));
-        Magento_TestFramework_Event_PhpUnit::setDefaultEventManager($eventManager);
-        Magento_TestFramework_Event_Magento::setDefaultEventManager($eventManager);
+        \Magento\TestFramework\Event\PhpUnit::setDefaultEventManager($eventManager);
+        \Magento\TestFramework\Event\Magento::setDefaultEventManager($eventManager);
     }
 }

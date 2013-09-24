@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     const MAIN_TABLE_NAME = 'webhook_subscription_table';
     const HOOK_TABLE_NAME = 'webhook_subscription_hook_table';
@@ -27,22 +29,22 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
                         <label>label</label>
                     </c>
                 </test>';
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_selectMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_adapterMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_resourceMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_configMock;
 
     /**
      * Unit under testing.
      *
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     private $_subxResourceMock;
 
@@ -181,7 +183,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {
@@ -194,7 +196,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
      * Generates a mock subscription resource with the given methods stubbed
      *
      * @param $methods
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeSubscriptionResourceMock($methods)
     {

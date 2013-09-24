@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_JobQueue_Client_GearmanTest extends PHPUnit_Framework_TestCase
+namespace Magento\JobQueue\Client;
+
+class GearmanTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\JobQueue\Client\Gearman
@@ -13,12 +15,12 @@ class Magento_JobQueue_Client_GearmanTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_adaptedClientMock;
 

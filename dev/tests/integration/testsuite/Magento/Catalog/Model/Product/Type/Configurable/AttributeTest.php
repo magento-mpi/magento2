@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Type_Configurable_AttributeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Type\Configurable;
+
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product\Type\Configurable\Attribute
@@ -18,7 +20,7 @@ class Magento_Catalog_Model_Product_Type_Configurable_AttributeTest extends PHPU
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable\Attribute');
+        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product\Type\Configurable\Attribute');
     }
 
     public function testAddPrice()

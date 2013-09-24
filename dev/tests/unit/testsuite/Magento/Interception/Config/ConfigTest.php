@@ -5,6 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
+
+namespace Magento\Interception\Config;
+
 require_once __DIR__ . '/../Custom/Module/Model/Item.php';
 require_once __DIR__ . '/../Custom/Module/Model/Item/Enhanced.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemContainer.php';
@@ -13,7 +16,7 @@ require_once __DIR__ . '/../Custom/Module/Model/ItemContainerPlugin/Simple.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Simple.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Advanced.php';
 
-class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Interception\Config\Config
@@ -21,7 +24,7 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
@@ -90,20 +93,20 @@ class Magento_Interception_Config_ConfigTest extends PHPUnit_Framework_TestCase
             // item container has plugins only in the backend scope
             array(
                 true,
-                'Magento_Interception_Custom_Module_Model_ItemContainer',
+                'Magento\Interception\Custom\Module\Model\ItemContainer',
             ),
             array(
                 true,
-                'Magento_Interception_Custom_Module_Model_Item',
+                'Magento\Interception\Custom\Module\Model\Item',
             ),
             array(
                 true,
-                'Magento_Interception_Custom_Module_Model_Item_Enhanced',
+                'Magento\Interception\Custom\Module\Model\Item\Enhanced',
             ),
             array(
                 // the following model has only inherited plugins
                 true,
-                'Magento_Interception_Custom_Module_Model_ItemContainer_Enhanced',
+                'Magento\Interception\Custom\Module\Model\ItemContainer\Enhanced',
             )
         );
     }

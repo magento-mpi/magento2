@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Backend_File_RequestDataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Backend\File;
+
+class RequestDataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Config\Backend\File\RequestData

@@ -46,7 +46,7 @@ $configXml = <<<EOD
 </config>
 EOD;
 
-$config = Mage::getModel('Magento\Core\Model\Config\Base', array('sourceData' => $configXml));
+$config = \Mage::getModel('Magento\Core\Model\Config\Base', array('sourceData' => $configXml));
 /** @var $configModel \Magento\Core\Model\Config */
 $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
 $configModel->getNode()->extend($config->getNode());

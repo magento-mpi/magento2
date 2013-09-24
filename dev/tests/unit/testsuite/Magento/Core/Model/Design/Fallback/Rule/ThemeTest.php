@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Parameter "theme" should be specified and should implement the theme interface
      */
     public function testGetPatternDirsException()

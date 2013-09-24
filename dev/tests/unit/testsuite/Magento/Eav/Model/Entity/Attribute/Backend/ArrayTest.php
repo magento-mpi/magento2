@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Model_Entity_Attribute_Backend_ArrayTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
+
+class ArrayTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend

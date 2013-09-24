@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Eav\Model\Entity\Attribute\Set
  */
-class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model\Entity\Attribute;
+
+class SetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Eav\Model\Entity\Attribute\Set
@@ -26,7 +28,7 @@ class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestC
         $arguments = array(
             'resource'  => $resource,
         );
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Eav\Model\Entity\Attribute\Set', $arguments);
     }
 

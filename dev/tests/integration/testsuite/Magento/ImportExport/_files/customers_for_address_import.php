@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 //Create customer
-$customer = Mage::getModel('Magento\Customer\Model\Customer');
+$customer = \Mage::getModel('Magento\Customer\Model\Customer');
 $customer
     ->setWebsiteId(0)
     ->setEntityId(1)
@@ -27,7 +27,7 @@ $customer->isObjectNew(true);
 $customer->save();
 
 // Create and set addresses
-$addressFirst = Mage::getModel('Magento\Customer\Model\Address');
+$addressFirst = \Mage::getModel('Magento\Customer\Model\Address');
 $addressFirst->addData(array(
     'entity_id'         => 1,
     'firstname'         => 'Betsy',
@@ -43,7 +43,7 @@ $addressFirst->isObjectNew(true);
 $customer->addAddress($addressFirst);
 $customer->setDefaultBilling($addressFirst->getId());
 
-$addressSecond = Mage::getModel('Magento\Customer\Model\Address');
+$addressSecond = \Mage::getModel('Magento\Customer\Model\Address');
 $addressSecond->addData(array(
     'entity_id'         => 2,
     'firstname'         => 'Anthony',

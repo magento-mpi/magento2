@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Authorization\Role;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Webapi\Model\Authorization\Role\Factory
@@ -26,7 +28,7 @@ class Magento_Webapi_Model_Authorization_Role_FactoryTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_objectManager = $this->getMockForAbstractClass('Magento\ObjectManager', array(), '',
             true, true, true, array('create'));

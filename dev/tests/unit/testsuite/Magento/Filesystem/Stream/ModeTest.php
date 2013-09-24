@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Filesystem_Stream_ModeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Filesystem\Stream;
+
+class ModeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider modesDataProvider

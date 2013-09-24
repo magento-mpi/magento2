@@ -11,20 +11,20 @@
 
 // Copy images to tmp media path
 /** @var \Magento\Catalog\Model\Product\Media\Config $config */
-$config = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
+$config = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
 /** @var \Magento\Filesystem $filesystem */
-$filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Filesystem');
+$filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
 $filesystem->setIsAllowCreateDirectories(true);
 $filesystem->copy(__DIR__ . '/product_image.png', $baseTmpMediaPath . '/product_image.png');
 
 /** @var $productOne \Magento\Catalog\Model\Product */
-$productOne = Mage::getModel('Magento\Catalog\Model\Product');
+$productOne = \Mage::getModel('Magento\Catalog\Model\Product');
 $productOne->setId(1)
     ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(Mage::app()->getStore()->getWebsiteId()))
+    ->setWebsiteIds(array(\Mage::app()->getStore()->getWebsiteId()))
 
     ->setSku('simple_product_1')
     ->setName('Simple Product 1 Name')
@@ -51,11 +51,11 @@ $productOne->setId(1)
     ->save();
 
 /** @var $productTwo \Magento\Catalog\Model\Product */
-$productTwo = Mage::getModel('Magento\Catalog\Model\Product');
+$productTwo = \Mage::getModel('Magento\Catalog\Model\Product');
 $productTwo->setId(2)
     ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(Mage::app()->getStore()->getWebsiteId()))
+    ->setWebsiteIds(array(\Mage::app()->getStore()->getWebsiteId()))
 
     ->setSku('simple_product_2')
     ->setName('Simple Product 2 Name')

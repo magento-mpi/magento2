@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data\Collection;
+
+class DbTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Data\Collection\Db
@@ -30,7 +32,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract
+     * @return \PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract
      */
     public function testSetAddOrder()
     {
@@ -40,7 +42,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
         $this->_collection->setConnection($adapter);
 
         $select = $this->_collection->getSelect();
-        $this->assertEmpty($select->getPart(Zend_Db_Select::ORDER));
+        $this->assertEmpty($select->getPart(\Zend_Db_Select::ORDER));
 
         /* Direct access to select object is available and many places are using it for sort order declaration */
         $select->order('select_field', \Magento\Data\Collection::SORT_ORDER_ASC);
@@ -49,7 +51,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
         $this->_collection->addOrder('other_field', \Magento\Data\Collection::SORT_ORDER_DESC);
 
         $this->_collection->load();
-        $selectOrders = $select->getPart(Zend_Db_Select::ORDER);
+        $selectOrders = $select->getPart(\Zend_Db_Select::ORDER);
         $this->assertEquals(array('select_field', 'ASC'), array_shift($selectOrders));
         $this->assertEquals('some_field ASC', (string)array_shift($selectOrders));
         $this->assertEquals('other_field DESC', (string)array_shift($selectOrders));
@@ -59,7 +61,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract $adapter
+     * @param \PHPUnit_Framework_MockObject_MockObject|Zend_Db_Adapter_Abstract $adapter
      * @depends testSetAddOrder
      */
     public function testUnshiftOrder($adapter)
@@ -69,7 +71,7 @@ class Magento_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
         $this->_collection->unshiftOrder('other_field', \Magento\Data\Collection::SORT_ORDER_ASC);
 
         $this->_collection->load();
-        $selectOrders = $this->_collection->getSelect()->getPart(Zend_Db_Select::ORDER);
+        $selectOrders = $this->_collection->getSelect()->getPart(\Zend_Db_Select::ORDER);
         $this->assertEquals('other_field ASC', (string)array_shift($selectOrders));
         $this->assertEquals('some_field ASC', (string)array_shift($selectOrders));
         $this->assertEmpty(array_shift($selectOrders));

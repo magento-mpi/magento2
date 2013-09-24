@@ -12,6 +12,8 @@
 /**
  * Integer test validator
  */
-class Magento_Validator_Test_Int extends Zend_Validate_Int implements \Magento\Validator\ValidatorInterface
+namespace Magento\Validator\Test;
+
+class Int extends \Zend_Validate_Int implements \Magento\Validator\ValidatorInterface
 {
 }

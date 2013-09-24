@@ -9,4 +9,4 @@
  * @license     {license_link}
  */
 
-copy(__DIR__ . DS . 'robots.txt', Mage::getBaseDir() . DS . 'robots.txt');
+copy(__DIR__ . DS . 'robots.txt', \Mage::getBaseDir() . DS . 'robots.txt');

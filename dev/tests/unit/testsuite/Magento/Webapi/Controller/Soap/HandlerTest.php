@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Soap;
+
+class HandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Soap\Handler */
     protected $_handler;
@@ -21,10 +23,10 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
     /** @var \Magento\Webapi\Controller\Soap\Security */
     protected $_soapSecurityMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_apiConfigMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
     /** @var array */
@@ -185,9 +187,9 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
     {
         /** Process security header by __call() method. */
         $this->_handler->setRequestHeaders(array(\Magento\Webapi\Controller\Soap\Security::HEADER_SECURITY));
-        $usernameToken = new stdClass();
+        $usernameToken = new \stdClass();
         // @codingStandardsIgnoreStart
-        $usernameToken->UsernameToken = new stdClass();
+        $usernameToken->UsernameToken = new \stdClass();
         $usernameToken->UsernameToken->Username = 'username';
         $usernameToken->UsernameToken->Password = 'password';
         $usernameToken->UsernameToken->Nonce = 'nonce';
@@ -199,7 +201,7 @@ class Magento_Webapi_Controller_Soap_HandlerTest extends PHPUnit_Framework_TestC
         );
 
         /** Override arguments for process action header. */
-        $request = new stdClass();
+        $request = new \stdClass();
         $request->customerId = 1;
         $this->_arguments = array($request);
     }

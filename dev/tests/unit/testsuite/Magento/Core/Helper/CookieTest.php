@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class CookieTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Helper\Cookie
@@ -55,7 +57,7 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
         $storeStub = $this->_getStoreStub();
         $storeStub->expects($this->once())
             ->method('getConfig')
-            ->will($this->returnCallback('Magento_Core_Helper_CookieTest::getConfigMethodStub'))
+            ->will($this->returnCallback('Magento\Core\Helper\CookieTest::getConfigMethodStub'))
             ->with($this->equalTo('web/cookie/cookie_restriction_lifetime'));
         $this->_object = new \Magento\Core\Helper\Cookie(
             $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
@@ -78,7 +80,7 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
 
         $store->expects($this->any())
             ->method('getConfig')
-            ->will($this->returnCallback('Magento_Core_Helper_CookieTest::getConfigMethodStub'));
+            ->will($this->returnCallback('Magento\Core\Helper\CookieTest::getConfigMethodStub'));
 
         return $store;
     }
@@ -119,7 +121,7 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
      * @static
      * @param string $hashName
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function getConfigMethodStub($hashName)
     {
@@ -133,6 +135,6 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
             return $defaultConfig[$hashName];
         }
 
-        throw new InvalidArgumentException('Unknow id = ' . $hashName);
+        throw new \InvalidArgumentException('Unknow id = ' . $hashName);
     }
 }

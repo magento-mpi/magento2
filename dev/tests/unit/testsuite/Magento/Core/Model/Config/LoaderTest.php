@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config;
+
+class LoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config\Loader
@@ -16,27 +18,27 @@ class Magento_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_primaryConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modulesReaderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_loaderLocalMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_baseConfigMock;
 

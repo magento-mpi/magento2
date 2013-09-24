@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Usa\Model\Shipping\Carrier;
+
+class UpsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Usa\Model\Shipping\Carrier\Ups
@@ -15,7 +17,7 @@ class Magento_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_object = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Usa\Model\Shipping\Carrier\Ups');
     }
 

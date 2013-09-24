@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Model\Import\Entity\EavAbstract
  */
-class Magento_ImportExport_Model_Import_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity;
+
+class EavAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Entity type id

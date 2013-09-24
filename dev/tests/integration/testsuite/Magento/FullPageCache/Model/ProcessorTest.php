@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model;
+
+class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\FullPageCache\Model\Processor
@@ -18,14 +20,14 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     public static function setUpBeforeClass()
     {
         /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\FullPageCache\Model\Processor');
+        $this->_model = \Mage::getModel('Magento\FullPageCache\Model\Processor');
     }
 
     public function testIsAllowedHttps()
@@ -49,7 +51,7 @@ class Magento_FullPageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCa
     {
         $this->assertTrue($this->_model->isAllowed());
         /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', false);
         $this->assertFalse($this->_model->isAllowed());

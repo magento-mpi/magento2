@@ -12,7 +12,9 @@
 /**
  * Test of customization path model
  */
-class Magento_Core_Model_Theme_Customization_PathTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Customization;
+
+class PathTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme\Customization\Path
@@ -20,12 +22,12 @@ class Magento_Core_Model_Theme_Customization_PathTest extends PHPUnit_Framework_
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dir;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_theme;
 

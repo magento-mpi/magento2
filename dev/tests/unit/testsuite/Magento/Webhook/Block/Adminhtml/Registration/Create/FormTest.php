@@ -9,18 +9,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magento_Test_Block_Adminhtml
+namespace Magento\Webhook\Block\Adminhtml\Registration\Create;
+
+class FormTest extends \Magento\Test\Block\Adminhtml
 {
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_formMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_formFactoryMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_coreData;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_dataFormMock;
 
     /** @var  \Magento\Core\Model\Registry */

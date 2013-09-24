@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Controller_CacheTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Controller;
+
+class CacheTest extends \PHPUnit_Framework_TestCase
 {
     public function testCleanMediaAction()
     {

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Model\Product;
+
+class TypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Downloadable\Model\Product\Type

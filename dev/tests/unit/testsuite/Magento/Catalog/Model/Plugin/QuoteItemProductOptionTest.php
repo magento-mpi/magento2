@@ -5,15 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Plugin_QuoteItemProductOptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Plugin;
+
+class QuoteItemProductOptionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_quoteItemMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_invocationChainMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_orderItemMock;
 
     /** @var \Magento\Catalog\Model\Plugin\QuoteItemProductOption */

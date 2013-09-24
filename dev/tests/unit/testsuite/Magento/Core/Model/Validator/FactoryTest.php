@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Validator;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager

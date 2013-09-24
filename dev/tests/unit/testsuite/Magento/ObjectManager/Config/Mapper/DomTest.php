@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_ObjectManager_Config_Mapper_DomTest extends PHPUnit_Framework_TestCase
+namespace Magento\ObjectManager\Config\Mapper;
+
+class DomTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ObjectManager\Config\Mapper\Dom
@@ -19,7 +21,7 @@ class Magento_ObjectManager_Config_Mapper_DomTest extends PHPUnit_Framework_Test
 
     public function testConvert()
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $xmlFile = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'simple_di_config.xml';
         $dom->loadXML(file_get_contents($xmlFile));
 
@@ -31,12 +33,12 @@ class Magento_ObjectManager_Config_Mapper_DomTest extends PHPUnit_Framework_Test
     /**
      * @param string $xmlData
      * @dataProvider wrongXmlDataProvider
-     * @expectedException Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage Invalid application config. Unknown node: wrong_node.
      */
     public function testMapThrowsExceptionWhenXmlHasWrongFormat($xmlData)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML($xmlData);
         $this->_mapper->convert($dom);
     }

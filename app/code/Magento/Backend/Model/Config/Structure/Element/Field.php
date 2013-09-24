@@ -466,7 +466,7 @@ class Field
      */
     private function _fillInConstantPlaceholders($value)
     {
-        if (is_string($value) && preg_match('/^{{([A-Z][A-Za-z\d_]+::[A-Z\d_]+)}}$/', $value, $matches)) {
+        if (is_string($value) && preg_match('/^{{(\\\\[A-Z][\\\\A-Za-z\d_]+::[A-Z\d_]+)}}$/', $value, $matches)) {
             $value = constant($matches[1]);
         }
         return $value;

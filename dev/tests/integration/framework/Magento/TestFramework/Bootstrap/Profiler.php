@@ -12,7 +12,9 @@
 /**
  * Bootstrap of the application profiler
  */
-class Magento_TestFramework_Bootstrap_Profiler
+namespace Magento\TestFramework\Bootstrap;
+
+class Profiler
 {
     /**
      * Profiler driver instance
@@ -71,7 +73,7 @@ class Magento_TestFramework_Bootstrap_Profiler
     public function registerBambooProfiler($profilerOutputFile, $profilerMetricsFile)
     {
         $this->_registerDriver();
-        $this->_driver->registerOutput(new Magento_TestFramework_Profiler_OutputBamboo(array(
+        $this->_driver->registerOutput(new \Magento\TestFramework\Profiler\OutputBamboo(array(
             'filePath' => $profilerOutputFile,
             'metrics'  => require($profilerMetricsFile)
         )));

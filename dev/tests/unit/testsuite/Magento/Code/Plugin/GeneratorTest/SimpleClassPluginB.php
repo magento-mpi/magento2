@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Code_Plugin_GeneratorTest_SimpleClassPluginB
+namespace Magento\Code\Plugin\GeneratorTest;
+
+class SimpleClassPluginB
 {
     /**
      * @param array $arguments

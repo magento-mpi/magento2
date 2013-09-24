@@ -12,7 +12,9 @@
 /**
  * Test class Magento_Core_Controller_Varien_ActionAbstract
  */
-class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien;
+
+class ActionAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Varien\ActionAbstract

@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
+namespace Magento\Rma\Helper;
+
+class EavTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Rma\Helper\Eav

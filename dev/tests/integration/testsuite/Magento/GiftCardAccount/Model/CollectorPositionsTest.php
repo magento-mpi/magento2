@@ -9,7 +9,9 @@
 /**
  * Test positions of the GiftCardAccount total collectors as compared to other collectors
  */
-class Magento_GiftCardAccount_Model_CollectorPositionsTest extends Magento_Sales_Model_CollectorPositionsTestAbstract
+namespace Magento\GiftCardAccount\Model;
+
+class CollectorPositionsTest extends \Magento\Sales\Model\CollectorPositionsTestAbstract
 {
     /**
      * @return array

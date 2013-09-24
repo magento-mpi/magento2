@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order;
+
+class InvoiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Order\Invoice
@@ -17,18 +19,18 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order
      */
     protected $_orderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order\Payment
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order\Payment
      */
     protected $_paymentMock;
 
     protected function setUp()
     {
-        $helperManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helperManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->setMethods(array('getPayment'))

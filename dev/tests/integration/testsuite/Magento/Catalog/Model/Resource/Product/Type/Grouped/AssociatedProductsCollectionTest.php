@@ -6,8 +6,10 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollectionTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource\Product\Type\Grouped;
+
+class AssociatedProductsCollectionTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_grouped.php
@@ -16,14 +18,14 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     public function testGetColumnValues()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = Mage::getModel('Magento\Catalog\Model\Product');
+        $product = \Mage::getModel('Magento\Catalog\Model\Product');
         $product->load(9);
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
         /** @var \Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection $collection */
-        $collection = Mage::getResourceModel(
+        $collection = \Mage::getResourceModel(
             'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
         );
 

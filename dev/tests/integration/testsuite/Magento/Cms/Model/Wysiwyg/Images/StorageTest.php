@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cms\Model\Wysiwyg\Images;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -19,9 +21,9 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public static function setUpBeforeClass()
     {
-        self::$_baseDir = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        self::$_baseDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Cms\Helper\Wysiwyg\Images')
-                ->getCurrentPath() . __CLASS__;
+                ->getCurrentPath() . 'MagentoCmsModelWysiwygImagesStorageTest';
         mkdir(self::$_baseDir, 0777);
         touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
     }
@@ -36,10 +38,10 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
      */
     public function testGetFilesCollection()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
         /** @var $model \Magento\Cms\Model\Wysiwyg\Images\Storage */
-        $model = Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage');
+        $model = \Mage::getModel('Magento\Cms\Model\Wysiwyg\Images\Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
         $this->assertInstanceOf('Magento\Cms\Model\Wysiwyg\Images\Storage\Collection', $collection);
         foreach ($collection as $item) {
@@ -58,7 +60,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $model = $objectManager->create('Magento\Cms\Model\Wysiwyg\Images\Storage');
         $this->assertStringStartsWith(
-            realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
+            realpath(\Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()
         );
     }

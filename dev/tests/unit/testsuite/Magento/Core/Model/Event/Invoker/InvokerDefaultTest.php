@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Event\Invoker;
+
+class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerFactoryMock;
 
@@ -18,12 +20,12 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
     protected $_observerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_listenerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appStateMock;
 

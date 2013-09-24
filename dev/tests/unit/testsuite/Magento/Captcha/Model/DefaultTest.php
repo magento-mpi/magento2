@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
+namespace Magento\Captcha\Model;
+
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Captcha default config data
@@ -40,7 +42,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirMock;
 
@@ -242,7 +244,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
 
         $helper->expects($this->any())
             ->method('getConfigNode')
-            ->will($this->returnCallback('Magento_Captcha_Model_DefaultTest::getConfigNodeStub'));
+            ->will($this->returnCallback('Magento\Captcha\Model\DefaultTest::getConfigNodeStub'));
 
         $helper->expects($this->any())
             ->method('getFonts')
@@ -289,7 +291,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
      * Mock get config method
      * @static
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public static function getConfigNodeStub()
     {
@@ -300,7 +302,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
             return self::$_defaultConfig[$hashName];
         }
 
-        throw new InvalidArgumentException('Unknow id = ' . $hashName);
+        throw new \InvalidArgumentException('Unknow id = ' . $hashName);
     }
 
     /**

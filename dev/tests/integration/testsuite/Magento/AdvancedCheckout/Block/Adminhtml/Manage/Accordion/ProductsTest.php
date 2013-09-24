@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_ProductsTest extends PHPUnit_Framework_TestCase
+class ProductsTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Block\AbstractBlock */
     protected $_block;
@@ -20,7 +22,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_ProductsTest ext
     protected function setUp()
     {
         parent::setUp();
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $this->_block = $layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Products');
     }
 

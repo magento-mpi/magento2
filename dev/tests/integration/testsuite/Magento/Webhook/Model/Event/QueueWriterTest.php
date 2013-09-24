@@ -1,19 +1,22 @@
 <?php
 /**
- * \Magento\Webhook\Model\Event\QueueWriter
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Event;
+
+/**
+ * \Magento\Webhook\Model\Event\QueueWriter
+ *
+ * @magentoDbIsolation enabled
+ */
+class QueueWriterTest extends \PHPUnit_Framework_TestCase
 {
     public function testOfferWebhookEvent()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         // New collection must be created to avoid interference between QueueReader tests
         $collection =  $objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $readerArgs = array('collection' => $collection);
@@ -35,7 +38,7 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
 
     public function testOfferMagentoEvent()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         // New collection must be created to avoid interference between QueueReader tests
         $collection =  $objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $readerArgs = array('collection' => $collection);

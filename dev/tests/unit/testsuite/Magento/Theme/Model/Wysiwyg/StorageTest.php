@@ -11,7 +11,9 @@
 /**
  * Storage model test
  */
-class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Model\Wysiwyg;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string

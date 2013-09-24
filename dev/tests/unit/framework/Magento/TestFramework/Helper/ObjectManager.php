@@ -11,7 +11,9 @@
 /**
  * Helper class for basic object retrieving, such as blocks, models etc...
  */
-class Magento_TestFramework_Helper_ObjectManager
+namespace Magento\TestFramework\Helper;
+
+class ObjectManager
 {
     /**
      * Special cases configuration
@@ -26,16 +28,16 @@ class Magento_TestFramework_Helper_ObjectManager
     /**
      * Test object
      *
-     * @var PHPUnit_Framework_TestCase
+     * @var \PHPUnit_Framework_TestCase
      */
     protected $_testObject;
 
     /**
      * Class constructor
      *
-     * @param PHPUnit_Framework_TestCase $testObject
+     * @param \PHPUnit_Framework_TestCase $testObject
      */
-    public function __construct(PHPUnit_Framework_TestCase $testObject)
+    public function __construct(\PHPUnit_Framework_TestCase $testObject)
     {
         $this->_testObject = $testObject;
     }
@@ -122,11 +124,11 @@ class Magento_TestFramework_Helper_ObjectManager
      * Get mock without call of original constructor
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getMockWithoutConstructorCall($className)
     {
-        $class = new ReflectionClass($className);
+        $class = new \ReflectionClass($className);
         $mock = null;
         if ($class->isAbstract()) {
             $mock = $this->_testObject->getMockForAbstractClass($className, array(), '', false, false);
@@ -146,7 +148,7 @@ class Magento_TestFramework_Helper_ObjectManager
     public function getObject($className, array $arguments = array())
     {
         $constructArguments = $this->getConstructArguments($className, $arguments);
-        $reflectionClass = new ReflectionClass($className);
+        $reflectionClass = new \ReflectionClass($className);
         return $reflectionClass->newInstanceArgs($constructArguments);
     }
 
@@ -163,7 +165,7 @@ class Magento_TestFramework_Helper_ObjectManager
         if (!method_exists($className, '__construct')) {
             return $constructArguments;
         }
-        $method = new ReflectionMethod($className, '__construct');
+        $method = new \ReflectionMethod($className, '__construct');
 
         foreach ($method->getParameters() as $parameter) {
             $parameterName = $parameter->getName();

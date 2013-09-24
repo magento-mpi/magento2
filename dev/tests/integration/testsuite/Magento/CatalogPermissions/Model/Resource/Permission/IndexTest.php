@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogPermissions_Model_Resource_Permission_IndexTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogPermissions\Model\Resource\Permission;
+
+class IndexTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * CatalogPermissions Index model
@@ -20,7 +22,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_IndexTest extends PHP
 
     protected function setUp()
     {
-        $this->_indexModel = Mage::getModel('Magento\CatalogPermissions\Model\Permission\Index');
+        $this->_indexModel = \Mage::getModel('Magento\CatalogPermissions\Model\Permission\Index');
     }
 
     /**
@@ -31,7 +33,7 @@ class Magento_CatalogPermissions_Model_Resource_Permission_IndexTest extends PHP
     {
         $fixturePermission = array(
             'category_id'                 => 6,
-            'website_id'                  => Mage::app()->getWebsite()->getId(),
+            'website_id'                  => \Mage::app()->getWebsite()->getId(),
             'customer_group_id'           => 1,
             'grant_catalog_category_view' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
             'grant_catalog_product_price' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Model\Resource\Import\CustomerComposite\Data
  */
-class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Resource\Import\CustomerComposite;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Array of customer attributes
@@ -37,7 +39,7 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
         );
         $statementMock->expects($this->any())
             ->method('getIterator')
-            ->will($this->returnValue(new ArrayIterator($bunchData)));
+            ->will($this->returnValue(new \ArrayIterator($bunchData)));
 
         /** @var $selectMock \Magento\DB\Select */
         $selectMock = $this->getMock('Magento\DB\Select', array('from', 'order'),
@@ -130,7 +132,7 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
             'address entity' => array(
                 '$entityType' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite
                     ::COMPONENT_ENTITY_ADDRESS,
-                '$bunchData'    => array(array(Zend_Json::encode(array(
+                '$bunchData'    => array(array(\Zend_Json::encode(array(
                         array(
                             '_scope' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_DEFAULT,
                             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
@@ -175,7 +177,7 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
             'customer entity default scope' => array(
                 '$entityType' =>
                 \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER,
-                '$bunchData'    => array(array(Zend_Json::encode(array(
+                '$bunchData'    => array(array(\Zend_Json::encode(array(
                         array(
                             '_scope' =>
                             \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_DEFAULT,
@@ -223,7 +225,7 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
             'customer entity address scope' => array(
                 '$entityType' =>
                 \Magento\ImportExport\Model\Import\Entity\CustomerComposite::COMPONENT_ENTITY_CUSTOMER,
-                '$bunchData'    => array(array(Zend_Json::encode(array(
+                '$bunchData'    => array(array(\Zend_Json::encode(array(
                         array(
                             '_scope' => \Magento\ImportExport\Model\Import\Entity\CustomerComposite::SCOPE_ADDRESS,
                             \Magento\ImportExport\Model\Import\Entity\Eav\Customer\

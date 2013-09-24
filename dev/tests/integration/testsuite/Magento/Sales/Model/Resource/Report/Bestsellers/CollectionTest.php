@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Resource_Report_Bestsellers_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Resource\Report\Bestsellers;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Resource\Report\Bestsellers\Collection
@@ -15,7 +17,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers_CollectionTest extends PHP
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Bestsellers\Collection');
+        $this->_collection = \Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Bestsellers\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

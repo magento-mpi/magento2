@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesArchive\Model\Order\Archive\Grid\Row;
+
+class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var $_model \Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator
@@ -17,12 +19,12 @@ class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends
     protected $_model;
 
     /**
-     * @var $_authorization PHPUnit_Framework_MockObject_MockObject
+     * @var $_authorization \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_authorizationMock;
 
     /**
-     * @var $_urlModel PHPUnit_Framework_MockObject_MockObject
+     * @var $_urlModel \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 

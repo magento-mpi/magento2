@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -12,11 +8,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer;
+
+/**
+ * \Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action
+ *
+ * @magentoAppArea adminhtml
+ */
+class ActionTest extends \PHPUnit_Framework_TestCase
 {
     public function testRender()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $grid = $objectManager->create('Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer\Action');
 
         /** @var \Magento\Webhook\Model\Subscription $subscriptionRow */

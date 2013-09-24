@@ -7,20 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Logging_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Logging\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Logging\Model\Config\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Logging\Model\Config\Data
      */
     protected $_storageMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Logging\Model\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Logging\Model\Config
      */
     protected $_model;
 
     /*
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
      */
     protected $_storeMock;
 

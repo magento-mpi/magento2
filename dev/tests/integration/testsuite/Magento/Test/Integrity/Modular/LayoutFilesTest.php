@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class LayoutFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
@@ -50,7 +52,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
                     continue;
                 }
                 $handler->process($argument);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $this->fail($e->getMessage());
             }
         }
@@ -61,7 +63,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
      */
     public function layoutTypesDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 
     /**

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure;
+
+class ElementAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure\ElementAbstract
@@ -17,7 +19,7 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationMock;
 

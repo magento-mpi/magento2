@@ -5,14 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppArea adminhtml
      */
     public function testGetAfterElementHtml()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $layout = Mage::getModel(
             'Magento\Core\Model\Layout',
             array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)

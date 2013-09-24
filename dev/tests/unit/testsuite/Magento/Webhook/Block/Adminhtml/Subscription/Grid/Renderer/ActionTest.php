@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Subscription\Grid\Renderer;
+
+class ActionTest extends \PHPUnit_Framework_TestCase
 {
     public function testRenderWrongType()
     {

@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine;
+
+class TwigTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Core\Model\TemplateEngine\Twig */
     protected $_twigEngine;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -22,8 +24,8 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
      */
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        Mage::app()->loadAreaPart(
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        \Mage::app()->loadAreaPart(
             \Magento\Core\Model\App\Area::AREA_GLOBAL,
             \Magento\Core\Model\App\Area::PART_CONFIG
         );
@@ -50,7 +52,7 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
      */
     public function testSimpleRender()
     {
-        Mage::app()->loadAreaPart(
+        \Mage::app()->loadAreaPart(
             \Magento\Core\Model\App\Area::AREA_FRONTEND,
             \Magento\Core\Model\App\Area::PART_DESIGN
         );

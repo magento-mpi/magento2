@@ -12,8 +12,10 @@
 /**
  * Background image renderer test
  */
-class Magento_DesignEditor_Model_Editor_QuickStyles_Renderer_BackgroundImageTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Editor\QuickStyles\Renderer;
+
+class BackgroundImageTest
+    extends \PHPUnit_Framework_TestCase
 {
     /**
      * @cover \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage::toCss

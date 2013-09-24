@@ -12,7 +12,9 @@
 /**
  * Test case for \Magento\Validator\ValidatorException
  */
-class Magento_Validator_ExceptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator;
+
+class ExceptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Testing \Magento\Validator\ValidatorException::getMessage

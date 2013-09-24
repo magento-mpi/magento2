@@ -8,12 +8,14 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Writer;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Writer/Factory.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Writer/FileSystem.php';
 
-class Magento_Test_Tools_Migration_System_Writer_FactoryTest extends PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\Writer\Factory

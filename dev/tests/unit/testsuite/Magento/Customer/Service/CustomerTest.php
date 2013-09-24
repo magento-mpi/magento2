@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Service;
+
+class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Service\Customer|PHPUnit_Framework_MockObject_MockObject
@@ -15,17 +17,17 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_service;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customerFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_addressFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_customer;
 
@@ -33,7 +35,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_address;
 
@@ -80,7 +82,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      *
      * @param bool $hasChanges
      * @param int $addressId
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createAddress($hasChanges, $addressId)
     {

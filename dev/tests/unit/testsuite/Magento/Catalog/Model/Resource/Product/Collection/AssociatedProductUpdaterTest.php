@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource\Product\Collection;
+
+class AssociatedProductUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test adding filtration by qty and stock availability to collection

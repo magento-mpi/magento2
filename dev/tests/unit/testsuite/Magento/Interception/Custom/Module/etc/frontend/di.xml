@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <type name="Magento_Interception_Custom_Module_Model_Item">
+    <type name="Magento\Interception\Custom\Module\Model\Item">
         <plugin name="simple_plugin" disabled="true" />
     </type>
-    <type name="Magento_Interception_Custom_Module_Model_Item_Enhanced">
-        <plugin name="advanced_plugin" type="Magento_Interception_Custom_Module_Model_ItemPlugin_Advanced" sortOrder="5"/>
+    <type name="Magento\Interception\Custom\Module\Model\Item\Enhanced">
+        <plugin name="advanced_plugin" type="Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced" sortOrder="5"/>
     </type>
 </config>

@@ -71,11 +71,11 @@ class Head extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \\Magento\Core\Block\Template\Context $context
-     * @param \\Magento\ObjectManager $objectManager
-     * @param \\Magento\Core\Model\Page $page
-     * @param \\Magento\Core\Model\Page\Asset\MergeService $assetMergeService
-     * @param \\Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Core\Model\Page $page
+     * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
+     * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
      * @param array $data
      */
     public function __construct(

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Helper\Product;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Helper\Product\Url
@@ -19,7 +21,7 @@ class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         /** @var $configModel \Magento\Core\Model\Config */
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
+        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         // @todo re-implement this test
         $data = array(
             'from' => '™',
@@ -30,7 +32,7 @@ class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Product\Url');
     }
 

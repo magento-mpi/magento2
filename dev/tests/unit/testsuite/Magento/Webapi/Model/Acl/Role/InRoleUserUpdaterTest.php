@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Role_InRoleUserUpdaterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Model\Acl\Role;
+
+class InRoleUserUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     public function testUpdate()
     {
         $roleId = 5;
         $expectedValues = array(7, 8, 9);
 
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()

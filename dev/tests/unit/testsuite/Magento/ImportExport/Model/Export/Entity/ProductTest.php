@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Export\Entity;
+
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Stub_UnitTest_\Magento\ImportExport\Model\Export\Entity\Product
@@ -18,7 +20,7 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_object = new Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_Product();
+        $this->_object = new StubProduct();
     }
 
     protected function tearDown()

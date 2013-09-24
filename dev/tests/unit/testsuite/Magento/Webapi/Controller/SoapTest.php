@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_SoapTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller;
+
+class SoapTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Soap */
     protected $_soapController;

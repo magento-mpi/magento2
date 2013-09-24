@@ -12,7 +12,9 @@
 /**
  * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
  */
-class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Translate
@@ -58,7 +60,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\Core\Model\View\FileSystem');
 
         /** @var $configModel \Magento\Core\Model\Config */
@@ -85,7 +87,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         $objectManager->addSharedInstance($this->_designModel, 'Magento\Core\Model\View\Design');
 
-        $this->_model = Mage::getModel('Magento\Core\Model\Translate');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Translate');
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
     }
 
@@ -99,7 +101,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
 
         /** @var \Magento\Core\Model\Resource\Translate\String $translateString */
-        $translateString = Mage::getModel('Magento\Core\Model\Resource\Translate\String');
+        $translateString = \Mage::getModel('Magento\Core\Model\Resource\Translate\String');
         $translateString->saveTranslate('Fixture String', 'New Db Translation');
 
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
@@ -120,7 +122,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('frontend', $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_AREA));
         $this->assertEquals('en_US', $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_LOCALE));
         $this->assertEquals(1, $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_STORE));
-        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertEquals($design->getDesignTheme()->getId(),
             $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_DESIGN_THEME));
@@ -158,7 +160,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslate($inputText, $expectedTranslation)
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Translate');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Translate');
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $actualTranslation = $this->_model->translate(array($inputText));

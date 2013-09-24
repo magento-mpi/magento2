@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class IteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure\Element\Iterator
@@ -17,7 +19,7 @@ class Magento_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUni
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_flyweightMock;
 

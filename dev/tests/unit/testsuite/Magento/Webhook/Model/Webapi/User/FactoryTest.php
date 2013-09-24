@@ -9,24 +9,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Webapi\User;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Webapi\User\Factory */
     protected $_userFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockRule;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockUser;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockRole;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockCoreHelper;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockAuthConfig;
 
     /** @var  array */
@@ -51,7 +53,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage some random exception
      */
     public function testCreateUserAndRoleException()
@@ -62,7 +64,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->will($this->returnValue(array()));
         $this->_setupUserService();
 
-        $exception = new Exception('some random exception');
+        $exception = new \Exception('some random exception');
         $this->_mockUser->expects($this->once())
             ->method('save')
             ->withAnyParameters()

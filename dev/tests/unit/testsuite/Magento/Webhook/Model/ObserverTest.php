@@ -9,18 +9,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Observer */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Observer */
     protected $_observer;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_webapiEventHandler;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionSet;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_logger;
 
     protected function setUp()
@@ -39,7 +41,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $className
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getBasicMock($className)
     {
@@ -93,7 +95,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE))
             ->will($this->returnSelf());
 
-        $exception = new Exception('exception');
+        $exception = new \Exception('exception');
         $mockSubscription->expects($this->once())
             ->method('save')
             ->withAnyParameters()
@@ -145,7 +147,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue($mockVarienEvent));
 
-        $exception = new Exception('exception');
+        $exception = new \Exception('exception');
         $this->_logger->expects($this->once())
             ->method('logException')
             ->with($this->equalTo($exception));
@@ -197,7 +199,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue($mockVarienEvent));
 
-        $exception = new Exception('exception');
+        $exception = new \Exception('exception');
         $this->_logger->expects($this->once())
             ->method('logException')
             ->with($this->equalTo($exception));

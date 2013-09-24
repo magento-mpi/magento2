@@ -12,7 +12,9 @@
 /**
  * Test of image path model
  */
-class Magento_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Image;
+
+class PathTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Theme\Image\Path|PHPUnit_Framework_MockObject_MockObject
@@ -20,17 +22,17 @@ class Magento_Core_Model_Theme_Image_PathTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewUrlMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 

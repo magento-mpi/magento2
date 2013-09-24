@@ -10,7 +10,9 @@
 /**
  * Test class for \Magento\Core\Model\Config_Modules_File
  */
-class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\Modules;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config\Modules\Reader
@@ -18,22 +20,22 @@ class Magento_Core_Model_Config_Modules_ReaderTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleListMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_protFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirsMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_baseConfigMock;
 

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Backend\Block\Widget\Grid\Column
  */
-class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid;
+
+class ColumnTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Widget\Grid\Column
@@ -20,12 +22,12 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_blockMock;
 
@@ -40,7 +42,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
             'layout' => $this->_layoutMock,
             'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column', $arguments);
         $this->_block->setId('id');
     }
@@ -321,7 +323,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
 
         $this->_block->setFilter('StdClass');
 
-        $grid = new StdClass();
+        $grid = new \StdClass();
         $this->_block->setGrid($grid);
         $this->assertEquals($grid, $this->_block->getGrid());
     }
@@ -339,7 +341,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
             'data' => $groupedData
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column', $arguments);
         $this->assertEquals($expected, $block->isGrouped());
     }

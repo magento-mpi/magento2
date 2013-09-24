@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
 /**
- * Class \Magento\CatalogInventory\Block\Adminhtml\Form\Field\StockTest
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit_Framework_TestCase
+class StockTest extends \PHPUnit_Framework_TestCase
 {
     const ATTRIBUTE_NAME = 'quantity_and_stock_status';
 

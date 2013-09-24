@@ -16,12 +16,14 @@
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
         /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
-        $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('config', false);
     }
@@ -113,17 +115,17 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected function _createModel(array $arguments = array())
     {
         /** @var $model \Magento\Core\Model\Config */
-        $model = Mage::getModel('Magento\Core\Model\Config', $arguments);
+        $model = \Mage::getModel('Magento\Core\Model\Config', $arguments);
         return $model;
     }
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
     {
-        Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
+        \Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
     }
 
     /**

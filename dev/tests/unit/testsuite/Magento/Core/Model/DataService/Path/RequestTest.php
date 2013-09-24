@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Path_RequestTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService\Path;
+
+class RequestTest extends \PHPUnit_Framework_TestCase
 {
 
     /**

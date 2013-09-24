@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\System\Email\Template;
+
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\System\Email\Template\Edit
@@ -17,13 +19,13 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configStructureMock;
 
     protected function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false, false);
         $layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
         $helperMock = $this->getMock('Magento\Adminhtml\Helper\Data', array(), array(), '', false, false);

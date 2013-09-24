@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
-class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
+class RouterListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\RouterList
@@ -67,13 +68,4 @@ class Magento_Core_Model_RouterListTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->_model->getRouters(), $expectedResult);
     }
-}
-
-class FrontClass
-{
-
-}
-class DefaultClass
-{
-
 }

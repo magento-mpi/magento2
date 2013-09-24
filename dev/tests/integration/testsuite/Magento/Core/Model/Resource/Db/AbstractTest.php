@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Db;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource\Db\AbstractDb
@@ -18,7 +20,7 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
-        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
+        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
         $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
             array('resource' => $resource)
         );
@@ -27,14 +29,14 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
 
     public function testConstruct()
     {
-        $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resources');
+        $resourceProperty = new \ReflectionProperty(get_class($this->_model), '_resources');
         $resourceProperty->setAccessible(true);
         $this->assertInstanceOf('Magento\Core\Model\Resource', $resourceProperty->getValue($this->_model));
     }
 
     public function testSetMainTable()
     {
-        $setMainTableMethod = new ReflectionMethod($this->_model, '_setMainTable');
+        $setMainTableMethod = new \ReflectionMethod($this->_model, '_setMainTable');
         $setMainTableMethod->setAccessible(true);
 
         $tableName = $this->_model->getTable('core_website');

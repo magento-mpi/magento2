@@ -9,10 +9,13 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller\Router;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestCase
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Controller\Router\DefaultRouter
@@ -20,12 +23,12 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_frontMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_routeConfigMock;
 
@@ -40,7 +43,7 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
             'routeConfig' => $this->_routeConfigMock
         );
         $this->_frontMock = $this->getMock('Magento\Core\Controller\Varien\Front', array(), array(), '', false);
-        $this->_model = Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
+        $this->_model = \Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
         $this->_model->setFront($this->_frontMock);
     }
 

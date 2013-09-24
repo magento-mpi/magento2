@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model;
+
+class ProcessTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test exception message
@@ -44,18 +46,18 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
     protected $_processFile;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_eventRepositoryMock;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $this->_eventRepositoryMock = $this->getMock(
             'Magento\Index\Model\EventRepository', array(), array(), '', false
@@ -128,14 +130,14 @@ class Magento_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
             ->method('setProcess')
             ->will($this->returnCallback(
                 function () use ($exceptionMessage) {
-                    throw new Exception($exceptionMessage);
+                    throw new \Exception($exceptionMessage);
                 }
             ));
 
         // can't use @expectedException because we need to assert indexer lock status
         try {
             $this->_model->safeProcessEvent($eventMock);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertEquals(self::EXCEPTION_MESSAGE, $e->getMessage());
         }
 

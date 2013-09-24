@@ -1,7 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Subscription\Options\Status
- *
  * {license_notice}
  *
  * @category    Magento
@@ -9,11 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Subscription_Options_StatusTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Subscription\Options;
+
+/**
+ * \Magento\Webhook\Model\Subscription\Options\Status
+ */
+class StatusTest extends \PHPUnit_Framework_TestCase
 {
     public function testToOptionArray()
     {
-        $translator = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $translator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Translate');
         $object = new \Magento\Webhook\Model\Subscription\Options\Status($translator);
         $expectedArray = array(

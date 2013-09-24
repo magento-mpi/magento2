@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Dir;
+
+class VerificationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $mode

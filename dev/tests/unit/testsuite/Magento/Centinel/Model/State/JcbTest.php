@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Centinel\Model\State\Jcb.
  */
-class Magento_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
+namespace Magento\Centinel\Model\State;
+
+class JcbTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * State model

@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_CustomersegmentTest
-    extends Magento_Backend_Utility_Controller
+class CustomersegmentTest
+    extends \Magento\Backend\Utility\Controller
 {
     /**
      * Checks if child 'grid' block is found in
@@ -23,7 +25,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Report_Customer_Customersegme
      */
     public function testSegmentAction()
     {
-        $segment = Mage::getModel('Magento\CustomerSegment\Model\Segment');
+        $segment = \Mage::getModel('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
 
         $this->dispatch('backend/admin/report_customer_customersegment/detail/segment_id/' . $segment->getId());

@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\System\Config\Form\Field\Import
@@ -24,7 +26,7 @@ class Magento_Backend_Block_System_Config_Form_Field_ImportTest extends PHPUnit_
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_formMock;
 

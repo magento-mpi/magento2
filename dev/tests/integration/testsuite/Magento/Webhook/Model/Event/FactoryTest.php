@@ -1,17 +1,20 @@
 <?php
 /**
- * \Magento\Webhook\Model\Event\Factory
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Event;
+
+/**
+ * \Magento\Webhook\Model\Event\Factory
+ */
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Event\Factory');
         $data = array('array', 'of', 'event', 'data');
         $topic = 'Topic on which to publish data';
@@ -26,7 +29,7 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreateEmpty()
     {
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Event\Factory');
 
         /** @var \Magento\Webhook\Model\Event $event */

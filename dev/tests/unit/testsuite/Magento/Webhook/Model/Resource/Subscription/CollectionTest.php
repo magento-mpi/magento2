@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Subscription;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Arguments passed to methods under testing
@@ -18,19 +20,19 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     const ALIAS = 'some_alias';
     const API_USER_ID = 'api_user id';
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_connectionMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_selectMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_endpointResMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_fetchStrategyMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_resourceMock;
 
     /** @var  \Magento\Core\Model\EntityFactory */
@@ -93,7 +95,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     protected function tearDown()
     {
         // Unsets object manager
-        Mage::reset();
+        \Mage::reset();
     }
 
     public function testInitialization()
@@ -262,7 +264,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      * Generations a collection mock, with the given methods stubbed
      *
      * @param array $methods
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeCollectionMock(array $methods)
     {
@@ -281,7 +283,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
      * Generates a mock object of the given class
      *
      * @param string $className
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function _makeMock($className)
     {
@@ -293,11 +295,11 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     /**
      * Makes sure that Mage has a mock object manager set, and returns that instance.
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _setMageObjectManager()
     {
-        Mage::reset();
+        \Mage::reset();
         $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();

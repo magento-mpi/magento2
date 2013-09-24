@@ -12,7 +12,9 @@
 /**
  * Test class Magento_Core_Controller_Varien_Action_Redirect
  */
-class Magento_Core_Controller_Varien_Action_RedirectTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Varien\Action;
+
+class RedirectTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Varien\Action\Redirect

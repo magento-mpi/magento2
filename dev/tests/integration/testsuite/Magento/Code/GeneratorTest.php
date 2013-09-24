@@ -8,16 +8,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Code;
+
 require_once __DIR__ . '/GeneratorTest/SourceClassWithNamespace.php';
-require_once __DIR__ . '/GeneratorTest/ParentClassWithNamespace.php';
+
 /**
  * @magentoAppIsolation enabled
  */
-class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
+require_once __DIR__ . '/GeneratorTest/ParentClassWithNamespace.php';
+
+class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento_Code_GeneratorTest_SourceClassWithoutNamespace';
+    const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento\Code\GeneratorTest\SourceClassWithoutNamespace';
     const CLASS_NAME_WITH_NAMESPACE = 'Magento\Code\GeneratorTest\SourceClassWithNamespace';
-    const INTERFACE_NAME_WITHOUT_NAMESPACE = 'Magento_Code_GeneratorTest_SourceInterfaceWithoutNamespace';
+    const INTERFACE_NAME_WITHOUT_NAMESPACE = 'Magento\Code\GeneratorTest\SourceInterfaceWithoutNamespace';
 
     /**
      * @var string

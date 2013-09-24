@@ -1,11 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Resource\Subscription\Collection
- *
- * We need DB isolation to avoid confusing interactions with the other Webhook tests.
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -13,7 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource\Subscription;
+
+/**
+ * \Magento\Webhook\Model\Resource\Subscription\Collection
+ *
+ * We need DB isolation to avoid confusing interactions with the other Webhook tests.
+ *
+ * @magentoDbIsolation enabled
+ */
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     const TOPIC_LISTENERS_THREE = 'listeners/three';
     const TOPIC_LISTENERS_TWO = 'listeners/two';
@@ -36,13 +39,13 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     public static function setUpBeforeClass()
     {
         /** @var \Magento\Webapi\Model\Acl\User $user */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Webapi\Model\Acl\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Webapi\Model\Acl\User');
         $user->loadByKey(self::API_KEY);
         if ($user->getId()) {
             self::$_apiUserId = $user->getId();
         } else {
             /** @var \Magento\Webhook\Model\Webapi\User\Factory $webapiUserFactory */
-            $webapiUserFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            $webapiUserFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->create('Magento\Webhook\Model\Webapi\User\Factory');
             self::$_apiUserId = $webapiUserFactory->createUser(
                 array(
@@ -64,7 +67,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $configModel->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('inactive')
             ->setAuthenticationType('hmac')
@@ -77,7 +80,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         $this->_subscriptions[] = $subscription;
 
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('first')
             ->setAuthenticationType('hmac')
@@ -89,7 +92,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('second')
             ->setAuthenticationType('hmac')
@@ -101,7 +104,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('third')
             ->setAuthenticationType('hmac')
@@ -114,7 +117,7 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $this->_subscriptionSet = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_subscriptionSet = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Resource\Subscription\Collection');
     }
 

@@ -10,24 +10,26 @@
  */
 
 /**
- * Test class for Magento_TestFramework_Bootstrap_DocBlock.
+ * Test class for \Magento\TestFramework\Bootstrap\DocBlock.
  */
-class Magento_Test_Bootstrap_DocBlockTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Bootstrap;
+
+class DocBlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Bootstrap_DocBlock
+     * @var \Magento\TestFramework\Bootstrap\DocBlock
      */
     protected $_object;
 
     /**
-     * @var Magento_TestFramework_Application|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Application|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_application;
 
     protected function setUp()
     {
-        $this->_object = new Magento_TestFramework_Bootstrap_DocBlock(__DIR__);
-        $this->_application = $this->getMock('Magento_TestFramework_Application', array(), array(), '', false);
+        $this->_object = new \Magento\TestFramework\Bootstrap\DocBlock(__DIR__);
+        $this->_application = $this->getMock('Magento\TestFramework\Application', array(), array(), '', false);
     }
 
     protected function tearDown()
@@ -55,12 +57,12 @@ class Magento_Test_Bootstrap_DocBlockTest extends PHPUnit_Framework_TestCase
     public function testRegisterAnnotations()
     {
         $this->_expectNoListenerCreation(
-            'Magento_TestFramework_Event_PhpUnit', 'Instance of the event manager is required.');
+            'Magento\TestFramework\Event\PhpUnit', 'Instance of the event manager is required.');
         $this->_expectNoListenerCreation(
-            'Magento_TestFramework_Event_Magento', 'Instance of the "Magento_TestFramework_EventManager" is expected.'
+            'Magento\TestFramework\Event\Magento', 'Instance of the "Magento\TestFramework\EventManager" is expected.'
         );
         $this->_object->registerAnnotations($this->_application);
-        new Magento_TestFramework_Event_PhpUnit();
-        new Magento_TestFramework_Event_Magento();
+        new \Magento\TestFramework\Event\PhpUnit();
+        new \Magento\TestFramework\Event\Magento();
     }
 }

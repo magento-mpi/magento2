@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
+
+class MapperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Field prefix
@@ -39,12 +41,12 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configStructureMock;
 
@@ -58,7 +60,7 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
     /**
      * Mock of dependency field factory
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fieldFactoryMock;
 
@@ -184,7 +186,7 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
      * @param bool $isFieldVisible
      * @param string $fieldId
      * @param string $mockClassName
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDependencyField($isValueSatisfy, $isFieldVisible, $fieldId, $mockClassName)
     {
@@ -214,7 +216,7 @@ class Magento_Backend_Model_Config_Structure_Element_Dependency_MapperTest exten
      * @param bool $isVisible
      * @param string $path
      * @param string $mockClassName
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getField($isVisible, $path, $mockClassName)
     {

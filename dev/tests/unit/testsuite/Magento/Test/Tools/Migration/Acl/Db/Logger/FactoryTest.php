@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\Acl\Db\Logger;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
@@ -17,9 +19,7 @@ require_once realpath(__DIR__ . '/../../../../../../../../../../')
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/Acl/Db/Logger/File.php';
 
-
-
-class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\Acl\Db\Logger\Factory
@@ -59,7 +59,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Fra
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetLoggerWithInvalidType()
     {

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
+namespace Magento\ScheduledImportExport\Model;
+
+class ImportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDbIsolation enabled

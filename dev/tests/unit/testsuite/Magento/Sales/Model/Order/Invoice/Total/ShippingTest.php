@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Order\Invoice\Total;
+
+class ShippingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Retrieve new invoice collection from an array of invoices' data
@@ -23,7 +25,7 @@ class Magento_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Frame
         $result = new \Magento\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         foreach ($invoicesData as $oneInvoiceData) {
             $arguments = $objectManagerHelper->getConstructArguments($className, array('data' => $oneInvoiceData));
             /** @var $prevInvoice \Magento\Sales\Model\Order\Invoice */

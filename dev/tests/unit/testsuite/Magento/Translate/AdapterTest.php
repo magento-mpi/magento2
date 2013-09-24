@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Translate_AdapterTest extends PHPUnit_Framework_TestCase
+namespace Magento\Translate;
+
+class AdapterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Check that translate calls are passed to given translator

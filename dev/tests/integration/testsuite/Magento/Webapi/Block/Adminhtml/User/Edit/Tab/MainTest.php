@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml\User\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -37,7 +39,7 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Fram
     {
         parent::setUp();
 
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Magento\Webapi\Block\Adminhtml\User\Edit\Tab\Main');

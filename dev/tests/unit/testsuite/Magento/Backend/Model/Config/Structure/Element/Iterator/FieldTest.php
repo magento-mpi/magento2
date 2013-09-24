@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Iterator_FieldTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Element\Iterator;
+
+class FieldTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure\Element\Iterator\Field
@@ -17,12 +19,12 @@ class Magento_Backend_Model_Config_Structure_Element_Iterator_FieldTest extends 
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fieldMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_groupMock;
 

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Block\Order;
+
+class CommentsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Block\Order\Comments
@@ -18,7 +20,7 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Sales\Block\Order\Comments');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Sales\Block\Order\Comments');
     }
 
     /**
@@ -40,15 +42,15 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Mage::getModel('Magento\Sales\Model\Order\Invoice'),
+                \Mage::getModel('Magento\Sales\Model\Order\Invoice'),
                 'Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection'
             ),
             array(
-                Mage::getModel('Magento\Sales\Model\Order\Creditmemo'),
+                \Mage::getModel('Magento\Sales\Model\Order\Creditmemo'),
                 'Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection'
             ),
             array(
-                Mage::getModel('Magento\Sales\Model\Order\Shipment'),
+                \Mage::getModel('Magento\Sales\Model\Order\Shipment'),
                 'Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection'
             )
         );
@@ -59,7 +61,7 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCommentsWrongEntityException()
     {
-        $entity = Mage::getModel('Magento\Catalog\Model\Product');
+        $entity = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->_block->setEntity($entity);
         $this->_block->getComments();
     }

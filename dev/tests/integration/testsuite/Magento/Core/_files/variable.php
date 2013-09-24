@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$variable = Mage::getModel('Magento\Core\Model\Variable');
+$variable = \Mage::getModel('Magento\Core\Model\Variable');
 $variable->setCode('variable_code')
     ->setName('Variable Name')
     ->setPlainValue('Plain Value')

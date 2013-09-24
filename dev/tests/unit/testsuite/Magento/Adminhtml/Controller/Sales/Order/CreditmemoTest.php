@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
+class CreditmemoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Controller\Sales\Order\Creditmemo
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
      */
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_responseMock = $this->getMock('Magento\Core\Controller\Response\Http',
             array('setRedirect'), array(), '', false
         );

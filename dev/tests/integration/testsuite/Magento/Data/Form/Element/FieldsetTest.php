@@ -12,7 +12,9 @@
 /**
  * Tests for \Magento\Data\Form\Element\Fieldset
  */
-class Magento_Data_Form_Element_FieldsetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data\Form\Element;
+
+class FieldsetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Data\Form\Element\Fieldset

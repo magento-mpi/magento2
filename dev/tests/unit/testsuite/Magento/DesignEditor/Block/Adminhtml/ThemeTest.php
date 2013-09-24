@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_ThemeTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml;
+
+class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @cover \Magento\DesignEditor\Block\Adminhtml\Theme::addButton

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Invitation\Block;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Invitation\Block\Form
@@ -24,7 +26,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Invitation\Block\Form');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Invitation\Block\Form');
     }
 
     /**
@@ -38,7 +40,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
         $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $num);
         try {
             $this->assertEquals($expected, $this->_block->getMaxInvitationsPerSend());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_restoreConfig();
             throw $e;
         }
@@ -67,7 +69,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      */
     protected function _changeConfig($path, $value)
     {
-        $store = Mage::app()->getStore();
+        $store = \Mage::app()->getStore();
         $oldValue = $store->getConfig($path);
         $store->setConfig($path, $value);
 
@@ -87,7 +89,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      */
     protected function _restoreConfig()
     {
-        Mage::app()->getStore()
+        \Mage::app()->getStore()
             ->setConfig($this->_rememberedConfig['path'], $this->_rememberedConfig['old_value']);
         $this->_rememberedConfig = null;
         return $this;
@@ -102,7 +104,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
             $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_USE_INVITATION_MESSAGE, 0);
             $this->assertEquals(false, $this->_block->isInvitationMessageAllowed());
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_restoreConfig();
             throw $e;
         }

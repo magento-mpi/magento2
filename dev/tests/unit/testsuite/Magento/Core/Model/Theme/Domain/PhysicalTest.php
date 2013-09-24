@@ -12,7 +12,9 @@
 /**
  * Test theme domain physical model
  */
-class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Domain;
+
+class PhysicalTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateVirtualTheme()
     {

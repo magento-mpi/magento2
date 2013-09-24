@@ -11,7 +11,9 @@
 /**
  * Magento_Convert Test Case for \Magento\Convert\Excel Export
  */
-class Magento_Convert_ExcelTest extends PHPUnit_Framework_TestCase
+namespace Magento\Convert;
+
+class ExcelTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test data
@@ -56,7 +58,7 @@ class Magento_Convert_ExcelTest extends PHPUnit_Framework_TestCase
      */
     public function testConvert()
     {
-        $convert = new \Magento\Convert\Excel(new ArrayIterator($this->_testData));
+        $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData));
         $isEqual = (file_get_contents($this->_getSampleOutputFile()) == $convert->convert());
         $this->assertTrue($isEqual, 'Failed asserting that data is the same.');
     }
@@ -69,7 +71,7 @@ class Magento_Convert_ExcelTest extends PHPUnit_Framework_TestCase
      */
     public function testConvertCallback()
     {
-        $convert = new \Magento\Convert\Excel(new ArrayIterator($this->_testData), array($this, 'callbackMethod'));
+        $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData), array($this, 'callbackMethod'));
         $this->assertContains('_TRUE_', $convert->convert(), 'Failed asserting that callback method is called.');
     }
 
@@ -91,9 +93,9 @@ class Magento_Convert_ExcelTest extends PHPUnit_Framework_TestCase
         $stream->lock(true);
 
         if (!$callback) {
-            $convert = new \Magento\Convert\Excel(new ArrayIterator($this->_testData));
+            $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData));
         } else {
-            $convert = new \Magento\Convert\Excel(new ArrayIterator($this->_testData), array($this, 'callbackMethod'));
+            $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData), array($this, 'callbackMethod'));
         }
 
         $convert->write($stream);

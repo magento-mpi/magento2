@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_TemplateEngine_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     /** @var  \Magento\Core\Model\TemplateEngine\Factory */
@@ -58,7 +60,7 @@ class Magento_Core_Model_TemplateEngine_FactoryTest extends PHPUnit_Framework_Te
      *
      * Should throw an exception
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unknown template engine type: NotAnEngineName
      */
     public function testGetBadEngine()
@@ -73,7 +75,7 @@ class Magento_Core_Model_TemplateEngine_FactoryTest extends PHPUnit_Framework_Te
      *
      * Should throw an exception
      *
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unknown template engine type:
      */
     public function testGetNullEngine()

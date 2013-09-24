@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_TranslatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class TranslatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Layout\Translator
@@ -17,12 +19,12 @@ class Magento_Core_Model_Layout_TranslatorTest extends PHPUnit_Framework_TestCas
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var SimpleXMLElement
+     * @var \SimpleXMLElement
      */
     protected $_xmlDocument;
 

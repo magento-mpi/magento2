@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class EventTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * A string used for testing time formats.  Any string will do but it should look something like this.
@@ -17,12 +19,12 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
     const SOME_FORMATTED_TIME = '2013-07-10 12:35:28';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_mockContext;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Event
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Event
      */
     protected $_event;
 

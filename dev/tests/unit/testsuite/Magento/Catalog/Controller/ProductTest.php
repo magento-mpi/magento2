@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Controller_ProductTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Controller;
+
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testControllerImplementsProductViewInterface()
     {

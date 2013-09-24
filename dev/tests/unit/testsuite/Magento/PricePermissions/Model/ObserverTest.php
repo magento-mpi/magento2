@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\PricePermissions\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\PricePermissions\Model\Observer

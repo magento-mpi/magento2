@@ -6,16 +6,19 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_ContentTest extends PHPUnit_Framework_TestCase
+class ContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {
         $this->assertInstanceOf(
             'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content',
-            Mage::app()->getLayout()->createBlock('Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content')
+            \Mage::app()->getLayout()->createBlock('Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content')
         );
     }
 }

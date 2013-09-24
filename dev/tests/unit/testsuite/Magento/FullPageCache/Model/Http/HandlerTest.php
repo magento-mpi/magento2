@@ -10,7 +10,9 @@
 /**
  * Test class for \Magento\FullPageCache\Model\Http\Handler
  */
-class Magento_FullPageCache_Model_Http_HandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model\Http;
+
+class HandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\FullPageCache\Model\Http\Handler
@@ -18,17 +20,17 @@ class Magento_FullPageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 

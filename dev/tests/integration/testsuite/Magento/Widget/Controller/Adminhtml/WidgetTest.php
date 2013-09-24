@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Controller\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Controller_Adminhtml_WidgetTest extends Magento_Backend_Utility_Controller
+class WidgetTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Partially covers \Magento\Widget\Block\Adminhtml\Widget\Options::_addField()

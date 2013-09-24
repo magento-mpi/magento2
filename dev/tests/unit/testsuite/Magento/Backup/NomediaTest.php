@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backup_NomediaTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backup;
+
+class NomediaTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {

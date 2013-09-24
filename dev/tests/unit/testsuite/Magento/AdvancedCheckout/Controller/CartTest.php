@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_AdvancedCheckout_Controller_CartTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdvancedCheckout\Controller;
+
+class CartTest extends \PHPUnit_Framework_TestCase
 {
     public function testControllerImplementsProductViewInterface()
     {

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
+
+class MatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Object under test
@@ -34,7 +36,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
             'locale' => $this->_locale,
             'formFactory' => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
         );
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form', $data);
         $this->_block = $helper->getObject(
             'Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix', $data

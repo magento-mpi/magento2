@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Outbound_MessageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound;
+
+class MessageTest extends \PHPUnit_Framework_TestCase
 {
     public function test() 
     {

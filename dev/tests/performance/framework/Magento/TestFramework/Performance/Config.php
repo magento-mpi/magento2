@@ -11,7 +11,9 @@
 /**
  * Configuration of performance tests
  */
-class Magento_TestFramework_Performance_Config
+namespace Magento\TestFramework\Performance;
+
+class Config
 {
     /**
      * @var string
@@ -59,7 +61,7 @@ class Magento_TestFramework_Performance_Config
      * @param array $configData
      * @param string $testsBaseDir
      * @param string $appBaseDir
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @throws \Magento\Exception
      */
     public function __construct(array $configData, $testsBaseDir, $appBaseDir)
@@ -125,7 +127,7 @@ class Magento_TestFramework_Performance_Config
      * Parse scenario configuration
      *
      * @param array $scenarios
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _parseScenarios(array $scenarios)
     {
@@ -133,12 +135,12 @@ class Magento_TestFramework_Performance_Config
             return;
         }
         if (!is_array($scenarios['scenarios'])) {
-            throw new InvalidArgumentException("'scenario' => 'scenarios' option must be an array");
+            throw new \InvalidArgumentException("'scenario' => 'scenarios' option must be an array");
         }
 
         $commonConfig = isset($scenarios['common_config']) ? $scenarios['common_config'] : array();
         if (!is_array($commonConfig)) {
-            throw new InvalidArgumentException("Common scenario config must be represented by an array'");
+            throw new \InvalidArgumentException("Common scenario config must be represented by an array'");
         }
 
         // Parse scenarios one by one
@@ -153,34 +155,34 @@ class Magento_TestFramework_Performance_Config
      * @param string $title
      * @param array $config
      * @param array $commonConfig
-     * @return Magento_TestFramework_Performance_Scenario
-     * @throws InvalidArgumentException
+     * @return \Magento\TestFramework\Performance\Scenario
+     * @throws \InvalidArgumentException
      */
     protected function _parseScenario($title, array $config, array $commonConfig)
     {
         // Title
         if (!strlen($title)) {
-            throw new InvalidArgumentException("Scenario must have a title");
+            throw new \InvalidArgumentException("Scenario must have a title");
         }
 
         // General config validation
         if (!is_array($config)) {
-            throw new InvalidArgumentException("Configuration of scenario '{$title}' must be represented by an array");
+            throw new \InvalidArgumentException("Configuration of scenario '{$title}' must be represented by an array");
         }
 
         // File
         if (!isset($config['file'])) {
-            throw new InvalidArgumentException("File is not defined for scenario '{$title}'");
+            throw new \InvalidArgumentException("File is not defined for scenario '{$title}'");
         }
         $file = realpath($this->_getTestsRelativePath($config['file']));
         if (!file_exists($file)) {
-            throw new InvalidArgumentException("File {$config['file']} doesn't exist for scenario '{$title}'");
+            throw new \InvalidArgumentException("File {$config['file']} doesn't exist for scenario '{$title}'");
         }
 
         // Validate sub arrays
         $subArrays = $this->_validateScenarioSubArrays($title, $config, $commonConfig);
 
-        return new Magento_TestFramework_Performance_Scenario($title, $file, $subArrays['arguments'],
+        return new \Magento\TestFramework\Performance\Scenario($title, $file, $subArrays['arguments'],
             $subArrays['settings'], $subArrays['fixtures']);
     }
 
@@ -191,14 +193,14 @@ class Magento_TestFramework_Performance_Config
      * @param array $config
      * @param array $commonConfig
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _validateScenarioSubArrays($title, array $config, array $commonConfig)
     {
         foreach (array('arguments', 'settings', 'fixtures') as $configKey) {
             if (isset($config[$configKey]) && !is_array($config[$configKey])) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "'$configKey' for scenario '{$title}' must be represented by an array"
                 );
             }
@@ -254,12 +256,12 @@ class Magento_TestFramework_Performance_Config
     {
         $adminOptions = $this->getAdminOptions();
         return array(
-            Magento_TestFramework_Performance_Scenario::ARG_HOST            => $this->getApplicationUrlHost(),
-            Magento_TestFramework_Performance_Scenario::ARG_PATH            => $this->getApplicationUrlPath(),
-            Magento_TestFramework_Performance_Scenario::ARG_BASEDIR         => $this->getApplicationBaseDir(),
-            Magento_TestFramework_Performance_Scenario::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
-            Magento_TestFramework_Performance_Scenario::ARG_ADMIN_USERNAME  => $adminOptions['username'],
-            Magento_TestFramework_Performance_Scenario::ARG_ADMIN_PASSWORD  => $adminOptions['password'],
+            \Magento\TestFramework\Performance\Scenario::ARG_HOST            => $this->getApplicationUrlHost(),
+            \Magento\TestFramework\Performance\Scenario::ARG_PATH            => $this->getApplicationUrlPath(),
+            \Magento\TestFramework\Performance\Scenario::ARG_BASEDIR         => $this->getApplicationBaseDir(),
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_USERNAME  => $adminOptions['username'],
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_PASSWORD  => $adminOptions['password'],
         );
     }
 
@@ -268,7 +270,7 @@ class Magento_TestFramework_Performance_Config
      *
      * @param array $fixtures
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _expandFixtures(array $fixtures)
     {
@@ -276,7 +278,7 @@ class Magento_TestFramework_Performance_Config
         foreach ($fixtures as $fixtureName) {
             $fixtureFile = realpath($this->_getTestsRelativePath($fixtureName));
             if (!file_exists($fixtureFile)) {
-                throw new InvalidArgumentException("Fixture '$fixtureName' doesn't exist in {$this->_testsBaseDir}");
+                throw new \InvalidArgumentException("Fixture '$fixtureName' doesn't exist in {$this->_testsBaseDir}");
             }
             $result[] = $fixtureFile;
         }
@@ -334,7 +336,7 @@ class Magento_TestFramework_Performance_Config
     }
 
     /**
-     * Retrieve scenario configurations - array of Magento_TestFramework_Performance_Scenario
+     * Retrieve scenario configurations - array of \Magento\TestFramework\Performance\Scenario
      *
      * @return array
      */

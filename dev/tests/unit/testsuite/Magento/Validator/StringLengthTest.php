@@ -12,7 +12,9 @@
 /**
  * Test case for \Magento\Validator\StringLength
  */
-class Magento_Validator_StringLengthTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator;
+
+class StringLengthTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Validator\StringLength

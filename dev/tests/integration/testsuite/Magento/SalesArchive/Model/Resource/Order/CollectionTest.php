@@ -9,11 +9,13 @@
  * @license     {license_link}
  */
 
-class Magento_SalesArchive_Model_Resource_Order_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesArchive\Model\Resource\Order;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSelectCountSql()
     {
-        $countSql = Mage::getModel('Magento\SalesArchive\Model\Resource\Order\Collection')->getSelectCountSql();
+        $countSql = \Mage::getModel('Magento\SalesArchive\Model\Resource\Order\Collection')->getSelectCountSql();
         $this->assertInstanceOf('Magento\DB\Select', $countSql);
     }
 }

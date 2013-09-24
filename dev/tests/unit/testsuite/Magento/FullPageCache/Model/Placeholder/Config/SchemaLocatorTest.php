@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Placeholder_Config_SchemaLocatorTest extends PHPUnit_Framework_TestCase
+namespace Magento\FullPageCache\Model\Placeholder\Config;
+
+class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleReaderMock;
 

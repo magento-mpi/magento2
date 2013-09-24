@@ -5,15 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig_LayoutFunctionsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine\Twig;
+
+class LayoutFunctionsTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\TemplateEngine\Twig\LayoutFunctions */
     protected $_layoutFunctions;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     protected $_blockTrackerMock;
 
     protected function setUp()

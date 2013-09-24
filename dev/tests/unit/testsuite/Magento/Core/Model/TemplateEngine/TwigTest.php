@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\TemplateEngine;
+
+class TwigTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Core\Model\TemplateEngine\Twig */
     protected $_twigEngine;
@@ -13,7 +15,7 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
     /** @var  PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\TemplateEngine_EnvironmentFactory */
     protected $_envFactoryMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_extMock;
 
     /**

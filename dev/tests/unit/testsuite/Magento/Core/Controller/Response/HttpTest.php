@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Controller\Response\Http
  */
-class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Controller\Response;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -66,7 +68,7 @@ class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCa
     {
         $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
 
-        $response = new Magento\Core\Controller\Response\Http($eventManager);
+        $response = new \Magento\Core\Controller\Response\Http($eventManager);
         $response->headersSentThrowsException = false;
         $response->setHeader('Name', 'value', true);
         $this->assertFalse($response->getHeader('Wrong name'));

@@ -12,7 +12,9 @@
 /**
  * Test case for \Magento\Validator\Constraint
  */
-class Magento_Validator_ConstraintTest extends PHPUnit_Framework_TestCase
+namespace Magento\Validator;
+
+class ConstraintTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Validator\Constraint

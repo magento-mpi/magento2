@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Catalog\Controller\Product (downloadable product type)
  */
-class Magento_Downloadable_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Downloadable\Controller;
+
+class ProductTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Downloadable/_files/product.php
@@ -22,7 +24,7 @@ class Magento_Downloadable_Controller_ProductTest extends Magento_TestFramework_
         $this->dispatch('catalog/product/view/id/1');
         $this->assertContains(
             'catalog_product_view_type_downloadable',
-            Mage::app()->getLayout()->getUpdate()->getHandles()
+            \Mage::app()->getLayout()->getUpdate()->getHandles()
         );
         $responseBody = $this->getResponse()->getBody();
         $this->assertContains('Downloadable Product', $responseBody);

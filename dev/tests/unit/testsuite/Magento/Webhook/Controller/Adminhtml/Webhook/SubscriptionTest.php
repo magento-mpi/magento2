@@ -7,49 +7,51 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Controller\Adminhtml\Webhook;
+
+class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
     /** @var \Magento\Webhook\Controller\Adminhtml\Webhook\Subscription */
     protected $_subscriptionContr;
 
-    /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
+    /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
     protected $_objectManagerHelper;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     protected $_mockApp;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockLayoutFilter;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfig;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEventManager;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockTranslateModel;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockBackendModSess;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockBackendCntCtxt;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockSubscriptionSvc;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockRegistry;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockRequest;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
     /**
@@ -57,8 +59,8 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
      */
     protected function setUp()
     {
-        /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
-        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
+        $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_setMageObjectManager();
 
         // Initialize mocks which are used in several test cases
@@ -101,7 +103,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
      */
     protected function tearDown()
     {
-        Mage::reset();
+        \Mage::reset();
     }
 
     public function testIndexAction()
@@ -515,7 +517,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
      */
     protected function _setMageObjectManager()
     {
-        Mage::reset();
+        \Mage::reset();
         $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();

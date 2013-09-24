@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_HttpTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Helper\Http
@@ -77,7 +79,7 @@ class Magento_Core_Helper_HttpTest extends PHPUnit_Framework_TestCase
 
     public function testFailHttpAuthentication()
     {
-        $response = new Zend_Controller_Response_Http;
+        $response = new \Zend_Controller_Response_Http;
         $realm = uniqid();
         $response->headersSentThrowsException = false;
         $this->_object->failHttpAuthentication($response, $realm);

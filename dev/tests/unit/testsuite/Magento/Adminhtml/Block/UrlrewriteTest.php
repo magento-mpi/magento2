@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_UrlrewriteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block;
+
+class UrlrewriteTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param array $modes

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Layout\Factory
  */
-class Magento_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Layout;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /*
      * Test class name
@@ -29,7 +31,7 @@ class Magento_Core_Model_Layout_FactoryTest extends PHPUnit_Framework_TestCase
     /**
      * ObjectManager mock for tests
      *
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 

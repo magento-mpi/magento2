@@ -8,8 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu;
 
-class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
+class ItemTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu\Item
@@ -17,37 +18,37 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_aclMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlModelMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_moduleListMock;
 
@@ -240,14 +241,3 @@ class Magento_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class Magento_Test_Module_Config
-{
-    /**
-     *
-     * @SuppressWarnings(PHPMD.ShortMethodName))
-     */
-    public function is()
-    {
-
-    }
-}

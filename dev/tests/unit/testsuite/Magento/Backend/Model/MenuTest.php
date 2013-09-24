@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model;
+
+class MenuTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu
@@ -153,7 +155,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testMoveNonExistentItemThrowsException()
     {
@@ -165,7 +167,7 @@ class Magento_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testMoveToNonExistentItemThrowsException()
     {

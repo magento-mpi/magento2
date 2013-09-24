@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Theme\Domain;
+
+class VirtualTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var array
@@ -56,7 +58,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
      */
     public function testGetPhysicalTheme()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         //1. set up fixture
         /** @var $physicalTheme \Magento\Core\Model\Theme */
         $physicalTheme = $objectManager->create('Magento\Core\Model\Theme');

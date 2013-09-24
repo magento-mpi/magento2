@@ -12,7 +12,9 @@
 /**
  * Test \Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\PaymentTest
  */
-class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
+
+class PaymentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tested class
@@ -170,7 +172,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
     /**
      * Return mock instance of \Magento\Core\Block\Template\Context object
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getContextMock()
     {
@@ -186,7 +188,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_PaymentTest ext
     /**
      * Return mock instance of \Magento\Core\Helper\Data object
      *
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getCoreDataMock()
     {

@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Sales_Model_Observer_Backend_CatalogPriceRuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Observer\Backend;
+
+class CatalogPriceRuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Observer\Backend\CatalogPriceRule
@@ -14,7 +16,7 @@ class Magento_Sales_Model_Observer_Backend_CatalogPriceRuleTest extends PHPUnit_
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_quoteMock;
 

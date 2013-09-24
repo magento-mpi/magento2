@@ -12,7 +12,7 @@
 require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
 /** @var $quote \Magento\Sales\Model\Quote */
-$quote = Mage::getModel('Magento\Sales\Model\Quote');
+$quote = \Mage::getModel('Magento\Sales\Model\Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)
@@ -23,6 +23,6 @@ $quote->getPayment()->setMethod('checkmo');
 $quote->collectTotals();
 $quote->save();
 
-$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $quoteService = $objectManager->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');

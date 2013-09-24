@@ -11,7 +11,9 @@
 /**
  * Storage helper test
  */
-class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Helper;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var null|\Magento\Filesystem|PHPUnit_Framework_MockObject_MockObject
@@ -29,7 +31,7 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
     protected $_themeFactory;
 
     /**
-     * @var Zend_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Zend_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
@@ -64,15 +66,15 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
             ->method('urlDecode')
             ->will($this->returnArgument(0));
 
-        $filesystemProperty = new ReflectionProperty($this->_storageHelper, '_filesystem');
+        $filesystemProperty = new \ReflectionProperty($this->_storageHelper, '_filesystem');
         $filesystemProperty->setAccessible(true);
         $filesystemProperty->setValue($this->_storageHelper, $this->_filesystem);
 
-        $sessionProperty = new ReflectionProperty($this->_storageHelper, '_session');
+        $sessionProperty = new \ReflectionProperty($this->_storageHelper, '_session');
         $sessionProperty->setAccessible(true);
         $sessionProperty->setValue($this->_storageHelper, $this->_session);
 
-        $themeFactoryProperty = new ReflectionProperty($this->_storageHelper, '_themeFactory');
+        $themeFactoryProperty = new \ReflectionProperty($this->_storageHelper, '_themeFactory');
         $themeFactoryProperty->setAccessible(true);
         $themeFactoryProperty->setValue($this->_storageHelper, $this->_themeFactory);
     }
@@ -92,7 +94,7 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
      */
     protected function _mockStorageRoot($path)
     {
-        $storageRootProperty = new ReflectionProperty($this->_storageHelper, '_storageRoot');
+        $storageRootProperty = new \ReflectionProperty($this->_storageHelper, '_storageRoot');
         $storageRootProperty->setAccessible(true);
         $storageRootProperty->setValue($this->_storageHelper, $path);
     }
@@ -102,7 +104,7 @@ class Magento_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
      */
     protected function _mockCurrentPath($path)
     {
-        $currentPathProperty = new ReflectionProperty($this->_storageHelper, '_currentPath');
+        $currentPathProperty = new \ReflectionProperty($this->_storageHelper, '_currentPath');
         $currentPathProperty->setAccessible(true);
         $currentPathProperty->setValue($this->_storageHelper, $path);
     }

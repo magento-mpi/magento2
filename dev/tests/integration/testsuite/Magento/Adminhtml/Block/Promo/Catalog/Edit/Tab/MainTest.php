@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
+
 /**
  * Test class for \Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Framework_TestCase
+class MainTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Fr
 
         $block = $objectManager->create('Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main');
         $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);

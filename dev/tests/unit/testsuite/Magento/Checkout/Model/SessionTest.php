@@ -9,7 +9,9 @@
 /**
  * Test class for \Magento\Checkout\Model\Session
  */
-class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Checkout\Model;
+
+class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param int|null $orderId
@@ -68,7 +70,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected function _getOrderMock($incrementId, $orderId)
     {
-        /** @var $order PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order */
+        /** @var $order \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order */
         $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->setMethods(array('getIncrementId', 'loadByIncrementId'))

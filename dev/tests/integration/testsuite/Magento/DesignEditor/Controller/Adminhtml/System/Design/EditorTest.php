@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends Magento_Backend_Utility_Controller
+class EditorTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @var \Magento\Core\Helper\Data

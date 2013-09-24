@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_FormatTest extends Magento_Webhook_Model_Source_Pkg
+namespace Magento\Webhook\Model\Source;
+
+class FormatTest extends \Magento\Webhook\Model\Source\Pkg
 {
     public function testGetFormatsForForm()
     {

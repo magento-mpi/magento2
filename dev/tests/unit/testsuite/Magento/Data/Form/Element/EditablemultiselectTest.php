@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Data_Form_Element_EditablemultiselectTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data\Form\Element;
+
+class EditablemultiselectTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Data\Form\Element\Editablemultiselect

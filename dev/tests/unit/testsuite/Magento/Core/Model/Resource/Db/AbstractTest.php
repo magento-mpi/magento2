@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Resource\Db\AbstractDb.
  */
-class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Resource\Db;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource\Db\AbstractDb|PHPUnit_Framework_MockObject_MockObject

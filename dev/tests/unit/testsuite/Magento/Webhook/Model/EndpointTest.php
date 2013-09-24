@@ -9,21 +9,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model;
+
+class EndpointTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockUserFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockContext;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Endpoint */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Endpoint */
     protected $_endpoint;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockResourceEndpnt;
 
     protected function setUp()

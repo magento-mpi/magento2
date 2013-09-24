@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Http\Handler;
+
+class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\HTTP\Handler\Composite
@@ -13,17 +15,17 @@ class Magento_Http_Handler_CompositeTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_handlerFactoryMock;
 

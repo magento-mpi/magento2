@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model\Installer;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -14,7 +16,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        self::$_tmpDir = \Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'ConfigTest';
         mkdir(self::$_tmpDir);
     }
 
@@ -46,7 +48,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
 
         $this->assertFileNotExists($expectedFile);
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
-        $model = Mage::getModel('Magento\Install\Model\Installer\Config', array(
+        $model = \Mage::getModel('Magento\Install\Model\Installer\Config', array(
             'request' => $request, 'dirs' => $dirs, 'filesystem' => $filesystem
         ));
         $model->install();
@@ -57,7 +59,7 @@ class Magento_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestC
     public function testGetFormData()
     {
         /** @var $model \Magento\Install\Model\Installer\Config */
-        $model = Mage::getModel('Magento\Install\Model\Installer\Config');
+        $model = \Mage::getModel('Magento\Install\Model\Installer\Config');
         /** @var $result \Magento\Object */
         $result = $model->getFormData();
         $this->assertInstanceOf('Magento\Object', $result);

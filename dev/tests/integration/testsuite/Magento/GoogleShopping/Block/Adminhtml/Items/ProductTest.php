@@ -9,20 +9,22 @@
  * @license     {license_link}
  */
 
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_GoogleShopping_Block_Adminhtml_Items_ProductTest extends PHPUnit_Framework_TestCase
+class ProductTest extends \PHPUnit_Framework_TestCase
 {
     public function testBeforeToHtml()
     {
         $this->markTestIncomplete('Magento_GoogleShopping is not implemented yet');
 
-        $block  = Mage::app()->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product');
-        $filter = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
-        $search = Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $block  = \Mage::app()->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product');
+        $filter = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
+        $search = \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text');
 
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         $layout->addBlock($block, 'product');
         $layout->addBlock($filter, 'reset_filter_button', 'product');
         $layout->addBlock($search, 'search_button', 'product');

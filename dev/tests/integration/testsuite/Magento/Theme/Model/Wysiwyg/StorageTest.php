@@ -11,7 +11,9 @@
 /**
  * Storage model test
  */
-class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Model\Wysiwyg;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
@@ -40,7 +42,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_filesystem = $this->_objectManager->get('Magento\Filesystem');
         $this->_filesystem->setIsAllowCreateDirectories(true);
 
@@ -86,11 +88,11 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $name
-     * @return ReflectionMethod
+     * @return \ReflectionMethod
      */
     protected function _getMethod($name)
     {
-        $class = new ReflectionClass('Magento\Theme\Model\Wysiwyg\Storage');
+        $class = new \ReflectionClass('Magento\Theme\Model\Wysiwyg\Storage');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;

@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_DashboardTest extends Magento_Backend_Utility_Controller
+class DashboardTest extends \Magento\Backend\Utility\Controller
 {
     public function testTunnelAction()
     {
@@ -23,7 +25,7 @@ class Magento_Adminhtml_DashboardTest extends Magento_Backend_Utility_Controller
                 $this->markTestSkipped('Third-party service is unavailable: ' . $testUrl);
             }
             curl_close($handle);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             curl_close($handle);
             throw $e;
         }
@@ -42,7 +44,7 @@ class Magento_Adminhtml_DashboardTest extends Magento_Backend_Utility_Controller
         $gaFixture = urlencode(base64_encode(json_encode($gaData)));
 
         /** @var $helper \Magento\Adminhtml\Helper\Dashboard\Data */
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Adminhtml\Helper\Dashboard\Data');
         $hash = $helper->getChartDataHash($gaFixture);
         $this->getRequest()->setParam('ga', $gaFixture)->setParam('h', $hash);

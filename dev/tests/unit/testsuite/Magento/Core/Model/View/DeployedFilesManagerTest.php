@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_View_DeployedFilesManagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\View;
+
+class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $area

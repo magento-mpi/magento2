@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Helper\AbstractHelper|PHPUnit_Framework_MockObject_MockObject
@@ -18,7 +20,7 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Context');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Context');
         $this->_helper = $this->getMock('Magento\Core\Helper\AbstractHelper', array('_getModuleName'), array($context));
         $this->_helper
             ->expects($this->any())

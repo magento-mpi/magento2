@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
+
+class CreditmemoTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo
@@ -28,7 +30,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
 
     protected function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $orderConstructorArgs = $objectManager->getConstructArguments('Magento\Sales\Model\Order');
         $this->_order = $this->getMock('Magento\Sales\Model\Order', array('formatPriceTxt'), $orderConstructorArgs);
         $this->_order
@@ -56,7 +58,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
         $this->_model->setStringHelper(new \Magento\Core\Helper\String($context));
         $this->_model->setOrder($this->_order);
         $this->_model->setPdf($this->_pdf);
-        $this->_model->setPage(new Zend_Pdf_Page('a4'));
+        $this->_model->setPage(new \Zend_Pdf_Page('a4'));
     }
 
     protected function tearDown()
@@ -80,7 +82,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
     public function testDraw()
     {
         $expectedPageSettings = array('table_header' => true);
-        $expectedPdfPage = new Zend_Pdf_Page('a4');
+        $expectedPdfPage = new \Zend_Pdf_Page('a4');
         $expectedPdfData = array(array(
             'lines' => array(
                 array(

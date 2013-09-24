@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Theme_RenderersTest extends Magento_TestFramework_TestCase_IntegrityAbstract
+namespace Magento\Test\Integrity\Theme;
+
+class RenderersTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
 {
     /**
      * @param string $module
@@ -26,7 +28,7 @@ class Magento_Test_Integrity_Theme_RenderersTest extends Magento_TestFramework_T
         $blocks = array();
         foreach ($this->_getDesignThemes() as $theme) {
             /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
-            $layoutUpdate = Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
+            $layoutUpdate = \Mage::getModel('Magento\Core\Model\Layout\Merge', array('theme' => $theme));
             $blockElements = $layoutUpdate->getFileLayoutUpdatesXml()->xpath($xpath);
             if ($blockElements) {
                 foreach ($blockElements as $block) {
@@ -39,7 +41,7 @@ class Magento_Test_Integrity_Theme_RenderersTest extends Magento_TestFramework_T
 
         foreach ($blocks as $block) {
             $this->assertNotEmpty(
-                Mage::app()->getLayout()->createBlock($block), "Failed to instantiate block '{$block}'"
+                \Mage::app()->getLayout()->createBlock($block), "Failed to instantiate block '{$block}'"
             );
         }
     }

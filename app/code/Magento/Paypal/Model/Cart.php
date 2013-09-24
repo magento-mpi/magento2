@@ -105,7 +105,7 @@ class Cart
     /**
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param array $params
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct(
         \Magento\Core\Model\Event\Manager $eventManager,

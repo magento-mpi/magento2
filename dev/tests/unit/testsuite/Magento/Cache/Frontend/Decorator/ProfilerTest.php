@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Cache\Frontend\Decorator;
+
+class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -20,8 +22,8 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
     /**
      * @param string $method
      * @param array $params
-     * @param Zend_Cache_Backend $cacheBackend
-     * @param Zend_Cache_Core $cacheFrontend
+     * @param \Zend_Cache_Backend $cacheBackend
+     * @param \Zend_Cache_Core $cacheFrontend
      * @param string $expectedProfileId
      * @param array $expectedProfilerTags
      * @param mixed $expectedResult
@@ -53,7 +55,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
 
         // Test
         $object = new \Magento\Cache\Frontend\Decorator\Profiler($frontendMock, array('Zend_Cache_Backend_'));
-        $helper = new Magento_TestFramework_Helper_ProxyTesting();
+        $helper = new \Magento\TestFramework\Helper\ProxyTesting();
         $result = $helper->invokeWithExpectations($object, $frontendMock, $method, $params, $expectedResult);
         $this->assertSame($expectedResult, $result);
     }
@@ -63,8 +65,8 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
      */
     public static function proxyMethodDataProvider()
     {
-        $backend = new Zend_Cache_Backend_BlackHole;;
-        $adaptee = PHPUnit_Framework_MockObject_Generator::getMock('Zend_Cache_Core', array(), array(), '', false);
+        $backend = new \Zend_Cache_Backend_BlackHole;;
+        $adaptee = \PHPUnit_Framework_MockObject_Generator::getMock('Zend_Cache_Core', array(), array(), '', false);
         $lowLevelFrontend = new \Magento\Cache\Frontend\Adapter\Zend($adaptee);
 
         return array(
@@ -126,7 +128,7 @@ class Magento_Cache_Frontend_Decorator_ProfilerTest extends PHPUnit_Framework_Te
             ),
             array(
                 'clean',
-                array(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array('tag')),
+                array(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array('tag')),
                 $backend,
                 $lowLevelFrontend,
                 'cache_clean',

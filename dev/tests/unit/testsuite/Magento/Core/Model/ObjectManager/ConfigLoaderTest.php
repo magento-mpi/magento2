@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\ObjectManager;
+
+class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\ObjectManager\ConfigLoader

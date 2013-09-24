@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Theme model class
  *
@@ -38,8 +40,6 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\Core\Model;
-
 class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\Model\ThemeInterface
 {
     /**#@+

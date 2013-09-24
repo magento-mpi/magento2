@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
  * Tests product model:
  * - general behaviour is tested (external interaction and pricing is not tested there)
@@ -17,7 +19,7 @@
  * @see \Magento\Catalog\Model\ProductPriceTest
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
+class ProductGettersTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product
@@ -26,7 +28,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Catalog\Model\Product');
+        $this->_model = \Mage::getModel('Magento\Catalog\Model\Product');
     }
 
     public function testGetResourceCollection()
@@ -73,11 +75,11 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
         // singleton
         /** @var $otherProduct \Magento\Catalog\Model\Product */
-        $otherProduct = Mage::getModel('Magento\Catalog\Model\Product');
+        $otherProduct = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
-        $simpleTypeInstance = Mage::getModel('Magento\Catalog\Model\Product\Type\Simple');
+        $simpleTypeInstance = \Mage::getModel('Magento\Catalog\Model\Product\Type\Simple');
         $this->_model->setTypeInstance($simpleTypeInstance);
         $this->assertSame($simpleTypeInstance, $this->_model->getTypeInstance());
     }
@@ -134,7 +136,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     public function testGetMediaAttributes()
     {
-        $model = Mage::getModel('Magento\Catalog\Model\Product',
+        $model = \Mage::getModel('Magento\Catalog\Model\Product',
             array('data' => array('media_attributes' => 'test'))
         );
         $this->assertEquals('test', $model->getMediaAttributes());
@@ -149,7 +151,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
     public function testGetMediaGalleryImages()
     {
         /** @var $model \Magento\Catalog\Model\Product */
-        $model = Mage::getModel('Magento\Catalog\Model\Product');
+        $model = \Mage::getModel('Magento\Catalog\Model\Product');
         $this->assertEmpty($model->getMediaGalleryImages());
 
         $this->_model->setMediaGallery(array('images' => array(array('file' => 'magento_image.jpg'))));
@@ -259,7 +261,7 @@ class Magento_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCas
 
     public static function tearDownAfterClass()
     {
-        $mediaDir = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
+        $mediaDir = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
         \Magento\Io\File::rmdirRecursive($mediaDir);
     }
 }

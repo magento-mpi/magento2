@@ -9,16 +9,18 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_SwitchTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block;
+
+class SwitchTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
     /**

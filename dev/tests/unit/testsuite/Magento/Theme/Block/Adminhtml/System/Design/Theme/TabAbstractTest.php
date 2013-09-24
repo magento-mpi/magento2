@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme;
+
+class TabAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract

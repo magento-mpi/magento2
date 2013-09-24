@@ -12,7 +12,9 @@
 /**
  * Tests to ensure that all license blocks are represented by placeholders
  */
-class Magento_Test_Legacy_LicenseTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Legacy;
+
+class LicenseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider legacyCommentDataProvider
@@ -37,9 +39,9 @@ class Magento_Test_Legacy_LicenseTest extends PHPUnit_Framework_TestCase
 
     public function legacyCommentDataProvider()
     {
-        $root = Magento_TestFramework_Utility_Files::init()->getPathToSource();
-        $recursiveIterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
-            $root, FilesystemIterator::SKIP_DOTS | FilesystemIterator::UNIX_PATHS
+        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        $recursiveIterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(
+            $root, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS
         ));
 
         $rootFolderName = substr(strrchr($root, DIRECTORY_SEPARATOR), 1);
@@ -52,7 +54,7 @@ class Magento_Test_Legacy_LicenseTest extends PHPUnit_Framework_TestCase
             $rootFolderName . '/lib/(Mage|Magento|Varien)/.+\.' . $extensions,
             $rootFolderName . '/pub/.+\.' . $extensions,
         );
-        $regexIterator = new RegexIterator($recursiveIterator, '#(' . implode(' | ', $paths) . ')$#x');
+        $regexIterator = new \RegexIterator($recursiveIterator, '#(' . implode(' | ', $paths) . ')$#x');
 
         $result = array();
         foreach ($regexIterator as $fileInfo) {

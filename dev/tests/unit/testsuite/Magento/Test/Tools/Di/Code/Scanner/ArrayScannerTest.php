@@ -6,10 +6,12 @@
  * @license    {license_link}
  */
 
-class Magento_Test_Tools_Di_Code_Scanner_ArrayScannerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Tools\Di\Code\Scanner;
+
+class ArrayScannerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Tools\Di\Code\Scanner\ArrayScanner
+     * @var \Magento\Tools\Di\Code\Scanner\ArrayScanner
      */
     protected $_model;
 
@@ -20,7 +22,7 @@ class Magento_Test_Tools_Di_Code_Scanner_ArrayScannerTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_model = new Magento\Tools\Di\Code\Scanner\ArrayScanner();
+        $this->_model = new \Magento\Tools\Di\Code\Scanner\ArrayScanner();
         $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
     }
 

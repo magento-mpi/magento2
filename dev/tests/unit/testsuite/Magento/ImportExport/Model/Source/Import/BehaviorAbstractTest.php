@@ -12,8 +12,10 @@
 /**
  * Test class for \Magento\ImportExport\Model\Source\Import\BehaviorAbstract
  */
-class Magento_ImportExport_Model_Source_Import_BehaviorAbstractTest
-    extends Magento_ImportExport_Model_Source_Import_BehaviorTestCaseAbstract
+namespace Magento\ImportExport\Model\Source\Import;
+
+class BehaviorAbstractTest
+    extends \Magento\ImportExport\Model\Source\Import\BehaviorTestCaseAbstract
 {
     /**
      * Source array data

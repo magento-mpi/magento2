@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_TestCase
+namespace Magento\SalesRule\Model\Resource\Report;
+
+class RuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test table name

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Widget\Grid;
+
+class TotalsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var $_model \Magento\Backend\Model\Widget\Grid\Totals
@@ -17,12 +19,12 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_parserMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
@@ -56,7 +58,7 @@ class Magento_Backend_Model_Widget_Grid_TotalsTest extends PHPUnit_Framework_Tes
             'parser' =>  $this->_parserMock
         );
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Backend\Model\Widget\Grid\Totals', $arguments);
 
         // setup columns

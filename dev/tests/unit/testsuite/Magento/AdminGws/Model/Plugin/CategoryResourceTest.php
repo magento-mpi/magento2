@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminGws_Model_Plugin_CategoryResourceTest extends PHPUnit_Framework_TestCase
+namespace Magento\AdminGws\Model\Plugin;
+
+class CategoryResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\AdminGws\Model\Plugin\CategoryResource
@@ -13,7 +15,7 @@ class Magento_AdminGws_Model_Plugin_CategoryResourceTest extends PHPUnit_Framewo
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_roleMock;
 

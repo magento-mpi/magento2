@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_TestAsset_InterfaceInjection
+namespace Magento\ObjectManager\TestAsset;
+
+class InterfaceInjection
 {
     /**
-     * @var Magento_ObjectManager_TestAsset_Interface
+     * @var \Magento\ObjectManager\TestAsset\TestAssetInterface
      */
     protected $_object;
 
     /**
-     * @param Magento_ObjectManager_TestAsset_Interface $object
+     * @param \Magento\ObjectManager\TestAsset\TestAssetInterface $object
      */
-    public function __construct(Magento_ObjectManager_TestAsset_Interface $object)
+    public function __construct(\Magento\ObjectManager\TestAsset\TestAssetInterface $object)
     {
         $this->_object = $object;
     }

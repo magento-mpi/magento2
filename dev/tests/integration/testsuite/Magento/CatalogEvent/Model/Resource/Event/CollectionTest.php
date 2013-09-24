@@ -12,7 +12,9 @@
 /**
  * @magentoDataFixture Magento/CatalogEvent/_files/events.php
  */
-class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_Framework_TestCase
+namespace Magento\CatalogEvent\Model\Resource\Event;
+
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CatalogEvent\Model\Resource\Event\Collection
@@ -21,7 +23,7 @@ class Magento_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\CatalogEvent\Model\Resource\Event\Collection');
+        $this->_collection = \Mage::getResourceModel('Magento\CatalogEvent\Model\Resource\Event\Collection');
     }
 
     /**

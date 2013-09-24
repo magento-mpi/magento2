@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Cache;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Cache\Config\Data|PHPUnit_Framework_MockObject_MockObject
@@ -13,7 +15,7 @@ class Magento_Core_Model_Cache_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_storage;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Cache\Config\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Cache\Config\Data
      */
     protected $_model;
 

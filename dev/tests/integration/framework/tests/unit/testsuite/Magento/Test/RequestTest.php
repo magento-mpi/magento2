@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Test_RequestTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_Request
+     * @var \Magento\TestFramework\Request
      */
     protected $_model = null;
 
@@ -21,7 +23,7 @@ class Magento_Test_RequestTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = new Magento_TestFramework_Request($helperMock);
+        $this->_model = new \Magento\TestFramework\Request($helperMock);
     }
 
     public function testGetHttpHost()

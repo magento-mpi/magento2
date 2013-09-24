@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Block;
+
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetTemplateFile()
     {
@@ -23,7 +25,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             'viewFileSystem' => $fileSystem,
             'data'           => array('template' => $template, 'area' => $area),
         );
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $block = $helper->getObject('Magento\Core\Block\Template', $arguments);
 
@@ -63,7 +65,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
             'translator'    => $translator,
             'engineFactory' => $engineFactory,
         );
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $block = $this->getMock(
             'Magento\Core\Block\Template',

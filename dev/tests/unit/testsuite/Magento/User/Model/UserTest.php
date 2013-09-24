@@ -11,7 +11,9 @@
 /**
  * Test class for \Magento\User\Model\User testing
  */
-class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
+namespace Magento\User\Model;
+
+class UserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\User\Model\User */
     protected $_model;

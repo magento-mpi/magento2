@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity;
+
+class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\ImportExport\Model\Import\Entity\CustomerComposite
@@ -68,7 +70,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
 
     protected function setUp()
     {
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $translator = $this->getMock('Magento\Core\Model\Translate', array('isAllowed'), array(), '', false);
         $translator->expects($this->any())
             ->method('isAllowed')

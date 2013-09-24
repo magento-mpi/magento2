@@ -9,15 +9,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Event;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Event\Factory */
     protected $_factory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_arrayConverter;
 
     protected function setUp()

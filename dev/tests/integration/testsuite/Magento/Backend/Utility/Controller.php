@@ -11,10 +11,13 @@
 
 /**
  * A parent class for backend controllers - contains directives for admin user creation and authentication
- * @SuppressWarnings(PHPMD.NumberOfChildren)
- * @SuppressWarnings(PHPMD.numberOfChildren)
  */
-class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Backend\Utility;
+
+/**
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
+ */
+class Controller extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -30,12 +33,12 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
     {
         parent::setUp();
 
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento\Backend\Model\Auth');
+        $this->_auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
         $this->_session = $this->_auth->getAuthStorage();
         $this->_auth->login(
-            Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
     }
 
     protected function tearDown()
@@ -43,19 +46,19 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
-        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
+        \Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }
 
     /**
      * Utilize backend session model by default
      *
-     * @param PHPUnit_Framework_Constraint $constraint
+     * @param \PHPUnit_Framework_Constraint $constraint
      * @param string|null $messageType
      * @param string $sessionModel
      */
     public function assertSessionMessages(
-        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Backend\Model\Session'
+        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Backend\Model\Session'
     ) {
         parent::assertSessionMessages($constraint, $messageType, $sessionModel);
     }

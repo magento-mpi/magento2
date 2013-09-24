@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\Dashboard;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_TestCase
+class GraphTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\Dashboard\Graph
@@ -22,7 +24,7 @@ class Magento_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Dashboard\Graph');
+        $this->_block = \Mage::app()->getLayout()->createBlock('Magento\Adminhtml\Block\Dashboard\Graph');
         $this->_block->setDataHelperName('Magento\Adminhtml\Helper\Dashboard\Order');
     }
 

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container
@@ -23,7 +25,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest 
     {
         parent::setUp();
 
-        $this->_block = Mage::app()->getLayout()->createBlock(
+        $this->_block = \Mage::app()->getLayout()->createBlock(
             'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container'
         );
     }

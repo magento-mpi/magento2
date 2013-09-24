@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Builder_Command_AddTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Builder\Command;
+
+class AddTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu\Builder\Command\Add
@@ -43,7 +45,7 @@ class Magento_Backend_Model_Menu_Builder_Command_AddTest extends PHPUnit_Framewo
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testChainWithAnotherAddCommandTrowsException()
     {

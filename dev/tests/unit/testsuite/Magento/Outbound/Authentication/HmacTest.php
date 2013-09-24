@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Authentication;
+
+class HmacTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -29,17 +31,17 @@ class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCas
     const DOMAIN = 'www.fake.magento.com';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject \Magento\Outbound\MessageInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Outbound\MessageInterface
      */
     private $_mockMessage;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject \Magento\Outbound\UserInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Outbound\UserInterface
      */
     private $_mockUser;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\StoreManagerInterface
      */
     private $_mockStoreManager;
 
@@ -93,7 +95,7 @@ class Magento_Outbound_Authentication_HmacTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedMessage The shared secret cannot be a empty.
      */
     public function testEmptySecret()

@@ -9,8 +9,10 @@
  * @license     {license_link}
  */
 
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_OptionTest
-    extends PHPUnit_Framework_TestCase
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
+
+class OptionTest
+    extends \PHPUnit_Framework_TestCase
 {
     public function testGetAddButtonId()
     {

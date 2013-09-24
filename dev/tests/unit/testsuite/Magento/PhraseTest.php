@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PhraseTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class PhraseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Phrase\RendererInterface|PHPUnit_Framework_MockObject_MockObject
@@ -68,7 +70,7 @@ class Magento_PhraseTest extends PHPUnit_Framework_TestCase
 
     protected function _removeRendererFromPhrase()
     {
-        $property = new ReflectionProperty('Magento\Phrase', '_renderer');
+        $property = new \ReflectionProperty('Magento\Phrase', '_renderer');
         $property->setAccessible(true);
         $property->setValue(null);
     }

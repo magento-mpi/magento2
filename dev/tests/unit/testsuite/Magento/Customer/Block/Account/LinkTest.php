@@ -9,10 +9,9 @@
  * @license     {license_link}
  */
 
-/**
- * Test class for \Magento\Customer\Block\Account\Link
- */
-class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
+namespace Magento\Customer\Block\Account;
+
+class LinkTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testGetHref()

@@ -13,7 +13,12 @@ use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
  * Scan source code for detects invocations of __() function, analyzes placeholders with arguments
  * and see if they not equal
  */
-class Magento_Test_Integrity_Phrase_ArgumentsTest extends Magento_Test_Integrity_Phrase_AbstractTestCase
+namespace Magento\Test\Integrity\Phrase;
+
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer;
+use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;
+
+class ArgumentsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 {
     /**
      * @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector

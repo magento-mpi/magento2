@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Config_ViewTest extends PHPUnit_Framework_TestCase
+namespace Magento\Config;
+
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Config\View
@@ -24,7 +26,7 @@ class Magento_Config_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructException()
     {

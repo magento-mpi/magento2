@@ -12,7 +12,9 @@
 /**
  * Abstract database handler for integration tests
  */
-abstract class Magento_TestFramework_Db_DbAbstract
+namespace Magento\TestFramework\Db;
+
+abstract class DbAbstract
 {
     /**
      * DB host name

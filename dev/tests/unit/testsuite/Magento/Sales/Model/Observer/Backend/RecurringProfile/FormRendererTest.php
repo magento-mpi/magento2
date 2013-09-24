@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Observer\Backend\RecurringProfile;
+
+class FormRendererTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Observer\Backend\RecurringProfile\FormRenderer
@@ -14,12 +16,12 @@ class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest ext
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_blockFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerMock;
 
@@ -61,7 +63,7 @@ class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest ext
         $blockMock->expects($this->once())->method('setProductEntity')->with($product);
         $blockMock->expects($this->exactly(2))->method('toHtml')->will($this->returnValue('html'));
         $blockMock->expects($this->once())->method('addConfigOptions')->with(array('levels_up' => 2));
-        $result = new StdClass();
+        $result = new \StdClass();
         $event->expects($this->once())->method('getResult')->will($this->returnValue($result));
         $this->_model->render($this->_observerMock);
         $this->assertEquals('htmlhtml', $result->output);

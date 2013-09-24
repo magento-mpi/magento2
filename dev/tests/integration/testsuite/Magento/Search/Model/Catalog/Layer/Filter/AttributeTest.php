@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Search\Model\Catalog\Layer\Filter;
+
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string|array $givenValue
@@ -37,7 +39,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Fr
             ->method('getSource')
             ->will($this->returnValue($source));
 
-        $productCollection = Mage::getResourceModel('Magento\Search\Model\Resource\Collection');
+        $productCollection = \Mage::getResourceModel('Magento\Search\Model\Resource\Collection');
         $layer = $this->getMock('Magento\Search\Model\Catalog\Layer');
         $layer->expects($this->any())
             ->method('getProductCollection')
@@ -46,12 +48,12 @@ class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Fr
         /**
          * @var \Magento\Search\Model\Catalog\Layer\Filter\Attribute
          */
-        $selectModel = Mage::getModel('Magento\Search\Model\Catalog\Layer\Filter\Attribute');
+        $selectModel = \Mage::getModel('Magento\Search\Model\Catalog\Layer\Filter\Attribute');
         $selectModel->setAttributeModel($attribute)->setLayer($layer);
 
         $selectModel->applyFilterToCollection($selectModel, $givenValue);
         $filterParams = $selectModel->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $fieldName = Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine')
+        $fieldName = \Mage::getResourceSingleton('Magento\Search\Model\Resource\Engine')
             ->getSearchEngineFieldName($selectModel->getAttributeModel(), 'nav');
         $resultFilter = $filterParams[$fieldName];
 

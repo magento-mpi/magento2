@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model;
+
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Event\Observer
@@ -22,7 +24,7 @@ class Magento_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 

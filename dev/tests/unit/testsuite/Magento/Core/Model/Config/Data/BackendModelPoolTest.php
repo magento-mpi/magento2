@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Config\Data;
+
+class BackendModelPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config\Data\BackendModelPoolTest
@@ -30,24 +32,25 @@ class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framew
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('TestBackendModel')
-            ->will($this->returnValue(new TestBackendModel()));
+            ->with('Magento\Core\Model\Config\Data\TestBackendModel')
+            ->will($this->returnValue(new \Magento\Core\Model\Config\Data\TestBackendModel()));
 
-        $this->assertInstanceOf('TestBackendModel', $this->_model->get('TestBackendModel'));
+        $this->assertInstanceOf('Magento\Core\Model\Config\Data\TestBackendModel',
+            $this->_model->get('Magento\Core\Model\Config\Data\TestBackendModel'));
     }
 
     /**
      * @covers \Magento\Core\Model\Config\Data\BackendModelPool::get
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testGetModelWithWrongInterface()
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('WrongBackendModel')
-            ->will($this->returnValue(new WrongBackendModel()));
+            ->with('Magento\Core\Model\Config\Data\WrongBackendModel')
+            ->will($this->returnValue(new \Magento\Core\Model\Config\Data\WrongBackendModel()));
 
-        $this->_model->get('WrongBackendModel');
+        $this->_model->get('Magento\Core\Model\Config\Data\WrongBackendModel');
     }
 
     /**
@@ -57,22 +60,10 @@ class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framew
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('TestBackendModel')
-            ->will($this->returnValue(new TestBackendModel()));
+            ->with('Magento\Core\Model\Config\Data\TestBackendModel')
+            ->will($this->returnValue(new \Magento\Core\Model\Config\Data\TestBackendModel()));
 
-        $this->_model->get('TestBackendModel');
-        $this->_model->get('TestBackendModel');
+        $this->_model->get('Magento\Core\Model\Config\Data\TestBackendModel');
+        $this->_model->get('Magento\Core\Model\Config\Data\TestBackendModel');
     }
-}
-
-class TestBackendModel implements \Magento\Core\Model\Config\Data\BackendModelInterface
-{
-    public function processValue($value)
-    {
-        return $value;
-    }
-}
-
-class WrongBackendModel
-{
 }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest;
+
+class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Request mock.
@@ -120,7 +122,7 @@ class Magento_Webapi_Controller_Rest_RequestTest extends PHPUnit_Framework_TestC
      * @dataProvider providerContentType
      * @param string $contentTypeHeader 'Content-Type' header value
      * @param string $contentType Appropriate content type for header value
-     * @param string|boolean $exceptionMessage Exception message (boolean FALSE if exception is not expected)
+     * @param string|boolean $exceptionMessage \Exception message (boolean FALSE if exception is not expected)
      */
     public function testGetContentType($contentTypeHeader, $contentType, $exceptionMessage = false)
     {

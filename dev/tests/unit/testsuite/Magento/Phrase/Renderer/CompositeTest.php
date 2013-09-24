@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Phrase_Renderer_CompositeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Phrase\Renderer;
+
+class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Phrase\Renderer\Factory|PHPUnit_Framework_MockObject_MockObject
@@ -23,7 +25,7 @@ class Magento_Phrase_Renderer_CompositeTest extends PHPUnit_Framework_TestCase
      */
     protected function _createComposite($renderers = array())
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         return $objectManagerHelper->getObject('Magento\Phrase\Renderer\Composite', array(
             'rendererFactory' => $this->_rendererFactory,

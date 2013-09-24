@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Acl_Resource_TreeBuilderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Acl\Resource;
+
+class TreeBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Acl\Resource\TreeBuilder

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_Type_FrontendPoolTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Cache\Type;
+
+class FrontendPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Cache\Type\FrontendPool

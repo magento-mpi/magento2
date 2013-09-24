@@ -9,39 +9,41 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Controller\System;
+
+class AccountTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Adminhtml\Controller\System\Account */
     protected $_controller;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http */
     protected $_requestMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Response\Http */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Response\Http */
     protected $_responseMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager\ObjectManager */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager\ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Session */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Session */
     protected $_sessionMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Helper\Data */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Helper\Data */
     protected $_helperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Auth\Session */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Auth\Session */
     protected $_authSessionMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\User\Model\User */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\User\Model\User */
     protected $_userMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Locale\Validator */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Locale\Validator */
     protected $_validatorMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Locale\Manager */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Locale\Manager */
     protected $_managerMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Translate */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Translate */
     protected $_translatorMock;
 
     protected function setUp()
@@ -119,7 +121,7 @@ class Magento_Adminhtml_Controller_System_AccountTest extends PHPUnit_Framework_
 
         $args = array('context' => $contextMock);
 
-        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_controller = $testHelper->getObject('Magento\Adminhtml\Controller\System\Account', $args);
     }
 

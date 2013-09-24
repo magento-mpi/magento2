@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
+
+class BeforeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test model
@@ -107,7 +109,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
      */
     public function jsonEncodeCallback($data)
     {
-        return Zend_Json::encode($data);
+        return \Zend_Json::encode($data);
     }
 
     /**
@@ -118,7 +120,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
     public function testGetEntityBehaviors()
     {
         $actualEntities = $this->_model->getEntityBehaviors();
-        $expectedEntities = Zend_Json::encode($this->_expectedEntities);
+        $expectedEntities = \Zend_Json::encode($this->_expectedEntities);
         $this->assertEquals($expectedEntities, $actualEntities);
     }
 
@@ -130,7 +132,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
     public function testGetUniqueBehaviors()
     {
         $actualBehaviors = $this->_model->getUniqueBehaviors();
-        $expectedBehaviors = Zend_Json::encode($this->_expectedBehaviors);
+        $expectedBehaviors = \Zend_Json::encode($this->_expectedBehaviors);
         $this->assertEquals($expectedBehaviors, $actualBehaviors);
     }
 }

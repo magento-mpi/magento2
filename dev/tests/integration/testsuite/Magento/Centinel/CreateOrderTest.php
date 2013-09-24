@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Centinel;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Centinel_CreateOrderTest extends Magento_Backend_Utility_Controller
+class CreateOrderTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoConfigFixture admin_store payment/ccsave/centinel 1

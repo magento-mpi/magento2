@@ -10,8 +10,8 @@
  */
 
 /** @var $permission \Magento\CatalogPermissions\Model\Permission */
-$permission = Mage::getModel('Magento\CatalogPermissions\Model\Permission');
-$permission->setWebsiteId(Mage::app()->getWebsite()->getId())
+$permission = \Mage::getModel('Magento\CatalogPermissions\Model\Permission');
+$permission->setWebsiteId(\Mage::app()->getWebsite()->getId())
     ->setCategoryId(6)
     ->setCustomerGroupId(1)
     ->setGrantCatalogCategoryView(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)

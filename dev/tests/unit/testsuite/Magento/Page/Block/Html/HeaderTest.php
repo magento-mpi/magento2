@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Page\Block\Html;
+
+class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \Magento\Page\Block\Html\Header::getLogoSrc
@@ -44,7 +46,7 @@ class Magento_Page_Block_Html_HeaderTest extends PHPUnit_Framework_TestCase
             ->with(\Magento\Core\Model\Dir::MEDIA)
             ->will($this->returnValue(__DIR__ . DIRECTORY_SEPARATOR . '_files'));
 
-        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $arguments = array(
             'storeConfig' => $storeConfig,

@@ -5,12 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Data_GraphTest extends PHPUnit_Framework_TestCase
+namespace Magento\Data;
+
+class GraphTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param array $nodes
      * @param array $relations
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider constructorErrorDataProvider
      */
     public function testConstructorError($nodes, $relations)
@@ -40,7 +42,7 @@ class Magento_Data_GraphTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Exceptions are covered by testConstructorError()
+     * \Exceptions are covered by testConstructorError()
      */
     public function testAddRelation()
     {

@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Backend\Model\Menu\Director\Director
  */
-class Magento_Backend_Model_Menu_Director_DirectorTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Director;
+
+class DirectorTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -21,22 +23,22 @@ class Magento_Backend_Model_Menu_Director_DirectorTest extends PHPUnit_Framework
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_commandFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_builderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logger;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_commandMock;
 

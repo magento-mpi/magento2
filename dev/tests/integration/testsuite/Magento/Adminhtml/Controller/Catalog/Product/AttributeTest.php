@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Controller\Catalog\Product;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento_Backend_Utility_Controller
+class AttributeTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_system.php
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
         // ensure string translation is cached
         $this->_translate('Fixture String');
         /** @var \Magento\Core\Model\Resource\Translate\String $translateString */
-        $translateString = Mage::getModel('Magento\Core\Model\Resource\Translate\String');
+        $translateString = \Mage::getModel('Magento\Core\Model\Resource\Translate\String');
         $translateString->saveTranslate(
             'Fixture String', 'New Db Translation', 'en_US', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
         );
@@ -91,11 +93,11 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento
     protected function _translate($string)
     {
         // emulate admin store and design
-        Mage::app()->setCurrentStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Mage::app()->setCurrentStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme(1);
         /** @var \Magento\Core\Model\Translate $translate */
-        $translate = Mage::getModel('Magento\Core\Model\Translate');
+        $translate = \Mage::getModel('Magento\Core\Model\Translate');
         $translate->init(\Magento\Backend\Helper\Data::BACKEND_AREA_CODE, null);
         return $translate->translate(array($string));
     }

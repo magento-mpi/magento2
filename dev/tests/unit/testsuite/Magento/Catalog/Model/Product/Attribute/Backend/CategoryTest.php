@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_CategoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testAfterLoad()
     {

@@ -12,7 +12,9 @@
 /**
  * Test case for \Magento\Crypt
  */
-class Magento_CryptTest extends PHPUnit_Framework_TestCase
+namespace Magento;
+
+class CryptTest extends \PHPUnit_Framework_TestCase
 {
     private $_key = __CLASS__;
 

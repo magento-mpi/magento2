@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Message;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     const ENDPOINT_URL = 'https://endpoint_url';
 
@@ -32,19 +34,19 @@ class Magento_Outbound_Message_FactoryTest extends PHPUnit_Framework_TestCase
     /** @var \Magento\Outbound\Message\Factory */
     protected $_factory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockFormatFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockFormatter;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockAuthFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockEndpoint;
 
     protected function setUp()

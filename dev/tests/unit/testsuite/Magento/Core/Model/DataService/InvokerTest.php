@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService;
+
+class InvokerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Fake info for service and classes.
@@ -26,17 +28,17 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
     protected $_invoker;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_compositeMock;
 
@@ -48,7 +50,7 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
     protected $_dataServiceMock;
 
     /**
-     * @var  PHPUnit_Framework_MockObject_MockObject
+     * @var  \PHPUnit_Framework_MockObject_MockObject
      */
     private $_navigator;
 
@@ -130,7 +132,7 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage return an array
      */
     public function testGetServiceDataFailsIfNotArray()

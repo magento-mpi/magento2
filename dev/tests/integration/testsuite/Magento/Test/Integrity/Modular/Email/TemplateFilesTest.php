@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular\Email;
+
+class TemplateFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Go through all declared templates and check if base files indeed exist in the respective module
@@ -20,7 +22,7 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
      */
     public function testLoadBaseContents($module, $filename)
     {
-        $model = Mage::getModel('Magento\Core\Model\Email\Template');
+        $model = \Mage::getModel('Magento\Core\Model\Email\Template');
         $this->assertNotEmpty($model->loadBaseContents($module, $filename));
     }
 

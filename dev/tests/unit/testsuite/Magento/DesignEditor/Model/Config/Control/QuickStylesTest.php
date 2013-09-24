@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Model_Config_Control_QuickStylesTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Config\Control;
+
+class QuickStylesTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetSchemaFile()
     {
@@ -28,7 +30,7 @@ class Magento_DesignEditor_Model_Config_Control_QuickStylesTest extends PHPUnit_
             'moduleReader' => $moduleReader, 'configFiles' => array('sample')
         ), '', false);
 
-        $property = new ReflectionProperty($quickStyle, '_moduleReader');
+        $property = new \ReflectionProperty($quickStyle, '_moduleReader');
         $property->setAccessible(true);
         $property->setValue($quickStyle, $moduleReader);
 

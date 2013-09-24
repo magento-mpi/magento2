@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
+namespace Magento\Widget\Model\Widget;
+
+class InstanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Widget\Model\Widget\Instance
@@ -17,7 +19,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Widget\Model\Widget\Instance');
+        $this->_model = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
     }
 
     public function testSetGetType()
@@ -29,7 +31,7 @@ class Magento_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCas
 
     public function testSetThemeId()
     {
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();

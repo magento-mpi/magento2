@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_JobTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+class JobTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct()
     {

@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Resource\Product\Option;
+
+class ValueTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Stub_UnitTest_\Magento\Catalog\Model\Resource\Product\Option\Value
+     * @var Stub\UnitTest\Magento\Catalog\Model\Resource\Product\Option\Value
      */
     protected $_object;
 
@@ -22,14 +24,14 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
      * @var array
      */
     public static $valueTitleData = array(
-        'id'       => 2,
-        'store_id' => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
-        'scope'    => array('title' => 1)
+    'id'       => 2,
+    'store_id' => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
+    'scope'    => array('title' => 1)
     );
 
     protected function setUp()
     {
-        $this->_object = new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value();
+        $this->_object = new \Magento\Catalog\Model\Resource\Product\Option\ValueStub();
     }
 
     protected function tearDown()
@@ -44,7 +46,7 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
      */
     public function testSaveValueTitles()
     {
-        $object = new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_Core_Model_Stub(
+        $object = new Stub(
             $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
             null,

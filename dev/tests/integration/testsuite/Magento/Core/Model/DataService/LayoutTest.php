@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Core\Model\DataService;
+
+class LayoutTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     private $_dataServiceGraph;
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         // Need to call this first so we get proper config
         $config = $this->_loadServiceCallsConfig();
         parent::setUp();
@@ -34,7 +36,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
 
     protected function _loadServiceCallsConfig()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
             'Magento\Core\Model\Dir',
@@ -99,7 +101,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
     protected function _getLayoutModel($fixtureFile)
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
             array('dataServiceGraph' => $this->_dataServiceGraph)
         );

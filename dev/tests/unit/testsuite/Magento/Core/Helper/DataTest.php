@@ -6,7 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Helper\Data

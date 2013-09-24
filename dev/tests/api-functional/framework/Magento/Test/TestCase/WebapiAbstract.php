@@ -328,8 +328,8 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
      */
     static protected function _enableSecureArea($flag = true)
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
         if ($flag) {

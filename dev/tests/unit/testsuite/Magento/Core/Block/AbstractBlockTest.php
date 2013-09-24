@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Block;
+
+class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $expectedResult
@@ -72,7 +74,7 @@ class Magento_Core_Block_AbstractBlockTest extends PHPUnit_Framework_TestCase
         $params = array(
             'viewConfig' => $configManager,
         );
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock',
             $helper->getConstructArguments('Magento\Core\Block\AbstractBlock', $params),
             uniqid('Magento\\Core\\Block\\AbstractBlock\\')

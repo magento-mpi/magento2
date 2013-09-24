@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset;
+
+class MinifiedTest extends \PHPUnit_Framework_TestCase
 {
     const ORIG_SOURCE_FILE = 'original.js';
     const MINIFIED_SOURCE_FILE = 'original.min.js';
@@ -105,7 +107,7 @@ class Magento_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestC
         $this->_minifier->expects($this->once())
             ->method('getMinifiedFile')
             ->with(self::ORIG_SOURCE_FILE)
-            ->will($this->throwException(new Exception('Error')));
+            ->will($this->throwException(new \Exception('Error')));
 
         $this->_viewUrl->expects($this->never())
             ->method('getPublicFileUrl');

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Resource_Report_Shipping_Collection_ShipmentTest extends PHPUnit_Framework_TestCase
+namespace Magento\Sales\Model\Resource\Report\Shipping\Collection;
+
+class ShipmentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Sales\Model\Resource\Report\Shipping\Collection\Shipment
@@ -15,7 +17,9 @@ class Magento_Sales_Model_Resource_Report_Shipping_Collection_ShipmentTest exten
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\Sales\Model\Resource\Report\Shipping\Collection\Shipment');
+        $this->_collection = \Mage::getResourceModel(
+            'Magento\Sales\Model\Resource\Report\Shipping\Collection\Shipment'
+            );
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)

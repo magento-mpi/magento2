@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Config
@@ -18,12 +20,12 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configScopeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
@@ -33,7 +35,7 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_moduleListMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sectionPoolMock;
 

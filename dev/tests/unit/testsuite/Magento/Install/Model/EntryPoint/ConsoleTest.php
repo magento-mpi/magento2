@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Install\Model\EntryPoint;
+
+class ConsoleTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Install\Model\EntryPoint\Console
@@ -14,27 +16,27 @@ class Magento_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager
      */
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Config\Primary
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Config\Primary
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Install\Model\Installer\Console
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Install\Model\Installer\Console
      */
     protected $_installerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Dir\Verification
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Dir\Verification
      */
     protected $_dirVerifierMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Install\Model\EntryPoint\Output
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Install\Model\EntryPoint\Output
      */
     protected $_outputMock;
 

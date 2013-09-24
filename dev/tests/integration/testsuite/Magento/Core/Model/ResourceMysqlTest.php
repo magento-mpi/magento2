@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class ResourceMysqlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Resource
@@ -18,7 +20,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Core\Model\Resource');
+        $this->_model = \Mage::getModel('Magento\Core\Model\Resource');
     }
 
     public function testGetConnectionTypeInstance()
@@ -41,6 +43,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'Zend_Db_Adapter_Abstract',
+            $resource->getConnection(\Mage::getConfig()->
             $resource->getConnection($configModel->getNode('global/resources/default_setup/connection')->asArray())
         );
 
@@ -77,7 +80,8 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
     {
         $this->assertStringStartsWith(
             'FK_',
-            $this->_model->getFkName('sales_flat_creditmemo_comment', 'parent_id', 'sales_flat_creditmemo', 'entity_id')
+            $this->_model
+                ->getFkName('sales_flat_creditmemo_comment', 'parent_id', 'sales_flat_creditmemo', 'entity_id')
         );
     }
 }

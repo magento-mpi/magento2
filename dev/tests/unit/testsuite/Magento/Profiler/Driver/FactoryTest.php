@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Profiler\Driver;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Profiler\Driver\Factory
@@ -89,7 +91,7 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Cannot create profiler driver, class "Magento_Profiler_Driver_Test_Baz" doesn't exist.
      */
     public function testCreateUndefinedClass()
@@ -100,7 +102,7 @@ class Magento_Profiler_Driver_FactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Driver class "stdClass" must implement \Magento\Profiler\DriverInterface.
      */
     public function testCreateInvalidClass()

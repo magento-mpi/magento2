@@ -12,7 +12,9 @@
 /**
  * Unit test for \Magento\Index\Model\Process\FileFactory
  */
-class Magento_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\Process;
+
+class FileFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Bogus string to return from object manager's create() method

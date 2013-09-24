@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
+
+class BlockAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * VDE toolbar buttons block

@@ -9,10 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Authentication;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_mockObjectManager;
 
@@ -59,7 +61,7 @@ class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage There is no authentication for the type given: TEST_AUTH_TYPE_STRING
      */
     public function testGetAuthenticationNoType()
@@ -68,7 +70,7 @@ class Magento_Outbound_Authentication_FactoryTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @expectedException LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Authentication class for hmac does not implement authentication interface
      */
     public function testGetAuthenticationNoModel()

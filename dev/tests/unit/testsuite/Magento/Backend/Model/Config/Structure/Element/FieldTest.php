@@ -11,7 +11,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class FieldTest extends \PHPUnit_Framework_TestCase
 {
     const FIELD_TEST_CONSTANT = "field test constant";
 
@@ -21,42 +23,42 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_applicationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sourceFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_commentFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_blockFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dsGraphMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_depMapperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_iteratorMock;
 
@@ -305,13 +307,13 @@ class Magento_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_F
         $option = array(
             array(
                 'label' => 'test',
-                'value' => "{{Magento_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT}}"
+                'value' => "{{\Magento\Backend\Model\Config\Structure\Element\FieldTest::FIELD_TEST_CONSTANT}}"
             ),
         );
         $expected = array(
             array(
                 'label' => __('test'),
-                'value' => Magento_Backend_Model_Config_Structure_Element_FieldTest::FIELD_TEST_CONSTANT
+                'value' => \Magento\Backend\Model\Config\Structure\Element\FieldTest::FIELD_TEST_CONSTANT
             ),
         );
 

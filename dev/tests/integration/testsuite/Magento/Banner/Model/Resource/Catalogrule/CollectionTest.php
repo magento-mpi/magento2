@@ -6,11 +6,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Banner\Model\Resource\Catalogrule;
+
 /**
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  * @magentoDataFixture Magento/Banner/_files/banner_catalog_rule.php
  */
-class Magento_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Banner\Model\Resource\Catalogrule\Collection
@@ -34,8 +36,8 @@ class Magento_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento\Banner\Model\Resource\Catalogrule\Collection');
-        $this->_banner = Mage::getModel('Magento\Banner\Model\Banner');
+        $this->_collection = \Mage::getResourceModel('Magento\Banner\Model\Resource\Catalogrule\Collection');
+        $this->_banner = \Mage::getModel('Magento\Banner\Model\Banner');
         $this->_banner->load('Test Banner', 'name');
     }
 

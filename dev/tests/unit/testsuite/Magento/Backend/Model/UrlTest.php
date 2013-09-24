@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Backend\Model\Url
  */
-class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model;
+
+class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Url
@@ -21,7 +23,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     /**
      * Mock menu model
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_menuMock;
 

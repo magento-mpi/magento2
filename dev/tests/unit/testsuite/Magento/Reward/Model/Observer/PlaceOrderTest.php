@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Reward\Model\Observer;
+
+class PlaceOrderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Reward\Model\Observer\PlaceOrder
@@ -14,32 +16,32 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_restrictionMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modelFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceFactoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validatorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerMock;
 

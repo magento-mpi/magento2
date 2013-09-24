@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
+
+class JsonTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
     /** @var \Magento\Webapi\Controller\Rest\Request\Deserializer\Json */
@@ -18,7 +20,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUn
     /** @var \Magento\Core\Helper\Data */
     protected $_helperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_appMock;
 
     protected function setUp()
@@ -79,7 +81,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUn
         /** Prepare mocks for SUT constructor. */
         $this->_helperMock->expects($this->once())
             ->method('jsonDecode')
-            ->will($this->throwException(new Zend_Json_Exception));
+            ->will($this->throwException(new \Zend_Json_Exception));
         $this->_appMock->expects($this->once())
             ->method('isDeveloperMode')
             ->will($this->returnValue(false));
@@ -102,7 +104,7 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_JsonTest extends PHPUn
             ->method('jsonDecode')
             ->will(
             $this->throwException(
-                new Zend_Json_Exception('Decoding error:' . PHP_EOL . 'Decoding failed: Syntax error')
+                new \Zend_Json_Exception('Decoding error:' . PHP_EOL . 'Decoding failed: Syntax error')
             )
         );
         $this->_appMock->expects($this->once())

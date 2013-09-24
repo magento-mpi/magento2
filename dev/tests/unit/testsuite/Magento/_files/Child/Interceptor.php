@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Test_Di_Child_Interceptor extends Magento_Test_Di_Child
+namespace Magento\Test\Di\Child;
+
+class Interceptor extends \Magento\Test\Di\Child
 {
     /**
      * @var \Magento\ObjectManager\Config

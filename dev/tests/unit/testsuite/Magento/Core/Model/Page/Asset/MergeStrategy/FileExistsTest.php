@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Page\Asset\MergeStrategy;
+
+class FileExistsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Page\Asset\MergeStrategy\FileExists
@@ -14,12 +16,12 @@ class Magento_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit
     protected $_object;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_strategy;
 

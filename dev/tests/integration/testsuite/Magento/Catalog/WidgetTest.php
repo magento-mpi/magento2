@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_WidgetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog;
+
+class WidgetTest extends \PHPUnit_Framework_TestCase
 {
     public function testNewProductsWidget()
     {
         /** @var $model \Magento\Widget\Model\Widget\Instance */
-        $model = Mage::getModel('Magento\Widget\Model\Widget\Instance');
+        $model = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
         $config = $model->setType('Magento\Catalog\Block\Product\Widget\NewWidget')->getWidgetConfigAsArray();
         $templates = $config['parameters']['template']['values'];
         $this->assertArrayHasKey('default', $templates);

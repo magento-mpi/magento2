@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Generator_IoTest extends PHPUnit_Framework_TestCase
+namespace Magento\Code\Generator;
+
+class IoTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
      * Source and result class parameters

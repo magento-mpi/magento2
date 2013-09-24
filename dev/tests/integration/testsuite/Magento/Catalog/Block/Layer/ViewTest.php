@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Layer;
+
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -18,15 +20,15 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFilters()
     {
-        $currentCategory = Mage::getModel('Magento\Catalog\Model\Category');
+        $currentCategory = \Mage::getModel('Magento\Catalog\Model\Category');
         $currentCategory->load(3);
 
         /** @var $layer \Magento\Catalog\Model\Layer */
-        $layer = Mage::getSingleton('Magento\Catalog\Model\Layer');
+        $layer = \Mage::getSingleton('Magento\Catalog\Model\Layer');
         $layer->setCurrentCategory($currentCategory);
 
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         /** @var $block \Magento\Catalog\Block\Layer\View */
         $block = $layout->createBlock('Magento\Catalog\Block\Layer\View', 'block');
 

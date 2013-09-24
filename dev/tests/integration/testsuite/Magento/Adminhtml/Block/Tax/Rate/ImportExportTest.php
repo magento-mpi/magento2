@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Tax_Rate_ImportExportTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Tax\Rate;
+
+class ImportExportTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main
@@ -17,7 +19,7 @@ class Magento_Adminhtml_Block_Tax_Rate_ImportExportTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()
+        $this->_block = \Mage::app()->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Tax\Rate\ImportExport')
             ->setArea('adminhtml');
     }

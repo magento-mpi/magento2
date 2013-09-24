@@ -9,17 +9,19 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Performance_ScenarioTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Performance;
+
+class ScenarioTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Magento_TestFramework_Performance_Scenario
+     * @var \Magento\TestFramework\Performance\Scenario
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_TestFramework_Performance_Scenario('Test title', 'test/file.jmx',
+        $this->_object = new \Magento\TestFramework\Performance\Scenario('Test title', 'test/file.jmx',
             array('arg1' => 'value1', 'arg2' => 'value2'), array('setting1' => 'value1', 'setting2' => 'value2'),
             array('fixture1', 'fixture2')
         );
@@ -45,8 +47,8 @@ class Magento_Test_Performance_ScenarioTest extends PHPUnit_Framework_TestCase
         $expectedArguments = array(
             'arg1' => 'value1',
             'arg2' => 'value2',
-            Magento_TestFramework_Performance_Scenario::ARG_USERS => 1,
-            Magento_TestFramework_Performance_Scenario::ARG_LOOPS => 1,
+            \Magento\TestFramework\Performance\Scenario::ARG_USERS => 1,
+            \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 1,
         );
         $this->assertEquals($expectedArguments, $this->_object->getArguments());
     }

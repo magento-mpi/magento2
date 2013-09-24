@@ -6,10 +6,12 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class SimpleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Required parameter 'required_parameter' was not passed
      */
     public function testGetPatternDirsException()

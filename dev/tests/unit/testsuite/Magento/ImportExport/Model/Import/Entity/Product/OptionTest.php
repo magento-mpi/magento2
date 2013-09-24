@@ -12,7 +12,9 @@
 /**
  * Test class for import product options module
  */
-class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\ImportExport\Model\Import\Entity\Product;
+
+class OptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Path to csv file to import

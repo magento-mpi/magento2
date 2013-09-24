@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Controller\Varien\Router;
+
+class StandardTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test area code
@@ -225,7 +227,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
 
     /**
      * @param bool $isVde
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getHelperMock($isVde)
     {
@@ -239,7 +241,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
     /**
      * @param bool $isVde
      * @param bool $isLoggedIn
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getBackendSessionMock($isVde, $isLoggedIn)
     {
@@ -252,7 +254,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
 
     /**
      * @param array $routers
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getStateModelMock(array $routers)
     {
@@ -270,7 +272,7 @@ class Magento_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit
      * @param bool $isVde
      * @param bool $isLoggedIn
      * @param bool $isConfiguration
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getConfigurationMock($isVde, $isLoggedIn, $isConfiguration)
     {

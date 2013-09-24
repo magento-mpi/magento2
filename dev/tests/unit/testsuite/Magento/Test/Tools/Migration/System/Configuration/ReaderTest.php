@@ -8,6 +8,8 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Reader.php';
 require_once realpath(__DIR__ . '/../../../../../../../../../')
@@ -17,8 +19,7 @@ require_once realpath(__DIR__ . '/../../../../../../../../../')
 require_once realpath(__DIR__ . '/../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Parser.php';
 
-
-class Magento_Test_Tools_Migration_System_Configuration_ReaderTest extends PHPUnit_Framework_TestCase
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\Configuration\Reader
@@ -26,17 +27,17 @@ class Magento_Test_Tools_Migration_System_Configuration_ReaderTest extends PHPUn
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_parserMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_mapperMock;
 

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Config\Backend;
+
+class BaseurlTest extends \PHPUnit_Framework_TestCase
 {
     public function testSaveMergedJsCssMustBeCleaned()
     {

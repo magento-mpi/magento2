@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Adminhtml\Block\Page\System\Config\Robots\Reset
  */
-class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUnit_Framework_TestCase
+namespace Magento\Adminhtml\Block\Page\System\Config\Robots;
+
+class ResetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Adminhtml\Block\Page\System\Config\Robots\Reset
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_mockRobotsHelper = $this->getMock('Magento\Page\Helper\Robots',
             array('getRobotsDefaultCustomInstructions'), array(), '', false, false

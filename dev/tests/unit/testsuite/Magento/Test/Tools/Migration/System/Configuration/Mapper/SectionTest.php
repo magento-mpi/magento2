@@ -8,22 +8,22 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration\Mapper;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
-
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Group.php';
-
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Section.php';
 
 /**
  * Test case for \Magento\Tools\Migration\System\Configuration\Mapper\Section
  */
-class Magento_Test_Tools_Migration_System_Configuration_Mapper_SectionTest extends PHPUnit_Framework_TestCase
+class SectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_groupMapperMock;
 

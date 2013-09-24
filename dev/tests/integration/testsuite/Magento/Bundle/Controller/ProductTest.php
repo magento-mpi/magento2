@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Catalog\Controller\Product (bundle product type)
  */
-class Magento_Bundle_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Bundle\Controller;
+
+class ProductTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     /**
      * @magentoDataFixture Magento/Bundle/_files/product.php
@@ -22,7 +24,7 @@ class Magento_Bundle_Controller_ProductTest extends Magento_TestFramework_TestCa
         $this->dispatch('catalog/product/view/id/3');
         $this->assertContains(
             'catalog_product_view_type_bundle',
-            Mage::app()->getLayout()->getUpdate()->getHandles()
+            \Mage::app()->getLayout()->getUpdate()->getHandles()
         );
         $responseBody = $this->getResponse()->getBody();
         $this->assertContains('Bundle Product', $responseBody);

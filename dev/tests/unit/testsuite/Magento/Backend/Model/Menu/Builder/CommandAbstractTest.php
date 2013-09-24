@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Menu_Builder_CommandAbstractTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Model\Menu\Builder;
+
+class CommandAbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Model\Menu\Builder\CommandAbstract
@@ -25,7 +27,7 @@ class Magento_Backend_Model_Menu_Builder_CommandAbstractTest extends PHPUnit_Fra
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testConstructorRequiresObligatoryParams()
     {

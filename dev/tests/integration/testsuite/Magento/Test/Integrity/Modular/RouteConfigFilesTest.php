@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Test_Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test\Integrity\Modular;
+
+class RouteConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * attributes represent merging rules
@@ -72,7 +74,7 @@ class Magento_Test_Integrity_Modular_RouteConfigFilesTest extends PHPUnit_Framew
         try {
             $errors = array();
             $mergedConfig->validate($this->_mergedSchemaFile, $errors);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->fail('Merged routes config is invalid: ' . "\n" . implode("\n", $errors));
         }
 

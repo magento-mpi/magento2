@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_TestCase
+namespace Magento\DesignEditor\Model\Translate;
+
+class InlineVdeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DesignEditor\Model\Translate\InlineVde
@@ -28,13 +30,13 @@ class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framewo
 
     public static function setUpBeforeClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $this->_model = $objectManager->get('Magento\DesignEditor\Model\Translate\InlineVde');
         $this->_request = $objectManager->get('Magento\Core\Controller\Request\Http');
@@ -124,11 +126,11 @@ class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framewo
         // remove script preventing DomDocument load
         $actualText = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $actualText);
 
-        $actual = new DOMDocument;
+        $actual = new \DOMDocument;
         $actual->preserveWhiteSpace = FALSE;
         $actual->loadHTML($actualText);
 
-        $xpath = new DOMXPath($actual);
+        $xpath = new \DOMXPath($actual);
         // select all elements with data-translate attribute
         $translations = $xpath->query('//*[@data-translate]');
 

@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Minifier_Strategy_LiteTest extends PHPUnit_Framework_TestCase
+namespace Magento\Code\Minifier\Strategy;
+
+class LiteTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetMinifiedFile()
     {

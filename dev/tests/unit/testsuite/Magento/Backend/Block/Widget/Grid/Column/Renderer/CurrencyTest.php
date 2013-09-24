@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_CurrencyTest extends PHPUnit_Framework_TestCase
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class CurrencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
@@ -17,22 +19,22 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_CurrencyTest extends PHP
     protected $_blockCurrency;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_localeMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_curLocatorMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_columnMock;
 
@@ -54,7 +56,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_CurrencyTest extends PHP
         $this->_columnMock->expects($this->any())->method('getIndex')->will($this->returnValue('columnIndex'));
         $this->_row = new \Magento\Object(array('columnIndex' => '10'));
 
-        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_blockCurrency = $objectManagerHelper->getObject(
             'Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency',
             array(

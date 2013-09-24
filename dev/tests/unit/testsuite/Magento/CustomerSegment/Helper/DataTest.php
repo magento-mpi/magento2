@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
+namespace Magento\CustomerSegment\Helper;
+
+class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\CustomerSegment\Helper\Data
@@ -14,12 +16,12 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
     private $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_storeConfig;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $_segmentCollection;
 

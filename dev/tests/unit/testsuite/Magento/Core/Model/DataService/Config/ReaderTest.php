@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Config_ReaderTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\DataService\Config;
+
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Core\Model\DataService\Config\Reader */
     private $_configReader;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
     private $_modulesReaderMock;
 
     /**

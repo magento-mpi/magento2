@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Controller;
+
+class RestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Rest */
     protected $_restController;
@@ -27,7 +29,7 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     /** @var \Magento\ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var stdClass */
+    /** @var \stdClass */
     protected $_serviceMock;
 
     /** @var \Magento\Core\Model\App\State */
@@ -125,7 +127,7 @@ class Magento_Webapi_Controller_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test dispatch method with Exception throwing.
+     * Test dispatch method with \Exception throwing.
      */
     public function testDispatchAuthenticationException()
     {

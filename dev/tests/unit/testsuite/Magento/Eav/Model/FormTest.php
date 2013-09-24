@@ -12,7 +12,9 @@
 /**
  * Test for \Magento\Eav\Model\Form
  */
-class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Eav\Model;
+
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Eav\Model\Form

@@ -5,15 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Shell_Command_StatusTest extends PHPUnit_Framework_TestCase
+namespace Magento\Log\Model\Shell\Command;
+
+class StatusTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shellMock;
 

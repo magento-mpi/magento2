@@ -14,7 +14,9 @@
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/_files/attribute_with_option.php
  */
-class Magento_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Layer\Filter\Attribute
@@ -29,7 +31,7 @@ class Magento_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework
     protected function setUp()
     {
         /** @var $attribute \Magento\Catalog\Model\Entity\Attribute */
-        $attribute = Mage::getModel('Magento\Catalog\Model\Entity\Attribute');
+        $attribute = \Mage::getModel('Magento\Catalog\Model\Entity\Attribute');
         $attribute->loadByCode('catalog_product', 'attribute_with_option');
         foreach ($attribute->getSource()->getAllOptions() as $optionInfo) {
             if ($optionInfo['label'] == 'Option Label') {
@@ -38,9 +40,9 @@ class Magento_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework
             }
         }
 
-        $this->_model = Mage::getModel('Magento\Catalog\Model\Layer\Filter\Attribute');
+        $this->_model = \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Attribute');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('Magento\Catalog\Model\Layer'),
+            'layer' => \Mage::getModel('Magento\Catalog\Model\Layer'),
             'attribute_model' => $attribute,
         ));
     }
@@ -56,7 +58,7 @@ class Magento_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento_TestFramework_Request');
         $request->setParam('attribute', array());
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
+        $this->_model->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
         $this->assertEmpty($this->_model->getLayer()->getState()->getFilters());
     }
@@ -68,7 +70,7 @@ class Magento_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento_TestFramework_Request');
         $request->setParam('attribute', $this->_attributeOptionId);
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
+        $this->_model->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
         $this->assertNotEmpty($this->_model->getLayer()->getState()->getFilters());
     }

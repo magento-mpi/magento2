@@ -9,12 +9,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Job;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webhook\Model\Job\Factory */
     private $_jobFactory;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_mockObjectManager;
 
     protected function setUp()

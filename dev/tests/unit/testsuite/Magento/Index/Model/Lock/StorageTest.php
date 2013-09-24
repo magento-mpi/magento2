@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
+namespace Magento\Index\Model\Lock;
+
+class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Keep current process id for tests
@@ -18,7 +20,7 @@ class Magento_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
     protected $_callbackProcessId;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirsMock;
 

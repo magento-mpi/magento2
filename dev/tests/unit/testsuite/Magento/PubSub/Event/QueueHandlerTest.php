@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
+namespace Magento\PubSub\Event;
+
+class QueueHandlerTest extends \PHPUnit_Framework_TestCase
 {
     const TOPIC = 'some_topic';
     const ANOTHER_TOPIC = 'some_other_topic';
@@ -15,31 +17,31 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
     /** @var  \Magento\PubSub\Event\QueueHandler */
     private $_queueHandler;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionMockA;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionMockB;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_eventQueueMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_jobQueueMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_jobFactoryMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_subxCollectionMock;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_eventMockA;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_eventMockB;
 
-    /** @var  PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     private $_jobMock;
 
     /** @var  array Topics mapped to arrays of subscriptions */
@@ -153,7 +155,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
      *
      * @param $subscription
      * @param $event
-     * @return PHPUnit_Framework_MockObject_MockObject  Is a mock of \Magento\Webhook\Model\Job
+     * @return \PHPUnit_Framework_MockObject_MockObject  Is a mock of \Magento\Webhook\Model\Job
      */
     public function logJob($subscription, $event)
     {

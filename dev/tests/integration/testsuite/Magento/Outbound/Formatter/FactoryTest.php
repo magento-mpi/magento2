@@ -7,14 +7,16 @@
  * @copyright          {copyright}
  * @license            {license_link}
  */
-class Magento_Outbound_Formatter_FactoryTest extends PHPUnit_Framework_TestCase
+namespace Magento\Outbound\Formatter;
+
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Outbound\Formatter\Factory */
     protected $_formatterFactory;
 
     protected function setUp()
     {
-        $this->_formatterFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_formatterFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Outbound\Formatter\Factory');
     }
 

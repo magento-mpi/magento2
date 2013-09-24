@@ -12,7 +12,9 @@
 /**
  * Convenient access to the bootstrap settings
  */
-class Magento_TestFramework_Bootstrap_Settings
+namespace Magento\TestFramework\Bootstrap;
+
+class Settings
 {
     /**
      * Base directory to be used to resolve relative paths
@@ -33,12 +35,12 @@ class Magento_TestFramework_Bootstrap_Settings
      *
      * @param string $baseDir
      * @param array $settings
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct($baseDir, array $settings)
     {
         if (!is_dir($baseDir)) {
-            throw new InvalidArgumentException("Base path '$baseDir' has to be an existing directory.");
+            throw new \InvalidArgumentException("Base path '$baseDir' has to be an existing directory.");
         }
         $this->_baseDir = realpath($baseDir);
         $this->_settings = $settings;

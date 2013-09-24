@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\ObjectManager_Test
  */
-class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
+namespace Magento\Test;
+
+class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Expected instance manager parametrized cache after clear
@@ -26,8 +28,8 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
 
     public function testClearCache()
     {
-        $resource = new stdClass;
-        $instanceConfig = new Magento_TestFramework_ObjectManager_Config();
+        $resource = new \stdClass;
+        $instanceConfig = new \Magento\TestFramework\ObjectManager\Config();
         $primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
         $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $verification = $this->getMock('Magento\Core\Model\Dir\Verification', array(), array(), '', false);
@@ -40,7 +42,7 @@ class Magento_Test_ObjectManagerTest extends PHPUnit_Framework_TestCase
             'Magento\Core\Model\ObjectManager\ConfigLoader\Primary', array(), array(), '', false
         );
 
-        $model = new Magento_TestFramework_ObjectManager(
+        $model = new \Magento\TestFramework\ObjectManager(
             $primaryConfig, $instanceConfig,
             array(
                 'Magento\Core\Model\Dir\Verification' => $verification,

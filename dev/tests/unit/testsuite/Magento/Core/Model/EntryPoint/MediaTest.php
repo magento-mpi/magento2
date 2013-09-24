@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model\EntryPoint;
+
+class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\EntryPoint\Media
@@ -13,27 +15,27 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appState;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirVerificationMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_config;
 
@@ -43,12 +45,12 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
     protected $_closure;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sync;
 
@@ -63,7 +65,7 @@ class Magento_Core_Model_EntryPoint_MediaTest extends PHPUnit_Framework_TestCase
     protected $_relativeFileName = 'relativeFileName';
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 

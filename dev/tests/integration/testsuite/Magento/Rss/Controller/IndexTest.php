@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rss_Controller_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
+namespace Magento\Rss\Controller;
+
+class IndexTest extends \Magento\TestFramework\TestCase\ControllerAbstract
 {
     public function testIndexActionDisabled()
     {
@@ -41,12 +43,12 @@ class Magento_Rss_Controller_IndexTest extends Magento_TestFramework_TestCase_Co
      */
     public function testWishlistAction()
     {
-        $wishlist = Mage::getModel('Magento\Wishlist\Model\Wishlist');
+        $wishlist = \Mage::getModel('Magento\Wishlist\Model\Wishlist');
         $wishlist->load('fixture_unique_code', 'sharing_code');
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId())
             ->setParam('data', base64_encode('1'))
         ;
-        Mage::getSingleton('Magento\Customer\Model\Session')->login('customer@example.com', 'password');
+        \Mage::getSingleton('Magento\Customer\Model\Session')->login('customer@example.com', 'password');
         $this->dispatch('rss/index/wishlist');
         $this->assertContains('<![CDATA[Simple Product]]>', $this->getResponse()->getBody());
     }

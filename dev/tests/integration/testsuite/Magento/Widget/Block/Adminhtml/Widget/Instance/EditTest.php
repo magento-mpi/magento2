@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Framework_TestCase
+class EditTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -27,17 +29,18 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
             ->getDesignTheme();
 
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
-        $widgetInstance = Mage::getModel('Magento\Widget\Model\Widget\Instance');
+        $widgetInstance = \Mage::getModel('Magento\Widget\Model\Widget\Instance');
         $widgetInstance
             ->setType($type)
             ->setThemeId($theme->getId())
             ->save();
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
 
-        Mage::app()->getRequest()->setParam('instance_id', $widgetInstance->getId());
-        $block = Mage::app()->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');
+        \Mage::app()->getRequest()->setParam('instance_id', $widgetInstance->getId());
+        $block = \Mage::app()->getLayout()
+            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');
         $this->assertArrayHasKey('widget-delete_button', $block->getLayout()->getAllBlocks());
     }
 }

@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
+namespace Magento\Catalog\Block\Layer;
+
+class ViewTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetClearUrl()
     {

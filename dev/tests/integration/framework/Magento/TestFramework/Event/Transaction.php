@@ -12,15 +12,17 @@
 /**
  * Database transaction events manager
  */
-class Magento_TestFramework_Event_Transaction
+namespace Magento\TestFramework\Event;
+
+class Transaction
 {
     /**
-     * @var Magento_TestFramework_EventManager
+     * @var \Magento\TestFramework\EventManager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_TestFramework_Event_Param_Transaction
+     * @var \Magento\TestFramework\Event\Param\Transaction
      */
     protected $_eventParam;
 
@@ -32,9 +34,9 @@ class Magento_TestFramework_Event_Transaction
     /**
      * Constructor
      *
-     * @param Magento_TestFramework_EventManager $eventManager
+     * @param \Magento\TestFramework\EventManager $eventManager
      */
-    public function __construct(Magento_TestFramework_EventManager $eventManager)
+    public function __construct(\Magento\TestFramework\EventManager $eventManager)
     {
         $this->_eventManager = $eventManager;
     }
@@ -42,9 +44,9 @@ class Magento_TestFramework_Event_Transaction
     /**
      * Handler for 'startTest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTest(PHPUnit_Framework_TestCase $test)
+    public function startTest(\PHPUnit_Framework_TestCase $test)
     {
         $this->_processTransactionRequests('startTest', $test);
     }
@@ -52,9 +54,9 @@ class Magento_TestFramework_Event_Transaction
     /**
      * Handler for 'endTest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    public function endTest(PHPUnit_Framework_TestCase $test)
+    public function endTest(\PHPUnit_Framework_TestCase $test)
     {
         $this->_processTransactionRequests('endTest', $test);
     }
@@ -71,9 +73,9 @@ class Magento_TestFramework_Event_Transaction
      * Query whether there are any requests for transaction operations and performs them
      *
      * @param string $eventName
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    protected function _processTransactionRequests($eventName, PHPUnit_Framework_TestCase $test)
+    protected function _processTransactionRequests($eventName, \PHPUnit_Framework_TestCase $test)
     {
         $param = $this->_getEventParam();
         $this->_eventManager->fireEvent($eventName . 'TransactionRequest', array($test, $param));
@@ -88,9 +90,9 @@ class Magento_TestFramework_Event_Transaction
     /**
      * Start transaction and fire 'startTransaction' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    protected function _startTransaction(PHPUnit_Framework_TestCase $test)
+    protected function _startTransaction(\PHPUnit_Framework_TestCase $test)
     {
         if (!$this->_isTransactionActive) {
             $this->_getAdapter()->beginTransparentTransaction();
@@ -115,26 +117,26 @@ class Magento_TestFramework_Event_Transaction
      * Retrieve database adapter instance
      *
      * @param string $connectionName 'read' or 'write'
-     * @return \Magento\DB\Adapter\AdapterInterface|Magento_TestFramework_Db_Adapter_TransactionInterface
+     * @return \Magento\DB\Adapter\AdapterInterface|\Magento\TestFramework\Db\Adapter\TransactionInterface
      * @throws \Magento\Exception
      */
     protected function _getAdapter($connectionName = 'write')
     {
         /** @var $resource \Magento\Core\Model\Resource */
-        $resource = Mage::getSingleton('Magento\Core\Model\Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         return $resource->getConnection($connectionName);
     }
 
     /**
      * Retrieve clean instance of transaction event parameter
      *
-     * @return Magento_TestFramework_Event_Param_Transaction
+     * @return \Magento\TestFramework\Event\Param\Transaction
      */
     protected function _getEventParam()
     {
         /* reset object state instead of instantiating new object over and over again */
         if (!$this->_eventParam) {
-            $this->_eventParam = new Magento_TestFramework_Event_Param_Transaction();
+            $this->_eventParam = new \Magento\TestFramework\Event\Param\Transaction();
         } else {
             $this->_eventParam->__construct();
         }

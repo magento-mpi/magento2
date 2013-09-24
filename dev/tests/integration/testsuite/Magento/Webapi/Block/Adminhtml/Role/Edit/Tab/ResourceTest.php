@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Framework_TestCase
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
@@ -24,12 +26,12 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
     protected $_layout;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceProvider;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ruleResource;
 
@@ -54,7 +56,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_
             ->setMethods(array('getResourceIdsByRole'))
             ->getMock();
 
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource',

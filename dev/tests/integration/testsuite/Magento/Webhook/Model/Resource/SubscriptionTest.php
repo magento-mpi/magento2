@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Model\Resource\Subscription
- *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @category    Magento
@@ -11,14 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Model\Resource;
+
+/**
+ * \Magento\Webhook\Model\Resource\Subscription
+ *
+ * @magentoDbIsolation enabled
+ */
+class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \Magento\Webhook\Model\Resource\Subscription */
     private $_resource;
 
     protected function setUp()
     {
-        $this->_resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Resource\Subscription');
     }
 
@@ -31,7 +34,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
         );
 
         /** @var \Magento\Webhook\Model\Subscription $subscription */
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Subscription');
         $subscription->setTopics($topics);
         $subscription->save();
@@ -51,7 +54,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             'customer/deleted',
         );
 
-        $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $subscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Subscription');
         $subscriptionId = $subscription
             ->setTopics($topics)
@@ -66,7 +69,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
         $subscription->setTopics($topics)
             ->save();
 
-        $loadedSubscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $loadedSubscription = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Webhook\Model\Subscription');
         $loadedSubscription->load($subscriptionId);
 

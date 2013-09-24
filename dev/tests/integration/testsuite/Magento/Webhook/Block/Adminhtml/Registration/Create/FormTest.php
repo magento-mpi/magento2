@@ -1,9 +1,5 @@
 <?php
 /**
- * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form
- *
- * @magentoAppArea adminhtml
- *
  * {license_notice}
  *
  * @category    Magento
@@ -12,15 +8,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webhook\Block\Adminhtml\Registration\Create;
+
+/**
+ * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form
+ *
+ * @magentoAppArea adminhtml
+ */
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareForm()
     {
         /** @var $layout \Magento\Core\Model\Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         /** @var \Magento\Core\Model\Registry $registry */
-        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
         $subscriptionData = array(
             'subscription_id' => '333',
         );

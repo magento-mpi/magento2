@@ -9,15 +9,18 @@
  * @license     {license_link}
  */
 
+
+namespace Magento\Backend\Controller\Router\Validator;
+
 /**
  * Test class Magento_Backend_Controller_Router_DefaultRouter
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Framework_TestCase
+class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture global/areas/adminhtml/frontName 0
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @magentoAppIsolation enabled
      */
     public function testConstructWithEmptyAreaFrontName()
@@ -30,7 +33,7 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
             'baseController' => 'Magento\Backend\Controller\ActionAbstract',
             'backendData' => $dataHelperMock,
         );
-        Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
+        \Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
     }
 
     /**
@@ -43,6 +46,6 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
             'areaCode'       => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
             'baseController' => 'Magento\Backend\Controller\ActionAbstract',
         );
-        Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
+        \Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
     }
 }

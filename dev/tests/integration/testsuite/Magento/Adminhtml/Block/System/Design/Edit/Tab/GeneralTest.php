@@ -9,18 +9,20 @@
  * @license     {license_link}
  */
 
+namespace Magento\Adminhtml\Block\System\Design\Edit\Tab;
+
 /**
  * Test class for \Magento\Adminhtml\Block\System\Design\Edit\Tab\General
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Block_System_Design_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
+class GeneralTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_GeneralTest extends PHPUnit
             ->register('design', $objectManager ->create('Magento\Core\Model\Design'));
         $layout = $objectManager ->create('Magento\Core\Model\Layout');
         $block = $layout->addBlock('Magento\Adminhtml\Block\System\Design\Edit\Tab\General');
-        $prepareFormMethod = new ReflectionMethod(
+        $prepareFormMethod = new \ReflectionMethod(
             'Magento\Adminhtml\Block\System\Design\Edit\Tab\General', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);

@@ -9,12 +9,14 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model;
+
 /**
  * Test class for \Magento\Catalog\Model\Layer.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
+class LayerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Layer
@@ -23,7 +25,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento\Catalog\Model\Layer');
+        $this->_model = \Mage::getModel('Magento\Catalog\Model\Layer');
         $this->_model->setCurrentCategory(4);
     }
 
@@ -56,22 +58,22 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->getState()
             ->addFilter(
-                Mage::getModel(
+                \Mage::getModel(
                     'Magento\Catalog\Model\Layer\Filter\Item',
                     array(
                         'data' => array(
-                            'filter' => Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category'),
+                            'filter' => \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Category'),
                             'value'  => 'expected-value-string',
                         )
                     )
                 )
             )
             ->addFilter(
-                Mage::getModel(
+                \Mage::getModel(
                     'Magento\Catalog\Model\Layer\Filter\Item',
                     array(
                         'data' => array(
-                            'filter' => Mage::getModel('Magento\Catalog\Model\Layer\Filter\Decimal'),
+                            'filter' => \Mage::getModel('Magento\Catalog\Model\Layer\Filter\Decimal'),
                             'value'  => 1234,
                         )
                     )
@@ -94,17 +96,17 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
     public function testGetSetCurrentCategory()
     {
-        $existingCategory = Mage::getModel('Magento\Catalog\Model\Category');
+        $existingCategory = \Mage::getModel('Magento\Catalog\Model\Category');
         $existingCategory->load(5);
 
         /* Category object */
         /** @var $model \Magento\Catalog\Model\Layer */
-        $model = Mage::getModel('Magento\Catalog\Model\Layer');
+        $model = \Mage::getModel('Magento\Catalog\Model\Layer');
         $model->setCurrentCategory($existingCategory);
         $this->assertSame($existingCategory, $model->getCurrentCategory());
 
         /* Category id */
-        $model = Mage::getModel('Magento\Catalog\Model\Layer');
+        $model = \Mage::getModel('Magento\Catalog\Model\Layer');
         $model->setCurrentCategory(3);
         $actualCategory = $model->getCurrentCategory();
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $actualCategory);
@@ -112,30 +114,30 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
         $this->assertSame($actualCategory, $model->getCurrentCategory());
 
         /* Category in registry */
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_category', $existingCategory);
         try {
-            $model = Mage::getModel('Magento\Catalog\Model\Layer');
+            $model = \Mage::getModel('Magento\Catalog\Model\Layer');
             $this->assertSame($existingCategory, $model->getCurrentCategory());
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             $this->assertSame($existingCategory, $model->getCurrentCategory());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $objectManager->get('Magento\Core\Model\Registry')->unregister('current_category');
             throw $e;
         }
 
 
         try {
-            $model = Mage::getModel('Magento\Catalog\Model\Layer');
+            $model = \Mage::getModel('Magento\Catalog\Model\Layer');
             $model->setCurrentCategory(new \Magento\Object());
             $this->fail('Assign category of invalid class.');
         } catch (\Magento\Core\Exception $e) {
         }
 
         try {
-            $model = Mage::getModel('Magento\Catalog\Model\Layer');
-            $model->setCurrentCategory(Mage::getModel('Magento\Catalog\Model\Category'));
+            $model = \Mage::getModel('Magento\Catalog\Model\Layer');
+            $model->setCurrentCategory(\Mage::getModel('Magento\Catalog\Model\Category'));
             $this->fail('Assign category with invalid id.');
         } catch (\Magento\Core\Exception $e) {
         }
@@ -143,7 +145,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
     public function testGetCurrentStore()
     {
-        $this->assertSame(Mage::app()->getStore(), $this->_model->getCurrentStore());
+        $this->assertSame(\Mage::app()->getStore(), $this->_model->getCurrentStore());
     }
 
     public function testGetFilterableAttributes()
@@ -168,7 +170,7 @@ class Magento_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Catalog\Model\Layer\State', $state);
         $this->assertSame($state, $this->_model->getState());
 
-        $state = Mage::getModel('Magento\Catalog\Model\Layer\State');
+        $state = \Mage::getModel('Magento\Catalog\Model\Layer\State');
         $this->_model->setState($state); // $this->_model->setData('state', state);
         $this->assertSame($state, $this->_model->getState());
     }

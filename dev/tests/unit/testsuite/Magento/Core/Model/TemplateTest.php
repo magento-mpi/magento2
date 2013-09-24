@@ -12,7 +12,9 @@
 /**
  * Test class for \Magento\Core\Model\Template.
  */
-class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Template mock
@@ -23,7 +25,7 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Core\Model\Template',
             $helper->getConstructArguments(

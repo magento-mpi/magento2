@@ -11,7 +11,9 @@
 /**
  * Magento application for performance tests
  */
-class Magento_TestFramework_Application
+namespace Magento\TestFramework;
+
+class Application
 {
     /**
      * Configuration object
@@ -54,11 +56,11 @@ class Magento_TestFramework_Application
     /**
      * Constructor
      *
-     * @param Magento_TestFramework_Performance_Config $config
+     * @param \Magento\TestFramework\Performance\Config $config
      * @param \Magento\Shell $shell
      * @throws \Magento\Exception
      */
-    public function __construct(Magento_TestFramework_Performance_Config $config, \Magento\Shell $shell)
+    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Shell $shell)
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
@@ -72,7 +74,7 @@ class Magento_TestFramework_Application
     /**
      * Reset application - i.e. cleanup already installed app, or install it otherwise
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _reset()
     {
@@ -90,7 +92,7 @@ class Magento_TestFramework_Application
     /**
      * Uninstall application
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _uninstall()
     {
@@ -106,18 +108,18 @@ class Magento_TestFramework_Application
     /**
      * Clean the application, so next time it will load itself again (i.e. after uninstall)
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _cleanupMage()
     {
-        Mage::reset();
+        \Mage::reset();
         return $this;
     }
 
     /**
      * Install application according to installation options
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      * @throws \Magento\Exception
      */
     protected function _install()
@@ -151,14 +153,14 @@ class Magento_TestFramework_Application
     /**
      * Run all indexer processes
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _reindex()
     {
         $this->_bootstrap();
 
         /** @var $indexer \Magento\Index\Model\Indexer */
-        $indexer = Mage::getModel('Magento\Index\Model\Indexer');
+        $indexer = \Mage::getModel('Magento\Index\Model\Indexer');
         /** @var $process \Magento\Index\Model\Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {
@@ -174,13 +176,13 @@ class Magento_TestFramework_Application
      */
     protected function _updateFilesystemPermissions()
     {
-        \Magento\Io\File::chmodRecursive(Mage::getBaseDir('var'), 0777);
+        \Magento\Io\File::chmodRecursive(\Mage::getBaseDir('var'), 0777);
     }
 
     /**
      * Bootstrap application, so it is possible to use its resources
      *
-     * @return Magento_TestFramework_Application
+     * @return \Magento\TestFramework\Application
      */
     protected function _bootstrap()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_TestCase
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit;
+
+class TabsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs
@@ -15,17 +17,17 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framewor
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_TestFramework_Helper_ObjectManager
+     * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
@@ -45,7 +47,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framewor
         $this->_request = $this->getMockForAbstractClass('Magento\Core\Controller\Request\Http',
             array($backendData), '', false, false, true, array('getParam'));
 
-        $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $this->_helper->getObject('Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs', array(
             'urlBuilder' => $urlBuilder,
             'layout' => $this->_layout,
@@ -91,7 +93,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framewor
         )));
 
         // TODO: do checks using toHtml() when DI is implemented for abstract blocks
-        $toHtmlMethod = new ReflectionMethod($this->_block, '_beforeToHtml');
+        $toHtmlMethod = new \ReflectionMethod($this->_block, '_beforeToHtml');
         $toHtmlMethod->setAccessible(true);
         $toHtmlMethod ->invoke($this->_block);
 

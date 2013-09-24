@@ -8,16 +8,17 @@
  * @license    {license_link}
  */
 
+namespace Magento\Test\Tools\Migration\System\Configuration\Mapper;
+
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
-
 require_once realpath(__DIR__ . '/../../../../../../../../../../')
     . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Field.php';
 
 /**
  * Test case for Tools_Migration_System_Configuration_Mapper_Field
  */
-class Magento_Test_Tools_Migration_System_Configuration_Mapper_FieldTest extends PHPUnit_Framework_TestCase
+class FieldTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Tools\Migration\System\Configuration\Mapper\Field

@@ -5,12 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DirTest extends PHPUnit_Framework_TestCase
+namespace Magento\Core\Model;
+
+class DirTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $code
      * @param string $value
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @dataProvider invalidUriDataProvider
      */
     public function testInvalidUri($code, $value)

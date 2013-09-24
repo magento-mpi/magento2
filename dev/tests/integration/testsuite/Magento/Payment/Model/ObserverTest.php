@@ -9,10 +9,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Payment\Model;
+
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Event\Observer
@@ -20,13 +22,13 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_eventObserver;
 
     /**
-     * @var Magento_TestFramework_ObjectManager
+     * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_eventObserver = $this->_createEventObserver();
     }
 

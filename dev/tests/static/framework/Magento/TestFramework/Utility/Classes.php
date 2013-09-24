@@ -10,9 +10,10 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . '/Files.php';
+namespace Magento\TestFramework\Utility;
 
-class Magento_TestFramework_Utility_Classes
+require_once __DIR__ . '/Files.php';
+class Classes
 {
     /**
      * virtual class declarations collected from the whole system
@@ -48,11 +49,11 @@ class Magento_TestFramework_Utility_Classes
      *
      * The node must contain specified attribute
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @param string $xPath
      * @return array
      */
-    public static function getXmlNodeValues(SimpleXMLElement $xml, $xPath)
+    public static function getXmlNodeValues(\SimpleXMLElement $xml, $xPath)
     {
         $result = array();
         $nodes = $xml->xpath($xPath) ?: array();
@@ -65,11 +66,11 @@ class Magento_TestFramework_Utility_Classes
     /**
      * Get XML node names using specified xPath
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @param string $xpath
      * @return array
      */
-    public static function getXmlNodeNames(SimpleXMLElement $xml, $xpath)
+    public static function getXmlNodeNames(\SimpleXMLElement $xml, $xpath)
     {
         $result = array();
         $nodes = $xml->xpath($xpath) ?: array();
@@ -82,12 +83,12 @@ class Magento_TestFramework_Utility_Classes
     /**
      * Get XML node attribute values using specified xPath
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @param string $xPath
      * @param string $attributeName
      * @return array
      */
-    public static function getXmlAttributeValues(SimpleXMLElement $xml, $xPath, $attributeName)
+    public static function getXmlAttributeValues(\SimpleXMLElement $xml, $xPath, $attributeName)
     {
         $result = array();
         $nodes = $xml->xpath($xPath) ?: array();
@@ -115,10 +116,10 @@ class Magento_TestFramework_Utility_Classes
     /**
      * Find classes in a configuration XML-file (assumes any files under Namespace/Module/etc/*.xml)
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @return array
      */
-    public static function collectClassesInConfig(SimpleXMLElement $xml)
+    public static function collectClassesInConfig(\SimpleXMLElement $xml)
     {
         // @todo this method must be refactored after implementation of MAGETWO-7689 (valid configuration)
         $classes = self::getXmlNodeValues($xml, '
@@ -131,7 +132,7 @@ class Magento_TestFramework_Utility_Classes
             '/logging/*/expected_models/* | /logging/*/actions/*/expected_models/* | /config/*/di/preferences/*'
         ));
 
-        $classes = array_map(array('Magento_TestFramework_Utility_Classes', 'getCallbackClass'), $classes);
+        $classes = array_map(array('Magento\TestFramework\Utility\Classes', 'getCallbackClass'), $classes);
         $classes = array_map('trim', $classes);
         $classes = array_unique($classes);
         $classes = array_filter($classes, function ($value) {
@@ -144,10 +145,10 @@ class Magento_TestFramework_Utility_Classes
     /**
      * Find classes in a layout configuration XML-file
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @return array
      */
-    public static function collectLayoutClasses(SimpleXMLElement $xml)
+    public static function collectLayoutClasses(\SimpleXMLElement $xml)
     {
         $classes = self::getXmlAttributeValues($xml, '/layout//block[@type]', 'type');
         $classes = array_merge($classes, self::getXmlNodeValues($xml,
@@ -173,10 +174,10 @@ class Magento_TestFramework_Utility_Classes
      */
     public static function collectModuleClasses($subTypePattern = '[A-Za-z]+')
     {
-        $pattern = '/^' . preg_quote(Magento_TestFramework_Utility_Files::init()->getPathToSource(), '/')
+        $pattern = '/^' . preg_quote(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), '/')
             . '\/app\/code\/([A-Za-z]+)\/([A-Za-z]+)\/(' . $subTypePattern . '\/.+)\.php$/';
         $result = array();
-        foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, false, false) as $file) {
+        foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, false, false, false) as $file) {
             if (preg_match($pattern, $file, $matches)) {
                 $module = "{$matches[1]}_{$matches[2]}";
                 $class = "{$module}" . \Magento\Autoload\IncludePath::NS_SEPARATOR .
@@ -198,11 +199,11 @@ class Magento_TestFramework_Utility_Classes
         if (!empty(self::$_virtualClasses)) {
             return self::$_virtualClasses;
         }
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getDiConfigs();
+        $configFiles = \Magento\TestFramework\Utility\Files::init()->getDiConfigs();
         foreach ($configFiles as $fileName) {
-            $configDom = new DOMDocument();
+            $configDom = new \DOMDocument();
             $configDom->load($fileName);
-            $xPath = new DOMXPath($configDom);
+            $xPath = new \DOMXPath($configDom);
             $vTypes = $xPath->query('/config/virtualType');
             for ($i = 0; $i < $vTypes->length; $i++) {
                 $name = $vTypes->item($i)->attributes->getNamedItem('name')->textContent;
