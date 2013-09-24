@@ -47,17 +47,57 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     protected $_eventManager = null;
 
     /**
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Magento_Customer_Model_GroupFactory
+     */
+    protected $_customerGroupFactory;
+
+    /**
+     * @var Magento_CatalogRule_Model_Resource_RuleFactory
+     */
+    protected $_catalogRuleFactory;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Class constructor
      *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_CatalogRule_Model_Resource_RuleFactory $catalogRuleFactory
+     * @param Magento_Customer_Model_GroupFactory $customerGroupFactory
+     * @param Magento_Catalog_Model_Config $config
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_CatalogRule_Model_Resource_RuleFactory $catalogRuleFactory,
+        Magento_Customer_Model_GroupFactory $customerGroupFactory,
+        Magento_Catalog_Model_Config $config,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Resource $resource
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($resource);
+        $this->_config = $config;
+        $this->_customerGroupFactory = $customerGroupFactory;
+        $this->_catalogRuleFactory = $catalogRuleFactory;
+        $this->_locale = $locale;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -78,7 +118,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     protected function _getAttribute($attributeCode)
     {
         if (!isset($this->_attributes[$attributeCode])) {
-            $this->_attributes[$attributeCode] = Mage::getSingleton('Magento_Catalog_Model_Config')
+            $this->_attributes[$attributeCode] = $this->_config
                 ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
         }
         return $this->_attributes[$attributeCode];
@@ -92,7 +132,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     protected function _getWebsites()
     {
         if (is_null($this->_websites)) {
-            $this->_websites = Mage::app()->getWebsites(false);
+            $this->_websites = $this->_storeManager->getWebsites(false);
         }
         return $this->_websites;
     }
@@ -106,7 +146,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     {
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
-            foreach (Mage::getModel('Magento_Customer_Model_Group')->getCollection() as $group) {
+            foreach ($this->_customerGroupFactory->getCollection() as $group) {
                 $this->_customerGroups[$group->getId()] = $group;
             }
         }
@@ -489,10 +529,10 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
     protected function _getBasePrice($productId, array $priceData, $website, $customerGroup)
     {
         $store          = $website->getDefaultStore();
-        $storeTimeStamp = Mage::app()->getLocale()->storeTimeStamp($store);
+        $storeTimeStamp = $this->_locale->storeTimeStamp($store);
         $finalPrice     = $this->_calculateSpecialPrice($priceData['price'], $priceData, $website);
 
-        $rulePrice = Mage::getResourceModel('Magento_CatalogRule_Model_Resource_Rule')
+        $rulePrice = $this->_catalogRuleFactory
             ->getRulePrice($storeTimeStamp, $website->getId(), $customerGroup->getId(), $productId);
 
         if ($rulePrice !== null && $rulePrice !== false) {
@@ -786,7 +826,7 @@ class Magento_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resou
         $specialPrice       = $priceData['special_price'];
 
         if (!is_null($specialPrice) && $specialPrice != false) {
-            if (Mage::app()->getLocale()->isStoreDateInInterval($store, $priceData['special_from_date'],
+            if ($this->_locale->isStoreDateInInterval($store, $priceData['special_from_date'],
             $priceData['special_to_date'])) {
                 $specialPrice   = ($finalPrice * $specialPrice) / 100;
                 $finalPrice     = min($finalPrice, $specialPrice);

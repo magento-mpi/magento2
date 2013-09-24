@@ -219,6 +219,7 @@ return array(
     array('bundlesAction', 'Magento_Adminhtml_Controller_Catalog_Product'),
     array('calcTaxAmount', 'Magento_Sales_Model_Quote_Item_Abstract'),
     array('callbackQueryHook', 'Magento_Core_Model_Resource_Setup'),
+    array('calculateSpecialPrice', 'Magento_Bundle_Model_Product_Price'),
     array('canCreateUser', 'Magento_User_Model_Resource_User'),
     array('canPrint', 'Magento_Checkout_Block_Onepage_Success'),
     array(

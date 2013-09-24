@@ -36,6 +36,18 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
     protected $_catalogProduct = null;
 
     /**
+     * @var Magento_Bundle_Model_Product_PriceFactory
+     */
+    protected $_productPrice;
+
+    /**
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Bundle_Model_Product_PriceFactory $productPrice
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Tax_Helper_Data $taxData
@@ -45,6 +57,8 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Bundle_Model_Product_PriceFactory $productPrice,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Tax_Helper_Data $taxData,
@@ -54,6 +68,8 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
+        $this->_productPrice = $productPrice;
+        $this->_locale = $locale;
         parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
     }
 
@@ -95,7 +111,6 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
      */
     public function getJsonConfig()
     {
-        Mage::app()->getLocale()->getJsPriceFormat();
         $optionsArray = $this->getOptions();
         $options      = array();
         $selected     = array();
@@ -107,7 +122,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
         /* @var $taxHelper Magento_Tax_Helper_Data */
         $taxHelper = $this->_taxData;
         /* @var $bundlePriceModel Magento_Bundle_Model_Product_Price */
-        $bundlePriceModel = Mage::getModel('Magento_Bundle_Model_Product_Price');
+        $bundlePriceModel = $this->_productPrice;
 
         if ($preConfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
             $preConfiguredValues = $currentProduct->getPreconfiguredValues();
@@ -202,7 +217,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
             'options'       => $options,
             'selected'      => $selected,
             'bundleId'      => $currentProduct->getId(),
-            'priceFormat'   => Mage::app()->getLocale()->getJsPriceFormat(),
+            'priceFormat'   => $this->_locale->getJsPriceFormat(),
             'basePrice'     => $coreHelper->currency($currentProduct->getPrice(), false, false),
             'priceType'     => $currentProduct->getPriceType(),
             'specialPrice'  => $currentProduct->getSpecialPrice(),

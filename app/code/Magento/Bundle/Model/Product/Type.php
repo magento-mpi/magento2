@@ -88,6 +88,48 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     protected $_catalogProduct = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Bundle_Model_OptionFactory
+     */
+    protected $_bundleOption;
+
+    /**
+     * @var Magento_Bundle_Model_Resource_Selection
+     */
+    protected $_bundleSelection;
+
+    /**
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Magento_Bundle_Model_Resource_Selection_CollectionFactory
+     */
+    protected $_bundleSelectionCollection;
+
+    /**
+     * @var Magento_Bundle_Model_Resource_BundleFactory
+     */
+    protected $_bundleFactory;
+
+    /**
+     * @var Magento_Bundle_Model_SelectionFactory $bundleModelSelection
+     */
+    protected $_bundleModelSelection;
+
+    /**
+     * @param Magento_Bundle_Model_SelectionFactory $bundleModelSelection
+     * @param Magento_Bundle_Model_Resource_BundleFactory $bundleFactory
+     * @param Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleSelectionCollection
+     * @param Magento_Catalog_Model_Config $config
+     * @param Magento_Bundle_Model_Resource_Selection $bundleSelection
+     * @param Magento_Bundle_Model_OptionFactory $bundleOption
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -99,6 +141,13 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * @param array $data
      */
     public function __construct(
+        Magento_Bundle_Model_SelectionFactory $bundleModelSelection,
+        Magento_Bundle_Model_Resource_BundleFactory $bundleFactory,
+        Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleSelectionCollection,
+        Magento_Catalog_Model_Config $config,
+        Magento_Bundle_Model_Resource_Selection $bundleSelection,
+        Magento_Bundle_Model_OptionFactory $bundleOption,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Catalog_Helper_Data $catalogData,
@@ -111,6 +160,13 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_catalogData = $catalogData;
+        $this->_storeManager = $storeManager;
+        $this->_bundleOption = $bundleOption;
+        $this->_bundleSelection = $bundleSelection;
+        $this->_config = $config;
+        $this->_bundleSelectionCollection = $bundleSelectionCollection;
+        $this->_bundleFactory = $bundleFactory;
+        $this->_bundleModelSelection = $bundleModelSelection;
         parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
@@ -140,8 +196,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('Magento_Bundle_Model_Resource_Selection')
-            ->getChildrenIds($parentId, $required);
+        return $this->_bundleSelection->getChildrenIds($parentId, $required);
     }
 
     /**
@@ -152,8 +207,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('Magento_Bundle_Model_Resource_Selection')
-            ->getParentIdsByChild($childId);
+        return $this->_bundleSelection->getParentIdsByChild($childId);
     }
 
     /**
@@ -297,7 +351,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     {
         parent::save($product);
         /* @var $resource Magento_Bundle_Model_Resource_Bundle */
-        $resource = Mage::getResourceModel('Magento_Bundle_Model_Resource_Bundle');
+        $resource = $this->_bundleFactory;
 
         $options = $product->getBundleOptionsData();
         if ($options) {
@@ -308,7 +362,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                     unset($option['option_id']);
                 }
 
-                $optionModel = Mage::getModel('Magento_Bundle_Model_Option')
+                $optionModel = $this->_bundleOption
                     ->setData($option)
                     ->setParentId($product->getId())
                     ->setStoreId($product->getStoreId());
@@ -334,10 +388,10 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                             $selection['is_default'] = 0;
                         }
 
-                        $selectionModel = Mage::getModel('Magento_Bundle_Model_Selection')
+                        $selectionModel = $this->_bundleModelSelection
                             ->setData($selection)
                             ->setOptionId($options[$index]['option_id'])
-                            ->setWebsiteId(Mage::app()->getStore($product->getStoreId())->getWebsiteId())
+                            ->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId())
                             ->setParentProductId($product->getId());
 
                         $selectionModel->isDeleted((bool)$selection['delete']);
@@ -395,7 +449,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     public function getOptionsCollection($product)
     {
         if (!$product->hasData($this->_keyOptionsCollection)) {
-            $optionsCollection = Mage::getModel('Magento_Bundle_Model_Option')->getResourceCollection()
+            $optionsCollection = $this->_bundleOption->getResourceCollection()
                 ->setProductIdFilter($product->getId())
                 ->setPositionOrder();
 
@@ -423,8 +477,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $key = $this->_keySelectionsCollection . $keyOptionIds;
         if (!$product->hasData($key)) {
             $storeId = $product->getStoreId();
-            $selectionsCollection = Mage::getResourceModel('Magento_Bundle_Model_Resource_Selection_Collection')
-                ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+            $selectionsCollection = $this->_bundleSelectionCollection
+                ->addAttributeToSelect($this->_config->getProductAttributes())
                 ->addAttributeToSelect('tax_class_id') //used for calculation item taxes in Bundle with Dynamic Price
                 ->setFlag('require_stock_items', true)
                 ->setFlag('product_children', true)
@@ -435,7 +489,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                 ->setOptionIdsFilter($optionIds);
 
             if (!$this->_catalogData->isPriceGlobal() && $storeId) {
-                $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+                $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
                 $selectionsCollection->joinPrices($websiteId);
             }
 
@@ -684,7 +738,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                  */
                 $price = $product->getPriceModel()->getSelectionFinalTotalPrice($product, $selection, 0, $qty);
                 $attributes = array(
-                    'price'         => Mage::app()->getStore()->convertPrice($price),
+                    'price'         => $this->_storeManager->getStore()->convertPrice($price),
                     'qty'           => $qty,
                     'option_label'  => $selection->getOption()->getTitle(),
                     'option_id'     => $selection->getOption()->getId()
@@ -752,7 +806,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
 
         if (!$usedSelections || serialize($usedSelectionsIds) != serialize($selectionIds)) {
             $storeId = $product->getStoreId();
-            $usedSelections = Mage::getResourceModel('Magento_Bundle_Model_Resource_Selection_Collection')
+            $usedSelections = $this->_bundleSelectionCollection
                 ->addAttributeToSelect('*')
                 ->setFlag('require_stock_items', true)
                 ->addStoreFilter($this->getStoreFilter($product))
@@ -762,7 +816,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                 ->setSelectionIdsFilter($selectionIds);
 
                 if (!$this->_catalogData->isPriceGlobal() && $storeId) {
-                    $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+                    $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
                     $usedSelections->joinPrices($websiteId);
                 }
             $product->setData($this->_keyUsedSelections, $usedSelections);
@@ -786,10 +840,10 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $usedOptionsIds  = $product->getData($this->_keyUsedOptionsIds);
 
         if (!$usedOptions || serialize($usedOptionsIds) != serialize($optionIds)) {
-            $usedOptions = Mage::getModel('Magento_Bundle_Model_Option')->getResourceCollection()
+            $usedOptions = $this->_bundleOption->getResourceCollection()
                 ->setProductIdFilter($product->getId())
                 ->setPositionOrder()
-                ->joinValues(Mage::app()->getStore()->getId())
+                ->joinValues($this->_storeManager->getStore()->getId())
                 ->setIdFilter($optionIds);
             $product->setData($this->_keyUsedOptions, $usedOptions);
             $product->setData($this->_keyUsedOptionsIds, $optionIds);
@@ -836,7 +890,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
                         $bundleOptions[$option->getId()]['value'][] = array(
                             'title' => $selection->getName(),
                             'qty'   => $selectionQty->getValue(),
-                            'price' => Mage::app()->getStore()->convertPrice($price)
+                            'price' => $this->_storeManager->getStore()->convertPrice($price)
                         );
 
                     }
@@ -930,7 +984,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     {
         $searchData = parent::getSearchableData($product);
 
-        $optionSearchData = Mage::getSingleton('Magento_Bundle_Model_Option')
+        $optionSearchData = $this->_bundleOption
             ->getSearchableData($product->getId(), $product->getStoreId());
         if ($optionSearchData) {
             $searchData = array_merge($searchData, $optionSearchData);
@@ -958,7 +1012,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $bundleOption       = $buyRequest->getBundleOption();
 
         if (empty($bundleOption)) {
-            Mage::throwException($this->getSpecifyOptionMessage());
+            throw new Magento_Core_Exception($this->getSpecifyOptionMessage());
         }
 
         $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
@@ -966,9 +1020,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
             /* @var $selection Magento_Bundle_Model_Selection */
             $selection = $productSelections->getItemById($selectionId);
             if (!$selection || (!$selection->isSalable() && !$skipSaleableCheck)) {
-                Mage::throwException(
-                    __('The required options you selected are not available.')
-                );
+                throw new Magento_Core_Exception(__('The required options you selected are not available.'));
             }
         }
 
@@ -976,9 +1028,7 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $optionsCollection = $this->getOptionsCollection($product);
         foreach ($optionsCollection->getItems() as $option) {
             if ($option->getRequired() && empty($bundleOption[$option->getId()])) {
-                Mage::throwException(
-                    __('Please select all required options.')
-                );
+                throw new Magento_Core_Exception(__('Please select all required options.'));
             }
         }
 
