@@ -54,7 +54,7 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
         $this->_tokenFactory = $tokenFactory;
-        $this->_store = $storeManager->getStore();
+        $this->_storeManager = $storeManager;
         $this->_helperData = $helperData;
         $this->_httpClient = $httpClient;
     }
@@ -92,12 +92,13 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     {
         try {
             $consumerData = $this->_getConsumer($request['consumer_id'])->getData();
-            $storeUrl = $this->_store->getBaseUrl();
+            $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
+
             $this->_httpClient->setUri($consumerData['http_post_url']);
             $this->_httpClient->setParameterPost(array(
                 'oauth_consumer_key' => $consumerData['key'],
                 'oauth_consumer_secret' => $consumerData['secret'],
-                'store_url' => $storeUrl
+                'store_base_url' => $storeBaseUrl
             ));
             // TODO: Uncomment this when there is a live http_post_url that we can actually post to.
             //$this->_httpClient->request(Magento_HTTP_ZendClient::POST);
