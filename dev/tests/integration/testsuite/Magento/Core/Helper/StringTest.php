@@ -50,12 +50,12 @@ class StringTest extends \PHPUnit_Framework_TestCase
 
     public function testStrSplit()
     {
-        $this->assertEquals(array(), $this->_helper->str_split(''));
-        $this->assertEquals(array('1', '2', '3', '4'), $this->_helper->str_split('1234', 1));
-        $this->assertEquals(array('1', '2', ' ', '3', '4'), $this->_helper->str_split('12 34', 1, false, true));
+        $this->assertEquals(array(), $this->_helper->strSplit(''));
+        $this->assertEquals(array('1', '2', '3', '4'), $this->_helper->strSplit('1234', 1));
+        $this->assertEquals(array('1', '2', ' ', '3', '4'), $this->_helper->strSplit('12 34', 1, false, true));
         $this->assertEquals(array(
             '12345', '123', '12345', '6789'
-        ), $this->_helper->str_split('12345  123    123456789', 5, true, true));
+        ), $this->_helper->strSplit('12345  123    123456789', 5, true, true));
     }
 
     /**

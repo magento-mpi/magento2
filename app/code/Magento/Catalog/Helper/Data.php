@@ -233,7 +233,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function splitSku($sku, $length = 30)
     {
-        return $this->_coreString->str_split($sku, $length, true, false, '[\-\s]');
+        return $this->_coreString->strSplit($sku, $length, true, false, '[\-\s]');
     }
 
     /**

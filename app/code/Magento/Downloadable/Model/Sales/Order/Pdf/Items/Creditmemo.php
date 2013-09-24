@@ -62,13 +62,13 @@ class Creditmemo
 
         // draw Product name
         $lines[0] = array(array(
-            'text' => $this->_stringHelper->str_split($item->getName(), 35, true, true),
+            'text' => $this->_stringHelper->strSplit($item->getName(), 35, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => $this->_stringHelper->str_split($this->getSku($item), 17),
+            'text'  => $this->_stringHelper->strSplit($this->getSku($item), 17),
             'feed'  => 255,
             'align' => 'right'
         );
@@ -121,7 +121,7 @@ class Creditmemo
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $this->_stringHelper->str_split(strip_tags($option['label']), 40, true, true),
+                    'text' => $this->_stringHelper->strSplit(strip_tags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -129,7 +129,7 @@ class Creditmemo
                 // draw options value
                 $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                 $lines[][] = array(
-                    'text' => $this->_stringHelper->str_split($_printValue, 30, true, true),
+                    'text' => $this->_stringHelper->strSplit($_printValue, 30, true, true),
                     'feed' => 40
                 );
             }
@@ -140,7 +140,7 @@ class Creditmemo
 
         // draw Links title
         $lines[][] = array(
-            'text' => $this->_stringHelper->str_split($this->getLinksTitle(), 70, true, true),
+            'text' => $this->_stringHelper->strSplit($this->getLinksTitle(), 70, true, true),
             'font' => 'italic',
             'feed' => 35
         );
@@ -148,7 +148,7 @@ class Creditmemo
         // draw Links
         foreach ($_purchasedItems as $_link) {
             $lines[][] = array(
-                'text' => $this->_stringHelper->str_split($_link->getLinkTitle(), 50, true, true),
+                'text' => $this->_stringHelper->strSplit($_link->getLinkTitle(), 50, true, true),
                 'feed' => 40
             );
         }
