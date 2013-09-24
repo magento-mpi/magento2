@@ -167,7 +167,7 @@ class Magento_Theme_Model_Uploader_Service
     /**
     * Get max upload size
     *
-    * @param string $node
+    * @param string $configuredLimit
     * @return int
     */
     private function _getMaxUploadSize($configuredLimit)
