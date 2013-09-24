@@ -507,7 +507,9 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
     /**
      * Handle logical errors
      *
-     * @param array
+     * @param $response
+     *
+     * @throws Magento_Core_Exception
      */
     protected function _handleCallErrors($response)
     {
@@ -515,9 +517,7 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
             $message = $response['RESPMSG'];
             $e = new Exception(sprintf('PayPal gateway errors: %s.', $message));
             $this->_logger->logException($e);
-            Mage::throwException(
-                __('PayPal gateway rejected the request. %1', $message)
-            );
+            throw new Magento_Core_Exception(__('PayPal gateway rejected the request. %1', $message));
         }
     }
 

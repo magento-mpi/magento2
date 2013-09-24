@@ -23,15 +23,23 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
     protected $_layout;
 
     /**
+     * @var Magento_Page_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @param Magento_Page_Model_Config $config
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Page_Model_Config $config,
         Magento_Core_Model_Layout $layout,
         Magento_Core_Helper_Context $context
     ) {
         parent::__construct($context);
         $this->_layout = $layout;
+        $this->_config = $config;
     }
 
     /**
@@ -120,6 +128,6 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Page_Model_Config');
+        return $this->_config;
     }
 }
