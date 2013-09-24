@@ -2,13 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_Resource_Type_Db
+    implements Magento_Core_Model_Resource_ConnectionAdapterInterface
 {
     /**
      * Dirs instance
@@ -18,45 +16,69 @@ class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_R
     protected $_dirs;
 
     /**
+     * @var array
+     */
+    protected $_connectionConfig;
+
+    /**
+     * @var string
+     */
+    protected $_initStatements;
+
+    /**
      * @param Magento_Core_Model_Dir $dirs
+     * @param $host
+     * @param $username
+     * @param $password
+     * @param $databaseName
+     * @param string $initStatements
+     * @param string $type
      */
     public function __construct(
-        Magento_Core_Model_Dir $dirs
+        Magento_Core_Model_Dir $dirs,
+        $host,
+        $username,
+        $password,
+        $databaseName,
+        $initStatements = 'SET NAMES utf8',
+        $type = 'pdo_mysql'
     ) {
         $this->_dirs = $dirs;
+        $this->_connectionConfig = array(
+            'host' => $host,
+            'username' => $username,
+            'password' => $password,
+            'databaseName' => $databaseName,
+            'type' => $type
+        );
+
+        $this->_initStatements = $initStatements;
         parent::__construct();
     }
 
     /**
      * Get connection
      *
-     * @param array $config Connection config
-     * @return Magento_DB_Adapter_Pdo_Mysql
+     * @return Magento_DB_Adapter_Interface
      */
-    public function getConnection($config)
+    public function getConnection()
     {
-        $configArr = (array)$config;
-        $configArr['profiler'] = !empty($configArr['profiler']) && $configArr['profiler']!=='false';
-
-        $conn = $this->_getDbAdapterInstance($configArr);
-
-        if (!empty($configArr['initStatements']) && $conn) {
-            $conn->query($configArr['initStatements']);
+        $connection = $this->_getDbAdapterInstance();
+        if (!empty($this->_initStatements) && $connection) {
+            $connection->query($this->_initStatements);
         }
-
-        return $conn;
+        return $connection;
     }
 
     /**
      * Create and return DB adapter object instance
      *
-     * @param array $configArr Connection config
      * @return Magento_DB_Adapter_Pdo_Mysql
      */
-    protected function _getDbAdapterInstance($configArr)
+    protected function _getDbAdapterInstance()
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className($this->_dirs, $configArr);
+        $adapter = new $className($this->_dirs, $this->_connectionConfig);
         return $adapter;
     }
 

@@ -132,7 +132,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     protected function _getConnection()
     {
         if (!isset($this->_connection)) {
-            $connection = $this->_resource->createConnection('install', $this->getType(), $this->getConnectionData());
+            $connection = $this->_resource->createConnection('install', $this->getConnectionData());
             $this->_connection = $connection;
         }
         return $this->_connection;

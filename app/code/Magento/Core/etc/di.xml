@@ -345,4 +345,9 @@
             <value>1</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Resource">
+        <param name="tablePrefix">
+            <value type="argument">db.table_prefix</value>
+        </param>
+    </type>
 </config>

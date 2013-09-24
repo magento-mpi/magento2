@@ -205,6 +205,11 @@ class Magento_TestFramework_Application
                     'parameters' => array('canSaveMap' => false)
                 ),
             ));
+            $objectManager->configure(array(
+                'Magento_Core_Model_Resource_DefaultSetupConnectionAdapter' => array(
+                    'type' => 'Magento_TestFramework_Db_ConnectionAdapter'
+                ),
+            ));
         }
         Magento_TestFramework_Helper_Bootstrap::setObjectManager($objectManager);
         $objectManager->get('Magento_Core_Model_Resource')

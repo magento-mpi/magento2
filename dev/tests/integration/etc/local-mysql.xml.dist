@@ -38,15 +38,6 @@
             </default_setup>
         </resources>
         <session_save><![CDATA[files]]></session_save>
-        <resource>
-            <connection>
-                <types>
-                    <pdo_mysql>
-                        <adapter><![CDATA[Magento_TestFramework_Db_Adapter_Mysql]]></adapter>
-                    </pdo_mysql>
-                </types>
-            </connection>
-        </resource>
         <areas>
             <adminhtml>
                 <frontName><![CDATA[backend]]></frontName>
