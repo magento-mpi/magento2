@@ -19,6 +19,8 @@ return array(
     '/config/global/helpers/*/class'           => '',
     '/config/global/blocks/*/class'            => '',
     '/config/global/models/*/resourceModel'    => '',
+    '/config/global/page/layouts'              => 'Moved to page_layouts.xml',
+    '/config/global/cms/layouts'               => 'This was never used and is no longer supported',
     '/config/adminhtml/menu'                   => 'Move them to adminhtml.xml.',
     '/config/adminhtml/acl'                    => 'Move them to adminhtml.xml.',
     '/config/*[self::global|self::adminhtml|self::frontend]/di' => 'This configuration moved to di.xml file',

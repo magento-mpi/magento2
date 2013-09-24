@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page_layouts>
+    <layouts default="empty">
+        <layout id="empty">
+            <template>empty.phtml</template>
+            <layout_handle>page_empty</layout_handle>
+        </layout>
+    </layouts>
+</page_layouts>

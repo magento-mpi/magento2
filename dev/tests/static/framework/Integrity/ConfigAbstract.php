@@ -59,18 +59,18 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
 
-    public function testFileSchemaUsingInvalidXml()
+    public function testFileSchemaUsingInvalidXml($expectedErrors = null)
     {
         $xmlFile = $this->_getKnownInvalidPartialXml();
         $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
-        $this->_validateFileExpectFailure($xmlFile, $schema);
+        $this->_validateFileExpectFailure($xmlFile, $schema, $expectedErrors);
     }
 
-    public function testSchemaUsingPartialXml()
+    public function testSchemaUsingPartialXml($expectedErrors = null)
     {
         $xmlFile = $this->_getKnownValidPartialXml();;
         $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
-        $this->_validateFileExpectFailure($xmlFile, $schema);
+        $this->_validateFileExpectFailure($xmlFile, $schema, $expectedErrors);
     }
 
     /**
@@ -134,13 +134,13 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
                 }
                 $this->assertTrue(
                     $found,
-                    'Failed asserting that '. $expectedError . ' is in: ' . implode(', ', $actualErrors)
+                    'Failed asserting that '. $expectedError . " is in: \n" . implode(', ', $actualErrors)
                 );
                 // remove found error from list of actual errors
                 unset($actualErrors[$errorKey]);
             }
             // list of actual errors should now be empty
-            $this->assertEmpty($actualErrors, 'There were unexpected errors: ' . implode('; ', $actualErrors));
+            $this->assertEmpty($actualErrors, "There were unexpected errors: \n" . implode('; ', $actualErrors));
         } elseif (!$actualErrors) {
             $this->fail('There is a problem with the schema.  A known bad XML file passed validation');
         }
