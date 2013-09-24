@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -20,8 +21,11 @@ class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $collectionFactory = $this->getMock('Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory',
             array('create'), array(), '', false);
+        $attributeConfig = $this->getMock('Magento_Eav_Model_Entity_Attribute_Config',
+            array(), array(), '', false);
         $this->_model = $helper->getObject('Magento_Rma_Helper_Eav', array(
-            'collectionFactory' => $collectionFactory
+            'collectionFactory' => $collectionFactory,
+            'attributeConfig' => $attributeConfig
         ));
     }
 

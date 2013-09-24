@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * RMA Item Attributes Edit Form
- *
- * @category    Magento
- * @package     Magento_Rma
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
@@ -40,6 +35,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Backend_Model_Config_Source_YesnoFactory configFctory
+     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
      * @param array $data
      */
     public function __construct(
@@ -50,11 +46,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_Backend_Model_Config_Source_YesnoFactory $configFactory,
+        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_configFactory = $configFactory;
-        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $data);
+        parent::__construct($formFactory, $eavData, $coreData, $context, $registry, $attributeConfig, $data);
     }
 
     /**

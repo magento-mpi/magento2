@@ -18,7 +18,6 @@
  */
 class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
 {
-
     /**
      * Connect data
      *
@@ -27,6 +26,7 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
     protected $_connectData = null;
 
     /**
+     * @param Magento_Core_Model_Session_Validator $validator
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Connect_Helper_Data $connectData
@@ -36,6 +36,7 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Connect_Helper_Data $connectData,
@@ -45,7 +46,7 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
         array $data = array()
     ) {
         $this->_connectData = $connectData;
-        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $this->init('adminhtml');
     }
 

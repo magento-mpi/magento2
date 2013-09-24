@@ -47,11 +47,6 @@
 class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
     /**
-     * Related cache types config path
-     */
-    const XML_NODE_RELATED_CACHE = 'global/catalogrule/related_cache_types';
-
-    /**
      * Prefix of model events names
      *
      * @var string
@@ -105,38 +100,38 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * @var Magento_Core_Model_Cache_TypeListInterface
      */
-    protected $_cacheTypeList;
+    protected $_cacheTypesList;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var array
      */
-    protected $_coreConfig;
+    protected $_relatedCacheTypes;
 
     /**
      * @param Magento_CatalogRule_Helper_Data $catalogRuleData
+     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypesList
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
-     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_CatalogRule_Model_Resource_Rule $resource
      * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
         Magento_CatalogRule_Helper_Data $catalogRuleData,
+        Magento_Core_Model_Cache_TypeListInterface $cacheTypesList,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
-        Magento_Core_Model_Config $coreConfig,
         Magento_CatalogRule_Model_Resource_Rule $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
+        array $relatedCacheTypes = array(),
         array $data = array()
     ) {
         $this->_catalogRuleData = $catalogRuleData;
-        $this->_cacheTypeList = $cacheTypeList;
-        $this->_coreConfig = $coreConfig;
+        $this->_cacheTypesList = $cacheTypesList;
+        $this->_relatedCacheTypes = $relatedCacheTypes;
         parent::__construct($formFactory, $context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -418,10 +413,8 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     protected function _invalidateCache()
     {
-        $types = $this->_coreConfig->getNode(self::XML_NODE_RELATED_CACHE);
-        if ($types) {
-            $types = $types->asArray();
-            $this->_cacheTypeList->invalidate(array_keys($types));
+        if (count($this->_relatedCacheTypes)) {
+            $this->_cacheTypesList->invalidate($this->_relatedCacheTypes);
         }
         return $this;
     }

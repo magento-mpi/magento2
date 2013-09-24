@@ -25,4 +25,26 @@ return array(
     array('DESIGN_CHANGE_CACHE_SUFFIX', 'Magento_FullPageCache_Model_Processor',
         'Magento_FullPageCache_Model_DesignPackage_Rules::DESIGN_CHANGE_CACHE_SUFFIX'
     ),
+    array('XML_PATH_ACL_DENY_RULES', 'Magento_AdminGws_Model_Observer'),
+    array('XML_PATH_VALIDATE_CALLBACK', 'Magento_AdminGws_Model_Observer'),
+    array('XML_CHARSET_NODE', 'Magento_GiftCardAccount_Model_Pool'),
+    array('XML_CHARSET_SEPARATOR', 'Magento_GiftCardAccount_Model_Pool'),
+    array('XML_PATH_SKIP_GLOBAL_FIELDS', 'Magento_Logging_Model_Event_Changes'),
+    array('XML_PATH_RESTRICTION_ENABLED', 'Magento_WebsiteRestriction_Helper_Data',
+        'Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_ENABLED'
+    ),
+    array('XML_PATH_RESTRICTION_MODE', 'Magento_WebsiteRestriction_Helper_Data',
+        'Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_MODE'
+    ),
+    array('XML_PATH_RESTRICTION_LANDING_PAGE', 'Magento_WebsiteRestriction_Helper_Data',
+        'Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_LANDING_PAGE'
+    ),
+    array('XML_PATH_RESTRICTION_HTTP_STATUS', 'Magento_WebsiteRestriction_Helper_Data',
+        'Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_HTTP_STATUS'
+    ),
+    array('XML_PATH_RESTRICTION_HTTP_REDIRECT', 'Magento_WebsiteRestriction_Helper_Data',
+        'Magento_WebsiteRestriction_Model_Config::XML_PATH_RESTRICTION_HTTP_REDIRECT'
+    ),
+    array('XML_NODE_RESTRICTION_ALLOWED_GENERIC', 'Magento_WebsiteRestriction_Helper_Data'),
+    array('XML_NODE_RESTRICTION_ALLOWED_REGISTER', 'Magento_WebsiteRestriction_Helper_Data'),
 );

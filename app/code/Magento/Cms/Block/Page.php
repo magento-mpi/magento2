@@ -19,23 +19,21 @@
 class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
 {
     /**
-     * Cms data
-     *
-     * @var Magento_Cms_Helper_Data
+     * @var Magento_Cms_Model_Template_FilterProvider
      */
-    protected $_cmsData = null;
+    protected $_filterProvider;
 
     /**
-     * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Cms_Model_Template_FilterProvider $filterProvider
      * @param array $data
      */
     public function __construct(
-        Magento_Cms_Helper_Data $cmsData,
         Magento_Core_Block_Context $context,
+        Magento_Cms_Model_Template_FilterProvider $filterProvider,
         array $data = array()
     ) {
-        $this->_cmsData = $cmsData;
+        $this->_filterProvider = $filterProvider;
         parent::__construct($context, $data);
     }
 
@@ -106,10 +104,7 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
      */
     protected function _toHtml()
     {
-        /* @var $helper Magento_Cms_Helper_Data */
-        $helper = $this->_cmsData;
-        $processor = $helper->getPageTemplateProcessor();
-        $html = $processor->filter($this->getPage()->getContent());
+        $html = $this->_filterProvider->getPageFilter()->filter($this->getPage()->getContent());
         $html = $this->getLayout()->renderElement('messages') . $html;
         return $html;
     }

@@ -19,27 +19,22 @@
 class Magento_Catalog_Model_Config_Source_GridPerPage implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var array
      */
-    protected $_coreConfig;
+    protected $_options;
 
     /**
-     * Constructor
-     *
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param string $perPageValues
      */
-    public function __construct(
-        Magento_Core_Model_Config $coreConfig
-    ) {
-        $this->_coreConfig = $coreConfig;
+    public function __construct($perPageValues)
+    {
+        $this->_options = explode(',', $perPageValues);
     }
 
     public function toOptionArray()
     {
         $result = array();
-        $perPageValues = $this->_coreConfig->getNode('frontend/catalog/per_page_values/grid');
-        $perPageValues = explode(',', $perPageValues);
-        foreach ($perPageValues as $option) {
+        foreach ($this->_options as $option) {
             $result[] = array('value' => $option, 'label' => $option);
         }
         return $result;

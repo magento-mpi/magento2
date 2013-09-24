@@ -36,11 +36,17 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     protected $_eavData = null;
 
     /**
+     * @var Magento_Eav_Model_Entity_Attribute_Config
+     */
+    protected $_attributeConfig;
+    
+    /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
      * @param array $data
      */
     public function __construct(
@@ -49,10 +55,12 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_eavData = $eavData;
+        $this->_attributeConfig = $attributeConfig;
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -243,15 +251,10 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
         $attributeObject = $this->getAttributeObject();
         if ($attributeObject->getId()) {
             $form = $this->getForm();
-            $disableAttributeFields = $this->_eavData
-                ->getAttributeLockedFields($attributeObject->getEntityType()->getEntityTypeCode());
-            if (isset($disableAttributeFields[$attributeObject->getAttributeCode()])) {
-                foreach ($disableAttributeFields[$attributeObject->getAttributeCode()] as $field) {
-                    $elm = $form->getElement($field);
-                    if ($elm) {
-                        $elm->setDisabled(1);
-                        $elm->setReadonly(1);
-                    }
+            foreach ($this->_attributeConfig->getLockedFields($attributeObject) as $field) {
+                if ($element = $form->getElement($field)) {
+                    $element->setDisabled(1);
+                    $element->setReadonly(1);
                 }
             }
         }
