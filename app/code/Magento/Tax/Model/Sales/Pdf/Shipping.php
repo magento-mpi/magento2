@@ -20,7 +20,7 @@ class Magento_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Calculation $taxCalculation
      * @param Magento_Tax_Model_Config $taxConfig
-     * @param Magento_ObjectManager $objectManager
+     * @param Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory
      * @param array $data
      */
     public function __construct(
@@ -28,11 +28,11 @@ class Magento_Tax_Model_Sales_Pdf_Shipping extends Magento_Sales_Model_Order_Pdf
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Calculation $taxCalculation,
         Magento_Tax_Model_Config $taxConfig,
-        Magento_ObjectManager $objectManager,
+        Magento_Tax_Model_Resource_Sales_Order_Tax_CollectionFactory $ordersFactory,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
-        parent::__construct($context, $taxHelper, $taxCalculation, $objectManager, $data);
+        parent::__construct($context, $taxHelper, $taxCalculation, $ordersFactory, $data);
     }
 
     /**
