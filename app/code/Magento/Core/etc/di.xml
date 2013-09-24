@@ -326,4 +326,15 @@
             <value type="argument">Magento_Core_Model_Encryption::PARAM_CRYPT_KEY</value>
         </param>
     </type>
+    <type name="Magento_Core_Model_Session_Context">
+        <param name="saveMethod">
+            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_METHOD</value>
+        </param>
+        <param name="savePath">
+            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_PATH</value>
+        </param>
+        <param name="cacheLimiter">
+            <value type="argument">Magento_Core_Model_Session_Abstract::PARAM_SESSION_CACHE_LIMITER</value>
+        </param>
+    </type>
 </config>

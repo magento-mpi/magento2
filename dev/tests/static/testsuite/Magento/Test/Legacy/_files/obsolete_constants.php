@@ -197,5 +197,11 @@ return array(
     array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Export'),
     array('CONFIG_KEY_FORMATS', 'Magento_ImportExport_Model_Export'),
     array('CONFIG_KEY_ENTITIES', 'Magento_ImportExport_Model_Import'),
-    array('REGEX_RUN_MODEL')
+    array('REGEX_RUN_MODEL'),
+    array('XML_NODE_SESSION_SAVE', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array('XML_NODE_SESSION_SAVE_PATH', 'Magento_Core_Model_Session_Abstract',
+        'Magento_Core_Model_Session_Abstract::PARAM_SESSION_SAVE_PATH'
+    ),
 );
