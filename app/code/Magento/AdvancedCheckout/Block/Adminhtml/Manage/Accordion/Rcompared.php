@@ -24,21 +24,20 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
     protected $_listType = 'rcompared';
 
     /**
-     * Adminhtml sales
-     *
      * @var Magento_Adminhtml_Helper_Sales
      */
-    protected $_adminhtmlSales = null;
+    protected $_adminhtmlSales;
 
     /**
-     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param array $data
+     * @var Magento_Catalog_Model_Product_Compare_ListFactory
      */
+    protected $_compareListFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
     public function __construct(
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
         Magento_Core_Helper_Data $coreData,
@@ -46,10 +45,14 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_productFactory = $productFactory;
+        $this->_compareListFactory = $compareListFactory;
     }
 
     /**
@@ -76,7 +79,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = Mage::getModel('Magento_Catalog_Model_Product_Compare_List')
+            $collection = $this->_compareListFactory->create()
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
@@ -92,7 +95,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
                 // Status attribute is required even if it is not used in product listings
                 array_push($attributes, 'status');
             }
-            $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+            $productCollection = $this->_productFactory->create()->getCollection()
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);

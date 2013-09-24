@@ -7,7 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Newsletter_Block_Subscribe_Grid_Options_GroupOptionHash implements Magento_Core_Model_Option_ArrayInterface
+class Magento_Newsletter_Block_Subscribe_Grid_Options_GroupOptionHash
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * System Store Model

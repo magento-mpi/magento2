@@ -33,17 +33,16 @@ $banners = array(
 );
 
 /** @var $theme Magento_Core_Model_Theme */
-$theme = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection')
-    ->getThemeByFullPath('frontend/magento_fixed_width');
+$theme = $this->_themeCollection->getThemeByFullPath('frontend/magento_fixed_width');
 
 foreach ($banners as $sortOrder => $bannerData) {
-    $banner = Mage::getModel('Magento_Banner_Model_Banner')
+    $banner = $this->_bannerFactory->create()
         ->setName($bannerData[1])
         ->setIsEnabled(1)
         ->setStoreContents(array(0 => $bannerData[2]))
         ->save();
 
-    $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance')
+    $widgetInstance = $this->_widgetFactory->create()
         ->setData('page_groups', array(
             array(
                 'page_group' => 'pages',

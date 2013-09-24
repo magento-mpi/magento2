@@ -93,16 +93,18 @@ class Magento_Reports_Model_Resource_Report_Collection extends Magento_Data_Coll
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Zend_DateFactory $dateFactory
      * @param Magento_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_Core_Model_LocaleInterface $locale,
         Zend_DateFactory $dateFactory,
-        Magento_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
+        Magento_Reports_Model_Resource_Report_Collection_Factory $collectionFactory,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_dateFactory = $dateFactory;
         $this->_locale = $locale;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct();
+        parent::__construct($entityFactory);
     }
 
     /**

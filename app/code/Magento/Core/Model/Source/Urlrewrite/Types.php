@@ -15,7 +15,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Source_Urlrewrite_Types
+class Magento_Core_Model_Source_Urlrewrite_Types implements Magento_Core_Model_Option_ArrayInterface
 {
     const SYSTEM = 1;
     const CUSTOM = 0;
@@ -39,5 +39,15 @@ class Magento_Core_Model_Source_Urlrewrite_Types
             );
         }
         return $this->_options;
+    }
+
+    /**
+     * Return option array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->getAllOptions();
     }
 }

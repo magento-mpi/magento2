@@ -56,9 +56,10 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     }
 
     /**
-     * Class constructor. Initialize session namespace
-     *
-     * @param Magento_Core_Model_logger $logger
+     * @param Magento_Core_Model_Session_Validator $validator
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Config_Share $configShare
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Url $coreUrl
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -69,6 +70,9 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param string $sessionName
      */
     public function __construct(
+        Magento_Core_Model_Session_Validator $validator,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Config_Share $configShare,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Url $coreUrl,
         Magento_Customer_Helper_Data $customerData,
@@ -81,10 +85,10 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
-        parent::__construct($logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
+        parent::__construct($validator, $logger, $eventManager, $coreHttp, $coreStoreConfig, $coreConfig, $data);
         $namespace = 'customer';
-        if ($this->getCustomerConfigShare()->isWebsiteScope()) {
-            $namespace .= '_' . (Mage::app()->getStore()->getWebsite()->getCode());
+        if ($configShare->isWebsiteScope()) {
+            $namespace .= '_' . ($storeManager->getWebsite()->getCode());
         }
 
         $this->init($namespace, $sessionName);

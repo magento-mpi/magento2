@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
-    const XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES = 'global/catalog/product/type/grouped/allow_product_types';
 
     protected $_attributeSetsById;
     protected $_attributeSetsByName;
@@ -45,8 +40,6 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
 
     protected $_storeId = null;
 
-    const XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES = 'frontend/product/collection/attributes';
-
     /**
      * Core store config
      *
@@ -55,22 +48,14 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
-     */
-    protected $_coreConfig;
-
-    /**
      * Constructor
      *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
      */
     public function __construct(
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -140,7 +125,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
         return isset($this->_attributeSetsById[$entityTypeId][$id]) ? $this->_attributeSetsById[$entityTypeId][$id] : false;
     }
 
-    public function getAttributeSetId($entityTypeId, $name)
+    public function getAttributeSetId($entityTypeId, $name = null)
     {
         if (is_numeric($name)) {
             return $name;
@@ -266,19 +251,6 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
             $this->_productAttributes = array_keys($this->getAttributesUsedInProductListing());
         }
         return $this->_productAttributes;
-    }
-
-    /**
-     * Retrieve Product Collection Attributes from XML config file
-     * Used only for install/upgrade
-     *
-     * @return array
-     */
-    public function getProductCollectionAttributes() {
-        $attributes = $this->_coreConfig
-            ->getNode(self::XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES)
-            ->asArray();
-        return array_keys($attributes);;
     }
 
     /**

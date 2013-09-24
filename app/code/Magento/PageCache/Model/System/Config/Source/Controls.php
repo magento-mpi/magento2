@@ -15,7 +15,7 @@
  * @package    Magento_PageCache
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PageCache_Model_System_Config_Source_Controls
+class Magento_PageCache_Model_System_Config_Source_Controls implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Page cache data

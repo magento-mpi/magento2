@@ -21,13 +21,29 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Widget_Model_Widget_InstanceFactory
+     */
+    protected $_instanceFactory;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Widget_Model_Widget_InstanceFactory $instanceFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Widget_Model_Widget_InstanceFactory $instanceFactory,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_logger = $logger;
+        $this->_instanceFactory = $instanceFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -58,7 +74,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         $this->_title(__('Frontend Apps'));
 
         /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
-        $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+        $widgetInstance = $this->_instanceFactory->create();
 
         $instanceId = $this->getRequest()->getParam('instance_id', null);
         $type = $this->getRequest()->getParam('type', null);
@@ -181,7 +197,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
             return;
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_logger->logException($e);
             $this->_redirect('*/*/edit', array('_current' => true));
             return;
         }

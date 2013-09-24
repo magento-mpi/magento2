@@ -15,19 +15,20 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Source_Import_Entity
+class Magento_ImportExport_Model_Source_Import_Entity implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Magento_ImportExport_Model_Config
+     * @var Magento_ImportExport_Model_Import_ConfigInterface
      */
-    protected $_config;
+    protected $_importConfig;
 
     /**
-     * @param Magento_ImportExport_Model_Config $config
+     * @param Magento_ImportExport_Model_Import_ConfigInterface $importConfig
      */
-    public function __construct(Magento_ImportExport_Model_Config $config)
-    {
-        $this->_config = $config;
+    public function __construct(
+        Magento_ImportExport_Model_Import_ConfigInterface $importConfig
+    ) {
+        $this->_importConfig = $importConfig;
     }
 
     /**
@@ -37,8 +38,15 @@ class Magento_ImportExport_Model_Source_Import_Entity
      */
     public function toOptionArray()
     {
-        return $this->_config->getModelsComboOptions(
-            Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES, true
+        $options = array();
+        $options[] = array(
+            'label' => __('-- Please Select --'),
+            'value' => ''
         );
+        foreach ($this->_importConfig->getEntities() as $entityName => $entityConfig) {
+            $options[] = array('label' => __($entityConfig['label']), 'value' => $entityName);
+        }
+        return $options;
+
     }
 }

@@ -15,29 +15,34 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Source_Export_Format
+class Magento_ImportExport_Model_Source_Export_Format implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Magento_ImportExport_Model_Config
+     * @var Magento_ImportExport_Model_Export_ConfigInterface
      */
-    protected $_config;
+    protected $_exportConfig;
 
     /**
-     * @param Magento_ImportExport_Model_Config $config
+     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
      */
-    public function __construct(Magento_ImportExport_Model_Config $config)
-    {
-        $this->_config = $config;
+    public function __construct(
+        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
+    ) {
+        $this->_exportConfig = $exportConfig;
     }
 
     /**
-     * Prepare and return array of available export file formats.
+     * Prepare and return array of import entities ids and their names
      *
      * @return array
      */
     public function toOptionArray()
     {
-        $formats = Magento_ImportExport_Model_Export::CONFIG_KEY_FORMATS;
-        return $this->_config->getModelsComboOptions($formats);
+        $options = array();
+        foreach ($this->_exportConfig->getFileFormats() as $formatName => $formatConfig) {
+            $options[] = array('value' => $formatName, 'label' => __($formatConfig['label']));
+        }
+        return $options;
+
     }
 }

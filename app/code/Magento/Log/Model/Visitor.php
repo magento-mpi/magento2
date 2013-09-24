@@ -44,11 +44,9 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_coreHttp = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var Magento_Core_Model_Event_Manager
+     * @var array
      */
-    protected $_eventManager = null;
+    protected $_ignoredUserAgents;
 
     /**
      * Core store config
@@ -63,28 +61,28 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     protected $_coreConfig;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Helper_Http $coreHttp
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $ignoredUserAgents
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Context $context,
+        Magento_Core_Helper_Http $coreHttp,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
+        array $ignoredUserAgents = array(),
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
+        $this->_ignoredUserAgents = $ignoredUserAgents;
         $this->_coreHttp = $coreHttp;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
@@ -98,10 +96,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     {
         $this->_init('Magento_Log_Model_Resource_Visitor');
         $userAgent = $this->_coreHttp->getHttpUserAgent();
-        $ignoreAgents = $this->_coreConfig->getNode('global/ignore_user_agents');
-        if ($ignoreAgents) {
-            $ignoreAgents = $ignoreAgents->asArray();
-            if (in_array($userAgent, $ignoreAgents)) {
+        if ($this->_ignoredUserAgents) {
+            if (in_array($userAgent, $this->_ignoredUserAgents)) {
                 $this->_skipRequestLogging = true;
             }
         }
@@ -202,7 +198,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->setFirstVisitAt(now());
             $this->setIsNewVisitor(true);
             $this->save();
-            $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
+            $this->_eventDispatcher->dispatch('visitor_init', array('visitor' => $this));
         }
         return $this;
     }

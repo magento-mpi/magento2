@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Interception_PluginList_PluginList extends Magento_Config_Data implements Magento_Interception_PluginList
+class Magento_Interception_PluginList_PluginList
+    extends Magento_Config_Data_Scoped
+    implements Magento_Interception_PluginList
 {
     /**
      * Type config
@@ -181,8 +183,8 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
             if (false == in_array($scope, $this->_scopePriorityScheme)) {
                 $this->_scopePriorityScheme[] = $scope;
             }
-            $cacheScope = implode('|', $this->_scopePriorityScheme);
-            $data = $this->_cache->get($cacheScope, $this->_cacheId);
+            $cacheId = implode('|', $this->_scopePriorityScheme) . "|" . $this->_cacheId;
+            $data = $this->_cache->load($cacheId);
             if ($data) {
                 $this->_data = unserialize($data);
                 foreach ($this->_scopePriorityScheme as $scope) {
@@ -209,7 +211,7 @@ class Magento_Interception_PluginList_PluginList extends Magento_Config_Data imp
                         $this->_inheritPlugins($class);
                     }
                 }
-                $this->_cache->put(serialize($this->_data), $cacheScope, $this->_cacheId);
+                $this->_cache->save(serialize($this->_data), $cacheId);
             }
         }
     }

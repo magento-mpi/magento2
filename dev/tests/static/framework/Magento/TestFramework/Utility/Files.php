@@ -167,9 +167,40 @@ class Magento_TestFramework_Utility_Files
     public function getXmlFiles()
     {
         return array_merge(
-            self::getConfigFiles(),
-            self::getLayoutFiles()
+            $this->getMainConfigFiles(),
+            $this->getLayoutFiles(),
+            $this->getConfigFiles(),
+            $this->getLayoutConfigFiles()
         );
+    }
+
+    /**
+     * Retrieve all config files, that participate (or have a chance to participate) in composing main config
+     *
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getMainConfigFiles($asDataSet = true)
+    {
+        $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
+        if (!isset(self::$_cache[$cacheKey])) {
+            $globPaths = array(
+                'app/etc/config.xml',
+                'app/etc/*/config.xml',
+                'app/etc/local.xml',
+                'app/code/*/*/etc/config.xml',
+                'app/code/*/*/etc/config.*.xml', // Module DB-specific configs, e.g. config.mysql4.xml
+            );
+            $files = array();
+            foreach ($globPaths as $globPath) {
+                $files = array_merge($files, glob($this->_path . '/' . $globPath));
+            }
+            self::$_cache[$cacheKey] = $files;
+        }
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$cacheKey]);
+        }
+        return self::$_cache[$cacheKey];
     }
 
     /**
@@ -178,19 +209,16 @@ class Magento_TestFramework_Utility_Files
      * @param string $fileNamePattern
      * @param array $excludedFileNames
      * @param bool $asDataSet
-     * @param bool $includeDesign
      * @return array
      */
     public function getConfigFiles(
         $fileNamePattern = '*.xml',
         $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-        $asDataSet = true,
-        $includeDesign = false
+        $asDataSet = true
     ) {
-        $searchDir = $includeDesign ? "{code,design}" : "code";
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$cacheKey])) {
-            $files = glob($this->_path . "/app/" . $searchDir . "/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+            $files = $this->_getConfigFilesList($fileNamePattern, 'code');
             $files = array_filter(
                 $files,
                 function ($file) use ($excludedFileNames) {
@@ -198,6 +226,27 @@ class Magento_TestFramework_Utility_Files
                 }
             );
             self::$_cache[$cacheKey] = $files;
+        }
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$cacheKey]);
+        }
+        return self::$_cache[$cacheKey];
+    }
+
+    /**
+     * Returns a list of configuration files found under the app/design directory.
+     *
+     * @param string $fileNamePattern
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getLayoutConfigFiles(
+        $fileNamePattern = '*.xml',
+        $asDataSet = true
+    ) {
+        $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
+        if (!isset(self::$_cache[$cacheKey])) {
+            self::$_cache[$cacheKey] = $this->_getConfigFilesList($fileNamePattern, 'design');;
         }
         if ($asDataSet) {
             return self::composeDataSets(self::$_cache[$cacheKey]);
@@ -301,6 +350,45 @@ class Magento_TestFramework_Utility_Files
     }
 
     /**
+     * Returns list of Javascript files in Magento by certain area
+     *
+     * @return array
+     */
+    public function getJsFilesForArea($area)
+    {
+        $key = __METHOD__ . $this->_path . $area;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
+        }
+        $namespace = $module = $package = $theme = '*';
+        $paths = array(
+            "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
+            "{$this->_path}/app/design/{$area}/{$package}/{$theme}",
+            "{$this->_path}/pub/lib/varien",
+        );
+        $files = self::_getFiles(
+            $paths,
+            '*.js'
+        );
+
+        if ($area == 'adminhtml') {
+            $adminhtmlPaths = array(
+                "{$this->_path}/pub/lib/mage/{adminhtml,backend}",
+            );
+            $files = array_merge($files, self::_getFiles($adminhtmlPaths, '*.js'));
+        } else {
+            $frontendPaths = array("{$this->_path}/pub/lib/mage");
+            /* current structure of /pub/lib/mage directory contains frontend javascript in the root,
+               backend javascript in subdirectories. That's why script shouldn't go recursive throught subdirectories
+               to get js files for frontend */
+            $files = array_merge($files, self::_getFiles($frontendPaths, '*.js', false));
+        }
+
+        self::$_cache[$key] = $files;
+        return $files;
+    }
+
+    /**
      * Returns list of Twig files in Magento app directory.
      *
      * @return array
@@ -383,7 +471,7 @@ class Magento_TestFramework_Utility_Files
      * @param string $fileNamePattern
      * @return array
      */
-    protected static function _getFiles(array $dirPatterns, $fileNamePattern)
+    protected static function _getFiles(array $dirPatterns, $fileNamePattern, $recursive = true)
     {
         $result = array();
         foreach ($dirPatterns as $oneDirPattern) {
@@ -391,8 +479,10 @@ class Magento_TestFramework_Utility_Files
             $subDirs = glob("$oneDirPattern/*", GLOB_ONLYDIR | GLOB_NOSORT | GLOB_BRACE);
             $filesInDir = array_diff($entriesInDir, $subDirs);
 
-            $filesInSubDir = self::_getFiles($subDirs, $fileNamePattern);
-            $result = array_merge($result, $filesInDir, $filesInSubDir);
+            if ($recursive) {
+                $filesInSubDir = self::_getFiles($subDirs, $fileNamePattern);
+                $result = array_merge($result, $filesInDir, $filesInSubDir);
+            }
         }
         return $result;
     }
@@ -477,4 +567,18 @@ class Magento_TestFramework_Utility_Files
             . $module . DIRECTORY_SEPARATOR
             . $file;
     }
+
+    /**
+     * Helper function for finding config files in various app directories such as 'code' or 'design'.
+     *
+     * @param string $fileNamePattern can be a glob pattern that represents files to be found.
+     * @param string $appDir directory under app folder in which to search (Ex: 'code' or 'design')
+     * @return array of strings that represent paths to config files
+     */
+    protected function _getConfigFilesList($fileNamePattern, $appDir)
+    {
+        return glob($this->_path . '/app/' . $appDir . "/*/*/etc/$fileNamePattern", GLOB_NOSORT | GLOB_BRACE);
+
+    }
+
 }

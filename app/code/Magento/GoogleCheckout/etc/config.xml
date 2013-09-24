@@ -11,15 +11,6 @@
 -->
 <config>
     <global>
-        <sales>
-            <quote>
-                <item>
-                    <product_attributes>
-                        <enable_googlecheckout />
-                    </product_attributes>
-                </item>
-            </quote>
-        </sales>
         <resources>
             <googlecheckout_setup>
                 <setup>
@@ -29,13 +20,6 @@
             </googlecheckout_setup>
         </resources>
     </global>
-    <frontend>
-        <secure_url>
-            <googlecheckout_redirect>/googlecheckout/redirect/</googlecheckout_redirect>
-            <googlecheckout_beacon>/googlecheckout/api/beacon/</googlecheckout_beacon>
-            <googlecheckout_api>/googlecheckout/api/</googlecheckout_api>
-        </secure_url>
-    </frontend>
     <default>
         <carriers>
             <googlecheckout>
