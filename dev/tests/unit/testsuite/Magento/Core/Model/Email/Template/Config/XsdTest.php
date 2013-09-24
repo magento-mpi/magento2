@@ -169,7 +169,6 @@ class Magento_Core_Model_Email_Template_Config_XsdTest extends PHPUnit_Framework
      * @param string $fixtureXml
      * @param string $schemaFile
      * @param array $expectedErrors
-     * @dataProvider individualXmlDataProvider
      */
     protected function _testXmlAgainstXsd($fixtureXml, $schemaFile, array $expectedErrors)
     {
