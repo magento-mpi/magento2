@@ -8,13 +8,29 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * Banner resource collection factory
+     *
+     * @var Magento_Banner_Model_Resource_Banner_CollectionFactory
+     */
+    protected $_bannerColFactory = null;
+
+    /**
+     * Banner config
+     *
+     * @var Magento_Banner_Model_Config
+     */
+    protected $_bannerConfig = null;
+
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory
+     * @param Magento_Banner_Model_Config $bannerConfig
      * @param array $data
      */
     public function __construct(
@@ -22,9 +38,13 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Banner_Model_Resource_Banner_CollectionFactory $bannerColFactory,
+        Magento_Banner_Model_Config $bannerConfig,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_bannerColFactory = $bannerColFactory;
+        $this->_bannerConfig = $bannerConfig;
     }
 
     /**
@@ -48,7 +68,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Banner_Collection')
+        $collection = $this->_bannerColFactory->create()
             ->addStoresVisibility();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -77,7 +97,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
         $this->addColumn('banner_types', array(
             'header'  => __('Banner Types'),
             'type'    => 'options',
-            'options' => Mage::getSingleton('Magento_Banner_Model_Config')->toOptionArray(true, false),
+            'options' => $this->_bannerConfig->toOptionArray(true, false),
             'index'   => 'types',
             'width'   => 250,
             'filter'  => false, // TODO implement

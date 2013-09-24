@@ -13,7 +13,6 @@
  */
 class Magento_Banner_Model_Observer
 {
-
     /**
      * Adminhtml js
      *
@@ -22,12 +21,22 @@ class Magento_Banner_Model_Observer
     protected $_adminhtmlJs = null;
 
     /**
+     * Banner factory
+     *
+     * @var Magento_Banner_Model_Resource_BannerFactory
+     */
+    protected $_bannerFactory = null;
+
+    /**
      * @param Magento_Adminhtml_Helper_Js $adminhtmlJs
+     * @param Magento_Banner_Model_Resource_BannerFactory $bannerFactory
      */
     public function __construct(
-        Magento_Adminhtml_Helper_Js $adminhtmlJs
+        Magento_Adminhtml_Helper_Js $adminhtmlJs,
+        Magento_Banner_Model_Resource_BannerFactory $bannerFactory
     ) {
         $this->_adminhtmlJs = $adminhtmlJs;
+        $this->_bannerFactory = $bannerFactory;
     }
 
     /**
@@ -55,12 +64,12 @@ class Magento_Banner_Model_Observer
     public function bindRelatedBannersToCatalogRule(Magento_Event_Observer $observer)
     {
         $catalogRule = $observer->getEvent()->getRule();
-        $resource = Mage::getResourceModel('Magento_Banner_Model_Resource_Banner');
         $banners = $catalogRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
         }
-        $resource->bindBannersToCatalogRule($catalogRule->getId(), $banners);
+        $this->_bannerFactory->create()
+            ->bindBannersToCatalogRule($catalogRule->getId(), $banners);
         return $this;
     }
 
@@ -89,12 +98,12 @@ class Magento_Banner_Model_Observer
     public function bindRelatedBannersToSalesRule(Magento_Event_Observer $observer)
     {
         $salesRule = $observer->getEvent()->getRule();
-        $resource = Mage::getResourceModel('Magento_Banner_Model_Resource_Banner');
         $banners = $salesRule->getRelatedBanners();
         if (empty($banners)) {
             $banners = array();
         }
-        $resource->bindBannersToSalesRule($salesRule->getId(), $banners);
+        $this->_bannerFactory->create()
+            ->bindBannersToSalesRule($salesRule->getId(), $banners);
         return $this;
     }
 }

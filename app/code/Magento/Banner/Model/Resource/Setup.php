@@ -32,7 +32,6 @@ class Magento_Banner_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
     protected $_themeCollFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
