@@ -38,6 +38,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
 
     /**
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $collectionFactory
@@ -45,6 +46,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
+        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Eav_Model_Resource_Entity_Attribute_Option_CollectionFactory $collectionFactory,
@@ -53,7 +55,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
         $this->_resource = $resource;
-        parent::__construct($context, $coreStoreConfig);
+        parent::__construct($context, $attributeConfig, $coreStoreConfig);
     }
 
     /**
