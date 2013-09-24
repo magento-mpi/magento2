@@ -1,5 +1,7 @@
 <?php
 /**
+ * Theme file uploader service
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -8,9 +10,6 @@
  * @license     {license_link}
  */
 
-/**
- * Theme file uploader service
- */
 class Magento_Theme_Model_Uploader_Service
 {
     /**
@@ -63,7 +62,7 @@ class Magento_Theme_Model_Uploader_Service
      * @param Magento_File_Size $fileSize
      * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
      * @param Magento_Core_Model_Config $coreConfig
-     * @param array $uploadLimit
+     * @param array $uploadLimits keys are 'css' and 'js' for file type, values defines maximum file size, example: 2M
      */
     public function __construct(
         Magento_Io_File $fileIo,
@@ -152,12 +151,7 @@ class Magento_Theme_Model_Uploader_Service
      */
     public function getCssUploadMaxSize()
     {
-        $maxIniUploadSize = $this->_fileSize->getMaxFileSize();
-        if (is_null($this->_cssUploadLimit)) {
-            return $maxIniUploadSize;
-        }
-        $maxCssUploadSize = $this->_fileSize->convertSizeToInteger($this->_cssUploadLimit);
-        return min($maxCssUploadSize, $maxIniUploadSize);
+        return $this->_getMaxUploadSize($this->_cssUploadLimit);
     }
 
     /**
@@ -167,12 +161,23 @@ class Magento_Theme_Model_Uploader_Service
      */
     public function getJsUploadMaxSize()
     {
+        return $this->_getMaxUploadSize($this->_jsUploadLimit);
+    }
+
+    /**
+    * Get max upload size
+    *
+    * @param string $node
+    * @return int
+    */
+    private function _getMaxUploadSize($configuredLimit)
+ 	{
         $maxIniUploadSize = $this->_fileSize->getMaxFileSize();
-        if (is_null($this->_jsUploadLimit)) {
+        if (is_null($configuredLimit)) {
             return $maxIniUploadSize;
         }
-        $maxJsUploadSize = $this->_fileSize->convertSizeToInteger($this->_jsUploadLimit);
-        return min($maxJsUploadSize, $maxIniUploadSize);
+        $maxUploadSize = $this->_fileSize->convertSizeToInteger($configuredLimit);
+        return min($maxUploadSize, $maxIniUploadSize);
     }
 
     /**
