@@ -114,7 +114,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param int $dbCompatibleMode
+     * @param bool $dbCompatibleMode
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -122,7 +122,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        $dbCompatibleMode
+        $dbCompatibleMode = true
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreHttp = $coreHttp;
@@ -132,7 +132,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         $this->_cacheConfig = $context->getCacheConfig();
         $this->_encryptorFactory = $context->getEncryptorFactory();
         $this->_fieldsetConfig = $context->getFieldsetConfig();
-        $this->_dbCompatibleMode = (bool) $dbCompatibleMode;
+        $this->_dbCompatibleMode = $dbCompatibleMode;
     }
 
     /**

@@ -263,7 +263,7 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
             $installer->installConfig($this->_getDataModel()->getConfigData());
 
             if (!empty($options['cleanup_database'])) {
-                $this->_cleanUpDatabase($options['db_name']);
+                $this->_cleanUpDatabase();
             }
 
             if ($this->hasErrors()) {
@@ -319,27 +319,26 @@ class Magento_Install_Model_Installer_Console extends Magento_Install_Model_Inst
     /**
      * Cleanup database use system configuration
      */
-    protected function _cleanUpDatabase($dbName)
+    protected function _cleanUpDatabase()
     {
         $modelName = 'Magento_Install_Model_Installer_Db_Mysql4';
         /** @var $resourceModel Magento_Install_Model_Installer_Db_Abstract */
         $resourceModel = Mage::getModel($modelName);
-        $resourceModel->cleanUpDatabase($dbName);
+        $resourceModel->cleanUpDatabase();
     }
 
     /**
      * Uninstall the application
      *
-     * @param $dbName
      * @return bool
      */
-    public function uninstall($dbName)
+    public function uninstall()
     {
         if (!Mage::isInstalled()) {
             return false;
         }
 
-        $this->_cleanUpDatabase($dbName);
+        $this->_cleanUpDatabase();
 
         /* Remove temporary directories and local.xml */
         foreach (glob(Mage::getBaseDir(Magento_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {

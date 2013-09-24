@@ -67,7 +67,7 @@ class Magento_ImportExport_Model_Resource_Import_CustomerComposite_DataTest exte
         $resourceModelMock->expects($this->any())
             ->method('_newConnection')
             ->will($this->returnValue($adapterMock));
-        $resourceModelMock->createConnection('core_write', '', array());
+        $resourceModelMock->createConnection('core_write', array());
 
         $data = array(
             'resource'    => $resourceModelMock,

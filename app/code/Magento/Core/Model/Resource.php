@@ -120,14 +120,15 @@ class Magento_Core_Model_Resource
      * Create new connection adapter instance
      *
      * @param string $connAdapterName
+     * @param array $params
      * @return Magento_Core_Model_Resource_ConnectionAdapterInterface|null
      */
-    protected function _newConnection($connAdapterName)
+    protected function _newConnection($connAdapterName, array $params = array())
     {
         $connection = null;
         // try to get connection adapter and create connection
         if ($connAdapterName) {
-            $connectionAdapter = $this->_connAdapterFactory->create($connAdapterName);
+            $connectionAdapter = $this->_connAdapterFactory->create($connAdapterName, $params);
             $connection = $connectionAdapter->getConnection();
         }
 
@@ -221,8 +222,7 @@ class Magento_Core_Model_Resource
                 ? $this->_connAdapterPool[$name]
                 : $this->_connAdapterPool[self::DEFAULT_SETUP_RESOURCE];
 
-            $connection = $this->_connAdapterFactory->create($connectionAdapter, $connectionConfig);
-            $this->_connections[$name] = $connection;
+            $this->_connections[$name] = $this->_newConnection($connectionAdapter, $connectionConfig);
         }
         return $this->_connections[$name];
     }

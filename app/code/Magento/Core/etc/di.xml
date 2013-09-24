@@ -316,14 +316,9 @@
     <virtualType name="core_read" type="default_read" />
     <virtualType name="core_write" type="default_write" />
     <virtualType name="core_setup" type="default_setup" />
-    <type name="Magento_Core_Helper_Data">
-        <param name="dbCompatibleMode">
-            <value>1</value>
-        </param>
-    </type>
     <type name="Magento_Core_Model_Resource">
         <param name="tablePrefix">
-            <value type="argument">db.table_prefix</value>
+            <value type="argument">Magento_Core_Model_Resource::PARAM_TABLE_PREFIX</value>
         </param>
     </type>
 </config>

@@ -161,8 +161,7 @@ abstract class Magento_Install_Model_Installer_Db_Abstract
     /**
      * Clean database
      *
-     * @param string $dbName
      * @return Magento_Install_Model_Installer_Db_Abstract
      */
-    abstract public function cleanUpDatabase($dbName);
+    abstract public function cleanUpDatabase();
 }
