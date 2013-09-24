@@ -26,7 +26,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -99,12 +99,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareAndRenderWrongController()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $controller = $objectManager->create(
             'Magento\Core\Controller\Front\Action',
             array(
-                'request'  => $objectManager->get('Magento_TestFramework_Request'),
-                'response' => $objectManager->get('Magento_TestFramework_Response'),
+                'request'  => $objectManager->get('Magento\TestFramework\Request'),
+                'response' => $objectManager->get('Magento\TestFramework\Response'),
                     ->get('Magento\TestFramework\Response'),
             )
         );

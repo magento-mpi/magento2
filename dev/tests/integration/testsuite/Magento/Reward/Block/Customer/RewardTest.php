@@ -23,7 +23,7 @@ class RewardTest extends \PHPUnit_Framework_TestCase
 
         \Mage::getSingleton('Magento\Customer\Model\Session')->setCustomer($customer);
 
-        $utility = new Magento_Core_Utility_Layout($this);
+        $utility = new \Magento\Core\Utility\Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_reward_customer_info.xml',
             $utility->getLayoutDependencies());
 

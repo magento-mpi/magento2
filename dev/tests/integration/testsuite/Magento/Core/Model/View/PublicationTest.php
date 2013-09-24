@@ -547,7 +547,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         ));
 
         if ($allowDuplication !== null) {
-            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             $publisher = $objectManager->create(
                 'Magento\Core\Model\View\Publisher',
                 array('allowFilesDuplication' => $allowDuplication)

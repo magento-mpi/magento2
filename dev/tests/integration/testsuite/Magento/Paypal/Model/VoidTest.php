@@ -19,7 +19,7 @@ class VoidTest extends \PHPUnit_Framework_TestCase
      */
     public function testPayflowProVoid()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $eventManager = $objectManager->get('Magento\Core\Model\Event\Manager');
         $coreData = $objectManager->get('Magento\Core\Helper\Data');
         $moduleList = $objectManager->get('Magento\Core\Model\ModuleListInterface');

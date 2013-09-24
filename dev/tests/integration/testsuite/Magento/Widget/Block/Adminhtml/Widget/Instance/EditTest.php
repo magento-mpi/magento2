@@ -23,7 +23,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $type = 'Magento\Catalog\Block\Product\Widget\NewWidget';
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();

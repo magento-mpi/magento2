@@ -20,7 +20,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\CatalogSearch\Helper\Data');
     }
 
@@ -49,7 +49,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testCheckNotesEscapesHtmlWhenQueryIsCut()
     {
         /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $context = $objectManager->get('Magento\Core\Helper\Context');
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         /** @var $mock \Magento\CatalogSearch\Helper\Data */

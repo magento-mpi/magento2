@@ -16,7 +16,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     public function testRunSchedule()
     {
         /** @var Magento_TestFramework_ObjectManager $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $productModel = $objectManager->create('Magento\Catalog\Model\Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);

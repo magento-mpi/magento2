@@ -18,7 +18,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetFormHtml()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = \Mage::getSingleton('Magento\Core\Model\Layout');
         // Create block with blocking _prepateLayout(), which is used by block to instantly add 'form' child

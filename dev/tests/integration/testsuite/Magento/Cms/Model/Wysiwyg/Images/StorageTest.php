@@ -57,7 +57,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     public function testGetThumbsPath()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $model = $objectManager->create('Magento\Cms\Model\Wysiwyg\Images\Storage');
         $this->assertStringStartsWith(
             realpath(\Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir()),

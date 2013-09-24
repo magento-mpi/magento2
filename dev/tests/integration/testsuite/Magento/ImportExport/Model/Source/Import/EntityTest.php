@@ -39,7 +39,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var Magento_TestFramework_ObjectManager $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var \Magento\Core\Model\Config $coreConfig */
         $coreConfig = $objectManager->create('Magento\Core\Model\Config', array('storage' => $this->_mockConfig()));

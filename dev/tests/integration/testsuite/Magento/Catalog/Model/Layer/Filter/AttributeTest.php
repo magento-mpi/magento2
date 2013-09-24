@@ -55,8 +55,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     public function testApplyInvalid()
     {
         $this->assertEmpty($this->_model->getLayer()->getState()->getFilters());
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('attribute', array());
         $this->_model->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 
@@ -67,8 +67,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->_model->getLayer()->getState()->getFilters());
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('attribute', $this->_attributeOptionId);
         $this->_model->apply($request, \Mage::app()->getLayout()->createBlock('Magento\Core\Block\Text'));
 

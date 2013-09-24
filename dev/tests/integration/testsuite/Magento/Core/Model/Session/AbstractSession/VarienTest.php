@@ -40,7 +40,7 @@ class VarienTest extends \PHPUnit_Framework_TestCase
         ini_set('session.save_handler', $origSessionHandler);
 
         /** @var $configModel \Magento\Core\Model\Config */
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
+        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         $configModel->setNode(\Magento\Core\Model\Session\AbstractSession::XML_NODE_SESSION_SAVE, $saveMethod);
         /**
          * @var \Magento\Core\Model\Session\AbstractSession_Varien

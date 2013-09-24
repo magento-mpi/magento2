@@ -49,7 +49,7 @@ class Magento_TestFramework_Helper_Api
 
         array_unshift($params, 'sessionId');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $objectManager->get('Magento\Core\Model\Registry')->unregister('isSecureArea');
         $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', true);

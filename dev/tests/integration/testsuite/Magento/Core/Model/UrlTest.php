@@ -77,9 +77,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Zend_Controller_Request_Http', $this->_model->getRequest());
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $this->_model->setRequest($request);
         $this->assertSame($request, $this->_model->getRequest());
     }

@@ -24,7 +24,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $this->_model = $this->getMockForAbstractClass(
@@ -104,7 +104,7 @@ abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
     public function __construct()
     {
         /** @var Magento_TestFramework_ObjectManager  $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         parent::__construct($storeConfig);

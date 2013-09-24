@@ -22,7 +22,7 @@ class Magento_Test_Integrity_Magento_Core_Model_DataService_LayoutConfigTest ext
         /**
          * @var array string[] $configFiles
          */
-        $configFiles = Magento_TestFramework_Utility_Files::init()->getConfigFiles('service_calls.xml', array());
+        $configFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('service_calls.xml', array());
         /**
          * @var string $file
          */
@@ -83,6 +83,6 @@ class Magento_Test_Integrity_Magento_Core_Model_DataService_LayoutConfigTest ext
      */
     public function xmlFileDataProvider()
     {
-        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles();
+        return \Magento\TestFramework\Utility\Files::init()->getLayoutFiles();
     }
 }

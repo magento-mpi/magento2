@@ -14,7 +14,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testScheduledLogClean()
     {
-        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Store\Config');
         $model = new \Magento\ScheduledImportExport\Model\Observer($storeConfig);
         $model->scheduledLogClean('not_used', true);

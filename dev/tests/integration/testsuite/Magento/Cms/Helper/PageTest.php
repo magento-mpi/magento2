@@ -20,10 +20,10 @@ class PageTest extends \PHPUnit_Framework_TestCase
     public function testRenderPage()
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $arguments = array(
-            'request' => $objectManager->get('Magento_TestFramework_Request'),
-            'response' => $objectManager->get('Magento_TestFramework_Response')
+            'request' => $objectManager->get('Magento\TestFramework\Request'),
+            'response' => $objectManager->get('Magento\TestFramework\Response')
                 ->get('Magento\TestFramework\Response')
         );
         $context = \Mage::getModel('Magento\Core\Controller\Varien\Action\Context', $arguments);

@@ -21,7 +21,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriber()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
         $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));

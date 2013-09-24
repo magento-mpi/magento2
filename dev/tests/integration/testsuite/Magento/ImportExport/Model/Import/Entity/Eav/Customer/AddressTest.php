@@ -82,7 +82,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_entityAdapter = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $this->_entityAdapter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create($this->_testClassName);
     }
 

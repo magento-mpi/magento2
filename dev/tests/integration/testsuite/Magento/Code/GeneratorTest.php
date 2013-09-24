@@ -43,7 +43,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_includePath = get_include_path();
 
         /** @var $dirs \Magento\Core\Model\Dir */
-        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
+        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
         $generationDirectory = $dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . '/generation';
 
         \Magento\Autoload\IncludePath::addIncludePath($generationDirectory);
@@ -53,7 +53,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             new \Magento\Autoload\IncludePath(),
             $generationDirectory
         );
-        $this->_generator = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+        $this->_generator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Code\Generator',
             array('ioObject' => $this->_ioObject)
         );
@@ -62,7 +62,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         /** @var $dirs \Magento\Core\Model\Dir */
-        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
+        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
         $generationDirectory = $dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . '/generation';
         \Magento\Io\File::rmdirRecursive($generationDirectory);
 
@@ -89,7 +89,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($result);
 
         /** @var $factory \Magento\ObjectManager_Factory */
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
+        $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($factoryClassName);
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $object);
 
@@ -124,7 +124,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($result);
 
         /** @var $factory \Magento\ObjectManager_Factory */
-        $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($factoryClassName);
+        $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($factoryClassName);
 
         $object = $factory->create();
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $object);
@@ -153,7 +153,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertTrue($result);
 
-        $proxy = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($proxyClassName);
+        $proxy = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($proxyClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITHOUT_NAMESPACE, $proxy);
 
         if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
@@ -181,7 +181,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertTrue($result);
 
-        $proxy = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($proxyClassName);
+        $proxy = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($proxyClassName);
         $this->assertInstanceOf(self::CLASS_NAME_WITH_NAMESPACE, $proxy);
 
         // This test is only valid if the factory created the object if Autoloader did not pick it up automatically

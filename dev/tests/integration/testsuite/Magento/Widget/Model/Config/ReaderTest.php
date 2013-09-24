@@ -19,7 +19,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
             'Magento\Core\Model\Dir', array(
@@ -113,7 +113,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $perFileSchema = __DIR__ . '/../../../../../../../../app/code/Magento/Widget/etc/widget_file.xsd';
 
         /** @var \Magento\Widget\Model\Config\Reader $model */
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Widget\Model\Config\Reader', array(
                 'fileResolver' => $fileResolverMock,
                 'schema' => $schema,

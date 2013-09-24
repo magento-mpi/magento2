@@ -51,15 +51,15 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public function testGetUrl()
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $action = \Mage::getModel(
             'Magento\Core\Controller\Front\Action',
             array(
                 'request' => $request,
-                'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_TestFramework_Response'),
+                'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\TestFramework\Response'),
             )
         );
         \Mage::app()->getFrontController()->setAction($action); // done in action's constructor
@@ -72,9 +72,9 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public function testGetRemoveUrl()
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
 
         \Mage::app()->getRequest()->setRoutingInfo(array(
             'requested_route'      => 'x',

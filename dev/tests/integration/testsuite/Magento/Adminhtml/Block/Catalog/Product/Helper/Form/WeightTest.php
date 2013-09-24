@@ -25,7 +25,7 @@ class WeightTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_formFactory = $this->_objectManager->create('Magento\Data\Form\Factory');
     }
 

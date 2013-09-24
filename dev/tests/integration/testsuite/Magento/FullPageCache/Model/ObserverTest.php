@@ -48,10 +48,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testProcessPreDispatchCanProcessRequest()
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
-        $response = $objectManager->get('Magento_TestFramework_Response');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
+        $response = $objectManager->get('Magento\TestFramework\Response');
 
         $request->setRouteName('catalog');
         $request->setControllerName('product');
@@ -95,14 +95,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $restriction = \Mage::getSingleton('Magento\FullPageCache\Model\Processor\RestrictionInterface');
         $restriction->setIsDenied();
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $observerData = new \Magento\Event\Observer();
         $arguments = array(
             'request' => $request,
-            'response' => Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->get('Magento_TestFramework_Response')
+            'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\TestFramework\Response')
         );
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);

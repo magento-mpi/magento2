@@ -26,7 +26,7 @@ class Cookie extends \Magento\Core\Model\Cookie
         \Magento\Core\Controller\Request\Http $request = null,
         \Magento\Core\Controller\Response\Http $response = null
     ) {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $request ?: $objectManager->get('Magento\Core\Controller\Request\Http');
         $response = $response ?: $objectManager->get('Magento\Core\Controller\Response\Http');
         parent::__construct($request, $response, $coreStoreConfig);

@@ -61,7 +61,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_subscriptions = array();
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
+        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         $configModel->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');
         $configModel->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
         $configModel->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');

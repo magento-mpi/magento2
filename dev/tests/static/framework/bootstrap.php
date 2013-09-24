@@ -17,7 +17,7 @@ require BP . '/app/autoload.php';
     dirname(__DIR__) . '/testsuite',
     BP . '/lib',
 ));
-Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files(BP));
+\Magento\TestFramework\Utility\Files::init(new \Magento\TestFramework\Utility\Files(BP));
 
 function tool_autoloader($className)
 {

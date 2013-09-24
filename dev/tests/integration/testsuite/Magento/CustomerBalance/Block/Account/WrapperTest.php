@@ -23,7 +23,7 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $session = \Mage::getModel('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
 
-        $utility = new Magento_Core_Utility_Layout($this);
+        $utility = new \Magento\Core\Utility\Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_customerbalance_info_index.xml',
             $utility->getLayoutDependencies()
         );

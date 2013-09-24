@@ -38,7 +38,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\IntegrityAbstract
     {
         $files = array();
         /** @var $configModel \Magento\Core\Model\Config */
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
+        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         foreach ($this->_getEnabledModules() as $moduleName) {
             $moduleViewDir = $configModel->getModuleDir('view', $moduleName);
             if (!is_dir($moduleViewDir)) {

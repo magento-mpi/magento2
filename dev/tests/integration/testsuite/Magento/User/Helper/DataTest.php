@@ -45,7 +45,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetResetPasswordLinkExpirationPeriod()
     {
         /** @var $configModel \Magento\Core\Model\Config */
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
+        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         $this->assertEquals(
             1,
             (int) $configModel->getValue(

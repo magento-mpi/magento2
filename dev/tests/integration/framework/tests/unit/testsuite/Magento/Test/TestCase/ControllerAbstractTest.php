@@ -32,7 +32,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\ControllerA
         $helperMock = $this->getMockBuilder('Magento\Backend\Helper\DataProxy')
             ->disableOriginalConstructor()
             ->getMock();
-        $request = new Magento_TestFramework_Request($helperMock);
+        $request = new \Magento\TestFramework\Request($helperMock);
         $response = new \Magento\TestFramework\Response(
             $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false)
         );

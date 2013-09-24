@@ -109,7 +109,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConfigurationDesignThemeDefaults()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'test_f', 'adminhtml' => 'test_a', 'install' => 'test_i');
         $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));

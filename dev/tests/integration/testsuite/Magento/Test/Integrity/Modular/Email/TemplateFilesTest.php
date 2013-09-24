@@ -28,7 +28,7 @@ class TemplateFilesTest extends \PHPUnit_Framework_TestCase
 
     public function loadBaseContentsDataProvider()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $templateModel = $objectManager->create('Magento\Core\Model\Email\Template');
         $configModel = $objectManager->get('Magento\Core\Model\Config');
         

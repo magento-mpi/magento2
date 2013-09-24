@@ -63,9 +63,9 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
     public function testWithoutLimits()
     {
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', null);
         $this->_prepareFilter();
         $this->assertEquals(array(
@@ -78,9 +78,9 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Bug MAGE-6561');
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', '10-100');
         $this->_prepareFilter($request);
         $this->assertEquals(array(

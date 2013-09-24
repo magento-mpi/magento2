@@ -46,7 +46,7 @@ class ConfigFixture
      */
     protected function _getConfigValue($configPath, $storeCode = false)
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         if ($storeCode === false) {
             /** @var \Magento\Core\Model\Config $configModel */

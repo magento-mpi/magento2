@@ -56,7 +56,7 @@ class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
     protected function _getBaseFrontendHandles()
     {
         if ($this->_baseFrontendHandles === null) {
-            $files = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(
+            $files = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array(
                 'include_design' => false,
                 'area' => 'frontend'
             ), false);

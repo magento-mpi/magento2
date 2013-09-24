@@ -409,7 +409,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
     {
         if (null === $this->_appCache) {
             //set application path
-            $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+            $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             /** @var \Magento\Core\Model\Config $config */
             $config = $objectManager->get('Magento\Core\Model\Config');
             $options = $config->getOptions();
@@ -466,7 +466,7 @@ abstract class Magento_Test_TestCase_WebapiAbstract extends PHPUnit_Framework_Te
             ));
         }
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $config \Magento\Backend\Model\Config */
         $config = Mage::getModel('Magento\Backend\Model\Config');
         $data[$group]['fields'][$node]['value'] = $value;

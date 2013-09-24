@@ -32,7 +32,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var $configModel \Magento\Core\Model\Config */
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
+        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         $this->_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
         $this->_oldExceptionFile = Mage::app()->getStore()->getConfig('dev/log/exception_file');
         $this->_oldWriterModel = (string)$configModel->getNode('global/log/core/writer_model');
@@ -47,7 +47,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
         $this->_oldExceptionFile = null;
 
         /** @var $configModel \Magento\Core\Model\Config */
-        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
+        $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
         $configModel->setNode('global/log/core/writer_model', $this->_oldWriterModel);
         $this->_oldWriterModel = null;
 

@@ -26,7 +26,7 @@ class Magento_Test_Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_mergedSchemaFile = $objectManager->get('Magento\Cron\Model\Config\SchemaLocator')->getSchema();
     }
 
@@ -34,7 +34,7 @@ class Magento_Test_Integrity_Modular_CrontabConfigFilesTest extends PHPUnit_Fram
     {
         $invalidFiles = array();
 
-        $files = Magento_TestFramework_Utility_Files::init()->getConfigFiles('crontab.xml');
+        $files = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('crontab.xml');
         $mergedConfig = new \Magento\Config\Dom(
             '<config></config>',
             $this->_idAttributes

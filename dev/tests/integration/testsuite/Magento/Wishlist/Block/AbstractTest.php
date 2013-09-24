@@ -20,7 +20,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
         $wishlistData = $objectManager->get('Magento\Wishlist\Helper\Data');
         $taxData = $objectManager->get('Magento\Tax\Helper\Data');

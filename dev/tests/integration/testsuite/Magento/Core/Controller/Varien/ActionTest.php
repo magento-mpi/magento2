@@ -25,17 +25,17 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $arguments = array(
             'request'  => $request,
-            'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
+            'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
         );        
         $this->_objectManager->get('Magento\Core\Model\View\DesignInterface')
             ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
@@ -56,12 +56,12 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('Magento_TestFramework_Request', $this->_object->getRequest());
+        $this->assertInstanceOf('Magento\TestFramework\Request', $this->_object->getRequest());
     }
 
     public function testGetResponse()
     {
-        $this->assertInstanceOf('Magento_TestFramework_Response', $this->_object->getResponse());
+        $this->assertInstanceOf('Magento\TestFramework\Response', $this->_object->getResponse());
     }
 
     public function testSetGetFlag()
@@ -245,14 +245,14 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Can\' dispatch - headers already sent');
         }
         /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $request Magento_TestFramework_Request */
-        $request = $objectManager->get('Magento_TestFramework_Request');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $request \Magento\TestFramework\Request */
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setDispatched();
 
         $arguments = array(
             'request'  => $request,
-            'response' => $this->_objectManager->get('Magento_TestFramework_Response'),
+            'response' => $this->_objectManager->get('Magento\TestFramework\Response'),
                 ->get('Magento\TestFramework\Response'),
         );
         $context = $this->_objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
@@ -311,7 +311,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         Mage::app()->loadArea($expectedArea);
         /** @var $controller \Magento\Core\Controller\Varien\Action */
         $context = $this->_objectManager->create($context, array(
-            'response' => $this->_objectManager->get('Magento_TestFramework_Response')
+            'response' => $this->_objectManager->get('Magento\TestFramework\Response')
                 ->get('Magento\TestFramework\Response')
         ));
         $controller = $this->_objectManager->create($controllerClass, array('context' => $context));

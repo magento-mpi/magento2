@@ -27,7 +27,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $source->rewind();
         $expected = $source->current();
 
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $coreData = $objectManager->get('Magento\Core\Helper\Data');
         $coreString = $objectManager->get('Magento\Core\Helper\String');
         $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');

@@ -149,7 +149,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testSendPasswordResetConfirmationEmail()
     {
         /** @var $storeConfig \Magento\Core\Model\Store\Config */
-        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+        $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Store\Config');
         $mailer = $this->getMock('Magento\Core\Model\Email\Template\Mailer');
         $mailer->expects($this->once())
