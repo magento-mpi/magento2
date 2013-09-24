@@ -330,6 +330,19 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * @param $requestBodyString
      * @param $requestUrl
      * @return array
+     * merged array of oauth protocols and request parameters. eg :
+     * <pre>
+     * array (
+     *         'oauth_version' => '1.0',
+     *         'oauth_signature_method' => 'HMAC-SHA1',
+     *         'oauth_nonce' => 'rI7PSWxTZRHWU3R',
+     *         'oauth_timestamp' => '1377183099',
+     *         'oauth_consumer_key' => 'a6aa81cc3e65e2960a4879392445e718',
+     *         'oauth_signature' => 'VNg4mhFlXk7%2FvsxMqqUd5DWIj9s%3D'',
+     *         'request_url' => 'http://magento.ll/oauth/token/access',
+     *         'http_method' => 'POST'
+     * )
+     * </pre>
      */
     protected function _processRequest($authHeaderValue, $contentTypeHeader, $requestBodyString, $requestUrl)
     {
