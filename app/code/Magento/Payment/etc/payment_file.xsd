@@ -17,9 +17,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:all minOccurs="0">
-                <xs:element name="credit_cards" type="credit_cardsType" />
-                <xs:element name="groups" type="groupsType" />
+            <xs:all>
+                <xs:element name="credit_cards" type="credit_cardsType" minOccurs="0" />
+                <xs:element name="groups" type="groupsType" minOccurs="0 "/>
             </xs:all>
         </xs:complexType>
     </xs:element>
@@ -30,7 +30,7 @@
                 The containing node for a list of credit card types.
             </xs:documentation>
         </xs:annotation>
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:sequence maxOccurs="unbounded">
             <xs:element name="type" type="typeType" />
         </xs:sequence>
     </xs:complexType>

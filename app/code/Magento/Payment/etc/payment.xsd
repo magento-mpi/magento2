@@ -17,9 +17,9 @@
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:all minOccurs="0">
-                <xs:element name="credit_cards" type="credit_cardsType" />
-                <xs:element name="groups" type="groupsType" />
+            <xs:all>
+                <xs:element name="credit_cards" type="credit_cardsType" minOccurs="0" />
+                <xs:element name="groups" type="groupsType" minOccurs="0" />
             </xs:all>
         </xs:complexType>
     </xs:element>
@@ -45,7 +45,7 @@
             <xs:element name="label" type="translatableType" />
         </xs:all>
         <xs:attribute name="code" type="xs:ID" use="required" />
-        <xs:attribute name="order" type="xs:integer" />
+        <xs:attribute name="order" type="xs:integer" use="required" />
     </xs:complexType>
 
     <xs:complexType name="translatableType">
