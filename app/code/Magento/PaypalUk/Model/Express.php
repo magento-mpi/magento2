@@ -100,7 +100,7 @@ class Magento_PaypalUk_Model_Express extends Magento_Paypal_Model_Express
                 $api->getTransactionId())
         ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
-        $this->_paypalInfoFactory->importToPayment($api, $payment);
+        $this->_paypalInfoFactory->create('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
     }
 
     /**

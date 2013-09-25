@@ -507,7 +507,7 @@ class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
     /**
      * Handle logical errors
      *
-     * @param $response
+     * @param array $response
      *
      * @throws Magento_Core_Exception
      */
