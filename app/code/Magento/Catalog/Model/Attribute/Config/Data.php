@@ -1,7 +1,6 @@
 <?php
 /**
- * Represents catalog attributes data for a given scope.
- * Provides an abstraction of where the actual data is coming from: config files in the file system, or cache.
+ * Catalog attributes configuration data container. Provides catalog attributes configuration data.
  *
  * {license_notice}
  *

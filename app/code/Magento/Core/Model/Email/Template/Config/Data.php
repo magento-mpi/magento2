@@ -1,7 +1,6 @@
 <?php
 /**
- * Represents email templates data for a given scope.
- * Provides an abstraction of where the actual data is coming from: config files in the file system, or cache.
+ * Email templates configuration data container. Provides email templates configuration data.
  *
  * {license_notice}
  *
