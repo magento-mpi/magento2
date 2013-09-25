@@ -55,7 +55,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
     public function saveData()
     {
         $groupedLinkId = Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED;
-        $connection    = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
+        $connection    = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
         $resource      = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Link');
         $mainTable     = $resource->getMainTable();
         $relationTable = $resource->getTable('catalog_product_relation');

@@ -212,4 +212,10 @@
             </value>
         </param>
     </type>
+    <virtualType name="default_setup" type="Magento_Core_Model_Resource_Type_Db_Pdo_Mysql" />
+    <virtualType name="default_read" type="default_setup" />
+    <virtualType name="default_write" type="default_setup" />
+    <virtualType name="core_read" type="default_read" />
+    <virtualType name="core_write" type="default_write" />
+    <virtualType name="core_setup" type="default_setup" />
 </config>

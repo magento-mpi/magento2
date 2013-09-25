@@ -261,7 +261,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Option extends Magento_Im
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
-            $this->_connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
+            $this->_connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
         }
 
         if (isset($data['resource_helper'])) {
