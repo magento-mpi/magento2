@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_TestModule3_Service_ErrorV1Interface
+namespace Magento\TestModule3\Service;
+
+interface ErrorV1Interface
 {
     public function success();
     public function resourceNotFoundException();

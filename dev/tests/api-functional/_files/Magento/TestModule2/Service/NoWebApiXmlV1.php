@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestModule2_Service_NoWebApiXmlV1 implements Magento_TestModule2_Service_NoWebApiXmlV1Interface
+namespace Magento\TestModule2\Service;
+
+class NoWebApiXmlV1 implements \Magento\TestModule2\Service\NoWebApiXmlV1Interface
 {
     /**
      * @param array $request

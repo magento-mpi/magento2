@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestModule3_Service_ErrorV1 implements Magento_TestModule3_Service_ErrorV1Interface
+namespace Magento\TestModule3\Service;
+
+class ErrorV1 implements \Magento\TestModule3\Service\ErrorV1Interface
 {
     public function success()
     {
@@ -41,7 +43,7 @@ class Magento_TestModule3_Service_ErrorV1 implements Magento_TestModule3_Service
 
     public function otherException()
     {
-        throw new Exception('Non service exception', 5678);
+        throw new \Exception('Non service exception', 5678);
     }
 
     public function returnIncompatibleDataType()

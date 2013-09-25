@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
+namespace Magento\Webapi\Routing;
+
+class RestErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
 {
     public function setUp()
     {
@@ -148,7 +150,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         $expectedMessages = array(
             'Internal Error. Details are available in Magento log file. Report ID: %1',
             'The method "returnIncompatibleDataType" of service '
-            . '"Magento_TestModule3_Service_ErrorV1Interface" must return an array.'
+            . '"Magento\TestModule3\Service\ErrorV1Interface" must return an array.'
         );
         // \Magento\Service\Exception
         $this->_errorTest(
@@ -168,7 +170,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
      * @param array $data - Data for the cal
      * @param int $httpStatus - Expected HTTP status
      * @param int|array $errorCode - Expected error code
-     * @param string|array $errorMessage - Exception error message
+     * @param string|array $errorMessage - \Exception error message
      * @param array $parameters - Optional parameters array, or null if no parameters
      */
     protected function _errorTest(
@@ -182,7 +184,7 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         // TODO: need to get header info instead of catching the exception
         try {
             $this->_webApiCall($serviceInfo, $data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertEquals($httpStatus, $e->getCode(), 'Checking HTTP status code');
 
             $body = json_decode($e->getMessage(), true);

@@ -11,7 +11,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_Annotation_ApiDataFixture
+namespace Magento\TestFramework\Annotation;
+
+class ApiDataFixture
 {
     /**
      * @var string
@@ -42,9 +44,9 @@ class Magento_TestFramework_Annotation_ApiDataFixture
     /**
      * Handler for 'startTest' event
      *
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      */
-    public function startTest(PHPUnit_Framework_TestCase $test)
+    public function startTest(\PHPUnit_Framework_TestCase $test)
     {
         /** Apply method level fixtures if thy are available, apply class level fixtures otherwise */
         $this->_applyFixtures($this->_getFixtures('method', $test) ?: $this->_getFixtures('class', $test));
@@ -62,11 +64,11 @@ class Magento_TestFramework_Annotation_ApiDataFixture
      * Retrieve fixtures from annotation
      *
      * @param string $scope 'class' or 'method'
-     * @param PHPUnit_Framework_TestCase $test
+     * @param \PHPUnit_Framework_TestCase $test
      * @return array
      * @throws \Magento\Exception
      */
-    protected function _getFixtures($scope, PHPUnit_Framework_TestCase $test)
+    protected function _getFixtures($scope, \PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         $result = array();

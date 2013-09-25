@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
+namespace Magento\Webapi\Routing;
+
+class SoapErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
 {
     public function setUp()
     {
@@ -32,7 +34,7 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
         try {
             $this->_webApiCall($serviceInfo, $arguments);
             $this->fail("SoapFault was not raised as expected.");
-        } catch (SoapFault $e) {
+        } catch (\SoapFault $e) {
             $this->_checkSoapFault(
                 $e,
                 'Parameterized service exception',
@@ -54,7 +56,7 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
-        } catch (SoapFault $e) {
+        } catch (\SoapFault $e) {
             $this->_checkSoapFault(
                 $e,
                 'Service not found',
@@ -75,7 +77,7 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
-        } catch (SoapFault $e) {
+        } catch (\SoapFault $e) {
             /** In developer mode message is masked, so checks should be different in two modes */
             if (strpos($e->getMessage(), 'Internal Error') === false) {
                 $this->_checkSoapFault(
@@ -105,13 +107,13 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
-        } catch (SoapFault $e) {
+        } catch (\SoapFault $e) {
             /** In developer mode message is masked, so checks should be different in two modes */
             if (strpos($e->getMessage(), 'Internal Error') === false) {
                 $this->_checkSoapFault(
                     $e,
                     'The method "returnIncompatibleDataType" of service '
-                        . '"Magento_TestModule3_Service_ErrorV1Interface" must return an array.',
+                        . '"Magento\TestModule3\Service\ErrorV1Interface" must return an array.',
                     'env:Receiver',
                     null,
                     array(),
@@ -130,7 +132,7 @@ class Magento_Webapi_Routing_SoapErrorHandlingTest extends Magento_Test_TestCase
     /**
      * Verify that SOAP fault contains necessary information.
      *
-     * @param SoapFault $soapFault
+     * @param \SoapFault $soapFault
      * @param string $expectedMessage
      * @param string $expectedFaultCode
      * @param string $expectedErrorCode

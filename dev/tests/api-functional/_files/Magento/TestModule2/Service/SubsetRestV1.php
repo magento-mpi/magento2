@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestModule2_Service_SubsetRestV1 implements Magento_TestModule2_Service_SubsetRestV1Interface
+namespace Magento\TestModule2\Service;
+
+class SubsetRestV1 implements \Magento\TestModule2\Service\SubsetRestV1Interface
 {
     /**
      * @param array $request

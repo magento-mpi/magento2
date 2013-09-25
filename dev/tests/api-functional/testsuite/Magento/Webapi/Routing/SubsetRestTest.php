@@ -9,7 +9,9 @@
 /**
  * Class to test routing based on a Service that exposes subset of REST Operations
  */
-class Magento_Webapi_Routing_SubsetRestTest extends Magento_Webapi_Routing_SoapOnlyTest
+namespace Magento\Webapi\Routing;
+
+class SubsetRestTest extends \Magento\Webapi\Routing\SoapOnlyTest
 {
     /**
      * @Override

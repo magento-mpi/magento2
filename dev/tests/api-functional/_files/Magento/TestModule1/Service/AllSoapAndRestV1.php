@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-class Magento_TestModule1_Service_AllSoapAndRestV1 implements Magento_TestModule1_Service_AllSoapAndRestV1Interface
+namespace Magento\TestModule1\Service;
+
+class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1Interface
 {
     /**
      * @param $request
