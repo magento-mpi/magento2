@@ -34,6 +34,7 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     /**
      * Construct
      *
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
@@ -45,6 +46,7 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
@@ -57,7 +59,8 @@ class Magento_MultipleWishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_wishlistFactory = $wishlistFactory;
-        parent::__construct($coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($customerSession, $coreRegistry, $wishlistData, $taxData, $catalogData, $coreData, $context,
+            $data);
     }
 
     /**

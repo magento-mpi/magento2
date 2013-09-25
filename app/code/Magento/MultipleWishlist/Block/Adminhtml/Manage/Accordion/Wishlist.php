@@ -26,6 +26,7 @@ class Magento_MultipleWishlist_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Construct
      *
+     * @param Magento_Data_CollectionFactory $collectionFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -36,6 +37,7 @@ class Magento_MultipleWishlist_Block_Adminhtml_Manage_Accordion_Wishlist
      * @param array $data
      */
     public function __construct(
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -46,7 +48,8 @@ class Magento_MultipleWishlist_Block_Adminhtml_Manage_Accordion_Wishlist
         array $data = array()
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $itemFactory, $data);
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry,
+            $itemFactory, $data);
     }
 
     /**
