@@ -28,23 +28,23 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * @var array
      */
     protected $_errors = array(
-        Magento_Oauth_Helper_Service::ERR_VERSION_REJECTED => 'version_rejected',
-        Magento_Oauth_Helper_Service::ERR_PARAMETER_ABSENT => 'parameter_absent',
-        Magento_Oauth_Helper_Service::ERR_PARAMETER_REJECTED => 'parameter_rejected',
-        Magento_Oauth_Helper_Service::ERR_TIMESTAMP_REFUSED => 'timestamp_refused',
-        Magento_Oauth_Helper_Service::ERR_NONCE_USED => 'nonce_used',
-        Magento_Oauth_Helper_Service::ERR_SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
-        Magento_Oauth_Helper_Service::ERR_SIGNATURE_INVALID => 'signature_invalid',
-        Magento_Oauth_Helper_Service::ERR_CONSUMER_KEY_REJECTED => 'consumer_key_rejected',
-        Magento_Oauth_Helper_Service::ERR_CONSUMER_KEY_INVALID => 'consumer_key_invalid',
-        Magento_Oauth_Helper_Service::ERR_TOKEN_USED => 'token_used',
-        Magento_Oauth_Helper_Service::ERR_TOKEN_EXPIRED => 'token_expired',
-        Magento_Oauth_Helper_Service::ERR_TOKEN_REVOKED => 'token_revoked',
-        Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED => 'token_rejected',
-        Magento_Oauth_Helper_Service::ERR_VERIFIER_INVALID => 'verifier_invalid',
-        Magento_Oauth_Helper_Service::ERR_PERMISSION_UNKNOWN => 'permission_unknown',
-        Magento_Oauth_Helper_Service::ERR_PERMISSION_DENIED => 'permission_denied',
-        Magento_Oauth_Helper_Service::ERR_METHOD_NOT_ALLOWED => 'method_not_allowed'
+        Magento_Oauth_Service_OauthV1Interface::ERR_VERSION_REJECTED => 'version_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT => 'parameter_absent',
+        Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_REJECTED => 'parameter_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TIMESTAMP_REFUSED => 'timestamp_refused',
+        Magento_Oauth_Service_OauthV1Interface::ERR_NONCE_USED => 'nonce_used',
+        Magento_Oauth_Service_OauthV1Interface::ERR_SIGNATURE_METHOD_REJECTED => 'signature_method_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_SIGNATURE_INVALID => 'signature_invalid',
+        Magento_Oauth_Service_OauthV1Interface::ERR_CONSUMER_KEY_REJECTED => 'consumer_key_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_CONSUMER_KEY_INVALID => 'consumer_key_invalid',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_USED => 'token_used',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_EXPIRED => 'token_expired',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_REVOKED => 'token_revoked',
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_REJECTED => 'token_rejected',
+        Magento_Oauth_Service_OauthV1Interface::ERR_VERIFIER_INVALID => 'verifier_invalid',
+        Magento_Oauth_Service_OauthV1Interface::ERR_PERMISSION_UNKNOWN => 'permission_unknown',
+        Magento_Oauth_Service_OauthV1Interface::ERR_PERMISSION_DENIED => 'permission_denied',
+        Magento_Oauth_Service_OauthV1Interface::ERR_METHOD_NOT_ALLOWED => 'method_not_allowed'
     );
 
     /**
@@ -53,22 +53,22 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * @var array
      */
     protected $_errorsToHttpCode = array(
-        Magento_Oauth_Helper_Service::ERR_VERSION_REJECTED => self::HTTP_BAD_REQUEST,
-        Magento_Oauth_Helper_Service::ERR_PARAMETER_ABSENT => self::HTTP_BAD_REQUEST,
-        Magento_Oauth_Helper_Service::ERR_PARAMETER_REJECTED => self::HTTP_BAD_REQUEST,
-        Magento_Oauth_Helper_Service::ERR_TIMESTAMP_REFUSED => self::HTTP_BAD_REQUEST,
-        Magento_Oauth_Helper_Service::ERR_NONCE_USED => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_SIGNATURE_METHOD_REJECTED => self::HTTP_BAD_REQUEST,
-        Magento_Oauth_Helper_Service::ERR_SIGNATURE_INVALID => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_CONSUMER_KEY_REJECTED => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_CONSUMER_KEY_INVALID => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_TOKEN_USED => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_TOKEN_EXPIRED => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_TOKEN_REVOKED => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_VERIFIER_INVALID => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_PERMISSION_UNKNOWN => self::HTTP_UNAUTHORIZED,
-        Magento_Oauth_Helper_Service::ERR_PERMISSION_DENIED => self::HTTP_UNAUTHORIZED
+        Magento_Oauth_Service_OauthV1Interface::ERR_VERSION_REJECTED => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_REJECTED => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TIMESTAMP_REFUSED => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_NONCE_USED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_SIGNATURE_METHOD_REJECTED => self::HTTP_BAD_REQUEST,
+        Magento_Oauth_Service_OauthV1Interface::ERR_SIGNATURE_INVALID => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_CONSUMER_KEY_REJECTED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_CONSUMER_KEY_INVALID => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_USED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_EXPIRED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_REVOKED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_TOKEN_REJECTED => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_VERIFIER_INVALID => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_PERMISSION_UNKNOWN => self::HTTP_UNAUTHORIZED,
+        Magento_Oauth_Service_OauthV1Interface::ERR_PERMISSION_DENIED => self::HTTP_UNAUTHORIZED
     );
 
 
@@ -135,20 +135,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $protocolParams = array();
 
-        if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
-            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
-
-            foreach (explode(',', $authHeaderValue) as $paramStr) {
-                $nameAndValue = explode('=', trim($paramStr), 2);
-
-                if (count($nameAndValue) < 2) {
-                    continue;
-                }
-                if ($this->_isProtocolParameter($nameAndValue[0])) {
-                    $protocolParams[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
-                }
-            }
-        }
+        $this->_processHeader($authHeaderValue, $protocolParams);
 
         if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
             $protocolParamsNotSet = !$protocolParams;
@@ -165,7 +152,76 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         }
         $protocolParamsNotSet = !$protocolParams;
 
-        if (($queryString = Zend_Uri_Http::fromString($requestUrl)->getQuery())) {
+        $queryString = Zend_Uri_Http::fromString($requestUrl)->getQuery();
+        $this->_extractQueryStringParams($requestUrl, $protocolParams, $queryString);
+
+        if ($protocolParamsNotSet) {
+            $this->_fetchProtocolParamsFromQuery($protocolParams, $queryString);
+        }
+
+        // Combine request and header parameters
+        return $protocolParams;
+    }
+
+    /**
+     * Retrieve protocol parameters from query string
+     *
+     * @param $protocolParams
+     * @param $queryString
+     */
+    protected function _fetchProtocolParamsFromQuery(&$protocolParams, $queryString)
+    {
+        foreach ($queryString as $queryParamName => $queryParamValue) {
+            if ($this->_isProtocolParameter($queryParamName)) {
+                $protocolParams[$queryParamName] = $queryParamValue;
+            }
+        }
+    }
+
+    /**
+     * Check if attribute is oAuth related
+     *
+     * @param string $attrName
+     * @return bool
+     */
+    protected function _isProtocolParameter($attrName)
+    {
+        return (bool)preg_match('/oauth_[a-z_-]+/', $attrName);
+    }
+
+    /**
+     * Process header parameters for Oauth
+     *
+     * @param $authHeaderValue
+     * @param $protocolParams
+     */
+    protected function _processHeader($authHeaderValue, &$protocolParams)
+    {
+        if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
+            $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
+
+            foreach (explode(',', $authHeaderValue) as $paramStr) {
+                $nameAndValue = explode('=', trim($paramStr), 2);
+
+                if (count($nameAndValue) < 2) {
+                    continue;
+                }
+                if ($this->_isProtocolParameter($nameAndValue[0])) {
+                    $protocolParams[rawurldecode($nameAndValue[0])] = rawurldecode(trim($nameAndValue[1], '"'));
+                }
+            }
+        }
+    }
+
+    /**
+     * Process query string for Oauth
+     *
+     * @param $protocolParams
+     * @param $queryString
+     */
+    protected function _extractQueryStringParams(&$protocolParams, $queryString)
+    {
+        if ($queryString) {
             foreach (explode('&', $queryString) as $paramToValue) {
                 $paramData = explode('=', $paramToValue);
 
@@ -174,13 +230,8 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
                 }
             }
         }
-        if ($protocolParamsNotSet) {
-            $this->_fetchProtocolParamsFromQuery($protocolParams, $queryString);
-        }
-
-        // Combine request and header parameters
-        return $protocolParams;
     }
+
 
     /**
      * Create response string for problem during request and set HTTP error code
@@ -208,7 +259,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
                 $errorMsg = 'unknown_problem&code=' . $eCode;
                 $responseCode = self::HTTP_INTERNAL_ERROR;
             }
-            if (Magento_Oauth_Helper_Service::ERR_PARAMETER_ABSENT == $eCode) {
+            if (Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT == $eCode) {
                 $errorMsg .= '&oauth_parameters_absent=' . $eMsg;
             } elseif ($eMsg) {
                 $errorMsg .= '&message=' . $eMsg;
@@ -220,31 +271,5 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
 
         $response->setHttpResponseCode($responseCode);
         return array('oauth_problem' => $errorMsg);
-    }
-
-    /**
-     * Retrieve protocol parameters from query string
-     *
-     * @param $protocolParams
-     * @param $queryString
-     */
-    protected function _fetchProtocolParamsFromQuery(&$protocolParams, $queryString)
-    {
-        foreach ($queryString as $queryParamName => $queryParamValue) {
-            if ($this->_isProtocolParameter($queryParamName)) {
-                $protocolParams[$queryParamName] = $queryParamValue;
-            }
-        }
-    }
-
-    /**
-     * Check if attribute is oAuth related
-     *
-     * @param string $attrName
-     * @return bool
-     */
-    protected function _isProtocolParameter($attrName)
-    {
-        return (bool)preg_match('/oauth_[a-z_-]+/', $attrName);
     }
 }

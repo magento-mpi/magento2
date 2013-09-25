@@ -48,7 +48,7 @@ class Magento_Oauth_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         return [
             [
-                new Magento_Oauth_Exception('msg', Magento_Oauth_Helper_Service::ERR_VERSION_REJECTED),
+                new Magento_Oauth_Exception('msg', Magento_Oauth_Service_OauthV1Interface::ERR_VERSION_REJECTED),
                 new Zend_Controller_Response_Http(),
                 ['version_rejected&message=msg', Magento_Oauth_Helper_Data::HTTP_BAD_REQUEST]
             ],
@@ -58,7 +58,7 @@ class Magento_Oauth_Helper_DataTest extends PHPUnit_Framework_TestCase
                 ['unknown_problem&code=255&message=msg', Magento_Oauth_Helper_Data::HTTP_INTERNAL_ERROR]
             ],
             [
-                new Magento_Oauth_Exception('param', Magento_Oauth_Helper_Service::ERR_PARAMETER_ABSENT),
+                new Magento_Oauth_Exception('param', Magento_Oauth_Service_OauthV1Interface::ERR_PARAMETER_ABSENT),
                 new Zend_Controller_Response_Http(),
                 ['parameter_absent&oauth_parameters_absent=param', Magento_Oauth_Helper_Data::HTTP_BAD_REQUEST]
             ],
