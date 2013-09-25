@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<payment>
+    <credit_cards>
+        <type code="ABC" order="0">
+            <label translate="true">ABC Credit Card Company</label>
+        </type>
+        <type code="XYZ">
+        </type>
+    </credit_cards>
+    <groups>
+        <group id="none">
+            <label>Group Label</label>
+        </group>
+    </groups>
+</payment>
