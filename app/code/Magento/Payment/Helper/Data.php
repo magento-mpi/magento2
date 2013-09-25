@@ -16,7 +16,6 @@
 class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
-    const XML_PATH_PAYMENT_GROUPS = 'global/payment/groups';
 
     /**
      * Core store config
@@ -24,16 +23,22 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
+    
+    /** @var Magento_Payment_Model_Config  */
+    protected $_paymentConfig;
 
     /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Payment_Model_Config $paymentConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Payment_Model_Config $paymentConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_paymentConfig = $paymentConfig;
         parent::__construct($context);
     }
 
@@ -245,7 +250,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
             }
         }
         if ($asLabelValue && $withGroups) {
-            $groups = Mage::app()->getConfig()->getNode(self::XML_PATH_PAYMENT_GROUPS)->asCanonicalArray();
+            $groups = $this->_paymentConfig->getGroups();
             foreach ($groups as $code => $title) {
                 $methods[$code] = $title; // for sorting, see below
             }

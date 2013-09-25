@@ -29,22 +29,22 @@ class Magento_Payment_Model_Config
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Config_DataInterface
      */
-    protected $_coreConfig;
+    protected $_dataStorage;
 
     /**
      * Constructor
      *
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Config_DataInterface $dataStorage
      */
     public function __construct(
         Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Config_DataInterface $dataStorage
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreConfig = $coreConfig;
+        $this->_dataStorage = $dataStorage;
     }
 
     /**
@@ -116,17 +116,27 @@ class Magento_Payment_Model_Config
      */
     public function getCcTypes()
     {
-        $_types = $this->_coreConfig->getNode('global/payment/cc/types')->asArray();
+        $configs = $this->_dataStorage->get('credit_cards');
 
-        uasort($_types, array('Magento_Payment_Model_Config', 'compareCcTypes'));
+        uasort($configs, array('Magento_Payment_Model_Config', 'compareCcTypes'));
 
         $types = array();
-        foreach ($_types as $data) {
-            if (isset($data['code']) && isset($data['name'])) {
-                $types[$data['code']] = $data['name'];
+        foreach ($configs as $code => $data) {
+            if (isset($data['name'])) {
+                $types[$code] = $data['name'];
             }
         }
         return $types;
+    }
+
+    public function getGroups()
+    {
+        $groups = $this->_dataStorage->get('groups');
+        $result = array();
+        foreach ($groups as $code => $title) {
+            $result[$code] = $title; // for sorting, see below
+        }
+        return $result;
     }
 
     /**
@@ -168,7 +178,7 @@ class Magento_Payment_Model_Config
      * @param array $b
      * @return int
      */
-    static function compareCcTypes($a, $b)
+    static public function compareCcTypes($a, $b)
     {
         if (!isset($a['order'])) {
             $a['order'] = 0;
