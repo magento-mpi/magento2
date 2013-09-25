@@ -14,8 +14,7 @@ class Magento_Config_ValidationStateTest extends PHPUnit_Framework_TestCase
      */
     public function testIsValidated($appMode, $expectedResult)
     {
-        $appStateModel = new Magento_Core_Model_App_State(time(), $appMode);
-        $model = new Magento_Core_Model_Config_ValidationState($appStateModel);
+        $model = new Magento_Core_Model_Config_ValidationState($appMode);
         $this->assertEquals($model->isValidated(), $expectedResult);
     }
 

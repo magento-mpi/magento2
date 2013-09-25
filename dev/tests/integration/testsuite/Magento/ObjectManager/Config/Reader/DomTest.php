@@ -55,7 +55,8 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
         );
         $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($this->_fileList));
         $this->_mapper = new Magento_ObjectManager_Config_Mapper_Dom();
-        $this->_validationState = new Magento_Core_Model_Config_ValidationState(new Magento_Core_Model_App_State());
+        $this->_validationState =
+            new Magento_Core_Model_Config_ValidationState(Magento_Core_Model_App_State::MODE_DEVELOPER);
         $this->_schemaLocator = new Magento_ObjectManager_Config_SchemaLocator();
 
         $this->_mergedConfig = new DOMDocument();
