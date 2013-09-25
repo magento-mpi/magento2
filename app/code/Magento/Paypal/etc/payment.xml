@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Paypal
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Payment/etc/payment.xsd">
+    <credit_cards>
+        <type code="SM" order="60">
+            <label translate="true">Switch/Maestro</label>
+        </type>
+        <type code="SO" order="61">
+            <label translate="true">Solo</label>
+        </type>
+    </credit_cards>
+    <groups>
+        <label>PayPal</label>
+    </groups>
+</payment>
+
