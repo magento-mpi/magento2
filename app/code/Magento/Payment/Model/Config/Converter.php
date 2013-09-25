@@ -64,7 +64,7 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
     }
 
     /**
-     * Statis Method for compare sort order of CC Types
+     * Compare sort order of CC Types
      *
      * @param array $a
      * @param array $b
