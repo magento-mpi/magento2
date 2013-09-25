@@ -11,7 +11,7 @@
 /**
  * Lightweight theme that implements minimal required interface
  */
-class Magento_Tools_View_Generator_ThemeLight extends Varien_Object implements Magento_Core_Model_ThemeInterface
+class Magento_Tools_View_Generator_ThemeLight extends Magento_Object implements Magento_Core_Model_ThemeInterface
 {
     /**
      * {@inheritdoc}

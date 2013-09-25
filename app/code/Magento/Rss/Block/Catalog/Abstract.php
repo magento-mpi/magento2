@@ -50,18 +50,20 @@ class Magento_Rss_Block_Catalog_Abstract extends Magento_Rss_Block_Abstract
 
     /**
      * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Data $catalogData,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($customerSession, $coreData, $context, $data);
     }
 
     /**

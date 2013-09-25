@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Sales_Order_Create_Data" template="sales/order/create/data.phtml" name="data">
             <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar" template="sales/order/create/sidebar.phtml" name="sidebar">
                 <block class="Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart" template="sales/order/create/sidebar/items.phtml" name="cart"/>
@@ -48,5 +48,5 @@
             </block>
             <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

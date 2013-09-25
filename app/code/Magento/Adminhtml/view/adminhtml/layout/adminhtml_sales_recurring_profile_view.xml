@@ -8,14 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Sales_Block_Adminhtml_Recurring_Profile_View" name="sales.recurring.profile.view" template="Magento_Backend::widget/view/container.phtml">
             <action method="setDestElementId">
                 <argument name="value" xsi:type="string">sales_recurring_profile_view</argument>
             </action>
         </block>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento_Adminhtml_Block_Widget_Tabs" name="sales.recurring.profile.view.tabs">
             <action method="setDestElementId">
                 <argument name="value" xsi:type="string">sales_recurring_profile_view</argument>
@@ -107,5 +107,5 @@
                 <argument name="block" xsi:type="string">orders_tab</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

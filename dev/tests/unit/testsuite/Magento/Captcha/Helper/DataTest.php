@@ -63,18 +63,18 @@ class Magento_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with('customer/captcha/type')
             ->will($this->returnValue('zend'));
 
-        $objectManager = $this->getMock('Magento_ObjectManager');
-        $config = $this->_getConfigStub();
-
         $factoryMock = $this->getMock('Magento_Captcha_Model_CaptchaFactory', array(), array(), '', false);
-
         $factoryMock->expects($this->once())
             ->method('create')
-            ->with('Magento_Captcha_Model_Zend')
-            ->will($this->returnValue(
-                new Magento_Captcha_Model_Default($objectManager, array('formId' => 'user_create')))
-            );
+            ->with($this->equalTo('Zend'))
+            ->will($this->returnValue(new Magento_Captcha_Model_Default(
+                $this->getMock('Magento_Core_Model_Session_Abstract', array(), array(), '', false),
+                $this->getMock('Magento_Captcha_Helper_Data', array(), array(), '', false),
+                $this->getMock('Magento_Captcha_Model_Resource_LogFactory', array(), array(), '', false),
+                'user_create'
+            )));
 
+        $config = $this->_getConfigStub();
         $helper = $this->_getHelper($store, $config, $factoryMock);
         $this->assertInstanceOf('Magento_Captcha_Model_Default', $helper->getCaptcha('user_create'));
     }

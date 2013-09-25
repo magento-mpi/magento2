@@ -8,10 +8,10 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Category (Anchor)" type="page" parent="catalog_category_view">
-    <reference name="breadcrumbs.container">
+    <referenceContainer name="breadcrumbs.container">
         <block class="Magento_Catalog_Block_Category_View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento_Catalog_Block_Category_View" name="category.products" template="category/view.phtml">
             <block class="Magento_Catalog_Block_Product_List" name="product_list" template="product/list.phtml">
                 <block class="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
@@ -23,5 +23,5 @@
             </block>
         </block>
         <block class="Magento_Catalog_Block_Layer_View" name="catalog.leftnav" after="-" template="layer/view.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

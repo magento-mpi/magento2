@@ -94,6 +94,8 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
             || isset($argument['value']['model'])
                 && in_array($argument['value']['model'], array(
                     'Magento_Search_Model_Adminhtml_Search_Grid_Options',
+                    'Magento_Logging_Model_Resource_Grid_ActionsGroup',
+                    'Magento_Logging_Model_Resource_Grid_Actions',
                 ));
     }
 }

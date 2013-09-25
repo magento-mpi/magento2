@@ -202,6 +202,10 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
         foreach ($session->getMessages()->getItems($messageType) as $message) {
             $actualMessages[] = $message->getText();
         }
-        $this->assertThat($actualMessages, $constraint, 'Session messages do not meet expectations');
+        $this->assertThat(
+            $actualMessages,
+            $constraint,
+            'Session messages do not meet expectations' . var_export($actualMessages, true)
+        );
     }
 }

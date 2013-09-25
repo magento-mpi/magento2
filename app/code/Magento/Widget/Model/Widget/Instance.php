@@ -451,7 +451,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             return '';
         }
         $parameters = $this->getWidgetParameters();
-        $xml = '<reference name="' . $container . '">';
+        $xml = '<referenceContainer name="' . $container . '">';
         $template = '';
         if (isset($parameters['template'])) {
             unset($parameters['template']);
@@ -474,7 +474,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
                     . '</action>';
             }
         }
-        $xml .= '</block></reference>';
+        $xml .= '</block></referenceContainer>';
 
         return $xml;
     }

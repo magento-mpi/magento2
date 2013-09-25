@@ -59,7 +59,7 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
         parent::_construct();
         $this->_addButton('back', array(
             'label'   => __('Back'),
-            'onclick' => "setLocation('" . Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/'). "')",
+            'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('*/*/') . "')",
             'class'   => 'back'
         ));
     }

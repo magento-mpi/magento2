@@ -12,7 +12,7 @@
  * Adminhtml Google Content types mapping form block
  */
 
-class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Backend_Block_Widget_Form
+class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
      * @var Magento_GoogleShopping_Helper_Category|null
@@ -37,28 +37,28 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Data_Form_Factory $formFactory,
         Magento_Data_Form_Element_Factory $elementFactory,
         Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_googleShoppingCategory = $googleShoppingCategory;
         $this->_elementFactory = $elementFactory;
         $this->_formFactory = $formFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
     /**

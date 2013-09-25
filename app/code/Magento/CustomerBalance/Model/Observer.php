@@ -28,13 +28,45 @@ class Magento_CustomerBalance_Model_Observer
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Magento_Core_Controller_Request_Http
+     */
+    protected $_request;
+
+    /**
+     * @var Magento_CustomerBalance_Model_BalanceFactory
+     */
+    protected $_balanceFactory;
+
+    /**
+     * @var Magento_Checkout_Model_Type_Onepage
+     */
+    protected $_onePageCheckout;
+
+    /**
+     * @param Magento_Checkout_Model_Type_Onepage $onePageCheckout
+     * @param Magento_CustomerBalance_Model_BalanceFactory $balanceFactory
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Checkout_Model_Type_Onepage $onePageCheckout,
+        Magento_CustomerBalance_Model_BalanceFactory $balanceFactory,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_CustomerBalance_Helper_Data $customerBalanceData,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_onePageCheckout = $onePageCheckout;
+        $this->_balanceFactory = $balanceFactory;
+        $this->_request = $request;
+        $this->_storeManager = $storeManager;
         $this->_customerBalanceData = $customerBalanceData;
         $this->_coreRegistry = $coreRegistry;
     }
@@ -72,7 +104,7 @@ class Magento_CustomerBalance_Model_Observer
         $data = $observer->getCustomer()->getCustomerBalanceData();
         if ($data) {
             if (!empty($data['amount_delta'])) {
-                $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+                $balance = $this->_balanceFactory->create()
                     ->setCustomer($observer->getCustomer())
                     ->setWebsiteId(
                         isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId()
@@ -82,8 +114,8 @@ class Magento_CustomerBalance_Model_Observer
                 if (isset($data['notify_by_email'])) {
                     if (isset($data['store_id'])) {
                         $balance->setNotifyByEmail(true, $data['store_id']);
-                    } elseif (Mage::app()->isSingleStoreMode()) {
-                        $stores = Mage::app()->getStores();
+                    } elseif ($this->_storeManager->isSingleStoreMode()) {
+                        $stores = $this->_storeManager->getStores();
                         $singleStore = array_shift($stores);
                         $balance->setNotifyByEmail(true, $singleStore->getId());
                     }
@@ -114,25 +146,25 @@ class Magento_CustomerBalance_Model_Observer
      *
      * @param   Magento_Sales_Model_Order $order
      * @return  Magento_CustomerBalance_Model_Observer
+     * @throws  Magento_Core_Exception
      */
     protected function _checkStoreCreditBalance(Magento_Sales_Model_Order $order)
     {
         if ($order->getBaseCustomerBalanceAmount() > 0) {
-            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();
 
-            $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $balance = $this->_balanceFactory->create()
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->loadByCustomer()
                 ->getAmount();
 
             if (($order->getBaseCustomerBalanceAmount() - $balance) >= 0.0001) {
-                Mage::getSingleton('Magento_Checkout_Model_Type_Onepage')
-                    ->getCheckout()
+                $this->_onePageCheckout->create()->getCheckout()
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
 
-                Mage::throwException(__('You do not have enough store credit to complete this order.'));
+                throw new Magento_Core_Exception(__('You do not have enough store credit to complete this order.'));
             }
         }
 
@@ -171,8 +203,8 @@ class Magento_CustomerBalance_Model_Observer
         if ($order->getBaseCustomerBalanceAmount() > 0) {
             $this->_checkStoreCreditBalance($order);
 
-            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
-            Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();
+            $this->_balanceFactory->create()
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta(-$order->getBaseCustomerBalanceAmount())
@@ -196,9 +228,9 @@ class Magento_CustomerBalance_Model_Observer
             return $this;
         }
 
-        Mage::getModel('Magento_CustomerBalance_Model_Balance')
+        $this->_balanceFactory->create()
             ->setCustomerId($order->getCustomerId())
-            ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
+            ->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId())
             ->setAmountDelta($order->getBaseCustomerBalanceAmount())
             ->setHistoryAction(Magento_CustomerBalance_Model_Balance_History::ACTION_REVERTED)
             ->setOrder($order)
@@ -269,7 +301,7 @@ class Magento_CustomerBalance_Model_Observer
      */
     protected function _importPaymentData($quote, $payment, $shouldUseBalance)
     {
-        $store = Mage::app()->getStore($quote->getStoreId());
+        $store = $this->_storeManager->getStore($quote->getStoreId());
         if (!$quote || !$quote->getCustomerId()
             || $quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() <= 0
         ) {
@@ -277,7 +309,7 @@ class Magento_CustomerBalance_Model_Observer
         }
         $quote->setUseCustomerBalance($shouldUseBalance);
         if ($shouldUseBalance) {
-            $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $balance = $this->_balanceFactory->create()
                 ->setCustomerId($quote->getCustomerId())
                 ->setWebsiteId($store->getWebsiteId())
                 ->loadByCustomer();
@@ -407,7 +439,7 @@ class Magento_CustomerBalance_Model_Observer
             $creditmemo->getCustomerBalanceReturnMax();
 
         if ((float)(string)$creditmemo->getCustomerBalTotalRefunded() > (float)(string)$customerBalanceReturnMax) {
-            Mage::throwException(__('The store credit used cannot exceed order amount.'));
+            throw new Magento_Core_Exception(__('The store credit used cannot exceed order amount.'));
         }
         //doing actual refund to customer balance if user have submitted refund form
         if ($creditmemo->getCustomerBalanceRefundFlag() && $creditmemo->getBsCustomerBalTotalRefunded()) {
@@ -418,9 +450,9 @@ class Magento_CustomerBalance_Model_Observer
                 $order->getCustomerBalTotalRefunded() + $creditmemo->getCustomerBalTotalRefunded()
             );
 
-            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();
 
-            Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $this->_balanceFactory->create()
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta($creditmemo->getBsCustomerBalTotalRefunded())
@@ -562,8 +594,7 @@ class Magento_CustomerBalance_Model_Observer
      */
     public function predispatchPrepareLogging($action)
     {
-        $request = Mage::app()->getRequest();
-        $data = $request->getParam('customerbalance');
+        $data = $this->_request->getParam('customerbalance');
         if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
             $actions = $this->_coreRegistry->registry('magento_logged_actions');
             if (!is_array($actions)) {
@@ -583,7 +614,7 @@ class Magento_CustomerBalance_Model_Observer
      */
     public function setCustomersBalanceCurrencyToWebsiteBaseCurrency(Magento_Event_Observer $observer)
     {
-        Mage::getModel('Magento_CustomerBalance_Model_Balance')->setCustomersBalanceCurrencyTo(
+        $this->_balanceFactory->create()->setCustomersBalanceCurrencyTo(
             $observer->getEvent()->getWebsite()->getWebsiteId(),
             $observer->getEvent()->getWebsite()->getBaseCurrencyCode()
         );
@@ -611,7 +642,7 @@ class Magento_CustomerBalance_Model_Observer
             $value = abs($salesEntity->getDataUsingMethod($balanceField));
             if ($value > 0.0001) {
                 $paypalCart->updateTotal(Magento_Paypal_Model_Cart::TOTAL_DISCOUNT, (float)$value,
-                    __('Store Credit (%1)', Mage::app()->getStore()->convertPrice($value, true, false))
+                    __('Store Credit (%1)', $this->_storeManager->getStore()->convertPrice($value, true, false))
                 );
             }
         }

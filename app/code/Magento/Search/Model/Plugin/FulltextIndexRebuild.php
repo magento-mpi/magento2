@@ -15,11 +15,6 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
     protected $_searchHelper;
 
     /**
-     * @var Magento_CatalogSearch_Helper_Data
-     */
-    protected $_catalogSearchHelper;
-
-    /**
      * @var Magento_Search_Model_Catalog_Layer_Filter_Price
      */
     protected $_layerFilterPrice;
@@ -30,19 +25,24 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
     protected $_cache;
 
     /**
+     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     */
+    protected $_engineProvider = null;
+
+    /**
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Search_Helper_Data $searchHelper
-     * @param Magento_CatalogSearch_Helper_Data $catalogSearchHelper
      * @param Magento_Search_Model_Catalog_Layer_Filter_Price $layerFilterPrice
      * @param Magento_Core_Model_CacheInterface $cache
      */
     public function __construct(
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Search_Helper_Data $searchHelper,
-        Magento_CatalogSearch_Helper_Data $catalogSearchHelper,
         Magento_Search_Model_Catalog_Layer_Filter_Price $layerFilterPrice,
         Magento_Core_Model_CacheInterface $cache
     ) {
+        $this->_engineProvider = $engineProvider;
         $this->_searchHelper = $searchHelper;
-        $this->_catalogSearchHelper = $catalogSearchHelper;
         $this->_layerFilterPrice = $layerFilterPrice;
         $this->_cache = $cache;
     }
@@ -63,7 +63,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
         }
 
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
-            $engine = $this->_catalogSearchHelper->getEngine();
+            $engine = $this->_engineProvider->get();
             if ($engine->holdCommit() && is_null($productIds)) {
                 $engine->setIndexNeedsOptimization();
             }
@@ -84,7 +84,7 @@ class Magento_Search_Model_Plugin_FulltextIndexRebuild
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
 
-            $engine = $this->_catalogSearchHelper->getEngine();
+            $engine = $this->_engineProvider->get();
             if ($engine->allowCommit()) {
 
                 if ($engine->getIndexNeedsOptimization()) {

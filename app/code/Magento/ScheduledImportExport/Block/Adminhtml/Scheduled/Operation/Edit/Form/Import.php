@@ -32,14 +32,33 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
     protected $_importModel;
 
     /**
+     * @var Magento_Backend_Model_Config_Source_Email_TemplateFactory
+     */
+    protected $_templateFactory;
+
+    /**
+     * @param Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory
+     * @param Magento_Core_Model_Option_ArrayPool $optionArrayPool
+     * @param Magento_Backend_Model_Config_Source_Email_Method $emailMethod
+     * @param Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity
+     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData
+     * @param Magento_Backend_Model_Config_Source_Yesno $sourceYesno
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_ImportExport_Model_Import $importModel
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Backend_Model_Config_Source_Email_TemplateFactory $templateFactory,
+        Magento_Core_Model_Option_ArrayPool $optionArrayPool,
+        Magento_Backend_Model_Config_Source_Email_Method $emailMethod,
+        Magento_Backend_Model_Config_Source_Email_Identity $emailIdentity,
+        Magento_ScheduledImportExport_Model_Scheduled_Operation_Data $operationData,
+        Magento_Backend_Model_Config_Source_Yesno $sourceYesno,
         Magento_Core_Model_Registry $registry,
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
@@ -47,8 +66,12 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         Magento_ImportExport_Model_Import $importModel,
         array $data = array()
     ) {
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        $this->_templateFactory = $templateFactory;
         $this->_importModel = $importModel;
+        parent::__construct(
+            $optionArrayPool, $emailMethod, $emailIdentity, $operationData, $sourceYesno, $registry, $formFactory,
+            $coreData, $context, $data
+        );
     }
 
     /**
@@ -71,30 +94,26 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         // add behaviour fields
         $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
-            /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
-            $behaviorSource = Mage::getModel($behaviorClass);
             $fieldset->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
                 'title'    => __('Import Behavior'),
                 'label'    => __('Import Behavior'),
                 'required' => true,
                 'disabled' => true,
-                'values'   => $behaviorSource->toOptionArray()
+                'values'   => $this->_optionArrayPool->get($behaviorClass)->toOptionArray()
             ), 'entity');
         }
 
-        /** @var $operationData Magento_ScheduledImportExport_Model_Scheduled_Operation_Data */
-        $operationData = Mage::getSingleton('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data');
         $fieldset->addField('force_import', 'select', array(
             'name'     => 'force_import',
             'title'    => __('On Error'),
             'label'    => __('On Error'),
             'required' => true,
-            'values'   => $operationData->getForcedImportOptionArray()
+            'values'   => $this->_operationData->getForcedImportOptionArray()
         ), 'freq');
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
+            ->setValues($this->_templateFactory->create()
                 ->setPath('magento_scheduledimportexport_import_failed')
                 ->toOptionArray()
             );
