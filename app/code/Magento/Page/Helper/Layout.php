@@ -50,7 +50,7 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
      */
     public function applyHandle($pageLayout)
     {
-        $pageLayout = $this->_getConfig()->getPageLayout($pageLayout);
+        $pageLayout = $this->_config->getPageLayout($pageLayout);
 
         if (!$pageLayout) {
             return $this;
@@ -74,7 +74,7 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
         if ($pageLayout === null) {
             $pageLayout = $this->getCurrentPageLayout();
         } else {
-            $pageLayout = $this->_getConfig()->getPageLayout($pageLayout);
+            $pageLayout = $this->_config->getPageLayout($pageLayout);
         }
 
         if (!$pageLayout) {
@@ -100,13 +100,13 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
     {
         if ($this->_layout->getBlock('root') &&
             $this->_layout->getBlock('root')->getLayoutCode()) {
-            return $this->_getConfig()->getPageLayout($this->_layout->getBlock('root')->getLayoutCode());
+            return $this->_config->getPageLayout($this->_layout->getBlock('root')->getLayoutCode());
         }
 
         // All loaded handles
         $handles = $this->_layout->getUpdate()->getHandles();
         // Handles used in page layouts
-        $pageLayoutHandles = $this->_getConfig()->getPageLayoutHandles();
+        $pageLayoutHandles = $this->_config->getPageLayoutHandles();
         // Applied page layout handles
         $appliedHandles = array_intersect($handles, $pageLayoutHandles);
 
@@ -118,16 +118,6 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
 
         $layoutCode = array_search($currentHandle, $pageLayoutHandles, true);
 
-        return $this->_getConfig()->getPageLayout($layoutCode);
-    }
-
-    /**
-     * Retrieve page config
-     *
-     * @return Magento_Page_Model_Config
-     */
-    protected function _getConfig()
-    {
-        return $this->_config;
+        return $this->_config->getPageLayout($layoutCode);
     }
 }
