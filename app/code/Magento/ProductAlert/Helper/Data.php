@@ -45,20 +45,36 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     protected $_layout;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Layout $layout
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Customer_Model_Session $session
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Customer_Model_Session $session,
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_layout = $layout;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_session = $session;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -89,12 +105,12 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return $this->_session;
     }
 
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     public function getSaveUrl($type)
@@ -110,6 +126,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      *
      * @param string|Magento_Core_Block_Abstract $block
      * @return Magento_Core_Block_Abstract
+     * @throws Magento_Core_Exception
      */
     public function createBlock($block)
     {
@@ -119,7 +136,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
             }
         }
         if (!$block instanceof Magento_Core_Block_Abstract) {
-            Mage::throwException(__('Invalid block type: %1', $block));
+            throw new Magento_Core_Exception(__('Invalid block type: %1', $block));
         }
         return $block;
     }

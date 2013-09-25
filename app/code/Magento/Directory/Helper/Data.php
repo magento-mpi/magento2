@@ -69,7 +69,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_configCacheType;
 
     /**
-     * @var Magento_Directory_Model_Resource_Region_Collection_Factory
+     * @var Magento_Directory_Model_Resource_Region_CollectionFactory
      */
     protected $_regCollFactory;
 
@@ -84,35 +84,43 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var Magento_Directory_Model_CurrencyFactory
      */
-    protected $_coreConfig;
+    protected $_currencyFactory;
 
     /**
-     * @param Magento_Core_Model_Config $coreConfig
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Directory_Model_Resource_Country_Collection $countryCollection
-     * @param Magento_Directory_Model_Resource_Region_Collection_Factory $regCollFactory,
-     * @param Magento_Core_Helper_Data $coreHelper,
+     * @param Magento_Directory_Model_Resource_Region_CollectionFactory $regCollFactory,
+     * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Core_Model_Config $config
      */
     public function __construct(
-        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Directory_Model_Resource_Country_Collection $countryCollection,
-        Magento_Directory_Model_Resource_Region_Collection_Factory $regCollFactory,
+        Magento_Directory_Model_Resource_Region_CollectionFactory $regCollFactory,
         Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Core_Model_Config $config
     ) {
         parent::__construct($context);
-        $this->_coreConfig = $coreConfig;
         $this->_configCacheType = $configCacheType;
         $this->_countryCollection = $countryCollection;
         $this->_regCollFactory = $regCollFactory;
         $this->_coreHelper = $coreHelper;
         $this->_storeManager = $storeManager;
+        $this->_currencyFactory = $currencyFactory;
+        $this->_config = $config;
     }
 
     /**
@@ -150,7 +158,6 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getRegionJson()
     {
-
         Magento_Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
             $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . $this->_storeManager->getStore()->getId();
@@ -202,10 +209,10 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     public function currencyConvert($amount, $from, $to = null)
     {
         if (empty($this->_currencyCache[$from])) {
-            $this->_currencyCache[$from] = Mage::getModel('Magento_Directory_Model_Currency')->load($from);
+            $this->_currencyCache[$from] = $this->_currencyFactory->create()->load($from);
         }
         if (is_null($to)) {
-            $to = Mage::app()->getStore()->getCurrentCurrencyCode();
+            $to = $this->_storeManager->getStore()->getCurrentCurrencyCode();
         }
         $converted = $this->_currencyCache[$from]->convert($amount, $to);
         return $converted;
@@ -289,6 +296,6 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getBaseCurrencyCode()
     {
-        return $this->_coreConfig->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, 'default');
+        return $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, 'default');
     }
 }
