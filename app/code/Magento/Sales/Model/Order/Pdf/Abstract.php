@@ -79,7 +79,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -107,7 +107,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Dir $dirs
      * @param Magento_Sales_Model_Order_Pdf_Config $pdfConfig
@@ -118,7 +118,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
         Magento_Core_Model_Translate $translate,
         Magento_Core_Model_Dir $dirs,
         Magento_Sales_Model_Order_Pdf_Config $pdfConfig,

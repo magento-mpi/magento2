@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_catalog_search_grid_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Catalog_Search" name="adminhtml.catalog.search.grid.container"/>
-    </reference>
+    </referenceContainer>
 </layout>

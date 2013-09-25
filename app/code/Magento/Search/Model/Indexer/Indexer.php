@@ -46,11 +46,6 @@ class Magento_Search_Model_Indexer_Indexer
      */
     const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH = 'catalog/search/engine_commit_mode';
 
-
-
-
-
-
     /**
      * Search data
      *
@@ -59,11 +54,19 @@ class Magento_Search_Model_Indexer_Indexer
     protected $_searchData = null;
 
     /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Search_Helper_Data $searchData
      */
     public function __construct(
+        Magento_Index_Model_Indexer $indexer,
         Magento_Search_Helper_Data $searchData
     ) {
+        $this->_indexer = $indexer;
         $this->_searchData = $searchData;
     }
 
@@ -76,7 +79,7 @@ class Magento_Search_Model_Indexer_Indexer
     {
         if ($this->_searchData->isThirdPartyEngineAvailable()) {
             /* Change index status to running */
-            $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
+            $indexProcess = $this->_indexer->getProcessByCode('catalogsearch_fulltext');
             if ($indexProcess) {
                 $indexProcess->reindexAll();
             }

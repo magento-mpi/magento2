@@ -19,11 +19,6 @@
             </persistent_setup>
         </resources>
     </global>
-    <frontend>
-        <secure_url>
-            <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
-        </secure_url>
-    </frontend>
     <default>
         <persistent>
             <options>
@@ -36,16 +31,4 @@
             </options>
         </persistent>
     </default>
-    <crontab>
-        <jobs>
-            <persistent_clear_expired>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Persistent_Model_Observer::clearExpiredCronJob</model>
-                </run>
-            </persistent_clear_expired>
-        </jobs>
-    </crontab>
 </config>

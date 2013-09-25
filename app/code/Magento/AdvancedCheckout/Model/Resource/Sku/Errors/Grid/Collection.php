@@ -34,17 +34,20 @@ class Magento_AdvancedCheckout_Model_Resource_Sku_Errors_Grid_Collection extends
      * @param Magento_Catalog_Model_Product $productModel
      * @param Magento_CatalogInventory_Model_Stock_Status $catalogInventory
      * @param Magento_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_AdvancedCheckout_Model_Cart $cart,
         Magento_Catalog_Model_Product $productModel,
         Magento_CatalogInventory_Model_Stock_Status $catalogInventory,
-        Magento_Core_Helper_Data $coreHelper
+        Magento_Core_Helper_Data $coreHelper,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_cart = $cart;
         $this->_productModel = $productModel;
         $this->_inventoryModel = $catalogInventory;
         $this->_coreHelper = $coreHelper;
+        parent::__construct($entityFactory);
     }
 
     /**

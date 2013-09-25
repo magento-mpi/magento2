@@ -9,12 +9,12 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Billing Agreement" type="page" parent="customer_account_index">
     <update handle="customer_account"/>
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-left.phtml</argument>
         </action>
-    </reference>
-    <reference name="my.account.wrapper">
+    </referenceBlock>
+    <referenceContainer name="my.account.wrapper">
         <block class="Magento_Sales_Block_Billing_Agreements" name="customer.account.billing.agreement" template="billing/agreements.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

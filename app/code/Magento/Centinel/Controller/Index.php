@@ -77,7 +77,7 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
      */
     private function _getPayment()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment();
+        return $this->_objectManager->get('Magento_Checkout_Model_Session')->getQuote()->getPayment();
     }
 
     /**

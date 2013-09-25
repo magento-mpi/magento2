@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento_Index_Model_Indexer_ConfigInterface" type="Magento_Index_Model_Indexer_Config" />
     <type name="Magento_Index_Model_Indexer">
         <param name="eventManager">
             <instance type="Magento_Core_Model_Event_Manager_Proxy" />

@@ -77,7 +77,7 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = Mage::getModel('Magento_AdminNotification_Model_Inbox')
+                    $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRead(1)
@@ -101,7 +101,7 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
     public function removeAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $model = Mage::getModel('Magento_AdminNotification_Model_Inbox')
+            $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
                 ->load($id);
 
             if (!$model->getId()) {
@@ -139,7 +139,7 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
         } else {
             try {
                 foreach ($ids as $id) {
-                    $model = Mage::getModel('Magento_AdminNotification_Model_Inbox')
+                    $model = $this->_objectManager->create('Magento_AdminNotification_Model_Inbox')
                         ->load($id);
                     if ($model->getId()) {
                         $model->setIsRemove(1)
@@ -152,7 +152,7 @@ class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magent
             } catch (Magento_Core_Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
-                $session->addException($e,
+                $this->_session->addException($e,
                     __("We couldn't remove the messages because of an error."));
             }
         }

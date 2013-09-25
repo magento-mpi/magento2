@@ -68,15 +68,6 @@
                 </nominal_totals>
             </quote>
         </sales>
-        <catalog>
-            <product>
-                <attributes>
-                    <unassignable>
-                        <tax_class_id />
-                    </unassignable>
-                </attributes>
-            </product>
-        </catalog>
     </global>
     <default>
         <tax>
@@ -122,16 +113,4 @@
             </sales_display>
         </tax>
     </default>
-    <crontab>
-        <jobs>
-            <aggregate_sales_report_tax_data>
-                <schedule>
-                    <cron_expr>0 0 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>Magento_Tax_Model_Observer::aggregateSalesReportTaxData</model>
-                </run>
-            </aggregate_sales_report_tax_data>
-        </jobs>
-    </crontab>
 </config>

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="webapi_role.grid.container">
+    <referenceBlock name="webapi_role.grid.container">
         <block class="Magento_Backend_Block_Widget_Grid" as="grid" name="webapi.role.grid">
             <arguments>
                 <argument name="id" xsi:type="string">webapiRoleGrid</argument>
@@ -46,5 +46,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

@@ -91,6 +91,16 @@ class Magento_Core_Model_Layout_Merge
     protected $_cache;
 
     /**
+     * @var Magento_Adminhtml_Model_LayoutUpdate_Validator
+     */
+    protected $_layoutValidator;
+
+    /**
+     * @var Magento_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Init merge model
      *
      * @param Magento_Core_Model_View_DesignInterface $design
@@ -99,7 +109,8 @@ class Magento_Core_Model_Layout_Merge
      * @param Magento_Core_Model_Resource_Layout_Update $resource
      * @param Magento_Core_Model_App_State $appState
      * @param Magento_Cache_FrontendInterface $cache
-     * @param Magento_Core_Helper_Data $helper
+     * @param Magento_Adminhtml_Model_LayoutUpdate_Validator $validator
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Theme $theme Non-injectable theme instance
      */
     public function __construct(
@@ -109,6 +120,8 @@ class Magento_Core_Model_Layout_Merge
         Magento_Core_Model_Resource_Layout_Update $resource,
         Magento_Core_Model_App_State $appState,
         Magento_Cache_FrontendInterface $cache,
+        Magento_Adminhtml_Model_LayoutUpdate_Validator $validator,
+        Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Theme $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -117,6 +130,8 @@ class Magento_Core_Model_Layout_Merge
         $this->_resource = $resource;
         $this->_appState = $appState;
         $this->_cache = $cache;
+        $this->_layoutValidator = $validator;
+        $this->_logger = $logger;
     }
 
     /**
@@ -390,7 +405,22 @@ class Magento_Core_Model_Layout_Merge
             $this->_merge($handle);
         }
 
-        $this->_saveCache($this->asString(), $cacheId, $this->getHandles());
+        $layout = $this->asString();
+        if ($this->_appState->getMode() === Magento_Core_Model_App_State::MODE_DEVELOPER) {
+            if (!$this->_layoutValidator->isValid(
+                    $layout,
+                    Magento_Adminhtml_Model_LayoutUpdate_Validator::LAYOUT_SCHEMA_MERGED,
+                    false
+            )) {
+                $messages = $this->_layoutValidator->getMessages();
+                //Add first message to exception
+                $message = array_shift($messages);
+                $this->_logger->addStreamLog(Magento_Core_Model_Logger::LOGGER_SYSTEM);
+                $this->_logger->log('Cache file with merged layout: ' . $cacheId. ': ' . $message, Zend_Log::ERR);
+            }
+        }
+
+        $this->_saveCache($layout, $cacheId, $this->getHandles());
         return $this;
     }
 

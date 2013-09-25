@@ -25,6 +25,39 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     protected $_defaultElementType = 'text';
 
     /**
+     * @var Magento_Widget_Model_Widget
+     */
+    protected $_widget;
+
+    /**
+     * @var Magento_Core_Model_Option_ArrayPool
+     */
+    protected $_sourceModelPool;
+
+    /**
+     * @param Magento_Core_Model_Option_ArrayPool $sourceModelPool
+     * @param Magento_Widget_Model_Widget $widget
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Option_ArrayPool $sourceModelPool,
+        Magento_Widget_Model_Widget $widget,
+        Magento_Core_Model_Registry $registry,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_sourceModelPool = $sourceModelPool;
+        $this->_widget = $widget;
+        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+    }
+
+    /**
      * Prepare Widget Options Form and values according to specified type
      *
      * widget_type must be set in data before
@@ -81,15 +114,16 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
     /**
      * Add fields to main fieldset based on specified widget type
      *
+     * @throws Magento_Core_Exception
      * @return Magento_Adminhtml_Block_Widget_Form
      */
     public function addFields()
     {
         // get configuration node and translation helper
         if (!$this->getWidgetType()) {
-            Mage::throwException(__('Please specify a Widget Type.'));
+            throw new Magento_Core_Exception(__('Please specify a Widget Type.'));
         }
-        $config = Mage::getSingleton('Magento_Widget_Model_Widget')->getConfigAsObject($this->getWidgetType());
+        $config = $this->_widget->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
             return $this;
         }
@@ -133,7 +167,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         }
 
         // prepare element dropdown values
-        if ($values  = $parameter->getValues()) {
+        if ($values = $parameter->getValues()) {
             // dropdown options are specified in configuration
             $data['values'] = array();
             foreach ($values as $option) {
@@ -145,7 +179,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Backend_Bloc
         }
         // otherwise, a source model is specified
         elseif ($sourceModel = $parameter->getSourceModel()) {
-            $data['values'] = Mage::getModel($sourceModel)->toOptionArray();
+            $data['values'] = $this->_sourceModelPool->get($sourceModel)->toOptionArray();
         }
 
         // prepare field type or renderer

@@ -24,11 +24,14 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
     protected $_listType = 'compared';
 
     /**
-     * Adminhtml sales
-     *
      * @var Magento_Adminhtml_Helper_Sales
      */
-    protected $_adminhtmlSales = null;
+    protected $_adminhtmlSales;
+
+    /**
+     * @var Magento_Catalog_Model_Product_Compare_ListFactory|null
+     */
+    protected $_compareListFactory;
 
     /**
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
@@ -41,15 +44,18 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
      */
     public function __construct(
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
         array $data = array()
     ) {
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_compareListFactory = $compareListFactory;
     }
 
     protected function _construct()
@@ -63,7 +69,6 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
         }
     }
 
-
     /**
      * Return items collection
      *
@@ -73,7 +78,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
     {
         if (!$this->hasData('items_collection')) {
             $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-            $collection = Mage::getModel('Magento_Catalog_Model_Product_Compare_List')
+            $collection = $this->_compareListFactory->create()
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())

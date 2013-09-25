@@ -8,7 +8,6 @@
 class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
-    const XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES = 'global/catalog/product/type/grouped/allow_product_types';
 
     protected $_attributeSetsById;
     protected $_attributeSetsByName;
@@ -126,7 +125,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
         return isset($this->_attributeSetsById[$entityTypeId][$id]) ? $this->_attributeSetsById[$entityTypeId][$id] : false;
     }
 
-    public function getAttributeSetId($entityTypeId, $name)
+    public function getAttributeSetId($entityTypeId, $name = null)
     {
         if (is_numeric($name)) {
             return $name;

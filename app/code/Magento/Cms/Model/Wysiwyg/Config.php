@@ -62,37 +62,45 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var array
      */
-    protected $_coreConfig;
+    protected $_windowSize;
     
     /**
+     * @var Magento_Backend_Model_Url
+     */
+    protected $_backendUrl;
+
+    /**
+     * @param Magento_Backend_Model_Url $backendUrl
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Cms_Helper_Data $cmsData
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Variable_Config $variableConfig
      * @param Magento_Widget_Model_Widget_Config $widgetConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
+     * @param array $windowSize
      * @param array $data
      */
     public function __construct(
+        Magento_Backend_Model_Url $backendUrl,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Cms_Helper_Data $cmsData,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Variable_Config $variableConfig,
         Magento_Widget_Model_Widget_Config $widgetConfig,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig,
+        array $windowSize = array(),
         array $data = array()
     ) {
+        $this->_backendUrl = $backendUrl;
         $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -100,8 +108,8 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
         $this->_widgetConfig = $widgetConfig;
+        $this->_windowSize = $windowSize;
         parent::__construct($data);
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -134,8 +142,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             'no_display'                    => false,
             'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
-            'directives_url'                =>
-                Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
+            'directives_url'                => $this->_backendUrl->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
                 $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
@@ -149,10 +156,9 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         if ($this->_authorization->isAllowed('Magento_Cms::media_gallery')) {
             $config->addData(array(
                 'add_images' => true,
-                'files_browser_window_url' => Mage::getSingleton('Magento_Backend_Model_Url')
-                    ->getUrl('*/cms_wysiwyg_images/index'),
-                'files_browser_window_width' => (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_width'),
-                'files_browser_window_height'=> (int) $this->_coreConfig->getNode('adminhtml/cms/browser/window_height'),
+                'files_browser_window_url' => $this->_backendUrl->getUrl('*/cms_wysiwyg_images/index'),
+                'files_browser_window_width' => $this->_windowSize['width'],
+                'files_browser_window_height'=> $this->_windowSize['height'],
             ));
         }
 

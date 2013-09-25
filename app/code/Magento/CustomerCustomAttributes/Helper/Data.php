@@ -32,18 +32,22 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
     protected $_customerAddress = null;
 
     /**
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_CustomerCustomAttributes_Helper_Address $customerAddress
      * @param Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_CustomerCustomAttributes_Helper_Address $customerAddress,
         Magento_CustomerCustomAttributes_Helper_Customer $customerCustomer,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Helper_Context $context
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
-        parent::__construct($context);
+        parent::__construct($eavConfig, $locale, $context);
     }
 
     /**
@@ -53,7 +57,7 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
      */
     public function getAttributeFormOptions()
     {
-        Mage::throwException(__('Use helper with defined EAV entity.'));
+        throw new Magento_Core_Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -63,7 +67,7 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(__('Use helper with defined EAV entity.'));
+        throw new Magento_Core_Exception(__('Use helper with defined EAV entity.'));
     }
 
     /**

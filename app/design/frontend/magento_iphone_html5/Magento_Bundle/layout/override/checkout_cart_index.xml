@@ -8,14 +8,14 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout.cart">
+    <referenceBlock name="checkout.cart">
         <block class="Magento_Bundle_Block_Checkout_Cart_Item_Renderer" as="bundle" template="Magento_Checkout::cart/item/default.phtml"/>
-    </reference>
-    <reference name="checkout.cart.crosssell">
+    </referenceBlock>
+    <referenceBlock name="checkout.cart.crosssell">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">bundle</argument>
             <argument name="block" xsi:type="string">Magento_Bundle_Block_Catalog_Product_Price</argument>
             <argument name="template" xsi:type="string">catalog/product/price.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

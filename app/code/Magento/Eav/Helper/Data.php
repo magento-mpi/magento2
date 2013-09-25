@@ -23,21 +23,22 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_entityTypeFrontendClasses = array();
 
     /**
-     * Core store config
-     *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Eav_Model_Entity_Attribute_Config
      */
-    protected $_coreStoreConfig;
+    protected $_attributeConfig;
 
     /**
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Eav_Model_Entity_Attribute_Config $attributeConfig
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
+        Magento_Eav_Model_Entity_Attribute_Config $attributeConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_attributeConfig = $attributeConfig;
         parent::__construct($context);
     }
 
@@ -89,26 +90,14 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
     public function getFrontendClasses($entityTypeCode)
     {
         $_defaultClasses = $this->_getDefaultFrontendClasses();
+
         if (isset($this->_entityTypeFrontendClasses[$entityTypeCode])) {
             return array_merge(
                 $_defaultClasses,
                 $this->_entityTypeFrontendClasses[$entityTypeCode]
             );
         }
-        $_entityTypeClasses = Mage::app()->getConfig()
-            ->getNode('global/eav_frontendclasses/' . $entityTypeCode);
-        if ($_entityTypeClasses) {
-            foreach ($_entityTypeClasses->children() as $item) {
-                $this->_entityTypeFrontendClasses[$entityTypeCode][] = array(
-                    'value' => (string)$item->value,
-                    'label' => (string)$item->label
-                );
-            }
-            return array_merge(
-                $_defaultClasses,
-                $this->_entityTypeFrontendClasses[$entityTypeCode]
-            );
-        }
+
         return $_defaultClasses;
     }
 
@@ -126,12 +115,9 @@ class Magento_Eav_Helper_Data extends Magento_Core_Helper_Abstract
         if (isset($this->_attributesLockedFields[$entityTypeCode])) {
             return $this->_attributesLockedFields[$entityTypeCode];
         }
-        $_data = Mage::app()->getConfig()->getNode('global/eav_attributes/' . $entityTypeCode);
-        if ($_data) {
-            foreach ($_data->children() as $attribute) {
-                $this->_attributesLockedFields[$entityTypeCode][(string)$attribute->code] =
-                    array_keys($attribute->locked_fields->asArray());
-            }
+        $attributesLockedFields = $this->_attributeConfig->getEntityAttributesLockedFields($entityTypeCode);
+        if (count($attributesLockedFields)) {
+            $this->_attributesLockedFields[$entityTypeCode] = $attributesLockedFields;
             return $this->_attributesLockedFields[$entityTypeCode];
         }
         return array();

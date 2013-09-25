@@ -15,98 +15,53 @@
 class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tested source model
-     *
      * @var Magento_ImportExport_Model_Source_Import_Entity
      */
-    protected $_sourceModel;
+    protected $_model;
 
     /**
-     * Test entity
-     *
-     * @var array
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_testEntity = array(
-        'label' => 'test_label',
-        'node'  => 'test_node'
-    );
+    protected $_importConfigMock;
 
-    /**
-     * Init source model
-     */
-    public function setUp()
+    protected function setUp()
     {
-        /** @var Magento_TestFramework_ObjectManager $objectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-
-        /** @var Magento_Core_Model_Config $coreConfig */
-        $coreConfig = $objectManager->create('Magento_Core_Model_Config', array('storage' => $this->_mockConfig()));
-        $coreConfig->setNode(
-            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
-            'Some_Class'
-        );
-        $coreConfig->setNode(
-            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
-            $this->_testEntity['label']
-        );
-
-        /** @var $config Magento_ImportExport_Model_Config */
-        $config = $objectManager->create('Magento_ImportExport_Model_Config', array('coreConfig' => $coreConfig));
-        $this->_sourceModel = $objectManager->create(
-            'Magento_ImportExport_Model_Source_Import_Entity',
-            array('config' => $config)
+        $this->_importConfigMock = $this->getMock('Magento_ImportExport_Model_Import_ConfigInterface');
+        $this->_model = new Magento_ImportExport_Model_Source_Import_Entity(
+            $this->_importConfigMock
         );
     }
 
-    /**
-     * Mock config
-     */
-    protected function _mockConfig()
-    {
-        $storage = $this->getMock('Magento_Core_Model_Config_Storage', array('getConfiguration'), array(), '', false);
-        $configObject = new Magento_Core_Model_Config_Base(new Magento_Simplexml_Element('<config></config>'));
-        $configObject->setNode(
-            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
-            'Some_Class'
-        );
-        $configObject->setNode(
-            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
-            $this->_testEntity['label']
-        );
-        $storage->expects($this->atLeastOnce())
-            ->method('getConfiguration')
-            ->will($this->returnValue($configObject));
-        return $storage;
-    }
-
-    /**
-     * Unregister source model and helper
-     */
-    public function tearDown()
-    {
-        $this->_sourceModel = null;
-    }
-
-    /**
-     * Is result variable an correct optional array
-     */
     public function testToOptionArray()
     {
-        $optionalArray = $this->_sourceModel->toOptionArray();
+        $entities = array(
+            'entity_name_1' => array(
+                'name' => 'entity_name_1',
+                'label' => 'entity_label_1',
+            ),
+            'entity_name_2' => array(
+                'name' => 'entity_name_2',
+                'label' => 'entity_label_2',
+            ),
+        );
+        $expectedResult = array(
+            array(
+                'label' => __('-- Please Select --'),
+                'value' => '',
+            ),
+            array(
+                'label' => __('entity_label_1'),
+                'value' => 'entity_name_1',
+            ),
+            array(
+                'label' => __('entity_label_2'),
+                'value' => 'entity_name_2',
+            ),
 
-        $this->assertInternalType('array', $optionalArray, 'Result variable must be an array.');
-        $this->assertCount(2, $optionalArray);
-
-        foreach ($optionalArray as $option) {
-            $this->assertArrayHasKey('label', $option, 'Option must have label property.');
-            $this->assertArrayHasKey('value', $option, 'Option must have value property.');
-        }
-
-        $headerElement = $optionalArray[0];
-        $dataElement = $optionalArray[1];
-
-        $this->assertEmpty($headerElement['value'], 'Value must be empty.');
-        $this->assertEquals($this->_testEntity['node'], $dataElement['value'], 'Incorrect element value.');
-        $this->assertEquals($this->_testEntity['label'], $dataElement['label'], 'Incorrect element label.');
+        );
+        $this->_importConfigMock->expects($this->any())
+            ->method('getEntities')
+            ->will($this->returnValue($entities));
+        $this->assertEquals($expectedResult, $this->_model->toOptionArray());
     }
 }

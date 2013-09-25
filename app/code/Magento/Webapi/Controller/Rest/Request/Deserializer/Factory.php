@@ -10,28 +10,25 @@
 class Magento_Webapi_Controller_Rest_Request_Deserializer_Factory
 {
     /**
-     * Request deserializer adapters.
-     */
-    const XML_PATH_WEBAPI_REQUEST_DESERIALIZERS = 'global/webapi/rest/request/deserializers';
-
-    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
 
-    /** @var Magento_Core_Model_Config */
-    protected $_applicationConfig;
+    /**
+     * @var array
+     */
+    protected $_deserializers;
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Config $applicationConfig
+     * @param array $deserializers
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Magento_Core_Model_Config $applicationConfig
+        array $deserializers = array()
     ) {
         $this->_objectManager = $objectManager;
-        $this->_applicationConfig = $applicationConfig;
+        $this->_deserializers = $deserializers;
     }
 
     /**
@@ -43,14 +40,13 @@ class Magento_Webapi_Controller_Rest_Request_Deserializer_Factory
      */
     public function get($contentType)
     {
-        $deserializers = (array)$this->_applicationConfig->getNode(self::XML_PATH_WEBAPI_REQUEST_DESERIALIZERS);
-        if (empty($deserializers) || !is_array($deserializers)) {
+        if (empty($this->_deserializers)) {
             throw new LogicException('Request deserializer adapter is not set.');
         }
-        foreach ($deserializers as $deserializer) {
-            $deserializerType = (string)$deserializer->type;
+        foreach ($this->_deserializers as $deserializerMetadata) {
+            $deserializerType = $deserializerMetadata['type'];
             if ($deserializerType == $contentType) {
-                $deserializerClass = (string)$deserializer->model;
+                $deserializerClass = $deserializerMetadata['model'];
                 break;
             }
         }

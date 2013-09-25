@@ -26,27 +26,37 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Catalog_Model_ProductTypes_ConfigInterface
+     */
+    protected $_config;
+
+    /**
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
-     * @param Magento_Core_Model_Config $coreConfig
-     * @internal param $Magento_Data_Collection_Db_Fet chStrategyInterface $fetchStrategy* chStrategyInterface $fetchStrategy
      */
     public function __construct(
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $config,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreConfig = $coreConfig;
-        parent::__construct($catalogData, $catalogProductFlat, $eventManager, $fetchStrategy, $coreStoreConfig);
+        $this->_config = $config;
+        parent::__construct($catalogData, $catalogProductFlat, 
+            $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
     }
 
     /**
@@ -66,13 +76,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsColl
     {
         parent::_initSelect();
 
-        $allowProductTypes = array();
-        $allowProductTypeNodes = $this->_coreConfig
-            ->getNode(Magento_Catalog_Model_Config::XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES)->children();
-        foreach ($allowProductTypeNodes as $type) {
-            $allowProductTypes[] = $type->getName();
-        }
-
+        $configData = $this->_config->getType('grouped');
+        $allowProductTypes = isset($configData['allow_product_types']) ? $configData['allow_product_types'] : array();
         $this->setProduct($this->_getProduct())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('price')

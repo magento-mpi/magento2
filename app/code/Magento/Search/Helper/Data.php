@@ -72,6 +72,11 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_taxData = null;
 
     /**
+     * @var Magento_CatalogSearch_Model_Resource_EngineProvider
+     */
+    protected $_engineProvider;
+
+    /**
      * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
@@ -79,22 +84,25 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
@@ -354,16 +362,8 @@ class Magento_Search_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isActiveEngine()
     {
-        $engine = $this->getSearchConfigData('engine');
-
-        if ($engine) {
-            $model = Mage::getResourceSingleton($engine);
-            if ($model && $model->test() && $model->allowAdvancedIndex()) {
-                return true;
-            }
-        }
-
-        return false;
+        $engine = $this->_engineProvider->get();
+        return is_object($engine) && $engine->allowAdvancedIndex();
     }
 
     /**

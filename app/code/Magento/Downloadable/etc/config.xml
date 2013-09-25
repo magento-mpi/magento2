@@ -19,38 +19,6 @@
                 </setup>
             </downloadable_setup>
         </resources>
-        <catalog>
-            <product>
-                <type>
-                    <downloadable translate="label">
-                        <label>Downloadable Product</label>
-                        <model>Magento_Downloadable_Model_Product_Type</model>
-                        <is_qty>1</is_qty>
-                        <price_model>Magento_Downloadable_Model_Product_Price</price_model>
-                        <composite>0</composite>
-                        <price_indexer>Magento_Downloadable_Model_Resource_Indexer_Price</price_indexer>
-                        <can_use_qty_decimals>0</can_use_qty_decimals>
-                    </downloadable>
-                    <configurable>
-                        <allow_product_types>
-                            <downloadable />
-                        </allow_product_types>
-                    </configurable>
-                    <grouped>
-                        <allow_product_types>
-                            <downloadable />
-                        </allow_product_types>
-                    </grouped>
-                </type>
-                <attributes>
-                    <weight>
-                        <type_switcher translate="label">
-                            <label>Virtual / Downloadable</label>
-                        </type_switcher>
-                    </weight>
-                </attributes>
-            </product>
-        </catalog>
     </global>
     <adminhtml>
         <sales>
@@ -63,12 +31,6 @@
             </order>
         </sales>
     </adminhtml>
-    <frontend>
-        <secure_url>
-            <downloadable>/downloadable/customer/</downloadable>
-            <downloadable_download>/downloadable/download/</downloadable_download>
-        </secure_url>
-    </frontend>
     <default>
         <catalog>
             <downloadable>

@@ -31,12 +31,28 @@ class Magento_GoogleAnalytics_Model_Observer
     protected $_googleAnalyticsData = null;
 
     /**
+     * @var Magento_Core_Model_App
+     */
+    protected $_application;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_App $application
      * @param Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_App $application,
         Magento_GoogleAnalytics_Helper_Data $googleAnalyticsData
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;
+        $this->_application = $application;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -50,7 +66,7 @@ class Magento_GoogleAnalytics_Model_Observer
         if (empty($orderIds) || !is_array($orderIds)) {
             return;
         }
-        $block = Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('google_analytics');
+        $block = $this->_application->getFrontController()->getAction()->getLayout()->getBlock('google_analytics');
         if ($block) {
             $block->setOrderIds($orderIds);
         }
@@ -62,7 +78,7 @@ class Magento_GoogleAnalytics_Model_Observer
      * If there is at least one GC button on the page, there should be the script for GA/GC integration included
      * a each shortcut should track submits to GA
      * There should be no tracking if there is no GA available
-     * This method assumes that the observer instance is run as a "singleton" (through Mage::getSingleton())
+     * This method assumes that the observer instance is run as a "singleton"
      *
      * @param Magento_Event_Observer $observer
      */
@@ -83,7 +99,7 @@ class Magento_GoogleAnalytics_Model_Observer
             return;
         }
         $beforeHtml = $block->getBeforeHtml();
-        $protocol = Mage::app()->getStore()->isCurrentlySecure() ? 'https' : 'http';
+        $protocol = $this->_storeManager->getStore()->isCurrentlySecure() ? 'https' : 'http';
         $block->setBeforeHtml($beforeHtml . '<script src="' . $protocol
             . '://checkout.google.com/files/digital/ga_post.js" type="text/javascript"></script>'
         );

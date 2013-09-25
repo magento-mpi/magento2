@@ -18,6 +18,25 @@
 class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalog_Model_Layer_Filter_Attribute
 {
     /**
+     * @var Magento_Search_Model_Resource_Engine
+     */
+    protected $_resourceEngine;
+
+    /**
+     * @param Magento_Search_Model_Resource_Engine $resourceEngine
+     * @param Magento_Core_Helper_String $coreString
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Search_Model_Resource_Engine $resourceEngine,
+        Magento_Core_Helper_String $coreString,
+        array $data = array()
+    ) {
+        $this->_resourceEngine = $resourceEngine;
+        parent::__construct($coreString, $data);
+    }
+
+    /**
      * Get data array for building attribute filter items
      *
      * @return array
@@ -27,8 +46,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalo
         $attribute = $this->getAttributeModel();
         $this->_requestVar = $attribute->getAttributeCode();
 
-        $engine = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine');
-        $fieldName = $engine->getSearchEngineFieldName($attribute, 'nav');
+        $fieldName = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
 
         $productCollection = $this->getLayer()->getProductCollection();
         $optionsFacetedData = $productCollection->getFacetedData($fieldName);
@@ -82,8 +100,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalo
      */
     public function addFacetCondition()
     {
-        $engine = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine');
-        $facetField = $engine->getSearchEngineFieldName($this->getAttributeModel(), 'nav');
+        $facetField = $this->_resourceEngine->getSearchEngineFieldName($this->getAttributeModel(), 'nav');
         $this->getLayer()->getProductCollection()->setFacetCondition($facetField);
 
         return $this;
@@ -119,8 +136,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalo
             }
         }
 
-        $fieldName = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
-            ->getSearchEngineFieldName($attribute, 'nav');
+        $fieldName = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
         $this->getLayer()->getProductCollection()->addFqFilter(array($fieldName => $value));
 
         return $this;

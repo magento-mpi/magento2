@@ -38,20 +38,28 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
     ) {
+        $this->_customerSession = $customerSession;
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
@@ -119,7 +127,7 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
 
         $groups = explode(',', $groups);
 
-        return !in_array(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(), $groups);
+        return !in_array($this->_customerSession->getCustomerGroupId(), $groups);
     }
 
     /**
@@ -150,7 +158,7 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
             $groups = explode(',', $groups);
 
             if ($customerGroupId === null) {
-                $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+                $customerGroupId = $this->_customerSession->getCustomerGroupId();
             }
 
             return in_array(

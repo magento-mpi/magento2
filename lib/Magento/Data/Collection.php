@@ -15,7 +15,12 @@
  * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Data_Collection implements IteratorAggregate, Countable
+
+/**
+ * TODO: Refactor use of Magento_Core_Model_Option_ArrayInterface in library. Probably will be refactored while
+ * moving Magento_Core to library
+ */
+class Magento_Data_Collection implements IteratorAggregate, Countable, Magento_Core_Model_Option_ArrayInterface
 {
     const SORT_ORDER_ASC    = 'ASC';
     const SORT_ORDER_DESC   = 'DESC';
@@ -67,7 +72,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *
      * if page size is false, then we works with all items
      *
-     * @var int | false
+     * @var int|false
      */
     protected $_pageSize = false;
 
@@ -92,9 +97,17 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      */
     protected $_flags = array();
 
-    public function __construct()
-    {
+    /**
+     * @var Magento_Core_Model_EntityFactory
+     */
+    protected $_entityFactory;
 
+    /**
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     */
+    public function __construct(Magento_Core_Model_EntityFactory $entityFactory)
+    {
+        $this->_entityFactory = $entityFactory;
     }
 
     /**
@@ -103,6 +116,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * @param string $field
      * @param string $value
      * @param string $type and|or|string
+     * @return Magento_Data_Collection
      */
     public function addFilter($field, $value, $type = 'and')
     {
@@ -166,8 +180,8 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Set collection loading status flag
      *
-     * @param unknown_type $flag
-     * @return unknown
+     * @param bool $flag
+     * @return $this
      */
     protected function _setIsLoaded($flag = true)
     {
@@ -185,8 +199,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     {
         if ($this->_curPage + $displacement < 1) {
             return 1;
-        }
-        elseif ($this->_curPage + $displacement > $this->getLastPageNumber()) {
+        } elseif ($this->_curPage + $displacement > $this->getLastPageNumber()) {
             return $this->getLastPageNumber();
         } else {
             return $this->_curPage + $displacement;
@@ -203,11 +216,9 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
         $collectionSize = (int) $this->getSize();
         if (0 === $collectionSize) {
             return 1;
-        }
-        elseif($this->_pageSize) {
+        } elseif($this->_pageSize) {
             return ceil($collectionSize/$this->_pageSize);
-        }
-        else{
+        } else {
             return 1;
         }
     }
@@ -250,7 +261,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
             return current($this->_items);
         }
 
-        return Mage::getModel($this->_itemObjectClass);
+        return $this->_entityFactory->create($this->_itemObjectClass);
     }
 
     /**
@@ -266,7 +277,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
             return end($this->_items);
         }
 
-        return Mage::getModel($this->_itemObjectClass);
+        return $this->_entityFactory->create($this->_itemObjectClass);
     }
 
     /**
@@ -310,7 +321,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
 
         $res = array();
         foreach ($this as $item) {
-            if ($item->getData($column)==$value) {
+            if ($item->getData($column) == $value) {
                 $res[] = $item;
             }
         }
@@ -329,7 +340,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
         $this->load();
 
         foreach ($this as $item) {
-            if ($item->getData($column)==$value) {
+            if ($item->getData($column) == $value) {
                 return $item;
             }
         }
@@ -341,6 +352,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *
      * @param   Magento_Object $item
      * @return  Magento_Data_Collection
+     * @throws Exception
      */
     public function addItem(Magento_Object $item)
     {
@@ -348,7 +360,9 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
 
         if (!is_null($itemId)) {
             if (isset($this->_items[$itemId])) {
-                throw new Exception('Item ('.get_class($item).') with the same id "'.$item->getId().'" already exist');
+                throw new Exception(
+                    'Item (' . get_class($item) . ') with the same id "' . $item->getId() . '" already exist'
+                );
             }
             $this->_items[$itemId] = $item;
         } else {
@@ -437,15 +451,16 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *
      * Returns array with results of callback for each item
      *
-     * @param string $method
+     * @param string $callback
      * @param array $args
+     * @internal param string $method
      * @return array
      */
     public function walk($callback, array $args=array())
     {
         $results = array();
-        $useItemCallback = is_string($callback) && strpos($callback, '::')===false;
-        foreach ($this->getItems() as $id=>$item) {
+        $useItemCallback = is_string($callback) && strpos($callback, '::') === false;
+        foreach ($this->getItems() as $id => $item) {
             if ($useItemCallback) {
                 $cb = array($item, $callback);
             } else {
@@ -457,10 +472,14 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
         return $results;
     }
 
-    public function each($obj_method, $args=array())
+    /**
+     * @param string|array $objMethod
+     * @param array $args
+     */
+    public function each($objMethod, $args = array())
     {
         foreach ($args->_items as $k => $item) {
-            $args->_items[$k] = call_user_func($obj_method, $item);
+            $args->_items[$k] = call_user_func($objMethod, $item);
         }
     }
 
@@ -471,10 +490,10 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * @param   mixed $value
      * @return  Magento_Data_Collection
      */
-    public function setDataToAll($key, $value=null)
+    public function setDataToAll($key, $value = null)
     {
         if (is_array($key)) {
-            foreach ($key as $k=>$v) {
+            foreach ($key as $k => $v) {
                 $this->setDataToAll($k, $v);
             }
             return $this;
@@ -545,7 +564,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      */
     public function getNewEmptyItem()
     {
-        return Mage::getModel($this->_itemObjectClass);
+        return $this->_entityFactory->create($this->_itemObjectClass);
     }
 
     /**
@@ -582,6 +601,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      * Set select distinct
      *
      * @param bool $flag
+     * @return $this
      */
     public function distinct($flag)
     {
@@ -591,6 +611,8 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Load data
      *
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return  Magento_Data_Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
@@ -601,6 +623,8 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Load data
      *
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return  Magento_Data_Collection
      */
     public function load($printQuery = false, $logQuery = false)
@@ -617,13 +641,13 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     {
         $xml = '<?xml version="1.0" encoding="UTF-8"?>
         <collection>
-           <totalRecords>'.$this->_totalRecords.'</totalRecords>
+           <totalRecords>' . $this->_totalRecords . '</totalRecords>
            <items>';
 
         foreach ($this as $item) {
-            $xml.=$item->toXml();
+            $xml .= $item->toXml();
         }
-        $xml.= '</items>
+        $xml .= '</items>
         </collection>';
         return $xml;
     }
@@ -631,6 +655,7 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
     /**
      * Convert collection to array
      *
+     * @param array $arrRequiredFields
      * @return array
      */
     public function toArray($arrRequiredFields = array())
@@ -656,11 +681,12 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
      *      )
      * )
      *
-     * @param   string $valueField
-     * @param   string $labelField
-     * @return  array
+     * @param string $valueField
+     * @param string $labelField
+     * @param array $additional
+     * @return array
      */
-    protected function _toOptionArray($valueField='id', $labelField='name', $additional=array())
+    protected function _toOptionArray($valueField = 'id', $labelField = 'name', $additional = array())
     {
         $res = array();
         $additional['value'] = $valueField;
@@ -675,11 +701,17 @@ class Magento_Data_Collection implements IteratorAggregate, Countable
         return $res;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return $this->_toOptionArray();
     }
 
+    /**
+     * @return array
+     */
     public function toOptionHash()
     {
         return $this->_toOptionHash();

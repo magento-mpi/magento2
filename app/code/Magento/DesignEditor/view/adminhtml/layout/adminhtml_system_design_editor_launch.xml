@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="file" xsi:type="string">Magento_DesignEditor::editor.phtml</argument>
         </action>
-    </reference>
-    <reference name="head">
+    </referenceBlock>
+    <referenceBlock name="head">
         <action method="setCanLoadExtJs">
             <argument name="flag" xsi:type="string">1</argument>
         </action>
@@ -122,8 +122,8 @@
                 <argument name="file" xsi:type="string">Magento_DesignEditor::js/tools-files.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Magento_DesignEditor::editor/container.phtml">
             <block class="Magento_Backend_Block_Template" name="design_editor_toolbar" template="Magento_DesignEditor::editor/toolbar.phtml">
                 <block class="Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Magento_DesignEditor::editor/toolbar/buttons.phtml">
@@ -161,5 +161,5 @@
             </block>
         </block>
         <block class="Magento_Backend_Block_Template" name="theme.dialog" template="Magento_DesignEditor::dialog.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

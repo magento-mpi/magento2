@@ -50,15 +50,6 @@
             </groups>
         </payment>
     </global>
-    <frontend>
-        <secure_url>
-            <paypal_express>/paypal/express</paypal_express>
-            <paypal_standard>/paypal/standard</paypal_standard>
-        </secure_url>
-        <secure_url>
-            <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
-        </secure_url>
-    </frontend>
     <default>
         <paypal>
             <style>
@@ -192,13 +183,4 @@
             </hosted_pro>
         </payment>
     </default>
-    <crontab>
-        <jobs>
-            <paypal_fetch_settlement_reports>
-                <run>
-                    <model>Magento_Paypal_Model_Observer::fetchReports</model>
-                </run>
-            </paypal_fetch_settlement_reports>
-        </jobs>
-    </crontab>
 </config>

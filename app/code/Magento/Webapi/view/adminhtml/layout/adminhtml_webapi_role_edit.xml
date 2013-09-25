@@ -9,22 +9,22 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_webapi_role_edit_tab_users_grid_block"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Webapi_Block_Adminhtml_Role_Edit" name="webapi.role.edit"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
             <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main"/>
             <block class="Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource" template="Magento_Webapi::rolesedit.phtml"/>
             <block class="Magento_Backend_Block_Widget_Grid_Container" name="webapi.role.edit.tab.users.grid.container"/>
         </block>
-    </reference>
-    <reference name="head">
+    </referenceContainer>
+    <referenceBlock name="head">
         <action method="setCanLoadExtJs">
             <argument name="flag" xsi:type="string">1</argument>
         </action>
-    </reference>
-    <reference name="js">
+    </referenceBlock>
+    <referenceContainer name="js">
         <block class="Magento_Core_Block_Template" template="Magento_Webapi::rolesusersgridjs.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

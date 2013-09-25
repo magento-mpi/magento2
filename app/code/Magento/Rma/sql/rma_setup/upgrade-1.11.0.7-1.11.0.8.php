@@ -8,9 +8,10 @@
  * @license     {license_link}
  */
 
+/** @var $this Magento_Rma_Model_Resource_Setup */
 //Product's Attribute is_returnable shouldn't be applied to grouped product
 //Because it has no sense
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = $this->getCatalogResourceSetup(array('resourceName' => 'catalog_setup'));
 
 $applyTo = Magento_Catalog_Model_Product_Type::TYPE_SIMPLE . ',' .
     Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE . ',' .

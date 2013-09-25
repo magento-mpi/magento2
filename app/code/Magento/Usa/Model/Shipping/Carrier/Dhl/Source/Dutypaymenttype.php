@@ -10,14 +10,12 @@
 
 
 class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Dutypaymenttype
+    extends Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Generic
 {
-    public function toOptionArray()
-    {
-        $dhl = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Dhl');
-        $arr = array();
-        foreach ($dhl->getCode('dutypayment_type') as $k=>$v) {
-            $arr[] = array('value'=>$k, 'label'=>$v);
-        }
-        return $arr;
-    }
+    /**
+     * Carrier code
+     *
+     * @var string
+     */
+    protected $_code = 'dutypayment_type';
 }

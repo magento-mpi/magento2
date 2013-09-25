@@ -23,39 +23,25 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     const STATUS_PENDING = 2;
 
     /**
-     * Import/export config model
-     *
-     * @var Magento_ImportExport_Model_Config
+     * @var Magento_ImportExport_Model_Import_ConfigInterface
      */
-    protected $_importExportConfig;
+    protected $_importConfig;
 
     /**
-     * Import entity model
-     *
-     * @var Magento_ImportExport_Model_Import
+     * @var Magento_ImportExport_Model_Export_ConfigInterface
      */
-    protected $_importModel;
+    protected $_exportConfig;
 
     /**
-     * @var Magento_ImportExport_Model_Config
-     */
-    protected $_config;
-
-    /**
-     * Constructor
-     *
-     * @param Magento_ImportExport_Model_Config $config
-     * @param array $data
+     * @param Magento_ImportExport_Model_Import_ConfigInterface $importConfig
+     * @param Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
      */
     public function __construct(
-        Magento_ImportExport_Model_Config $config,
-        array $data = array()
+        Magento_ImportExport_Model_Import_ConfigInterface $importConfig,
+        Magento_ImportExport_Model_Export_ConfigInterface $exportConfig
     ) {
-        $this->_config = $config;
-        $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
-            : Mage::getModel('Magento_ImportExport_Model_Config');
-        $this->_importModel = isset($data['import_model']) ? $data['import_model']
-            : Mage::getModel('Magento_ImportExport_Model_Import');
+        $this->_importConfig = $importConfig;
+        $this->_exportConfig = $exportConfig;
     }
 
     /**
@@ -162,21 +148,23 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
      */
     public function getEntitiesOptionArray($type = null)
     {
-        $importEntities = $this->_config->getModelsArrayOptions(
-            Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES
-        );
-        $exportEntities = $this->_config->getModelsArrayOptions(
-            Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES
-        );
+        $importOptions = array();
+        foreach ($this->_importConfig->getEntities() as $entityName => $entityConfig) {
+            $importOptions[$entityName] = __($entityConfig['label']);
+        }
+        $exportOptions = array();
+        foreach ($this->_exportConfig->getEntities() as $entityName => $entityConfig) {
+            $exportOptions[$entityName] = __($entityConfig['label']);
+        }
         switch ($type) {
             case 'import':
-                return $importEntities;
+                return $importOptions;
 
             case 'export':
-                return $exportEntities;
+                return $exportOptions;
 
             default:
-                return array_merge($importEntities, $exportEntities);
+                return array_merge($importOptions, $exportOptions);
         }
     }
 }

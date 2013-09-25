@@ -95,7 +95,7 @@
         </param>
     </type>
     <type name="Magento_Sales_Model_Order_Pdf_Config_Data">
-        <param name='reader'>
+        <param name="reader">
             <instance type="Magento_Sales_Model_Order_Pdf_Config_Reader" />
         </param>
         <param name="cacheId">
@@ -111,6 +111,13 @@
         </param>
         <param name="schemaLocator">
             <instance type="Magento_Sales_Model_Order_Pdf_Config_SchemaLocator" />
+        </param>
+    </type>
+    <type name="Magento_Catalog_Model_Resource_Product_Flat_Indexer">
+        <param name="flatAttributeGroups">
+            <value>
+                <sales_quote_item>sales_quote_item</sales_quote_item>
+            </value>
         </param>
     </type>
 </config>

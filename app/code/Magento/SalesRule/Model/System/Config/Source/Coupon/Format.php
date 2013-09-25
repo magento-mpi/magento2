@@ -15,7 +15,7 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_System_Config_Source_Coupon_Format
+class Magento_SalesRule_Model_System_Config_Source_Coupon_Format implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Sales rule coupon

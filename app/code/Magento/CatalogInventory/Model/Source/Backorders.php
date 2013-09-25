@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogInventory_Model_Source_Backorders
+class Magento_CatalogInventory_Model_Source_Backorders implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

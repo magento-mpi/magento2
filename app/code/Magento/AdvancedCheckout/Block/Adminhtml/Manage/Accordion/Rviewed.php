@@ -24,11 +24,19 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
     protected $_listType = 'rviewed';
 
     /**
-     * Adminhtml sales
-     *
      * @var Magento_Adminhtml_Helper_Sales
      */
-    protected $_adminhtmlSales = null;
+    protected $_adminhtmlSales;
+
+    /**
+     * @var Magento_Reports_Model_EventFactory
+     */
+    protected $_eventFactory;
+
+    /**
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
 
     /**
      * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
@@ -41,15 +49,20 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
      */
     public function __construct(
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Reports_Model_EventFactory $eventFactory,
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        $this->_productFactory = $productFactory;
+        $this->_eventFactory = $eventFactory;
     }
 
     /**
@@ -74,7 +87,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = Mage::getModel('Magento_Reports_Model_Event')
+            $collection = $this->_eventFactory->create()
                 ->getCollection()
                 ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
                 ->addRecentlyFiler(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
@@ -86,7 +99,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
                 $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-                $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+                $productCollection = $this->_productFactory->create()->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)

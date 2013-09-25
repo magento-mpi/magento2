@@ -9,7 +9,7 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Shipping_Virtual_Method
+class Magento_GoogleCheckout_Model_Source_Shipping_Virtual_Method implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

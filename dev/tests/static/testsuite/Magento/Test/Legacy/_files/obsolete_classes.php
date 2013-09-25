@@ -564,7 +564,7 @@ return array(
     array('Mage_Core_Block_Template_Facade'),
     array('Mage_Core_Block_Template_Smarty'),
     array('Mage_Core_Block_Template_Zend'),
-    array('Mage_Core_Controller_Varien_Router_Admin', 'Magento_Backend_Controller_Router_Default'),
+    array('Mage_Core_Controller_Magento_Router_Admin', 'Magento_Backend_Controller_Router_Default'),
     array('Mage_Core_Model_Convert'),
     array('Mage_Core_Model_Config_Fieldset', 'Magento_Core_Model_Fieldset_Config'),
     array('Mage_Core_Model_Config_Options', 'Magento_Core_Model_Dir'),
@@ -955,4 +955,6 @@ return array(
     array('Mage_Sales_Model_Order_Api'),
     array('Mage_Sales_Model_Order_Creditmemo_Api_V2'),
     array('Mage_Sales_Model_Order_Creditmemo_Api'),
+    array('Magento_ImportExport_Model_Config'),
+    array('Magento_Data_Collection_Factory', 'Magento_Data_CollectionFactory'),
 );

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_GiftWrapping_Block_Adminhtml_Giftwrapping" name="magento_giftwrapping">
             <block class="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.giftwrapping.grid" as="grid">
                 <arguments>
@@ -144,5 +144,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

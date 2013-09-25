@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Shipping Address Selection" type="page" parent="checkout_multishipping_addresses">
     <update handle="checkout_multishipping"/>
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Checkout_Block_Multishipping_Address_Select" name="checkout_address_select" template="multishipping/address/select.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

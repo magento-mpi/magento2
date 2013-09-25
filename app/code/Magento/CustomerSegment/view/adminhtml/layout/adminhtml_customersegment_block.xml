@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customersegment.container">
+    <referenceBlock name="customersegment.container">
         <block class="Magento_Backend_Block_Widget_Grid" name="customer.segment.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">customersegmentGrid</argument>
@@ -78,5 +78,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

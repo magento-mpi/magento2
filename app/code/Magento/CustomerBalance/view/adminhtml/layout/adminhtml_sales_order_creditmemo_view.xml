@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="creditmemo_totals">
+    <referenceBlock name="creditmemo_totals">
         <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance" template="Magento_CustomerBalance::sales/creditmemo/totals/view.phtml" after="-"/>
         <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="customerbalance_refunded" template="sales/order/totals/item.phtml">
             <action method="setSourceField">
@@ -27,5 +27,5 @@
                 <argument name="flag" xsi:type="string">true</argument>
             </action>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

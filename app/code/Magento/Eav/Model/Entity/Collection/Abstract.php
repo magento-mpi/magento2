@@ -94,14 +94,18 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($fetchStrategy);
+        parent::__construct($logger, $fetchStrategy, $entityFactory);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
         $this->_prepareStaticFields();
@@ -313,7 +317,7 @@ abstract class Magento_Eav_Model_Entity_Collection_Abstract extends Magento_Data
      *
      * @param mixed $attribute
      * @param mixed $condition
-     * @return Magento_Eav_Model_Entity_Collection_Abstract|\Varien_Data_Collection_Db
+     * @return Magento_Eav_Model_Entity_Collection_Abstract|Magento_Data_Collection_Db
      */
     public function addFieldToFilter($attribute, $condition = null)
     {
