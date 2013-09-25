@@ -30,7 +30,7 @@
                 The containing node for a list of credit card types.
             </xs:documentation>
         </xs:annotation>
-        <xs:sequence maxOccurs="unbounded">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
             <xs:element name="type" type="typeType" />
         </xs:sequence>
     </xs:complexType>
@@ -42,7 +42,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:all>
-            <xs:element name="label" type="translatableType" />
+            <xs:element name="label" type="translatableType" minOccurs="0" />
         </xs:all>
         <xs:attribute name="code" type="xs:ID" use="required" />
         <xs:attribute name="order" type="xs:integer" />
