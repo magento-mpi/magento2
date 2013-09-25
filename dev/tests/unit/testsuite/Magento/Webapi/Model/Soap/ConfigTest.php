@@ -61,13 +61,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function serviceNamePartsDataProvider()
     {
         return array(
-            array('Magento_Customer_Service_Customer_AddressV1Interface', false, array('Customer', 'Address')),
+            array('Magento\Customer\Service\Customer\AddressV1Interface', false, array('Customer', 'Address')),
             array(
-                'Vendor_Customer_Service_Customer_AddressV1Interface',
+                'Vendor\Customer\Service\Customer\AddressV1Interface',
                 true,
                 array('VendorCustomer', 'Address', 'V1')
             ),
-            array('Magento_Catalog_Service_ProductV2Interface', true, array('CatalogProduct', 'V2'))
+            array('Magento\Catalog\Service\ProductV2Interface', true, array('CatalogProduct', 'V2'))
         );
     }
 }
