@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_GoogleShopping
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <virtualType name="Magento_GoogleShopping_Model_Resource_Helper" type="Magento_Core_Model_Resource_Helper_Mysql4">
+        <param name="modulePrefix">
+            <value>GoogleShopping</value>
+        </param>
+    </virtualType>
+    <type name="Magento_GoogleShopping_Model_Resource_Item_Collection">
+        <param name="resourceHelper">
+            <instance type="Magento_GoogleShopping_Model_Resource_Helper" />
+        </param>
+    </type>
+</config>
