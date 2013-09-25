@@ -38,17 +38,17 @@ class Magento_Weee_Model_Total_Quote_Weee extends Magento_Tax_Model_Sales_Total_
     protected $_isTaxAffected;
 
     /**
-     * Initialize Weee totals collector
-     *
+     * @param Magento_Tax_Model_Config $config
      * @param Magento_Weee_Helper_Data $weeeData
      * @param Magento_Tax_Helper_Data $taxData
      */
     public function __construct(
+        Magento_Tax_Model_Config $config,
         Magento_Weee_Helper_Data $weeeData,
         Magento_Tax_Helper_Data $taxData
     ) {
         $this->_weeeData = $weeeData;
-        $this->_config = Mage::getSingleton('Magento_Tax_Model_Config');
+        $this->_config = $config;
         parent::__construct($taxData);
         $this->setCode('weee');
     }

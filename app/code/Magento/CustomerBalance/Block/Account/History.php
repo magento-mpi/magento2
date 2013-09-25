@@ -21,15 +21,39 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     protected $_actionNames = null;
 
     /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_CustomerBalance_Model_Balance_HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory
+     * @param Magento_Customer_Model_Session $custoomerSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_CustomerBalance_Model_Balance_HistoryFactory $historyFactory,
+        Magento_Customer_Model_Session $custoomerSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_customerSession = $custoomerSession;
+        $this->_historyFactory = $historyFactory;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -50,15 +74,15 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
      */
     public function getEvents()
     {
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $customerId = $this->_customerSession->getCustomerId();
         if (!$customerId) {
             return false;
         }
 
-        $collection = Mage::getModel('Magento_CustomerBalance_Model_Balance_History')
+        $collection = $this->_historyFactory->create()
                 ->getCollection()
                 ->addFieldToFilter('customer_id', $customerId)
-                ->addFieldToFilter('website_id', Mage::app()->getStore()->getWebsiteId())
+                ->addFieldToFilter('website_id', $this->_storeManager->getStore()->getWebsiteId())
                 ->addOrder('updated_at', 'DESC')
                 ->addOrder('history_id', 'DESC');
 
@@ -73,8 +97,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     public function getActionNames()
     {
         if (is_null($this->_actionNames)) {
-            $this->_actionNames = Mage::getSingleton('Magento_CustomerBalance_Model_Balance_History')
-                ->getActionNamesArray();
+            $this->_actionNames = $this->_historyFactory->create()->getActionNamesArray();
         }
         return $this->_actionNames;
     }

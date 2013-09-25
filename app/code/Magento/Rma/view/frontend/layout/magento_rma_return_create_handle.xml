@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Return Create" type="page" parent="default">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_CustomAttribute_Block_Form_Template" name="magento_rma_item_form_template">
             <action method="addRenderer">
                 <argument name="type" xsi:type="string">text</argument>
@@ -31,5 +31,5 @@
                 <argument name="template" xsi:type="string">form/renderer/image.phtml</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>

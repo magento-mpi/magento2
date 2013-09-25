@@ -19,6 +19,23 @@
 class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($resource);
+    }
+
+    /**
      * Defines main resource table and table identifier field
      *
      */
@@ -50,7 +67,7 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
         } else {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $select->where('website_id IN (?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
+                $select->where('website_id IN (?)', array(0, $this->_storeManager->getStore($storeId)->getWebsiteId()));
             }
         }
         return $this->_getReadAdapter()->fetchAll($select);
@@ -74,7 +91,7 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
         if (!$attribute->isScopeGlobal()) {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $where['website_id IN(?)'] =  array(0, Mage::app()->getStore($storeId)->getWebsiteId());
+                $where['website_id IN(?)'] =  array(0, $this->_storeManager->getStore($storeId)->getWebsiteId());
             }
         }
         $adapter->delete($this->getMainTable(), $where);

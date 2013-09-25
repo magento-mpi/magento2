@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="left">
+    <referenceContainer name="left">
         <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher" template="store/switcher.phtml"/>
         <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tabs" name="attributes_tabs">
             <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes" name="tab_attributes"/>
@@ -27,8 +27,8 @@
                 <argument name="block" xsi:type="string">tab_websites</argument>
             </action>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceContainer>
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute" name="attribute" template="catalog/product/edit/action/attribute.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Script" name="magento-adminhtml-sales-order-shipment-packaging-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Adminhtml::sales/order/shipment/packaging.js</argument>
@@ -19,13 +19,13 @@
                 <argument name="file" xsi:type="string">Magento_Rma::rma.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Rma_Block_Adminhtml_Rma_Edit" name="magento_rma_edit"/>
         <block class="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/details.phtml"/>
         <block class="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/reason.phtml"/>
-    </reference>
-    <reference name="left">
+    </referenceContainer>
+    <referenceContainer name="left">
         <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tabs" name="magento_rma_edit_tabs">
             <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General" template="edit/general.phtml" name="magento_rma_edit_tab_general">
                 <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Details" template="edit/general/details.phtml" name="request_details"/>
@@ -48,9 +48,9 @@
                 <argument name="block" xsi:type="string">magento_rma_edit_tab_items</argument>
             </action>
         </block>
-    </reference>
-    <reference name="before_body_end">
+    </referenceContainer>
+    <referenceContainer name="before_body_end">
         <block class="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/mask.phtml"/>
         <block class="Magento_Rma_Block_Adminhtml_Rma_Edit_Js" template="edit/js.phtml" name="magento_rma_js_create"/>
-    </reference>
+    </referenceContainer>
 </layout>

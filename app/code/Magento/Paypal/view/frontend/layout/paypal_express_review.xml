@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="PayPal Express Order Review Form" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Paypal_Block_Express_Review" name="paypal.express.review" template="express/review.phtml">
             <block class="Magento_Paypal_Block_Express_Review_Billing" name="express.review.billing" as="billing" template="express/review/address.phtml"/>
             <block class="Magento_Paypal_Block_Express_Review_Shipping" name="express.review.shipping" as="shipping" template="express/review/address.phtml"/>
@@ -26,6 +26,6 @@
             </block>
             <block class="Magento_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
         </block>
-    </reference>
+    </referenceContainer>
     <container name="additional.product.info" label="Additional Product Info"/>
 </layout>

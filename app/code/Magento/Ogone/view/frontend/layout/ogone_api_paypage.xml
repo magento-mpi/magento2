@@ -9,23 +9,23 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Ogone Paygate Payment" type="page" parent="default">
     <remove name="catalog.topnav"/>
-    <reference name="header">
+    <referenceBlock name="header">
         <remove name="top.links"/>
         <remove name="top.search"/>
         <remove name="store_language"/>
         <remove name="top.container"/>
-    </reference>
-    <reference name="footer">
+    </referenceBlock>
+    <referenceBlock name="footer">
         <remove name="cms_footer_links"/>
         <remove name="footer_links"/>
         <remove name="store_switcher"/>
-    </reference>
-    <reference name="root">
+    </referenceBlock>
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Ogone_Block_Paypage" name="ogone_paypage" template="paypage.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

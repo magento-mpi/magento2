@@ -74,8 +74,17 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
 
         //TODO Get rid of mocking methods from testing model when this model will be re-factored
 
+        $operationFactory = $this->getMOck(
+            'Magento_ScheduledImportExport_Model_Scheduled_Operation_DataFactory', array(), array(), '', false
+        );
+        $emailInfoFactory = $this->getMOck('Magento_Core_Model_Email_InfoFactory', array(), array(), '', false);
+        $params = array(
+            'operationFactory' => $operationFactory,
+            'emailInfoFactory' => $emailInfoFactory,
+        );
         $arguments = $objectManagerHelper->getConstructArguments(
-            'Magento_ScheduledImportExport_Model_Scheduled_Operation');
+            'Magento_ScheduledImportExport_Model_Scheduled_Operation', $params
+        );
         $arguments['dateModel'] = $dateModelMock;
         $model = $this->getMock(
             'Magento_ScheduledImportExport_Model_Scheduled_Operation',

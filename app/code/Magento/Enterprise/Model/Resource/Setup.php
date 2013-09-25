@@ -47,4 +47,12 @@ class Magento_Enterprise_Model_Resource_Setup extends Magento_Core_Model_Resourc
 
         $this->_modelBlockFactory = $modelBlockFactory;
     }
+
+    /**
+     * @return \Magento_Cms_Model_Block
+     */
+    public function getModelBlock()
+    {
+        return $this->_modelBlockFactory->create();
+    }
 }
