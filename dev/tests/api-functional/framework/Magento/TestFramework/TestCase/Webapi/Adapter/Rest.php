@@ -83,41 +83,6 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
     }
 
     /**
-     * Create a consumer
-     */
-    protected function createConsumer()
-    {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $oauthService Magento_Oauth_Service_OauthV1 */
-        $oauthService = $objectManager->get('Magento_Oauth_Service_OauthV1');
-        /** @var $oauthHelper Magento_Oauth_Helper_Data */
-        $oauthHelper = $objectManager->get('Magento_Oauth_Helper_Data');
-
-        self::$_consumerKey = $oauthHelper->generateConsumerKey();
-        self::$_consumerSecret = $oauthHelper->generateConsumerSecret();
-
-        $url = TESTS_BASE_URL;
-        $data = array(
-            'created_at' => date('Y-m-d H:i:s'),
-            'key' => self::$_consumerKey,
-            'secret' => self::$_consumerSecret,
-            'name' => 'consumerName',
-            'callback_url' => $url,
-            'rejected_callback_url' => $url,
-            'http_post_url' => $url
-        );
-
-        /** @var array $consumerData */
-        $consumerData = $oauthService->createConsumer($data);
-        /** @var  $token Magento_Oauth_Model_Token */
-        self::$_consumer = $objectManager->get('Magento_Oauth_Model_Consumer')
-            ->load($consumerData['key'], 'key');
-        self::$_token = $objectManager->create('Magento_Oauth_Model_Token');
-        self::$_verifier = self::$_token->createVerifierToken(self::$_consumer->getId())->getVerifier();
-    }
-
-    /**
      * Retrieve REST endpoint from $serviceInfo array and return it to the caller.
      *
      * @param array $serviceInfo
