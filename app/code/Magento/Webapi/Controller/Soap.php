@@ -106,9 +106,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
                 );
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
             } else {
-                // $this->_oauthService->validateAccessToken(
-                //    $this->_oauthHelper->_prepareServiceRequest($this->_request)
-                //);
+                $this->_oauthService->validateAccessToken($this->_getAccessToken());
                 $responseBody = $this->_soapServer->handle();
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
@@ -128,6 +126,18 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
     protected function _isWsdlRequest()
     {
         return $this->_request->getParam(Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null;
+    }
+
+    /**
+     * Parse the Authorization header and return the access token
+     * eg Authorization: Bearer <access-token>
+     *
+     * @return string Access token
+     */
+    protected function _getAccessToken()
+    {
+        $token = explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
+        return $token[1];
     }
 
     /**

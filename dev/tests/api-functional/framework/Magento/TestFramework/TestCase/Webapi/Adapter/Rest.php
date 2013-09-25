@@ -46,25 +46,16 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Rest
     {
         $resourcePath = $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
-        //Setup Oauth header
-        $this->createConsumer();
-        $credentials = new OAuth\Common\Consumer\Credentials(
-            self::$_consumerKey, self::$_consumerSecret, TESTS_BASE_URL);
-        /** @var $oAuthClient Magento_TestFramework_Authentication_Rest_OauthClient */
-        $oAuthClient = new Magento_TestFramework_Authentication_Rest_OauthClient($credentials);
-        $requestToken = $oAuthClient->requestRequestToken();
-        $accessToken = $oAuthClient->requestAccessToken(
-            $requestToken->getRequestToken(),
-            self::$_verifier,
-            $requestToken->getRequestTokenSecret()
-        );
-
+        //Get a valid token
+        $token = Magento_TestFramework_Authentication_OauthHelper::getAccessToken();
+        /** @var $oAuthClient Magento_TestFramework_Authentication_Rest_OauthClient*/
+        $oAuthClient = $token['oauth_client'];
         // delegate the request to vanilla cURL REST client
         $curlClient = new Magento_TestFramework_TestCase_Webapi_Adapter_Rest_CurlClient();
         $oauthHeader = $oAuthClient
             ->buildOauthHeaderForApiRequest($curlClient->constructResourceUrl($resourcePath),
-                                            $accessToken->getAccessToken(),
-                                            $accessToken->getAccessTokenSecret(),
+                                            $token['token_key'],
+                                            $token['token_secret'],
                                             ($httpMethod == 'PUT' || $httpMethod == 'POST') ? $arguments : array(),
                                             $httpMethod);
         switch ($httpMethod) {

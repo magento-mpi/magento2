@@ -130,27 +130,6 @@ class Magento_Webapi_Model_Soap_Server
     }
 
     /**
-     * Get SOAP Header names from request.
-     *
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @TODO Remove this method if it is not used after SOAP authentication implementation
-     */
-    public function getRequestHeaders()
-    {
-        $dom = $this->_domDocumentFactory->createDomDocument();
-        $dom->loadXML($this->_request);
-        $headers = array();
-        /** @var DOMElement $header */
-        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
-            list($headerNs, $headerName) = explode(":", $header->nodeName);
-            $headers[] = $headerName;
-        }
-
-        return $headers;
-    }
-
-    /**
      * Generate exception if request is invalid.
      *
      * @param string $soapRequest

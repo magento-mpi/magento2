@@ -51,34 +51,12 @@ class Magento_Webapi_Authentication_RestTest extends Magento_TestFramework_TestC
      */
     public static function consumerFixture($date = null)
     {
-        /** @var $objectManager Magento_TestFramework_ObjectManager */
-        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $oauthService Magento_Oauth_Service_OauthV1 */
-        $oauthService = $objectManager->get('Magento_Oauth_Service_OauthV1');
-        /** @var $oauthHelper Magento_Oauth_Helper_Data */
-        $oauthHelper = $objectManager->get('Magento_Oauth_Helper_Data');
-
-        self::$_consumerKey = $oauthHelper->generateConsumerKey();
-        self::$_consumerSecret = $oauthHelper->generateConsumerSecret();
-
-        $url = TESTS_BASE_URL;
-        $data = array(
-            'created_at' => is_null($date) ? date('Y-m-d H:i:s') : $date,
-            'key' => self::$_consumerKey,
-            'secret' => self::$_consumerSecret,
-            'name' => 'consumerName',
-            'callback_url' => $url,
-            'rejected_callback_url' => $url,
-            'http_post_url' => $url
-        );
-
-        /** @var array $consumerData */
-        $consumerData = $oauthService->createConsumer($data);
-        /** @var  $token Magento_Oauth_Model_Token */
-        self::$_consumer = $objectManager->get('Magento_Oauth_Model_Consumer')
-            ->load($consumerData['key'], 'key');
-        self::$_token = $objectManager->create('Magento_Oauth_Model_Token');
-        self::$_verifier = self::$_token->createVerifierToken(self::$_consumer->getId())->getVerifier();
+        $consumerCredentials = Magento_TestFramework_Authentication_OauthHelper::geConsumerCredentials($date);
+        self::$_consumerKey = $consumerCredentials['consumer_key'];
+        self::$_consumerSecret = $consumerCredentials['consumer_secret'];
+        self::$_verifier = $consumerCredentials['verifier'];
+        self::$_consumer = $consumerCredentials['consumer'];
+        self::$_token = $consumerCredentials['token'];
     }
 
 

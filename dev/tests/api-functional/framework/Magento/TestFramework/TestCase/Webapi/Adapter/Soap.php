@@ -75,8 +75,17 @@ class Magento_TestFramework_TestCase_Webapi_Adapter_Soap
      */
     public function instantiateSoapClient($wsdlUrl)
     {
+        $token = Magento_TestFramework_Authentication_OauthHelper::getAccessToken();
+        $opts = array(
+            'http'=>array(
+                'header'=>"Authorization: Bearer " . $token['token_key']."\r\n" .
+                "Cookie: XDEBUG_SESSION=PHPSTORM\r\n"
+            )
+        );
+        $context = stream_context_create($opts);
         $soapClient = new Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
+        $soapClient->setStreamContext($context);
         return $soapClient;
     }
 
