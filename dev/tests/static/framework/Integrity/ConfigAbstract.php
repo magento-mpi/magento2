@@ -120,7 +120,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
         if (isset($expectedErrors)) {
             $this->assertNotEmpty(
                 $actualErrors,
-                'No schema validation errors found, expected errors '. implode('; ', $expectedErrors)
+                'No schema validation errors found, expected errors: '. PHP_EOL . implode(PHP_EOL, $expectedErrors)
             );
             foreach ($expectedErrors as $expectedError) {
                 $found = false;
@@ -129,18 +129,18 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
                     if (!(strpos($actualError, $expectedError) === false)) {
                         // found expected string
                         $found = true;
+                        // remove found error from list of actual errors
+                        unset($actualErrors[$errorKey]);
                         break;
                     }
                 }
                 $this->assertTrue(
                     $found,
-                    'Failed asserting that '. $expectedError . " is in: \n" . implode(', ', $actualErrors)
+                    'Failed asserting that '. $expectedError . " is in: \n" . implode(PHP_EOL, $actualErrors)
                 );
-                // remove found error from list of actual errors
-                unset($actualErrors[$errorKey]);
             }
             // list of actual errors should now be empty
-            $this->assertEmpty($actualErrors, "There were unexpected errors: \n" . implode('; ', $actualErrors));
+            $this->assertEmpty($actualErrors, "There were unexpected errors: \n" . implode(PHP_EOL, $actualErrors));
         } elseif (!$actualErrors) {
             $this->fail('There is a problem with the schema.  A known bad XML file passed validation');
         }
