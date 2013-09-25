@@ -8,13 +8,8 @@
  * @license     {license_link}
  */
 
-
 /**
  * Directory Country Resource Model
- *
- * @category    Magento
- * @package     Magento_Directory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Directory_Model_Resource_Country extends Magento_Core_Model_Resource_Db_Abstract
 {
@@ -32,10 +27,8 @@ class Magento_Directory_Model_Resource_Country extends Magento_Core_Model_Resour
      *
      * @param Magento_Directory_Model_Country $country
      * @param string $code
-     *
-     * @throws Magento_Core_Exception
-     * 
      * @return Magento_Directory_Model_Resource_Country
+     * @throws Magento_Core_Exception
      */
     public function loadByCode(Magento_Directory_Model_Country $country, $code)
     {
@@ -49,7 +42,7 @@ class Magento_Directory_Model_Resource_Country extends Magento_Core_Model_Resour
                 break;
 
             default:
-                Mage::throwException(__('Please correct the country code: %1.', $code));
+                throw new Magento_Core_Exception(__('Please correct the country code: %1.', $code));
         }
 
         return $this->load($country, $code, $field);

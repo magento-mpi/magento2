@@ -22,38 +22,40 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!$this->_objectManager->get('Magento_Customer_Model_Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
-            if(!Mage::getSingleton('Magento_Customer_Model_Session')->getBeforeUrl()) {
-                Mage::getSingleton('Magento_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
+            if(!$this->_objectManager->get('Magento_Customer_Model_Session')->getBeforeUrl()) {
+                $this->_objectManager->get('Magento_Customer_Model_Session')->setBeforeUrl($this->_getRefererUrl());
             }
         }
     }
 
     public function priceAction()
     {
-        $productId  = (int) $this->getRequest()->getParam('product');
+        $productId = (int)$this->getRequest()->getParam('product');
 
         if (!$productId) {
             $this->_redirect('');
             return;
         }
-        $session    = Mage::getSingleton('Magento_Catalog_Model_Session');
+        $session = $this->_objectManager->get('Magento_Catalog_Model_Session');
 
         /* @var $session Magento_Catalog_Model_Session */
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+        $product = $this->_objectManager->create('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             /* @var $product Magento_Catalog_Model_Product */
-            Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('We can\'t find the product.'));
+            $this->_objectManager->get('Magento_Customer_Model_Session')->addError(__('We can\'t find the product.'));
             $this->_redirect('customer/account/');
             return ;
         }
 
         try {
-            $model  = Mage::getModel('Magento_ProductAlert_Model_Price')
-                ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+            $model = $this->_objectManager->create('Magento_ProductAlert_Model_Price')
+                ->setCustomerId($this->_objectManager->get('Magento_Customer_Model_Session')->getCustomerId())
                 ->setProductId($product->getId())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->setWebsiteId(
+                    $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsiteId()
+                )
                 ->loadByParam();
             if ($model->getId()) {
                 $model->delete();
@@ -69,13 +71,13 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
 
     public function priceAllAction()
     {
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        $session = $this->_objectManager->get('Magento_Customer_Model_Session');
         /* @var $session Magento_Customer_Model_Session */
 
         try {
-            Mage::getModel('Magento_ProductAlert_Model_Price')->deleteCustomer(
+            $this->_objectManager->create('Magento_ProductAlert_Model_Price')->deleteCustomer(
                 $session->getCustomerId(),
-                Mage::app()->getStore()->getWebsiteId()
+                $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsiteId()
             );
             $session->addSuccess(__('You will no longer receive price alerts for this product.'));
         }
@@ -94,21 +96,23 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
             return;
         }
 
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        $session = $this->_objectManager->get('Magento_Catalog_Model_Session');
         /* @var $session Magento_Catalog_Model_Session */
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+        $product = $this->_objectManager->create('Magento_Catalog_Model_Product')->load($productId);
         /* @var $product Magento_Catalog_Model_Product */
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            Mage::getSingleton('Magento_Customer_Model_Session')->addError(__('The product was not found.'));
+            $this->_objectManager->get('Magento_Customer_Model_Session')->addError(__('The product was not found.'));
             $this->_redirect('customer/account/');
             return ;
         }
 
         try {
-            $model  = Mage::getModel('Magento_ProductAlert_Model_Stock')
-                ->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+            $model = $this->_objectManager->create('Magento_ProductAlert_Model_Stock')
+                ->setCustomerId($this->_objectManager->get('Magento_Customer_Model_Session')->getCustomerId())
                 ->setProductId($product->getId())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->setWebsiteId(
+                    $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsiteId()
+                )
                 ->loadByParam();
             if ($model->getId()) {
                 $model->delete();
@@ -123,13 +127,13 @@ class Magento_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controlle
 
     public function stockAllAction()
     {
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        $session = $this->_objectManager->get('Magento_Customer_Model_Session');
         /* @var $session Magento_Customer_Model_Session */
 
         try {
-            Mage::getModel('Magento_ProductAlert_Model_Stock')->deleteCustomer(
+            $this->_objectManager->create('Magento_ProductAlert_Model_Stock')->deleteCustomer(
                 $session->getCustomerId(),
-                Mage::app()->getStore()->getWebsiteId()
+                $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getWebsiteId()
             );
             $session->addSuccess(__('You will no longer receive stock alerts.'));
         }
