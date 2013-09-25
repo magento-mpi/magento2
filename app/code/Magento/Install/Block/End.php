@@ -66,7 +66,8 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
     {
         $key = $this->getData('encryption_key');
         if (is_null($key)) {
-            $this->setData('encryption_key', $this->_cryptKey);
+            $key = $this->_cryptKey;
+            $this->setData('encryption_key', $key);
         }
         return $key;
     }
