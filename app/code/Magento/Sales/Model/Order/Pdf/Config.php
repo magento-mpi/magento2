@@ -9,13 +9,13 @@
  */
 class Magento_Sales_Model_Order_Pdf_Config
 {
-    /** @var Magento_Sales_Model_Order_Pdf_Config_Data */
+    /** @var Magento_Config_DataInterface */
     protected $_dataStorage;
 
     /**
-     * @param Magento_Sales_Model_Order_Pdf_Config_Data $dataStorage
+     * @param Magento_Config_DataInterface $dataStorage
      */
-    public function __construct(Magento_Sales_Model_Order_Pdf_Config_Data $dataStorage)
+    public function __construct(Magento_Config_DataInterface $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }
@@ -23,12 +23,12 @@ class Magento_Sales_Model_Order_Pdf_Config
     /**
      * Get renderer configuration data by type
      *
-     * @param string $type
+     * @param string $pageType
      * @return array
      */
-    public function getRendererData($type)
+    public function getRenderersPerProduct($pageType)
     {
-        return $this->_dataStorage->get("renderers/$type", array());
+        return $this->_dataStorage->get("renderers/$pageType", array());
     }
 
     /**

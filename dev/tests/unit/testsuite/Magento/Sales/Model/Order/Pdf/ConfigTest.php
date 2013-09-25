@@ -14,22 +14,22 @@ class Magento_Sales_Model_Order_Pdf_ConfigTest extends PHPUnit_Framework_TestCas
     protected $_model;
 
     /**
-     * @var Magento_Sales_Model_Order_Pdf_Config_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Config_Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataStorage;
 
     protected function setUp()
     {
-        $this->_dataStorage = $this->getMock('Magento_Sales_Model_Order_Pdf_Config_Data', array(), array(), '', false);
+        $this->_dataStorage = $this->getMock('Magento_Config_Data', array(), array(), '', false);
         $this->_model = new Magento_Sales_Model_Order_Pdf_Config($this->_dataStorage);
     }
 
     /**
-     * @param $pageType
-     * @param $expectedResult
-     * @dataProvider getRendererDataDataProvider
+     * @param string $pageType
+     * @param array $expectedResult
+     * @dataProvider getRenderersPerProductDataProvider
      */
-    public function testGetRendererData($pageType, $expectedResult)
+    public function testGetRenderersPerProduct($pageType, $expectedResult)
     {
         $dataStorage = require __DIR__ . '/Config/_files/pdf_merged.php';
         $returnValue = isset($dataStorage['renderers'][$pageType]) ? $dataStorage['renderers'][$pageType] : array();
@@ -39,13 +39,13 @@ class Magento_Sales_Model_Order_Pdf_ConfigTest extends PHPUnit_Framework_TestCas
             ->with("renderers/{$pageType}", array())
             ->will($this->returnValue($returnValue));
 
-        $this->assertSame($expectedResult, $this->_model->getRendererData($pageType));
+        $this->assertSame($expectedResult, $this->_model->getRenderersPerProduct($pageType));
     }
 
     /**
      * @return array
      */
-    public function getRendererDataDataProvider()
+    public function getRenderersPerProductDataProvider()
     {
         return array(
             'page type exists' => array(

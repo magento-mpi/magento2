@@ -51,7 +51,7 @@ class Magento_Sales_Model_Order_Pdf_InvoiceTest extends PHPUnit_Framework_TestCa
     {
         $this->_pdfConfigMock
             ->expects($this->once())
-            ->method('getRendererData')
+            ->method('getRenderersPerProduct')
             ->with('invoice')
             ->will($this->returnValue(
                     array(

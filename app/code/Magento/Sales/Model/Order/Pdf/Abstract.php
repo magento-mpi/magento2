@@ -728,7 +728,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      */
     protected function _initRenderer($type)
     {
-        $rendererData = $this->_pdfConfig->getRendererData($type);
+        $rendererData = $this->_pdfConfig->getRenderersPerProduct($type);
         foreach ($rendererData as $productType => $renderer) {
             $this->_renderers[$productType] = array(
                 'model'     => $renderer,
