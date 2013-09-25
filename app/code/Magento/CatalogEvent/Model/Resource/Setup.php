@@ -20,6 +20,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
 
     /**
      * @param Magento_Cms_Model_BlockFactory $modelBlockFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Event_Manager $eventManager
@@ -33,6 +34,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
      */
     public function __construct(
         Magento_Cms_Model_BlockFactory $modelBlockFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Event_Manager $eventManager,
@@ -45,7 +47,7 @@ class Magento_CatalogEvent_Model_Resource_Setup extends Magento_Sales_Model_Reso
         $resourceName
     ) {
         parent::__construct(
-            $logger, $coreData, $eventManager, $resourcesConfig, $config,
+            $migrationFactory, $logger, $coreData, $eventManager, $resourcesConfig, $config,
             $moduleList, $resource, $modulesReader, $cache, $resourceName
         );
 

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Ogone Paygate Payment Place" type="page" parent="ogone_api_paypage">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Ogone_Block_Placeform" name="ogone_placeform" template="placeform.phtml"/>
-    </reference>
+    </referenceContainer>
 </layout>

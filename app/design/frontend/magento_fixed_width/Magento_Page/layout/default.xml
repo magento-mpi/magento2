@@ -8,12 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="root">
+    <referenceBlock name="root">
         <container name="breadcrumbs.container" as="breadcrumbsContainer" after="header" label="Breadcrumbs"/>
         <container name="footer.before" as="footer_before" before="footer" label="Page Footer" htmlTag="div" htmlClass="footer-before-container"/>
-    </reference>
+    </referenceBlock>
     <move element="breadcrumbs" destination="breadcrumbs.container"/>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Css" name="css-styles-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/styles.css</argument>
@@ -36,8 +36,8 @@
                 </argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="header">
+    </referenceBlock>
+    <referenceBlock name="header">
         <block class="Magento_Page_Block_Links" name="account.links" as="accountLinks" before="top.links">
             <arguments>
                 <argument name="css_class" xsi:type="string">links</argument>
@@ -50,7 +50,7 @@
         </block>
         <container name="top.switches" as="switches" label="Store Language" after="checkout.links"/>
         <block class="Magento_Page_Block_Html_Welcome" name="welcome" as="welcome" after="top.container"/>
-    </reference>
+    </referenceBlock>
     <move element="store_language" destination="top.switches"/>
     <move element="store_switcher" destination="footer" as="store_switcher" after="-"/>
     <remove name="bottom.container"/>

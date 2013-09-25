@@ -38,8 +38,21 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
      */
     protected $_productFactory;
 
+    /**
+     * @param Magento_Adminhtml_Helper_Sales $adminhtmlSales
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory
+     * @param array $data
+     */
     public function __construct(
         Magento_Adminhtml_Helper_Sales $adminhtmlSales,
+        Magento_Data_CollectionFactory $collectionFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -49,8 +62,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rcompared
         Magento_Catalog_Model_Product_Compare_ListFactory $compareListFactory,
         array $data = array()
     ) {
+        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
         $this->_productFactory = $productFactory;
         $this->_compareListFactory = $compareListFactory;
     }

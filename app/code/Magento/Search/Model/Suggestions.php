@@ -18,14 +18,26 @@
 class Magento_Search_Model_Suggestions
 {
     /**
+     * @var Magento_Search_Model_Search_Layer
+     */
+    protected $_searchLayer;
+
+    /**
+     * @param Magento_Search_Model_Search_Layer $searchLayer
+     */
+    function __construct(
+        Magento_Search_Model_Search_Layer $searchLayer
+    ) {
+        $this->_searchLayer = $searchLayer;
+    }
+
+    /**
      * Retrieve search suggestions
      *
      * @return array
      */
     public function getSearchSuggestions()
     {
-        return Mage::getSingleton('Magento_Search_Model_Search_Layer')
-            ->getProductCollection()
-            ->getSuggestionsData();
+        return $this->_searchLayer->getProductCollection()->getSuggestionsData();
     }
 }
