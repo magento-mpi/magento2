@@ -88,7 +88,7 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => $this->_coreString->str_split($attributes['option_label'], 45, true, true),
+                        'text'  => $this->_coreString->strSplit($attributes['option_label'], 45, true, true),
                         'feed'  => 35
                     );
 
@@ -112,14 +112,14 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 $name = $_item->getName();
             }
             $line[] = array(
-                'text'  => $this->_coreString->str_split($name, 35, true, true),
+                'text'  => $this->_coreString->strSplit($name, 35, true, true),
                 'feed'  => $feed
             );
 
             // draw SKUs
             if (!$_item->getOrderItem()->getParentItem()) {
                 $text = array();
-                foreach ($this->_coreString->str_split($item->getSku(), 17) as $part) {
+                foreach ($this->_coreString->strSplit($item->getSku(), 17) as $part) {
                     $text[] = $part;
                 }
                 $line[] = array(
@@ -170,7 +170,7 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => $this->_coreString->str_split(strip_tags($option['label']), 40, true, true),
+                        'text'  => $this->_coreString->strSplit(strip_tags($option['label']), 40, true, true),
                         'font'  => 'italic',
                         'feed'  => 35
                     );
@@ -182,7 +182,7 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
                             : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach ($this->_coreString->str_split($value, 30, true, true) as $_value) {
+                            foreach ($this->_coreString->strSplit($value, 30, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

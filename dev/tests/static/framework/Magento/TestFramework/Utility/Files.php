@@ -148,7 +148,7 @@ class Files
         if (!isset(self::$_cache[$key])) {
             $files = array_merge(
                 self::_getFiles(array("{$this->_path}/app/code/Magento"), '*.php'),
-                //self::_getFiles(array("{$this->_path}/dev"), '*.php'),
+                self::_getFiles(array("{$this->_path}/dev/tests"), '*.php'),
                 self::_getFiles(array("{$this->_path}/dev/tools/Magento"), '*.php'),
                 self::_getFiles(array("{$this->_path}/downloader/app/Magento"), '*.php'),
                 self::_getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php'),
@@ -424,7 +424,7 @@ class Files
         }
         $classParts = explode('\\', $class);
         $className = array_pop($classParts);
-        $nameSpace = implode('\\', $classParts);
+        $namespace = implode('\\', $classParts);
         $path = implode(DIRECTORY_SEPARATOR, explode('\\', $class)) . '.php';
         $directories = array('/app/code/', '/lib/');
         foreach ($directories as $dir) {
@@ -435,7 +435,7 @@ class Files
              */
             if (realpath($fullPath) == $fullPath) {
                 $fileContent = file_get_contents($fullPath);
-                if (strpos($fileContent, 'namespace ' . $nameSpace) !== false &&
+                if (strpos($fileContent, 'namespace ' . $namespace) !== false &&
                     (strpos($fileContent, 'class ' . $className) !== false ||
                         strpos($fileContent, 'interface ' . $className) !== false)) {
                     return true;

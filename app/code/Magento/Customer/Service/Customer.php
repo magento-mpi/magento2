@@ -32,7 +32,7 @@ class Customer
     protected $_customerFactory = null;
 
     /**
-     * @var Magento\Customer\Model\AddressFactory
+     * @var \Magento\Customer\Model\AddressFactory
      */
     protected $_addressFactory = null;
 

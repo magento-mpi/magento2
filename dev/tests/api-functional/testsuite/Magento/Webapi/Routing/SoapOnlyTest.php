@@ -9,7 +9,9 @@
 /**
  * Class to test routing based on a Service that exposes Soap Operations only
  */
-class Magento_Webapi_Routing_SoapOnlyTest extends Magento_Webapi_Routing_BaseService
+namespace Magento\Webapi\Routing;
+
+class SoapOnlyTest extends \Magento\Webapi\Routing\BaseService
 {
     /**
      * @var string

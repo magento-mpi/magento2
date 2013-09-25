@@ -43,7 +43,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests \Magento\Object->__construct()
      */
-    public function test__construct()
+    public function testConstruct()
     {
         $object = new \Magento\Object();
         $this->assertEquals(array(), $object->getData());
@@ -351,7 +351,7 @@ string',
      *
      * @expectedException \Magento\Exception
      */
-    public function test__call()
+    public function testCall()
     {
         $this->_object->setData(array('key' => 'value'));
         $this->_object->setTest('test');
@@ -369,7 +369,7 @@ string',
     /**
      * Tests \Magento\Object->__get()
      */
-    public function test__get__set()
+    public function testGetSet()
     {
         $this->_object->test = 'test';
         $this->assertEquals('test', $this->_object->test);

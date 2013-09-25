@@ -9,7 +9,9 @@
 /**
  * Base class for all Service based routing tests
  */
-abstract class Magento_Webapi_Routing_BaseService extends Magento_Test_TestCase_WebapiAbstract
+namespace Magento\Webapi\Routing;
+
+abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
 
     /**
@@ -38,7 +40,7 @@ abstract class Magento_Webapi_Routing_BaseService extends Magento_Test_TestCase_
     {
         try {
             $this->_webApiCall($serviceInfo, $requestData);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertContains(
                 '{"errors":[{"message":"Request does not match any route.","http_code":404',
                 $e->getMessage(),
@@ -52,7 +54,7 @@ abstract class Magento_Webapi_Routing_BaseService extends Magento_Test_TestCase_
     }
 
     /**
-     * TODO: Temporary Exception assertion. Need to refine
+     * TODO: Temporary \Exception assertion. Need to refine
      * This is a helper function to invoke the SOAP api and assert for the NoWebApiXmlTestTest
      * test cases that no such SOAP route exists
      *
@@ -63,12 +65,12 @@ abstract class Magento_Webapi_Routing_BaseService extends Magento_Test_TestCase_
     {
         try {
             $this->_webApiCall($serviceInfo, $requestData);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertEquals(
                 get_class($e),
                 'SoapFault',
                 sprintf(
-                    'Expected SoapFault exception not generated for
+                    'Expected \SoapFault exception not generated for
                     Service - "%s" and Operation - "%s"',
                     $serviceInfo['soap']['service'],
                     $serviceInfo['soap']['operation']

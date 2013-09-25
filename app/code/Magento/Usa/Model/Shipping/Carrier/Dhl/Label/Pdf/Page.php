@@ -146,7 +146,7 @@ class Page extends \Zend_Pdf_Page
     {
         foreach ($lines as $line) {
             if (strlen($line) > $maxWidth) {
-                $subLines = $this->_coreString->str_split($line, $maxWidth, true, true);
+                $subLines = $this->_coreString->strSplit($line, $maxWidth, true, true);
                 $y = $this->drawLines(array_filter($subLines), $x, $y, $maxWidth, $align);
                 continue;
             }

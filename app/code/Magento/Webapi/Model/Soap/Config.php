@@ -239,8 +239,8 @@ class Config
      * Example:
      * <pre>
      * - \Magento\Customer\Service\CustomerV1Interface         => customer          // $preserveVersion == false
-     * - \Magento\Customer\Service\Customer_AddressV1Interface => customerAddressV1 // $preserveVersion == true
-     * - Magento_Catalog_Service_ProductV2Interface           => catalogProductV2  // $preserveVersion == true
+     * - \Magento\Customer\Service\Customer\AddressV1Interface => customerAddressV1 // $preserveVersion == true
+     * - \Magento\Catalog\Service\ProductV2Interface           => catalogProductV2  // $preserveVersion == true
      * </pre>
      *
      * @param string $interfaceName
@@ -258,9 +258,9 @@ class Config
      * Identify the list of service name parts including sub-services using class name.
      *
      * Examples of input/output pairs: <br/>
-     * - 'Magento\Customer\Service\Customer_AddressV1Interface' => array('Customer', 'Address', 'V1') <br/>
-     * - 'Vendor_Customer_Service_Customer_AddressV1Interface' => array('VendorCustomer', 'Address', 'V1) <br/>
-     * - 'Magento_Catalog_Service_ProductV2Interface' => array('CatalogProduct', 'V2')
+     * - 'Magento\Customer\Service\Customer\AddressV1Interface' => array('Customer', 'Address', 'V1') <br/>
+     * - 'Vendor\Customer\Service\Customer\AddressV1Interface' => array('VendorCustomer', 'Address', 'V1) <br/>
+     * - 'Magento\Catalog\Service\ProductV2Interface' => array('CatalogProduct', 'V2')
      *
      * @param string $className
      * @param bool $preserveVersion Should version be preserved during class name conversion into service name
@@ -273,7 +273,7 @@ class Config
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
-            $serviceNameParts = explode('_', trim($matches[3], '_'));
+            $serviceNameParts = explode('\\', trim($matches[3], '\\'));
             if ($moduleName == $serviceNameParts[0]) {
                 /** Avoid duplication of words in service name */
                 $moduleName = '';

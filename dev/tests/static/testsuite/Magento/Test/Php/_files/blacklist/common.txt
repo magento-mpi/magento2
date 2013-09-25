@@ -206,7 +206,7 @@ lib/Magento/File/CsvMulty.php
 lib/Magento/File/Transfer/Adapter/Http.php
 lib/Magento/File/Uploader.php
 lib/Magento/Filter/ArrayFilter.php
-lib/Magento/Filter/Array/Grid.php
+lib/Magento/Filter/GridArray/Grid.php
 lib/Magento/Filter/Email.php
 lib/Magento/Filter/Money.php
 lib/Magento/Filter/Object.php
