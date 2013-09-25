@@ -388,9 +388,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testPublishResourcesAndCssWhenChangedCssDevMode()
     {
-        if (!Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
-            ->getMode()
-        ) {
+        $mode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+            ->getMode();
+        if ($mode != Magento_Core_Model_App_State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
         $this->_testPublishResourcesAndCssWhenChangedCss(true);
@@ -404,9 +404,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testNotPublishResourcesAndCssWhenChangedCssUsualMode()
     {
-        if (Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
-            ->getMode()
-        ) {
+        $mode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+            ->getMode();
+        if ($mode == Magento_Core_Model_App_State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
         $this->_testPublishResourcesAndCssWhenChangedCss(false);
@@ -476,9 +476,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testPublishChangedResourcesWhenUnchangedCssDevMode()
     {
-        if (!Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
-            ->getMode()
-        ) {
+        $mode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+            ->getMode();
+        if ($mode != Magento_Core_Model_App_State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
 
@@ -493,9 +493,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
      */
     public function testNotPublishChangedResourcesWhenUnchangedCssUsualMode()
     {
-        if (Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
-            ->getMode()
-        ) {
+        $mode = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App_State')
+            ->getMode();
+        if ($mode == Magento_Core_Model_App_State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
 
