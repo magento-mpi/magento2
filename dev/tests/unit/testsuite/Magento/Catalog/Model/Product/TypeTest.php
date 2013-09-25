@@ -47,7 +47,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTypes()
     {
-        $property = new ReflectionProperty($this->_model, '_types');
+        $property = new \ReflectionProperty($this->_model, '_types');
         $property->setAccessible(true);
         $this->assertNull($property->getValue($this->_model));
         $this->assertEquals($this->_productTypes, $this->_model->getTypes());
@@ -94,7 +94,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCompositeTypes()
     {
-        $property = new ReflectionProperty($this->_model, '_compositeTypes');
+        $property = new \ReflectionProperty($this->_model, '_compositeTypes');
         $property->setAccessible(true);
         $this->assertNull($property->getValue($this->_model));
 
