@@ -31,6 +31,8 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
      * @param Magento_Reward_Model_Resource_Reward_HistoryFactory $historyFactory
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -40,6 +42,8 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
         Magento_Reward_Model_Resource_Reward_HistoryFactory $historyFactory,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_ConfigInterface $config,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -47,7 +51,7 @@ class Magento_Reward_Model_System_Config_Backend_Expiration extends Magento_Core
         $this->_historyFactory = $historyFactory;
         $this->_configCollFactory = $configCollFactory;
         parent::__construct(
-            $context, $registry, $resource, $resourceCollection, $data
+            $context, $registry, $storeManager, $config, $resource, $resourceCollection, $data
         );
     }
 

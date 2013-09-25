@@ -68,8 +68,8 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
         $this->_catalogUrlResource = $catalogUrlResource;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
-        parent::__construct($catalogData, $coreData, $context, $data);
         $this->_storeManager = $storeManager;
+        parent::__construct($catalogData, $coreData, $context, $data);
     }
 
     /**

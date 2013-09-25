@@ -58,7 +58,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Product_Combine
                 array(
                     array(
                         'value' => array(
-                            $this->_conditionFactory->create('_Uptodate')->getNewChildSelectOptions(),
+                            $this->_conditionFactory->create('Uptodate')->getNewChildSelectOptions(),
                             $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions(),
                         ),
                         'label' => __('Date Ranges')

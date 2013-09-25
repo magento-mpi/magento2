@@ -67,7 +67,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condition
         $params = array('apply_to' => $model->getApplyTo());
         $url = $this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset', $params);
 
-        $renderer = $this->_fieldset->setTemplate('promo/fieldset.phtml')
+        $renderer = $this->_fieldset->setTemplate('Magento_Adminhtml::promo/fieldset.phtml')
             ->setNewChildUrl($url);
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(
