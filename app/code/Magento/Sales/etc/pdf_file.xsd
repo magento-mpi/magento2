@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * XSD for an XML, composed as result of merging all config files with PDF settings
+ * XSD for an individual file with PDF settings
  *
  * {license_notice}
  *
@@ -14,8 +14,8 @@
 
     <xs:complexType name="totalItemType">
         <xs:all>
-            <xs:element name="title" type="totalTitleType"/>
-            <xs:element name="source_field" type="fieldType"/>
+            <xs:element name="title" type="totalTitleType" minOccurs="0"/>
+            <xs:element name="source_field" type="fieldType" minOccurs="0"/>
             <xs:element name="title_source_field" type="fieldType" minOccurs="0"/>
             <xs:element name="font_size" type="xs:positiveInteger" minOccurs="0"/>
             <xs:element name="display_zero" type="xs:boolean" minOccurs="0"/>

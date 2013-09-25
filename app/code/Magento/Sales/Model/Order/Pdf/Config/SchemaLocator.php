@@ -10,18 +10,27 @@
 class Magento_Sales_Model_Order_Pdf_Config_SchemaLocator implements Magento_Config_SchemaLocatorInterface
 {
     /**
-     * Path to corresponding XSD file with validation rules for both individual and merged configs
+     * Path to corresponding XSD file with validation rules for merged configs
      *
      * @var string
      */
-    private $_schema;
+    private $_schemaFile;
+
+    /**
+     * Path to corresponding XSD file with validation rules for individual configs
+     *
+     * @var string
+     */
+    private $_schemaIndividual;
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Sales') . '/pdf.xsd';
+        $dir = $moduleReader->getModuleDir('etc', 'Magento_Sales');
+        $this->_schema = $dir . '/pdf.xsd';
+        $this->_schemaFile = $dir . '/pdf_file.xsd';
     }
 
     /**
@@ -37,6 +46,6 @@ class Magento_Sales_Model_Order_Pdf_Config_SchemaLocator implements Magento_Conf
      */
     public function getPerFileSchema()
     {
-        return $this->_schema;
+        return $this->_schemaFile;
     }
 }
