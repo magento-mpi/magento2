@@ -67,6 +67,12 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Reward_Model_Reward
+     */
+    protected $_rewardSingl;
+
+    /**
+     * @param Magento_Reward_Model_Reward $rewardSingl
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -75,6 +81,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Reward_Model_Reward $rewardSingl,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -82,6 +89,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_rewardSingl = $rewardSingl;
         $this->_rewardData = $rewardData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -250,7 +258,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     public function getMessage()
     {
         if (!$this->hasData('message')) {
-            $action = Mage::getSingleton('Magento_Reward_Model_Reward')->getActionInstance($this->getAction());
+            $action = $this->_rewardSingl->getActionInstance($this->getAction());
             $message = '';
             if ($action !== null) {
                 $message = $action->getHistoryMessage($this->getAdditionalData());

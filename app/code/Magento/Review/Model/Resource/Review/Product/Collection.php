@@ -46,6 +46,34 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * @var array
      */
     protected $_storesIds           = array();
+    protected $_coreResource;
+
+    /**
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_EntityFactory $entityFactory
+    ) {
+        $this->_coreResource = $coreResource;
+        parent::__construct(
+            $catalogData, $catalogProductFlat, $eventManager, $logger, $fetchStrategy, $coreStoreConfig, $entityFactory
+        );
+    }
+
 
     /**
      * Define module
@@ -55,7 +83,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     {
         $this->_init('Magento_Catalog_Model_Product', 'Magento_Catalog_Model_Resource_Product');
         $this->setRowIdFieldName('review_id');
-        $this->_reviewStoreTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review_store');
+        $this->_reviewStoreTable = $this->_coreResource->getTableName('review_store');
         $this->_initTables();
     }
 
@@ -258,8 +286,8 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      */
     protected function _joinFields()
     {
-        $reviewTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review');
-        $reviewDetailTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review_detail');
+        $reviewTable = $this->_coreResource->getTableName('review');
+        $reviewDetailTable = $this->_coreResource->getTableName('review_detail');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');

@@ -295,7 +295,6 @@ return array(
     array('getAllEntityTypeCommentIds', 'Magento_Rss_Model_Resource_Order'),
     array('getAllOrderEntityIds', 'Magento_Rss_Model_Resource_Order'),
     array('getAllOrderEntityTypeIds', 'Magento_Rss_Model_Resource_Order'),
-    array('getAllowedEntityTypes', 'Magento_GiftMessage_Model_Message'),
     array('getAnonSuffix'),
     array('getAttributesJson', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config', 'getAttributes'),
     array('getBaseTaxAmount', 'Magento_Sales_Model_Quote_Item_Abstract'),
@@ -424,7 +423,6 @@ return array(
     array('getPathFromArray', '', 'direct usage of /'),
     array('getPathVars', 'Magento_Core_Model_Config'),
     array('getParentProductIds', 'Magento_Catalog_Model_Resource_Product'),
-    array('getPopupObjectUrl', 'Magento_AdminNotification_Helper_Data'),
     array('getPostMaxSize', 'Magento_Adminhtml_Block_Media_Uploader', 'Magento_File_Size::getPostMaxSize()'),
     array('getPriceFormatted', 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales'),
     array('getPrices', 'Magento_Bundle_Model_Product_Price'),
@@ -838,4 +836,7 @@ return array(
     array('_resetAttempt', 'Magento_Captcha_Model_Observer'),
     array('getProductStatusModel', 'Magento_CatalogInventory_Model_Stock_Status'),
     array('getStorage', 'Magento_Cms_Helper_Wysiwyg_Images'),
+    array('_getSession', 'Magento_Review_Helper_Action_Pager'),
+    array('_getOrderCreateModel', 'Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment'),
+    array('_getCustomer', 'Magento_Reward_Block_Customer_Reward_Subscription'),
 );

@@ -25,6 +25,7 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Core_Model_Session $coreSession
      * @param Magento_Core_Model_Factory $modelFactory
      * @param Magento_Eav_Model_Form_Factory $formFactory
      * @param Magento_Rma_Helper_Data $rmaData
@@ -35,6 +36,7 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Session $coreSession,
         Magento_Core_Model_Factory $modelFactory,
         Magento_Eav_Model_Form_Factory $formFactory,
         Magento_Rma_Helper_Data $rmaData,
@@ -44,6 +46,7 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreSession = $coreSession;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
         parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
@@ -60,14 +63,13 @@ class Magento_Rma_Block_Return_Create extends Magento_Rma_Block_Form
         $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
-        $session = Mage::getSingleton('Magento_Core_Model_Session');
-        $formData = $session->getRmaFormData(true);
+        $formData = $this->_coreSession->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new Magento_Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
-        $errorKeys = $session->getRmaErrorKeys(true);
+        $errorKeys = $this->_coreSession->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
             $data = new Magento_Object();
             $data->addData($errorKeys);

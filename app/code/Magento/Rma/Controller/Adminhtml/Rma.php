@@ -18,13 +18,29 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rma_Model_Resource_ItemFactory
+     */
+    protected $_rmaItemFactory;
+
+    /**
+     * @var Magento_Rma_Model_Resource_ShippingFactory
+     */
+    protected $_rmaShippingFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory
+     * @param Magento_Rma_Model_Resource_ShippingFactory $rmaShippingFactory
      * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
+        Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory,
+        Magento_Rma_Model_Resource_ShippingFactory $rmaShippingFactory,
         Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_rmaItemFactory = $rmaItemFactory;
+        $this->_rmaShippingFactory = $rmaShippingFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -118,16 +134,18 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $customerId = $this->getRequest()->getParam('customer_id');
             $this->_redirect('*/*/chooseorder', array('customer_id' => $customerId));
         } else {
+            /** @var Magento_Backend_Model_Session $backendSession */
+            $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
             try {
                 $this->_initCreateModel();
                 $this->_initModel();
                 if (!$this->_objectManager->get('Magento_Rma_Helper_Data')->canCreateRma($orderId, true)) {
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                    $backendSession->addError(
                         __('There are no applicable items for return in this order.')
                     );
                 }
             } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                $backendSession->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
             }
@@ -163,7 +181,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 Mage::throwException(__('The wrong RMA was requested.'));
             }
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            $this->_objectManager->get('Magento_Backend_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         }
@@ -183,6 +201,8 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $this->_redirect('*/*/');
             return;
         }
+        /** @var Magento_Backend_Model_Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
         try {
             /** @var $model Magento_Rma_Model_Rma */
             $model = $this->_initModel();
@@ -192,10 +212,11 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 Mage::throwException(__('We failed to save this RMA.'));
             }
             $this->_processNewRmaAdditionalInfo($saveRequest, $model);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You submitted the RMA request.'));
+            $backendSession->addSuccess(__('You submitted the RMA request.'));
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-            $errorKeys = Mage::getSingleton('Magento_Core_Model_Session')->getRmaErrorKeys();
+            $backendSession->addError($e->getMessage());
+            $errorKeys = $this->_objectManager->get('Magento_Core_Model_Session')
+                ->getRmaErrorKeys();
             $controllerParams = array('order_id' => $this->_coreRegistry->registry('current_order')->getId());
             if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                 $controllerParams['active_tab'] = 'items_section';
@@ -203,7 +224,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $this->_redirect('*/*/new', $controllerParams);
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We failed to save this RMA.'));
+            $backendSession->addError(__('We failed to save this RMA.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
         $this->_redirect('*/*/');
@@ -220,7 +241,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $order = $this->_coreRegistry->registry('current_order');
         $rmaData = array(
             'status' => Magento_Rma_Model_Rma_Source_Status::STATE_PENDING,
-            'date_requested' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(),
+            'date_requested' => $this->_objectManager->get('Magento_Core_Model_Date')->gmtDate(),
             'order_id' => $order->getId(),
             'order_increment_id' => $order->getIncrementId(),
             'store_id' => $order->getStoreId(),
@@ -249,7 +270,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 ->setComment($saveRequest['comment']['comment'])
                 ->setIsVisibleOnFront($visible)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                ->setCreatedAt($this->_objectManager->get('Magento_Core_Model_Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }
@@ -275,6 +296,8 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $this->saveNewAction();
             return;
         }
+        /** @var Magento_Backend_Model_Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
         try {
             $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
             $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
@@ -285,15 +308,16 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 Mage::throwException(__('We failed to save this RMA.'));
             }
             $model->sendAuthorizeEmail();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the RMA request.'));
+            $backendSession->addSuccess(__('You saved the RMA request.'));
             $redirectBack = $this->getRequest()->getParam('back', false);
             if ($redirectBack) {
                 $this->_redirect('*/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
                 return;
             }
         } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-            $errorKeys = Mage::getSingleton('Magento_Core_Model_Session')->getRmaErrorKeys();
+            $backendSession->addError($e->getMessage());
+            $errorKeys = $this->_objectManager->get('Magento_Core_Model_Session')
+                ->getRmaErrorKeys();
             $controllerParams = array('id' => $rmaId);
             if (isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                 $controllerParams['active_tab'] = 'items_section';
@@ -301,7 +325,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $this->_redirect('*/*/edit', $controllerParams);
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We failed to save this RMA.'));
+            $backendSession->addError(__('We failed to save this RMA.'));
             $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
@@ -458,7 +482,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 ->setIsVisibleOnFront($visible)
                 ->setIsCustomerNotified($notify)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                ->setCreatedAt($this->_objectManager->get('Magento_Core_Model_Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
 
@@ -563,7 +587,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             if ($rma = Mage::getModel('Magento_Rma_Model_Rma')->load($rmaId)) {
                 $pdf = Mage::getModel('Magento_Rma_Model_Pdf_Rma')->getPdf(array($rma));
                 $this->_prepareDownloadResponse(
-                    'rma'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
+                    'rma'.$this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -733,7 +757,8 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         try {
             if ($orderId && $itemId) {
                 /** @var $items Magento_Rma_Model_Resource_Item */
-                $items = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')->getOrderItems($orderId, $itemId);
+                $items = $this->_rmaItemFactory->create()
+                    ->getOrderItems($orderId, $itemId);
                 if (empty($items)) {
                     Mage::throwException(__('No items for bundle product'));
                 }
@@ -777,10 +802,12 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')
+                ->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = $this->_objectManager->get('Magento_Core_Helper_Data')
+                ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -1033,7 +1060,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                         ->addSuccess(__('You created a shipping label.'));
                     $responseAjax->setOk(true);
                 }
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true);
+                $this->_objectManager->get('Magento_Backend_Model_Session')->getCommentText(true);
             } else {
                 $this->_forward('noRoute');
                 return;
@@ -1091,7 +1118,8 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $shipment =  Mage::getModel('Magento_Rma_Model_Shipping')
                 ->getShippingLabelByRma($model);
 
-            $carrier = $this->_objectManager->get('Magento_Rma_Helper_Data')->getCarrier($data['code'], $model->getStoreId());
+            $carrier = $this->_objectManager->get('Magento_Rma_Helper_Data')
+                ->getCarrier($data['code'], $model->getStoreId());
             if (!$carrier->isShippingLabelsAvailable()) {
                 return false;
             }
@@ -1134,9 +1162,11 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
-                $carrierTitle = $this->_objectManager->get('Magento_Core_Model_Store_Config')->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
+                $carrierTitle = $this->_objectManager->get('Magento_Core_Model_Store_Config')
+                    ->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
-                    Mage::getResourceModel('Magento_Rma_Model_Resource_Shipping')->deleteTrackingNumbers($model);
+                    $this->_rmaShippingFactory->create()
+                        ->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {
                         Mage::getModel('Magento_Rma_Model_Shipping')
                             ->setTrackNumber($trackingNumber)
@@ -1216,7 +1246,10 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                     )
                     ->getPdf($shipment);
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                'packingslip'
+                    . $this->_objectManager->get('Magento_Core_Model_Date')->date('Y-m-d_H-i-s')
+                    . '.pdf',
+                $pdf->render(),
                 'application/pdf'
             );
         }

@@ -26,29 +26,27 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
     protected $_rewardData = null;
 
     /**
+     * @var Magento_Adminhtml_Model_Sales_Order_Create
+     */
+    protected $_salesOrderCreate;
+
+    /**
+     * @param Magento_Adminhtml_Model_Sales_Order_Create $salesOrderCreate
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Adminhtml_Model_Sales_Order_Create $salesOrderCreate,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_salesOrderCreate = $salesOrderCreate;
         $this->_rewardData = $rewardData;
         parent::__construct($coreData, $context, $data);
-    }
-
-    /**
-     * Getter
-     *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
-     */
-    protected function _getOrderCreateModel()
-    {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
     }
 
     /**
@@ -58,7 +56,7 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
      */
     public function getQuote()
     {
-        return $this->_getOrderCreateModel()->getQuote();
+        return $this->_salesOrderCreate->getQuote();
     }
 
     /**
@@ -124,6 +122,6 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
      */
     public function useRewardPoints()
     {
-        return (bool)$this->_getOrderCreateModel()->getQuote()->getUseRewardPoints();
+        return (bool)$this->_salesOrderCreate->getQuote()->getUseRewardPoints();
     }
 }

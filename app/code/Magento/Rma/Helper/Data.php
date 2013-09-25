@@ -75,6 +75,24 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreData = null;
 
     /**
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @var Magento_Rma_Model_Resource_ItemFactory
+     */
+    protected $_rmaItemFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_App $app
@@ -83,6 +101,9 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Directory_Model_RegionFactory $regionFactory
      */
     public function __construct(
+        Magento_Rma_Model_Resource_ItemFactory $rmaItemFactory,
+        Magento_Backend_Model_Auth_Session $authSession,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_App $app,
@@ -90,6 +111,9 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Directory_Model_RegionFactory $regionFactory
     ) {
+        $this->_rmaItemFactory = $rmaItemFactory;
+        $this->_authSession = $authSession;
+        $this->_customerSession = $customerSession;
         $this->_coreData = $coreData;
         $this->_app = $app;
         $this->_storeConfig = $storeConfig;
@@ -142,7 +166,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
             Mage::throwException(__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
-            $this->_orderItems[$orderId] = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+            $this->_orderItems[$orderId] = $this->_rmaItemFactory->create()
                 ->getOrderItems($orderId);
         }
 
@@ -169,7 +193,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getReturnCreateUrl($order)
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if ($this->_customerSession->isLoggedIn()) {
             return Mage::getUrl('rma/return/create', array('order_id' => $order->getId()));
         } else {
             return Mage::getUrl('rma/guest/create', array('order_id' => $order->getId()));
@@ -217,7 +241,7 @@ class Magento_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $contactName = new Magento_Object();
         if ($this->_storeConfig->getConfigFlag(Magento_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
-            $admin = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
+            $admin = $this->_authSession->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());

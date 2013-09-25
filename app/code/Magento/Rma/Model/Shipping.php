@@ -56,6 +56,11 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     protected $_rmaData = null;
 
     /**
+     * @var Magento_Shipping_Model_Config
+     */
+    protected $_shippingConfig;
+
+    /**
      * Core store config
      *
      * @var Magento_Core_Model_Store_Config
@@ -63,6 +68,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Shipping_Model_Config $shippingConfig
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -72,6 +78,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Shipping_Model_Config $shippingConfig,
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -80,6 +87,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_shippingConfig = $shippingConfig;
         $this->_rmaData = $rmaData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -208,7 +216,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = $this->_shippingConfig->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title']  = $this->getCarierTitle();

@@ -33,6 +33,26 @@ class Magento_Reward_Model_Observer
     protected $_coreData = null;
 
     /**
+     * @var Magento_Reward_Model_Reward
+     */
+    protected $_reward;
+
+    /**
+     * @var Magento_Reward_Model_Resource_Reward_History_CollectionFactory
+     */
+    protected $_historyCollFactory;
+
+    /**
+     * @var Magento_Reward_Model_Resource_Reward_HistoryFactory
+     */
+    protected $_historyFactory;
+
+    /**
+     * @var Magento_Reward_Model_Resource_RewardFactory
+     */
+    protected $_rewardFactory;
+
+    /**
      * @var Magento_Core_Model_Logger
      */
     protected $_logger;
@@ -45,17 +65,29 @@ class Magento_Reward_Model_Observer
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Reward_Model_Resource_Reward_History_CollectionFactory $historyCollFactory
+     * @param Magento_Reward_Model_Resource_Reward_HistoryFactory $historyFactory
+     * @param Magento_Reward_Model_Resource_RewardFactory $rewardFactory
+     * @param Magento_Reward_Model_Reward $reward
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Reward_Model_Resource_Reward_History_CollectionFactory $historyCollFactory,
+        Magento_Reward_Model_Resource_Reward_HistoryFactory $historyFactory,
+        Magento_Reward_Model_Resource_RewardFactory $rewardFactory,
+        Magento_Reward_Model_Reward $reward,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Helper_Data $coreData,
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_historyCollFactory = $historyCollFactory;
+        $this->_historyFactory = $historyFactory;
+        $this->_rewardFactory = $rewardFactory;
+        $this->_reward = $reward;
         $this->_logger = $logger;
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -702,7 +734,8 @@ class Magento_Reward_Model_Observer
             if (!$inDays) {
                 continue;
             }
-            $collection = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_History_Collection')
+            $collection = $this->_historyCollFactory
+                ->create()
                 ->setExpiryConfig($this->_rewardData->getExpiryConfig())
                 ->loadExpiredSoonPoints($website->getId(), true)
                 ->addNotificationSentFlag(false)
@@ -712,13 +745,12 @@ class Magento_Reward_Model_Observer
                 ->load();
 
             foreach ($collection as $item) {
-                Mage::getSingleton('Magento_Reward_Model_Reward')
-                    ->sendBalanceWarningNotification($item, $website->getId());
+                $this->_reward->sendBalanceWarningNotification($item, $website->getId());
             }
 
             // mark records as sent
             $historyIds = $collection->getExpiredSoonIds();
-            Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_History')->markAsNotified($historyIds);
+            $this->_historyFactory->create()->markAsNotified($historyIds);
         }
 
         return $this;
@@ -740,7 +772,8 @@ class Magento_Reward_Model_Observer
             }
             $expiryType = $this->_rewardData
                 ->getGeneralConfig('expiry_calculation', $website->getId());
-            Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_History')
+            $this->_historyFactory
+                ->create()
                 ->expirePoints($website->getId(), $expiryType, 100);
         }
 
@@ -797,7 +830,8 @@ class Magento_Reward_Model_Observer
         /* @var $salesRule Magento_SalesRule_Model_Rule */
         $salesRule = $observer->getEvent()->getRule();
         if ($salesRule->getId()) {
-            $data = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward')
+            $data = $this->_rewardFactory
+                ->create()
                 ->getRewardSalesrule($salesRule->getId());
             if (isset($data['points_delta'])) {
                 $salesRule->setRewardPointsDelta($data['points_delta']);
@@ -819,7 +853,8 @@ class Magento_Reward_Model_Observer
         }
         /* @var $salesRule Magento_SalesRule_Model_Rule */
         $salesRule = $observer->getEvent()->getRule();
-        Mage::getResourceModel('Magento_Reward_Model_Resource_Reward')
+        $this->_rewardFactory
+            ->create()
             ->saveRewardSalesrule($salesRule->getId(), (int)$salesRule->getRewardPointsDelta());
         return $this;
     }

@@ -17,7 +17,7 @@
  */
 class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     extends Magento_Rma_Block_Adminhtml_Rma_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Core registry
@@ -27,6 +27,7 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     protected $_coreRegistry = null;
 
     /**
+     * @param Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $gridCollFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
@@ -35,6 +36,7 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Rma_Grid_CollectionFactory $gridCollFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
@@ -43,7 +45,7 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($gridCollFactory, $coreData, $context, $storeManager, $urlModel, $data);
     }
 
     public function _construct()
@@ -79,7 +81,7 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
         }
         if ($customerId) {
             /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
+            $collection = $this->_gridCollFactory->create()
                 ->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);

@@ -38,6 +38,19 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Rma_Model_Resource_Item_CollectionFactory
+     */
+    protected $_itemCollFactory;
+
+    /**
+     * @var Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory
+     */
+    protected $_statusCollFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_Item_CollectionFactory $itemCollFactory
+     * @param Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $statusCollFactory
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Factory $modelFactory
      * @param Magento_Eav_Model_Form_Factory $formFactory
      * @param Magento_Customer_Helper_Data $customerData
@@ -49,6 +62,9 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
      * @param array $data
      */
     public function __construct(
+        Magento_Rma_Model_Resource_Item_CollectionFactory $itemCollFactory,
+        Magento_Rma_Model_Resource_Rma_Status_History_CollectionFactory $statusCollFactory,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Factory $modelFactory,
         Magento_Eav_Model_Form_Factory $formFactory,
         Magento_Customer_Helper_Data $customerData,
@@ -59,6 +75,9 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_itemCollFactory = $itemCollFactory;
+        $this->_statusCollFactory = $statusCollFactory;
+        $this->_customerSession = $customerSession;
         $this->_customerData = $customerData;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
@@ -77,7 +96,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         $this->setOrder($this->_coreRegistry->registry('current_order'));
 
         /** @var $collection Magento_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        $collection = $this->_itemCollFactory->create()
             ->addAttributeToSelect('*')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
@@ -85,7 +104,8 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         $this->setItems($collection);
 
         /** @var $comments Magento_Rma_Model_Resource_Rma_Status_History_Collection */
-        $comments = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Status_History_Collection')
+        $comments = $this->_statusCollFactory
+            ->create()
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         $this->setComments($comments);
@@ -101,7 +121,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         $array = array();
 
         /** @var $collection Magento_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        $collection = $this->_itemCollFactory->create()
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         foreach ($collection as $item) {
@@ -251,7 +271,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
 
     public function getBackUrl()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if ($this->_customerSession->isLoggedIn()) {
             return $this->getUrl('rma/return/history');
         } else {
             return $this->getUrl('rma/guest/returns');
@@ -270,22 +290,27 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
 
     public function getCustomerName()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if ($this->_customerSession->isLoggedIn()) {
             return $this->_customerData->getCustomerName();
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
             $name = '';
-            $config = Mage::getSingleton('Magento_Eav_Model_Config');
-            if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()) {
+            if ($this->_eavConfig->getAttribute('customer', 'prefix')->getIsVisible()
+                && $billingAddress->getPrefix())
+            {
                 $name .= $billingAddress->getPrefix() . ' ';
             }
             $name .= $billingAddress->getFirstname();
-            if ($config->getAttribute('customer', 'middlename')->getIsVisible() && $billingAddress->getMiddlename()) {
+            if ($this->_eavConfig->getAttribute('customer', 'middlename')->getIsVisible()
+                && $billingAddress->getMiddlename())
+            {
                 $name .= ' ' . $billingAddress->getMiddlename();
             }
             $name .=  ' ' . $billingAddress->getLastname();
-            if ($config->getAttribute('customer', 'suffix')->getIsVisible() && $billingAddress->getSuffix()) {
+            if ($this->_eavConfig->getAttribute('customer', 'suffix')->getIsVisible()
+                && $billingAddress->getSuffix())
+            {
                 $name .= ' ' . $billingAddress->getSuffix();
             }
             return $name;

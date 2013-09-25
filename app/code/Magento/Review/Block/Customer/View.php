@@ -21,6 +21,37 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
 
     protected $_template = 'customer/view.phtml';
 
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_customerSession = $customerSession;
+
+        parent::__construct(
+            $coreRegistry, $taxData, $catalogData, $coreData, $context, $data
+        );
+    }
+
+
     protected function _construct()
     {
         parent::_construct();
@@ -97,6 +128,6 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
      */
     public function isReviewOwner()
     {
-        return ($this->getReviewData()->getCustomerId() == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
+        return ($this->getReviewData()->getCustomerId() == $this->_customerSession->getCustomerId());
     }
 }

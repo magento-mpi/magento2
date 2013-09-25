@@ -32,13 +32,27 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
     protected $_entityTypeCode = 'rma_item';
 
     /**
+     * @var Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory
+     */
+    protected $__attrCollFactory;
+
+    /**
+     * @param Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $attrCollFactory
+     */
+    public function __construct(Magento_Rma_Model_Resource_Item_Form_Attribute_CollectionFactory $attrCollFactory)
+    {
+        $this->_attrCollFactory = $attrCollFactory;
+        parent::__construct();
+    }
+
+    /**
      * Get EAV Entity Form Attribute Collection
      *
      * @return Object
      */
     protected function _getFormAttributeCollection()
     {
-        return Mage::getResourceModel($this->_moduleName . '_Model_Resource_Item_Form_Attribute_Collection');
+        return $this->_attrCollFactory->create();
     }
 
     /**

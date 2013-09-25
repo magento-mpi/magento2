@@ -45,6 +45,12 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Review_Model_Resource_Review_Product_Collection
+     */
+    protected $_prodCollFactory;
+
+    /**
+     * @param Magento_Review_Model_Resource_Review_Product_Collection $prodCollFactory
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Review_Helper_Action_Pager $reviewActionPager
      * @param Magento_Core_Helper_Data $coreData
@@ -55,6 +61,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
      * @param array $data
      */
     public function __construct(
+        Magento_Review_Model_Resource_Review_Product_Collection $prodCollFactory,
         Magento_Review_Helper_Data $reviewData,
         Magento_Review_Helper_Action_Pager $reviewActionPager,
         Magento_Core_Helper_Data $coreData,
@@ -64,6 +71,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_prodCollFactory = $prodCollFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_reviewData = $reviewData;
         $this->_reviewActionPager = $reviewActionPager;
@@ -105,7 +113,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
         /** @var $model Magento_Review_Model_Review */
         $model = Mage::getModel('Magento_Review_Model_Review');
         /** @var $collection Magento_Review_Model_Resource_Review_Product_Collection */
-        $collection = $model->getProductCollection();
+        $collection = $this->_prodCollFactory->create();
 
         if ($this->getProductId() || $this->getRequest()->getParam('productId', false)) {
             $productId = $this->getProductId();
