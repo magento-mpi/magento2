@@ -39,9 +39,10 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     /** @var  Zend_Oauth_Http_Utility */
     private $_httpUtilityMock;
 
-    const OAUTH_TOKEN = 'token';
-    const OAUTH_SECRET = 'secret';
+    const OAUTH_TOKEN = '11111111111111111111111111111111';
+    const OAUTH_SECRET = '22222222222222222222222222222222';
     const CONSUMER_ID = 1;
+    const TOKEN_VERIFIER = '00000000000000000000000000000000';
 
     public function setUp()
     {
@@ -85,7 +86,9 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
                     'getSecret',
                     'createVerifierToken',
                     'getVerifier',
-                    'getConsumerId'
+                    'getConsumerId',
+                    'convertToAccess',
+                    'getRevoked',
                 ]
             )->getMock();
 
@@ -398,7 +401,9 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
     protected function _setupToken(
         $doesExist = true,
         $type = Magento_Oauth_Model_Token::TYPE_VERIFIER,
-        $consumerId = self::CONSUMER_ID
+        $consumerId = self::CONSUMER_ID,
+        $verifier = self::TOKEN_VERIFIER,
+        $isRevoked = false
     ) {
         $this->_tokenMock
             ->expects($this->any())
@@ -411,6 +416,9 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $this->_tokenMock->expects($this->any())->method('getToken')->will($this->returnValue(self::OAUTH_TOKEN));
         $this->_tokenMock->expects($this->any())->method('getSecret')->will($this->returnValue(self::OAUTH_SECRET));
         $this->_tokenMock->expects($this->any())->method('getConsumerId')->will($this->returnValue($consumerId));
+        $this->_tokenMock->expects($this->any())->method('getVerifier')->will($this->returnValue($verifier));
+        $this->_tokenMock->expects($this->any())->method('convertToAccess')->will($this->returnSelf());
+        $this->_tokenMock->expects($this->any())->method('getRevoked')->will($this->returnValue($isRevoked));
     }
 
     /**
@@ -607,6 +615,125 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
         $this->_service->getAccessToken($this->_getAccessTokenRequiredParams());
     }
 
+    /**
+     * Magento_Oauth_Helper_Data::ERR_VERIFIER_INVALID
+     * @expectedException Magento_Oauth_Exception
+     * @expectedExceptionCode 13
+     * @dataProvider dataProviderForGetAccessTokenVerifierInvalidTest
+     */
+    public function testGetAccessTokenVerifierInvalid($verifier, $verifierFromToken)
+    {
+        $this->_setupConsumer();
+        $this->_setupNonce();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_REQUEST, self::CONSUMER_ID, $verifierFromToken);
+
+        $this->_service->getAccessToken($this->_getAccessTokenRequiredParams(['oauth_verifier' => $verifier]));
+    }
+
+    public function dataProviderForGetAccessTokenVerifierInvalidTest()
+    {
+        return [
+            [3, 3], // Verifier is not a string
+            ['wrong_length', 'wrong_length'],
+            ['verifier', 'doesnt match']
+        ];
+    }
+
+    public function testGetAccessToken()
+    {
+        $this->_setupConsumer();
+        $this->_setupNonce();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_REQUEST);
+
+        $token = $this->_service->getAccessToken($this->_getAccessTokenRequiredParams());
+        $this->assertEquals(['oauth_token' => self::OAUTH_TOKEN, 'oauth_token_secret' => self::OAUTH_SECRET], $token);
+    }
+
+    /**
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED
+     * @expectedException Magento_Oauth_Exception
+     * @expectedExceptionCode 12
+     */
+    public function testValidateAccessTokenRequestTokenRejected()
+    {
+        $this->_setupConsumer();
+        $this->_setupNonce();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS, null); // $token->getConsumerId() === null
+
+        $this->_service->validateAccessTokenRequest($this->_getAccessTokenRequiredParams());
+    }
+
+    /**
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED
+     * @expectedException Magento_Oauth_Exception
+     * @expectedExceptionCode 12
+     */
+    public function testValidateAccessTokenRequestTokenRejectedByType()
+    {
+        $this->_setupConsumer();
+        $this->_setupNonce();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_REQUEST);
+
+        $this->_service->validateAccessTokenRequest($this->_getAccessTokenRequiredParams());
+    }
+
+    /**
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REVOKED
+     * @expectedException Magento_Oauth_Exception
+     * @expectedExceptionCode 11
+     */
+    public function testValidateAccessTokenRequestTokenRevoked()
+    {
+        $this->_setupConsumer();
+        $this->_setupNonce();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS, self::CONSUMER_ID, self::TOKEN_VERIFIER, true);
+
+        $this->_service->validateAccessTokenRequest($this->_getAccessTokenRequiredParams());
+    }
+
+    public function testValidateAccessTokenRequest()
+    {
+        $this->_setupConsumer();
+        $this->_setupNonce();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS);
+
+        $this->assertTrue($this->_service->validateAccessTokenRequest($this->_getAccessTokenRequiredParams()));
+    }
+
+    /**
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REJECTED
+     * @expectedException Magento_Oauth_Exception
+     * @expectedExceptionCode 12
+     */
+    public function testValidateAccessTokenRejectedByType()
+    {
+        $this->_setupConsumer();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_REQUEST);
+
+        $this->_service->validateAccessToken(self::OAUTH_TOKEN);
+    }
+
+    /**
+     * Magento_Oauth_Helper_Service::ERR_TOKEN_REVOKED
+     * @expectedException Magento_Oauth_Exception
+     * @expectedExceptionCode 11
+     */
+    public function testValidateAccessTokenRevoked()
+    {
+        $this->_setupConsumer();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS, self::CONSUMER_ID, self::TOKEN_VERIFIER, true);
+
+        $this->_service->validateAccessToken(self::OAUTH_TOKEN);
+    }
+
+    public function testValidateAccessToken()
+    {
+        $this->_setupConsumer();
+        $this->_setupToken(true, Magento_Oauth_Model_Token::TYPE_ACCESS);
+
+        $this->assertTrue($this->_service->validateAccessToken(self::OAUTH_TOKEN));
+    }
+
     protected function _getAccessTokenRequiredParams(array $amendments = [])
     {
         $requiredParams = [
@@ -616,7 +743,7 @@ class Magento_Oauth_Service_OauthV1Test extends PHPUnit_Framework_TestCase
             'oauth_nonce' => '',
             'oauth_timestamp' => (string)time(),
             'oauth_token' => str_repeat('0', Magento_Oauth_Model_Token::LENGTH_TOKEN),
-            'oauth_verifier' => '',
+            'oauth_verifier' => self::TOKEN_VERIFIER,
             'request_url' => '',
             'http_method' => '',
         ];

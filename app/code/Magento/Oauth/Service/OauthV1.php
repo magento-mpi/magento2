@@ -216,21 +216,23 @@ class Magento_Oauth_Service_OauthV1 implements Magento_Oauth_Service_OauthV1Inte
     public function validateAccessTokenRequest($request)
     {
         $required = array(
-            "oauth_consumer_key",
-            "oauth_signature",
-            "oauth_signature_method",
-            "oauth_nonce",
-            "oauth_timestamp",
-            "oauth_token"
+            'oauth_consumer_key',
+            'oauth_signature',
+            'oauth_signature_method',
+            'oauth_nonce',
+            'oauth_timestamp',
+            'oauth_token',
+            'http_method',
+            'request_url',
         );
+
+        // make generic validation of request parameters
+        $this->_validateProtocolParams($request, $required);
 
         $oauthToken = $request['oauth_token'];
         $requestUrl = $request['request_url'];
         $httpMethod = $request['http_method'];
         $consumerKey = $request['oauth_consumer_key'];
-
-        // make generic validation of request parameters
-        $this->_validateProtocolParams($request, $required);
 
         $consumer = $this->_getConsumerByKey($consumerKey);
         $token = $this->_getToken($oauthToken);

@@ -148,21 +148,22 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * @param int $userId Authorization user identifier
      * @param string $userType Authorization user type
      * @return Magento_Oauth_Model_Token
+     * @throws Magento_Oauth_Exception
      */
     public function authorize($userId, $userType)
     {
         if (!$this->getId() || !$this->getConsumerId()) {
-            Mage::throwException('Token is not ready to be authorized');
+            throw new Magento_Oauth_Exception('Token is not ready to be authorized');
         }
         if ($this->getAuthorized()) {
-            Mage::throwException('Token is already authorized');
+            throw new Magento_Oauth_Exception('Token is already authorized');
         }
         if (self::USER_TYPE_ADMIN == $userType) {
             $this->setAdminId($userId);
         } elseif (self::USER_TYPE_CUSTOMER == $userType) {
             $this->setCustomerId($userId);
         } else {
-            Mage::throwException('User type is unknown');
+            throw new Magento_Oauth_Exception('User type is unknown');
         }
 
         $this->setVerifier($this->_oauthData->generateVerifier());
@@ -178,11 +179,12 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Convert token to access type
      *
      * @return Magento_Oauth_Model_Token
+     * @throws Magento_Oauth_Exception
      */
     public function convertToAccess()
     {
         if (Magento_Oauth_Model_Token::TYPE_REQUEST != $this->getType()) {
-            Mage::throwException('Can not convert due to token is not request type');
+            throw new Magento_Oauth_Exception('Can not convert due to token is not request type');
         }
 
         $this->setType(self::TYPE_ACCESS);
@@ -218,7 +220,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Get OAuth user type
      *
      * @return string
-     * @throws Exception
+     * @throws Magento_Oauth_Exception
      */
     public function getUserType()
     {
@@ -227,7 +229,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         } elseif ($this->getCustomerId()) {
             return self::USER_TYPE_CUSTOMER;
         } else {
-            Mage::throwException('User type is unknown');
+            throw new Magento_Oauth_Exception('User type is unknown');
         }
     }
 
@@ -263,7 +265,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Validate data
      *
      * @return array|bool
-     * @throw Magento_Core_Exception|Exception   Throw exception on fail validation
+     * @throws Magento_Oauth_Exception Throw exception on fail validation
      */
     public function validate()
     {
@@ -273,7 +275,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
             && !$validatorUrl->isValid($this->getCallbackUrl())
         ) {
             $messages = $validatorUrl->getMessages();
-            Mage::throwException(array_shift($messages));
+            throw new Magento_Oauth_Exception(array_shift($messages));
         }
 
         /** @var $validatorLength Magento_Oauth_Model_Consumer_Validator_KeyLength */
@@ -283,14 +285,14 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
-            Mage::throwException(array_shift($messages));
+            throw new Magento_Oauth_Exception(array_shift($messages));
         }
 
         $validatorLength->setLength(self::LENGTH_TOKEN);
         $validatorLength->setName('Token Key');
         if (!$validatorLength->isValid($this->getToken())) {
             $messages = $validatorLength->getMessages();
-            Mage::throwException(array_shift($messages));
+            throw new Magento_Oauth_Exception(array_shift($messages));
         }
 
         if (null !== ($verifier = $this->getVerifier())) {
@@ -298,7 +300,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
             $validatorLength->setName('Verifier Key');
             if (!$validatorLength->isValid($verifier)) {
                 $messages = $validatorLength->getMessages();
-                Mage::throwException(array_shift($messages));
+                throw new Magento_Oauth_Exception(array_shift($messages));
             }
         }
         return true;
