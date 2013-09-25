@@ -11,49 +11,27 @@
  */
 -->
 <config>
-    <global>
-        <install>
-            <date><![CDATA[d-d-d-d-d]]></date>
-        </install>
-        <crypt>
-            <key><![CDATA[k-k-k-k-k]]></key>
-        </crypt>
-        <resources>
-            <db>
-                <table_prefix><![CDATA[{{db_table_prefix}}]]></table_prefix>
-            </db>
-            <default_setup>
-                <connection>
-                    <host><![CDATA[{{db_host}}]]></host>
-                    <username><![CDATA[{{db_user}}]]></username>
-                    <password><![CDATA[{{db_password}}]]></password>
-                    <dbname><![CDATA[{{db_name}}]]></dbname>
-                    <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
-                    <model><![CDATA[mysql4]]></model>
-                    <type><![CDATA[pdo_mysql]]></type>
-                    <pdoType><![CDATA[]]></pdoType>
-                    <active>1</active>
-                </connection>
-            </default_setup>
-        </resources>
-        <session_save><![CDATA[files]]></session_save>
-        <resource>
-            <connection>
-                <types>
-                    <pdo_mysql>
-                        <adapter><![CDATA[Magento_TestFramework_Db_Adapter_Mysql]]></adapter>
-                    </pdo_mysql>
-                </types>
-            </connection>
-        </resource>
-    </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <frontName><![CDATA[admin]]></frontName>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
+    <install>
+        <date><![CDATA[d-d-d-d-d]]></date>
+    </install>
+    <crypt>
+        <key><![CDATA[k-k-k-k-k]]></key>
+    </crypt>
+    <db>
+        <table_prefix><![CDATA[{{db_table_prefix}}]]></table_prefix>
+    </db>
+    <resource name="default_setup">
+        <connection>
+            <host><![CDATA[{{db_host}}]]></host>
+            <username><![CDATA[{{db_user}}]]></username>
+            <password><![CDATA[{{db_password}}]]></password>
+            <dbName><![CDATA[{{db_name}}]]></dbName>
+            <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+            <model><![CDATA[mysql4]]></model>
+            <type><![CDATA[pdo_mysql]]></type>
+            <pdoType><![CDATA[]]></pdoType>
+            <active>1</active>
+        </connection>
+    </resource>
+    <session_save><![CDATA[files]]></session_save>
 </config>

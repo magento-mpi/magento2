@@ -96,9 +96,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         }
 
         $ignoreDevMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
-        if (($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER)
-            && false == $ignoreDevMode
-        ) {
+        if (($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER) && false == $ignoreDevMode) {
             return false;
         }
 

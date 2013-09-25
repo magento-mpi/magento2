@@ -16,6 +16,6 @@ class Magento_TestFramework_Db_ConnectionAdapter extends Magento_Core_Model_Reso
      */
     protected function _getDbAdapterClassName()
     {
-        return 'Magento_Test_Db_Adapter_Mysql';
+        return 'Magento_TestFramework_Db_Adapter_Mysql';
     }
 }

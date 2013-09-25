@@ -186,7 +186,7 @@ class Magento_TestFramework_Bootstrap
         array $localConfigFiles, $globalConfigDir, array $moduleConfigFiles, $appMode
     ) {
         $localConfigXml = $this->_loadConfigFiles($localConfigFiles);
-        $dbConfig = $localConfigXml->global->resources->default_setup->connection;
+        $dbConfig = $localConfigXml->resource->connection;
         $this->_dbVendorName = $this->_determineDbVendorName($dbConfig);
         $sandboxUniqueId = $this->_calcConfigFilesHash($localConfigFiles);
         $installDir = "{$this->_tmpDir}/sandbox-{$this->_dbVendorName}-{$sandboxUniqueId}";
@@ -196,7 +196,7 @@ class Magento_TestFramework_Bootstrap
             (string)$dbConfig->host,
             (string)$dbConfig->username,
             (string)$dbConfig->password,
-            (string)$dbConfig->dbname,
+            (string)$dbConfig->dbName,
             $this->_tmpDir,
             $this->_shell
         );

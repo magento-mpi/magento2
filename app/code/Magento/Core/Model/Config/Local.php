@@ -59,8 +59,13 @@ class Magento_Core_Model_Config_Local
             list($key, $value) = each($stack);
             unset($stack[$key]);
             if (is_array($value)) {
-                foreach ($value as $subKey => $node)
-                    $build[$key . $separator . $subKey] = $node;
+                if (count($value)) {
+                    foreach ($value as $subKey => $node) {
+                        $build[$key . $separator . $subKey] = $node;
+                    }
+                } else {
+                    $build[$key] = null;
+                }
                 $stack = $build + $stack;
                 continue;
             }
