@@ -48,13 +48,14 @@ class Magento_Catalog_Model_Product_Website extends Magento_Core_Model_Abstract
      * @param array $websiteIds
      * @param array $productIds
      * @return Magento_Catalog_Model_Product_Website
+     * @throws Magento_Core_Exception
      */
     public function removeProducts($websiteIds, $productIds)
     {
         try {
             $this->_getResource()->removeProducts($websiteIds, $productIds);
         } catch (Exception $e) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Something went wrong removing products from the websites.')
             );
         }
@@ -67,13 +68,14 @@ class Magento_Catalog_Model_Product_Website extends Magento_Core_Model_Abstract
      * @param array $websiteIds
      * @param array $productIds
      * @return Magento_Catalog_Model_Product_Website
+     * @throws Magento_Core_Exception
      */
     public function addProducts($websiteIds, $productIds)
     {
         try {
             $this->_getResource()->addProducts($websiteIds, $productIds);
         } catch (Exception $e) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Something went wrong adding products to websites.')
             );
         }

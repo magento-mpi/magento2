@@ -31,12 +31,34 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
     protected $_coreData = null;
 
     /**
+     * Entity attribute factory
+     *
+     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     */
+    protected $_entityAttributeFactory;
+
+    /**
+     * Eav resource helper
+     *
+     * @var Magento_Eav_Model_Resource_Helper
+     */
+    protected $_eavResourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $entityAttributeFactory
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Eav_Model_Resource_Helper $eavResourceHelper
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreData
+        Magento_Eav_Model_Resource_Entity_AttributeFactory $entityAttributeFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Eav_Model_Resource_Helper $eavResourceHelper
     ) {
+        $this->_entityAttributeFactory = $entityAttributeFactory;
         $this->_coreData = $coreData;
+        $this->_eavResourceHelper = $eavResourceHelper;
     }
 
     /**
@@ -75,7 +97,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
             $column['type']     = $attributeType;
             $column['is_null']  = true;
         } else {
-            $column['type']     = Mage::getResourceHelper('Magento_Eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = $this->_eavResourceHelper->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = true;
         }
 
@@ -90,7 +112,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
+        return $this->_entityAttributeFactory->create()
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

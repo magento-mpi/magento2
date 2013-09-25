@@ -48,13 +48,25 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
     protected $_coreStoreConfig;
 
     /**
+     * Checkout session
+     *
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
+        $this->_checkoutSession = $checkoutSession;
         parent::__construct($data);
         $this->_coreStoreConfig = $coreStoreConfig;
     }
@@ -82,7 +94,7 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         if ($this->_option instanceof Magento_Catalog_Model_Product_Option) {
             return $this->_option;
         }
-        Mage::throwException(__('The option instance type in options group is incorrect.'));
+        throw new Magento_Core_Exception(__('The option instance type in options group is incorrect.'));
     }
 
     /**
@@ -108,13 +120,14 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         if ($this->_product instanceof Magento_Catalog_Model_Product) {
             return $this->_product;
         }
-        Mage::throwException(__('The product instance type in options group is incorrect.'));
+        throw new Magento_Core_Exception(__('The product instance type in options group is incorrect.'));
     }
 
     /**
      * Getter for Configuration Item Option
      *
      * @return Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
+     * @throws Magento_Core_Exception
      */
     public function getConfigurationItemOption()
     {
@@ -127,13 +140,14 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
             return $this->_getData('quote_item_option');
         }
 
-        Mage::throwException(__('The configuration item option instance in options group is incorrect.'));
+        throw new Magento_Core_Exception(__('The configuration item option instance in options group is incorrect.'));
     }
 
     /**
      * Getter for Configuration Item
      *
      * @return Magento_Catalog_Model_Product_Configuration_Item_Interface
+     * @throws Magento_Core_Exception
      */
     public function getConfigurationItem()
     {
@@ -146,20 +160,21 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
             return $this->_getData('quote_item');
         }
 
-        Mage::throwException(__('The configuration item instance in options group is incorrect.'));
+        throw new Magento_Core_Exception(__('The configuration item instance in options group is incorrect.'));
     }
 
     /**
      * Getter for Buy Request
      *
      * @return Magento_Object
+     * @throws Magento_Core_Exception
      */
     public function getRequest()
     {
         if ($this->_getData('request') instanceof Magento_Object) {
             return $this->_getData('request');
         }
-        Mage::throwException(__('The BuyRequest instance in options group is incorrect.'));
+        throw new Magento_Core_Exception(__('The BuyRequest instance in options group is incorrect.'));
     }
 
     /**
@@ -182,13 +197,13 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
      */
     public function validateUserValue($values)
     {
-        Mage::getSingleton('Magento_Checkout_Model_Session')->setUseNotice(false);
+        $this->_checkoutSession->setUseNotice(false);
 
         $this->setIsValid(false);
 
         $option = $this->getOption();
         if (!isset($values[$option->getId()]) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
-            Mage::throwException(__('Please specify the product required option(s).'));
+            throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
         } elseif (isset($values[$option->getId()])) {
             $this->setUserValue($values[$option->getId()]);
             $this->setIsValid(true);
@@ -218,7 +233,7 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
         if ($this->getIsValid()) {
             return $this->getUserValue();
         }
-        Mage::throwException(__('We couldn\'t add the product to the cart because of an option validation issue.'));
+        throw new Magento_Core_Exception(__('We couldn\'t add the product to the cart because of an option validation issue.'));
     }
 
     /**

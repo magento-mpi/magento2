@@ -29,6 +29,7 @@ class Magento_Catalog_Model_Resource_Category_TreeTest extends PHPUnit_Framework
 
     protected function setUp()
     {
+        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $select->expects($this->once())->method('from')->with('catalog_category_entity');
         $connection = $this->getMock('Magento_DB_Adapter_Interface');
@@ -51,9 +52,12 @@ class Magento_Catalog_Model_Resource_Category_TreeTest extends PHPUnit_Framework
         $this->_collectionFactory = $this->getMock(
             'Magento_Catalog_Model_Resource_Category_Collection_Factory', array(), array(), '', false
         );
-        $this->_model = new Magento_Catalog_Model_Resource_Category_Tree(
-            $this->_resource, $eventManager, $this->_attributeConfig, $this->_collectionFactory
-        );
+        $this->_model = $objectHelper->getObject('Magento_Catalog_Model_Resource_Category_Tree', array(
+            'resource' => $this->_resource,
+            'eventManager' => $eventManager,
+            'attributeConfig' => $this->_attributeConfig,
+            'collectionFactory' => $this->_collectionFactory,
+        ));
     }
 
     public function testGetCollection()

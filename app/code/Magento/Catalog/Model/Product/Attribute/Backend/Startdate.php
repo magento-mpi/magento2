@@ -19,12 +19,43 @@
 
 class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_Eav_Model_Entity_Attribute_Backend_Datetime
 {
-   /**
-    * Get attribute value for save.
-    *
-    * @param Magento_Object $object
-    * @return string|bool
-    */
+    /**
+     * Locale model
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Date model
+     *
+     * @var Magento_Core_Model_Date
+     */
+    protected $_date;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Date $date
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(
+        Magento_Core_Model_Date $date,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_Logger $logger
+    ) {
+        $this->_date = $date;
+        $this->_locale = $locale;
+        parent::__construct($logger);
+    }
+
+    /**
+     * Get attribute value for save.
+     *
+     * @param Magento_Object $object
+     * @return string|bool
+     */
     protected function _getValueForSave($object)
     {
         $attributeName  = $this->getAttribute()->getName();
@@ -33,7 +64,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
             return false;
         }
         if ($startDate == '' && $object->getSpecialPrice()) {
-            $startDate = Mage::app()->getLocale()->date();
+            $startDate = $this->_locale->date();
         }
 
         return $startDate;
@@ -76,7 +107,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_
         }
 
         if ($maxDate) {
-            $date     = Mage::getModel('Magento_Core_Model_Date');
+            $date     = $this->_date;
             $value    = $date->timestamp($startDate);
             $maxValue = $date->timestamp($maxDate);
 

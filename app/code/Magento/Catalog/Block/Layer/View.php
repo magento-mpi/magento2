@@ -53,23 +53,27 @@ class Magento_Catalog_Block_Layer_View extends Magento_Core_Block_Template
     protected $_decimalFilterBlockName;
 
     /**
+     * Catalog layer
+     *
      * @var Magento_Catalog_Model_Layer
      */
-    protected $_layer;
+    protected $_catalogLayer;
 
     /**
-     * @param Magento_Catalog_Model_Layer $layer
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Layer $catalogLayer
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Model_Layer $layer,
+        Magento_Catalog_Model_Layer $catalogLayer,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_layer = $layer;
+        $this->_catalogLayer = $catalogLayer;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -141,7 +145,7 @@ class Magento_Catalog_Block_Layer_View extends Magento_Core_Block_Template
      */
     public function getLayer()
     {
-        return $this->_layer;
+        return $this->_catalogLayer;
     }
 
     /**

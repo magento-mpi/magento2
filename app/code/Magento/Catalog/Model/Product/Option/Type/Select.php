@@ -37,12 +37,16 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     protected $_coreString = null;
 
     /**
+     * Construct
+     *
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -50,7 +54,7 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     ) {
         $this->_coreString = $coreString;
         $this->_coreData = $coreData;
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
 
     /**
@@ -69,14 +73,14 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
 
         if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(__('Please specify the product required option(s).'));
+            throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
             $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
                 ->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                Mage::throwException(__('Please specify the product required option(s).'));
+                throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
             }
         }
         return $this;

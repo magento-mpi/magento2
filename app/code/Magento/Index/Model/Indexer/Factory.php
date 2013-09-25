@@ -1,11 +1,15 @@
 <?php
 /**
- * Indexer factory
- *
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+/**
+ * Indexer factory
  */
 class Magento_Index_Model_Indexer_Factory
 {

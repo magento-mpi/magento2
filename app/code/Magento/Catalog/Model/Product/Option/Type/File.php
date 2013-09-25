@@ -53,6 +53,33 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
     protected $_coreData = null;
 
     /**
+     * Dir
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * Url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Item option factory
+     *
+     * @var Magento_Sales_Model_Quote_Item_OptionFactory
+     */
+    protected $_itemOptionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Sales_Model_Quote_Item_OptionFactory $itemOptionFactory
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
@@ -61,6 +88,10 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      * @param array $data
      */
     public function __construct(
+        Magento_Sales_Model_Quote_Item_OptionFactory $itemOptionFactory,
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Core_Model_Dir $dir,
+        Magento_Checkout_Model_Session $checkoutSession,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Core_Model_Store_Config $coreStoreConfig,
@@ -68,12 +99,15 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         Magento_File_Size $fileSize,
         $data = array()
     ) {
+        $this->_itemOptionFactory = $itemOptionFactory;
+        $this->_url = $url;
+        $this->_dir = $dir;
         $this->_coreData = $coreData;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
         $this->_fileSize = $fileSize;
         $this->_data = $data;
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
 
 
@@ -160,7 +194,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      */
     public function validateUserValue($values)
     {
-        Mage::getSingleton('Magento_Checkout_Model_Session')->setUseNotice(false);
+        $this->_checkoutSession->setUseNotice(false);
 
         $this->setIsValid(true);
         $option = $this->getOption();
@@ -198,7 +232,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
                 $this->setUserValue(null);
                 return $this;
             } else {
-                Mage::throwException($e->getMessage());
+                throw new Magento_Core_Exception($e->getMessage());
             }
         }
         return $this;
@@ -237,14 +271,14 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
             if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > $maxFileSize) {
                 $this->setIsValid(false);
                 $value = $this->getFileSizeService()->getMaxFileSizeInMb();
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __("The file you uploaded is larger than %1 Megabytes allowed by server", $value)
                 );
             } else {
                 switch ($this->getProcessMode())
                 {
                     case Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL:
-                        Mage::throwException(
+                        throw new Magento_Core_Exception(
                             __('Please specify the product\'s required option(s).')
                         );
                         break;
@@ -345,11 +379,11 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
 
             if (count($errors) > 0) {
                 $this->setIsValid(false);
-                Mage::throwException( implode("\n", $errors) );
+                throw new Magento_Core_Exception( implode("\n", $errors) );
             }
         } else {
             $this->setIsValid(false);
-            Mage::throwException(__('Please specify the product required option(s).'));
+            throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
         }
         return $this;
     }
@@ -372,10 +406,10 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
          */
         $checkPaths = array();
         if (isset($optionValue['quote_path'])) {
-            $checkPaths[] = Mage::getBaseDir() . $optionValue['quote_path'];
+            $checkPaths[] = $this->_dir->getDir() . $optionValue['quote_path'];
         }
         if (isset($optionValue['order_path']) && !$this->getUseQuotePath()) {
-            $checkPaths[] = Mage::getBaseDir() . $optionValue['order_path'];
+            $checkPaths[] = $this->_dir->getDir() . $optionValue['order_path'];
         }
 
         $fileFullPath = null;
@@ -441,11 +475,11 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
 
             if (count($errors) > 0) {
                 $this->setIsValid(false);
-                Mage::throwException( implode("\n", $errors) );
+                throw new Magento_Core_Exception( implode("\n", $errors) );
             }
         } else {
             $this->setIsValid(false);
-            Mage::throwException(__('Please specify the product required option(s).'));
+            throw new Magento_Core_Exception(__('Please specify the product required option(s).'));
         }
     }
 
@@ -579,7 +613,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
                 $sizes
             );
         } catch (Exception $e) {
-            Mage::throwException(__("The file options format is not valid."));
+            throw new Magento_Core_Exception(__("The file options format is not valid."));
         }
     }
 
@@ -643,7 +677,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
         // search quote item option Id in option value
         if (preg_match('/\[([0-9]+)\]/', $optionValue, $matches)) {
             $confItemOptionId = $matches[1];
-            $option = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->load($confItemOptionId);
+            $option = $this->_itemOptionFactory->create()->load($confItemOptionId);
             try {
                 unserialize($option->getValue());
                 return $option->getValue();
@@ -684,13 +718,13 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
             if (!isset($value['quote_path'])) {
                 throw new Exception();
             }
-            $quoteFileFullPath = Mage::getBaseDir() . $value['quote_path'];
+            $quoteFileFullPath = $this->_dir->getDir() . $value['quote_path'];
             if (!$this->_filesystem->isFile($quoteFileFullPath)
                 || !$this->_filesystem->isReadable($quoteFileFullPath)
             ) {
                 throw new Exception();
             }
-            $orderFileFullPath = Mage::getBaseDir() . $value['order_path'];
+            $orderFileFullPath = $this->_dir->getDir() . $value['order_path'];
             $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
             $this->_createWritableDir($dir);
             $this->_coreFileStorageDatabase->copyFile($quoteFileFullPath, $orderFileFullPath);
@@ -709,8 +743,8 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      */
     public function getTargetDir($relative = false)
     {
-        $fullPath = Mage::getBaseDir('media') . DS . 'custom_options';
-        return $relative ? str_replace(Mage::getBaseDir(), '', $fullPath) : $fullPath;
+        $fullPath = $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DS . 'custom_options';
+        return $relative ? str_replace($this->_dir->getDir(), '', $fullPath) : $fullPath;
     }
 
     /**
@@ -792,7 +826,7 @@ class Magento_Catalog_Model_Product_Option_Type_File extends Magento_Catalog_Mod
      */
     protected function _getOptionDownloadUrl($route, $params)
     {
-        return Mage::getUrl($route, $params);
+        return $this->_url->getUrl($route, $params);
     }
 
     /**

@@ -19,6 +19,34 @@
 class Magento_Catalog_Model_Product_Media_Config implements Magento_Media_Model_Image_Config_Interface
 {
     /**
+     * Dir
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Dir $dir
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Dir $dir
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_dir = $dir;
+    }
+
+    /**
      * Filesystem directory path of product images
      * relatively to media folder
      *
@@ -64,22 +92,26 @@ class Magento_Catalog_Model_Product_Media_Config implements Magento_Media_Model_
 
     public function getBaseMediaPath()
     {
-        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'catalog' . DIRECTORY_SEPARATOR . 'product';
+        return $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+            . 'catalog' . DIRECTORY_SEPARATOR . 'product';
     }
 
     public function getBaseMediaUrl()
     {
-        return Mage::getBaseUrl('media') . 'catalog/product';
+        return $this->_storeManager->getStore()
+            ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/product';
     }
 
     public function getBaseTmpMediaPath()
     {
-        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . $this->getBaseTmpMediaPathAddition();
+        return $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+            . $this->getBaseTmpMediaPathAddition();
     }
 
     public function getBaseTmpMediaUrl()
     {
-        return Mage::getBaseUrl('media') . $this->getBaseTmpMediaUrlAddition();
+        return $this->_storeManager->getStore()
+            ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . $this->getBaseTmpMediaUrlAddition();
     }
 
     public function getMediaUrl($file)

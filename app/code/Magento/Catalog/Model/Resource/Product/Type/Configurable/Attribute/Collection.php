@@ -12,9 +12,7 @@
 /**
  * Catalog Configurable Product Attribute Collection
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
@@ -48,6 +46,24 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
     protected $_catalogData = null;
 
     /**
+     * Catalog product type configurable
+     *
+     * @var Magento_Catalog_Model_Product_Type_Configurable
+     */
+    protected $_productTypeConfigurable;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Type_Configurable $catalogProductTypeConfigurable
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -56,6 +72,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
      * @param Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute $resource
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Type_Configurable $catalogProductTypeConfigurable,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Logger $logger,
         Magento_Catalog_Helper_Data $catalogData,
@@ -63,6 +81,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
         Magento_Core_Model_EntityFactory $entityFactory,
         Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute  $resource
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_productTypeConfigurable = $catalogProductTypeConfigurable;
         $this->_catalogData = $catalogData;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
     }
@@ -100,7 +120,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
      */
     private function getProductType()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Type_Configurable');
+        return $this->_productTypeConfigurable;
     }
 
     /**
@@ -235,7 +255,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
             if ($this->_catalogData->isPriceGlobal()) {
                 $websiteId = 0;
             } else {
-                $websiteId = (int)Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+                $websiteId = (int)$this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
                 $pricing[$websiteId] = array();
             }
 

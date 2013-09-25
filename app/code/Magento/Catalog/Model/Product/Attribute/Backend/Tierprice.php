@@ -20,13 +20,45 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Tierprice
     extends Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
 {
     /**
+     * Catalog product attribute backend tierprice
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice
+     */
+    protected $_productAttributeBackendTierprice;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice $productAttributeTierprice
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Type $catalogProductType
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Config $config
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice $productAttributeTierprice,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Type $catalogProductType,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Config $config
+    ) {
+        $this->_productAttributeBackendTierprice = $productAttributeTierprice;
+        parent::__construct($logger, $currencyFactory, $storeManager, $catalogProductType, $catalogData,
+            $config);
+    }
+
+    /**
      * Retrieve resource instance
      *
      * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice');
+        return $this->_productAttributeBackendTierprice;
     }
 
     /**

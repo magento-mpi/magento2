@@ -19,6 +19,47 @@
 class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Currency factory
+     *
+     * @var Magento_Directory_Model_CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * Core config model
+     *
+     * @var Magento_Core_Model_ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Config $config
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Config $config
+    ) {
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
+        $this->_config = $config;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table and initialize connection
      *
      */
@@ -109,19 +150,20 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                 }
             }
 
-            $scope = (int) Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int) $this->_storeManager->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
 
             if ($object->getStoreId() != '0' && $scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE
                 && !$object->getData('scope', 'price')) {
 
-                $baseCurrency = Mage::app()->getBaseCurrencyCode();
+                $baseCurrency = $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+                    'default');
 
-                $storeIds = Mage::app()->getStore($object->getStoreId())->getWebsite()->getStoreIds();
+                $storeIds = $this->_storeManager->getStore($object->getStoreId())->getWebsite()->getStoreIds();
                 if (is_array($storeIds)) {
                     foreach ($storeIds as $storeId) {
                         if ($object->getPriceType() == 'fixed') {
-                            $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
-                            $rate = Mage::getModel('Magento_Directory_Model_Currency')->load($baseCurrency)->getRate($storeCurrency);
+                            $storeCurrency = $this->_storeManager->getStore($storeId)->getBaseCurrencyCode();
+                            $rate = $this->_currencyFactory->create()->load($baseCurrency)->getRate($storeCurrency);
                             if (!$rate) {
                                 $rate=1;
                             }

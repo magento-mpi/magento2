@@ -33,6 +33,52 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
     protected $_productCollection;
 
     /**
+     * Catalog layer
+     *
+     * @var Magento_Catalog_Model_Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_catalogLayer = $catalogLayer;
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
+    }
+
+    /**
      * Retrieve loaded category collection
      *
      * @return Magento_Eav_Model_Entity_Collection_Abstract
@@ -43,7 +89,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
             $layer = $this->getLayer();
             /* @var $layer Magento_Catalog_Model_Layer */
             if ($this->getShowRootCategory()) {
-                $this->setCategoryId(Mage::app()->getStore()->getRootCategoryId());
+                $this->setCategoryId($this->_storeManager->getStore()->getRootCategoryId());
             }
 
             // if this is a product view page
@@ -61,7 +107,8 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
 
             $origCategory = null;
             if ($this->getCategoryId()) {
-                $category = Mage::getModel('Magento_Catalog_Model_Category')->load($this->getCategoryId());
+                /** @var Magento_Catalog_Model_Category $category */
+                $category = $this->_categoryFactory->create()->load($this->getCategoryId());
                 if ($category->getId()) {
                     $origCategory = $layer->getCurrentCategory();
                     $layer->setCurrentCategory($category);
@@ -90,7 +137,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
         if ($layer) {
             return $layer;
         }
-        return Mage::getSingleton('Magento_Catalog_Model_Layer');
+        return $this->_catalogLayer;
     }
 
     /**
@@ -217,7 +264,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config');
+        return $this->_catalogConfig;
     }
 
     /**

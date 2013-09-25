@@ -18,15 +18,47 @@
 class Magento_Catalog_Model_Layer_Filter_Item extends Magento_Object
 {
     /**
+     * Url
+     *
+     * @var Magento_Core_Model_UrlInterface
+     */
+    protected $_url;
+
+    /**
+     * Html pager block
+     *
+     * @var Magento_Page_Block_Html_Pager
+     */
+    protected $_htmlPagerBlock;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Page_Block_Html_Pager $htmlPagerBlock
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Page_Block_Html_Pager $htmlPagerBlock,
+        array $data = array()
+    ) {
+        $this->_url = $url;
+        $this->_htmlPagerBlock = $htmlPagerBlock;
+        parent::__construct($data);
+    }
+
+    /**
      * Get filter instance
      *
      * @return Magento_Catalog_Model_Layer_Filter_Abstract
+     * @throws Magento_Core_Exception
      */
     public function getFilter()
     {
         $filter = $this->getData('filter');
         if (!is_object($filter)) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('The filter must be an object. Please set correct filter.')
             );
         }
@@ -42,9 +74,9 @@ class Magento_Catalog_Model_Layer_Filter_Item extends Magento_Object
     {
         $query = array(
             $this->getFilter()->getRequestVar()=>$this->getValue(),
-            Mage::getBlockSingleton('Magento_Page_Block_Html_Pager')->getPageVarName() => null // exclude current page from urls
+            $this->_htmlPagerBlock->getPageVarName() => null // exclude current page from urls
         );
-        return Mage::getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
+        return $this->_url->getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
     }
 
     /**
@@ -59,7 +91,7 @@ class Magento_Catalog_Model_Layer_Filter_Item extends Magento_Object
         $params['_use_rewrite'] = true;
         $params['_query']       = $query;
         $params['_escape']      = true;
-        return Mage::getUrl('*/*/*', $params);
+        return $this->_url->getUrl('*/*/*', $params);
     }
 
     /**
@@ -80,7 +112,7 @@ class Magento_Catalog_Model_Layer_Filter_Item extends Magento_Object
             '_query' => array($this->getFilter()->getRequestVar() => null),
             '_escape' => true,
         );
-        return Mage::getUrl('*/*/*', $urlParams);
+        return $this->_url->getUrl('*/*/*', $urlParams);
     }
 
     /**

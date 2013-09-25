@@ -61,14 +61,64 @@ class Magento_Catalog_Model_Entity_Attribute extends Magento_Eav_Model_Entity_At
     const MODULE_NAME = 'Magento_Catalog';
 
     /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Catalog_Model_ProductFactory $catalogProductFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Catalog_Model_ProductFactory $catalogProductFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $coreData,
+            $eavConfig,
+            $eavTypeFactory,
+            $storeManager,
+            $resourceHelper,
+            $universalFactory,
+            $locale,
+            $catalogProductFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+    }
+
+    /**
      * Processing object before save data
      *
      * @return Magento_Core_Model_Abstract
+     * @throws Magento_Eav_Exception
      */
     protected function _beforeSave()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            throw Mage::exception('Magento_Eav', __('This attribute is used in configurable products'));
+            throw new Magento_Eav_Exception(__('This attribute is used in configurable products'));
         }
         $this->setData('modulePrefix', self::MODULE_NAME);
         return parent::_beforeSave();
@@ -84,7 +134,7 @@ class Magento_Catalog_Model_Entity_Attribute extends Magento_Eav_Model_Entity_At
         /**
          * Fix saving attribute in admin
          */
-        Mage::getSingleton('Magento_Eav_Model_Config')->clear();
+        $this->_eavConfig->clear();
         return parent::_afterSave();
     }
 }

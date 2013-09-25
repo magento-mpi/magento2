@@ -11,9 +11,7 @@
 /**
  * Layer attribute filter
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model_Layer_Filter_Abstract
 {
@@ -34,15 +32,26 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     protected $_coreString = null;
 
     /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Catalog_Model_Resource_Layer_Filter_AttributeFactory $filterAttributeFactory
      * @param Magento_Core_Helper_String $coreString
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Catalog_Model_Resource_Layer_Filter_AttributeFactory $filterAttributeFactory,
         Magento_Core_Helper_String $coreString,
         array $data = array()
     ) {
+        $this->_resource = $filterAttributeFactory->create();
         $this->_coreString = $coreString;
-        parent::__construct($data);
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'attribute';
     }
 
@@ -53,9 +62,6 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
      */
     protected function _getResource()
     {
-        if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Layer_Filter_Attribute');
-        }
         return $this->_resource;
     }
 

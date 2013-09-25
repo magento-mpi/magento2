@@ -33,11 +33,6 @@ abstract class Magento_Reports_Block_Product_Abstract extends Magento_Catalog_Bl
     protected $_collection;
 
     /**
-     * @var Magento_Catalog_Model_Config
-     */
-    protected $_catalogConfig;
-
-    /**
      * @var Magento_Catalog_Model_Product_Visibility
      */
     protected $_productVisibility;
@@ -48,29 +43,35 @@ abstract class Magento_Reports_Block_Product_Abstract extends Magento_Catalog_Bl
     protected $_indexFactory;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Catalog_Model_Product_Visibility $productVisibility
      * @param Magento_Reports_Model_Product_Index_Factory $indexFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Catalog_Model_Product_Visibility $productVisibility,
         Magento_Reports_Model_Product_Index_Factory $indexFactory,
         array $data = array()
     ) {
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
-        $this->_catalogConfig = $catalogConfig;
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
         $this->_productVisibility = $productVisibility;
         $this->_indexFactory = $indexFactory;
     }

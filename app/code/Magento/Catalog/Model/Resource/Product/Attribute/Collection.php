@@ -20,6 +20,35 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     extends Magento_Eav_Model_Resource_Entity_Attribute_Collection
 {
     /**
+     * Entity factory1
+     *
+     * @var Magento_Eav_Model_EntityFactory
+     */
+    protected $_eavEntityFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Eav_Model_EntityFactory $eavEntityFactory,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_eavEntityFactory = $eavEntityFactory;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      * Resource model initialization
      *
      */
@@ -35,7 +64,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)Mage::getModel('Magento_Eav_Model_Entity')->setType(Magento_Catalog_Model_Product::ENTITY)
+        $entityTypeId = (int)$this->_eavEntityFactory->create()->setType(Magento_Catalog_Model_Product::ENTITY)
             ->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);

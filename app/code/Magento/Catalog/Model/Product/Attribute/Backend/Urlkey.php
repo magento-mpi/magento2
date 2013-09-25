@@ -34,17 +34,4 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Urlkey extends Magento_Eav
 
         return $this;
     }
-
-    public function afterSave($object)
-    {
-        /* @var $object Magento_Catalog_Model_Product */
-        /**
-         * Logic moved to Magento_Catalog_Model_Indexer_Url
-         */
-        /*if (!$object->getExcludeUrlRewrite() &&
-            ($object->dataHasChangedFor('url_key') || $object->getIsChangedCategories() || $object->getIsChangedWebsites())) {
-            Mage::getSingleton('Magento_Catalog_Model_Url')->refreshProductRewrite($object->getId());
-        }*/
-        return $this;
-    }
 }

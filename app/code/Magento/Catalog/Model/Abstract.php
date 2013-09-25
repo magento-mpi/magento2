@@ -63,6 +63,35 @@ abstract class Magento_Catalog_Model_Abstract extends Magento_Core_Model_Abstrac
 
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Lock attribute
      *
      * @param string $attributeCode
@@ -225,7 +254,7 @@ abstract class Magento_Catalog_Model_Abstract extends Magento_Core_Model_Abstrac
      */
     public function getStore()
     {
-        return Mage::app()->getStore($this->getStoreId());
+        return $this->_storeManager->getStore($this->getStoreId());
     }
 
     /**

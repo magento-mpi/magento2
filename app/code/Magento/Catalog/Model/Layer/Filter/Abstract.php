@@ -32,6 +32,47 @@ abstract class Magento_Catalog_Model_Layer_Filter_Abstract extends Magento_Objec
     protected $_items;
 
     /**
+     * Catalog layer
+     *
+     * @var Magento_Catalog_Model_Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Filter item factory
+     *
+     * @var Magento_Catalog_Model_Layer_Filter_ItemFactory
+     */
+    protected $_filterItemFactory;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        array $data = array()
+    ) {
+        $this->_filterItemFactory = $filterItemFactory;
+        $this->_storeManager = $storeManager;
+        $this->_catalogLayer = $catalogLayer;
+        parent::__construct($data);
+    }
+
+    /**
      * Set request variable name which is used for apply filter
      *
      * @param   string $varName
@@ -155,7 +196,7 @@ abstract class Magento_Catalog_Model_Layer_Filter_Abstract extends Magento_Objec
     {
         $layer = $this->_getData('layer');
         if (is_null($layer)) {
-            $layer = Mage::getSingleton('Magento_Catalog_Model_Layer');
+            $layer = $this->_catalogLayer;
             $this->setData('layer', $layer);
         }
         return $layer;
@@ -171,7 +212,7 @@ abstract class Magento_Catalog_Model_Layer_Filter_Abstract extends Magento_Objec
      */
     protected function _createItem($label, $value, $count=0)
     {
-        return Mage::getModel('Magento_Catalog_Model_Layer_Filter_Item')
+        return $this->_filterItemFactory->create()
             ->setFilter($this)
             ->setLabel($label)
             ->setValue($value)
@@ -215,12 +256,13 @@ abstract class Magento_Catalog_Model_Layer_Filter_Abstract extends Magento_Objec
      * Get attribute model associated with filter
      *
      * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @throws Magento_Core_Exception
      */
     public function getAttributeModel()
     {
         $attribute = $this->getData('attribute_model');
         if (is_null($attribute)) {
-            Mage::throwException(__('The attribute model is not defined.'));
+            throw new Magento_Core_Exception(__('The attribute model is not defined.'));
         }
         return $attribute;
     }
@@ -244,7 +286,7 @@ abstract class Magento_Catalog_Model_Layer_Filter_Abstract extends Magento_Objec
     {
         $storeId = $this->_getData('store_id');
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         return $storeId;
     }
@@ -269,7 +311,7 @@ abstract class Magento_Catalog_Model_Layer_Filter_Abstract extends Magento_Objec
     {
         $websiteId = $this->_getData('website_id');
         if (is_null($websiteId)) {
-            $websiteId = Mage::app()->getStore()->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
         return $websiteId;
     }

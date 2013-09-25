@@ -39,10 +39,23 @@ class Magento_Catalog_Model_Template_Filter extends Magento_Filter_Template
     protected $_viewUrl;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
-    {
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_View_Url $viewUrl
+    ) {
+        $this->_storeManager = $storeManager;
         $this->_viewUrl = $viewUrl;
     }
 
@@ -98,7 +111,7 @@ class Magento_Catalog_Model_Template_Filter extends Magento_Filter_Template
     public function mediaDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        return Mage::getBaseUrl('media') . $params['url'];
+        return $this->_storeManager->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . $params['url'];
     }
 
     /**
@@ -136,6 +149,6 @@ class Magento_Catalog_Model_Template_Filter extends Magento_Filter_Template
             unset($params['url']);
         }
 
-        return Mage::app()->getStore()->getUrl($path, $params);
+        return $this->_storeManager->getStore()->getUrl($path, $params);
     }
 }

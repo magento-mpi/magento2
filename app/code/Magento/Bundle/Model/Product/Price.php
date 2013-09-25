@@ -40,15 +40,25 @@ class Magento_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_T
     protected $_taxData = null;
 
     /**
-     * @param Magento_Tax_Helper_Data $taxData
+     *  Construct
+     *
+     * @param Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Tax_Helper_Data $taxData
      */
     public function __construct(
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Tax_Helper_Data $taxData
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($eventManager);
+        parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);
     }
 
     public function getIsPricesCalculatedByIndex()

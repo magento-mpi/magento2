@@ -40,6 +40,18 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
     protected $_catalogProduct = null;
 
     /**
+     * Tax calculation
+     *
+     * @var Magento_Tax_Model_Calculation
+     */
+    protected $_taxCalculation;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Tax_Model_Calculation $taxCalculation
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Tax_Helper_Data $taxData
@@ -49,6 +61,9 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Tax_Model_Calculation $taxCalculation,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Tax_Helper_Data $taxData,
@@ -57,8 +72,10 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_taxCalculation = $taxCalculation;
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
     }
 
     /**
@@ -120,7 +137,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
      */
     public function getCurrentStore()
     {
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 
     /**
@@ -242,18 +259,17 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
             }
         }
 
-        $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        if (!$taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
+        if (!$this->_taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $this->_taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
         }
 
-        $_request = $taxCalculation->getRateRequest(false, false, false);
+        $_request = $this->_taxCalculation->getRateRequest(false, false, false);
         $_request->setProductClassId($currentProduct->getTaxClassId());
-        $defaultTax = $taxCalculation->getRate($_request);
+        $defaultTax = $this->_taxCalculation->getRate($_request);
 
-        $_request = $taxCalculation->getRateRequest();
+        $_request = $this->_taxCalculation->getRateRequest();
         $_request->setProductClassId($currentProduct->getTaxClassId());
-        $currentTax = $taxCalculation->getRate($_request);
+        $currentTax = $this->_taxCalculation->getRate($_request);
 
         $taxConfig = array(
             'includeTax'        => $taxHelper->priceIncludesTax(),

@@ -36,11 +36,12 @@ class Magento_Catalog_Model_Layer_State extends Magento_Object
      *
      * @param   array $filters
      * @return  Magento_Catalog_Model_Layer_State
+     * @throws Magento_Core_Exception
      */
     public function setFilters($filters)
     {
         if (!is_array($filters)) {
-            Mage::throwException(__('The filters must be an array.'));
+            throw new Magento_Core_Exception(__('The filters must be an array.'));
         }
         $this->setData('filters', $filters);
         return $this;

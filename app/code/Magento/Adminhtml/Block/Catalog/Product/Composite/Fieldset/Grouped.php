@@ -20,33 +20,32 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped
     protected $_taxCalculation;
 
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManger;
-
-    /**
-     * @param Magento_Tax_Model_Calculation $taxCalculation
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Tax_Model_Calculation $taxCalculation
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Model_Calculation $taxCalculation,
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Tax_Model_Calculation $taxCalculation,
         array $data = array()
     ) {
         $this->_taxCalculation = $taxCalculation;
-        $this->_storeManger = $storeManager;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
     }
 
     /**

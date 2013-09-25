@@ -19,6 +19,27 @@
 class Magento_Catalog_Model_Resource_Product_Type_Configurable extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
+     * Catalog product relation
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Relation
+     */
+    protected $_catalogProductRelation;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Catalog_Model_Resource_Product_Relation $catalogProductRelation
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Relation $catalogProductRelation,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogProductRelation = $catalogProductRelation;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init resource
      *
      */
@@ -69,7 +90,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable extends Magento_C
         }
 
         // configurable product relations should be added to relation table
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Relation')
+        $this->_catalogProductRelation
             ->processRelations($mainProductId, $productIds);
 
         return $this;

@@ -22,9 +22,7 @@
  * @method Magento_Catalog_Model_Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
 {
@@ -73,6 +71,11 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
 
     protected $_errors = array();
 
+    /**
+     * Product option
+     *
+     * @var Magento_Catalog_Model_Product_Option
+     */
     protected $_optionInstance;
 
     protected $_options = array();
@@ -130,6 +133,84 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     protected $_collectionFactory;
 
     /**
+     * Catalog product type
+     *
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_catalogProductType;
+
+    /**
+     * Index indexer
+     *
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
+     * Catalog product media config
+     *
+     * @var Magento_Catalog_Model_Product_Media_Config
+     */
+    protected $_catalogProductMediaConfig;
+
+    /**
+     * Catalog product status
+     *
+     * @var Magento_Catalog_Model_Product_Status
+     */
+    protected $_catalogProductStatus;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Stock item factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
+     */
+    protected $_stockItemFactory;
+
+    /**
+     * Item option factory
+     *
+     * @var Magento_Catalog_Model_Product_Configuration_Item_OptionFactory
+     */
+    protected $_itemOptionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Product_Url $url
+     * @param Magento_Catalog_Model_Product_Link $productLink
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Configuration_Item_OptionFactory $itemOptionFactory
+     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_Product_Option $catalogProductOption
+     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
+     * @param Magento_Catalog_Model_Product_Status $catalogProductStatus
+     * @param Magento_Catalog_Model_Product_Media_Config $catalogProductMediaConfig
+     * @param Magento_Index_Model_Indexer $indexIndexer
+     * @param Magento_Catalog_Model_Product_Type $catalogProductType
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Catalog_Helper_Image $catalogImage
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -140,8 +221,23 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      * @param Magento_Catalog_Model_Resource_Product_Collection $resourceCollection
      * @param Magento_Data_CollectionFactory $collectionFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_Product_Url $url,
+        Magento_Catalog_Model_Product_Link $productLink,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Configuration_Item_OptionFactory $itemOptionFactory,
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_Product_Option $catalogProductOption,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
+        Magento_Catalog_Model_Product_Status $catalogProductStatus,
+        Magento_Catalog_Model_Product_Media_Config $catalogProductMediaConfig,
+        Magento_Index_Model_Indexer $indexIndexer,
+        Magento_Catalog_Model_Product_Type $catalogProductType,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Catalog_Helper_Image $catalogImage,
         Magento_Catalog_Helper_Data $catalogData,
@@ -153,12 +249,24 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
         Magento_Data_CollectionFactory $collectionFactory,
         array $data = array()
     ) {
+        $this->_itemOptionFactory = $itemOptionFactory;
+        $this->_stockItemFactory = $stockItemFactory;
+        $this->_productFactory = $productFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_optionInstance = $catalogProductOption;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_catalogProductStatus = $catalogProductStatus;
+        $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
+        $this->_indexIndexer = $indexIndexer;
+        $this->_catalogProductType = $catalogProductType;
         $this->_eventManager = $eventManager;
         $this->_catalogImage = $catalogImage;
         $this->_catalogData = $catalogData;
         $this->_catalogProduct = $catalogProduct;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_urlModel = $url;
+        $this->_linkInstance = $productLink;
+        parent::__construct($storeManager, $context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -179,7 +287,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
         if ($this->hasData('store_id')) {
             return $this->getData('store_id');
         }
-        return Mage::app()->getStore()->getId();
+        return $this->_storeManager->getStore()->getId();
     }
 
     /**
@@ -201,9 +309,6 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getUrlModel()
     {
-        if ($this->_urlModel === null) {
-            $this->_urlModel = Mage::getSingleton('Magento_Catalog_Model_Product_Url');
-        }
         return $this->_urlModel;
     }
 
@@ -289,7 +394,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     public function getTypeInstance()
     {
         if ($this->_typeInstance === null) {
-            $this->_typeInstance = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
+            $this->_typeInstance = $this->_catalogProductType
                 ->factory($this);
         }
         return $this->_typeInstance;
@@ -314,9 +419,6 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getLinkInstance()
     {
-        if (!$this->_linkInstance) {
-            $this->_linkInstance = Mage::getSingleton('Magento_Catalog_Model_Product_Link');
-        }
         return $this->_linkInstance;
     }
 
@@ -354,7 +456,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     {
         $category = $this->getData('category');
         if (is_null($category) && $this->getCategoryId()) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($this->getCategoryId());
+            $category = $this->_categoryFactory->create()->load($this->getCategoryId());
             $this->setCategory($category);
         }
         return $category;
@@ -418,7 +520,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
             $storeIds = array();
             if ($websiteIds = $this->getWebsiteIds()) {
                 foreach ($websiteIds as $websiteId) {
-                    $websiteStores = Mage::app()->getWebsite($websiteId)->getStoreIds();
+                    $websiteStores = $this->_storeManager->getWebsite($websiteId)->getStoreIds();
                     $storeIds = array_merge($storeIds, $websiteStores);
                 }
             }
@@ -543,7 +645,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
 
         $result = parent::_afterSave();
 
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
         );
         return $result;
@@ -559,7 +661,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     {
         $this->_protectFromNonAdmin();
         $this->cleanCache();
-        Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+        $this->_indexIndexer->logEvent(
             $this, self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
@@ -573,7 +675,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+        $this->_indexIndexer->indexEvents(
             self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
         );
     }
@@ -605,7 +707,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function cleanCache()
     {
-        Mage::app()->cleanCache('catalog_product_'.$this->getId());
+        $this->_cacheManager->clean('catalog_product_'.$this->getId());
         return $this;
     }
 
@@ -616,7 +718,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getPriceModel()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Type')->priceFactory($this->getTypeId());
+        return $this->_catalogProductType->priceFactory($this->getTypeId());
     }
 
     /**
@@ -1040,7 +1142,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getMediaConfig()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        return $this->_catalogProductMediaConfig;
     }
 
     /**
@@ -1054,14 +1156,14 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
         $this->getCategoryIds();
 
         /* @var $newProduct Magento_Catalog_Model_Product */
-        $newProduct = Mage::getModel('Magento_Catalog_Model_Product')->setData($this->getData())
+        $newProduct = $this->_productFactory->create()->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
             ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_DISABLED)
             ->setCreatedAt(null)
             ->setUpdatedAt(null)
             ->setId(null)
-            ->setStoreId(Mage::app()->getStore()->getId());
+            ->setStoreId($this->_storeManager->getStore()->getId());
 
         $this->_eventManager->dispatch(
             'catalog_model_product_duplicate',
@@ -1201,7 +1303,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getVisibleInCatalogStatuses()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds();
+        return $this->_catalogProductStatus->getVisibleStatusIds();
     }
 
     /**
@@ -1211,7 +1313,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getVisibleStatuses()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds();
+        return $this->_catalogProductStatus->getVisibleStatusIds();
     }
 
     /**
@@ -1231,7 +1333,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getVisibleInSiteVisibilities()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds();
+        return $this->_catalogProductVisibility->getVisibleInSiteIds();
     }
 
     /**
@@ -1371,8 +1473,8 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     {
         return $this->getResource()
             ->getAttribute($attributeCode)
-                ->getSource()
-                    ->getOptionText($this->getData($attributeCode));
+            ->getSource()
+            ->getOptionText($this->getData($attributeCode));
     }
 
     /**
@@ -1480,7 +1582,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     {
         if (isset($data['stock_item'])) {
             if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-                $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item')
+                $stockItem = $this->_stockItemFactory->create()
                     ->setData($data['stock_item'])
                     ->setProduct($this);
                 $this->setStockItem($stockItem);
@@ -1581,9 +1683,6 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getOptionInstance()
     {
-        if (!$this->_optionInstance) {
-            $this->_optionInstance = Mage::getSingleton('Magento_Catalog_Model_Product_Option');
-        }
         return $this->_optionInstance;
     }
 
@@ -1658,7 +1757,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     public function addCustomOption($code, $value, $product=null)
     {
         $product = $product ? $product : $this;
-        $option = Mage::getModel('Magento_Catalog_Model_Product_Configuration_Item_Option')
+        $option = $this->_itemOptionFactory->create()
             ->addData(array(
                 'product_id'=> $product->getId(),
                 'product'   => $product,
@@ -1805,7 +1904,7 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function setOrigData($key=null, $data=null)
     {
-        if (Mage::app()->getStore()->isAdmin()) {
+        if ($this->_storeManager->getStore()->isAdmin()) {
             return parent::setOrigData($key, $data);
         }
 

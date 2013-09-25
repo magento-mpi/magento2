@@ -46,21 +46,32 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     protected $_coreRegistry = null;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Pbridge_Model_Session $pbridgeSession
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Pbridge_Model_Session $pbridgeSession,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($pbridgeData, $coreData, $context, $data);
+        parent::__construct($coreData, $context, $customerSession, $pbridgeSession, $regionFactory, $storeManager,
+            $pbridgeData, $data);
     }
 
     /**

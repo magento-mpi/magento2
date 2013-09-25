@@ -27,7 +27,11 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Indexer_Flat');
+        $indexerFactoryMock = $this->getMock('Magento_Catalog_Model_Product_Flat_IndexerFactory', array(), array(),
+            '', false);
+        $this->_model = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Indexer_Flat', array(
+            'flatIndexerFactory' => $indexerFactoryMock,
+        ));
         $this->_event = $this->getMock('Magento_Index_Model_Event',
             array('getFlatHelper', 'getEntity', 'getType', 'getDataObject'), array(), '', false
         );

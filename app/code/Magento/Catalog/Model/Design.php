@@ -29,6 +29,16 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
     protected $_design = null;
 
     /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -37,6 +47,7 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Core_Model_View_DesignInterface $design,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -44,6 +55,7 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_locale = $locale;
         $this->_design = $design;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -105,7 +117,7 @@ class Magento_Catalog_Model_Design extends Magento_Core_Model_Abstract
         }
         $date = $object->getCustomDesignDate();
         if (array_key_exists('from', $date) && array_key_exists('to', $date)
-            && Mage::app()->getLocale()->isStoreDateInInterval(null, $date['from'], $date['to'])) {
+            && $this->_locale->isStoreDateInInterval(null, $date['from'], $date['to'])) {
                 $settings->setCustomDesign($object->getCustomDesign())
                     ->setPageLayout($object->getPageLayout())
                     ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());

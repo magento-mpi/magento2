@@ -48,6 +48,27 @@ abstract class Magento_Catalog_Helper_Flat_Abstract extends Magento_Core_Helper_
     abstract public function isEnabled($deprecatedParam = false);
 
     /**
+     * Process factory
+     *
+     * @var Magento_Index_Model_ProcessFactory
+     */
+    protected $_processFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Index_Model_ProcessFactory $processFactory
+     * @param Magento_Core_Helper_Context $context
+     */
+    public function __construct(
+        Magento_Index_Model_ProcessFactory $processFactory,
+        Magento_Core_Helper_Context $context
+    ) {
+        $this->_processFactory = $processFactory;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if Catalog Category Flat Data is available for use
      *
      * @return bool
@@ -66,7 +87,7 @@ abstract class Magento_Catalog_Helper_Flat_Abstract extends Magento_Core_Helper_
     public function getProcess()
     {
         if (is_null($this->_process)) {
-            $this->_process = Mage::getModel('Magento_Index_Model_Process')
+            $this->_process = $this->_processFactory->create()
                 ->load($this->_indexerCode, 'indexer_code');
         }
         return $this->_process;

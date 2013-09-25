@@ -18,11 +18,6 @@
 class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_Product_Price
 {
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var Magento_Tax_Model_Calculation
      */
     protected $_taxCalc;
@@ -47,8 +42,7 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($catalogData, $taxData, $coreData, $context, $registry, $data);
-        $this->_storeManager = $storeManager;
+        parent::__construct($storeManager, $catalogData, $taxData, $coreData, $context, $registry, $data);
         $this->_taxCalc = $taxCalc;
     }
 

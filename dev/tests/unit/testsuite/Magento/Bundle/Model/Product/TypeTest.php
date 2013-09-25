@@ -18,44 +18,14 @@ class Magento_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $catalogProduct = $this->getMock('Magento_Catalog_Helper_Product', array(), array(), '', false);
-        $catalogData = $this->getMock('Magento_Catalog_Helper_Data', array(), array(), '', false);
-        $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
-        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $bundleModelSelection = $this->getMock('Magento_Bundle_Model_SelectionFactory', array(), array(), '', false);
-        $bundleFactory = $this->getMock('Magento_Bundle_Model_Resource_BundleFactory', array(), array(), '', false);
-        $bundleCollection = $this->getMock(
-            'Magento_Bundle_Model_Resource_Selection_CollectionFactory',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $config = $this->getMock('Magento_Catalog_Model_Config', array(), array(), '', false);
-        $bundleSelection = $this->getMock('Magento_Bundle_Model_Resource_Selection', array(), array(), '', false);
-        $bundleOption = $this->getMock('Magento_Bundle_Model_OptionFactory', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false);
-        $this->_model = new Magento_Bundle_Model_Product_Type(
-            $bundleModelSelection,
-            $bundleFactory,
-            $bundleCollection,
-            $config,
-            $bundleSelection,
-            $bundleOption,
-            $storeManager,
-            $eventManager,
-            $catalogProduct,
-            $catalogData,
-            $coreData,
-            $fileStorageDb,
-            $filesystem,
-            $coreRegistry,
-            $logger
-        );
+        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
+        $this->_model = $objectHelper->getObject('Magento_Bundle_Model_Product_Type', array(
+            'productFactory' => $this->getMock('Magento_Catalog_Model_ProductFactory'),
+            'bundleModelSelection' => $this->getMock('Magento_Bundle_Model_SelectionFactory'),
+            'bundleFactory' => $this->getMock('Magento_Bundle_Model_Resource_BundleFactory'),
+            'bundleCollection' => $this->getMock('Magento_Bundle_Model_Resource_Selection_CollectionFactory'),
+            'bundleOption' => $this->getMock('Magento_Bundle_Model_OptionFactory'),
+        ));
     }
 
     public function testHasWeightTrue()

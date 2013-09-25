@@ -26,23 +26,27 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
     protected $_directoryHelper;
 
     /**
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Directory_Helper_Data $directoryHelper
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax $attributeTax
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
         Magento_Directory_Helper_Data $directoryHelper,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax $attributeTax,
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Logger $logger
+        Magento_Core_Model_Config $config,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax $attributeTax
     ) {
         $this->_directoryHelper = $directoryHelper;
         $this->_storeManager = $storeManager;
         $this->_attributeTax = $attributeTax;
-        parent::__construct($catalogData, $logger);
+        parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
     }
 
     public static function getBackendModelName()

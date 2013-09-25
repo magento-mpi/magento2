@@ -85,6 +85,24 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     protected $_taxData = null;
 
     /**
+     * Catalog config
+     *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -93,6 +111,8 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -100,6 +120,8 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogConfig = $catalogConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
@@ -381,12 +403,12 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
                 if ($price['price'] < $_productPrice) {
                     $price['savePercent'] = ceil(100 - ((100 / $_productPrice) * $price['price']));
 
-                    $tierPrice = Mage::app()->getStore()->convertPrice(
+                    $tierPrice = $this->_storeManager->getStore()->convertPrice(
                         $this->_taxData->getPrice($product, $price['website_price'])
                     );
-                    $price['formated_price'] = Mage::app()->getStore()->formatPrice($tierPrice);
-                    $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
-                        Mage::app()->getStore()->convertPrice(
+                    $price['formated_price'] = $this->_storeManager->getStore()->formatPrice($tierPrice);
+                    $price['formated_price_incl_tax'] = $this->_storeManager->getStore()->formatPrice(
+                        $this->_storeManager->getStore()->convertPrice(
                             $this->_taxData->getPrice($product, $price['website_price'], true)
                         )
                     );
@@ -426,7 +448,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+            ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
             ->addUrlRewrite();
     }
 

@@ -12,9 +12,7 @@
 /**
  * Category flat model
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_Resource_Abstract
 {
@@ -98,18 +96,76 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     protected $_eventManager = null;
 
     /**
+     * Catalog category
+     *
+     * @var Magento_Catalog_Model_Category
+     */
+    protected $_catalogCategory;
+
+    /**
+     * Catalog config
+     *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Category collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     */
+    protected $_categoryCollectionFactory;
+
+    /**
+     * Category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Catalog resource helper
+     *
+     * @var Magento_Catalog_Model_Resource_Helper
+     */
+    protected $_resourceHelper;
+
+    /**
      * Class constructor
      *
-     *
-     *
-     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Catalog_Model_Category $catalogCategory
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Catalog_Model_Category $catalogCategory,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource
+        Magento_Catalog_Model_Resource_Helper $resourceHelper
     ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_catalogConfig = $catalogConfig;
+        $this->_catalogCategory = $catalogCategory;
         $this->_eventManager = $eventManager;
+        $this->_resourceHelper = $resourceHelper;
         parent::__construct($resource);
     }
 
@@ -142,7 +198,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            return (int)Mage::app()->getStore()->getId();
+            return (int)$this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -297,7 +353,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $nodes = array();
         foreach ($arrNodes as $node) {
             $node['id'] = $node['entity_id'];
-            $nodes[$node['id']] = Mage::getModel('Magento_Catalog_Model_Category')->setData($node);
+            $nodes[$node['id']] = $this->_categoryFactory->create()->setData($node);
         }
 
         return $nodes;
@@ -354,7 +410,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 ->where('entity_id = ?', $parentId);
             if ($parentNode = $this->_getReadAdapter()->fetchRow($selectParent)) {
                 $parentNode['id'] = $parentNode['entity_id'];
-                $parentNode = Mage::getModel('Magento_Catalog_Model_Category')->setData($parentNode);
+                $parentNode = $this->_categoryFactory->create()->setData($parentNode);
                 $this->_nodes[$parentNode->getId()] = $parentNode;
                 $nodes = $this->_loadNodes($parentNode, $recursionLevel, $storeId);
                 $childrenItems = array();
@@ -396,7 +452,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 ->where('mt.entity_id = ?', $parent);
             $parentPath = $this->_getReadAdapter()->fetchOne($select);
 
-            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
+            $collection = $this->_categoryCollectionFactory->create()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()
                 ->addParentPathFilter($parentPath)
@@ -409,7 +465,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             }
             return $collection;
         }
-        return $this->getNodes($parent, $recursionLevel, Mage::app()->getStore()->getId());
+        return $this->getNodes($parent, $recursionLevel, $this->_storeManager->getStore()->getId());
     }
 
     /**
@@ -443,7 +499,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     public function isBuilt()
     {
         if ($this->_isBuilt === null) {
-            $defaultStoreView = Mage::app()->getDefaultStoreView();
+            $defaultStoreView = $this->_storeManager->getDefaultStoreView();
             if ($defaultStoreView === null) {
                 $defaultStoreId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
             } else {
@@ -470,7 +526,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     public function rebuild($stores = null)
     {
         if ($stores === null) {
-            $stores = Mage::app()->getStores();
+            $stores = $this->_storeManager->getStores();
         }
 
         if (!is_array($stores)) {
@@ -637,7 +693,6 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      */
     protected function _getStaticColumns()
     {
-        $helper = Mage::getResourceHelper('Magento_Catalog');
         $columns = array();
         $columnsToSkip = array('entity_type_id', 'attribute_set_id');
         $describe = $this->_getWriteAdapter()->describeTable($this->getTable('catalog_category_entity'));
@@ -647,7 +702,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 continue;
             }
             $_is_unsigned = '';
-            $ddlType = $helper->getDdlTypeByColumnType($column['DATA_TYPE']);
+            $ddlType = $this->_resourceHelper->getDdlTypeByColumnType($column['DATA_TYPE']);
             $column['DEFAULT'] = trim($column['DEFAULT'],"' ");
             switch ($ddlType) {
                 case Magento_DB_Ddl_Table::TYPE_SMALLINT:
@@ -1073,8 +1128,8 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             'children_count',
             'updated_at'
         );
-        $prevParent = Mage::getModel('Magento_Catalog_Model_Category')->load($prevParentId);
-        $parent = Mage::getModel('Magento_Catalog_Model_Category')->load($parentId);
+        $prevParent = $this->_categoryFactory->create()->load($prevParentId);
+        $parent = $this->_categoryFactory->create()->load($parentId);
         if ($prevParent->getStore()->getWebsiteId() != $parent->getStore()->getWebsiteId()) {
             foreach ($prevParent->getStoreIds() as $storeId) {
                 $this->_getWriteAdapter()->delete(
@@ -1095,7 +1150,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             $_categories = $this->_getWriteAdapter()->fetchAll($select);
             foreach ($_categories as $_category) {
                 foreach ($parent->getStoreIds() as $storeId) {
-                    $_tmpCategory = Mage::getModel('Magento_Catalog_Model_Category')
+                    $_tmpCategory = $this->_categoryFactory->create()
                         ->setStoreId($storeId)
                         ->load($_category['entity_id']);
                     $this->_synchronize($_tmpCategory);
@@ -1139,7 +1194,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $this->_getWriteAdapter()->resetDdlCache($table);
         $table = $this->_getWriteAdapter()->describeTable($table);
         $data = array();
-        $idFieldName = Mage::getSingleton('Magento_Catalog_Model_Category')->getIdFieldName();
+        $idFieldName = $this->_catalogCategory->getIdFieldName();
         foreach ($table as $column => $columnData) {
             if ($column != $idFieldName || null !== $category->getData($column)) {
                 if (key_exists($column, $replaceFields)) {
@@ -1165,7 +1220,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      */
     public function getAttribute($attribute)
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config')
+        return $this->_catalogConfig
             ->getAttribute(Magento_Catalog_Model_Category::ENTITY, $attribute);
     }
 
@@ -1235,7 +1290,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
-            $categories[$row['entity_id']] = Mage::getModel('Magento_Catalog_Model_Category')->setData($row);
+            $categories[$row['entity_id']] = $this->_categoryFactory->create()->setData($row);
         }
         return $categories;
     }
@@ -1258,7 +1313,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             ->where($levelField . ' != ?', 0)
             ->order('level ' . Magento_DB_Select::SQL_DESC);
         $result = $adapter->fetchRow($select);
-        return Mage::getModel('Magento_Catalog_Model_Category')->setData($result);
+        return $this->_categoryFactory->create()->setData($result);
     }
 
     /**
@@ -1282,7 +1337,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     public function isInRootCategoryList($category)
     {
         $pathIds = $category->getParentIds();
-        return in_array(Mage::app()->getStore()->getRootCategoryId(), $pathIds);
+        return in_array($this->_storeManager->getStore()->getRootCategoryId(), $pathIds);
     }
 
     /**
@@ -1352,7 +1407,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $categories = array();
         $pathIds = array();
         foreach (array_reverse($category->getParentIds()) as $pathId) {
-            if ($pathId == Mage::app()->getStore()->getRootCategoryId()) {
+            if ($pathId == $this->_storeManager->getStore()->getRootCategoryId()) {
                 $pathIds[] = $pathId;
                 break;
             }
@@ -1375,7 +1430,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
-            $categories[$row['entity_id']] = Mage::getModel('Magento_Catalog_Model_Category')->setData($row);
+            $categories[$row['entity_id']] = $this->_categoryFactory->create()->setData($row);
         }
         return $categories;
     }
@@ -1446,7 +1501,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             return $this;
         }
         if (empty($stores)) {
-            $stores = Mage::app()->getStores();
+            $stores = $this->_storeManager->getStores();
         }
         foreach ($stores as $store) {
             $this->_createTable($store->getId());

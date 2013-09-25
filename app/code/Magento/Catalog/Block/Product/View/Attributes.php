@@ -28,17 +28,29 @@ class Magento_Catalog_Block_Product_View_Attributes extends Magento_Core_Block_T
     protected $_coreRegistry = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -72,7 +84,7 @@ class Magento_Catalog_Block_Product_View_Attributes extends Magento_Core_Block_T
                 } elseif ((string)$value == '') {
                     $value = __('No');
                 } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
-                    $value = Mage::app()->getStore()->convertPrice($value, true);
+                    $value = $this->_storeManager->getStore()->convertPrice($value, true);
                 }
 
                 if (is_string($value) && strlen($value)) {

@@ -19,35 +19,6 @@
 class Magento_Bundle_Block_Catalog_Product_View extends Magento_Catalog_Block_Product_View
 {
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Tax_Helper_Data $taxData
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Helper_String $coreString,
-        Magento_Tax_Helper_Data $taxData,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreRegistry, $coreString, $taxData, $catalogData, $coreData, $context, $data);
-    }
-
-    /**
      * Get tier prices (formatted)
      *
      * @param Magento_Catalog_Model_Product|null $product

@@ -20,12 +20,30 @@ class Magento_Catalog_Model_Category_Attribute_Source_Sortby
     extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
+     * Catalog config
+     *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     */
+    public function __construct(
+        Magento_Catalog_Model_Config $catalogConfig
+    ) {
+        $this->_catalogConfig = $catalogConfig;
+    }
+
+    /**
      * Retrieve Catalog Config Singleton
      *
      * @return Magento_Catalog_Model_Config
      */
     protected function _getCatalogConfig() {
-        return Mage::getSingleton('Magento_Catalog_Model_Config');
+        return $this->_catalogConfig;
     }
 
     /**

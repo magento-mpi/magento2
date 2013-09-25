@@ -19,6 +19,16 @@
 class Magento_Eav_Model_Resource_Helper extends Magento_Core_Model_Resource_Helper
 {
     /**
+     * Construct
+     *
+     * @param string $modulePrefix
+     */
+    public function __construct($modulePrefix = 'Magento_Eav')
+    {
+        parent::__construct($modulePrefix);
+    }
+
+    /**
      * Mysql column - Table DDL type pairs
      *
      * @var array

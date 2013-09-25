@@ -68,21 +68,39 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     protected $_flagObject;
 
     /**
+     * Core store config
+     *
+     * @var Magento_Core_Model_Store_Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Index_Model_ProcessFactory $processFactory
+
+     * 
+     * Constructor
+     * @param Magento_Index_Model_ProcessFactory $processFactory
      * @param Magento_Core_Helper_Context $context
-     * @param $addFilterableAttrs
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Catalog_Model_Product_Flat_Flag $flatFlag
+     * @param $addFilterableAttrs
      * @param $addChildData
      */
     public function __construct(
+        Magento_Index_Model_ProcessFactory $processFactory,
         Magento_Core_Helper_Context $context,
-        $addFilterableAttrs,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Catalog_Model_Product_Flat_Flag $flatFlag,
+        $addFilterableAttrs,
         $addChildData
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        parent::__construct($processFactory, $context);
+        $this->_flagObject = $flatFlag;
         $this->_addFilterableAttrs = intval($addFilterableAttrs);
         $this->_addChildData = intval($addChildData);
-        parent::__construct($context);
     }
 
     /**
@@ -93,8 +111,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     public function getFlag()
     {
         if (is_null($this->_flagObject)) {
-            $this->_flagObject = Mage::getSingleton('Magento_Catalog_Model_Product_Flat_Flag')
-                ->loadSelf();
+            $this->_flagObject->loadSelf();
         }
         return $this->_flagObject;
     }

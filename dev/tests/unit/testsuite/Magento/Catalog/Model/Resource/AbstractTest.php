@@ -81,11 +81,10 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
 
         $attributes[$code] = $attribute;
 
-
         /** @var $model Magento_Catalog_Model_Resource_Abstract */
         $model = $this->getMock(
             'Magento_Catalog_Model_Resource_Abstract',
-            null,
+            array('getAttributesByCode'),
             array(
                 $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
                 $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false, false),
@@ -93,13 +92,15 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
                 $this->getMock('Magento_Core_Model_LocaleInterface'),
                 $this->getMock('Magento_Eav_Model_Resource_Helper', array(), array(), '', false, false),
                 $this->getMock('Magento_Validator_UniversalFactory', array(), array(), '', false, false),
-                array(
-                    'type' => $entityType,
-                    'entityTable' => 'entityTable',
-                    'attributesByCode' => $attributes,
-                )
+                $this->getMock('Magento_Core_Model_StoreManagerInterface', array(), array(), '', false),
+                $this->getMock('Magento_Catalog_Model_Factory', array(), array(), '', false),
+                array(),
             )
         );
+
+        $model->expects($this->once())
+            ->method('getAttributesByCode')
+            ->will($this->returnValue($attributes));
 
         $model->walkAttributes('backend/afterSave', array($object));
     }

@@ -48,6 +48,45 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     const EVENT_TYPE_REBUILD = 'catalog_product_flat_rebuild';
 
     /**
+     * Index indexer
+     *
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_index;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Index_Model_Indexer $index
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Index_Model_Indexer $index,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_index = $index;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Standart model resource initialization
      *
      */
@@ -69,7 +108,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
         } else {
             $this->_getResource()->prepareFlatTable($store);
         }
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+        $this->_index->processEntityAction(
             new Magento_Object(array('id' => $store)),
             self::ENTITY,
             self::EVENT_TYPE_REBUILD
@@ -88,7 +127,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     public function updateAttribute($attributeCode, $store = null, $productIds = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->updateAttribute($attributeCode, $store->getId(), $productIds);
             }
 
@@ -112,7 +151,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     public function prepareDataStorage($store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->prepareDataStorage($store->getId());
             }
 
@@ -133,7 +172,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     public function updateEventAttributes($store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->updateEventAttributes($store->getId());
             }
 
@@ -158,7 +197,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     public function updateProductStatus($productId, $status, $store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->updateProductStatus($productId, $status, $store->getId());
             }
             return $this;
@@ -184,7 +223,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     public function updateProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->updateProduct($productIds, $store->getId());
             }
             return $this;
@@ -215,7 +254,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     public function saveProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->saveProduct($productIds, $store->getId());
             }
             return $this;
@@ -246,7 +285,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
     public function removeProduct($productIds, $store = null)
     {
         if (is_null($store)) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->removeProduct($productIds, $store->getId());
             }
             return $this;

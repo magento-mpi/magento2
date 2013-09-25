@@ -39,18 +39,6 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
     protected $_resourceEngine;
 
     /**
-     * @var Magento_Catalog_Model_Layer_Filter_Price_Algorithm
-     */
-    protected $_priceAlgorithm;
-
-    /**
-     * Store manager
-     *
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Cache
      *
      * @var Magento_Core_Model_CacheInterface
@@ -59,27 +47,34 @@ class Magento_Search_Model_Catalog_Layer_Filter_Price extends Magento_Catalog_Mo
 
     /**
      * Construct
-     * 
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Catalog_Model_Layer_Filter_Price_Algorithm $priceAlgorithm
-     * @param Magento_Search_Model_Resource_Engine $resourceEngine
+     *
+     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Resource_Layer_Filter_PriceFactory $filterPriceFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_Layer_Filter_Price_Algorithm $layerFilterPriceAlgorithm
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Search_Model_Resource_Engine $resourceEngine
      * @param Magento_Core_Model_CacheInterface $cache
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Catalog_Model_Layer_Filter_Price_Algorithm $priceAlgorithm,
-        Magento_Search_Model_Resource_Engine $resourceEngine,
+        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Resource_Layer_Filter_PriceFactory $filterPriceFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_Layer_Filter_Price_Algorithm $layerFilterPriceAlgorithm,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Search_Model_Resource_Engine $resourceEngine,
         Magento_Core_Model_CacheInterface $cache,
         array $data = array()
     ) {
-        $this->_priceAlgorithm = $priceAlgorithm;
         $this->_resourceEngine = $resourceEngine;
-        $this->_storeManager = $storeManager;
         $this->_cache = $cache;
-        parent::__construct($coreRegistry, $data);
+        parent::__construct($filterItemFactory, $storeManager, $filterPriceFactory, $customerSession,
+            $layerFilterPriceAlgorithm, $catalogLayer, $coreRegistry, $data);
     }
 
     /**

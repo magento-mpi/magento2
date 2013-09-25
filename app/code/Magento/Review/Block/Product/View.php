@@ -28,11 +28,13 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
     protected $_reviewsColFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Tax_Model_Calculation $taxCalculation
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Tax_Helper_Data $taxData
@@ -40,10 +42,16 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Review_Model_Resource_Review_CollectionFactory $collectionFactory
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Tax_Model_Calculation $taxCalculation,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Helper_String $coreString,
         Magento_Tax_Helper_Data $taxData,
@@ -51,12 +59,11 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Review_Model_Resource_Review_CollectionFactory $collectionFactory,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_reviewsColFactory = $collectionFactory;
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreRegistry, $coreString, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $productFactory, $locale, $taxCalculation, $coreRegistry,
+            $coreString, $taxData, $catalogData, $coreData, $context, $data);
     }
 
     /**

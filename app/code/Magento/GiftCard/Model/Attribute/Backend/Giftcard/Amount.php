@@ -33,6 +33,8 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     protected $_directoryHelper;
 
     /**
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Directory_Helper_Data $directoryHelper
      * @param Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount $amountResource
@@ -40,6 +42,8 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
      * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
+        Magento_Core_Model_Config $config,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Directory_Helper_Data $directoryHelper,
         Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount $amountResource,
@@ -49,14 +53,15 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
         $this->_storeManager = $storeManager;
         $this->_directoryHelper = $directoryHelper;
         $this->_amountResource = $amountResource;
-        parent::__construct($catalogData, $logger);
+        parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
     }
 
     /**
      * Validate data
      *
      * @param   Magento_Catalog_Model_Product $object
-     * @return  Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
+     * @return  Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
+     * @throws Magento_Core_Exception
      */
     public function validate($object)
     {

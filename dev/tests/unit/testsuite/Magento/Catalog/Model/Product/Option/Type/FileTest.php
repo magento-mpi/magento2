@@ -37,8 +37,12 @@ class Magento_Catalog_Model_Product_Option_Type_FileTest extends PHPUnit_Framewo
             $this->setExpectedException('Magento_Core_Exception');
         }
 
-        $parameters = array('filesystem' => $filesystemMock);
-        $model = $helper->getObject('Magento_Catalog_Model_Product_Option_Type_File', $parameters);
+        $optionFactoryMock = $this->getMock('Magento_Sales_Model_Quote_Item_OptionFactory', array(), array(),
+            '', false);
+        $model = $helper->getObject('Magento_Catalog_Model_Product_Option_Type_File', array(
+            'filesystem' => $filesystemMock,
+            'itemOptionFactory' => $optionFactoryMock,
+        ));
         $method = new ReflectionMethod('Magento_Catalog_Model_Product_Option_Type_File', '_createWritableDir');
         $method->setAccessible(true);
         $method->invoke($model, 'dummy/path');

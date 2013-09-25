@@ -22,6 +22,24 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Frontend_Image
     const IMAGE_PATH_SEGMENT = 'catalog/category/';
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Return image url
      *
      * @param Magento_Object $object
@@ -31,7 +49,8 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Frontend_Image
     {
         $url = false;
         if ($image = $object->getData($this->getAttribute()->getAttributeCode())) {
-            $url = Mage::getBaseUrl('media') . self::IMAGE_PATH_SEGMENT . $image;
+            $url = $this->_storeManager->getStore()
+                ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . self::IMAGE_PATH_SEGMENT . $image;
         }
         return $url;
     }

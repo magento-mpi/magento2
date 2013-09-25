@@ -36,6 +36,15 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     protected $_paymentData;
 
     /**
+     * Info factory
+     *
+     * @var Magento_Paypal_Model_InfoFactory
+     */
+    protected $_infoFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Paypal_Model_Config_Factory $configFactory
      * @param Magento_Paypal_Model_Api_Type_Factory $apiFactory
      * @param Magento_Paypal_Model_InfoFactory $infoFactory

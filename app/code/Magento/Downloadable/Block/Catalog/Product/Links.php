@@ -23,6 +23,10 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     protected $_calculationModel;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -32,6 +36,8 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -41,7 +47,8 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
         array $data = array()
     ) {
         $this->_calculationModel = $calculationModel;
-        parent::__construct($registry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $registry, $taxData, $catalogData, $coreData, $context, 
+            $data);
     }
 
     /**

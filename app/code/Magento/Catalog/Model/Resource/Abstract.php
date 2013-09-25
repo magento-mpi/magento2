@@ -26,6 +26,49 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
     protected $_attributes   = array();
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Model factory
+     *
+     * @var Magento_Catalog_Model_Factory
+     */
+    protected $_modelFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Factory $modelFactory
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_Attribute_Set $attrSetEntity,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Factory $modelFactory,
+        $data = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_modelFactory = $modelFactory;
+        parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory);
+    }
+
+    /**
      * Redeclare attribute model
      *
      * @return string
@@ -98,8 +141,8 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
          * store mode, customize some value per specific store view and than back
          * to single store mode. We should load correct values
          */
-        if (Mage::app()->hasSingleStore()) {
-            $storeId = (int)Mage::app()->getStore(true)->getId();
+        if ($this->_storeManager->hasSingleStore()) {
+            $storeId = (int)$this->_storeManager->getStore(true)->getId();
         } else {
             $storeId = (int)$object->getStoreId();
         }
@@ -188,7 +231,7 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
     protected function _saveAttributeValue($object, $attribute, $value)
     {
         $write   = $this->_getWriteAdapter();
-        $storeId = (int)Mage::app()->getStore($object->getStoreId())->getId();
+        $storeId = (int)$this->_storeManager->getStore($object->getStoreId())->getId();
         $table   = $attribute->getBackend()->getTable();
 
         /**
@@ -196,7 +239,7 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
          * for default store id
          * In this case we clear all not default values
          */
-        if (Mage::app()->hasSingleStore()) {
+        if ($this->_storeManager->hasSingleStore()) {
             $storeId = $this->getDefaultStoreId();
             $write->delete($table, array(
                 'attribute_id = ?' => $attribute->getAttributeId(),
@@ -223,7 +266,7 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
             /**
              * Update attribute value for website
              */
-            $storeIds = Mage::app()->getStore($storeId)->getWebsite()->getStoreIds(true);
+            $storeIds = $this->_storeManager->getStore($storeId)->getWebsite()->getStoreIds(true);
             foreach ($storeIds as $storeId) {
                 $bind['store_id'] = (int)$storeId;
                 $this->_attributeValuesToSave[$table][] = $bind;
@@ -252,7 +295,7 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
         /**
          * save required attributes in global scope every time if store id different from default
          */
-        $storeId = (int)Mage::app()->getStore($object->getStoreId())->getId();
+        $storeId = (int)$this->_storeManager->getStore($object->getStoreId())->getId();
         if ($attribute->getIsRequired() && $this->getDefaultStoreId() != $storeId) {
             $table = $attribute->getBackend()->getTable();
 
@@ -423,7 +466,7 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model
     protected function _getOrigObject($object)
     {
         $className  = get_class($object);
-        $origObject = Mage::getModel($className);
+        $origObject = $this->_modelFactory->create($className);
         $origObject->setData(array());
         $origObject->setStoreId($object->getStoreId());
         $this->load($origObject, $object->getData($this->getEntityIdField()));

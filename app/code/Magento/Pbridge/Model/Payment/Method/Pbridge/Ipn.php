@@ -65,13 +65,35 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
     protected $_logger;
 
     /**
+     * Order factory
+     *
+     * @var Magento_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * Paypal info
+     *
+     * @var Magento_Paypal_Model_Info
+     */
+    protected $_paypalInfo;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Paypal_Model_Info $paypalInfo
+     * @param Magento_Sales_Model_OrderFactory $orderFactory
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Pbridge_Helper_Data $pbridgeData
      */
     public function __construct(
+        Magento_Paypal_Model_Info $paypalInfo,
+        Magento_Sales_Model_OrderFactory $orderFactory,
         Magento_Core_Model_Logger $logger,
         Magento_Pbridge_Helper_Data $pbridgeData
     ) {
+        $this->_paypalInfo = $paypalInfo;
+        $this->_orderFactory = $orderFactory;
         $this->_pbridgeData = $pbridgeData;
         $this->_logger = $logger;
     }
@@ -164,7 +186,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
         if (empty($this->_order)) {
             // get proper order
             $id = $this->getIpnFormData('invoice');
-            $order = Mage::getModel('Magento_Sales_Model_Order');
+            $order = $this->_orderFactory->create();
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
                 // throws Exception intentionally, because cannot be logged to order comments
@@ -191,7 +213,8 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 $receiverEmail = $this->getIpnFormData('receiver_email');
             }
             if ($merchantEmail != $receiverEmail) {
-                Mage::throwException(__('Requested %1 and configured %2 merchant emails do not match.', $receiverEmail, $merchantEmail));
+                throw new Magento_Core_Exception(__('Requested %1 and configured %2 merchant emails do not match.',
+                    $receiverEmail, $merchantEmail));
             }
         }
     }
@@ -353,6 +376,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
 
     /**
      * @see pending_reason at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
+     * @throws Magento_Core_Exception
      */
     public function _registerPaymentPending()
     {
@@ -373,7 +397,8 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 $message = __('This payment includes multiple currencies. You can accept or deny this payment in your PayPal account overview.');
                 break;
             case 'order':
-                Mage::throwException('"Order" authorizations are not implemented. Please use "simple" authorization.');
+                throw new Magento_Core_Exception(
+                    '"Order" authorizations are not implemented. Please use "simple" authorization.');
             case 'authorization':
                 $this->_registerPaymentAuthorization();
                 break;
@@ -554,7 +579,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
             $from[Magento_Paypal_Model_Info::FRAUD_FILTERS] = $fraudFilters;
         }
 
-        Mage::getSingleton('Magento_Paypal_Model_Info')->importToPayment($from, $payment);
+        $this->_paypalInfo->importToPayment($from, $payment);
         return $was != $payment->getAdditionalInformation();
     }
 

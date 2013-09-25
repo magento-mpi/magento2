@@ -57,9 +57,46 @@ class Magento_Catalog_Model_Product_Option extends Magento_Core_Model_Abstract
 
     protected $_options = array();
 
-    protected $_valueInstance;
-
     protected $_values = array();
+
+    /**
+     * Catalog product option value
+     *
+     * @var Magento_Catalog_Model_Product_Option_Value
+     */
+    protected $_productOptionValue;
+
+    /**
+     * Product option factory
+     *
+     * @var Magento_Catalog_Model_Product_Option_Type_Factory
+     */
+    protected $_optionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Product_Option_Value $productOptionValue
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Catalog_Model_Product_Option_Type_Factory $optionFactory
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Product_Option_Value $productOptionValue,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Catalog_Model_Product_Option_Type_Factory $optionFactory,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_productOptionValue = $productOptionValue;
+        $this->_optionFactory = $optionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Get resource instance
@@ -116,10 +153,7 @@ class Magento_Catalog_Model_Product_Option extends Magento_Core_Model_Abstract
      */
     public function getValueInstance()
     {
-        if (!$this->_valueInstance) {
-            $this->_valueInstance = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Value');
-        }
-        return $this->_valueInstance;
+        return $this->_productOptionValue;
     }
 
     /**
@@ -220,15 +254,16 @@ class Magento_Catalog_Model_Product_Option extends Magento_Core_Model_Abstract
      * Group model factory
      *
      * @param string $type Option type
-     * @return Magento_Catalog_Model_Product_Option_Group_Abstract
+     * @return Magento_Catalog_Model_Product_Option_Type_Default
+     * @throws Magento_Core_Exception
      */
     public function groupFactory($type)
     {
         $group = $this->getGroupByType($type);
         if (!empty($group)) {
-            return Mage::getModel('Magento_Catalog_Model_Product_Option_Type_' . uc_words($group));
+            return $this->_optionFactory->create('Magento_Catalog_Model_Product_Option_Type_' . uc_words($group));
         }
-        Mage::throwException(__('The option type to get group instance is incorrect.'));
+        throw new Magento_Core_Exception(__('The option type to get group instance is incorrect.'));
     }
 
     /**
@@ -311,7 +346,7 @@ class Magento_Catalog_Model_Product_Option extends Magento_Core_Model_Abstract
             $this->getValueInstance()->setOption($this)
                 ->saveValues();
         } elseif ($this->getGroupByType($this->getType()) == self::OPTION_GROUP_SELECT) {
-            Mage::throwException(__('Select type options required values rows.'));
+            throw new Magento_Core_Exception(__('Select type options required values rows.'));
         }
 
         return parent::_afterSave();
@@ -403,8 +438,7 @@ class Magento_Catalog_Model_Product_Option extends Magento_Core_Model_Abstract
      */
     public function getOptionValuesByOptionId($optionIds, $store_id)
     {
-        $collection = Mage::getModel('Magento_Catalog_Model_Product_Option_Value')
-            ->getValuesByOption($optionIds, $this->getId(), $store_id);
+        $collection = $this->_productOptionValue->getValuesByOption($optionIds, $this->getId(), $store_id);
 
         return $collection;
     }

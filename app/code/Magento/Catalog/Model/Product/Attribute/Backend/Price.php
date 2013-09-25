@@ -26,14 +26,46 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
     protected $_helper;
 
     /**
-     * @param Magento_Catalog_Helper_Data $catalogData
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Currency factory
+     *
+     * @var Magento_Directory_Model_CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * Core config model
+     *
+     * @var Magento_Core_Model_ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Config $config
      */
     public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Model_Logger $logger
+        Magento_Core_Model_Config $config
     ) {
+        $this->_currencyFactory = $currencyFactory;
+        $this->_storeManager = $storeManager;
         $this->_helper = $catalogData;
+        $this->_config = $config;
         parent::__construct($logger);
     }
 
@@ -87,16 +119,17 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
         }
 
         if ($this->getAttribute()->getIsGlobal() == Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE) {
-            $baseCurrency = Mage::app()->getBaseCurrencyCode();
+            $baseCurrency = $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+                'default');
 
             $storeIds = $object->getStoreIds();
             if (is_array($storeIds)) {
                 foreach ($storeIds as $storeId) {
-                    $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
+                    $storeCurrency = $this->_storeManager->getStore($storeId)->getBaseCurrencyCode();
                     if ($storeCurrency == $baseCurrency) {
                         continue;
                     }
-                    $rate = Mage::getModel('Magento_Directory_Model_Currency')->load($baseCurrency)->getRate($storeCurrency);
+                    $rate = $this->_currencyFactory->create()->load($baseCurrency)->getRate($storeCurrency);
                     if (!$rate) {
                         $rate = 1;
                     }
@@ -124,7 +157,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Price extends Magento_Eav_
         }
 
         if (!preg_match('/^\d*(\.|,)?\d{0,4}$/i', $value) || $value < 0) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Please enter a number 0 or greater in this field.')
             );
         }

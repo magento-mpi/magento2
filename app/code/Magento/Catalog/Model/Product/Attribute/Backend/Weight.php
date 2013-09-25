@@ -31,7 +31,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Weight extends Magento_Eav
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (!empty($value) && !Zend_Validate::is($value, 'Between', array('min' => 0, 'max' => 99999999.9999))) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Please enter a number 0 or greater in this field.')
             );
         }

@@ -13,6 +13,31 @@ class Magento_Catalog_Block_Product extends Magento_Core_Block_Template
 {
     protected $_finalPrice = array();
 
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productFactory = $productFactory;
+        parent::__construct($coreData, $context, $data);
+    }
+
     public function getProduct()
     {
         if (!$this->getData('product') instanceof Magento_Catalog_Model_Product) {
@@ -20,7 +45,7 @@ class Magento_Catalog_Block_Product extends Magento_Core_Block_Template
                 $productId = $this->getData('product')->getProductId();
             }
             if ($productId) {
-                $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+                $product = $this->_productFactory->create()->load($productId);
                 if ($product) {
                     $this->setProduct($product);
                 }

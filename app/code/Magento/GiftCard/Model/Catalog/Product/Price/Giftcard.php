@@ -30,15 +30,21 @@ class Magento_GiftCard_Model_Catalog_Product_Price_Giftcard extends Magento_Cata
     protected $_minMaxCache = array();
 
     /**
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($eventManager);
+        parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);
     }
 
 

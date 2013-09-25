@@ -10,6 +10,8 @@
 
 /**
  * Catalog category helper
+ *
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
 {
@@ -86,6 +88,33 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_logger;
 
     /**
+     * Catalog session
+     *
+     * @var Magento_Catalog_Model_Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     * 
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Session $catalogSession
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
@@ -93,10 +122,15 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      * @param Magento_Catalog_Model_Attribute_Config $attributeConfig
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Config $coreConfig
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param $typeSwitcherLabel
+     * @param string $typeSwitcherLabel
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Session $catalogSession,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
@@ -104,13 +138,17 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         Magento_Catalog_Model_Attribute_Config $attributeConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Config $coreConfig,
-        Magento_Core_Model_StoreManager $storeManager,
         $typeSwitcherLabel
     ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_productFactory = $productFactory;
+        $this->_catalogSession = $catalogSession;
         $this->_typeSwitcherLabel = $typeSwitcherLabel;
         $this->_attributeConfig = $attributeConfig;
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
         $this->_coreConfig = $coreConfig;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -129,7 +167,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         if ($product instanceof Magento_Catalog_Model_Product) {
             return $product->getProductUrl();
         } elseif (is_numeric($product)) {
-            return Mage::getModel('Magento_Catalog_Model_Product')->load($product)->getProductUrl();
+            return $this->_productFactory->create()->load($product)->getProductUrl();
         }
         return false;
     }
@@ -227,7 +265,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     {
         if (null === $this->_statuses) {
             $this->_statuses = array();
-            // Mage::getModel('Magento_Catalog_Model_Product_Status')->getResourceCollection()->load();
         }
 
         return $this->_statuses;
@@ -243,7 +280,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     public function canShow($product, $where = 'catalog')
     {
         if (is_int($product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($product);
+            $product = $this->_productFactory->create()->load($product);
         }
 
         /* @var $product Magento_Catalog_Model_Product */
@@ -264,7 +301,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     public function getProductUrlSuffix($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
@@ -375,21 +412,21 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
             return false;
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $product = $this->_productFactory->create()
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($productId);
 
         if (!$this->canShow($product)) {
             return false;
         }
-        if (!in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
+        if (!in_array($this->_storeManager->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
             return false;
         }
 
         // Load product current category
         $categoryId = $params->getCategoryId();
         if (!$categoryId && ($categoryId !== false)) {
-            $lastId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastVisitedCategoryId();
+            $lastId = $this->_catalogSession->getLastVisitedCategoryId();
             if ($product->canBeShowInCategory($lastId)) {
                 $categoryId = $lastId;
             }
@@ -398,7 +435,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         }
 
         if ($categoryId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             $product->setCategory($category);
             $this->_coreRegistry->register('current_category', $category);
         }
@@ -496,7 +533,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     public function getProduct($productId, $store, $identifierType = null)
     {
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->setStoreId(Mage::app()->getStore($store)->getId());
+        $product = $this->_productFactory->create()->setStoreId($this->_storeManager->getStore($store)->getId());
 
         $expectedIdType = false;
         if ($identifierType === null) {

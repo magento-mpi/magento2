@@ -85,8 +85,8 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
     protected function _getRecentlyAddedProductsCollection()
     {
         /** @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
-        $collection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+        $collection = $this->_productCollectionFactory->create();
+        $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
         $collection = $this->_addProductAttributesAndPrices($collection)
             ->addStoreFilter()

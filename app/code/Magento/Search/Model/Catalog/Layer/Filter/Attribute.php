@@ -23,17 +23,25 @@ class Magento_Search_Model_Catalog_Layer_Filter_Attribute extends Magento_Catalo
     protected $_resourceEngine;
 
     /**
+     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Catalog_Model_Resource_Layer_Filter_AttributeFactory $filterAttributeFactory
      * @param Magento_Search_Model_Resource_Engine $resourceEngine
      * @param Magento_Core_Helper_String $coreString
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Catalog_Model_Resource_Layer_Filter_AttributeFactory $filterAttributeFactory,
         Magento_Search_Model_Resource_Engine $resourceEngine,
         Magento_Core_Helper_String $coreString,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
-        parent::__construct($coreString, $data);
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $filterItemFactory, $coreString, $data);
     }
 
     /**

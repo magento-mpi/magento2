@@ -88,25 +88,87 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      * @var string
      */
     protected $_templateFilterModel;
+    
+    /**
+     * Catalog session
+     *
+     * @var Magento_Catalog_Model_Session
+     */
+    protected $_catalogSession;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Eav attribute factory
+     *
+     * @var Magento_Catalog_Model_Resource_Eav_AttributeFactory
+     */
+    protected $_eavAttributeFactory;
+
+    /**
+     * Template filter factory
+     *
+     * @var Magento_Catalog_Model_Template_Filter_Factory
+     */
+    protected $_templateFilterFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Resource_Eav_AttributeFactory $eavAttributeFactory
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Session $catalogSession
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Catalog_Helper_Category $catalogCategory
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Catalog_Model_Template_Filter_Factory $templateFilterFactory
      * @param $templateFilterModel
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Eav_AttributeFactory $eavAttributeFactory,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Session $catalogSession,
         Magento_Core_Helper_String $coreString,
         Magento_Catalog_Helper_Category $catalogCategory,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Catalog_Model_Template_Filter_Factory $templateFilterFactory,
         $templateFilterModel
     ) {
+        $this->_eavAttributeFactory = $eavAttributeFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_productFactory = $productFactory;
+        $this->_storeManager = $storeManager;
+        $this->_catalogSession = $catalogSession;
+        $this->_templateFilterFactory = $templateFilterFactory;
         $this->_coreString = $coreString;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProduct = $catalogProduct;
@@ -210,17 +272,17 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLastViewedUrl()
     {
-        $productId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId();
+        $productId = $this->_catalogSession->getLastViewedProductId();
         if ($productId) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+            $product = $this->_productFactory->create()->load($productId);
             /* @var $product Magento_Catalog_Model_Product */
             if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        $categoryId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedCategoryId();
+        $categoryId = $this->_catalogSession->getLastViewedCategoryId();
         if ($categoryId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = $this->_categoryFactory->create()->load($categoryId);
             /* @var $category Magento_Catalog_Model_Category */
             if (!$this->_catalogCategory->canShow($category)) {
                 return '';
@@ -329,7 +391,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPageTemplateProcessor()
     {
-        return Mage::getModel($this->_templateFilterModel);
+        return $this->_templateFilterFactory->create($this->_templateFilterModel);
     }
 
     /**
@@ -404,8 +466,9 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         if (is_numeric($product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            /** @var Magento_Catalog_Model_Product $product */
+            $product = $this->_productFactory->create();
+            $product->setStoreId($this->_storeManager->getStore()->getId())
                 ->load($product);
         }
 
@@ -453,7 +516,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if($this->_mapApplyToProductType === null) {
             /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-            $attribute = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute')
+            $attribute = $this->_eavAttributeFactory->create()
                 ->loadByCode(Magento_Catalog_Model_Product::ENTITY, 'msrp_enabled');
             $this->_mapApplyToProductType = $attribute->getApplyTo();
         }

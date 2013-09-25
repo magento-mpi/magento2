@@ -35,6 +35,45 @@ class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
     protected $_attributeCollection = null;
 
     /**
+     * Product collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Link_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * Link collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Link_CollectionFactory
+     */
+    protected $_linkCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Resource_Product_Link_CollectionFactory $linkCollectionFactory
+     * @param Magento_Catalog_Model_Resource_Product_Link_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Link_CollectionFactory $linkCollectionFactory,
+        Magento_Catalog_Model_Resource_Product_Link_Product_CollectionFactory $productCollectionFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_linkCollectionFactory = $linkCollectionFactory;
+        $this->_productCollectionFactory = $productCollectionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Initialize resource
      */
     protected function _construct()
@@ -85,7 +124,7 @@ class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
      */
     public function getProductCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Link_Product_Collection')
+        $collection = $this->_productCollectionFactory->create()
             ->setLinkModel($this);
         return $collection;
     }
@@ -95,7 +134,7 @@ class Magento_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
      */
     public function getLinkCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Link_Collection')
+        $collection = $this->_linkCollectionFactory->create()
             ->setLinkModel($this);
         return $collection;
     }

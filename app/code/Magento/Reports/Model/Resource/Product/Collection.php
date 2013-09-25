@@ -59,6 +59,8 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     protected $_productType;
 
     /**
+     * Construct
+     *
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -66,14 +68,21 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
+     * @param Magento_Catalog_Model_Resource_Url $catalogUrl
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
      * @param Magento_Catalog_Model_Resource_Product $product
      * @param Magento_Reports_Model_Event_TypeFactory $eventTypeFactory
      * @param Magento_Catalog_Model_Product_Type $productType
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -83,11 +92,16 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Resource $coreResource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Validator_UniversalFactory $universalFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
+        Magento_Catalog_Model_Resource_Url $catalogUrl,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_Resource_Helper $resourceHelper,
         Magento_Catalog_Model_Resource_Product $product,
         Magento_Reports_Model_Event_TypeFactory $eventTypeFactory,
         Magento_Catalog_Model_Product_Type $productType
@@ -95,9 +109,9 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
         $this->setProductEntityTypeId($product->getTypeId());
-        parent::__construct(
-            $eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource, $eavEntityFactory,
-            $resourceHelper, $universalFactory, $catalogData, $catalogProductFlat, $coreStoreConfig
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource,
+            $eavEntityFactory, $universalFactory, $storeManager, $catalogData, $catalogProductFlat, $coreStoreConfig,
+            $productOptionFactory, $catalogUrl, $locale, $customerSession, $resourceHelper
         );
         $this->_eventTypeFactory = $eventTypeFactory;
         $this->_productType = $productType;

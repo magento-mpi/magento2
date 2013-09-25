@@ -81,6 +81,8 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
     protected $_resourceIndex;
 
     /**
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_TargetRule_Model_Resource_Index $index
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_TargetRule_Helper_Data $targetRuleData
@@ -91,6 +93,8 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_TargetRule_Model_Resource_Index $index,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_TargetRule_Helper_Data $targetRuleData,
@@ -102,7 +106,8 @@ abstract class Magento_TargetRule_Block_Product_Abstract extends Magento_Catalog
     ) {
         $this->_resourceIndex = $index;
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
     }
 
     /**

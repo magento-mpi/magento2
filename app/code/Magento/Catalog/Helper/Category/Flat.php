@@ -49,15 +49,29 @@ class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_A
     protected $_coreStoreConfig;
 
     /**
+     * Catalog category flat
+     *
+     * @var Magento_Catalog_Model_Resource_Category_Flat
+     */
+    protected $_catalogCategoryFlat;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Index_Model_ProcessFactory $processFactory
+     * @param Magento_Catalog_Model_Resource_Category_Flat $catalogCategoryFlat
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Index_Model_ProcessFactory $processFactory,
+        Magento_Catalog_Model_Resource_Category_Flat $catalogCategoryFlat,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($context);
+        parent::__construct($processFactory, $context);
     }
 
     /**
@@ -79,7 +93,7 @@ class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_A
      */
     public function isBuilt()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Flat')->isBuilt();
+        return $this->_catalogCategoryFlat->isBuilt();
     }
 
     /**

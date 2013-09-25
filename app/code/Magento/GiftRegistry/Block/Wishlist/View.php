@@ -21,46 +21,39 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
     protected $_giftRegistryData = null;
 
     /**
-     * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
-     * @param Magento_Wishlist_Helper_Data $wishlistData
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param array $data
      */
     public function __construct(
-        Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
-        Magento_Wishlist_Helper_Data $wishlistData,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Customer_Model_Session $customerSession,
         Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         array $data = array()
-    ) {
+    )
+    {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct(
-            $helperPool,
-            $wishlistData,
-            $coreRegistry,
-            $taxData,
-            $catalogData,
-            $coreData,
-            $context,
-            $storeManager,
-            $customerSession,
-            $productFactory,
-            $data
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $wishlistData, $customerSession, $productFactory, $helperPool, $data
         );
     }
 

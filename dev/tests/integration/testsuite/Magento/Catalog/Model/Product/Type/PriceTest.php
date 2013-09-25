@@ -109,20 +109,20 @@ class Magento_Catalog_Model_Product_Type_PriceTest extends PHPUnit_Framework_Tes
 
     public function testCalculatePrice()
     {
-        $this->assertEquals(10, Magento_Catalog_Model_Product_Type_Price::calculatePrice(
+        $this->assertEquals(10, $this->_model->calculatePrice(
             10, 8, '1970-12-12 23:59:59', '1971-01-01 01:01:01'
         ));
-        $this->assertEquals(8, Magento_Catalog_Model_Product_Type_Price::calculatePrice(
+        $this->assertEquals(8, $this->_model->calculatePrice(
             10, 8, '1970-12-12 23:59:59', '2034-01-01 01:01:01'
         ));
     }
 
     public function testCalculateSpecialPrice()
     {
-        $this->assertEquals(10, Magento_Catalog_Model_Product_Type_Price::calculateSpecialPrice(
+        $this->assertEquals(10, $this->_model->calculateSpecialPrice(
             10, 8, '1970-12-12 23:59:59', '1971-01-01 01:01:01'
         ));
-        $this->assertEquals(8, Magento_Catalog_Model_Product_Type_Price::calculateSpecialPrice(
+        $this->assertEquals(8, $this->_model->calculateSpecialPrice(
             10, 8, '1970-12-12 23:59:59', '2034-01-01 01:01:01'
         ));
     }

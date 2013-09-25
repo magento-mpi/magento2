@@ -54,6 +54,74 @@ class Magento_Catalog_Block_Product_Compare_List extends Magento_Catalog_Block_P
     protected $_mapRenderer = 'msrp_noform';
 
     /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Log visitor
+     *
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Item collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory
+     */
+    protected $_itemCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemCollectionFactory
+     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
+     * @param Magento_Log_Model_Visitor $logVisitor
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemCollectionFactory,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
+        Magento_Log_Model_Visitor $logVisitor,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_itemCollectionFactory = $itemCollectionFactory;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_logVisitor = $logVisitor;
+        $this->_customerSession = $customerSession;
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $catalogProductCompare, $taxData,
+            $catalogData, $coreData, $context, $data);
+    }
+
+    /**
      * Retrieve url for adding product to wishlist with params
      *
      * @param Magento_Catalog_Model_Product $product
@@ -95,24 +163,24 @@ class Magento_Catalog_Block_Product_Compare_List extends Magento_Catalog_Block_P
         if (is_null($this->_items)) {
             $this->_catalogProductCompare->setAllowUsedFlat(false);
 
-            $this->_items = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection')
-                ->useProductItem(true)
-                ->setStoreId(Mage::app()->getStore()->getId());
+            $this->_items = $this->_itemCollectionFactory->create();
+            $this->_items->useProductItem(true)
+                ->setStoreId($this->_storeManager->getStore()->getId());
 
-            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-                $this->_items->setCustomerId(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
+            if ($this->_customerSession->isLoggedIn()) {
+                $this->_items->setCustomerId($this->_customerSession->getCustomerId());
             } elseif ($this->_customerId) {
                 $this->_items->setCustomerId($this->_customerId);
             } else {
-                $this->_items->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
+                $this->_items->setVisitorId($this->_logVisitor->getId());
             }
 
             $this->_items
-                ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+                ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
                 ->loadComparableAttributes()
                 ->addMinimalPrice()
                 ->addTaxPercents()
-                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+                ->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
         }
 
         return $this->_items;

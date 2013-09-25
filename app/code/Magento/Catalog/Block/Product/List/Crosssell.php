@@ -38,7 +38,7 @@ class Magento_Catalog_Block_Product_List_Crosssell extends Magento_Catalog_Block
         /* @var $product Magento_Catalog_Model_Product */
 
         $this->_itemCollection = $product->getCrossSellProductCollection()
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+            ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
             ->setPositionOrder()
             ->addStoreFilter();
 
@@ -72,5 +72,4 @@ class Magento_Catalog_Block_Product_List_Crosssell extends Magento_Catalog_Block
     {
         return $this->_itemCollection;
     }
-
 }

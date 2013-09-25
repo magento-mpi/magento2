@@ -26,6 +26,27 @@ class Magento_Catalog_Model_Resource_Product_Link extends Magento_Core_Model_Res
     protected $_attributesTable;
 
     /**
+     * Catalog product relation
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Relation
+     */
+    protected $_catalogProductRelation;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Catalog_Model_Resource_Product_Relation $catalogProductRelation
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Relation $catalogProductRelation,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_catalogProductRelation = $catalogProductRelation;
+        parent::__construct($resource);
+    }
+
+    /**
      * Define main table name and attributes table
      */
     protected function _construct()
@@ -255,8 +276,7 @@ class Magento_Catalog_Model_Resource_Product_Link extends Magento_Core_Model_Res
         $this->saveProductLinks($product, $data, $typeId);
 
         // Grouped product relations should be added to relation table
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Relation')
-            ->processRelations($product->getId(), $new);
+        $this->_catalogProductRelation->processRelations($product->getId(), $new);
 
         return $this;
     }

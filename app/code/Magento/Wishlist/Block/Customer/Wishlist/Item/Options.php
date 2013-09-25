@@ -23,26 +23,32 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
     protected $_helperPool;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Catalog_Model_ProductFactory $productFactory
      * @param Magento_Catalog_Helper_Product_ConfigurationPool $helperPool
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
-        Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Wishlist_Helper_Data $wishlistData,
         Magento_Customer_Model_Session $customerSession,
         Magento_Catalog_Model_ProductFactory $productFactory,
         Magento_Catalog_Helper_Product_ConfigurationPool $helperPool,
@@ -50,13 +56,14 @@ class Magento_Wishlist_Block_Customer_Wishlist_Item_Options extends Magento_Wish
     ) {
         $this->_helperPool = $helperPool;
         parent::__construct(
+            $storeManager,
+            $catalogConfig,
             $coreRegistry,
-            $wishlistData,
             $taxData,
             $catalogData,
             $coreData,
             $context,
-            $storeManager,
+            $wishlistData,
             $customerSession,
             $productFactory,
             $data

@@ -57,6 +57,24 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     protected $_eventManager = null;
 
     /**
+     * Catalog design
+     *
+     * @var Magento_Catalog_Model_Design
+     */
+    protected $_catalogDesign;
+
+    /**
+     * Catalog session
+     *
+     * @var Magento_Catalog_Model_Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Session $catalogSession
+     * @param Magento_Catalog_Model_Design $catalogDesign
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Page_Helper_Layout $pageLayout
@@ -65,6 +83,8 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
      * @param array $messageModels
      */
     public function __construct(
+        Magento_Catalog_Model_Session $catalogSession,
+        Magento_Catalog_Model_Design $catalogDesign,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Page_Helper_Layout $pageLayout,
@@ -72,6 +92,8 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
         Magento_Core_Model_Registry $coreRegistry,
         array $messageModels = array()
     ) {
+        $this->_catalogSession = $catalogSession;
+        $this->_catalogDesign = $catalogDesign;
         $this->_eventManager = $eventManager;
         $this->_catalogProduct = $catalogProduct;
         $this->_pageLayout = $pageLayout;
@@ -90,11 +112,10 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
      */
     public function initProductLayout($product, $controller)
     {
-        $design = Mage::getSingleton('Magento_Catalog_Model_Design');
-        $settings = $design->getDesignSettings($product);
+        $settings = $this->_catalogDesign->getDesignSettings($product);
 
         if ($settings->getCustomDesign()) {
-            $design->applyCustomDesign($settings->getCustomDesign());
+            $this->_catalogDesign->applyCustomDesign($settings->getCustomDesign());
         }
 
         $update = $controller->getLayout()->getUpdate();
@@ -179,10 +200,10 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
 
         if ($params->getSpecifyOptions()) {
             $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
-            Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice($notice);
+            $this->_catalogSession->addNotice($notice);
         }
 
-        Mage::getSingleton('Magento_Catalog_Model_Session')->setLastViewedProductId($product->getId());
+        $this->_catalogSession->setLastViewedProductId($product->getId());
 
         $this->initProductLayout($product, $controller);
 

@@ -17,10 +17,28 @@
  */
 class Magento_Catalog_Model_Category_Attribute_Source_Layout extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
+    /**
+     * Page source layout
+     *
+     * @var Magento_Page_Model_Source_Layout
+     */
+    protected $_pageSourceLayout;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Page_Model_Source_Layout $pageSourceLayout
+     */
+    public function __construct(
+        Magento_Page_Model_Source_Layout $pageSourceLayout
+    ) {
+        $this->_pageSourceLayout = $pageSourceLayout;
+    }
+
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getSingleton('Magento_Page_Model_Source_Layout')->toOptionArray();
+            $this->_options = $this->_pageSourceLayout->toOptionArray();
             array_unshift($this->_options, array('value'=>'', 'label'=>__('No layout updates')));
         }
         return $this->_options;

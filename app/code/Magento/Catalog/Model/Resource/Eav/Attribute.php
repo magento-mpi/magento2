@@ -83,6 +83,65 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
      */
     static protected $_labels                   = null;
 
+    /**
+     * Index indexer
+     *
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Catalog_Model_ProductFactory $catalogProductFactory
+     * @param Magento_Index_Model_Indexer $indexIndexer
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Entity_TypeFactory $eavTypeFactory,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Catalog_Model_ProductFactory $catalogProductFactory,
+        Magento_Index_Model_Indexer $indexIndexer,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_indexIndexer = $indexIndexer;
+        parent::__construct(
+            $context,
+            $registry,
+            $coreData,
+            $eavConfig,
+            $eavTypeFactory,
+            $storeManager,
+            $resourceHelper,
+            $universalFactory,
+            $locale,
+            $catalogProductFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+    }
+
     protected function _construct()
     {
         $this->_init('Magento_Catalog_Model_Resource_Attribute');
@@ -103,7 +162,9 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
             }
             if (($this->_data['is_global'] != $this->_origData['is_global'])
                 && $this->_getResource()->isUsedBySuperProducts($this)) {
-                Mage::throwException(__('Do not change the scope. This attribute is used in configurable products.'));
+                throw new Magento_Core_Exception(
+                    __('Do not change the scope. This attribute is used in configurable products.')
+                );
             }
         }
         if ($this->getFrontendInput() == 'price') {
@@ -129,8 +190,8 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
         /**
          * Fix saving attribute in admin
          */
-        Mage::getSingleton('Magento_Eav_Model_Config')->clear();
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+        $this->_eavConfig->clear();
+        $this->_indexIndexer->processEntityAction(
             $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
         );
         return parent::_afterSave();
@@ -140,13 +201,14 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
      * Register indexing event before delete catalog eav attribute
      *
      * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @throws Magento_Core_Exception
      */
     protected function _beforeDelete()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            Mage::throwException(__('This attribute is used in configurable products.'));
+            throw new Magento_Core_Exception(__('This attribute is used in configurable products.'));
         }
-        Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+        $this->_indexIndexer->logEvent(
             $this, self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
@@ -160,7 +222,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Ent
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+        $this->_indexIndexer->indexEvents(
             self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
         );
         return $this;

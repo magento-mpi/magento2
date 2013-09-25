@@ -86,10 +86,18 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $productFactory = $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false);
+        $productOption = $this->getMock('Magento_Catalog_Model_Product_Option', array(), array(), '', false);
+        $eavConfigMock = $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false);
+        $productTypeMock = $this->getMock('Magento_Catalog_Model_Product_Type', array(), array(), '', false);
         $this->_model = $this->getMock(
             'Magento_GiftCard_Model_Catalog_Product_Type_Giftcard',
             $mockedMethods,
             array(
+                $productFactory,
+                $productOption,
+                $eavConfigMock,
+                $productTypeMock,
                 $eventManager,
                 $coreData,
                 $catalogData,
@@ -115,26 +123,39 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
             false
         );
 
+        $itemFactoryMock =$this->getMock('Magento_Catalog_Model_Product_Configuration_Item_OptionFactory', array(),
+            array(), '', false);
+        $stockItemFactoryMock = $this->getMock('Magento_CatalogInventory_Model_Stock_ItemFactory',
+            array('create'), array(), '', false);
+        $productFactoryMock = $this->getMock('Magento_Catalog_Model_ProductFactory',
+            array('create'), array(), '', false);
+        $categoryFactoryMock = $this->getMock('Magento_Catalog_Model_CategoryFactory',
+            array('create'), array(), '', false);
+
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Magento_Catalog_Model_Product',
-            array(
-                'resource' => $this->_productResource,
-                'resourceCollection' => $productCollection,
-                'collectionFactory' => $this->getMock('Magento_Data_CollectionFactory', array(), array(), '', false)
-            )
-        );
-        $this->_product = $this->getMock(
-            'Magento_Catalog_Model_Product',
+        $arguments = $objectManagerHelper->getConstructArguments('Magento_Catalog_Model_Product', array(
+            'itemOptionFactory' => $itemFactoryMock,
+            'stockItemFactory' => $stockItemFactoryMock,
+            'productFactory' => $productFactoryMock,
+            'categoryFactory' => $categoryFactoryMock,
+            'resource' => $this->_productResource,
+            'resourceCollection' => $productCollection,
+            'collectionFactory' => $this->getMock('Magento_Data_CollectionFactory', array(), array(), '', false),
+        ));
+        $this->_product = $this->getMock('Magento_Catalog_Model_Product',
             array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin'),
-            $arguments
+            $arguments, '', false
         );
 
         $this->_customOptions = array();
+        $valueFactoryMock = $this->getMock('Magento_Catalog_Model_Product_Option_ValueFactory', array(), array(),
+            '', false);
 
         for ($i = 1; $i <= 3; $i++) {
-            $option = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Option',
-                array('resource' => $this->_optionResource)
-            );
+            $option = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Option', array(
+                'resource' => $this->_optionResource,
+                'optionValueFactory' => $valueFactoryMock,
+            ));
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);

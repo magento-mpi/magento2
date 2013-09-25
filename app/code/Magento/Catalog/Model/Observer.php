@@ -45,23 +45,103 @@ class Magento_Catalog_Model_Observer
     protected $_coreConfig;
 
     /**
+     * Index indexer
+     *
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
+     * Catalog layer
+     *
+     * @var Magento_Catalog_Model_Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_catalogProduct;
+
+    /**
+     * Catalog category1
+     *
+     * @var Magento_Catalog_Model_Resource_Category
+     */
+    protected $_categoryResource;
+
+    /**
+     * Url factory
+     *
+     * @var Magento_Catalog_Model_UrlFactory
+     */
+    protected $_urlFactory;
+
+    /**
+     * Factory for category flat resource
+     *
+     * @var Magento_Catalog_Model_Resource_Category_FlatFactory
+     */
+    protected $_flatResourceFactory;
+
+    /**
+     * Factory for product resource
+     *
+     * @var Magento_Catalog_Model_Resource_ProductFactory
+     */
+    protected $_productResourceFactory;
+
+    /**
      * Constructor
      *
+     * @param Magento_Catalog_Model_UrlFactory $urlFactory
+     * @param Magento_Catalog_Model_Resource_Category $categoryResource
+     * @param Magento_Catalog_Model_Resource_Product $catalogProduct
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Index_Model_Indexer $indexIndexer
      * @param Magento_Catalog_Helper_Category $catalogCategory
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_Catalog_Model_Resource_Category_FlatFactory $flatResourceFactory
+     * @param Magento_Catalog_Model_Resource_ProductFactory $productResourceFactory
      */
     public function __construct(
+        Magento_Catalog_Model_UrlFactory $urlFactory,
+        Magento_Catalog_Model_Resource_Category $categoryResource,
+        Magento_Catalog_Model_Resource_Product $catalogProduct,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Index_Model_Indexer $indexIndexer,
         Magento_Catalog_Helper_Category $catalogCategory,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
-        Magento_Core_Model_Config $coreConfig
+        Magento_Core_Model_Config $coreConfig,
+        Magento_Catalog_Model_Resource_Category_FlatFactory $flatResourceFactory,
+        Magento_Catalog_Model_Resource_ProductFactory $productResourceFactory
     ) {
+        $this->_urlFactory = $urlFactory;
+        $this->_categoryResource = $categoryResource;
+        $this->_catalogProduct = $catalogProduct;
+        $this->_storeManager = $storeManager;
+        $this->_catalogLayer = $catalogLayer;
+        $this->_indexIndexer = $indexIndexer;
         $this->_coreConfig = $coreConfig;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogData = $catalogData;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
+        $this->_flatResourceFactory = $flatResourceFactory;
+        $this->_productResourceFactory = $productResourceFactory;
     }
 
     /**
@@ -75,14 +155,14 @@ class Magento_Catalog_Model_Observer
         /** @var $store Magento_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
         if ($store->dataHasChangedFor('group_id')) {
-            Mage::app()->reinitStores();
+            $this->_storeManager->reinitStores();
             /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
             $categoryFlatHelper = $this->_catalogCategoryFlat;
             if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
-                Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')
+                $this->_flatResourceFactory->create()
                     ->synchronize(null, array($store->getId()));
             }
-            Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')->refreshEnabledIndex($store);
+            $this->_catalogProduct->refreshEnabledIndex($store);
         }
         return $this;
     }
@@ -97,15 +177,15 @@ class Magento_Catalog_Model_Observer
     {
         /* @var $store Magento_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
-        Mage::app()->reinitStores();
+        $this->_storeManager->reinitStores();
         $this->_coreConfig->reinit();
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
-            Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')
+            $this->_flatResourceFactory->create()
                 ->synchronize(null, array($store->getId()));
         }
-        Mage::getResourceModel('Magento_Catalog_Model_Resource_Product')->refreshEnabledIndex($store);
+        $this->_productResourceFactory->create()->refreshEnabledIndex($store);
         return $this;
     }
 
@@ -120,12 +200,12 @@ class Magento_Catalog_Model_Observer
         /* @var $group Magento_Core_Model_Store_Group */
         $group = $observer->getEvent()->getGroup();
         if ($group->dataHasChangedFor('root_category_id') || $group->dataHasChangedFor('website_id')) {
-            Mage::app()->reinitStores();
+            $this->_storeManager->reinitStores();
             foreach ($group->getStores() as $store) {
                 /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
                 $categoryFlatHelper = $this->_catalogCategoryFlat;
                 if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
-                    Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')
+                    $this->_flatResourceFactory->create()
                         ->synchronize(null, array($store->getId()));
                 }
             }
@@ -145,7 +225,7 @@ class Magento_Catalog_Model_Observer
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $store = $observer->getEvent()->getStore();
-            Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')->deleteStores($store->getId());
+            $this->_flatResourceFactory->create()->deleteStores($store->getId());
         }
         return $this;
     }
@@ -164,7 +244,7 @@ class Magento_Catalog_Model_Observer
         /** @var $categoryFlatHelper Magento_Catalog_Helper_Category_Flat */
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
-            Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')
+            $this->_flatResourceFactory->create()
                 ->move($categoryId, $prevParentId, $parentId);
         }
         return $this;
@@ -178,8 +258,8 @@ class Magento_Catalog_Model_Observer
      */
     public function catalogProductImportAfter(Magento_Event_Observer $observer)
     {
-        Mage::getModel('Magento_Catalog_Model_Url')->refreshRewrites();
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')->refreshProductIndex();
+        $this->_urlFactory->create()->refreshRewrites();
+        $this->_categoryResource->refreshProductIndex();
         return $this;
     }
 
@@ -195,7 +275,7 @@ class Magento_Catalog_Model_Observer
         $categoryFlatHelper = $this->_catalogCategoryFlat;
         if ($categoryFlatHelper->isAvailable() && $categoryFlatHelper->isBuilt()) {
             $category = $observer->getEvent()->getCategory();
-            Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Flat')->synchronize($category);
+            $this->_flatResourceFactory->create()->synchronize($category);
         }
         return $this;
     }
@@ -220,7 +300,7 @@ class Magento_Catalog_Model_Observer
      */
     public function reindexProductPrices(Magento_Cron_Model_Schedule $schedule)
     {
-        $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
+        $indexProcess = $this->_indexIndexer->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }
@@ -282,12 +362,11 @@ class Magento_Catalog_Model_Observer
      */
     protected function _isActiveMenuCategory($category)
     {
-        $catalogLayer = Mage::getSingleton('Magento_Catalog_Model_Layer');
-        if (!$catalogLayer) {
+        if (!$this->_catalogLayer) {
             return false;
         }
 
-        $currentCategory = $catalogLayer->getCurrentCategory();
+        $currentCategory = $this->_catalogLayer->getCurrentCategory();
         if (!$currentCategory) {
             return false;
         }

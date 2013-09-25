@@ -26,17 +26,30 @@ class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog
     protected $_coreStoreConfig;
 
     /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($coreRegistry, $data);
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $categoryFactory, $coreData,
+            $coreRegistry, $data);
     }
 
     /**

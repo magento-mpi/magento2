@@ -42,6 +42,16 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     protected $_taxData = null;
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Model_Product
+     */
+    protected $_catalogProduct;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Product $catalogProduct
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
@@ -50,6 +60,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Product $catalogProduct,
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
@@ -57,6 +68,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_catalogProduct = $catalogProduct;
         parent::__construct($coreData, $context, $data);
         $this->_registry = $registry;
         $this->_option = $option;
@@ -74,7 +86,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
             if ($this->_registry->registry('current_product')) {
                 $this->_product = $this->_registry->registry('current_product');
             } else {
-                $this->_product = Mage::getSingleton('Magento_Catalog_Model_Product');
+                $this->_product = $this->_catalogProduct;
             }
         }
         return $this->_product;

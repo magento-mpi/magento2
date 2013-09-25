@@ -11,17 +11,32 @@
 /**
  * Config category source
  *
- * @category   Magento
- * @package    Magento_Backend
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Config_Source_Category implements Magento_Core_Model_Option_ArrayInterface
 {
+    /**
+     * Category collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Category_CollectionFactory
+     */
+    protected $_categoryCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Category_CollectionFactory $categoryCollectionFactory
+    ) {
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
+    }
+
     public function toOptionArray($addEmpty = true)
     {
-        $tree = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Tree');
-
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection');
+        /** @var Magento_Catalog_Model_Resource_Category_Collection $collection */
+        $collection = $this->_categoryCollectionFactory->create();
 
         $collection->addAttributeToSelect('name')
             ->addRootLevelFilter()

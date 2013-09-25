@@ -26,6 +26,47 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
     protected $_productAttributes  = array();
 
     /**
+     * Catalog product
+     *
+     * @var Magento_Catalog_Model_Product
+     */
+    protected $_catalogProduct;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog product1
+     *
+     * @var Magento_Catalog_Model_Resource_Product
+     */
+    protected $_productResource;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Catalog_Model_Resource_Product $productResource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product $catalogProduct
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product $productResource,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product $catalogProduct,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_productResource = $productResource;
+        $this->_storeManager = $storeManager;
+        $this->_catalogProduct = $catalogProduct;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -54,8 +95,7 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
     protected function _getProductAttribute($attribute)
     {
         if (empty($this->_productAttributes[$attribute])) {
-            $this->_productAttributes[$attribute] =
-                Mage::getSingleton('Magento_Catalog_Model_Product')->getResource()->getAttribute($attribute);
+            $this->_productAttributes[$attribute] = $this->_catalogProduct->getResource()->getAttribute($attribute);
         }
         return $this->_productAttributes[$attribute];
     }
@@ -70,14 +110,14 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
     public function refreshEnabledIndex($productId, $storeId)
     {
         if ($storeId == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
-            foreach (Mage::app()->getStores() as $store) {
+            foreach ($this->_storeManager->getStores() as $store) {
                 $this->refreshEnabledIndex($productId, $store->getId());
             }
 
             return $this;
         }
 
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')->refreshEnabledIndex($storeId, $productId);
+        $this->_productResource->refreshEnabledIndex($storeId, $productId);
 
         return $this;
     }

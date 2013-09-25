@@ -8,8 +8,13 @@
  * @license    {license_link}
  */
 
+
 /**
  * Paybox dummy payment method model
+ *
+ * @category    Magento
+ * @package     Magento_Pbridge
+ * @author      Magento
  */
 class Magento_Pbridge_Model_Payment_Method_Paybox_Direct extends Magento_Payment_Model_Method_Cc
 {
@@ -61,32 +66,42 @@ class Magento_Pbridge_Model_Payment_Method_Paybox_Direct extends Magento_Payment
     protected $_pbridgeData = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Construct
      *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_ModuleListInterface $moduleList
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Centinel_Model_Service $centinelService
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Pbridge_Helper_Data $pbridgeData,
-        Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_ModuleListInterface $moduleList,
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Centinel_Model_Service $centinelService,
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
+        $this->_storeManager = $storeManager;
         parent::__construct($logger, $eventManager, $coreStoreConfig, $moduleList, $paymentData, $logAdapterFactory,
             $locale, $centinelService, $data);
     }
@@ -178,7 +193,7 @@ class Magento_Pbridge_Model_Payment_Method_Paybox_Direct extends Magento_Payment
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return $this->_storeManager->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }
@@ -231,10 +246,11 @@ class Magento_Pbridge_Model_Payment_Method_Paybox_Direct extends Magento_Payment
      * @param Magento_Object $payment
      * @param float $amount
      * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @throws Magento_Core_Exception
      */
     public function refund(Magento_Object $payment, $amount)
     {
-        Mage::throwException(__('Refund action is not available.'));
+        throw new Magento_Core_Exception(__('Refund action is not available.'));
     }
 
     /**

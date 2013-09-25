@@ -25,17 +25,39 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     protected $_coreRegistry = null;
 
     /**
+     * Catalog layer
+     *
+     * @var Magento_Catalog_Model_Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogLayer = $catalogLayer;
         $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
@@ -102,7 +124,10 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
 
     public function getRssLink()
     {
-        return Mage::getUrl('rss/catalog/category',array('cid' => $this->getCurrentCategory()->getId(), 'store_id' => Mage::app()->getStore()->getId()));
+        return $this->_urlBuilder->getUrl('rss/catalog/category', array(
+            'cid' => $this->getCurrentCategory()->getId(),
+            'store_id' => $this->_storeManager->getStore()->getId())
+        );
     }
 
     public function getProductListHtml()
@@ -165,7 +190,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
         if ($category->getDisplayMode()==Magento_Catalog_Model_Category::DM_PAGE) {
             $res = true;
             if ($category->getIsAnchor()) {
-                $state = Mage::getSingleton('Magento_Catalog_Model_Layer')->getState();
+                $state = $this->_catalogLayer->getState();
                 if ($state && $state->getFilters()) {
                     $res = false;
                 }

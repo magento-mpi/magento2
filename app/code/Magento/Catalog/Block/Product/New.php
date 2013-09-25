@@ -11,9 +11,7 @@
 /**
  * New products block
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Abstract
 {
@@ -28,6 +26,72 @@ class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Ab
      * @var null
      */
     protected $_productsCount;
+
+    /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Catalog product visibility
+     *
+     * @var Magento_Catalog_Model_Product_Visibility
+     */
+    protected $_catalogProductVisibility;
+
+    /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Product collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Tax_Helper_Data $taxData
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Tax_Helper_Data $taxData,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_locale = $locale;
+        $this->_catalogProductVisibility = $catalogProductVisibility;
+        $this->_customerSession = $customerSession;
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
+    }
 
     /**
      * Initialize block's cache
@@ -57,9 +121,9 @@ class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Ab
     {
         return array(
            'CATALOG_PRODUCT_NEW',
-           Mage::app()->getStore()->getId(),
+           $this->_storeManager->getStore()->getId(),
            $this->_design->getDesignTheme()->getId(),
-           Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(),
+           $this->_customerSession->getCustomerGroupId(),
            'template' => $this->getTemplate(),
            $this->getProductsCount()
         );
@@ -72,17 +136,17 @@ class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Ab
      */
     protected function _getProductCollection()
     {
-        $todayStartOfDayDate  = Mage::app()->getLocale()->date()
+        $todayStartOfDayDate  = $this->_locale->date()
             ->setTime('00:00:00')
             ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
 
-        $todayEndOfDayDate  = Mage::app()->getLocale()->date()
+        $todayEndOfDayDate  = $this->_locale->date()
             ->setTime('23:59:59')
             ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
 
         /** @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
-        $collection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+        $collection = $this->_productCollectionFactory->create();
+        $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
 
         $collection = $this->_addProductAttributesAndPrices($collection)

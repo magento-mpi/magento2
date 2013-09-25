@@ -11,9 +11,7 @@
 /**
  * Catalog category helper
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
 {
@@ -43,21 +41,45 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
-     * @var Magento_Data_CollectionFactory
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
      */
-    protected $_collectionFactory;
+    protected $_storeManager;
 
     /**
-     * @param Magento_Data_CollectionFactory $collectionFactory
+     * Category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Lib data collection factory
+     *
+     * @var Magento_Data_CollectionFactory
+     */
+    protected $_dataCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Data_CollectionFactory $dataCollectionFactory
      */
     public function __construct(
-        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Data_CollectionFactory $dataCollectionFactory
     ) {
-        $this->_collectionFactory = $collectionFactory;
+        $this->_categoryFactory = $categoryFactory;
+        $this->_storeManager = $storeManager;
+        $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
     }
@@ -71,7 +93,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
      */
     public function getStoreCategories($sorted=false, $asCollection=false, $toLoad=true)
     {
-        $parent     = Mage::app()->getStore()->getRootCategoryId();
+        $parent     = $this->_storeManager->getStore()->getRootCategoryId();
         $cacheKey   = sprintf('%d-%d-%d-%d', $parent, $sorted, $asCollection, $toLoad);
         if (isset($this->_storeCategories[$cacheKey])) {
             return $this->_storeCategories[$cacheKey];
@@ -80,16 +102,16 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
         /**
          * Check if parent node of the store still exists
          */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = $this->_categoryFactory->create();
         /* @var $category Magento_Catalog_Model_Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
-                return $this->_collectionFactory->create();
+                return $this->_dataCollectionFactory->create();
             }
             return array();
         }
 
-        $recursionLevel  = max(0, (int) Mage::app()->getStore()->getConfig('catalog/navigation/max_depth'));
+        $recursionLevel  = max(0, (int) $this->_storeManager->getStore()->getConfig('catalog/navigation/max_depth'));
         $storeCategories = $category->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
 
         $this->_storeCategories[$cacheKey] = $storeCategories;
@@ -107,7 +129,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
         if ($category instanceof Magento_Catalog_Model_Category) {
             return $category->getUrl();
         }
-        return Mage::getModel('Magento_Catalog_Model_Category')
+        return $this->_categoryFactory->create()
             ->setData($category->getData())
             ->getUrl();
     }
@@ -121,7 +143,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     public function canShow($category)
     {
         if (is_int($category)) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($category);
+            $category = $this->_categoryFactory->create()->load($category);
         }
 
         if (!$category->getId()) {
@@ -147,7 +169,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     public function getCategoryUrlSuffix($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {

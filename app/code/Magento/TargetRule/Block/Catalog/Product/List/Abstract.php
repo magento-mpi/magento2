@@ -56,24 +56,28 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
     protected $_productCollectionFactory;
 
     /**
+     *
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_TargetRule_Model_Resource_Index $index
-     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productFactory
-     * @param Magento_Catalog_Model_Product_Visibility $visibility
-     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Catalog_Model_Product_Visibility $visibility
+     * @param Magento_TargetRule_Model_IndexFactory $indexFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Catalog_Model_Resource_Product_CollectionFactory $productFactory,
-        Magento_Catalog_Model_Product_Visibility $visibility,
-        Magento_TargetRule_Model_IndexFactory $indexFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_TargetRule_Model_Resource_Index $index,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_TargetRule_Helper_Data $targetRuleData,
@@ -81,13 +85,16 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
+        Magento_Catalog_Model_Product_Visibility $visibility,
+        Magento_TargetRule_Model_IndexFactory $indexFactory,
         array $data = array()
     ) {
-        $this->_productCollectionFactory = $productFactory;
+        $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
         $this->_indexFactory = $indexFactory;
         parent::__construct(
-            $index, $coreRegistry, $targetRuleData, $taxData,
+            $storeManager, $catalogConfig, $index, $coreRegistry, $targetRuleData, $taxData,
             $catalogData, $coreData, $context, $data
         );
     }

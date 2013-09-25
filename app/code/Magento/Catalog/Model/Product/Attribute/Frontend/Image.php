@@ -19,6 +19,24 @@
 class Magento_Catalog_Model_Product_Attribute_Frontend_Image extends Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
 {
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
      * Returns url to product image
      *
      * @param  Magento_Catalog_Model_Product $product
@@ -28,7 +46,8 @@ class Magento_Catalog_Model_Product_Attribute_Frontend_Image extends Magento_Eav
     {
         $image = $product->getData($this->getAttribute()->getAttributeCode());
         if ($image) {
-            $url = Mage::app()->getStore($product->getStore())->getBaseUrl('media') . 'catalog/product/' . $image;
+            $url = $this->_storeManager->getStore($product->getStore())
+                ->getBaseUrl('media') . 'catalog/product/' . $image;
         } else {
             $url = false;
         }

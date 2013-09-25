@@ -76,6 +76,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     const URL_TYPE_MEDIA                  = 'media';
     const URL_TYPE_STATIC                 = 'static';
     const URL_TYPE_CACHE                  = 'cache';
+    const URL_TYPE_JS                     = 'js';
     /**#@-*/
 
     /**

@@ -43,6 +43,35 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     );
 
     /**
+     * Eav config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Retrieve Indexer name
      *
      * @return string
@@ -112,7 +141,7 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     protected function _attributeIsIndexable($attribute)
     {
         if (!$attribute instanceof Magento_Catalog_Model_Resource_Eav_Attribute) {
-            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
+            $attribute = $this->_eavConfig
                 ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
         }
 

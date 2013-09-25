@@ -13,6 +13,35 @@ class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_En
 {
 
     /**
+     * Attribute collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Resource_Abstract $resource = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
      * Check if group contains system attributes
      *
      * @return bool
@@ -21,7 +50,7 @@ class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_En
     {
         $result = false;
         /** @var $attributesCollection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $attributesCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+        $attributesCollection = $this->_attributeCollectionFactory->create();
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if (!$attribute->getIsUserDefined()) {
@@ -41,7 +70,7 @@ class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_En
     {
         $result = false;
         /** @var $attributesCollection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $attributesCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+        $attributesCollection = $this->_attributeCollectionFactory->create();
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if ($attribute->getIsConfigurable()) {

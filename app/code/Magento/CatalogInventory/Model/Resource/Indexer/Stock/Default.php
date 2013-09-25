@@ -45,14 +45,16 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      * Class constructor
      *
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($resource);
+        parent::__construct($resource, $eavConfig);
     }
 
     /**

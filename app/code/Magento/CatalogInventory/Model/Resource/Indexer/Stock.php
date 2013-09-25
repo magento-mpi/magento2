@@ -37,18 +37,20 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     protected $_productType;
 
     /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_CatalogInventory_Model_Resource_Indexer_StockFactory $indexerFactory
      * @param Magento_Catalog_Model_Product_Type $productType
-     * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_CatalogInventory_Model_Resource_Indexer_StockFactory $indexerFactory,
-        Magento_Catalog_Model_Product_Type $productType,
-        Magento_Core_Model_Resource $resource
+        Magento_Catalog_Model_Product_Type $productType
     ) {
         $this->_indexerFactory = $indexerFactory;
         $this->_productType = $productType;
-        parent::__construct($resource);
+        parent::__construct($resource, $eavConfig);
     }
 
     /**

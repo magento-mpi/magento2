@@ -52,15 +52,20 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
     protected $_logger;
 
     /**
-     * Constructor
+     * Log adapter factory
      *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
+     * @var Magento_Core_Model_Log_AdapterFactory
+     */
+    protected $_logAdapterFactory;
+
+    /**
+     * Constructor
      *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Log_AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
@@ -68,12 +73,14 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
         Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Core_Model_Log_AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
         $this->_logger = $logger;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_logAdapterFactory = $logAdapterFactory;
         parent::__construct($data);
     }
 
@@ -83,6 +90,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
      * @param array $request
      * @throws Exception
      * @return bool
+     * @throws Magento_Core_Exception
      */
     protected function _call(array $request)
     {
@@ -125,7 +133,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
                     sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
                 ));
 
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Unable to communicate with Payment Bridge service.')
                 );
             }
@@ -155,9 +163,9 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
     protected function _handleError($response)
     {
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
-            Mage::throwException($response['error']);
+            throw new Magento_Core_Exception($response['error']);
         }
-        Mage::throwException(__('There was a payment gateway internal error.'));
+        throw new Magento_Core_Exception(__('There was a payment gateway internal error.'));
     }
 
     /**
@@ -194,7 +202,7 @@ class Magento_Pbridge_Model_Pbridge_Api_Abstract extends Magento_Object
     {
         $this->_debugFlag = (bool)$this->_coreStoreConfig->getConfigFlag('payment/pbridge/debug');
         if ($this->_debugFlag) {
-            Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => 'payment_pbridge.log'))
+            $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))
                ->log($debugData);
         }
     }

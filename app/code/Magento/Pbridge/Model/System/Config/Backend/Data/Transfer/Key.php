@@ -27,9 +27,11 @@ class Magento_Pbridge_Model_System_Config_Backend_Data_Transfer_Key extends Mage
         /**
          * Maximum allowed length is hardcoded because currently we use only CIPHER_RIJNDAEL_256
          * @see Magento_Pci_Model_Encryption::_getCrypt
+         * @throws Magento_Core_Exception
          */
         if (strlen($this->getValue()) > 32) { // strlen() intentionally, to count bytes rather than characters
-            Mage::throwException(__('Maximum data transfer key length is 32. Please correct your settings.'));
+            throw new Magento_Core_Exception(
+                __('Maximum data transfer key length is 32. Please correct your settings.'));
         }
 
         return $this;

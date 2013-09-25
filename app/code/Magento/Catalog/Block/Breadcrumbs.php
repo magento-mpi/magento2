@@ -25,17 +25,29 @@ class Magento_Catalog_Block_Breadcrumbs extends Magento_Core_Block_Template
     protected $_catalogData = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
         $this->_catalogData = $catalogData;
         parent::__construct($coreData, $context, $data);
     }
@@ -63,7 +75,7 @@ class Magento_Catalog_Block_Breadcrumbs extends Magento_Core_Block_Template
             $breadcrumbsBlock->addCrumb('home', array(
                 'label'=>__('Home'),
                 'title'=>__('Go to Home Page'),
-                'link'=>Mage::getBaseUrl()
+                'link'=>$this->_storeManager->getStore()->getBaseUrl()
             ));
 
             $title = array();

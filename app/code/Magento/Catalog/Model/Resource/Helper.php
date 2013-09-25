@@ -19,6 +19,17 @@
 class Magento_Catalog_Model_Resource_Helper extends Magento_Eav_Model_Resource_Helper
 {
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param string $modulePrefix
+     */
+    public function __construct(Magento_Core_Model_Resource $resource, $modulePrefix = 'Magento_Catalog')
+    {
+        parent::__construct($resource, $modulePrefix);
+    }
+
+    /**
      * Compare Flat style with Describe style columns
      * If column a different - return false
      *

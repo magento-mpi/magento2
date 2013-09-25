@@ -19,10 +19,44 @@
 class Magento_Catalog_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
     /**
+     * Category model factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Indexer model factory
+     *
+     * @var Magento_Index_Model_IndexerFactory
+     */
+    protected $_indexerFactory;
+
+    /**
+     * Migration setup model factory
+     *
+     * @var Magento_Core_Model_Resource_Setup_MigrationFactory
+     */
+    protected $_resourceMigrationFactory;
+
+    /**
+     * Attribute resource model factory
+     *
+     * @var Magento_Catalog_Model_Resource_Eav_AttributeFactory
+     */
+    protected $_eavAttributeResourceFactory;
+
+    /**
+     * Construct
+     * 
      * @param Magento_Core_Model_Resource_Setup_Context $context
      * @param Magento_Core_Model_CacheInterface $cache
      * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory
      * @param string $resourceName
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Index_Model_IndexerFactory $indexerFactory
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $resourceMigrationFactory
+     * @param Magento_Catalog_Model_Resource_Eav_AttributeFactory $eavAttributeResourceFactory
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -31,10 +65,63 @@ class Magento_Catalog_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setu
         Magento_Core_Model_CacheInterface $cache,
         Magento_Eav_Model_Resource_Entity_Attribute_Group_CollectionFactory $attrGrCollFactory,
         $resourceName,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Index_Model_IndexerFactory $indexerFactory,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $resourceMigrationFactory,
+        Magento_Catalog_Model_Resource_Eav_AttributeFactory $eavAttributeResourceFactory,
         $moduleName = 'Magento_Catalog',
         $connectionName = ''
     ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_indexerFactory = $indexerFactory;
+        $this->_resourceMigrationFactory = $resourceMigrationFactory;
+        $this->_eavAttributeResourceFactory = $eavAttributeResourceFactory;
         parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
+    }
+
+    /**
+     * Creates category model
+     *
+     * @param array $data
+     * @return Magento_Catalog_Model_Category
+     */
+    public function createCategory($data = array())
+    {
+        return $this->_categoryFactory->create($data);
+    }
+
+    /**
+     * Creates indexer model
+     *
+     * @param array $data
+     * @return Magento_Index_Model_Indexer
+     */
+    public function createIndexer($data = array())
+    {
+        return $this->_indexerFactory
+            ->create($data);
+    }
+
+    /**
+     * Creates setup migration model
+     *
+     * @param array $data
+     * @return Magento_Core_Model_Resource_Setup_Migration
+     */
+    public function createSetupMigration($data = array())
+    {
+        return $this->_resourceMigrationFactory->create($data);
+    }
+
+    /**
+     * Creates eav attribute resource model
+     *
+     * @param array $data
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     */
+    public function createEavAttributeResource($data = array())
+    {
+        return $this->_eavAttributeResourceFactory->create($data);
     }
 
     /**

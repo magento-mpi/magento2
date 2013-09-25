@@ -12,9 +12,7 @@
 /**
  * Catalog navigation
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
 {
@@ -54,6 +52,41 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     protected $_registry;
 
     /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Catalog layer
+     *
+     * @var Magento_Catalog_Model_Layer
+     */
+    protected $_catalogLayer;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Product collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
      * @param Magento_Catalog_Helper_Category $catalogCategory
      * @param Magento_Core_Model_Registry $registry
@@ -62,6 +95,11 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $productCollectionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
         Magento_Catalog_Helper_Category $catalogCategory,
         Magento_Core_Model_Registry $registry,
@@ -69,9 +107,14 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_storeManager = $storeManager;
+        $this->_catalogLayer = $catalogLayer;
+        $this->_customerSession = $customerSession;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
+        $this->_categoryInstance = $categoryFactory->create();
         parent::__construct($coreData, $context, $data);
     }
 
@@ -105,9 +148,9 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     {
         $shortCacheId = array(
             'CATALOG_NAVIGATION',
-            Mage::app()->getStore()->getId(),
+            $this->_storeManager->getStore()->getId(),
             $this->_design->getDesignTheme()->getId(),
-            Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(),
+            $this->_customerSession->getCustomerGroupId(),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
             $this->getCurrenCategoryKey()
@@ -136,7 +179,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
             if ($category) {
                 $this->_currentCategoryKey = $category->getPath();
             } else {
-                $this->_currentCategoryKey = Mage::app()->getStore()->getRootCategoryId();
+                $this->_currentCategoryKey = $this->_storeManager->getStore()->getRootCategoryId();
             }
         }
 
@@ -161,12 +204,10 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
      */
     public function getCurrentChildCategories()
     {
-        $layer = Mage::getSingleton('Magento_Catalog_Model_Layer');
-        $category   = $layer->getCurrentCategory();
-        /* @var $category Magento_Catalog_Model_Category */
-        $categories = $category->getChildrenCategories();
-        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
-        $layer->prepareProductCollection($productCollection);
+        $categories = $this->_catalogLayer->getCurrentCategory()->getChildrenCategories();
+        /** @var Magento_Catalog_Model_Resource_Product_Collection $productCollection */
+        $productCollection = $this->_productCollectionFactory->create();
+        $this->_catalogLayer->prepareProductCollection($productCollection);
         $productCollection->addCountToCategories($categories);
         return $categories;
     }
@@ -185,14 +226,6 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
         return false;
     }
 
-    protected function _getCategoryInstance()
-    {
-        if (is_null($this->_categoryInstance)) {
-            $this->_categoryInstance = Mage::getModel('Magento_Catalog_Model_Category');
-        }
-        return $this->_categoryInstance;
-    }
-
     /**
      * Get url for category data
      *
@@ -204,7 +237,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
         if ($category instanceof Magento_Catalog_Model_Category) {
             $url = $category->getUrl();
         } else {
-            $url = $this->_getCategoryInstance()
+            $url = $this->_categoryInstance
                 ->setData($category->getData())
                 ->getUrl();
         }
@@ -262,7 +295,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
 
         // get all children
         // If Flat Data enabled then use it but only on frontend
-        if ($this->_catalogCategoryFlat->isAvailable() && !Mage::app()->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable() && !$this->_storeManager->getStore()->isAdmin()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {
@@ -366,10 +399,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
      */
     public function getCurrentCategory()
     {
-        if (Mage::getSingleton('Magento_Catalog_Model_Layer')) {
-            return Mage::getSingleton('Magento_Catalog_Model_Layer')->getCurrentCategory();
-        }
-        return false;
+        return $this->_catalogLayer->getCurrentCategory();
     }
 
     /**

@@ -46,18 +46,36 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     protected $_coreRegistry = null;
 
     /**
+     * Category factory
+     *
+     * @var Magento_Catalog_Model_CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_categoryFactory = $categoryFactory;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($data);
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'cat';
     }
 
@@ -97,8 +115,8 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
         $this->_categoryId = $filter;
         $this->_coreRegistry->register('current_category_filter', $this->getCategory(), true);
 
-        $this->_appliedCategory = Mage::getModel('Magento_Catalog_Model_Category')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $this->_appliedCategory = $this->_categoryFactory->create()
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($filter);
 
         if ($this->_isValidCategory($this->_appliedCategory)) {
@@ -142,7 +160,8 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')
+            /** @var Magento_Catalog_Model_Category $category */
+            $category = $this->_categoryFactory->create()
                 ->load($this->_categoryId);
             if ($category->getId()) {
                 return $category;

@@ -26,6 +26,8 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
     protected $_coreStoreConfig;
 
     /**
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
@@ -42,6 +44,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
      *
      * @param Magento_Object $object
      * @return bool
+     * @throws Magento_Core_Exception
      */
     public function validate($object)
     {
@@ -69,7 +72,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                Mage::throwException(__('The value of attribute "%1" must be unique.', $label));
+                throw new Magento_Core_Exception(__('The value of attribute "%1" must be unique.', $label));
             }
         }
 
@@ -81,11 +84,15 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
                 $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
                        $this->_coreStoreConfig->getConfig("catalog/frontend/default_sort_by");
                 if (!in_array($data, $available)) {
-                    Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
+                    throw new Magento_Core_Exception(
+                        __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
+                    );
                 }
             } else {
                 if (!in_array('available_sort_by', $postDataConfig)) {
-                    Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
+                    throw new Magento_Core_Exception(
+                        __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
+                    );
                 }
             }
         }

@@ -26,6 +26,39 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     protected $_types;
 
     /**
+     * Eav source factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Indexer_Eav_SourceFactory
+     */
+    protected $_eavSourceFactory;
+
+    /**
+     * Eav decimal factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Indexer_Eav_DecimalFactory
+     */
+    protected $_eavDecimalFactory;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Catalog_Model_Resource_Product_Indexer_Eav_DecimalFactory $eavDecimalFactory
+     * @param Magento_Catalog_Model_Resource_Product_Indexer_Eav_SourceFactory $eavSourceFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Indexer_Eav_DecimalFactory $eavDecimalFactory,
+        Magento_Catalog_Model_Resource_Product_Indexer_Eav_SourceFactory $eavSourceFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_eavDecimalFactory = $eavDecimalFactory;
+        $this->_eavSourceFactory = $eavSourceFactory;
+        parent::__construct($resource, $eavConfig);
+    }
+
+    /**
      * Define main index table
      *
      */
@@ -43,8 +76,8 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     {
         if (is_null($this->_types)) {
             $this->_types   = array(
-                'source'    => Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Indexer_Eav_Source'),
-                'decimal'   => Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Indexer_Eav_Decimal'),
+                'source'    => $this->_eavSourceFactory->create(),
+                'decimal'   => $this->_eavDecimalFactory->create(),
             );
         }
 
@@ -56,12 +89,13 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
      *
      * @param string $type
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
+     * @throws Magento_Core_Exception
      */
     public function getIndexer($type)
     {
         $indexers = $this->getIndexers();
         if (!isset($indexers[$type])) {
-            Mage::throwException(__('We found an unknown EAV indexer type "%1".', $type));
+            throw new Magento_Core_Exception(__('We found an unknown EAV indexer type "%1".', $type));
         }
         return $indexers[$type];
     }

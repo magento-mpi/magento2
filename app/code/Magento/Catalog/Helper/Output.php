@@ -32,13 +32,25 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
     protected $_catalogData = null;
 
     /**
+     * Eav config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Context $context
     ) {
+        $this->_eavConfig = $eavConfig;
         $this->_catalogData = $catalogData;
         parent::__construct($context);
     }
@@ -114,7 +126,7 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
      */
     public function productAttribute($product, $attributeHtml, $attributeName)
     {
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeName);
+        $attribute = $this->_eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeName);
         if ($attribute && $attribute->getId() && ($attribute->getFrontendInput() != 'media_image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
                 if ($attribute->getFrontendInput() != 'price') {
@@ -148,7 +160,7 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
      */
     public function categoryAttribute($category, $attributeHtml, $attributeName)
     {
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Category::ENTITY, $attributeName);
+        $attribute = $this->_eavConfig->getAttribute(Magento_Catalog_Model_Category::ENTITY, $attributeName);
 
         if ($attribute && ($attribute->getFrontendInput() != 'image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {

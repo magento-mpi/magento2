@@ -28,12 +28,23 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
     protected $_resource;
 
     /**
-     * Initialize filter and define request variable
+     * Construct
      *
+     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Layer $catalogLayer
+     * @param Magento_Catalog_Model_Resource_Layer_Filter_DecimalFactory $filterDecimalFactory
+     * @param array $data
      */
-    public function __construct()
-    {
-        parent::__construct();
+    public function __construct(
+        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Layer $catalogLayer,
+        Magento_Catalog_Model_Resource_Layer_Filter_DecimalFactory $filterDecimalFactory,
+        array $data = array()
+    ) {
+        $this->_resource = $filterDecimalFactory->create();
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'decimal';
     }
 
@@ -44,9 +55,6 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
      */
     protected function _getResource()
     {
-        if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Layer_Filter_Decimal');
-        }
         return $this->_resource;
     }
 
@@ -110,8 +118,8 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
      */
     protected function _renderItemLabel($range, $value)
     {
-        $from   = Mage::app()->getStore()->formatPrice(($value - 1) * $range, false);
-        $to     = Mage::app()->getStore()->formatPrice($value * $range, false);
+        $from   = $this->_storeManager->getStore()->formatPrice(($value - 1) * $range, false);
+        $to     = $this->_storeManager->getStore()->formatPrice($value * $range, false);
         return __('%1 - %2', $from, $to);
     }
 

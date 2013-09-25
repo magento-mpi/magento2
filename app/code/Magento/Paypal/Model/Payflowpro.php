@@ -417,10 +417,10 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
             ->setHeaders('X-VPS-CLIENT-TIMEOUT: ' . $this->_clientTimeout);
 
         try {
-           /**
-            * we are sending request to payflow pro without url encoding
-            * so we set up _urlEncodeBody flag to false
-            */
+            /**
+             * we are sending request to payflow pro without url encoding
+             * so we set up _urlEncodeBody flag to false
+             */
             $response = $client->setUrlEncodeBody(false)->request();
         } catch (Exception $e) {
             $result->setResponseCode(-1)
@@ -443,7 +443,7 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         }
 
         $result->setResultCode($result->getResult())
-                ->setRespmsg($result->getRespmsg());
+            ->setRespmsg($result->getRespmsg());
 
         $debugData['result'] = $result->getData();
         $this->_debug($debugData);
@@ -526,21 +526,21 @@ class Magento_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
         return $request;
     }
 
-     /**
-      * Return unique value for request
-      *
-      * @return string
-      */
+    /**
+     * Return unique value for request
+     *
+     * @return string
+     */
     protected function _generateRequestId()
     {
         return $this->_coreData->uniqHash();
     }
 
-     /**
-      * If response is failed throw exception
-      *
-      * @throws Magento_Core_Exception
-      */
+    /**
+     * If response is failed throw exception
+     *
+     * @throws Magento_Core_Exception
+     */
     protected function _processErrors(Magento_Object $response)
     {
         if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {

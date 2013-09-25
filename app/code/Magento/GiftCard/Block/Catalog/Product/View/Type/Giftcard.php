@@ -18,14 +18,8 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
     protected $_customerSession;
 
     /**
-     * Store manager
-     *
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
@@ -36,6 +30,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
      */
     public function __construct(
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
@@ -44,9 +39,9 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
     }
 
     public function getAmountSettingsJson($product)

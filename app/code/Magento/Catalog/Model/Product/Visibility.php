@@ -38,13 +38,25 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     protected $_coreData = null;
 
     /**
+     * Eav entity attribute
+     *
+     * @var Magento_Eav_Model_Resource_Entity_Attribute
+     */
+    protected $_eavEntityAttribute;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Eav_Model_Resource_Entity_Attribute $eavEntityAttribute
      * @param Magento_Core_Helper_Data $coreData
      * @param array $data
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Entity_Attribute $eavEntityAttribute,
         Magento_Core_Helper_Data $coreData,
         array $data = array()
     ) {
+        $this->_eavEntityAttribute = $eavEntityAttribute;
         $this->_coreData = $coreData;
         parent::__construct($data);
         $this->setIdFieldName('visibility_id');
@@ -181,7 +193,7 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceSingleton('Magento_Eav_Model_Resource_Entity_Attribute')
+        return $this->_eavEntityAttribute
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 

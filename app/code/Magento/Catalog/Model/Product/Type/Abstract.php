@@ -130,6 +130,40 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     protected $_logger;
 
     /**
+     * Catalog product type
+     *
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_catalogProductType;
+
+    /**
+     * Eav config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Catalog product option
+     *
+     * @var Magento_Catalog_Model_Product_Option
+     */
+    protected $_catalogProductOption;
+
+    /**
+     * Product factory
+     *
+     * @var Magento_Catalog_Model_ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Product_Option $catalogProductOption
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Product_Type $catalogProductType
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
@@ -139,6 +173,10 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Option $catalogProductOption,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Product_Type $catalogProductType,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
@@ -147,6 +185,10 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
         Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
+        $this->_productFactory = $productFactory;
+        $this->_catalogProductOption = $catalogProductOption;
+        $this->_eavConfig = $eavConfig;
+        $this->_catalogProductType = $catalogProductType;
         $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
@@ -333,7 +375,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
             if ($superProductId) {
                 $superProduct = $this->_coreRegistry->registry('used_super_product_' . $superProductId);
                 if (!$superProduct) {
-                    $superProduct = Mage::getModel('Magento_Catalog_Model_Product')->load($superProductId);
+                    $superProduct = $this->_productFactory->create()->load($superProductId);
                     $this->_coreRegistry->register('used_super_product_'.$superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {
@@ -423,7 +465,9 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
 
     /**
      * Process File Queue
+     *
      * @return Magento_Catalog_Model_Product_Type_Abstract
+     * @throws Magento_Core_Exception
      */
     public function processFileQueue()
     {
@@ -445,7 +489,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
                         try {
                             $this->_filesystem->createDirectory($path, 0777);
                         } catch (Magento_Filesystem_Exception $e) {
-                            Mage::throwException(
+                            throw new Magento_Core_Exception(
                                 __("We can't create writeable directory \"%1\".", $path)
                             );
                         }
@@ -459,7 +503,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
                             if (isset($queueOptions['option'])) {
                                 $queueOptions['option']->setIsValid(false);
                             }
-                            Mage::throwException(__("The file upload failed."));
+                            throw new Magento_Core_Exception(__("The file upload failed."));
                         }
                         $this->_fileStorageDb->saveFile($dst);
                         break;
@@ -563,7 +607,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
                     $customOption = $product->getCustomOption(self::OPTION_PREFIX . $option->getId());
                     if (!$customOption || strlen($customOption->getValue()) == 0) {
                         $product->setSkipCheckRequiredOption(true);
-                        Mage::throwException(
+                        throw new Magento_Core_Exception(
                             __('The product has required options.')
                         );
                     }
@@ -636,7 +680,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     {
         if ($product->dataHasChangedFor('type_id') && $product->getOrigData('type_id')) {
             $oldTypeProduct = clone $product;
-            $oldTypeInstance = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
+            $oldTypeInstance = $this->_catalogProductType
                 ->factory($oldTypeProduct->setTypeId($product->getOrigData('type_id')));
             $oldTypeProduct->setTypeInstance($oldTypeInstance);
             $oldTypeInstance->deleteTypeSpecificData($oldTypeProduct);
@@ -651,10 +695,9 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      */
     protected function _removeNotApplicableAttributes($product)
     {
-        $eavConfig  = Mage::getSingleton('Magento_Eav_Model_Config');
         $entityType = $product->getResource()->getEntityType();
-        foreach ($eavConfig->getEntityAttributeCodes($entityType, $product) as $attributeCode) {
-            $attribute = $eavConfig->getAttribute($entityType, $attributeCode);
+        foreach ($this->_eavConfig->getEntityAttributeCodes($entityType, $product) as $attributeCode) {
+            $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
             $applyTo   = $attribute->getApplyTo();
             if (is_array($applyTo) && count($applyTo) > 0 && !in_array($product->getTypeId(), $applyTo)) {
                 $product->unsetData($attribute->getAttributeCode());
@@ -919,7 +962,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     {
         $searchData = array();
         if ($product->getHasOptions()) {
-            $searchData = Mage::getSingleton('Magento_Catalog_Model_Product_Option')
+            $searchData = $this->_catalogProductOption
                 ->getSearchableData($product->getId(), $product->getStoreId());
         }
 

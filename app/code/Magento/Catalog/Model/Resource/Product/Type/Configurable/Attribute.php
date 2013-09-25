@@ -40,13 +40,25 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     protected $_catalogData = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_storeManager = $storeManager;
         $this->_catalogData = $catalogData;
         parent::__construct($resource);
     }
@@ -127,7 +139,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
         if ($this->getCatalogHelper()->isPriceGlobal()) {
             $websiteId = 0;
         } else {
-            $websiteId = (int)Mage::app()->getStore($attribute->getStoreId())->getWebsite()->getId();
+            $websiteId = (int)$this->_storeManager->getStore($attribute->getStoreId())->getWebsite()->getId();
         }
 
         $values     = $attribute->getValues();

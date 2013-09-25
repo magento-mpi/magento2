@@ -11,12 +11,45 @@
 /**
  * Select attributes suitable for product variations generation
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Block_Product_Configurable_AttributeSelector extends Magento_Backend_Block_Template
 {
+    /**
+     * Attribute collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_attributeCollectionFactory;
+
+    /**
+     * Catalog resource helper
+     *
+     * @var Magento_Catalog_Model_Resource_Helper
+     */
+    protected $_resourceHelper;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
+     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
+        Magento_Catalog_Model_Resource_Helper $resourceHelper,
+        array $data = array()
+    ) {
+        $this->_attributeCollectionFactory = $attributeCollectionFactory;
+        $this->_resourceHelper = $resourceHelper;
+        parent::__construct($coreData, $context, $data);
+    }
+
     /**
      * Retrieve list of attributes with admin store label containing $labelPart
      *
@@ -25,11 +58,10 @@ class Magento_Catalog_Block_Product_Configurable_AttributeSelector extends Magen
      */
     public function getSuggestedAttributes($labelPart)
     {
-        $escapedLabelPart = Mage::getResourceHelper('Magento_Core')
-            ->addLikeEscape($labelPart, array('position' => 'any'));
+        $escapedLabelPart = $this->_resourceHelper->addLikeEscape($labelPart, array('position' => 'any'));
         /** @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
-            ->addFieldToFilter('frontend_input', 'select')
+        $collection = $this->_attributeCollectionFactory->create();
+        $collection->addFieldToFilter('frontend_input', 'select')
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart))
             ->addFieldToFilter('is_configurable', 1)
             ->addFieldToFilter('is_user_defined', 1)

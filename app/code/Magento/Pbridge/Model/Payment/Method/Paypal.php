@@ -275,7 +275,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return $this
+     * @return Magento_Pbridge_Model_Payment_Method_Paypal
      */
     public function setStore($store)
     {

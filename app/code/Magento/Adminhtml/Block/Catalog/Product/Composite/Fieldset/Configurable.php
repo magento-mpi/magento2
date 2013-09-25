@@ -14,12 +14,11 @@
 class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable extends Magento_Catalog_Block_Product_View_Type_Configurable
 {
     /**
-     * @var Magento_Core_Model_StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Tax_Model_Calculation $taxCalculation
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Tax_Helper_Data $taxData
@@ -27,9 +26,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Tax_Model_Calculation $taxCalculation,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Tax_Helper_Data $taxData,
@@ -38,8 +41,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
         Magento_Core_Block_Template_Context $context,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreRegistry, $catalogProduct, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $taxCalculation, $coreRegistry, $catalogProduct, $taxData,
+            $catalogData, $coreData, $context, $data);
     }
 
     /**

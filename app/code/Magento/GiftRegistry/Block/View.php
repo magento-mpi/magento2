@@ -25,6 +25,10 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     protected $typeFactory;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -34,8 +38,12 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
      * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_GiftRegistry_Model_TypeFactory $typeFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -48,7 +56,8 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     ) {
         $this->countryFactory = $countryFactory;
         $this->typeFactory = $typeFactory;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $itemFactory, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $itemFactory, $data);
     }
 
     /**

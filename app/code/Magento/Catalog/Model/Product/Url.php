@@ -25,14 +25,14 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
      *
      * @var Magento_Core_Model_Url
      */
-    protected static $_url;
+    protected $_url;
 
     /**
      * Static URL Rewrite Instance
      *
      * @var Magento_Core_Model_Url_Rewrite
      */
-    protected static $_urlRewrite;
+    protected $_urlRewrite;
 
     /**
      * Catalog product url
@@ -49,17 +49,45 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     protected $_catalogCategory = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * App model
+     *
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Url_RewriteFactory $urlRewriteFactory
+     * @param Magento_Core_Model_UrlInterface $url
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Helper_Category $catalogCategory
      * @param Magento_Catalog_Helper_Product_Url $catalogProductUrl
+     * @param Magento_Core_Model_App $app
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Url_RewriteFactory $urlRewriteFactory,
+        Magento_Core_Model_UrlInterface $url,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Helper_Category $catalogCategory,
         Magento_Catalog_Helper_Product_Url $catalogProductUrl,
+        Magento_Core_Model_App $app,
         array $data = array()
     ) {
+        $this->_urlRewrite = $urlRewriteFactory->create();
+        $this->_url = $url;
+        $this->_storeManager = $storeManager;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProductUrl = $catalogProductUrl;
+        $this->_app = $app;
         parent::__construct($data);
     }
 
@@ -70,10 +98,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
      */
     public function getUrlInstance()
     {
-        if (!self::$_url) {
-            self::$_url = Mage::getModel('Magento_Core_Model_Url');
-        }
-        return self::$_url;
+        return $this->_url;
     }
 
     /**
@@ -83,10 +108,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
      */
     public function getUrlRewrite()
     {
-        if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
-        }
-        return self::$_urlRewrite;
+        return $this->_urlRewrite;
     }
 
     /**
@@ -126,7 +148,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
     public function getProductUrl($product, $useSid = null)
     {
         if ($useSid === null) {
-            $useSid = Mage::app()->getUseSessionInUrl();
+            $useSid = $this->_app->getUseSessionInUrl();
         }
 
         $params = array();
@@ -159,6 +181,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
      * @param Magento_Catalog_Model_Category $category
      *
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function getUrlPath($product, $category=null)
     {
@@ -168,7 +191,7 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
             /** @todo get default category */
             return $path;
         } elseif (!$category instanceof Magento_Catalog_Model_Category) {
-            Mage::throwException('Invalid category object supplied');
+            throw new Magento_Core_Exception('Invalid category object supplied');
         }
 
         return $this->_catalogCategory->getCategoryUrlPath($category->getUrlPath())
@@ -219,10 +242,10 @@ class Magento_Catalog_Model_Product_Url extends Magento_Object
         }
 
         if (isset($routeParams['_store'])) {
-            $storeId = Mage::app()->getStore($routeParams['_store'])->getId();
+            $storeId = $this->_storeManager->getStore($routeParams['_store'])->getId();
         }
 
-        if ($storeId != Mage::app()->getStore()->getId()) {
+        if ($storeId != $this->_storeManager->getStore()->getId()) {
             $routeParams['_store_to_url'] = true;
         }
 

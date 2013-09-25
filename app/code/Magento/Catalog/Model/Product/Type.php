@@ -72,11 +72,34 @@ class Magento_Catalog_Model_Product_Type
     protected $_typesPriority;
 
     /**
-     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * Product type factory
+     *
+     * @var Magento_Catalog_Model_Product_Type_Pool
      */
-    public function __construct(Magento_Catalog_Model_ProductTypes_ConfigInterface $config)
-    {
+    protected $_productTypePool;
+
+    /**
+     * Price model factory
+     *
+     * @var Magento_Catalog_Model_Product_Type_Price_Factory
+     */
+    protected $_priceFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_ProductTypes_ConfigInterface $config
+     * @param Magento_Catalog_Model_Product_Type_Pool $productTypePool
+     * @param Magento_Catalog_Model_Product_Type_Price_Factory $priceFactory
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductTypes_ConfigInterface $config,
+        Magento_Catalog_Model_Product_Type_Pool $productTypePool,
+        Magento_Catalog_Model_Product_Type_Price_Factory $priceFactory
+    ) {
         $this->_config = $config;
+        $this->_productTypePool = $productTypePool;
+        $this->_priceFactory = $priceFactory;
     }
 
     /**
@@ -97,8 +120,7 @@ class Magento_Catalog_Model_Product_Type
             $typeId = self::DEFAULT_TYPE;
         }
 
-        /** @var $typeModel Magento_Catalog_Model_Product_Type_Abstract */
-        $typeModel = Mage::getSingleton($typeModelName);
+        $typeModel = $this->_productTypePool->get($typeModelName);
         $typeModel->setConfig($types[$typeId]);
         return $typeModel;
     }
@@ -123,7 +145,7 @@ class Magento_Catalog_Model_Product_Type
             $priceModelName = self::DEFAULT_PRICE_MODEL;
         }
 
-        $this->_priceModels[$productType] = Mage::getModel($priceModelName);
+        $this->_priceModels[$productType] = $this->_priceFactory->create($priceModelName);
         return $this->_priceModels[$productType];
     }
 

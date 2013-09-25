@@ -51,6 +51,32 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     protected $_catalogProductCompare = null;
 
     /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Log visitor
+     *
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Log_Model_Visitor $logVisitor
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -59,6 +85,9 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Log_Model_Visitor $logVisitor,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -66,6 +95,9 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_logVisitor = $logVisitor;
+        $this->_customerSession = $customerSession;
         $this->_catalogProductCompare = $catalogProductCompare;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -98,7 +130,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     {
         parent::_beforeSave();
         if (!$this->hasStoreId()) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId($this->_storeManager->getStore()->getId());
         }
 
         return $this;
@@ -219,7 +251,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     public function getCustomerId()
     {
         if (!$this->hasData('customer_id')) {
-            $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+            $customerId = $this->_customerSession->getCustomerId();
             $this->setData('customer_id', $customerId);
         }
         return $this->getData('customer_id');
@@ -233,7 +265,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     public function getVisitorId()
     {
         if (!$this->hasData('visitor_id')) {
-            $visitorId = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
+            $visitorId = $this->_logVisitor->getId();
             $this->setData('visitor_id', $visitorId);
         }
         return $this->getData('visitor_id');

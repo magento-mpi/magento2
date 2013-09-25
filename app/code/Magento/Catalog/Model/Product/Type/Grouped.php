@@ -55,6 +55,68 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     protected $_canConfigure            = true;
 
     /**
+     * Catalog product status
+     *
+     * @var Magento_Catalog_Model_Product_Status
+     */
+    protected $_catalogProductStatus;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Catalog product link
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Link
+     */
+    protected $_catalogProductLink;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Product_Option $catalogProductOption
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Product_Type $catalogProductType
+     * @param Magento_Catalog_Model_Resource_Product_Link $catalogProductLink
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Status $catalogProductStatus
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Option $catalogProductOption,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Product_Type $catalogProductType,
+        Magento_Catalog_Model_Resource_Product_Link $catalogProductLink,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Status $catalogProductStatus,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
+        array $data = array()
+    ) {
+        $this->_catalogProductLink = $catalogProductLink;
+        $this->_storeManager = $storeManager;
+        $this->_catalogProductStatus = $catalogProductStatus;
+        parent::__construct($productFactory, $catalogProductOption, $eavConfig, $catalogProductType,
+            $eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
+    }
+
+    /**
      * Return relation info about used products
      *
      * @return Magento_Object Object with information data
@@ -81,7 +143,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Link')
+        return $this->_catalogProductLink
             ->getChildrenIds($parentId,
                 Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
     }
@@ -94,7 +156,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Link')
+        return $this->_catalogProductLink
             ->getParentIdsByChild($childId,
                 Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
     }
@@ -110,7 +172,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
         if (!$product->hasData($this->_keyAssociatedProducts)) {
             $associatedProducts = array();
 
-            if (!Mage::app()->getStore()->isAdmin()) {
+            if (!$this->_storeManager->getStore()->isAdmin()) {
                 $this->setSaleableStatus($product);
             }
 
@@ -159,7 +221,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     public function setSaleableStatus($product)
     {
         $product->setData($this->_keyStatusFilters,
-            Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getSaleableStatusIds());
+            $this->_catalogProductStatus->getSaleableStatusIds());
         return $this;
     }
 

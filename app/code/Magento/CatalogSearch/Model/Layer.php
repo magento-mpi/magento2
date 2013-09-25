@@ -50,20 +50,30 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     /**
      * Construct
      *
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory
+     * @param Magento_Catalog_Model_Layer_StateFactory $layerStateFactory
+     * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory
+     * @param Magento_Catalog_Model_Resource_Product $catalogProduct
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Model_Product_Visibility $catalogProductVisibility
      * @param Magento_Catalog_Model_Config $catalogConfig
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory,
+        Magento_Catalog_Model_Layer_StateFactory $layerStateFactory,
+        Magento_Catalog_Model_CategoryFactory $categoryFactory,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $attributeCollectionFactory,
+        Magento_Catalog_Model_Resource_Product $catalogProduct,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_Product_Visibility $catalogProductVisibility,
         Magento_Catalog_Model_Config $catalogConfig,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_CatalogSearch_Model_Resource_Fulltext_CollectionFactory $fulltextCollectionFactory,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         array $data = array()
     ) {
@@ -72,7 +82,8 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
         $this->_catalogConfig = $catalogConfig;
         $this->_storeManager = $storeManager;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($coreRegistry, $data);
+        parent::__construct($layerStateFactory, $categoryFactory, $attributeCollectionFactory, $catalogProduct,
+            $storeManager, $catalogProductVisibility, $catalogConfig, $customerSession, $coreRegistry);
     }
 
     /**

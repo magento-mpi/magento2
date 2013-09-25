@@ -48,6 +48,7 @@ class Magento_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Con
      * Iframe Ajax Action
      *
      *  @return void
+     * @throws Magento_Core_Exception
      */
     public function iframeAction()
     {
@@ -65,7 +66,7 @@ class Magento_Pbridge_Controller_Adminhtml_Pbridge extends Magento_Adminhtml_Con
                 }
             }
         } else {
-            Mage::throwException(__('Payment Method Code is not passed.'));
+            throw new Magento_Core_Exception(__('Payment Method Code is not passed.'));
         }
     }
 

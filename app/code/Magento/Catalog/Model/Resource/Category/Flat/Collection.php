@@ -40,6 +40,35 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     protected $_storeId        = null;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
+    /**
      *  Collection initialization
      *
      */
@@ -131,7 +160,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
     public function getStoreId()
     {
         if (null === $this->_storeId) {
-            return Mage::app()->getStore()->getId();
+            return $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -284,7 +313,7 @@ class Magento_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Co
      */
     public function addUrlRewriteToResult()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
         $this->getSelect()->joinLeft(
             array('url_rewrite' => $this->getTable('core_url_rewrite')),
             'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 '

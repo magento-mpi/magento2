@@ -33,6 +33,37 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
     protected $_storeId          = null;
 
     /**
+     * Eav config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection
      *
      */
@@ -62,7 +93,7 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
     public function getStoreId()
     {
         if ($this->_storeId === null) {
-            return Mage::app()->getStore()->getId();
+            return $this->_storeManager->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -75,7 +106,7 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
+            $this->_entityTypeId = $this->_eavConfig->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
         }
         return $this->_entityTypeId;
     }

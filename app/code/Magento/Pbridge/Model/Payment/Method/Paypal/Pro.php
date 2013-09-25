@@ -36,6 +36,13 @@ class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Mod
     protected $_paymentData;
 
     /**
+     * Info factory
+     *
+     * @var Magento_Paypal_Model_InfoFactory
+     */
+    protected $_infoFactory;
+
+    /**
      * @param Magento_Paypal_Model_Config_Factory $configFactory
      * @param Magento_Paypal_Model_Api_Type_Factory $apiFactory
      * @param Magento_Paypal_Model_InfoFactory $infoFactory
@@ -47,6 +54,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Mod
         Magento_Paypal_Model_InfoFactory $infoFactory,
         Magento_Payment_Helper_Data $paymentData
     ) {
+        $this->_infoFactory = $infoFactory;
         $this->_paymentData = $paymentData;
         parent::__construct($configFactory, $apiFactory, $infoFactory);
     }

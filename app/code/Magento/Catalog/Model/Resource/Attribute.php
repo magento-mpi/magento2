@@ -19,6 +19,43 @@
 class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resource_Entity_Attribute
 {
     /**
+     * Eav config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Eav_Model_Resource_Entity_Type $eavEntityType
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param array $arguments
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_App $app,
+        Magento_Eav_Model_Resource_Entity_Type $eavEntityType,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Eav_Model_Config $eavConfig,
+        array $arguments = array()
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resource, $app, $eavEntityType, $arguments);
+    }
+
+    /**
      * Perform actions before object save
      *
      * @param Magento_Core_Model_Abstract $object
@@ -59,7 +96,7 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
             && isset($origData['is_global'])
             && Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL != $origData['is_global']
         ) {
-            $attributeStoreIds = array_keys(Mage::app()->getStores());
+            $attributeStoreIds = array_keys($this->_storeManager->getStores());
             if (!empty($attributeStoreIds)) {
                 $delCondition = array(
                     'entity_type_id=?' => $object->getEntityTypeId(),
@@ -78,6 +115,7 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
      *
      * @param Magento_Core_Model_Abstract $object
      * @return Magento_Catalog_Model_Resource_Attribute
+     * @throws Magento_Core_Exception
      */
     public function deleteEntity(Magento_Core_Model_Abstract $object)
     {
@@ -91,11 +129,12 @@ class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resourc
         $result = $this->_getReadAdapter()->fetchRow($select);
 
         if ($result) {
-            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
+            $attribute = $this->_eavConfig
                 ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $result['attribute_id']);
 
             if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
-                Mage::throwException(__("Attribute '%1' used in configurable products", $attribute->getAttributeCode()));
+                throw new Magento_Core_Exception(__("Attribute '%1' used in configurable products",
+                    $attribute->getAttributeCode()));
             }
             $backendTable = $attribute->getBackend()->getTable();
             if ($backendTable) {

@@ -19,17 +19,21 @@
 class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Item
+     * Stock item factory
+     *
+     * @var Magento_CatalogInventory_Model_Stock_ItemFactory
      */
     protected $_stockItemFactory;
 
     /**
-     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
      */
     public function __construct(
-        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory,
-        Magento_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger,
+        Magento_CatalogInventory_Model_Stock_ItemFactory $stockItemFactory
     ) {
         $this->_stockItemFactory = $stockItemFactory;
         parent::__construct($logger);
@@ -86,7 +90,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (!empty($value['qty']) && !preg_match('/^-?\d*(\.|,)?\d{0,4}$/i', $value['qty'])) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('Please enter a valid number in this field.')
             );
         }

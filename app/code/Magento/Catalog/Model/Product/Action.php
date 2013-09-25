@@ -26,6 +26,24 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
+     * Index indexer
+     *
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexIndexer;
+
+    /**
+     * Product website factory
+     *
+     * @var Magento_Catalog_Model_Product_WebsiteFactory
+     */
+    protected $_productWebsiteFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Product_WebsiteFactory $productWebsiteFactory
+     * @param Magento_Index_Model_Indexer $indexIndexer
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -34,6 +52,8 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Product_WebsiteFactory $productWebsiteFactory,
+        Magento_Index_Model_Indexer $indexIndexer,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -41,6 +61,8 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_productWebsiteFactory = $productWebsiteFactory;
+        $this->_indexIndexer = $indexIndexer;
         $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -88,7 +110,7 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
         ));
 
         // register mass action indexer event
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $this, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
         );
         return $this;
@@ -108,9 +130,9 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
     public function updateWebsites($productIds, $websiteIds, $type)
     {
         if ($type == 'add') {
-            Mage::getModel('Magento_Catalog_Model_Product_Website')->addProducts($websiteIds, $productIds);
+            $this->_productWebsiteFactory->create()->addProducts($websiteIds, $productIds);
         } else if ($type == 'remove') {
-            Mage::getModel('Magento_Catalog_Model_Product_Website')->removeProducts($websiteIds, $productIds);
+            $this->_productWebsiteFactory->create()->removeProducts($websiteIds, $productIds);
         }
 
         $this->setData(array(
@@ -120,7 +142,7 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
         ));
 
         // register mass action indexer event
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+        $this->_indexIndexer->processEntityAction(
             $this, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
         );
     }

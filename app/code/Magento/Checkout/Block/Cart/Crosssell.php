@@ -30,11 +30,6 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var Magento_Catalog_Model_Product_Visibility
      */
     protected $_productVisibility;
@@ -50,37 +45,43 @@ class Magento_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Produc
     protected $_productLinkFactory;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Checkout_Model_Session $checkoutSession
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Model_Product_Visibility $productVisibility
      * @param Magento_CatalogInventory_Model_Stock $stock
      * @param Magento_Catalog_Model_Product_LinkFactory $productLinkFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
         Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Model_Product_Visibility $productVisibility,
         Magento_CatalogInventory_Model_Stock $stock,
         Magento_Catalog_Model_Product_LinkFactory $productLinkFactory,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
-        $this->_storeManager = $storeManager;
         $this->_productVisibility = $productVisibility;
         $this->_stock = $stock;
         $this->_productLinkFactory = $productLinkFactory;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
     }
 
     /**

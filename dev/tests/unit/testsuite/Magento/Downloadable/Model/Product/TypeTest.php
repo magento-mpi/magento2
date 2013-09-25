@@ -18,6 +18,7 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
 
     protected function setUp()
     {
+        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $downloadableFile = $this->getMockBuilder('Magento_Downloadable_Helper_File')
             ->disableOriginalConstructor()->getMock();
@@ -27,6 +28,7 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $productFactoryMock = $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false);
         $sampleResFactory = $this->getMock(
             'Magento_Downloadable_Model_Resource_SampleFactory', array(), array(), '', false);
         $linkResource = $this->getMock('Magento_Downloadable_Model_Resource_Link', array(), array(), '', false);
@@ -38,10 +40,23 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
         );
         $sampleFactory = $this->getMock('Magento_Downloadable_Model_SampleFactory', array(), array(), '', false);
         $linkFactory = $this->getMock('Magento_Downloadable_Model_LinkFactory', array(), array(), '', false);
-        $this->_model = new Magento_Downloadable_Model_Product_Type(
-            $eventManager, $downloadableFile, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger,
-            $sampleResFactory, $linkResource, $linksFactory, $samplesFactory, $sampleFactory, $linkFactory
-        );
+
+        $this->_model = $objectHelper->getObject('Magento_Downloadable_Model_Product_Type', array(
+            'eventManager' => $eventManager,
+            'downloadableFile' => $downloadableFile,
+            'coreData' => $coreData,
+            'fileStorageDb' => $fileStorageDb,
+            'filesystem' => $filesystem,
+            'coreRegistry' => $coreRegistry,
+            'logger' => $logger,
+            'productFactory' => $productFactoryMock,
+            'sampleResFactory' => $sampleResFactory,
+            'linkResource' => $linkResource,
+            'linksFactory' => $linksFactory,
+            'samplesFactory' => $samplesFactory,
+            'sampleFactory' => $sampleFactory,
+            'linkFactory' => $linkFactory,
+        ));
     }
 
     public function testHasWeightFalse()

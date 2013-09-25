@@ -20,6 +20,27 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
     extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
+     * Catalog url
+     *
+     * @var Magento_Catalog_Model_Url
+     */
+    protected $_catalogUrl;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Url $catalogUrl
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(
+        Magento_Catalog_Model_Url $catalogUrl,
+        Magento_Core_Model_Logger $logger
+    ) {
+        $this->_catalogUrl = $catalogUrl;
+        parent::__construct($logger);
+    }
+
+    /**
      * Before save
      *
      * @param Magento_Object $object
@@ -48,7 +69,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
     public function afterSave($object)
     {
         if ($object->dataHasChangedFor($this->getAttribute()->getName())) {
-            Mage::getSingleton('Magento_Catalog_Model_Url')->refreshProductRewrites(null, $object, true);
+            $this->_catalogUrl->refreshProductRewrites(null, $object, true);
         }
         return $this;
     }

@@ -11,12 +11,71 @@
 /**
  * Product Compare List Model
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Product_Compare_List extends Magento_Object
 {
+    /**
+     * Log visitor
+     *
+     * @var Magento_Log_Model_Visitor
+     */
+    protected $_logVisitor;
+
+    /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Catalog product compare item
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Compare_Item
+     */
+    protected $_catalogProductCompareItem;
+
+    /**
+     * Item collection factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory
+     */
+    protected $_itemCollectionFactory;
+
+    /**
+     * Compare item factory
+     *
+     * @var Magento_Catalog_Model_Product_Compare_ItemFactory
+     */
+    protected $_compareItemFactory;
+
+    /**
+     * Constructor
+     *
+     * @param Magento_Catalog_Model_Product_Compare_ItemFactory $compareItemFactory
+     * @param Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemCollectionFactory
+     * @param Magento_Catalog_Model_Resource_Product_Compare_Item $catalogProductCompareItem
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Log_Model_Visitor $logVisitor
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Product_Compare_ItemFactory $compareItemFactory,
+        Magento_Catalog_Model_Resource_Product_Compare_Item_CollectionFactory $itemCollectionFactory,
+        Magento_Catalog_Model_Resource_Product_Compare_Item $catalogProductCompareItem,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Log_Model_Visitor $logVisitor,
+        array $data = array()
+    ) {
+        $this->_compareItemFactory = $compareItemFactory;
+        $this->_itemCollectionFactory = $itemCollectionFactory;
+        $this->_catalogProductCompareItem = $catalogProductCompareItem;
+        $this->_customerSession = $customerSession;
+        $this->_logVisitor = $logVisitor;
+        parent::__construct($data);
+    }
+
     /**
      * Add product to Compare List
      *
@@ -26,7 +85,7 @@ class Magento_Catalog_Model_Product_Compare_List extends Magento_Object
     public function addProduct($product)
     {
         /* @var $item Magento_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('Magento_Catalog_Model_Product_Compare_Item');
+        $item = $this->_compareItemFactory->create();
         $this->_addVisitorToItem($item);
         $item->loadByProduct($product);
 
@@ -61,7 +120,7 @@ class Magento_Catalog_Model_Product_Compare_List extends Magento_Object
      */
     public function getItemCollection()
     {
-        return Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection');
+        return $this->_itemCollectionFactory->create();
     }
 
     /**
@@ -73,7 +132,7 @@ class Magento_Catalog_Model_Product_Compare_List extends Magento_Object
     public function removeProduct($product)
     {
         /* @var $item Magento_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('Magento_Catalog_Model_Product_Compare_Item');
+        $item = $this->_compareItemFactory->create();
         $this->_addVisitorToItem($item);
         $item->loadByProduct($product);
 
@@ -92,9 +151,9 @@ class Magento_Catalog_Model_Product_Compare_List extends Magento_Object
      */
     protected function _addVisitorToItem($item)
     {
-        $item->addVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            $item->addCustomerData(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer());
+        $item->addVisitorId($this->_logVisitor->getId());
+        if ($this->_customerSession->isLoggedIn()) {
+            $item->addCustomerData($this->_customerSession->getCustomer());
         }
 
         return $this;
@@ -109,7 +168,7 @@ class Magento_Catalog_Model_Product_Compare_List extends Magento_Object
      */
     public function hasItems($customerId, $visitorId)
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Compare_Item')
+        return $this->_catalogProductCompareItem
             ->getCount($customerId, $visitorId);
     }
 }

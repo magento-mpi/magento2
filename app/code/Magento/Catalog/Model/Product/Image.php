@@ -75,6 +75,32 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * Catalog product media config
+     *
+     * @var Magento_Catalog_Model_Product_Media_Config
+     */
+    protected $_catalogProductMediaConfig;
+
+    /**
+     * Dir
+     *
+     * @var Magento_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Catalog_Model_Product_Media_Config $catalogProductMediaConfig
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -86,8 +112,13 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Dir $dir,
+        Magento_Catalog_Model_Product_Media_Config $catalogProductMediaConfig,
         Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -100,9 +131,12 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_dir = $dir;
+        $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $baseDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        $baseDir = $this->_catalogProductMediaConfig->getBaseMediaPath();
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($baseDir);
@@ -325,7 +359,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         if (($file) && (0 !== strpos($file, '/', 0))) {
             $file = '/' . $file;
         }
-        $baseDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        $baseDir = $this->_catalogProductMediaConfig->getBaseMediaPath();
 
         if ('/no_selection' == $file) {
             $file = null;
@@ -360,9 +394,9 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
 
         // build new filename (most important params)
         $path = array(
-            Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath(),
+            $this->_catalogProductMediaConfig->getBaseMediaPath(),
             'cache',
-            Mage::app()->getStore()->getId(),
+            $this->_storeManager->getStore()->getId(),
             $path[] = $this->getDestinationSubdir()
         );
         if ((!empty($this->_width)) || (!empty($this->_height))) {
@@ -547,9 +581,9 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
                 "Magento_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
             );
         } else {
-            $baseDir = Mage::getBaseDir('media');
+            $baseDir = $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA);
             $path = str_replace($baseDir . DS, "", $this->_newFile);
-            $url = Mage::getBaseUrl('media') . str_replace(DS, '/', $path);;
+            $url = $this->_storeManager->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA) . str_replace(DS, '/', $path);;
         }
 
         return $url;
@@ -615,12 +649,12 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
             return $filePath;
         }
 
-        $baseDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        $baseDir = $this->_catalogProductMediaConfig->getBaseMediaPath();
 
-        if ($this->_fileExists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file)) {
-            $filePath = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;
-        } elseif ($this->_fileExists($baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file)) {
-            $filePath = $baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file;
+        if ($this->_fileExists($baseDir . '/watermark/stores/' . $this->_storeManager->getStore()->getId() . $file)) {
+            $filePath = $baseDir . '/watermark/stores/' . $this->_storeManager->getStore()->getId() . $file;
+        } elseif ($this->_fileExists($baseDir . '/watermark/websites/' . $this->_storeManager->getWebsite()->getId() . $file)) {
+            $filePath = $baseDir . '/watermark/websites/' . $this->_storeManager->getWebsite()->getId() . $file;
         } elseif ($this->_fileExists($baseDir . '/watermark/default/' . $file)) {
             $filePath = $baseDir . '/watermark/default/' . $file;
         } elseif ($this->_fileExists($baseDir . '/watermark/' . $file)) {
@@ -740,7 +774,8 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
 
     public function clearCache()
     {
-        $directory = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product' . DS.'cache' . DS;
+        $directory = $this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . DS . 'catalog' . DS . 'product'
+            . DS . 'cache' . DS;
         $this->_filesystem->delete($directory);
 
         $this->_coreFileStorageDatabase->deleteFolder($directory);

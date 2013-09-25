@@ -105,15 +105,27 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
+     * Product image factory
+     *
+     * @var Magento_Catalog_Model_Product_ImageFactory
+     */
+    protected $_productImageFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Product_ImageFactory $productImageFactory
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      */
     public function __construct(
+        Magento_Catalog_Model_Product_ImageFactory $productImageFactory,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
+        $this->_productImageFactory = $productImageFactory;
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
@@ -150,7 +162,7 @@ class Magento_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
     public function init(Magento_Catalog_Model_Product $product, $attributeName, $imageFile=null)
     {
         $this->_reset();
-        $this->_setModel(Mage::getModel('Magento_Catalog_Model_Product_Image'));
+        $this->_setModel($this->_productImageFactory->create());
         $this->_getModel()->setDestinationSubdir($attributeName);
         $this->setProduct($product);
 

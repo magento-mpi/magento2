@@ -40,6 +40,42 @@ abstract class Magento_Pbridge_Block_Payment_Form_Abstract extends Magento_Pbrid
     protected $_sendShipping = false;
 
     /**
+     * Checkout session
+     *
+     * @var Magento_Checkout_Model_Session
+     */
+    protected $_checkoutSession;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Pbridge_Model_Session $pbridgeSession
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Pbridge_Model_Session $pbridgeSession,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Pbridge_Helper_Data $pbridgeData,
+        Magento_Checkout_Model_Session $checkoutSession,
+        array $data = array()
+    ) {
+        $this->_checkoutSession = $checkoutSession;
+        parent::__construct($coreData, $context, $customerSession, $pbridgeSession, $regionFactory, $storeManager,
+            $pbridgeData, $data);
+    }
+
+    /**
      * Return original payment method code
      *
      *  @return string
@@ -56,7 +92,7 @@ abstract class Magento_Pbridge_Block_Payment_Form_Abstract extends Magento_Pbrid
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return $this->_checkoutSession->getQuote();
     }
 
     /**

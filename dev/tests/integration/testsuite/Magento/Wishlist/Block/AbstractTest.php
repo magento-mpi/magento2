@@ -20,21 +20,20 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_block = $this->getMockForAbstractClass('Magento_Wishlist_Block_Abstract', array(
+            $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
+            $objectManager->get('Magento_Catalog_Model_Config'),
             $objectManager->get('Magento_Core_Model_Registry'),
-            $objectManager->get('Magento_Wishlist_Helper_Data'),
             $objectManager->get('Magento_Tax_Helper_Data'),
             $objectManager->get('Magento_Catalog_Helper_Data'),
-            $objectManager->get('Magento_Core_Helper_Data'),
             $objectManager->get('Magento_Core_Block_Template_Context'),
-            $objectManager->get('Magento_Core_Model_StoreManagerInterface'),
+            $objectManager->get('Magento_Wishlist_Helper_Data'),
             $objectManager->get('Magento_Customer_Model_Session'),
-            $objectManager->get('Magento_Catalog_Model_ProductFactory')
+            $objectManager->get('Magento_Catalog_Model_ProductFactory'),
         ));
     }
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
      */
     public function testImage()
     {

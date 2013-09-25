@@ -50,18 +50,20 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
     protected $_eventManager = null;
 
     /**
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Helper_Data $coreData
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
-        parent::__construct($resource);
+        parent::__construct($resource, $eavConfig);
     }
 
     /**
@@ -89,11 +91,12 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
      * Retrieve Product Type Code
      *
      * @return string
+     * @throws Magento_Core_Exception
      */
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            Mage::throwException(__('A product type is not defined for the indexer.'));
+            throw new Magento_Core_Exception(__('A product type is not defined for the indexer.'));
         }
         return $this->_typeId;
     }

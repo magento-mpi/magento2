@@ -21,6 +21,10 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
     protected $itemFactory = null;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -30,6 +34,8 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Helper_Data $taxData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -39,7 +45,8 @@ class Magento_GiftRegistry_Block_Customer_Items extends Magento_Catalog_Block_Pr
         array $data = array()
     ) {
         $this->itemFactory = $itemFactory;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
+            $data);
     }
 
     /**

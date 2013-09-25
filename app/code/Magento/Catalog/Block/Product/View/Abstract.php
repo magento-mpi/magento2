@@ -26,7 +26,7 @@ abstract class Magento_Catalog_Block_Product_View_Abstract extends Magento_Catal
     {
         $product = parent::getProduct();
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {
-            $product->getTypeInstance()->setStoreFilter(Mage::app()->getStore(), $product);
+            $product->getTypeInstance()->setStoreFilter($this->_storeManager->getStore(), $product);
         }
 
         return $product;

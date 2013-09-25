@@ -54,6 +54,16 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
     protected $_catalogCategoryFlat = null;
 
     /**
+     * Catalog resource category flat
+     *
+     * @var Magento_Catalog_Model_Resource_Category_Flat
+     */
+    protected $_resourceCategoryFlat;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Resource_Category_Flat $resourceCategoryFlat
      * @param Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -62,6 +72,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Resource_Category_Flat $resourceCategoryFlat,
         Magento_Catalog_Helper_Category_Flat $catalogCategoryFlat,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -69,6 +80,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_resourceCategoryFlat = $resourceCategoryFlat;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -105,7 +117,7 @@ class Magento_Catalog_Model_Category_Indexer_Flat extends Magento_Index_Model_In
      */
     protected function _getIndexer()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Flat');
+        return $this->_resourceCategoryFlat;
     }
 
     /**

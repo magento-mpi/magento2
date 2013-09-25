@@ -47,7 +47,8 @@ class Magento_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Front_A
     /**
      * Iframe Ajax Action
      *
-     *  @return void
+     * @return void
+     * @throws Magento_Core_Exception
      */
     public function iframeAction()
     {
@@ -65,14 +66,15 @@ class Magento_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Front_A
                 }
             }
         } else {
-            Mage::throwException(__('Payment Method Code is not passed.'));
+            throw new Magento_Core_Exception(__('Payment Method Code is not passed.'));
         }
     }
 
     /**
      * Iframe Ajax Action for review page
      *
-     *  @return void
+     * @return void
+     * @throws Magento_Core_Exception
      */
     public function reviewAction()
     {
@@ -87,7 +89,7 @@ class Magento_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Front_A
                 }
             }
         } else {
-            Mage::throwException(__('Payment Method Code is not passed.'));
+            throw new Magento_Core_Exception(__('Payment Method Code is not passed.'));
         }
     }
 

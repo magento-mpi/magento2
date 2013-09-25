@@ -27,15 +27,19 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
     protected $_eventManager = null;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * Construct
+     *
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Event_Manager $eventManager
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($resource);
+        parent::__construct($resource, $eavConfig);
     }
 
     /**

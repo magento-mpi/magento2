@@ -35,6 +35,35 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
     abstract protected function _getDuplicateErrorMessage();
 
     /**
+     * Catalog product type
+     *
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_catalogProductType;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Directory_Model_CurrencyFactory $currencyFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Type $catalogProductType
+     * @param Magento_Catalog_Helper_Data $catalogData
+     * @param Magento_Core_Model_Config $config
+     */
+    public function __construct(
+        Magento_Core_Model_Logger $logger,
+        Magento_Directory_Model_CurrencyFactory $currencyFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Type $catalogProductType,
+        Magento_Catalog_Helper_Data $catalogData,
+        Magento_Core_Model_Config $config
+    ) {
+        $this->_catalogProductType = $catalogProductType;
+        parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config);
+    }
+
+    /**
      * Retrieve websites currency rates and base currency codes
      *
      * @return array
@@ -43,11 +72,12 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
     {
         if (is_null($this->_rates)) {
             $this->_rates = array();
-            $baseCurrency = Mage::app()->getBaseCurrencyCode();
-            foreach (Mage::app()->getWebsites() as $website) {
+            $baseCurrency = $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+                'default');
+            foreach ($this->_storeManager->getWebsites() as $website) {
                 /* @var $website Magento_Core_Model_Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                    $rate = Mage::getModel('Magento_Directory_Model_Currency')
+                    $rate = $this->_currencyFactory->create()
                         ->load($baseCurrency)
                         ->getRate($website->getBaseCurrencyCode());
                     if (!$rate) {
@@ -123,7 +153,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
                 $this->_getAdditionalUniqueFields($priceRow)
             ));
             if (isset($duplicates[$compare])) {
-                Mage::throwException($this->_getDuplicateErrorMessage());
+                throw new Magento_Core_Exception($this->_getDuplicateErrorMessage());
             }
             $duplicates[$compare] = true;
         }
@@ -144,7 +174,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
         }
 
         // validate currency
-        $baseCurrency = Mage::app()->getBaseCurrencyCode();
+        $baseCurrency = $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, 'default');
         $rates = $this->_getWebsiteCurrencyRates();
         foreach ($priceRows as $priceRow) {
             if (!empty($priceRow['delete'])) {
@@ -161,7 +191,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
             $websiteCurrency = $rates[$priceRow['website_id']]['code'];
 
             if ($baseCurrency == $websiteCurrency && isset($duplicates[$globalCompare])) {
-                Mage::throwException($this->_getDuplicateErrorMessage());
+                throw new Magento_Core_Exception($this->_getDuplicateErrorMessage());
             }
         }
 
@@ -180,7 +210,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
     {
         $rates  = $this->_getWebsiteCurrencyRates();
         $data   = array();
-        $price  = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->priceFactory($productTypeId);
+        $price  = $this->_catalogProductType->priceFactory($productTypeId);
         foreach ($priceData as $v) {
             $key = join('-', array_merge(array($v['cust_group']), $this->_getAdditionalUniqueFields($v)));
             if ($v['website_id'] == $websiteId) {
@@ -212,7 +242,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
         if ($this->getAttribute()->isScopeGlobal()) {
             $websiteId = 0;
         } else if ($storeId) {
-            $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+            $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         }
 
         $data = $this->_getResource()->loadPriceData($object->getId(), $websiteId);
@@ -245,7 +275,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
      */
     public function afterSave($object)
     {
-        $websiteId  = Mage::app()->getStore($object->getStoreId())->getWebsiteId();
+        $websiteId  = $this->_storeManager->getStore($object->getStoreId())->getWebsiteId();
         $isGlobal   = $this->getAttribute()->isScopeGlobal() || $websiteId == 0;
 
         $priceRows = $object->getData($this->getAttribute()->getName());

@@ -34,23 +34,22 @@ class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Mod
     /**
      * Constructor
      *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
+     * @param Magento_Checkout_Model_Session $checkoutSession
+     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
+        Magento_Checkout_Model_Session $checkoutSession,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Store_Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_coreString = $coreString;
-        parent::__construct($coreStoreConfig, $data);
+        parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
 
     /**
@@ -70,14 +69,14 @@ class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Mod
         // Check requires option to have some value
         if (strlen($value) == 0 && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(__('Please specify the product\'s required option(s).'));
+            throw new Magento_Core_Exception(__('Please specify the product\'s required option(s).'));
         }
 
         // Check maximal length limit
         $maxCharacters = $option->getMaxCharacters();
         if ($maxCharacters > 0 && $this->_coreString->strlen($value) > $maxCharacters) {
             $this->setIsValid(false);
-            Mage::throwException(__('The text is too long.'));
+            throw new Magento_Core_Exception(__('The text is too long.'));
         }
 
         $this->setUserValue($value);

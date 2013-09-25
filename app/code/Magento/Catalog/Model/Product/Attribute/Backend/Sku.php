@@ -33,12 +33,14 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
     protected $_coreString = null;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
+     * Construct
+     *
      * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_String $coreString
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
-        Magento_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Helper_String $coreString
     ) {
         $this->_coreString = $coreString;
         parent::__construct($logger);
@@ -61,7 +63,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
         }
 
         if ($helper->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
-            Mage::throwException(
+            throw new Magento_Core_Exception(
                 __('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH)
             );
         }

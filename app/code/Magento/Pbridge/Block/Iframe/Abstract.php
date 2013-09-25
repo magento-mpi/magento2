@@ -68,18 +68,60 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
     protected $_pbridgeData = null;
 
     /**
-     * @param Magento_Pbridge_Helper_Data $pbridgeData
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Region factory
+     *
+     * @var Magento_Directory_Model_RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
+     * Pbridge session
+     *
+     * @var Magento_Pbridge_Model_Session
+     */
+    protected $_pbridgeSession;
+
+    /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Pbridge_Model_Session $pbridgeSession
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Pbridge_Helper_Data $pbridgeData
      * @param array $data
      */
     public function __construct(
-        Magento_Pbridge_Helper_Data $pbridgeData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Pbridge_Model_Session $pbridgeSession,
+        Magento_Directory_Model_RegionFactory $regionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Pbridge_Helper_Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
+        $this->_customerSession = $customerSession;
+        $this->_pbridgeSession = $pbridgeSession;
+        $this->_regionFactory = $regionFactory;
+        $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -129,7 +171,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
                 $result['street2'] = $street2;
             }
             //Region code lookup
-            $region = Mage::getModel('Magento_Directory_Model_Region')->load($address->getData('region_id'));
+            $region = $this->_regionFactory->create()->load($address->getData('region_id'));
             if ($region && $region->getId()) {
                 $result['region'] = $region->getCode();
             }
@@ -187,7 +229,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
         }
         $shouldMergeCss = $this->_storeConfig->getConfigFlag('dev/css/merge_css_files');
         if (!is_object($this->getLayout()->getBlock('head'))) {
-            return Mage::getSingleton('Magento_Pbridge_Model_Session')->getCssUrl();
+            return $this->_pbridgeSession->getCssUrl();
         }
         $items = $this->getLayout()->getBlock('head')->getData('items');
         $lines  = array();
@@ -211,7 +253,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
                 $shouldMergeCss ? array($this->_design, 'getMergedCssUrl') : null
             );
         }
-        Mage::getSingleton('Magento_Pbridge_Model_Session')->setCssUrl($url);
+        $this->_pbridgeSession->setCssUrl($url);
         return $url;
     }
 
@@ -225,7 +267,7 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
      */
     protected function _prepareCssElements(array $staticItems, array $skinItems, $mergeCallback = null)
     {
-        $baseJsUrl = Mage::getBaseUrl('js');
+        $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_JS);
         $items = array();
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;
@@ -234,7 +276,8 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
         // get static files from the js folder, no need in lookups
         foreach ($staticItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? Mage::getBaseDir() . DS . 'js' . DS . $name : $baseJsUrl . $name;
+                $items[$params][] = $mergeCallback ? $this->_dirs->getDir() . DS . 'js' . DS . $name : $baseJsUrl
+                    . $name;
             }
         }
 
@@ -319,8 +362,8 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        if ($this->_customerSession->isLoggedIn()) {
+            return $this->_customerSession->getCustomer();
         }
 
         return null;
@@ -333,6 +376,6 @@ abstract class Magento_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Blo
      */
     protected function _getCurrentStore()
     {
-        return Mage::app()->getStore();
+        return $this->_storeManager->getStore();
     }
 }

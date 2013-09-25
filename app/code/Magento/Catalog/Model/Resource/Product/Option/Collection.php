@@ -12,12 +12,49 @@
 /**
  * Catalog product options collection
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Option value factory
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory
+     */
+    protected $_optionValueCollectionFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory $optionValueCollectionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     */
+    public function __construct(
+        Magento_Catalog_Model_Resource_Product_Option_Value_CollectionFactory $optionValueCollectionFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
+    ) {
+        $this->_optionValueCollectionFactory = $optionValueCollectionFactory;
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+    }
+
     /**
      * Resource initialization
      */
@@ -129,17 +166,16 @@ class Magento_Catalog_Model_Resource_Product_Option_Collection extends Magento_C
     public function addValuesToResult($storeId = null)
     {
         if ($storeId === null) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = $this->_storeManager->getStore()->getId();
         }
         $optionIds = array();
         foreach ($this as $option) {
             $optionIds[] = $option->getId();
         }
         if (!empty($optionIds)) {
-            /** @var $values Magento_Catalog_Model_Option_Value_Collection */
-            $values = Mage::getModel('Magento_Catalog_Model_Product_Option_Value')
-                ->getCollection()
-                ->addTitleToResult($storeId)
+            /** @var Magento_Catalog_Model_Resource_Product_Option_Value_Collection $values */
+            $values = $this->_optionValueCollectionFactory->create();
+            $values->addTitleToResult($storeId)
                 ->addPriceToResult($storeId)
                 ->addOptionToFilter($optionIds)
                 ->setOrder('sort_order', self::SORT_ORDER_ASC)

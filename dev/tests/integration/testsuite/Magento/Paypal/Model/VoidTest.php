@@ -19,7 +19,6 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $eventManager = $objectManager->get('Magento_Core_Model_Event_Manager');
-        $coreData = $objectManager->get('Magento_Core_Helper_Data');
         $moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
         $paymentData = $objectManager->get('Magento_Payment_Helper_Data');
         $coreStoreConfig = $objectManager->get('Magento_Core_Model_Store_Config');
@@ -29,6 +28,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $centinelService = $objectManager->get('Magento_Centinel_Model_Service');
         $storeManager = $objectManager->get('Magento_Core_Model_StoreManagerInterface');
         $configFactory = $objectManager->get('Magento_Paypal_Model_ConfigFactory');
+        $coreData = $objectManager->get('Magento_Core_Helper_Data');
 
         /** @var $order Magento_Sales_Model_Order */
         $order = $objectManager->create('Magento_Sales_Model_Order');

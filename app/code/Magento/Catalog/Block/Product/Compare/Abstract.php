@@ -26,6 +26,10 @@ abstract class Magento_Catalog_Block_Product_Compare_Abstract extends Magento_Ca
     protected $_catalogProductCompare = null;
 
     /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
      * @param Magento_Tax_Helper_Data $taxData
@@ -35,6 +39,8 @@ abstract class Magento_Catalog_Block_Product_Compare_Abstract extends Magento_Ca
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
         Magento_Core_Model_Registry $coreRegistry,
         Magento_Catalog_Helper_Product_Compare $catalogProductCompare,
         Magento_Tax_Helper_Data $taxData,
@@ -44,7 +50,8 @@ abstract class Magento_Catalog_Block_Product_Compare_Abstract extends Magento_Ca
         array $data = array()
     ) {
         $this->_catalogProductCompare = $catalogProductCompare;
-        parent::__construct($coreRegistry, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
+            $context, $data);
     }
 
     /**

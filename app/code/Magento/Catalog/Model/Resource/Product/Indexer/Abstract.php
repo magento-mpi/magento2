@@ -19,6 +19,27 @@
 abstract class Magento_Catalog_Model_Resource_Product_Indexer_Abstract extends Magento_Index_Model_Resource_Abstract
 {
     /**
+     * Eav config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Eav_Model_Config $eavConfig
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Eav_Model_Config $eavConfig
+    ) {
+        $this->_eavConfig = $eavConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Retrieve catalog_product attribute instance by attribute code
      *
      * @param string $attributeCode
@@ -26,7 +47,7 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Abstract extends M
      */
     protected function _getAttribute($attributeCode)
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
+        return $this->_eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
     }
 
     /**

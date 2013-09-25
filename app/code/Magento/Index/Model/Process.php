@@ -51,7 +51,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     const MODE_REAL_TIME           = 'real_time';
 
     /**
-     * Indexer strategy object
+     * Indexer stategy object
      *
      * @var Magento_Index_Model_Indexer_Abstract
      */
@@ -72,7 +72,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_processFile;
 
     /**
-     * Event repository
+     * Event repostiory
      *
      * @var Magento_Index_Model_EventRepository
      */
@@ -86,7 +86,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
-     * @var Magento_Index_Model_Indexer_Factory
+     * @var Magento_Index_Model_IndexerFactory
      */
     protected $_indexerFactory;
 
@@ -107,6 +107,7 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Index_Model_Resource_Event $resourceEvent
+     * @param Magento_Index_Model_Indexer_Factory $indexerFactory
      * @param Magento_Index_Model_Indexer $indexer
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
@@ -114,15 +115,15 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Index_Model_Lock_Storage $lockStorage
      * @param Magento_Index_Model_EventRepository $eventRepository
-     * @param Magento_Index_Model_Indexer_Factory $indexerFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Index_Model_Resource_Event $resourceEvent,
+        Magento_Index_Model_Indexer_Factory $indexerFactory,
         Magento_Index_Model_Indexer $indexer,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
@@ -130,7 +131,6 @@ class Magento_Index_Model_Process extends Magento_Core_Model_Abstract
         Magento_Core_Model_Registry $registry,
         Magento_Index_Model_Lock_Storage $lockStorage,
         Magento_Index_Model_EventRepository $eventRepository,
-        Magento_Index_Model_Indexer_Factory $indexerFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()

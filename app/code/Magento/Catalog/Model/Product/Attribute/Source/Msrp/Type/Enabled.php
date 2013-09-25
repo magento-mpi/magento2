@@ -41,11 +41,23 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
     protected $_coreData = null;
 
     /**
+     * Entity attribute factory
+     *
+     * @var Magento_Eav_Model_Resource_Entity_AttributeFactory
+     */
+    protected $_entityAttributeFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Eav_Model_Resource_Entity_AttributeFactory $entityAttributeFactory
      * @param Magento_Core_Helper_Data $coreData
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Entity_AttributeFactory $entityAttributeFactory,
         Magento_Core_Helper_Data $coreData
     ) {
+        $this->_entityAttributeFactory = $entityAttributeFactory;
         $this->_coreData = $coreData;
     }
 
@@ -110,7 +122,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
+        return $this->_entityAttributeFactory->create()
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

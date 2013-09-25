@@ -721,6 +721,7 @@ abstract class Magento_Eav_Model_Entity_Abstract extends Magento_Core_Model_Reso
                 if ($collectExceptionMessages) {
                     $results[$attrCode] = $e->getMessage();
                 } else {
+                    /** @var Magento_Eav_Model_Entity_Attribute_Exception $e */
                     $e = $this->_universalFactory->create('Magento_Eav_Model_Entity_Attribute_Exception',
                         array('message' => $e->getMessage())
                     );

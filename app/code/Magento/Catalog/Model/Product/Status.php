@@ -44,6 +44,24 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
     protected $_eventManager = null;
 
     /**
+     * Catalog product action
+     *
+     * @var Magento_Catalog_Model_Product_Action
+     */
+    protected $_catalogProductAction;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Product_Action $catalogProductAction
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
@@ -52,6 +70,8 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Product_Action $catalogProductAction,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
@@ -59,6 +79,8 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogProductAction = $catalogProductAction;
         $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -178,18 +200,18 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
      */
     public function updateProductStatus($productId, $storeId, $value)
     {
-        Mage::getSingleton('Magento_Catalog_Model_Product_Action')
+        $this->_catalogProductAction
             ->updateAttributes(array($productId), array('status' => $value), $storeId);
 
         // add back compatibility event
         $status = $this->_getResource()->getProductAttribute('status');
         if ($status->isScopeWebsite()) {
-            $website = Mage::app()->getStore($storeId)->getWebsite();
+            $website = $this->_storeManager->getStore($storeId)->getWebsite();
             $stores  = $website->getStoreIds();
         } else if ($status->isScopeStore()) {
             $stores = array($storeId);
         } else {
-            $stores = array_keys(Mage::app()->getStores());
+            $stores = array_keys($this->_storeManager->getStores());
         }
 
         foreach ($stores as $storeId) {

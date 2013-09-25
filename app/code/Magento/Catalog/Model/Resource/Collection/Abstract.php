@@ -27,6 +27,44 @@ class Magento_Catalog_Model_Resource_Collection_Abstract extends Magento_Eav_Mod
     protected $_storeId;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Core_Model_EntityFactory $entityFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Core_Model_Resource $coreResource
+     * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
+     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
+     * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Core_Model_EntityFactory $entityFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Core_Model_Resource $coreResource,
+        Magento_Eav_Model_EntityFactory $eavEntityFactory,
+        Magento_Eav_Model_Resource_Helper $resourceHelper,
+        Magento_Validator_UniversalFactory $universalFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $coreResource,
+            $eavEntityFactory, $resourceHelper, $universalFactory);
+    }
+
+    /**
      * Set store scope
      *
      * @param int|string|Magento_Core_Model_Store $store
@@ -34,7 +72,7 @@ class Magento_Catalog_Model_Resource_Collection_Abstract extends Magento_Eav_Mod
      */
     public function setStore($store)
     {
-        $this->setStoreId(Mage::app()->getStore($store)->getId());
+        $this->setStoreId($this->_storeManager->getStore($store)->getId());
         return $this;
     }
 
@@ -61,7 +99,7 @@ class Magento_Catalog_Model_Resource_Collection_Abstract extends Magento_Eav_Mod
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId($this->_storeManager->getStore()->getId());
         }
         return $this->_storeId;
     }

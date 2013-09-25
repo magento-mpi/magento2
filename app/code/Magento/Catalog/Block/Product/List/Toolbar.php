@@ -126,13 +126,48 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
 
 
     /**
+     * Catalog config
+     *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Catalog session
+     *
+     * @var Magento_Catalog_Model_Session
+     */
+    protected $_catalogSession;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_Session $catalogSession
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Catalog_Model_Session $catalogSession,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_catalogSession = $catalogSession;
+        $this->_catalogConfig = $catalogConfig;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Retrieve Catalog Config object
      *
      * @return Magento_Catalog_Model_Config
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config');
+        return $this->_catalogConfig;
     }
 
     /**
@@ -186,9 +221,8 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
      */
     protected function _memorizeParam($param, $value)
     {
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
-        if ($this->_paramsMemorizeAllowed && !$session->getParamsMemorizeDisabled()) {
-            $session->setData($param, $value);
+        if ($this->_paramsMemorizeAllowed && !$this->_catalogSession->getParamsMemorizeDisabled()) {
+            $this->_catalogSession->setData($param, $value);
         }
         return $this;
     }
@@ -312,12 +346,12 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
         $order = $this->getRequest()->getParam($this->getOrderVarName());
         if ($order && isset($orders[$order])) {
             if ($order == $defaultOrder) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->unsSortOrder();
+                $this->_catalogSession->unsSortOrder();
             } else {
                 $this->_memorizeParam('sort_order', $order);
             }
         } else {
-            $order = Mage::getSingleton('Magento_Catalog_Model_Session')->getSortOrder();
+            $order = $this->_catalogSession->getSortOrder();
         }
         // validate session value
         if (!$order || !isset($orders[$order])) {
@@ -343,12 +377,12 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
         $dir = strtolower($this->getRequest()->getParam($this->getDirectionVarName()));
         if ($dir && in_array($dir, $directions)) {
             if ($dir == $this->_direction) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->unsSortDirection();
+                $this->_catalogSession->unsSortDirection();
             } else {
                 $this->_memorizeParam('sort_direction', $dir);
             }
         } else {
-            $dir = Mage::getSingleton('Magento_Catalog_Model_Session')->getSortDirection();
+            $dir = $this->_catalogSession->getSortDirection();
         }
         // validate direction
         if (!$dir || !in_array($dir, $directions)) {
@@ -496,12 +530,12 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
         $mode = $this->getRequest()->getParam($this->getModeVarName());
         if ($mode) {
             if ($mode == $defaultMode) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->unsDisplayMode();
+                $this->_catalogSession->unsDisplayMode();
             } else {
                 $this->_memorizeParam('display_mode', $mode);
             }
         } else {
-            $mode = Mage::getSingleton('Magento_Catalog_Model_Session')->getDisplayMode();
+            $mode = $this->_catalogSession->getDisplayMode();
         }
 
         if (!$mode || !isset($this->_availableMode[$mode])) {
@@ -699,12 +733,12 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
         $limit = $this->getRequest()->getParam($this->getLimitVarName());
         if ($limit && isset($limits[$limit])) {
             if ($limit == $defaultLimit) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->unsLimitPage();
+                $this->_catalogSession->unsLimitPage();
             } else {
                 $this->_memorizeParam('limit_page', $limit);
             }
         } else {
-            $limit = Mage::getSingleton('Magento_Catalog_Model_Session')->getLimitPage();
+            $limit = $this->_catalogSession->getLimitPage();
         }
         if (!$limit || !isset($limits[$limit])) {
             $limit = $defaultLimit;

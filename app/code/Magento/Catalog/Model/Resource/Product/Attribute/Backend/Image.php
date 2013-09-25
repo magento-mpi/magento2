@@ -20,20 +20,34 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Image
     extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * @var Magento_Core_Model_File_UploaderFactory
+     * Dir model
+     *
+     * @var Magento_Core_Model_Dir
      */
-    protected $_uploaderFactory;
+    protected $_dir;
 
     /**
+     * File Uploader factory
+     *
+     * @var Magento_Core_Model_File_UploaderFactory
+     */
+    protected $_fileUploaderFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Dir $dir
      * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param Magento_Core_Model_File_UploaderFactory $fileUploaderFactory
      */
     public function __construct(
+        Magento_Core_Model_Dir $dir,
         Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory
+        Magento_Core_Model_File_UploaderFactory $fileUploaderFactory
     ) {
+        $this->_dir = $dir;
+        $this->_fileUploaderFactory = $fileUploaderFactory;
         parent::__construct($logger);
-        $this->_uploaderFactory = $uploaderFactory;
     }
 
     /**
@@ -55,14 +69,14 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Image
 
         try {
             /** @var $uploader Magento_Core_Model_File_Uploader */
-            $uploader = $this->_uploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
+            $uploader = $this->_fileUploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
         } catch (Exception $e){
             return $this;
         }
-        $uploader->save(Mage::getBaseDir('media') . '/catalog/product');
+        $uploader->save($this->_dir->getDir(Magento_Core_Model_Dir::MEDIA) . '/catalog/product');
 
         $fileName = $uploader->getUploadedFileName();
         if ($fileName) {

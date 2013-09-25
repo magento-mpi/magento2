@@ -23,27 +23,28 @@ class Magento_Catalog_Model_Product_Attribute_Backend_StockTest extends PHPUnit_
      */
     protected $_inventory;
 
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectHelper;
+
     protected function setUp()
     {
+        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_inventory = $this->getMock('Magento_CatalogInventory_Model_Stock_Item',
             array('getIsInStock', 'getQty', 'loadByProduct'), array(), '', false);
 
-        $itemFactory = $this->getMock('Magento_CatalogInventory_Model_Stock_ItemFactory', array('create'),
+        $stockItemFactory = $this->getMock('Magento_CatalogInventory_Model_Stock_ItemFactory', array('create'),
             array(), '', false);
-        $itemFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_inventory));
-
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-
-        $this->_model = $this->getMock('Magento_Catalog_Model_Product_Attribute_Backend_Stock', array('getAttribute'),
-            array($itemFactory, $logger));
-
+        $stockItemFactory->expects($this->any())->method('create')->will($this->returnValue($this->_inventory));
+        $this->_model = $this->_objectHelper->getObject('Magento_Catalog_Model_Product_Attribute_Backend_Stock', array(
+            'data' => array('inventory' => $this->_inventory),
+            'stockItemFactory' => $stockItemFactory,
+        ));
         $attribute = $this->getMock('Magento_Object', array('getAttributeCode'));
         $attribute->expects($this->atLeastOnce())->method('getAttributeCode')
             ->will($this->returnValue(self::ATTRIBUTE_NAME));
-
-        $this->_model->expects($this->atLeastOnce())->method('getAttribute')->will($this->returnValue($attribute));
+        $this->_model->setAttribute($attribute);
     }
 
     public function testAfterLoad()

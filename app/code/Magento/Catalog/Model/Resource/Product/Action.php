@@ -24,7 +24,7 @@ class Magento_Catalog_Model_Resource_Product_Action extends Magento_Catalog_Mode
      */
     protected function _construct()
     {
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = $this->_resource;
         $this->setType(Magento_Catalog_Model_Product::ENTITY)
             ->setConnection(
                 $resource->getConnection('catalog_read'),

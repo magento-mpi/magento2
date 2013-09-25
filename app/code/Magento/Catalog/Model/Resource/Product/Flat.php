@@ -26,13 +26,44 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
     protected $_storeId;
 
     /**
+     * Catalog config
+     *
+     * @var Magento_Catalog_Model_Config
+     */
+    protected $_catalogConfig;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Class constructor
+     *
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Config $catalogConfig
+     * @param Magento_Core_Model_Resource $resource
+     */
+    public function __construct(
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Config $catalogConfig,
+        Magento_Core_Model_Resource $resource
+    ) {
+        $this->_storeManager = $storeManager;
+        $this->_catalogConfig = $catalogConfig;
+        parent::__construct($resource);
+    }
+
+    /**
      * Init connection and resource table
      *
      */
     protected function _construct()
     {
         $this->_init('catalog_product_flat', 'entity_id');
-        $this->_storeId = (int)Mage::app()->getStore()->getId();
+        $this->_storeId = (int)$this->_storeManager->getStore()->getId();
     }
 
     /**
@@ -56,7 +87,7 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
         if (is_int($store)) {
             $this->_storeId = $store;
         } else {
-            $this->_storeId = (int)Mage::app()->getStore($store)->getId();
+            $this->_storeId = (int)$this->_storeManager->getStore($store)->getId();
         }
         return $this;
     }
@@ -82,8 +113,7 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      */
     public function getTypeId()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config')
-            ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
+        return $this->_catalogConfig->getEntityType(Magento_Catalog_Model_Product::ENTITY)
             ->getEntityTypeId();
     }
 
@@ -188,8 +218,7 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      */
     public function getAttribute($attribute)
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config')
-            ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
+        return $this->_catalogConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
     }
 
     /**

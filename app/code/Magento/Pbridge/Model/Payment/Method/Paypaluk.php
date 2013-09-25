@@ -32,7 +32,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      *
      * @var Magento_Pbridge_Model_Payment_Method_Pbridge
      */
-    protected $_pbridgeMethodInstance;
+    protected $_pbridgeMethodInstance = null;
 
     /**
      * Website Payments Pro instance type
@@ -204,7 +204,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      */
     public function getFormBlockType()
     {
-        return $this->_storeManager->getStore()->isAdmin() ?
+        return Mage::app()->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }

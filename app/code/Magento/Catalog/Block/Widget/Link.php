@@ -41,6 +41,41 @@ class Magento_Catalog_Block_Widget_Link
     protected $_anchorText;
 
     /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Url rewrite
+     *
+     * @var Magento_Core_Model_Resource_Url_Rewrite
+     */
+    protected $_urlRewrite;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Core_Model_Resource_Url_Rewrite $urlRewrite
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Resource_Url_Rewrite $urlRewrite,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_urlRewrite = $urlRewrite;
+        $this->_storeManager = $storeManager;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Prepare url using passed id path and return it
      * or return false if path was not found in url rewrites.
      *
@@ -51,17 +86,15 @@ class Magento_Catalog_Block_Widget_Link
         if (!$this->_href) {
 
             if($this->hasStoreId()) {
-                $store = Mage::app()->getStore($this->getStoreId());
+                $store = $this->_storeManager->getStore($this->getStoreId());
             } else {
-                $store = Mage::app()->getStore();
+                $store = $this->_storeManager->getStore();
             }
 
             /* @var $store Magento_Core_Model_Store */
             $href = "";
             if ($this->getData('id_path')) {
-                /* @var $urlRewriteResource Magento_Core_Model_Resource_Url_Rewrite */
-                $urlRewriteResource = Mage::getResourceSingleton('Magento_Core_Model_Resource_Url_Rewrite');
-                $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
+                $href = $this->_urlRewrite->getRequestPathByIdPath($this->getData('id_path'), $store);
                 if (!$href) {
                     return false;
                 }
@@ -92,7 +125,8 @@ class Magento_Catalog_Block_Widget_Link
                 if (isset($idPath[1])) {
                     $id = $idPath[1];
                     if ($id) {
-                        $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name', Mage::app()->getStore());
+                        $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name',
+                            $this->_storeManager->getStore());
                     }
                 }
             } else {

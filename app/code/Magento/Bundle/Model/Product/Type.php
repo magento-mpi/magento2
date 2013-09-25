@@ -123,6 +123,20 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
     protected $_bundleModelSelection;
 
     /**
+     * Construct
+     *
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Product_Option $catalogProductOption
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Product_Type $catalogProductType
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Catalog_Helper_Product $catalogProduct
+     * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Bundle_Model_SelectionFactory $bundleModelSelection
      * @param Magento_Bundle_Model_Resource_BundleFactory $bundleFactory
      * @param Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleCollection
@@ -130,17 +144,23 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
      * @param Magento_Bundle_Model_Resource_Selection $bundleSelection
      * @param Magento_Bundle_Model_OptionFactory $bundleOption
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Catalog_Helper_Product $catalogProduct
-     * @param Magento_Catalog_Helper_Data $catalogData
-     * @param Magento_Core_Helper_Data $coreData
-     * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
-     * @param Magento_Filesystem $filesystem
-     * @param Magento_Core_Model_Registry $coreRegistry
-     * @param Magento_Core_Model_Logger $logger
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Option $catalogProductOption,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Product_Type $catalogProductType,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
+        Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Logger $logger,
+        Magento_Catalog_Helper_Product $catalogProduct,
+        Magento_Catalog_Helper_Data $catalogData,
         Magento_Bundle_Model_SelectionFactory $bundleModelSelection,
         Magento_Bundle_Model_Resource_BundleFactory $bundleFactory,
         Magento_Bundle_Model_Resource_Selection_CollectionFactory $bundleCollection,
@@ -148,14 +168,6 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         Magento_Bundle_Model_Resource_Selection $bundleSelection,
         Magento_Bundle_Model_OptionFactory $bundleOption,
         Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Catalog_Helper_Product $catalogProduct,
-        Magento_Catalog_Helper_Data $catalogData,
-        Magento_Core_Helper_Data $coreData,
-        Magento_Core_Helper_File_Storage_Database $fileStorageDb,
-        Magento_Filesystem $filesystem,
-        Magento_Core_Model_Registry $coreRegistry,
-        Magento_Core_Model_Logger $logger,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -167,7 +179,8 @@ class Magento_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Ty
         $this->_bundleCollection = $bundleCollection;
         $this->_bundleFactory = $bundleFactory;
         $this->_bundleModelSelection = $bundleModelSelection;
-        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
+        parent::__construct($productFactory, $catalogProductOption, $eavConfig, $catalogProductType,
+            $eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
     /**

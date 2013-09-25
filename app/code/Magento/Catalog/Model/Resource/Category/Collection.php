@@ -210,7 +210,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
     {
         $anchor     = array();
         $regular    = array();
-        $websiteId  = Mage::app()->getStore($this->getProductStoreId())->getWebsiteId();
+        $websiteId  = $this->_storeManager->getStore($this->getProductStoreId())->getWebsiteId();
 
         foreach ($items as $item) {
             if ($item->getIsAnchor()) {
@@ -304,7 +304,7 @@ class Magento_Catalog_Model_Resource_Category_Collection extends Magento_Catalog
      */
     public function joinUrlRewrite()
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
         $this->joinTable(
             'core_url_rewrite',
             'category_id=entity_id',

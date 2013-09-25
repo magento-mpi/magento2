@@ -53,8 +53,12 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * @var Magento_Core_Model_Store_Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
+     * @param Magento_Catalog_Model_ProductFactory $productFactory
+     * @param Magento_Catalog_Model_Product_Option $catalogProductOption
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Product_Type $catalogProductType
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Catalog_Helper_Data $catalogData
@@ -68,6 +72,10 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_ProductFactory $productFactory,
+        Magento_Catalog_Model_Product_Option $catalogProductOption,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Product_Type $catalogProductType,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Catalog_Helper_Data $catalogData,
@@ -83,7 +91,8 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_store = $storeManager->getStore();
         $this->_locale = $locale;
-        parent::__construct($eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
+        parent::__construct($productFactory, $catalogProductOption, $eavConfig, $catalogProductType,
+            $eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
 
     /**

@@ -15,11 +15,20 @@ class Magento_Catalog_Model_Category_Attribute_Backend_SortbyTest extends PHPUni
      */
     protected $_model;
 
+    /**
+     * @var Magento_TestFramework_Helper_ObjectManager
+     */
+    protected $_objectHelper;
+
     protected function setUp()
     {
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_model = new Magento_Catalog_Model_Category_Attribute_Backend_Sortby($logger, $coreStoreConfig);
+        $this->_model = $this->_objectHelper->getObject('Magento_Catalog_Model_Category_Attribute_Backend_Sortby',
+            array(
+                'coreStoreConfig' => $coreStoreConfig
+            )
+        );
         $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
             array(), '', false, true, true, array('getName')
         );

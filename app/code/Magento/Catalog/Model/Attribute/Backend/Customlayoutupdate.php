@@ -11,26 +11,11 @@
 /**
  * Product url key attribute backend
  *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 
 class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
-    /**
-     * @var Magento_Adminhtml_Model_LayoutUpdate_Validator
-     */
-    protected $_layoutValidator;
-
-    /**
-     * @param Magento_Adminhtml_Model_LayoutUpdate_Validator $validator
-     */
-    public function __construct(
-        Magento_Adminhtml_Model_LayoutUpdate_Validator $validator
-    ) {
-        $this->_layoutValidator = $validator;
-    }
 
    /**
     * Product custom layout update attribute validate function.
@@ -39,6 +24,27 @@ class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento
     * @param Magento_Object $object
     * @throws Magento_Eav_Model_Entity_Attribute_Exception
     */
+    /**
+     * Layoutupdate validator factory
+     *
+     * @var Magento_Adminhtml_Model_LayoutUpdate_ValidatorFactory
+     */
+    protected $_layoutUpdateValidatorFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_Adminhtml_Model_LayoutUpdate_ValidatorFactory $layoutUpdateValidatorFactory
+     * @param Magento_Core_Model_Logger $logger
+     */
+    public function __construct(
+        Magento_Adminhtml_Model_LayoutUpdate_ValidatorFactory $layoutUpdateValidatorFactory,
+        Magento_Core_Model_Logger $logger
+    ) {
+        $this->_layoutUpdateValidatorFactory = $layoutUpdateValidatorFactory;
+        parent::__construct($logger);
+    }
+
     public function validate($object)
     {
         $attributeName = $this->getAttribute()->getName();
@@ -48,8 +54,10 @@ class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento
             return true;
         }
 
-        if (!$this->_layoutValidator->isValid($xml)) {
-            $messages = $this->_layoutValidator->getMessages();
+        /** @var $validator Magento_Adminhtml_Model_LayoutUpdate_Validator */
+        $validator = $this->_layoutUpdateValidatorFactory->create();
+        if (!$validator->isValid($xml)) {
+            $messages = $validator->getMessages();
             //Add first message to exception
             $massage = array_shift($messages);
             $eavExc = new Magento_Eav_Model_Entity_Attribute_Exception($massage);

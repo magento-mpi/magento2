@@ -18,17 +18,17 @@
 class Magento_Core_Helper_Url extends Magento_Core_Helper_Abstract
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_StoreManager $storeManager
+        Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
         $this->_storeManager = $storeManager;

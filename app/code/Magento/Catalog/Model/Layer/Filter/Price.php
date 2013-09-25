@@ -17,8 +17,7 @@
  */
 
 /**
- * @method Magento_Catalog_Model_Layer_Filter_Price setInterval(array)
- * @method array getInterval()
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Layer_Filter_Abstract
 {
@@ -58,17 +57,46 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
     protected $_coreRegistry = null;
 
     /**
+     * Catalog layer filter price algorithm
+     *
+     * @var Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     */
+    protected $_catalogLayerFilterPriceAlgorithm;
+
+    /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
      * Class constructor
      *
+     * @param Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Catalog_Model_Resource_Layer_Filter_PriceFactory $filterPriceFactory
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_Layer_Filter_Price_Algorithm $catalogLayerFilterPriceAlgorithm
+     * @param Magento_Catalog_Model_Layer $catalogLayer
      * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        Magento_Catalog_Model_Layer_Filter_ItemFactory $filterItemFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Catalog_Model_Resource_Layer_Filter_PriceFactory $filterPriceFactory,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_Layer_Filter_Price_Algorithm $catalogLayerFilterPriceAlgorithm,
+        Magento_Catalog_Model_Layer $catalogLayer,
         Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_resource = $filterPriceFactory->create();
+        $this->_customerSession = $customerSession;
+        $this->_catalogLayerFilterPriceAlgorithm = $catalogLayerFilterPriceAlgorithm;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($data);
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'price';
     }
 
@@ -79,9 +107,6 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      */
     protected function _getResource()
     {
-        if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Layer_Filter_Price');
-        }
         return $this->_resource;
     }
 
@@ -103,7 +128,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
 
             $maxPrice = $this->getMaxPriceInt();
             if (!$range) {
-                $calculation = Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION);
+                $calculation = $this->_storeManager->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION);
                 if ($calculation == self::RANGE_CALCULATION_AUTO) {
                     $index = 1;
                     do {
@@ -113,7 +138,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
                     }
                     while($range > self::MIN_RANGE_POWER && count($items) < 2);
                 } else {
-                    $range = (float)Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_STEP);
+                    $range = (float)$this->_storeManager->getStore()->getConfig(self::XML_PATH_RANGE_STEP);
                 }
             }
 
@@ -156,7 +181,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
             $i = 0;
             $lastIndex = null;
             $maxIntervalsNumber = $this->getMaxIntervalsNumber();
-            $calculation = Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION);
+            $calculation = $this->_storeManager->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION);
             foreach ($items as $k => $v) {
                 ++$i;
                 if ($calculation == self::RANGE_CALCULATION_MANUAL && $i > 1 && $i > $maxIntervalsNumber) {
@@ -182,7 +207,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      */
     protected function _renderItemLabel($range, $value)
     {
-        $store      = Mage::app()->getStore();
+        $store      = $this->_storeManager->getStore();
         $fromPrice  = $store->formatPrice(($value - 1) * $range);
         $toPrice    = $store->formatPrice($value*$range);
 
@@ -198,11 +223,13 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      */
     protected function _renderRangeLabel($fromPrice, $toPrice)
     {
-        $store      = Mage::app()->getStore();
+        $store      = $this->_storeManager->getStore();
         $formattedFromPrice  = $store->formatPrice($fromPrice);
         if ($toPrice === '') {
             return __('%1 and above', $formattedFromPrice);
-        } elseif ($fromPrice == $toPrice && Mage::app()->getStore()->getConfig(self::XML_PATH_ONE_PRICE_INTERVAL)) {
+        } elseif (
+            $fromPrice == $toPrice && $this->_storeManager->getStore()->getConfig(self::XML_PATH_ONE_PRICE_INTERVAL)
+        ) {
             return $formattedFromPrice;
         } else {
             if ($fromPrice != $toPrice) {
@@ -239,8 +266,6 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      */
     protected function _getCalculatedItemsData()
     {
-        /** @var $algorithmModel Magento_Catalog_Model_Layer_Filter_Price_Algorithm */
-        $algorithmModel = Mage::getSingleton('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
         $collection = $this->getLayer()->getProductCollection();
         $appliedInterval = $this->getInterval();
         if ($appliedInterval
@@ -248,7 +273,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
         ) {
             return array();
         }
-        $algorithmModel->setPricesModel($this)->setStatistics(
+        $this->_catalogLayerFilterPriceAlgorithm->setPricesModel($this)->setStatistics(
             $collection->getMinPrice(),
             $collection->getMaxPrice(),
             $collection->getPriceStandardDeviation(),
@@ -259,11 +284,11 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
             if ($appliedInterval[0] == $appliedInterval[1] || $appliedInterval[1] === '0') {
                 return array();
             }
-            $algorithmModel->setLimits($appliedInterval[0], $appliedInterval[1]);
+            $this->_catalogLayerFilterPriceAlgorithm->setLimits($appliedInterval[0], $appliedInterval[1]);
         }
 
         $items = array();
-        foreach ($algorithmModel->calculateSeparators() as $separator) {
+        foreach ($this->_catalogLayerFilterPriceAlgorithm->calculateSeparators() as $separator) {
             $items[] = array(
                 'label' => $this->_renderRangeLabel($separator['from'], $separator['to']),
                 'value' => (($separator['from'] == 0) ? '' : $separator['from'])
@@ -282,7 +307,9 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      */
     protected function _getItemsData()
     {
-        if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED) {
+        if ($this->_storeManager->getStore()
+            ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED
+        ) {
             return $this->_getCalculatedItemsData();
         } elseif ($this->getInterval()) {
             return array();
@@ -419,7 +446,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
     {
         $customerGroupId = $this->_getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
         return $customerGroupId;
     }
@@ -444,7 +471,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
     {
         $rate = $this->_getData('currency_rate');
         if (is_null($rate)) {
-            $rate = Mage::app()->getStore($this->getStoreId())->getCurrentCurrencyRate();
+            $rate = $this->_storeManager->getStore($this->getStoreId())->getCurrentCurrencyRate();
         }
         if (!$rate) {
             $rate = 1;
@@ -470,7 +497,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      */
     public function getMaxIntervalsNumber()
     {
-        return (int)Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_MAX_INTERVALS);
+        return (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_RANGE_MAX_INTERVALS);
     }
 
     /**
@@ -480,7 +507,7 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      */
     public function getIntervalDivisionLimit()
     {
-        return (int)Mage::app()->getStore()->getConfig(self::XML_PATH_INTERVAL_DIVISION_LIMIT);
+        return (int)$this->_storeManager->getStore()->getConfig(self::XML_PATH_INTERVAL_DIVISION_LIMIT);
     }
 
     /**
@@ -508,7 +535,8 @@ class Magento_Catalog_Model_Layer_Filter_Price extends Magento_Catalog_Model_Lay
      */
     public function getClearLinkText()
     {
-        if (Mage::app()->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED
+        if ($this->_storeManager->getStore()
+            ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED
             && $this->getPriorIntervals()
         ) {
             return __('Clear Price');

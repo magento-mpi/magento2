@@ -18,20 +18,23 @@ class Magento_Catalog_Model_Product_Type_GroupedTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
+        $objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $fileStorageDbMock = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_model = new Magento_Catalog_Model_Product_Type_Grouped(
-            $eventManager,
-            $coreDataMock,
-            $fileStorageDbMock,
-            $filesystem,
-            $coreRegistry,
-            $logger
-        );
+        $productFactoryMock = $this->getMock('Magento_Catalog_Model_ProductFactory', array(), array(), '', false);
+        $this->_model = $objectHelper->getObject('Magento_Catalog_Model_Product_Type_Grouped', array(
+            'eventManager' => $eventManager,
+            'coreData' => $coreDataMock,
+            'fileStorageDb' => $fileStorageDbMock,
+            'filesystem' => $filesystem,
+            'coreRegistry' => $coreRegistry,
+            'logger' => $logger,
+            'productFactory' => $productFactoryMock,
+        ));
     }
 
     public function testHasWeightFalse()

@@ -49,6 +49,13 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
     protected $_catalogProductCompare = null;
 
     /**
+     * Catalog product compare item
+     *
+     * @var Magento_Catalog_Model_Resource_Product_Compare_Item
+     */
+    protected $_catalogProductCompareItem;
+
+    /**
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Model_Logger $logger
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -56,12 +63,20 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
      * @param Magento_Eav_Model_Config $eavConfig
      * @param Magento_Core_Model_Resource $coreResource
      * @param Magento_Eav_Model_EntityFactory $eavEntityFactory
-     * @param Magento_Eav_Model_Resource_Helper $resourceHelper
      * @param Magento_Validator_UniversalFactory $universalFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Catalog_Helper_Product_Flat $catalogProductFlat
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Catalog_Model_Product_OptionFactory $productOptionFactory
+     * @param Magento_Catalog_Model_Resource_Url $catalogUrl
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Customer_Model_Session $customerSession
+     * @param Magento_Catalog_Model_Resource_Helper $resourceHelper
+     * @param Magento_Catalog_Model_Resource_Product_Compare_Item $catalogProductCompareItem
      * @param Magento_Catalog_Helper_Product_Compare $catalogProductCompare
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Core_Model_Event_Manager $eventManager,
@@ -71,27 +86,25 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
         Magento_Eav_Model_Config $eavConfig,
         Magento_Core_Model_Resource $coreResource,
         Magento_Eav_Model_EntityFactory $eavEntityFactory,
-        Magento_Eav_Model_Resource_Helper $resourceHelper,
         Magento_Validator_UniversalFactory $universalFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Catalog_Helper_Product_Flat $catalogProductFlat,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Catalog_Model_Product_OptionFactory $productOptionFactory,
+        Magento_Catalog_Model_Resource_Url $catalogUrl,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Catalog_Model_Resource_Helper $resourceHelper,
+        Magento_Catalog_Model_Resource_Product_Compare_Item $catalogProductCompareItem,
         Magento_Catalog_Helper_Product_Compare $catalogProductCompare
-    ) {
+    )
+    {
+        $this->_catalogProductCompareItem = $catalogProductCompareItem;
         $this->_catalogProductCompare = $catalogProductCompare;
-        parent::__construct(
-            $eventManager,
-            $logger,
-            $fetchStrategy,
-            $entityFactory,
-            $eavConfig,
-            $coreResource,
-            $eavEntityFactory,
-            $resourceHelper,
-            $universalFactory,
-            $catalogData,
-            $catalogProductFlat,
-            $coreStoreConfig
+        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig,
+            $coreResource, $eavEntityFactory, $universalFactory, $storeManager, $catalogData, $catalogProductFlat,
+            $coreStoreConfig, $productOptionFactory, $catalogUrl, $locale, $customerSession, $resourceHelper
         );
     }
 
@@ -213,7 +226,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
         }
 
         // prepare website filter
-        $websiteId    = (int)Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+        $websiteId    = (int)$this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
         $websiteConds = array(
             'website.product_id = entity.entity_id',
             $this->getConnection()->quoteInto('website.website_id = ?', $websiteId)
@@ -281,11 +294,9 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
                 $attributesData = $this->getConnection()->fetchAll($select);
                 if ($attributesData) {
                     $entityType = Magento_Catalog_Model_Product::ENTITY;
-                    Mage::getSingleton('Magento_Eav_Model_Config')
-                        ->importAttributesData($entityType, $attributesData);
+                    $this->_eavConfig->importAttributesData($entityType, $attributesData);
                     foreach ($attributesData as $data) {
-                        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
-                            ->getAttribute($entityType, $data['attribute_code']);
+                        $attribute = $this->_eavConfig->getAttribute($entityType, $data['attribute_code']);
                         $this->_comparableAttributes[$attribute->getAttributeCode()] = $attribute;
                     }
                     unset($attributesData);
@@ -349,8 +360,7 @@ class Magento_Catalog_Model_Resource_Product_Compare_Item_Collection
      */
     public function clear()
     {
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Compare_Item')
-            ->clearItems($this->getVisitorId(), $this->getCustomerId());
+        $this->_catalogProductCompareItem->clearItems($this->getVisitorId(), $this->getCustomerId());
         $this->_eventManager->dispatch('catalog_product_compare_item_collection_clear');
 
         return $this;

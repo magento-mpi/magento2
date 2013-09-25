@@ -29,11 +29,53 @@ class Magento_Catalog_Model_Product_Type_Price
     protected $_eventManager = null;
 
     /**
+     * Customer session
+     *
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
+     * Locale
+     *
+     * @var Magento_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * Store manager
+     *
+     * @var Magento_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * Rule factory
+     *
+     * @var Magento_CatalogRule_Model_Resource_RuleFactory
+     */
+    protected $_ruleFactory;
+
+    /**
+     * Construct
+     *
+     * @param Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
+        Magento_CatalogRule_Model_Resource_RuleFactory $ruleFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_LocaleInterface $locale,
+        Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_Event_Manager $eventManager
     ) {
+        $this->_ruleFactory = $ruleFactory;
+        $this->_storeManager = $storeManager;
+        $this->_locale = $locale;
+        $this->_customerSession = $customerSession;
         $this->_eventManager = $eventManager;
     }
 
@@ -257,7 +299,7 @@ class Magento_Catalog_Model_Product_Type_Price
         if ($product->getCustomerGroupId()) {
             return $product->getCustomerGroupId();
         }
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+        return $this->_customerSession->getCustomerGroupId();
     }
 
     /**
@@ -298,13 +340,13 @@ class Magento_Catalog_Model_Product_Type_Price
         $price = $product->getTierPrice($qty);
         if (is_array($price)) {
             foreach ($price as $index => $value) {
-                $price[$index]['formated_price'] = Mage::app()->getStore()->convertPrice(
+                $price[$index]['formated_price'] = $this->_storeManager->getStore()->convertPrice(
                         $price[$index]['website_price'], true
                 );
             }
         }
         else {
-            $price = Mage::app()->getStore()->formatPrice($price);
+            $price = $this->_storeManager->getStore()->formatPrice($price);
         }
 
         return $price;
@@ -318,7 +360,7 @@ class Magento_Catalog_Model_Product_Type_Price
      */
     public function getFormatedPrice($product)
     {
-        return Mage::app()->getStore()->formatPrice($product->getFinalPrice());
+        return $this->_storeManager->getStore()->formatPrice($product->getFinalPrice());
     }
 
     /**
@@ -361,7 +403,7 @@ class Magento_Catalog_Model_Product_Type_Price
      * @param   null|int $productId
      * @return  float
      */
-    public static function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
+    public function calculatePrice($basePrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
             $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
         Magento_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
@@ -369,7 +411,7 @@ class Magento_Catalog_Model_Product_Type_Price
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {
-            $sId = Mage::app()->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
+            $sId = $this->_storeManager->getWebsite($wId)->getDefaultGroup()->getDefaultStoreId();
         }
 
         $finalPrice = $basePrice;
@@ -377,11 +419,11 @@ class Magento_Catalog_Model_Product_Type_Price
             $gId = $gId->getId();
         }
 
-        $finalPrice = self::calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $sId);
+        $finalPrice = $this->calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $sId);
 
         if ($rulePrice === false) {
-            $storeTimestamp = Mage::app()->getLocale()->storeTimeStamp($sId);
-            $rulePrice = Mage::getResourceModel('Magento_CatalogRule_Model_Resource_Rule')
+            $storeTimestamp = $this->_locale->storeTimeStamp($sId);
+            $rulePrice = $this->_ruleFactory->create()
                 ->getRulePrice($storeTimestamp, $wId, $gId, $productId);
         }
 
@@ -404,11 +446,11 @@ class Magento_Catalog_Model_Product_Type_Price
      * @param mixed $store
      * @return float
      */
-    public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
+    public function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo,
             $store = null)
     {
         if (!is_null($specialPrice) && $specialPrice != false) {
-            if (Mage::app()->getLocale()->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
+            if ($this->_locale->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
                 $finalPrice     = min($finalPrice, $specialPrice);
             }
         }
