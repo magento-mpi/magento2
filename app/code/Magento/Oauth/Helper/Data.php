@@ -72,18 +72,48 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreData = null;
 
     /**
+     * Consumer factory
+     *
+     * @var Magento_Oauth_Model_ConsumerFactory
+     */
+    protected $_consumerFactory = null;
+
+    /**
+     * Email Template factory
+     *
+     * @var Magento_Core_Model_Email_TemplateFactory
+     */
+    protected $_emailTmplFactory = null;
+
+    /**
+     * Url model
+     *
+     * @var Magento_Core_Model_Url
+     */
+    protected $_urlModel = null;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Oauth_Model_ConsumerFactory $consumerFactory
+     * @param Magento_Core_Model_Email_TemplateFactory $emailTmplFactory
+     * @param Magento_Core_Model_Url $urlModel
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_Oauth_Model_ConsumerFactory $consumerFactory,
+        Magento_Core_Model_Email_TemplateFactory $emailTmplFactory,
+        Magento_Core_Model_Url $urlModel
     ) {
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context);
+        $this->_consumerFactory = $consumerFactory;
+        $this->_emailTmplFactory = $emailTmplFactory;
+        $this->_urlModel = $urlModel;
     }
 
     /**
@@ -155,6 +185,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Oauth_Model_Token $token Token object
      * @param bool $rejected OPTIONAL Add user reject sign
      * @return bool|string
+     * @throws Magento_Core_Exception
      */
     public function getFullCallbackUrl(Magento_Oauth_Model_Token $token, $rejected = false)
     {
@@ -165,13 +196,13 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         }
         if ($rejected) {
             /** @var $consumer Magento_Oauth_Model_Consumer */
-            $consumer = Mage::getModel('Magento_Oauth_Model_Consumer')->load($token->getConsumerId());
+            $consumer = $this->_consumerFactory->create()->load($token->getConsumerId());
 
             if ($consumer->getId() && $consumer->getRejectedCallbackUrl()) {
                 $callbackUrl = $consumer->getRejectedCallbackUrl();
             }
         } elseif (!$token->getAuthorized()) {
-            Mage::throwException('Token is not authorized');
+            throw new Magento_Core_Exception('Token is not authorized');
         }
         $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
         $callbackUrl .= 'oauth_token=' . $token->getToken() . '&';
@@ -192,7 +223,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
         if (!in_array($type, $this->_endpoints)) {
             throw new Exception('Invalid endpoint type passed.');
         }
-        return rtrim(Mage::getUrl($type), '/');
+        return rtrim($this->_urlModel->getUrl($type), '/');
     }
 
     /**
@@ -228,10 +259,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function sendNotificationOnTokenStatusChange($userEmail, $userName, $applicationName, $status)
     {
-        /* @var $mailTemplate Magento_Core_Model_Email_Template */
-        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
-
-        $mailTemplate->sendTransactional(
+        $this->_emailTmplFactory->create()->sendTransactional(
             $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE),
             $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY),
             $userEmail,

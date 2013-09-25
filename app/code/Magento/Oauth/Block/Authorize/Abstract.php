@@ -28,6 +28,24 @@
 abstract class Magento_Oauth_Block_Authorize_Abstract extends Magento_Core_Block_Template
 {
     /**
+     * Token factory
+     *
+     * @var Magento_Oauth_Model_TokenFactory
+     */
+    protected $_tokenFactory = null;
+
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Oauth_Model_TokenFactory $tokenFactory,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_tokenFactory = $tokenFactory;
+    }
+
+
+    /**
      * Consumer model
      *
      * @var Magento_Oauth_Model_Consumer
@@ -43,7 +61,7 @@ abstract class Magento_Oauth_Block_Authorize_Abstract extends Magento_Core_Block
     {
         if (null === $this->_consumer) {
             /** @var $token Magento_Oauth_Model_Token */
-            $token = Mage::getModel('Magento_Oauth_Model_Token');
+            $token = $this->_tokenFactory->ctreate();
             $token->load($this->getToken(), 'token');
             $this->_consumer = $token->getConsumer();
         }

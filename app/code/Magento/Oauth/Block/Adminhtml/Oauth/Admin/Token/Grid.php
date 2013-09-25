@@ -15,8 +15,56 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Adminhtml_Block_Widget_Grid
+class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
+    /**
+     * Token factory
+     *
+     * @var Magento_Oauth_Model_TokenFactory
+     */
+    protected $_tokenFactory = null;
+
+    /**
+     * Auth session
+     *
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_authSession = null;
+
+    /**
+     * Config Source Yes/No
+     *
+     * @var Magento_Backend_Model_Config_Source_Yesno
+     */
+    protected $_configSourceYesNo = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Oauth_Model_TokenFactory $tokenFactory
+     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param Magento_Backend_Model_Config_Source_Yesno $configSourceYesNo
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Oauth_Model_TokenFactory $tokenFactory,
+        Magento_Backend_Model_Auth_Session $authSession,
+        Magento_Backend_Model_Config_Source_Yesno $configSourceYesNo,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        $this->_tokenFactory = $tokenFactory;
+        $this->_authSession = $authSession;
+        $this->_configSourceYesNo = $configSourceYesNo;
+    }
+
+
     /**
      * Construct grid block
      */
@@ -38,10 +86,10 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Admin
     protected function _prepareCollection()
     {
         /** @var $user Magento_User_Model_User */
-        $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getData('user');
+        $user = $this->_authSession->getData('user');
 
         /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-        $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+        $collection = $this->_tokenFactory->create()->getCollection();
         $collection->joinConsumerAsApplication()
                 ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
                 ->addFilterByAdminId($user->getId());
@@ -71,14 +119,12 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Admin
             'escape'    => true,
         ));
 
-        /** @var $sourceYesNo Magento_Backend_Model_Config_Source_Yesno */
-        $sourceYesNo = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno');
         $this->addColumn('revoked', array(
             'header'    => __('Revoked'),
             'index'     => 'revoked',
             'width'     => '100px',
             'type'      => 'options',
-            'options'   => $sourceYesNo->toArray(),
+            'options'   => $this->_configSourceYesNo->toArray(),
             'sortable'  => true,
         ));
 

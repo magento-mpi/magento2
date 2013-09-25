@@ -181,24 +181,33 @@ class Magento_Oauth_Model_Server
     protected $_nonceFactory;
 
     /**
+     * Core App model
+     *
+     * @var Magento_Core_Model_App
+     */
+    protected $_app;
+
+    /**
      * Internal constructor not depended on params
      *
      * @param Zend_Controller_Request_Http $request OPTIONAL Request object (If not specified - use singleton)
      * @param Magento_Oauth_Model_Token_Factory $tokenFactory
      * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
      * @param Magento_Oauth_Model_Nonce_Factory $nonceFactory
-     * @throws Exception
+     * @param Magento_Core_Model_App $app
      */
     public function __construct(
         Zend_Controller_Request_Http $request,
         Magento_Oauth_Model_Token_Factory $tokenFactory,
         Magento_Oauth_Model_Consumer_Factory $consumerFactory,
-        Magento_Oauth_Model_Nonce_Factory $nonceFactory
+        Magento_Oauth_Model_Nonce_Factory $nonceFactory,
+        Magento_Core_Model_App $app
     ) {
         $this->_request = $request;
         $this->_tokenFactory = $tokenFactory;
         $this->_consumerFactory = $consumerFactory;
         $this->_nonceFactory = $nonceFactory;
+        $this->_app = $app;
     }
 
     /**
@@ -285,7 +294,7 @@ class Magento_Oauth_Model_Server
     protected function _getResponse()
     {
         if (null === $this->_response) {
-            $this->setResponse(Mage::app()->getResponse());
+            $this->setResponse($this->_app->getResponse());
         }
         return $this->_response;
     }
@@ -379,7 +388,7 @@ class Magento_Oauth_Model_Server
             && self::REQUEST_RESOURCE != $requestType
             && self::REQUEST_TOKEN != $requestType
         ) {
-            Mage::throwException('Invalid request type');
+            throw new Magento_Core_Exception('Invalid request type');
         }
         $this->_requestType = $requestType;
 
@@ -431,7 +440,7 @@ class Magento_Oauth_Model_Server
      */
     protected function _throwException($message = '', $code = 0)
     {
-        throw Mage::exception('Magento_Oauth', $message, $code);
+        throw new Magento_Oauth_Exception($message, $code);
     }
 
     /**
@@ -621,7 +630,7 @@ class Magento_Oauth_Model_Server
     public function checkAuthorizeRequest()
     {
         if (!$this->_request->isGet()) {
-            Mage::throwException('Request is not GET');
+            throw new Magento_Core_Exception('Request is not GET');
         }
         $this->_requestType = self::REQUEST_AUTHORIZE;
 

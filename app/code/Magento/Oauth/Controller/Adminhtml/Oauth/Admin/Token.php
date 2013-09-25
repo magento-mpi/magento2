@@ -85,10 +85,10 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
 
         try {
             /** @var $user Magento_User_Model_User */
-            $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getData('user');
+            $user = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getData('user');
 
             /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+            $collection = $this->_objectManager->create('Magento_Oauth_Model_Resource_Token_Collection');
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
                     ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
@@ -131,10 +131,10 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
 
         try {
             /** @var $user Magento_User_Model_User */
-            $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getData('user');
+            $user = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getData('user');
 
             /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+            $collection = $this->_objectManager->create('Magento_Oauth_Model_Resource_Token_Collection');
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
                     ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)

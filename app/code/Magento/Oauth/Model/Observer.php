@@ -25,12 +25,31 @@ class Magento_Oauth_Model_Observer
     protected $_oauthData = null;
 
     /**
+     * Core App model
+     *
+     * @var Magento_Core_Model_App
+     */
+    protected $_app = null;
+
+    /**
+     * Backend Auth Session
+     *
+     * @var Magento_Backend_Model_Auth_Session
+     */
+    protected $_backendSession = null;
+
+    /**
      * @param Magento_Oauth_Helper_Data $oauthData
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Backend_Model_Auth_Session $backendSession
      */
     public function __construct(
-        Magento_Oauth_Helper_Data $oauthData
+        Magento_Oauth_Helper_Data $oauthData,
+        Magento_Core_Model_App $app,
+        Magento_Backend_Model_Auth_Session $backendSession
     ) {
         $this->_oauthData = $oauthData;
+        $this->_app = $app;
     }
 
     /**
@@ -53,7 +72,7 @@ class Magento_Oauth_Model_Observer
         if (null !== $this->_getOauthToken()) {
             $userType = Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER;
             $url = $this->_oauthData->getAuthorizeUrl($userType);
-            Mage::app()->getResponse()
+            $this->_app->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()
                 ->sendResponse();
@@ -71,7 +90,7 @@ class Magento_Oauth_Model_Observer
         if (null !== $this->_getOauthToken()) {
             $userType = Magento_Oauth_Model_Token::USER_TYPE_ADMIN;
             $url = $this->_oauthData->getAuthorizeUrl($userType);
-            Mage::app()->getResponse()
+            $this->_app->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()
                 ->sendResponse();
@@ -87,13 +106,11 @@ class Magento_Oauth_Model_Observer
     public function afterAdminLoginFailed(Magento_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
-            /** @var $session Magento_Backend_Model_Auth_Session */
-            $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-            $session->addError($observer->getException()->getMessage());
+            $this->_backendSession->addError($observer->getException()->getMessage());
 
             $userType = Magento_Oauth_Model_Token::USER_TYPE_ADMIN;
             $url = $this->_oauthData->getAuthorizeUrl($userType);
-            Mage::app()->getResponse()
+            $this->_app->getResponse()
                 ->setRedirect($url)
                 ->sendHeaders()
                 ->sendResponse();

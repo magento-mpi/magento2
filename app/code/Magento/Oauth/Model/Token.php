@@ -72,9 +72,33 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     protected $_oauthData = null;
 
     /**
+     * Url Validator
+     *
+     * @var Magento_Core_Model_Url_Validator
+     */
+    protected $_urlValidator = null;
+
+    /**
+     * Consumer Factory
+     *
+     * @var Magento_Oauth_Model_ConsumerFactory
+     */
+    protected $_consumerFactory = null;
+
+    /**
+     * KeyLength Factory
+     *
+     * @var Magento_Oauth_Model_Consumer_Validator_KeyLengthFactory
+     */
+    protected $_keyLengthFactory = null;
+
+    /**
      * @param Magento_Oauth_Helper_Data $oauthData
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Url_Validator $urlValidator
+     * @param Magento_Oauth_Model_ConsumerFactory $consumerFactory
+     * @param Magento_Oauth_Model_Consumer_Validator_KeyLengthFactory $keyLengthFactory
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -83,12 +107,18 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         Magento_Oauth_Helper_Data $oauthData,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Url_Validator $urlValidator,
+        Magento_Oauth_Model_ConsumerFactory $consumerFactory,
+        Magento_Oauth_Model_Consumer_Validator_KeyLengthFactory $keyLengthFactory,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_oauthData = $oauthData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_urlValidator = $urlValidator;
+        $this->_consumerFactory = $consumerFactory;
+        $this->_keyLengthFactory = $keyLengthFactory;
     }
 
     /**
@@ -123,21 +153,22 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * @param int $userId Authorization user identifier
      * @param string $userType Authorization user type
      * @return Magento_Oauth_Model_Token
+     * @throws Magento_Core_Exception
      */
     public function authorize($userId, $userType)
     {
         if (!$this->getId() || !$this->getConsumerId()) {
-            Mage::throwException('Token is not ready to be authorized');
+            throw new Magento_Core_Exception('Token is not ready to be authorized');
         }
         if ($this->getAuthorized()) {
-            Mage::throwException('Token is already authorized');
+            throw new Magento_Core_Exception('Token is already authorized');
         }
         if (self::USER_TYPE_ADMIN == $userType) {
             $this->setAdminId($userId);
         } elseif (self::USER_TYPE_CUSTOMER == $userType) {
             $this->setCustomerId($userId);
         } else {
-            Mage::throwException('User type is unknown');
+            throw new Magento_Core_Exception('User type is unknown');
         }
 
         $this->setVerifier($this->_oauthData->generateVerifier());
@@ -153,11 +184,12 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Convert token to access type
      *
      * @return Magento_Oauth_Model_Token
+     * @throws Magento_Core_Exception
      */
     public function convertToAccess()
     {
         if (Magento_Oauth_Model_Token::TYPE_REQUEST != $this->getType()) {
-            Mage::throwException('Can not convert due to token is not request type');
+            throw new Magento_Core_Exception('Can not convert due to token is not request type');
         }
 
         $this->setType(self::TYPE_ACCESS);
@@ -193,7 +225,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Get OAuth user type
      *
      * @return string
-     * @throws Exception
+     * @throws Magento_Core_Exception
      */
     public function getUserType()
     {
@@ -202,7 +234,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
         } elseif ($this->getCustomerId()) {
             return self::USER_TYPE_CUSTOMER;
         } else {
-            Mage::throwException('User type is unknown');
+            throw new Magento_Core_Exception('User type is unknown');
         }
     }
 
@@ -237,34 +269,30 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
      * Validate data
      *
      * @return array|bool
-     * @throw Magento_Core_Exception|Exception   Throw exception on fail validation
+     * @throws Magento_Core_Exception
      */
     public function validate()
     {
-        /** @var $validatorUrl Magento_Core_Model_Url_Validator */
-        $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
         if (Magento_Oauth_Model_Server::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
-            && !$validatorUrl->isValid($this->getCallbackUrl())
+            && !$this->_urlValidator->isValid($this->getCallbackUrl())
         ) {
-            $messages = $validatorUrl->getMessages();
-            Mage::throwException(array_shift($messages));
+            $messages = $this->_urlValidator->getMessages();
+            throw new Magento_Core_Exception(array_shift($messages));
         }
 
-        /** @var $validatorLength Magento_Oauth_Model_Consumer_Validator_KeyLength */
-        $validatorLength = Mage::getModel(
-            'Magento_Oauth_Model_Consumer_Validator_KeyLength');
+        $validatorLength = $this->_keyLengthFactory->create();
         $validatorLength->setLength(self::LENGTH_SECRET);
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
-            Mage::throwException(array_shift($messages));
+            throw new Magento_Core_Exception(array_shift($messages));
         }
 
         $validatorLength->setLength(self::LENGTH_TOKEN);
         $validatorLength->setName('Token Key');
         if (!$validatorLength->isValid($this->getToken())) {
             $messages = $validatorLength->getMessages();
-            Mage::throwException(array_shift($messages));
+            throw new Magento_Core_Exception(array_shift($messages));
         }
 
         if (null !== ($verifier = $this->getVerifier())) {
@@ -272,7 +300,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
             $validatorLength->setName('Verifier Key');
             if (!$validatorLength->isValid($verifier)) {
                 $messages = $validatorLength->getMessages();
-                Mage::throwException(array_shift($messages));
+                throw new Magento_Core_Exception(array_shift($messages));
             }
         }
         return true;
@@ -286,8 +314,7 @@ class Magento_Oauth_Model_Token extends Magento_Core_Model_Abstract
     public function getConsumer()
     {
         if (!$this->getData('consumer')) {
-            /** @var $consumer Magento_Oauth_Model_Consumer */
-            $consumer = Mage::getModel('Magento_Oauth_Model_Consumer');
+            $consumer = $this->_consumerFactory->create();
             $consumer->load($this->getConsumerId());
             $this->setData('consumer', $consumer);
         }

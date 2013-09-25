@@ -32,11 +32,12 @@ class Magento_Oauth_Model_Resource_Token extends Magento_Core_Model_Resource_Db_
      *
      * @param Magento_Oauth_Model_Token $exceptToken Token just created to exclude from delete
      * @return int The number of affected rows
+     * @throws Magento_Core_Exception
      */
     public function cleanOldAuthorizedTokensExcept(Magento_Oauth_Model_Token $exceptToken)
     {
         if (!$exceptToken->getId() || !$exceptToken->getAuthorized()) {
-            Mage::throwException('Invalid token to except');
+            throw new Magento_Core_Exception('Invalid token to except');
         }
         $adapter = $this->_getWriteAdapter();
         $where   = $adapter->quoteInto(
@@ -49,7 +50,7 @@ class Magento_Oauth_Model_Resource_Token extends Magento_Core_Model_Resource_Db_
         } elseif ($exceptToken->getAdminId()) {
             $where .= $adapter->quoteInto(' AND admin_id = ?', $exceptToken->getAdminId(), Zend_Db::INT_TYPE);
         } else {
-            Mage::throwException('Invalid token to except');
+            throw new Magento_Core_Exception('Invalid token to except');
         }
         return $adapter->delete($this->getMainTable(), $where);
     }

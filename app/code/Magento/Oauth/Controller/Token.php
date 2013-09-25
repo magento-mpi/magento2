@@ -18,6 +18,21 @@
 class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Action
 {
     /**
+     * Server model factory
+     *
+     * @var Magento_Oauth_Model_ServerFactory
+     */
+    protected $_serverFactory = null;
+
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Oauth_Model_ServerFactory $serverFactory
+    ) {
+        parent::__construct($context);
+        $this->_serverFactory = $serverFactory;
+    }
+
+    /**
      * Dispatch event before action
      *
      * @return void
@@ -37,9 +52,6 @@ class Magento_Oauth_Controller_Token extends Magento_Core_Controller_Front_Actio
      */
     public function indexAction()
     {
-        /** @var $server Magento_Oauth_Model_Server */
-        $server = Mage::getModel('Magento_Oauth_Model_Server');
-
-        $server->accessToken();
+        $this->_serverFactory->create()->accessToken();
     }
 }

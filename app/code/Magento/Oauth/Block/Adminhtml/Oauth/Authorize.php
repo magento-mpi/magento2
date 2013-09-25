@@ -18,13 +18,36 @@
 class Magento_Oauth_Block_Adminhtml_Oauth_Authorize extends Magento_Oauth_Block_AuthorizeBaseAbstract
 {
     /**
+     * Core session
+     *
+     * @var Magento_Core_Model_Session
+     */
+    protected $_coreSession = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Session $coreSession
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Session $coreSession,
+        array $data = array()
+    ) {
+        parent::__construct($coreData, $context, $data);
+        $this->_coreSession = $coreSession;
+    }
+
+    /**
      * Retrieve Session Form Key
      *
      * @return string
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
+        return $this->_coreSession->getFormKey();
     }
 
     /**
