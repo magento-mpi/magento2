@@ -19,6 +19,13 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     const MAX_QUERY_LEN  = 200;
 
     /**
+     * Default search engine
+     *
+     * @var string
+     */
+    const DEFAULT_SEARCH_ENGINE = 'Magento_CatalogSearch_Model_Resource_Fulltext_Engine';
+
+    /**
      * Query object
      *
      * @var Magento_CatalogSearch_Model_Query
@@ -68,17 +75,39 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreStoreConfig;
 
     /**
-     * @param Magento_Core_Helper_String $coreString
+     * Query factory
+     *
+     * @var Magento_CatalogSearch_Model_QueryFactory
+     */
+    protected $_queryFactory;
+
+    /**
+     * Engine factory
+     *
+     * @var Magento_CatalogSearch_Model_Engine_Factory
+     */
+    protected $_engineFactory;
+
+    /**
+     * Construct
+     *
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_CatalogSearch_Model_QueryFactory $queryFactory
+     * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_CatalogSearch_Model_Engine_Factory $engineFactory
      */
     public function __construct(
-        Magento_Core_Helper_String $coreString,
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_CatalogSearch_Model_QueryFactory $queryFactory,
+        Magento_Core_Helper_String $coreString,
+        Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_CatalogSearch_Model_Engine_Factory $engineFactory
     ) {
+        $this->_queryFactory = $queryFactory;
         $this->_coreString = $coreString;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_engineFactory = $engineFactory;
         parent::__construct($context);
     }
 
@@ -100,8 +129,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     public function getQuery()
     {
         if (!$this->_query) {
-            $this->_query = Mage::getModel('Magento_CatalogSearch_Model_Query')
-                ->loadByQuery($this->getQueryText());
+            $this->_query = $this->_queryFactory->create()->loadByQuery($this->getQueryText());
             if (!$this->_query->getId()) {
                 $this->_query->setQueryText($this->getQueryText());
             }
@@ -179,7 +207,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     {
         return $this->_getUrl('catalogsearch/result', array(
             '_query' => array(self::QUERY_VAR_NAME => $query),
-            '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+            '_secure' => $this->_request->isSecure()
         ));
     }
 
@@ -191,7 +219,7 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSuggestUrl()
     {
         return $this->_getUrl('catalogsearch/ajax/suggest', array(
-            '_secure' => Mage::app()->getFrontController()->getRequest()->isSecure()
+            '_secure' => $this->_request->isSecure()
         ));
     }
 
@@ -351,13 +379,13 @@ class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
              * Problem is in this engine in database configuration still set.
              */
             if ($engine) {
-                $model = Mage::getResourceSingleton($engine);
+                $model = $this->_engineFactory->create($engine);
                 if ($model && $model->test()) {
                     $this->_engine = $model;
                 }
             }
             if (!$this->_engine) {
-                $this->_engine = Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Fulltext_Engine');
+                $this->_engine = $this->_engineFactory->create(self::DEFAULT_SEARCH_ENGINE);
             }
         }
 
