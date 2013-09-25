@@ -126,6 +126,8 @@
   * Eliminated Mage:: static methods in Magento_ProductAlert
   * Eliminated Mage:: static methods in Magento_Directory
   * Eliminated Mage:: static methods in Magento_GiftWrapping
+  * Eliminated Mage:: static methods in Magento_Rma
+  * Eliminated Mage:: static methods in Magento_CustomerCustomAttributes
   * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
   * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
   * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
