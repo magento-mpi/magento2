@@ -8,13 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="admin.product.edit.tab.super.config.grid">
+    <referenceBlock name="admin.product.edit.tab.super.config.grid">
         <arguments>
             <argument name="dataSource" xsi:type="object">
                 <updater>Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater</updater>
             </argument>
         </arguments>
-        <reference name="admin.product.edit.tab.super.config.grid.columnSet">
+        <referenceBlock name="admin.product.edit.tab.super.config.grid.columnSet">
             <block class="Magento_Backend_Block_Widget_Grid_Column" as="inventory_in_stock" after="admin.product.edit.tab.super.config.grid.sku">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Stock Availability</argument>
@@ -36,6 +36,6 @@
                     <argument name="sortable" xsi:type="string">1</argument>
                 </arguments>
             </block>
-        </reference>
-    </reference>
+        </referenceBlock>
+    </referenceBlock>
 </layout>

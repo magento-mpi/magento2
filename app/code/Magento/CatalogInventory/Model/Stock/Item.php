@@ -160,6 +160,21 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     protected $_locale;
 
     /**
+     * @var Magento_CatalogInventory_Model_Stock_Status
+     */
+    protected $_stockStatus;
+
+    /**
+     * @var Magento_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @var Magento_Customer_Model_Session
+     */
+    protected $_customerSession;
+
+    /**
      * Construct
      * 
      * @param Magento_Core_Model_Context $context
@@ -175,6 +190,9 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
      * @param array $data
      */
     public function __construct(
+        Magento_Customer_Model_Session $customerSession,
+        Magento_Index_Model_Indexer $indexer,
+        Magento_CatalogInventory_Model_Stock_Status $stockStatus,
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Registry $registry,
         Magento_CatalogInventory_Helper_Data $catalogInventoryData,
@@ -188,6 +206,10 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+
+        $this->_customerSession = $customerSession;
+        $this->_indexer = $indexer;
+        $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_coreData = $coreData;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
@@ -318,8 +340,9 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         $product->setStockItem($this);
 
         $product->setIsInStock($this->getIsInStock());
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
-            ->assignProduct($product, $this->getStockId(), $this->getStockStatus());
+
+        $this->_stockStatus->assignProduct($product, $this->getStockId(), $this->getStockStatus());
+
         return $this;
     }
 
@@ -367,7 +390,7 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
         if (!$customerGroupId) {
             $customerGroupId = $this->_storeManager->getStore()->isAdmin()
                 ? Magento_Customer_Model_Group::CUST_GROUP_ALL
-                : Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+                : $this->_customerSession->getCustomerGroupId();
         }
 
         if (!isset($this->_minSaleQtyCache[$customerGroupId])) {
@@ -841,12 +864,10 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     {
         parent::_afterSave();
 
-        /** @var $indexer Magento_Index_Model_Indexer */
-        $indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
         if ($this->_processIndexEvents) {
-            $indexer->processEntityAction($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
+            $this->_indexer->processEntityAction($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
         } else {
-            $indexer->logEvent($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
+            $this->_indexer->logEvent($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
         }
         return $this;
     }

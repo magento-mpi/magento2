@@ -50,7 +50,7 @@ function updateFieldForTable($table, $col)
 
         $indexList = $installer->getConnection()->getIndexList($table);
         $pkField = array_shift($indexList[$installer->getConnection()->getPrimaryKeyName($table)]['fields']);
-        /** @var $select Varien_Db_Select */
+        /** @var $select Magento_Db_Select */
         $select = $installer->getConnection()->select()->from($table, array('id' => $pkField, 'content' => $col));
         $result = $installer->getConnection()->fetchPairs($select);
 

@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="adminhtml.newsletter.subscriber.container">
+    <referenceBlock name="adminhtml.newsletter.subscriber.container">
         <block class="Magento_Adminhtml_Block_Newsletter_Subscriber_Grid" name="adminhtml.newslettrer.subscriber.grid" as="grid">
             <arguments>
                 <argument name="id" xsi:type="string">subscriberGrid</argument>
@@ -162,5 +162,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

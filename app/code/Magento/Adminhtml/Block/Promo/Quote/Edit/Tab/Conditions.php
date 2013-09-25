@@ -10,7 +10,7 @@
 
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
     extends Magento_Backend_Block_Widget_Form_Generic
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Prepare content for tab

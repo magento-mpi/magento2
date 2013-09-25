@@ -19,6 +19,19 @@
 class Magento_Rating_Model_Observer
 {
     /**
+     * @var Magento_Rating_Model_Resource_Rating
+     */
+    protected $_rating;
+
+    /**
+     * @param Magento_Rating_Model_Resource_Rating $rating
+     */
+    public function __construct(Magento_Rating_Model_Resource_Rating $rating)
+    {
+        $this->_rating = $rating;
+    }
+
+    /**
      * Cleanup product ratings after product delete
      *
      * @param   Magento_Event_Observer $observer
@@ -28,8 +41,7 @@ class Magento_Rating_Model_Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            Mage::getResourceSingleton('Magento_Rating_Model_Resource_Rating')
-                ->deleteAggregatedRatingsByProductId($eventProduct->getId());
+            $this->_rating->deleteAggregatedRatingsByProductId($eventProduct->getId());
         }
         return $this;
     }

@@ -56,9 +56,35 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     /**
      * Store search engine instance
      *
-     * @var object
+     * @var Magento_CatalogSearch_Model_Resource_EngineInterface
      */
-    protected $_engine                   = null;
+    protected $_engine;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory
+     */
+    protected $_productAttributeCollFactory;
+
+    /**
+     * Catalog product status
+     *
+     * @var Magento_Catalog_Model_Product_Status
+     */
+    protected $_catalogProductStatus;
+
+    /**
+     * Eav config
+     *
+     * @var Magento_Eav_Model_Config
+     */
+    protected $_eavConfig;
+
+    /**
+     * Catalog product type
+     *
+     * @var Magento_Catalog_Model_Product_Type
+     */
+    protected $_catalogProductType;
 
     /**
      * Catalog search data
@@ -84,24 +110,39 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     /**
      * Core store config
      *
-     * @var Magento_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
+     * @param Magento_Catalog_Model_Product_Type $catalogProductType
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_Catalog_Model_Product_Status $catalogProductStatus
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $productAttributeCollFactory
+     * @param Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
      */
     public function __construct(
+        Magento_Catalog_Model_Product_Type $catalogProductType,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_Catalog_Model_Product_Status $catalogProductStatus,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $productAttributeCollFactory,
+        Magento_CatalogSearch_Model_Resource_EngineProvider $engineProvider,
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Core_Helper_String $coreString,
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Store_Config $coreStoreConfig
+        Magento_Core_Model_Store_ConfigInterface $coreStoreConfig
     ) {
+        $this->_catalogProductType = $catalogProductType;
+        $this->_eavConfig = $eavConfig;
+        $this->_catalogProductStatus = $catalogProductStatus;
+        $this->_productAttributeCollFactory = $productAttributeCollFactory;
+        $this->_engine = $engineProvider->get();
         $this->_eventManager = $eventManager;
         $this->_coreString = $coreString;
         $this->_catalogSearchData = $catalogSearchData;
@@ -116,7 +157,6 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     protected function _construct()
     {
         $this->_init('catalogsearch_fulltext', 'product_id');
-        $this->_engine = $this->_catalogSearchData->getEngine();
     }
 
     /**
@@ -177,7 +217,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         // status and visibility filter
         $visibility     = $this->_getSearchableAttribute('visibility');
         $status         = $this->_getSearchableAttribute('status');
-        $statusVals     = Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds();
+        $statusVals     = $this->_catalogProductStatus->getVisibleStatusIds();
         $allowedVisibility = $this->_engine->getAllowedVisibility();
 
         $lastProductId = 0;
@@ -452,7 +492,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      */
     public function getEavConfig()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config');
+        return $this->_eavConfig;
     }
 
     /**
@@ -466,9 +506,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         if (null === $this->_searchableAttributes) {
             $this->_searchableAttributes = array();
 
-            $productAttributes = Mage::getResourceModel(
-                'Magento_Catalog_Model_Resource_Product_Attribute_Collection'
-            );
+            $productAttributes = $this->_productAttributeCollFactory->create();
 
             if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
                 $productAttributes->addToIndexFilter(true);
@@ -605,7 +643,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         if (!isset($this->_productTypes[$typeId])) {
             $productEmulator = $this->_getProductEmulator($typeId);
 
-            $this->_productTypes[$typeId] = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
+            $this->_productTypes[$typeId] = $this->_catalogProductType
                 ->factory($productEmulator);
         }
         return $this->_productTypes[$typeId];

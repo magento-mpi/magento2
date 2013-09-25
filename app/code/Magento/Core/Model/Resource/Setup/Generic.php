@@ -1,17 +1,11 @@
 <?php
 /**
  * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Widget
+ *   
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Setup model
- */
-class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+class Magento_Core_Model_Resource_Setup_Generic extends Magento_Core_Model_Resource_Setup
 {
     /**
      * @var Magento_Core_Model_Resource_Setup_MigrationFactory
@@ -49,10 +43,10 @@ class Magento_Widget_Model_Resource_Setup extends Magento_Core_Model_Resource_Se
     /**
      * Get migration instance
      *
-     * @param $data
+     * @param array $data
      * @return Magento_Core_Model_Resource_Setup_Migration
      */
-    public function getMigrationInstance($data)
+    public function createMigrationSetup(array $data = array())
     {
         return $this->_migrationFactory->create($data);
     }

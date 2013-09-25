@@ -30,6 +30,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
         $mediaConfig = $this->getMock('Magento_Catalog_Model_Product_Media_Config', array(), array(), '', false);
         $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_model = new Magento_Catalog_Model_Product_Attribute_Backend_Media(
             $eventManager,
             $fileStorageDb,
@@ -37,6 +38,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
             $mediaConfig,
             $dirs,
             $filesystem,
+            $logger,
             array('resourceModel' => $resource)
         );
     }
