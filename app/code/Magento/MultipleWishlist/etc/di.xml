@@ -15,4 +15,9 @@
             <instance type="Magento_MultipleWishlist_Model_Resource_Item" />
         </param>
     </type>
+    <type name="Magento_MultipleWishlist_Controller_Index">
+        <param name="wishlistSession">
+            <instance type="Magento_Wishlist_Model_Session" />
+        </param>
+    </type>
 </config>

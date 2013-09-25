@@ -59,7 +59,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
      * @param Magento_Wishlist_Model_Config $wishlistConfig
      * @param Magento_Wishlist_Model_ItemFactory $itemFactory
      * @param Magento_Wishlist_Model_WishlistFactory $wishlistFactory
-     * @param Magento_Wishlist_Model_Session $wishlistSession
+     * @param Magento_Core_Model_Session_Generic $wishlistSession
      * @param Magento_Customer_Model_Session $customerSession
      * @param Magento_Core_Model_UrlInterface $url
      * @param Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
@@ -70,7 +70,7 @@ class Magento_MultipleWishlist_Controller_Index extends Magento_Wishlist_Control
         Magento_Wishlist_Model_Config $wishlistConfig,
         Magento_Wishlist_Model_ItemFactory $itemFactory,
         Magento_Wishlist_Model_WishlistFactory $wishlistFactory,
-        Magento_Wishlist_Model_Session $wishlistSession,
+        Magento_Core_Model_Session_Generic $wishlistSession,
         Magento_Customer_Model_Session $customerSession,
         Magento_Core_Model_UrlInterface $url,
         Magento_Wishlist_Model_Resource_Wishlist_CollectionFactory $wishlistCollectionFactory
