@@ -20,7 +20,10 @@ class Magento_Test_Integrity_Magento_Page_ConfigTest extends Integrity_ConfigAbs
 
     public function testSchemaUsingInvalidXml()
     {
-        $expectedErrors = array("Element 'layout': Missing child element(s). Expected is ( label ).");
+        $expectedErrors = array(
+            "Element 'layouts': No match found for key-sequence ['bad_ref'] of keyref 'layout-ref'.",
+            "Element 'layout': Missing child element(s). Expected is ( label ).",
+        );
         parent::testSchemaUsingInvalidXml($expectedErrors);
     }
 
