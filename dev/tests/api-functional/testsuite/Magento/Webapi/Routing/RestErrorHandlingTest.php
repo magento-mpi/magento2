@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Routing;
 
-class RestErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
+class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     public function setUp()
     {

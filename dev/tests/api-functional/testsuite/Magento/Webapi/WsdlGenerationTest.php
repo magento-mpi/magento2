@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi;
 
-class WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstract
+class WsdlGenerationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     protected function setUp()
     {
@@ -37,7 +37,7 @@ class WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstract
      */
     public function testMultiServiceWsdl($entityId, $soapOperation, $expectedResponse)
     {
-        /** @var Magento_Test_TestCase_Webapi_Adapter_Soap $soapAdapter */
+        /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Soap $soapAdapter */
         $soapAdapter = $this->_getWebApiAdapter(self::ADAPTER_SOAP);
         $wsdlUrl = $soapAdapter->generateWsdlUrl(
             array(
@@ -153,7 +153,7 @@ class WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstract
      */
     protected function _getBaseWsdlUrl()
     {
-        /** @var Magento_Test_TestCase_Webapi_Adapter_Soap $soapAdapter */
+        /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Soap $soapAdapter */
         $soapAdapter = $this->_getWebApiAdapter(self::ADAPTER_SOAP);
         $wsdlUrl = $soapAdapter->generateWsdlUrl(array());
         return $wsdlUrl;

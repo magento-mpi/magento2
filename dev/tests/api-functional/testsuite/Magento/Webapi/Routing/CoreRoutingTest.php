@@ -11,7 +11,7 @@
  */
 namespace Magento\Webapi\Routing;
 
-class CoreRoutingTest extends Magento_Test_TestCase_WebapiAbstract
+class CoreRoutingTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     public function testBasicRoutingPathAutoDetection()
     {

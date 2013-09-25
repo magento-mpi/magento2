@@ -11,7 +11,7 @@
  */
 namespace Magento\Webapi\Routing;
 
-abstract class BaseService extends Magento_Test_TestCase_WebapiAbstract
+abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
 
     /**

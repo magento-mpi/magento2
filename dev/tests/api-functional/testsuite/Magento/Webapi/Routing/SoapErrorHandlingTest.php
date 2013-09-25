@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Routing;
 
-class SoapErrorHandlingTest extends Magento_Test_TestCase_WebapiAbstract
+class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     public function setUp()
     {
