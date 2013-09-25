@@ -14,14 +14,14 @@ class Magento_Sales_Model_Order_Pdf_Config_SchemaLocator implements Magento_Conf
      *
      * @var string
      */
-    private $_schemaFile;
+    private $_schema;
 
     /**
      * Path to corresponding XSD file with validation rules for individual configs
      *
      * @var string
      */
-    private $_schemaIndividual;
+    private $_schemaFile;
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $moduleReader

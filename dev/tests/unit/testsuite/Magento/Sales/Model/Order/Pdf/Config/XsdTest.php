@@ -108,6 +108,7 @@ class Magento_Sales_Model_Order_Pdf_Config_XsdTest extends PHPUnit_Framework_Tes
      * Returns data to be tested in tests
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getExemplarTestData()
     {
