@@ -118,18 +118,43 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     protected $_coreConfig;
 
     /**
-     * Object constructor.
-     *
+     * @var Magento_ImportExport_Model_Resource_Helper_Mysql4
+     */
+    protected $_resourceHelper;
+
+    /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_CollectionFactory
+     */
+    protected $_productColFac;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac
      * @param Magento_Core_Model_Config $coreConfig
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Catalog_Model_Resource_Product_CollectionFactory $_productColFac
      * @param array $params
-     * @return \Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
      */
     public function __construct(
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac,
         Magento_Core_Model_Config $coreConfig,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource $resource,
+        Magento_Catalog_Model_Resource_Product_CollectionFactory $_productColFac,
         array $params
     ) {
-        parent::__construct($params);
         $this->_coreConfig = $coreConfig;
+        $this->_resourceHelper = $resourceHelper;
+        $this->_resource = $resource;
+        $this->_productColFac = $_productColFac;
+        parent::__construct($attrSetColFac, $prodAttrColFac, $params);
     }
 
     /**
@@ -234,7 +259,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
                     ->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
                 $allowProductTypes[] = $type->getName();
             }
-            foreach (Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+            foreach ($this->_productColFac->create()
                         ->addFieldToFilter('type_id', $allowProductTypes)
                         ->addAttributeToSelect(array_keys($this->_superAttributes)) as $product) {
                 $attrSetName = $attrSetIdToName[$product->getAttributeSetId()];
@@ -261,8 +286,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     {
         if (!$this->_skuSuperData) {
             $connection = $this->_entityModel->getConnection();
-            $mainTable  = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute');
-            $priceTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute_pricing');
+            $mainTable  = $this->_resource->getTableName('catalog_product_super_attribute');
+            $priceTable = $this->_resource->getTableName('catalog_product_super_attribute_pricing');
             $select     = $connection->select()
                     ->from(array('m' => $mainTable), array('product_id', 'attribute_id', 'product_super_attribute_id'))
                     ->joinLeft(
@@ -352,16 +377,16 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     public function saveData()
     {
         $connection      = $this->_entityModel->getConnection();
-        $mainTable       = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute');
-        $labelTable      = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute_label');
-        $priceTable      = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute_pricing');
-        $linkTable       = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_link');
-        $relationTable   = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_relation');
+        $mainTable       = $this->_resource->getTableName('catalog_product_super_attribute');
+        $labelTable      = $this->_resource->getTableName('catalog_product_super_attribute_label');
+        $priceTable      = $this->_resource->getTableName('catalog_product_super_attribute_pricing');
+        $linkTable       = $this->_resource->getTableName('catalog_product_super_link');
+        $relationTable   = $this->_resource->getTableName('catalog_product_relation');
         $newSku          = $this->_entityModel->getNewSku();
         $oldSku          = $this->_entityModel->getOldSku();
         $productSuperData = array();
         $productData     = null;
-        $nextAttrId      = Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($mainTable);
+        $nextAttrId      = $this->_resourceHelper->getNextAutoincrement($mainTable);
 
         if ($this->_entityModel->getBehavior() == Magento_ImportExport_Model_Import::BEHAVIOR_APPEND) {
             $this->_loadSkuSuperData();

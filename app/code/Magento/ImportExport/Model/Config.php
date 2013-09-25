@@ -47,7 +47,7 @@ class Magento_ImportExport_Model_Config
 
         foreach ($this->_coreConfig->getNode($configKey)->asCanonicalArray() as $entityType => $entityParams) {
             if (empty($entityParams['model_token'])) {
-                Mage::throwException(
+                throw new Magento_Core_Exception(
                     __('Please provide a correct model token tag.')
                 );
             }

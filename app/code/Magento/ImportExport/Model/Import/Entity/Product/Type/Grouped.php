@@ -35,6 +35,44 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
     protected $_behavior;
 
     /**
+     * @var Magento_ImportExport_Model_ImportFactory
+     */
+    protected $_importFactory;
+
+    /**
+     * @var Magento_Core_Model_Resource
+     */
+    protected $_resource;
+
+    /**
+     * @var Magento_Catalog_Model_Resource_Product_LinkFactory
+     */
+    protected $_productLinkFactory;
+
+    /**
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac
+     * @param Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_Catalog_Model_Resource_Product_LinkFactory $productLinkFactory
+     * @param Magento_Core_Model_Resource $resource
+     * @param array $params
+     */
+    public function __construct(
+        Magento_Eav_Model_Resource_Entity_Attribute_Set_CollectionFactory $attrSetColFac,
+        Magento_Catalog_Model_Resource_Product_Attribute_CollectionFactory $prodAttrColFac,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_Catalog_Model_Resource_Product_LinkFactory $productLinkFactory,
+        Magento_Core_Model_Resource $resource,
+        array $params
+    )
+    {
+        $this->_importFactory = $importFactory;
+        $this->_resource = $resource;
+        $this->_productLinkFactory = $productLinkFactory;
+        parent::__construct($attrSetColFac, $prodAttrColFac, $params);
+    }
+
+    /**
      * Retrive model behavior
      *
      * @return string
@@ -42,7 +80,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
     public function getBehavior()
     {
         if (is_null($this->_behavior)) {
-            $this->_behavior = Magento_ImportExport_Model_Import::getDataSourceModel()->getBehavior();
+            $this->_behavior = $this->_importFactory->create()->getDataSourceModel()->getBehavior();
         }
         return $this->_behavior;
     }
@@ -55,8 +93,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Grouped
     public function saveData()
     {
         $groupedLinkId = Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED;
-        $connection    = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
-        $resource      = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Link');
+        $connection    = $this->_resource->getConnection('write');
+        $resource      = $this->_productLinkFactory->create();
         $mainTable     = $resource->getMainTable();
         $relationTable = $resource->getTable('catalog_product_relation');
         $newSku        = $this->_entityModel->getNewSku();

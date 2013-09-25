@@ -48,7 +48,7 @@ class Magento_ImportExport_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
         $entityStatus = $adapter->showTableStatus($tableName);
 
         if (empty($entityStatus['Auto_increment'])) {
-            Mage::throwException(__('Cannot get autoincrement value'));
+            throw new Magento_Core_Exception(__('Cannot get autoincrement value'));
         }
         return $entityStatus['Auto_increment'];
     }

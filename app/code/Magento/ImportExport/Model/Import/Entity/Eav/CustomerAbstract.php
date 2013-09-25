@@ -56,18 +56,41 @@ abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
     protected $_customerStorage;
 
     /**
+     * @var Magento_ImportExport_Model_Resource_Customer_StorageFactory
+     */
+    protected $_storageFactory;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_String $coreString
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_ImportExport_Model_ImportFactory $importFactory
+     * @param Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Data_CollectionFactory $collectionFactory
+     * @param Magento_Eav_Model_Config $eavConfig
+     * @param Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_String $coreString,
         Magento_Core_Model_Store_Config $coreStoreConfig,
+        Magento_ImportExport_Model_ImportFactory $importFactory,
+        Magento_ImportExport_Model_Resource_Helper_Mysql4 $resourceHelper,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_App $app,
+        Magento_Data_CollectionFactory $collectionFactory,
+        Magento_Eav_Model_Config $eavConfig,
+        Magento_ImportExport_Model_Resource_Customer_StorageFactory $storageFactory,
         array $data = array()
     ) {
-        parent::__construct($coreData, $coreString, $coreStoreConfig, $data);
+        $this->_storageFactory = $storageFactory;
+        parent::__construct(
+            $coreData, $coreString, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $app,
+            $collectionFactory, $eavConfig, $data
+        );
 
         $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY,
             __('Website is not specified')
@@ -103,8 +126,9 @@ abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
         if (!isset($data['page_size'])) {
             $data['page_size'] = $this->_pageSize;
         }
-        $this->_customerStorage = isset($data['customer_storage']) ? $data['customer_storage']
-                : Mage::getResourceModel('Magento_ImportExport_Model_Resource_Customer_Storage', array('data' => $data));
+        $this->_customerStorage = isset($data['customer_storage'])
+            ? $data['customer_storage']
+            : $this->_storageFactory->create(array('data' => $data));
 
         return $this;
     }
