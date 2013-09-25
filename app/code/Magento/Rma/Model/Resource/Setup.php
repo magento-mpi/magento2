@@ -21,7 +21,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     /**
      * @var Magento_Enterprise_Model_Resource_Setup_Migration
      */
-    protected $_migrationFactory;
+    protected $_entMigrationFactory;
 
     /**
      * @param Magento_Core_Model_Logger $logger
@@ -33,8 +33,9 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
      * @param Magento_Core_Model_Resource $resource
      * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
      * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory
      * @param Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory
-     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory
+     * @param Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory
      * @param string $resourceName
      */
     public function __construct(
@@ -47,14 +48,15 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
         Magento_Core_Model_Resource $resource,
         Magento_Core_Model_Config_Modules_Reader $modulesReader,
         Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Resource_Setup_MigrationFactory $migrationFactory,
         Magento_Catalog_Model_Resource_SetupFactory $catalogSetupFactory,
-        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $migrationFactory,
+        Magento_Enterprise_Model_Resource_Setup_MigrationFactory $entMigrationFactory,
         $resourceName
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        $this->_migrationFactory = $migrationFactory;
+        $this->_entMigrationFactory = $migrationFactory;
         parent::__construct($logger, $coreData, $eventManager, $resourcesConfig, $modulesConfig, $moduleList,
-            $resource, $modulesReader, $cache, $resourceName);
+            $resource, $modulesReader, $cache, $migrationFactory, $resourceName);
     }
 
     /**
@@ -72,11 +74,11 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
      * Get migration resource setup model
      *
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Setup
+     * @return Magento_Enterprise_Model_Resource_Setup_Migration
      */
     public function getMigrationResourceSetup(array $data = array())
     {
-        return $this->_migrationFactory->create($data);
+        return $this->_entMigrationFactory->create($data);
     }
 
     /**
