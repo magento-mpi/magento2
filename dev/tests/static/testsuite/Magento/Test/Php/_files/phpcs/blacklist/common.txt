@@ -40,5 +40,3 @@ dev/tests/js
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 # Example files that are expected to fail code mess detector
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
-# Pretty printer overrides methods that do not comply with standard, so just ignore entire file
-dev/tools/Magento/Tools/Formatter/PrettyPrinter.php

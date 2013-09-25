@@ -3,6 +3,7 @@ app/bootstrap.php
 app/code/Magento
 app/design
 app/etc
+dev/tests/api-functional
 dev/tests/integration
 dev/tests/performance
 dev/tests/static
@@ -11,3 +12,4 @@ dev/tools/Magento
 dev/shell
 lib/Magento
 downloader/lib/Magento
+downloader/app/Magento
