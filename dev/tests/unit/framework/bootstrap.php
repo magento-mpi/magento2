@@ -25,7 +25,8 @@ mkdir(TESTS_TEMP_DIR);
 
 Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
 
-Mage::setIsSerializable(false);
+$appStateModel = new Magento_Core_Model_App_State();
+$appStateModel->setIsSerializable(false);
 
 function tool_autoloader($className)
 {
