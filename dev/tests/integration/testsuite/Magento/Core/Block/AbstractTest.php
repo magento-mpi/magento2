@@ -522,7 +522,9 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetSetMessagesBlock()
     {
         // Get one from layout
-        $this->_block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout'));
+        $this->_block->setLayout(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout')
+        );
         $this->assertInstanceOf('Magento_Core_Block_Messages', $this->_block->getMessagesBlock());
 
         // Set explicitly
@@ -706,7 +708,8 @@ class Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
             );
         }
         if (is_null($this->_layout)) {
-            $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
+            $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Layout');
         }
         $block = $this->_layout->addBlock($mockClass, $name, '', $alias);
         return $block;

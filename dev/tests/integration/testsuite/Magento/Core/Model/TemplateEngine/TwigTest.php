@@ -23,7 +23,10 @@ class Magento_Core_Model_TemplateEngine_TwigTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadAreaPart(Magento_Core_Model_App_Area::AREA_GLOBAL, Magento_Core_Model_App_Area::PART_CONFIG);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->loadAreaPart(
+            Magento_Core_Model_App_Area::AREA_GLOBAL,
+            Magento_Core_Model_App_Area::PART_CONFIG
+        );
         $this->_twigEngine = $this->_objectManager->create('Magento_Core_Model_TemplateEngine_Twig');
     }
 

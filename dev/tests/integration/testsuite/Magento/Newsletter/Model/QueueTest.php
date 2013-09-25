@@ -91,7 +91,8 @@ class Magento_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriberProblem()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App')
+            ->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $mail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());

@@ -59,7 +59,8 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
      */
     public function testAfterSaveFileNotExists()
     {
-        $robotsTxtPath = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir() . DS . 'robots.txt';
+        $robotsTxtPath = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Dir')->getDir() . DS . 'robots.txt';
         $this->assertFileNotExists($robotsTxtPath, 'robots.txt exists');
 
         $this->_modifyConfig();
@@ -87,7 +88,11 @@ class Magento_Backend_Model_Config_Backend_Admin_RobotsTest extends PHPUnit_Fram
     {
         $robotsTxt = "User-Agent: *\nDisallow: /checkout";
         $this->_model->setValue($robotsTxt)->save();
-        $this->assertStringEqualsFile(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir() . DS . 'robots.txt', $robotsTxt);
+        $this->assertStringEqualsFile(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+                ->get('Magento_Core_Model_Dir')->getDir() . DS . 'robots.txt',
+            $robotsTxt
+        );
     }
 
     /**

@@ -52,7 +52,10 @@ class Magento_Test_Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framewor
      */
     public function aclConfigFileDataProvider()
     {
-        $fileList = glob(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir('app') . '/*/*/*/etc/adminhtml/acl.xml');
+        $fileList = glob(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+                ->getDir('app') . '/*/*/*/etc/adminhtml/acl.xml'
+        );
         $dataProviderResult = array();
         foreach ($fileList as $file) {
             $dataProviderResult[$file] = array($file);

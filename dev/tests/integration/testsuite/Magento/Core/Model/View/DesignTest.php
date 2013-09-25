@@ -54,7 +54,10 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         $ioAdapter = new Magento_Io_File();
-        $ioAdapter->rm(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')->getDir(Magento_Core_Model_Dir::PUB_LIB) . '/prototype/prototype.min.js');
+        $ioAdapter->rm(
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir')
+                ->getDir(Magento_Core_Model_Dir::PUB_LIB) . '/prototype/prototype.min.js'
+        );
     }
 
     protected function setUp()

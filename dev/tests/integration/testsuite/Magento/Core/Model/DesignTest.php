@@ -101,7 +101,8 @@ class Magento_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
     public function testLoadChangeCache()
     {
         $date = Magento_Date::now(true);
-        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
+        $storeId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
 
         $cacheId = 'design_change_' . md5($storeId . $date);
 

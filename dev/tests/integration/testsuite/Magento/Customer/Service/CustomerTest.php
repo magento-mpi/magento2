@@ -50,7 +50,8 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
         }
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')->setCurrentStore($previousStoreId);
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface')
+            ->setCurrentStore($previousStoreId);
 
         $this->_model = null;
     }
