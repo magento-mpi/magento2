@@ -7,8 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config>
     <type name="Magento_Centinel_Model_StateFactory">
         <param name="stateClassMap">
             <value>
