@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="checkout_success">
+    <referenceBlock name="checkout_success">
         <block class="Magento_Downloadable_Block_Checkout_Success" name="downloadable.checkout.success" template="checkout/success.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

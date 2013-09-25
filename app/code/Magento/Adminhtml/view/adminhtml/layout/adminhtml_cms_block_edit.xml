@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="editor"/>
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/fileUploader/css/jquery.fileupload-ui.css</argument>
@@ -40,8 +40,8 @@
                 <argument name="file" xsi:type="string">jquery/fileUploader/jquery.fileupload-fp.js</argument>
             </arguments>
         </block>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Cms_Block_Edit" name="cms_block_edit"/>
-    </reference>
+    </referenceContainer>
 </layout>

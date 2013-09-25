@@ -8,13 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="top.container">
+    <referenceContainer name="top.container">
         <block class="Magento_Cms_Block_Block" name="cms.top.callout" before="-">
             <action method="setBlockId">
                 <argument name="block_id" xsi:type="string">top_callout</argument>
             </action>
         </block>
-    </reference>
+    </referenceContainer>
     <remove name="left.permanent.callout"/>
     <remove name="right.permanent.callout"/>
 </layout>

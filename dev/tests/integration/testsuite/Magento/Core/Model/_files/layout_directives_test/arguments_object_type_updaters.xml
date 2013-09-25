@@ -14,7 +14,7 @@
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="number">0</argument>
         </arguments>
     </block>
-    <reference name="block_with_object_updater_args">
+    <referenceBlock name="block_with_object_updater_args">
         <arguments>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">
                 <updater>Magento_Core_Model_LayoutArgumentObjectUpdater</updater>
@@ -24,8 +24,8 @@
                 <updater>Magento_Core_Model_LayoutArgumentSimpleUpdater</updater>
             </argument>
         </arguments>
-    </reference>
-    <reference name="block_with_object_updater_args">
+    </referenceBlock>
+    <referenceBlock name="block_with_object_updater_args">
         <arguments>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">
                 <updater>Magento_Core_Model_LayoutArgumentObjectUpdater</updater>
@@ -34,5 +34,5 @@
                 <updater>Magento_Core_Model_LayoutArgumentSimpleUpdater</updater>
             </argument>
         </arguments>
-    </reference>
+    </referenceBlock>
 </layout>

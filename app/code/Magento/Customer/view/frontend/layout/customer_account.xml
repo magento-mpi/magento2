@@ -8,16 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account (All Pages)" type="page" parent="default">
-    <reference name="root">
+    <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">2columns-left.phtml</argument>
         </action>
-    </reference>
-    <reference name="content">
+    </referenceBlock>
+    <referenceContainer name="content">
         <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
-    </reference>
-    <reference name="left">
-        <block class="Magento_Page_Block_Links" name="customer-account-navigation" before="-" template="Magento_Customer::account/navigation.phtml">
+    </referenceContainer>
+    <referenceContainer name="left">
+        <block class="Magento_Page_Block_Links" name="customer_account_navigation" before="-" template="Magento_Customer::account/navigation.phtml">
             <block class="Magento_Page_Block_Link_Current" name="customer-account-navigation-account-link">
                 <arguments>
                     <argument name="label" xsi:type="string">Account Dashboard</argument>
@@ -38,7 +38,7 @@
             </block>
         </block>
         <block class="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-    </reference>
+    </referenceContainer>
     <move element="cart_sidebar" destination="left" before="catalog.compare.sidebar"/>
     <remove name="tags_popular"/>
 </layout>

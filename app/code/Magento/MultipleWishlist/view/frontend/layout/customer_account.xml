@@ -8,13 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="customer-account-navigation">
-        <block class="Magento_Page_Block_Link_Current" ifconfig="wishlist/general/multiple_enabled"
-               name="customer-account-navigation-wish-lists-link">
+    <referenceBlock name="customer_account_navigation">
+        <block class="Magento_Page_Block_Link_Current" ifconfig="wishlist/general/multiple_enabled" name="customer-account-navigation-wish-lists-link">
             <arguments>
                 <argument name="path" xsi:type="string">wishlist</argument>
                 <argument name="label" xsi:type="string">My Wish Lists</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

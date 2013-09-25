@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_GiftRegistry_Block_Adminhtml_Customer_Edit" name="giftregistry_customer_edit"/>
-    </reference>
+    </referenceContainer>
 </layout>

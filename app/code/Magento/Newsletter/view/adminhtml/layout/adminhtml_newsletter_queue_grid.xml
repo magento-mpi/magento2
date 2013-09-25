@@ -10,5 +10,5 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="formkey"/>
     <update handle="adminhtml_newsletter_queue_grid_block"/>
-    <container name="adminhtml.newsletter.queue.grid.container" label="Newsletter Queue Container" output="1"/>
+    <block class="Magento_Backend_Block_Widget_Grid_Container" name="adminhtml.newsletter.queue.grid.container" template="Magento_Backend::widget/grid/container/empty.phtml" output="1"/>
 </layout>

@@ -12,9 +12,9 @@
     <remove name="my-cart-link"/>
     <move element="onepage-checkout-link" destination="checkout.links"/>
     <move element="cart_sidebar" destination="header" as="topCart"/>
-    <reference name="cart_sidebar">
+    <referenceBlock name="cart_sidebar">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">cart/cartheader.phtml</argument>
         </action>
-    </reference>
+    </referenceBlock>
 </layout>

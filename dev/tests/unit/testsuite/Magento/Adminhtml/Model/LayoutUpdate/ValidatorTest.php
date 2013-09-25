@@ -16,22 +16,22 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
      */
     protected $_objectHelper;
 
-    protected function setUp()
+    public function setUp()
     {
         $this->_objectHelper = new Magento_TestFramework_Helper_ObjectManager($this);
     }
+
     /**
-     * @dataProvider isValidDataProvider
-     * @param string $value
-     * @param boolean $isValid
-     * @param boolean $expectedResult
+     * @param string $layoutUpdate
+     * @param boolean $isSchemaValid
+     * @return Magento_Adminhtml_Model_LayoutUpdate_Validator
      */
-    public function testIsValid($value, $isValid, $expectedResult)
+    protected function _createValidator($layoutUpdate, $isSchemaValid = true)
     {
         $modulesReader = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
             ->disableOriginalConstructor()
             ->getMock();
-        $modulesReader->expects($this->any())
+        $modulesReader->expects($this->exactly(2))
             ->method('getModuleDir')
             ->with('etc', 'Magento_Core')
             ->will($this->returnValue('dummyDir'));
@@ -39,39 +39,138 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
         $domConfigFactory = $this->getMockBuilder('Magento_Config_DomFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $domConfigFactory->expects($this->any())
+
+        $params = array(
+            'xml' => '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
+            . trim($layoutUpdate)
+            . '</layout>',
+            'schemaFile' => 'dummyDir' . DIRECTORY_SEPARATOR .  'layout_single.xsd'
+        );
+
+        $exceptionMessage = 'validation exception';
+        $domConfigFactory->expects($this->once())
             ->method('createDom')
-            ->with(array(
-                'xml'        => '<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $value . '</layout>',
-                'schemaFile' => 'dummyDir' . DIRECTORY_SEPARATOR . 'layouts.xsd'
-            ))
+            ->with($this->equalTo($params))
             ->will(
-                $isValid
-                ? $this->returnSelf()
-                : $this->throwException(new Magento_Config_Dom_ValidationException)
+                $isSchemaValid
+                    ? $this->returnSelf()
+                    : $this->throwException(new Magento_Config_Dom_ValidationException($exceptionMessage))
             );
-        $domConfigFactory->expects($this->any())
-            ->method('loadXml')
-            ->with('<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $value . '</layout>')
-            ->will($this->returnSelf());
 
         $model = $this->_objectHelper->getObject('Magento_Adminhtml_Model_LayoutUpdate_Validator', array(
             'modulesReader' => $modulesReader,
             'domConfigFactory' => $domConfigFactory,
         ));
 
-        $this->assertEquals($model->isValid($value), $expectedResult);
+        return $model;
     }
 
     /**
-     * @see self::testIsValid()
+     * @dataProvider testIsValidNotSecurityCheckDataProvider
+     * @param string $layoutUpdate
+     * @param boolean $isValid
+     * @param boolean $expectedResult
+     * @param array $messages
+     */
+    public function testIsValidNotSecurityCheck($layoutUpdate, $isValid, $expectedResult, $messages)
+    {
+        $model = $this->_createValidator($layoutUpdate, $isValid);
+        $this->assertEquals(
+            $model->isValid(
+                $layoutUpdate,
+                Magento_Adminhtml_Model_LayoutUpdate_Validator::LAYOUT_SCHEMA_SINGLE_HANDLE,
+                false
+            ),
+            $expectedResult
+        );
+        $this->assertEquals($model->getMessages(), $messages);
+    }
+
+    /**
      * @return array
      */
-    public function isValidDataProvider()
+    public function testIsValidNotSecurityCheckDataProvider()
     {
         return array(
-            array('test', true, true),
-            array('test', false, false),
+            array('test', true, true, array()),
+            array('test', false, false, array(
+                Magento_Adminhtml_Model_LayoutUpdate_Validator::XML_INVALID =>
+                'Please correct the XML data and try again. validation exception'
+            )),
+        );
+    }
+
+    /**
+     * @dataProvider testIsValidSecurityCheckDataProvider
+     * @param string $layoutUpdate
+     * @param boolean $expectedResult
+     * @param array $messages
+     */
+    public function testIsValidSecurityCheck($layoutUpdate, $expectedResult, $messages)
+    {
+        $model = $this->_createValidator($layoutUpdate);
+        $this->assertEquals(
+            $model->isValid(
+                $layoutUpdate,
+                Magento_Adminhtml_Model_LayoutUpdate_Validator::LAYOUT_SCHEMA_SINGLE_HANDLE,
+                true
+            ),
+            $expectedResult
+        );
+        $this->assertEquals($model->getMessages(), $messages);
+    }
+
+    /**
+     * @return array
+     */
+    public function testIsValidSecurityCheckDataProvider()
+    {
+        $insecureHelper = <<<XML
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="handleId">
+        <block class="Block_Class">
+          <arguments>
+              <argument name="test" xsi:type="helper" helper="Helper_Class"/>
+          </arguments>
+        </block>
+    </handle>
+</layout>
+XML;
+        $insecureUpdater = <<<XML
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="handleId">
+        <block class="Block_Class">
+          <arguments>
+              <argument name="test" xsi:type="string">
+                  <updater>Updater_Model</updater>
+                  <value>test</value>
+              </argument>
+          </arguments>
+        </block>
+    </handle>
+</layout>
+XML;
+        $secureLayout = <<<XML
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <handle id="handleId">
+        <block class="Block_Class">
+          <arguments>
+              <argument name="test" xsi:type="string">test</argument>
+          </arguments>
+        </block>
+    </handle>
+</layout>
+XML;
+        return array(
+            array($insecureHelper, false, array(
+                Magento_Adminhtml_Model_LayoutUpdate_Validator::HELPER_ARGUMENT_TYPE =>
+                'Helper arguments should not be used in custom layout updates.'
+            )),
+            array($insecureUpdater, false, array(
+                Magento_Adminhtml_Model_LayoutUpdate_Validator::UPDATER_MODEL =>
+                'Updater model should not be used in custom layout updates.'
+            )),
+            array($secureLayout, true, array()),
         );
     }
 }
