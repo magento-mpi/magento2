@@ -133,7 +133,8 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Data $helper
      * @param Magento_Core_Model_Resource_Setup_Context $context
-     * @param string $resourceName
+     * @param Magento_Core_Model_Dir $dir
+     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -142,13 +143,14 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         Magento_Filesystem $filesystem,
         Magento_Core_Helper_Data $helper,
         Magento_Core_Model_Resource_Setup_Context $context,
+        Magento_Core_Model_Dir $dir,
         $resourceName,
         $moduleName = 'Magento_Core',
         $connectionName = ''
     ) {
         $this->_filesystem = $filesystem;
         $this->_coreHelper = $helper;
-        $this->_baseDir = Mage::getBaseDir();
+        $this->_baseDir = $dir->getDir();
         $this->_pathToMapFile = $config->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
 
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
