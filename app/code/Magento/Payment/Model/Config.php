@@ -116,25 +116,20 @@ class Magento_Payment_Model_Config
      */
     public function getCcTypes()
     {
-        $configs = $this->_dataStorage->get('credit_cards');
-
-        uasort($configs, array('Magento_Payment_Model_Config', 'compareCcTypes'));
-
-        $types = array();
-        foreach ($configs as $code => $data) {
-            if (isset($data['name'])) {
-                $types[$code] = $data['name'];
-            }
-        }
-        return $types;
+        return $this->_dataStorage->get('credit_cards');
     }
 
+    /**
+     * Get payment groups
+     *
+     * @return array
+     */
     public function getGroups()
     {
         $groups = $this->_dataStorage->get('groups');
         $result = array();
         foreach ($groups as $code => $title) {
-            $result[$code] = $title; // for sorting, see below
+            $result[$code] = $title;
         }
         return $result;
     }
@@ -169,32 +164,5 @@ class Magento_Payment_Model_Config
             $years[$year] = $year;
         }
         return $years;
-    }
-
-    /**
-     * Statis Method for compare sort order of CC Types
-     *
-     * @param array $a
-     * @param array $b
-     * @return int
-     */
-    static public function compareCcTypes($a, $b)
-    {
-        if (!isset($a['order'])) {
-            $a['order'] = 0;
-        }
-
-        if (!isset($b['order'])) {
-            $b['order'] = 0;
-        }
-
-        if ($a['order'] == $b['order']) {
-            return 0;
-        } else if ($a['order'] > $b['order']) {
-            return 1;
-        } else {
-            return -1;
-        }
-
     }
 }

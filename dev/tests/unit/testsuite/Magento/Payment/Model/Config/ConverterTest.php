@@ -30,14 +30,8 @@ class Magento_Payment_Model_Config_ConverterTest extends PHPUnit_Framework_TestC
 
         $expectedResult = array(
             'credit_cards' => array(
-                'SM' => array(
-                    'name' => 'Switch/Maestro',
-                    'order' => 60,
-                ),
-                'SO' => array(
-                    'name' => 'Solo',
-                    'order' => 61,
-                )
+                'SO' => 'Solo',
+                'SM' => 'Switch/Maestro',
             ),
             'groups' => array(
                 'paypal' => 'PayPal',

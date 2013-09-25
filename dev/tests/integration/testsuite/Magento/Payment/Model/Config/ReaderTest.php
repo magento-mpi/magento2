@@ -39,14 +39,8 @@ class Magento_Payment_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         $result = $this->_model->read('global');
         $expected = array(
             'credit_cards' => array(
-                'SM' => array(
-                    'name' => 'Switch/Maestro',
-                    'order' => '60',
-                ),
-                'SO' => array(
-                    'name' => 'Solo',
-                    'order' => '31',
-                ),
+                'SO' => 'Solo',
+                'SM' => 'Switch/Maestro',
             ),
             'groups' => array(
                 'paypal' => 'PayPal'
@@ -68,18 +62,9 @@ class Magento_Payment_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         $result = $this->_model->read('global');
         $expected = array(
             'credit_cards' => array(
-                'SM' => array(
-                    'name' => 'Switch/Maestro',
-                    'order' => '60',
-                ),
-                'SO' => array(
-                    'name' => 'Solo',
-                    'order' => '90',
-                ),
-                'AE' => array(
-                    'name' => 'American Express',
-                    'order' => '0',
-                ),
+                'AE' => 'American Express',
+                'SM' => 'Switch/Maestro',
+                'SO' => 'Solo',
             ),
             'groups' => array(
                 'paypal' => 'PayPal Payment Methods',

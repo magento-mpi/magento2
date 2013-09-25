@@ -17,7 +17,7 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
         $configs = array();
         $xpath = new DOMXPath($source);
 
-        $configs['credit_cards'] = array();
+        $creditCards = array();
         /** @var DOMNode $tyep */
         foreach ($xpath->query('/payment/credit_cards/type') as $type) {
             $typeArray = array();
@@ -36,7 +36,11 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
             $typeAttributes = $type->attributes;
             $typeArray['order'] = $typeAttributes->getNamedItem('order')->nodeValue;
             $code = $typeAttributes->getNamedItem('code')->nodeValue;
-            $configs['credit_cards'][$code] = $typeArray;
+            $creditCards[$code] = $typeArray;
+        }
+        uasort($creditCards, array('Magento_Payment_Model_Config_Converter', 'compareCcTypes'));
+        foreach ($creditCards as $code=>$data) {
+            $configs['credit_cards'][$code] = $data['name'];
         }
 
         $configs['groups'] = array();
@@ -57,5 +61,32 @@ class Magento_Payment_Model_Config_Converter implements Magento_Config_Converter
             }
         }
         return $configs;
+    }
+
+    /**
+     * Statis Method for compare sort order of CC Types
+     *
+     * @param array $a
+     * @param array $b
+     * @return int
+     */
+    private static function compareCcTypes($a, $b)
+    {
+        if (!isset($a['order'])) {
+            $a['order'] = 0;
+        }
+
+        if (!isset($b['order'])) {
+            $b['order'] = 0;
+        }
+
+        if ($a['order'] == $b['order']) {
+            return 0;
+        } else if ($a['order'] > $b['order']) {
+            return 1;
+        } else {
+            return -1;
+        }
+
     }
 }

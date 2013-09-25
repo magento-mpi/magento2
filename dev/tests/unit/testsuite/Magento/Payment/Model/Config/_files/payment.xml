@@ -10,7 +10,7 @@
 <payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Payment/etc/payment.xsd">
     <credit_cards>
-        <type code="SM" order="60">
+        <type code="SM" order="90">
             <label translate="true">Switch/Maestro</label>
         </type>
         <type code="SO" order="61">
