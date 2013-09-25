@@ -22,6 +22,7 @@
             <module name="Magento_Sales"/>
             <module name="Magento_Tax"/>
             <module name="Magento_Eav"/>
+            <module name="Magento_Directory"/>
         </depends>
     </module>
 </config>
