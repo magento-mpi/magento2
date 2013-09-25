@@ -23,14 +23,8 @@ class Magento_Sales_Model_Order_Pdf_Config_SchemaLocatorTest extends PHPUnit_Fra
      */
     protected $_xsdDir = 'schema_dir';
 
-    /**
-     * @var string
-     */
-    protected $_xsdFile;
-
     protected function setUp()
     {
-        $this->_xsdFile = $this->_xsdDir . '/pdf.xsd';
         $this->_moduleReader = $this->getMock(
             'Magento_Core_Model_Config_Modules_Reader', array('getModuleDir'), array(), '', false
         );
@@ -45,15 +39,17 @@ class Magento_Sales_Model_Order_Pdf_Config_SchemaLocatorTest extends PHPUnit_Fra
 
     public function testGetSchema()
     {
-        $this->assertEquals($this->_xsdFile, $this->_model->getSchema());
-        // Makes sure the value is calculated only once
-        $this->assertEquals($this->_xsdFile, $this->_model->getSchema());
+        $file = $this->_xsdDir . '/pdf.xsd';
+        $this->assertEquals($file, $this->_model->getSchema());
+        // Make sure the value is calculated only once
+        $this->assertEquals($file, $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()
     {
-        $this->assertEquals($this->_xsdFile, $this->_model->getPerFileSchema());
-        // Makes sure the value is calculated only once
-        $this->assertEquals($this->_xsdFile, $this->_model->getPerFileSchema());
+        $file = $this->_xsdDir . '/pdf_file.xsd';
+        $this->assertEquals($file, $this->_model->getPerFileSchema());
+        // Make sure the value is calculated only once
+        $this->assertEquals($file, $this->_model->getPerFileSchema());
     }
 }
