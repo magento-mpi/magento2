@@ -54,7 +54,7 @@ if ($page) {
     $createdBlocks = array();
     foreach ($blocks as $key => $blockData) {
         list($title, $identifier, $content) = $blockData;
-        $block = $this->_modelBlockFactory->create();
+        $block = $this->getModelBlock();
         $block->setTitle($title)
             ->setIdentifier($identifier)
             ->setContent($content)

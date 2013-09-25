@@ -84,6 +84,12 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_storeManager;
 
     /**
+     * @var Magento_Core_Model_Config
+     */
+    protected $_coreConfig;
+
+    /**
+     * @param Magento_Core_Model_Config $coreConfig
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Directory_Model_Resource_Country_Collection $countryCollection
@@ -92,6 +98,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
+        Magento_Core_Model_Config $coreConfig,
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_Directory_Model_Resource_Country_Collection $countryCollection,
@@ -100,6 +107,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
         Magento_Core_Model_StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
+        $this->_coreConfig = $coreConfig;
         $this->_configCacheType = $configCacheType;
         $this->_countryCollection = $countryCollection;
         $this->_regCollFactory = $regCollFactory;
@@ -272,5 +280,15 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
             return false;
         }
         return in_array($countryId, $countyList);
+    }
+
+    /**
+     * Retrieve application base currency code
+     *
+     * @return string
+     */
+    public function getBaseCurrencyCode()
+    {
+        return $this->_coreConfig->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, 'default');
     }
 }

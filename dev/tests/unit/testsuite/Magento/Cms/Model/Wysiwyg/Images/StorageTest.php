@@ -60,6 +60,8 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
             ->with(true);
 
         $this->_model = new Magento_Cms_Model_Wysiwyg_Images_Storage(
+            $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false),
+            $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false),
             $this->_imageHelperMock,
             $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false),
             $this->_filesystemMock,

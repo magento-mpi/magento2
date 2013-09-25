@@ -20,7 +20,6 @@
   * /config/global/catalog/product/flat node was removed from config.xml and related data was moved to di.xml;
   * /config/global/catalog/content/template_filter node was removed from config.xml and related data was moved to di.xml;
   * /config/frontend/catalog/per_page_values node was removed from config.xml and related data was moved to di.xml;
-  * Removed "translate" node from configuration XML files
   * Improved Install, Category, Product, Customer, Wishlist configuration segments:
     * Configuration moved to separate files. Some parts are transformed to DI configuration and moved to `di.xml` files
     * New configuration files are validated with XSD
@@ -104,7 +103,6 @@
     * Added `install_wizard.xsd` to allow for validation of XML files.
 * Removed "translate" node from configuration XML files
 * Added I18n tools for translation dictionary generation and language package generation
-* Eliminated Mage::helper and Mage::dispatchEvent in code
 * Layout improvements:
   * Arbitrary handle name moved to handle node, id attribute
   * New arguments format, which introduce argument types implemented
@@ -120,6 +118,24 @@
   * Made application compatible with PHP 5.4 and 5.5
   * Removed workarounds for older PHP versions
   * Minimum supported PHP version is set to 5.4.0
+* God Class Mage Elimination
+  * dispatchEvent, getConfig, getStoreConfig, getStoreConfigFlag, getObjectManager, helper, log, logException, register, registry, resetRegistry, unregister static methods of class Mage were eliminated
+  * Eliminated Mage::app, Mage::getModel, Mage::throwException static calls in modules AdminNotification, Authorizenet, Captcha
+  * Eliminated Mage::getModel, Mage::getBaseDir, Mage::getBaseUrl in /lib and /pub
+  * Eliminated Mage:: static methods in Magento_Widget
+  * Eliminated Mage:: static methods in Magento_CurrencySymbol, Magento_CustomAttribute and Magento_DesignEditor
+  * Eliminated Mage:: static methods in Magento_Sendfriend
+  * Eliminated Mage:: static methods in Magento_Usa
+  * Eliminated Mage:: static methods in Centinel, Connect, Contacts, GiftMessage, GoogleAnalytics
+  * Eliminated Mage::getModel, Mage::getBlockSingleton, Mage::app, Mage::throwException, Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_TargetRule module
+  * Eliminated Mage::getSingleton, Mage::getResourceModel, Mage::getResourceSingleton from Magento_Sitemap module
+  * Eliminated Mage::getSingleton, Mage::getResourceModel from Magento_User module
+  * Eliminated Mage::getSingleton from Magento_WebsiteRestriction module
+  * Eliminated Mage::getSingleton, Mage::getResourceSingleton, Mage::getResourceModel, Mage::getModel, Mage::throwException from Magento_Index module
+  * Eliminated Mage::throwException from Magento_Media module
+  * Eliminated Mage::getSingleton, Mage::getModel, Mage::getUrl, Mage::app from Magento_Ogone module
+  * Eliminated Mage::helper and Mage::dispatchEvent in code
+  * Eliminated Mage:: static methods in Magento_Cms, Magento_Log, Magento_Rating, Magento_Rss, Magento_Rule, Magento_CatalogRule, Magento_SalesRule, Magento_Weee, Magento_Captcha, Magento_CatalogInventory
 * Fixed bugs:
   * Fixed address field "State/Province" on frontend, which contained "[object Object]" items instead of necessary values
   * Fixed inability to create gift registry on frontend

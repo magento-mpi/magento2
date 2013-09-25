@@ -32,17 +32,25 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
     protected $_adminhtmlData = null;
 
     /**
+     * @var Magento_Core_Model_Resource_Iterator
+     */
+    protected $_iterator;
+
+    /**
+     * @param Magento_Core_Model_Resource_Iterator $iterator
      * @param Magento_Backend_Helper_Data $adminhtmlData
      * @param Magento_Rss_Helper_Data $rssData
      * @param Magento_Core_Block_Context $context
      * @param array $data
      */
     public function __construct(
+        Magento_Core_Model_Resource_Iterator $iterator,
         Magento_Backend_Helper_Data $adminhtmlData,
         Magento_Rss_Helper_Data $rssData,
         Magento_Core_Block_Context $context,
         array $data = array()
     ) {
+        $this->_iterator = $iterator;
         $this->_adminhtmlData = $adminhtmlData;
         $this->_rssData = $rssData;
         parent::__construct($context, $data);
@@ -77,7 +85,7 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
 
         $this->_eventManager->dispatch('rss_catalog_review_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+        $this->_iterator->walk(
             $collection->getSelect(),
             array(array($this, 'addReviewItemXmlCallback')),
             array('rssObj'=> $rssObj, 'reviewModel'=> $reviewModel));
