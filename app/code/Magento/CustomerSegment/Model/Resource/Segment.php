@@ -287,7 +287,7 @@ class Magento_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_
      */
     public function getSqlOperator($operator)
     {
-        return $this->_resourceHelperPool->create('Magento_CustomerSegment')->getSqlOperator($operator);
+        return $this->_resourceHelperPool->get('Magento_CustomerSegment')->getSqlOperator($operator);
     }
 
     /**
