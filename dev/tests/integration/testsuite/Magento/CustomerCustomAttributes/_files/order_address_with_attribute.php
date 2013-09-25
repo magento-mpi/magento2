@@ -15,7 +15,7 @@
  */
 
 /** @var $connection Magento_TestFramework_Db_Adapter_TransactionInterface */
-$connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
+$connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
 $connection->commitTransparentTransaction();
 
 $entityType = Mage::getModel('Magento_Eav_Model_Config')->getEntityType('customer_address');

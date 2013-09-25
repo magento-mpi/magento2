@@ -65,6 +65,11 @@ class Magento_Install_Model_Installer extends Magento_Object
     protected $_setupFactory;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ConfigInterface $config
      * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
@@ -82,6 +87,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_Core_Model_Resource_SetupFactory $setupFactory,
+        Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -91,6 +97,7 @@ class Magento_Install_Model_Installer extends Magento_Object
         $this->_cacheState = $cacheState;
         $this->_cacheTypeList = $cacheTypeList;
         $this->_setupFactory = $setupFactory;
+        $this->_objectManager = $objectManager;
         parent::__construct($data);
     }
 
@@ -195,7 +202,12 @@ class Magento_Install_Model_Installer extends Magento_Object
 
         /** @var $primaryConfig  Magento_Core_Model_Config_Primary*/
         $primaryConfig = Mage::getSingleton('Magento_Core_Model_Config_Primary');
-        $primaryConfig->reinit();
+        $localConfig = new Magento_Core_Model_Config_Local(new Magento_Core_Model_Config_Loader_Local(
+            $primaryConfig->getDirectories()->getDir(Magento_Core_Model_Dir::CONFIG),
+            $primaryConfig->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
+            $primaryConfig->getParam(Mage::PARAM_CUSTOM_LOCAL_FILE)
+        ));
+        $this->_objectManager->configure($localConfig->getConfiguration());
 
         /** @var $config Magento_Core_Model_Config */
         $config = Mage::getSingleton('Magento_Core_Model_Config');

@@ -35,7 +35,8 @@ class Magento_Core_Model_Config_Local
             }
             foreach ($this->_data['resource'] as $resourceVal) {
                 $resourceConfig = array(
-                    'type' => isset($resourceVal['extend']) ? $resourceVal['extend'] : 'Magento_Db_Adapter_Pdo_Mysql',
+                    'type' => isset($resourceVal['extend']) ? $resourceVal['extend']
+                        : 'Magento_Core_Model_Resource_Type_Db_Pdo_Mysql',
                     'parameters' => $resourceVal['connection']
                 );
                 $this->_configuration[$resourceVal['name']] = $resourceConfig;
