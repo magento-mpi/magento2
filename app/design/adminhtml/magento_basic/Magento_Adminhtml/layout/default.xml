@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="head">
+    <referenceBlock name="head">
         <block class="Magento_Page_Block_Html_Head_Css" name="reset-css">
             <arguments>
                 <argument name="file" xsi:type="string">reset.css</argument>
@@ -67,5 +67,5 @@
                 </argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

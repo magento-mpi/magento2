@@ -9,13 +9,13 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_report_grid"/>
-    <reference name="adminhtml.report.grid">
+    <referenceBlock name="adminhtml.report.grid">
         <arguments>
             <argument name="id" xsi:type="string">report_invitation_general</argument>
             <argument name="dataSource" xsi:type="object">Magento_Invitation_Model_Resource_Report_Invitation_Collection_Initial</argument>
         </arguments>
-    </reference>
-    <reference name="adminhtml.report.grid.columnSet">
+    </referenceBlock>
+    <referenceBlock name="adminhtml.report.grid.columnSet">
         <block class="Magento_Backend_Block_Widget_Grid_Column" as="sent">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Sent</argument>
@@ -70,5 +70,5 @@
                 <argument name="column_css_class" xsi:type="string">col-inv-disc-rate</argument>
             </arguments>
         </block>
-    </reference>
+    </referenceBlock>
 </layout>

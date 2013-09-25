@@ -29,7 +29,7 @@
             </argument>
         </arguments>
     </block>
-    <reference name="block_with_args_complex_values">
+    <referenceBlock name="block_with_args_complex_values">
         <arguments>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="string">two</argument>
             <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="array">
@@ -39,5 +39,5 @@
                 </item>
             </argument>
         </arguments>
-    </reference>
+    </referenceBlock>
 </layout>

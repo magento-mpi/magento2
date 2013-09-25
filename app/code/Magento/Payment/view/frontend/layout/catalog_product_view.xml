@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="product.info">
+    <referenceBlock name="product.info">
         <block class="Magento_Payment_Block_Catalog_Product_View_Profile" name="product.info.additional.recurring.schedule" as="recurring_info" template="catalog/product/view/profile/schedule.phtml">
             <action method="addToParentGroup">
                 <argument name="group" xsi:type="string">detailed_info</argument>
@@ -17,8 +17,8 @@
                 <argument translate="true" name="value" xsi:type="string">Recurring Profile</argument>
             </action>
         </block>
-    </reference>
-    <reference name="product.info.options.wrapper">
+    </referenceBlock>
+    <referenceBlock name="product.info.options.wrapper">
         <block class="Magento_Payment_Block_Catalog_Product_View_Profile" name="product.info.options.recurring" as="recurring_options" template="catalog/product/view/profile/options.phtml"/>
-    </reference>
+    </referenceBlock>
 </layout>

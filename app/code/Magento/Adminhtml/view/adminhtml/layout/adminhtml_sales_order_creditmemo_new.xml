@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <reference name="content">
+    <referenceContainer name="content">
         <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create" name="sales_creditmemo_create">
             <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form" name="form" template="sales/order/creditmemo/create/form.phtml">
                 <block class="Magento_Adminhtml_Block_Sales_Order_View_Info" name="order_info" template="sales/order/view/info.phtml"/>
@@ -36,7 +36,7 @@
                     <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals" name="creditmemo_totals" template="sales/order/totals.phtml">
                         <block class="Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml"/>
                         <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-<!--
+                        <!--
                         <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="footer" template="sales/order/totals/footer.phtml">
                             <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="grand" template="sales/order/totals/grand.phtml">
                                 <action method="setGrandTotalTitle">
@@ -70,5 +70,5 @@
                 </block>
             </block>
         </block>
-    </reference>
+    </referenceContainer>
 </layout>
