@@ -1,5 +1,7 @@
 <?php
 /**
+ * Resource resolver is used to retrieve a list of resources declared by module
+ *
  * {license_notice}
  *
  * @copyright {copyright}
