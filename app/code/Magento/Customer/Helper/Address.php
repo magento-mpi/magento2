@@ -80,7 +80,7 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
      * @param Magento_Eav_Model_Config $eavConfig
-     * @param Magento_Customer_Model_Address_Config $addressConfig
+     * @param Magento_Customer_Model_Address_Config|Magento_Customer_Model_Address_ConfigProxy $addressConfig
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
@@ -88,7 +88,7 @@ class Magento_Customer_Helper_Address extends Magento_Core_Helper_Abstract
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Eav_Model_Config $eavConfig,
-        Magento_Customer_Model_Address_Config $addressConfig
+        Magento_Customer_Model_Address_ConfigProxy $addressConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_blockFactory = $blockFactory;
