@@ -38,7 +38,7 @@ class Magento_CustomerSegment_Model_ConditionFactory
     public function create($className, array $data = array())
     {
         $classNamePrefix = 'Magento_CustomerSegment_Model_Segment_Condition_';
-        if (false == strpos($className, $classNamePrefix)) {
+        if (false === strpos($className, $classNamePrefix)) {
             $className = $classNamePrefix . $className;
         }
         $condition = $this->_objectManager->create($className, $data);
